@@ -59,8 +59,7 @@ class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     bool show_shapes_ = false;
 
-    void avoidance_vectors(ContactMap &contacts,
-                           std::vector<Eigen::Vector3d> &O_vecs);
+    void avoidance_vectors(ContactMap &contacts, std::vector<Eigen::Vector3d> &O_vecs);
 };
 }  // namespace motor_schemas
 }  // namespace autonomy

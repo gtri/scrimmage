@@ -45,8 +45,7 @@
 namespace pl = std::placeholders;
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSControl,
-                ROSControl_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSControl, ROSControl_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -62,12 +61,10 @@ void ROSControl::init(std::map<std::string, std::string> &params) {
     nh_ = std::make_shared<ros::NodeHandle>();
 
     // Setup robot namespace
-    ros_namespace_ =
-        sc::get<std::string>("ros_namespace_prefix", params, "robot");
+    ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
     ros_namespace_ += std::to_string(parent_->id().id());
 
-    cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1,
-                                  &ROSControl::cmd_vel_cb, this);
+    cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1, &ROSControl::cmd_vel_cb, this);
 
     zero_ctrls();
 
@@ -91,8 +88,7 @@ void ROSControl::zero_ctrls() {
     cmd_vel_.angular.z = 0;
 }
 
-void ROSControl::ctrl_filter(const std::vector<double> &x,
-                             std::vector<double> &dxdt, double t) {
+void ROSControl::ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt, double t) {
     dxdt[0] = x[1];
     dxdt[1] = -x[2];
     dxdt[2] = 0;
@@ -125,8 +121,6 @@ bool ROSControl::step_autonomy(double t, double dt) {
     return true;
 }
 
-void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) {
-    cmd_vel_ = *msg;
-}
+void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) { cmd_vel_ = *msg; }
 }  // namespace autonomy
 }  // namespace scrimmage

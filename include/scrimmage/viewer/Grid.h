@@ -47,8 +47,7 @@ namespace scrimmage {
 
 class Grid {
  public:
-    void create(int size, double spacing,
-                vtkSmartPointer<vtkRenderer> &renderer);
+    void create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer);
 
     void remove();
 

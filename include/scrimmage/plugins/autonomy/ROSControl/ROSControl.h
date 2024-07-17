@@ -59,8 +59,7 @@ class ROSControl : public scrimmage::Autonomy {
 
  protected:
     void zero_ctrls();
-    void ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt,
-                     double t);
+    void ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt, double t);
 
     std::shared_ptr<ros::NodeHandle> nh_;
 

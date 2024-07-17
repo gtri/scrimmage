@@ -42,12 +42,7 @@ namespace autonomy {
 
 class WaypointList {
  public:
-    enum class WaypointMode {
-        follow_once = 0,
-        back_and_forth = 1,
-        loiter = 2,
-        racetrack = 3
-    };
+    enum class WaypointMode { follow_once = 0, back_and_forth = 1, loiter = 2, racetrack = 3 };
 
     WaypointList() {}
 

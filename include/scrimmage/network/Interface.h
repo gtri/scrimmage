@@ -74,16 +74,12 @@ class Interface {
 
     bool send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
 
-    bool send_utm_terrain(
-        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
-    bool send_contact_visual(
-        std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
+    bool send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+    bool send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
 
     bool push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
-    bool push_utm_terrain(
-        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
-    bool push_contact_visual(
-        std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
+    bool push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+    bool push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
 
     // GUI to SimControl
     bool send_gui_msg(scrimmage_proto::GUIMsg &gui_msg);
@@ -105,24 +101,15 @@ class Interface {
     std::mutex shapes_mutex;
     std::mutex contact_visual_mutex;
 
-    std::list<std::shared_ptr<scrimmage_proto::Frame> > &frames() {
-        return frames_list_;
-    }
+    std::list<std::shared_ptr<scrimmage_proto::Frame> > &frames() { return frames_list_; }
 
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() {
-        return utm_terrain_list_;
-    }
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() { return utm_terrain_list_; }
 
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &
-    contact_visual() {
-        return contact_visual_list_;
-    }
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &contact_visual() { return contact_visual_list_; }
 
     std::list<scrimmage_proto::GUIMsg> &gui_msg() { return gui_msg_list_; }
 
-    std::list<scrimmage_proto::WorldPointClicked> &world_point_clicked_msg() {
-        return world_point_clicked_msg_list_;
-    }
+    std::list<scrimmage_proto::WorldPointClicked> &world_point_clicked_msg() { return world_point_clicked_msg_list_; }
 
     std::list<scrimmage_proto::SimInfo> &sim_info() { return sim_info_list_; }
 
@@ -140,8 +127,7 @@ class Interface {
 
     std::list<std::shared_ptr<scrimmage_proto::Frame> > frames_list_;
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > utm_terrain_list_;
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> >
-        contact_visual_list_;
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_list_;
 
     std::list<scrimmage_proto::GUIMsg> gui_msg_list_;
     std::list<scrimmage_proto::WorldPointClicked> world_point_clicked_msg_list_;
@@ -161,8 +147,7 @@ class Interface {
     // Cached variables that the gui can request:
     bool caching_enabled_ = true;
     std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_cache_;
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> >
-        contact_visual_cache_;
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_cache_;
 };
 using InterfacePtr = std::shared_ptr<Interface>;
 }  // namespace scrimmage

@@ -43,8 +43,7 @@ class PID {
     void set_setpoint(const double &setpoint);
     void set_integral_band(const double &integral_band);
     void set_is_angle(const bool &is_angle);
-    void set_output_limits(const double &min, const double &max,
-                           const double &enable);
+    void set_output_limits(const double &min, const double &max, const double &enable);
     void reset();
 
     const double &setpoint();

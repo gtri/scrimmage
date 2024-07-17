@@ -58,8 +58,7 @@ namespace scrimmage {
 void Interface::start_server() { server_->Wait(); }
 #endif
 
-bool Interface::init_network(Interface::Mode_t mode, const std::string &ip,
-                             int port) {
+bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int port) {
     mode_ = mode;
     ip_ = ip;
     port_ = port;
@@ -87,8 +86,7 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip,
     } else if (mode_ == client) {
 #if ENABLE_GRPC
         std::string result = ip_ + ":" + std::to_string(port_);
-        std::shared_ptr<Channel> channel(
-            grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+        std::shared_ptr<Channel> channel(grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
         std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(
             scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
@@ -106,17 +104,14 @@ bool Interface::check_ready() {
 
     grpc::ClientContext context;
     std::chrono::system_clock::time_point deadline =
-        std::chrono::system_clock::now() +
-        std::chrono::seconds(client_timeout_);
+        std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
     context.set_deadline(deadline);
 
     // recreate the channel because using the cached version will keep
     // the non-connection
     std::string result = ip_ + ":" + std::to_string(port_);
-    std::shared_ptr<Channel> channel(
-        grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
-    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(
-        scrimmage_proto::ScrimmageService::NewStub(channel));
+    std::shared_ptr<Channel> channel(grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(scrimmage_proto::ScrimmageService::NewStub(channel));
 
     google::protobuf::Empty req;
     scrimmage_proto::BlankReply reply;
@@ -140,8 +135,7 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -162,14 +156,12 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
 }
 
 bool Interface::send_frame(double time, std::shared_ptr<ContactMap> &contacts) {
-    std::shared_ptr<scrimmage_proto::Frame> frame =
-        create_frame(time, contacts);
+    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(time, contacts);
 
     return send_frame(frame);
 }
 
-bool Interface::send_utm_terrain(
-    std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
     if (caching_enabled_) {
         utm_terrain_cache_ = utm_terrain;
     }
@@ -186,19 +178,16 @@ bool Interface::send_utm_terrain(
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
-        status =
-            scrimmage_stub_->SendUTMTerrain(&context, *utm_terrain, &reply);
+        status = scrimmage_stub_->SendUTMTerrain(&context, *utm_terrain, &reply);
 
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_utm_terrain: Error code: " << status.error_code()
-                 << endl;
+            cout << "send_utm_terrain: Error code: " << status.error_code() << endl;
             cout << status.error_message() << endl;
             return false;
         }
@@ -209,8 +198,7 @@ bool Interface::send_utm_terrain(
     return true;
 }
 
-bool Interface::send_contact_visual(
-    std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
     if (caching_enabled_) {
         contact_visual_cache_.push_back(cv);
     }
@@ -227,8 +215,7 @@ bool Interface::send_contact_visual(
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -237,8 +224,7 @@ bool Interface::send_contact_visual(
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_contact_visual: Error code: " << status.error_code()
-                 << endl;
+            cout << "send_contact_visual: Error code: " << status.error_code() << endl;
             cout << status.error_message() << endl;
             return false;
         }
@@ -262,8 +248,7 @@ bool Interface::send_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -283,8 +268,7 @@ bool Interface::send_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
     return true;
 }
 
-bool Interface::send_world_point_clicked_msg(
-    scrimmage_proto::WorldPointClicked &msg) {
+bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
     if (mode_ == shared) {
         push_world_point_clicked_msg(msg);
     } else if (mode_ == client) {
@@ -297,8 +281,7 @@ bool Interface::send_world_point_clicked_msg(
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -307,8 +290,7 @@ bool Interface::send_world_point_clicked_msg(
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_world_point_clicked_msg: Error code: "
-                 << status.error_code() << endl;
+            cout << "send_world_point_clicked_msg: Error code: " << status.error_code() << endl;
             cout << status.error_message() << endl;
             return false;
         }
@@ -332,8 +314,7 @@ bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -342,8 +323,7 @@ bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_sim_info: Error code: " << status.error_code()
-                 << endl;
+            cout << "send_sim_info: Error code: " << status.error_code() << endl;
             cout << status.error_message() << endl;
             return false;
         }
@@ -367,8 +347,7 @@ bool Interface::send_shapes(scrimmage_proto::Shapes &shapes) {
 
         // Set timeout for API
         std::chrono::system_clock::time_point deadline =
-            std::chrono::system_clock::now() +
-            std::chrono::seconds(client_timeout_);
+            std::chrono::system_clock::now() + std::chrono::seconds(client_timeout_);
         context.set_deadline(deadline);
 
         grpc::Status status;
@@ -405,8 +384,7 @@ void Interface::send_cached() {
     caching_enabled_ = true;
 }
 
-bool Interface::push_contact_visual(
-    std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
     contact_visual_mutex.lock();
     contact_visual_list_.push_back(cv);
     contact_visual_mutex.unlock();
@@ -423,8 +401,7 @@ bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::push_utm_terrain(
-    std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
     utm_terrain_mutex.lock();
     utm_terrain_list_.push_back(utm_terrain);
     utm_terrain_mutex.unlock();
@@ -438,8 +415,7 @@ bool Interface::push_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
     return true;
 }
 
-bool Interface::push_world_point_clicked_msg(
-    scrimmage_proto::WorldPointClicked &msg) {
+bool Interface::push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
     world_point_clicked_msg_mutex.lock();
     world_point_clicked_msg_list_.push_back(msg);
     world_point_clicked_msg_mutex.unlock();

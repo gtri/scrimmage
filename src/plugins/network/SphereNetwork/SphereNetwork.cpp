@@ -48,8 +48,7 @@
 
 #include <boost/range/adaptor/map.hpp>
 
-REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::SphereNetwork,
-                SphereNetwork_plugin)
+REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::SphereNetwork, SphereNetwork_plugin)
 
 using std::cout;
 using std::endl;
@@ -66,13 +65,10 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
 
     range_ = std::stod(plugin_params.at("range"));
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
-    filter_comms_plane_ =
-        sc::get<bool>("filter_comms_plane", plugin_params, filter_comms_plane_);
+    filter_comms_plane_ = sc::get<bool>("filter_comms_plane", plugin_params, filter_comms_plane_);
     if (filter_comms_plane_) {
-        comms_boundary_altitude_ = sc::get<double>(
-            "comms_boundary_altitude", plugin_params, comms_boundary_altitude_);
-        comms_boundary_epsilon_ = sc::get<double>(
-            "comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
+        comms_boundary_altitude_ = sc::get<double>("comms_boundary_altitude", plugin_params, comms_boundary_altitude_);
+        comms_boundary_epsilon_ = sc::get<double>("comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
     }
     return true;
 }
@@ -80,8 +76,7 @@ bool SphereNetwork::init(std::map<std::string, std::string> &mission_params,
 bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
                                  const scrimmage::EntityPluginPtr &sub_plugin) {
     // Never reachable if plugin's entity was destroyed
-    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr)
-        return false;
+    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr) return false;
     // If the publisher and subscriber have the same parent, it is reachable
     if (pub_plugin->parent() == sub_plugin->parent()) return true;
 
@@ -101,8 +96,7 @@ bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
 
     // No reachability mapping exists. Find all entity IDs that are reachable.
     std::vector<sc::ID> neigh;
-    rtree_->neighbors_in_range(pub_plugin->parent()->state_truth()->pos(),
-                               neigh, range_);
+    rtree_->neighbors_in_range(pub_plugin->parent()->state_truth()->pos(), neigh, range_);
 
     // Add the entity IDs to the publisher's reachability set
     // Look for the subscriber ID
@@ -111,16 +105,14 @@ bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
     for (sc::ID id : neigh) {
         auto ent_neighbor = id_to_ent_map_->find(id.id());
         if (ent_neighbor == id_to_ent_map_->end()) {
-            std::cout << "Warning: Sphere Network entity id doesn't exists: "
-                      << id.id() << std::endl;
+            std::cout << "Warning: Sphere Network entity id doesn't exists: " << id.id() << std::endl;
             continue;
         }
         if (not filter_comms_plane_) {
             reachable_map_[pub_id][id.id()] = true;
             reachable_map_[id.id()][pub_id] = true;
-        } else if (within_planar_boundary(
-                       pub_plugin->parent()->state_truth()->pos()[2],
-                       ent_neighbor->second->state_truth()->pos()[2])) {
+        } else if (within_planar_boundary(pub_plugin->parent()->state_truth()->pos()[2],
+                                          ent_neighbor->second->state_truth()->pos()[2])) {
             reachable_map_[pub_id][id.id()] = true;
             reachable_map_[id.id()][pub_id] = true;
         }
@@ -128,20 +120,17 @@ bool SphereNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
     return reachable_map_[pub_id][sub_id];
 }
 
-bool SphereNetwork::is_successful_transmission(
-    const scrimmage::EntityPluginPtr &pub_plugin,
-    const scrimmage::EntityPluginPtr &sub_plugin) {
+bool SphereNetwork::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                               const scrimmage::EntityPluginPtr &sub_plugin) {
     return (random_->rng_uniform(0, 1) <= prob_transmit_);
 }
 
 // Return true if the plane does not block communications
 bool SphereNetwork::within_planar_boundary(double z1, double z2) {
-    bool both_above =
-        (z1 >= (comms_boundary_altitude_ - comms_boundary_epsilon_)) &&
-        (z2 >= (comms_boundary_altitude_ - comms_boundary_epsilon_));
-    bool both_below =
-        (z1 <= (comms_boundary_altitude_ + comms_boundary_epsilon_)) &&
-        (z2 <= (comms_boundary_altitude_ + comms_boundary_epsilon_));
+    bool both_above = (z1 >= (comms_boundary_altitude_ - comms_boundary_epsilon_)) &&
+                      (z2 >= (comms_boundary_altitude_ - comms_boundary_epsilon_));
+    bool both_below = (z1 <= (comms_boundary_altitude_ + comms_boundary_epsilon_)) &&
+                      (z2 <= (comms_boundary_altitude_ + comms_boundary_epsilon_));
     return (both_above || both_below);
 }
 

@@ -103,13 +103,11 @@ void External::print_plugins(std::ostream &out) const {
     entity_->print_plugins(out);
 }
 
-bool External::create_entity(
-    const std::string &mission_file, const std::string &entity_tag,
-    const std::string &plugin_tags_str, int entity_id, int max_entities,
-    double init_time, double init_dt, const std::string &log_dir,
-    std::function<void(std::map<std::string, std::string> &)>
-        param_override_func,
-    const std::string &mission_file_overrides, const int &debug_level) {
+bool External::create_entity(const std::string &mission_file, const std::string &entity_tag,
+                             const std::string &plugin_tags_str, int entity_id, int max_entities, double init_time,
+                             double init_dt, const std::string &log_dir,
+                             std::function<void(std::map<std::string, std::string> &)> param_override_func,
+                             const std::string &mission_file_overrides, const int &debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
     if (not found_mission_file) {
@@ -132,8 +130,7 @@ bool External::create_entity(
     // entity name
     auto it_name_id = mp_->entity_tag_to_id().find(entity_tag);
     if (it_name_id == mp_->entity_tag_to_id().end()) {
-        cout << "Entity name (" << entity_tag << ") not found in mission file"
-             << endl;
+        cout << "Entity name (" << entity_tag << ") not found in mission file" << endl;
         return false;
     }
 
@@ -167,31 +164,24 @@ bool External::create_entity(
     sim_info.id_to_team_map = id_to_team_map_;
     sim_info.id_to_ent_map = id_to_ent_map_;
 
-    auto plugin_tags =
-        str2container<std::set<std::string>>(plugin_tags_str, ", ");
+    auto plugin_tags = str2container<std::set<std::string>>(plugin_tags_str, ", ");
 
     networks_ = std::make_shared<NetworkMap>();
-    if (!create_networks(sim_info, *networks_, plugin_tags,
-                         param_override_func)) {
-        std::cout << "External::create_entity() failed on create_networks()"
-                  << std::endl;
+    if (!create_networks(sim_info, *networks_, plugin_tags, param_override_func)) {
+        std::cout << "External::create_entity() failed on create_networks()" << std::endl;
         return false;
     }
 
     metrics_.clear();
-    if (!create_metrics(sim_info, contacts, metrics_, plugin_tags,
-                        param_override_func)) {
-        std::cout << "External::create_entity() failed on create_metrics()"
-                  << std::endl;
+    if (!create_metrics(sim_info, contacts, metrics_, plugin_tags, param_override_func)) {
+        std::cout << "External::create_entity() failed on create_metrics()" << std::endl;
         return false;
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_,
-                           global_services_, plugin_tags,
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, global_services_, plugin_tags,
                            param_override_func)) {
-        std::cout << "External::create_entity() failed on create_ent_inters()"
-                  << std::endl;
+        std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
 
@@ -204,22 +194,18 @@ bool External::create_entity(
     call_update_contacts(time_->t());
     auto it = entity_->contacts()->find(entity_id);
     if (it != entity_->contacts()->end()) {
-        mp_->entity_descriptions()[it_name_id->second]["team_id"] =
-            std::to_string(it->second.id().team_id());
+        mp_->entity_descriptions()[it_name_id->second]["team_id"] = std::to_string(it->second.id().team_id());
     }
 
-    std::map<std::string, std::string> info =
-        mp_->entity_descriptions()[it_name_id->second];
+    std::map<std::string, std::string> info = mp_->entity_descriptions()[it_name_id->second];
 
     AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
-    bool ent_success = entity_->init(
-        attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
-        mp_->projection(), entity_id, it_name_id->second, plugin_manager_,
-        file_search, rtree, pubsub_, printer_, time_, param_server_,
-        global_services_, plugin_tags, param_override_func, debug_level);
+    bool ent_success =
+        entity_->init(attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_, mp_->projection(), entity_id,
+                      it_name_id->second, plugin_manager_, file_search, rtree, pubsub_, printer_, time_, param_server_,
+                      global_services_, plugin_tags, param_override_func, debug_level);
     if (!ent_success) {
-        std::cout << "External::create_entity() failed on entity_->init()"
-                  << std::endl;
+        std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;
     }
 
@@ -243,16 +229,12 @@ bool External::create_entity(
             }
         }
         connect(ctrl->vars(), vars);
-        if (!verify_io_connection(entity_->controllers().back()->vars(),
-                                  vars)) {
-            std::cout
-                << "VariableIO Error: " << ctrl->name()
-                << " does not provide inputs required by the External class."
-                << std::endl;
+        if (!verify_io_connection(entity_->controllers().back()->vars(), vars)) {
+            std::cout << "VariableIO Error: " << ctrl->name()
+                      << " does not provide inputs required by the External class." << std::endl;
             print_io_error("External", vars);
             std::cout << ctrl->name() << " currently provides the following: ";
-            br::copy(var_idx | ba::map_keys,
-                     std::ostream_iterator<std::string>(std::cout, ", "));
+            br::copy(var_idx | ba::map_keys, std::ostream_iterator<std::string>(std::cout, ", "));
             return false;
         }
     }
@@ -263,12 +245,10 @@ bool External::create_entity(
 void External::setup_logging(const std::string &log_dir) {
     mp_->set_log_dir(log_dir);
 
-    std::string output_type =
-        get("output_type", mp_->params(), std::string("all"));
+    std::string output_type = get("output_type", mp_->params(), std::string("all"));
 
     mp_->create_log_dir();
-    bool enable_log = output_type.find("all") != std::string::npos ||
-                      output_type.find("frames") != std::string::npos;
+    bool enable_log = output_type.find("all") != std::string::npos || output_type.find("frames") != std::string::npos;
 
     log_->set_enable_log(enable_log);
     log_->set_drop_bin_logging(mp_->get_no_bin_logging());
@@ -371,15 +351,12 @@ EntityPtr &External::entity() { return entity_; }
 bool External::send_messages() {
     // Send messages that are published by a SCRIMMAGE plugin to the external
     // network (e.g., ROS, MOOS)
-    auto to_publisher = [&](auto &network_device) {
-        return std::dynamic_pointer_cast<Publisher>(network_device);
-    };
+    auto to_publisher = [&](auto &network_device) { return std::dynamic_pointer_cast<Publisher>(network_device); };
     auto has_callback = [&](auto &pub) { return pub && pub->callback; };
 
     for (auto &topic_device_kv : pubsub_->pubs() | ba::map_values) {
         for (auto &dev_list : topic_device_kv | ba::map_values) {
-            for (auto pub : dev_list | ba::transformed(to_publisher) |
-                                ba::filtered(has_callback)) {
+            for (auto pub : dev_list | ba::transformed(to_publisher) | ba::filtered(has_callback)) {
                 for (auto msg : pub->pop_msgs()) {
                     pub->callback(msg);
                 }
@@ -439,8 +416,7 @@ void External::update_ents() {
         ID &id = kv.second.id();
         (*id_to_team_map_)[id.id()] = id.team_id();
 
-        auto ent = id.id() == entity_->id().id() ? entity_
-                                                 : std::make_shared<Entity>();
+        auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
         ent->id() = id;
         if (ent->state()) {
             *ent->state() = *kv.second.state();
@@ -464,8 +440,7 @@ void External::close() {
     mutex.unlock();
 }
 
-bool External::enable_outgoing_interface(const std::string &ip,
-                                         const int &port) {
+bool External::enable_outgoing_interface(const std::string &ip, const int &port) {
     InterfacePtr interface = std::make_shared<Interface>();
     interface->init_network(Interface::client, ip, port);
 

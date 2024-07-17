@@ -53,8 +53,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::OpenAIRewards,
-                OpenAIRewards_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::OpenAIRewards, OpenAIRewards_plugin)
 
 namespace scrimmage {
 namespace metrics {
@@ -79,8 +78,7 @@ void OpenAIRewards::init(std::map<std::string, std::string> & /*params*/) {
 
 void OpenAIRewards::print_team_summaries() {
     for (auto &kv : rewards_) {
-        std::cout << "Reward for id " << kv.first << " = " << kv.second
-                  << std::endl;
+        std::cout << "Reward for id " << kv.first << " = " << kv.second << std::endl;
     }
 }
 

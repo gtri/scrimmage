@@ -67,8 +67,7 @@ class UnicyclePID : public scrimmage::Controller {
     scrimmage::PID roll_pid_;
 
     bool show_shapes_ = false;
-    scrimmage_proto::ShapePtr line_shape_ =
-        std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr line_shape_ = std::make_shared<scrimmage_proto::Shape>();
 
     bool use_accel_ = false;
 };

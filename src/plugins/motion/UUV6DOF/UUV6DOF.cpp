@@ -48,8 +48,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::UUV6DOF,
-                UUV6DOF_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::UUV6DOF, UUV6DOF_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -60,14 +59,10 @@ UUV6DOF::UUV6DOF() {
     x_.resize(MODEL_NUM_ITEMS);
 }
 
-bool UUV6DOF::init(std::map<std::string, std::string> &info,
-                   std::map<std::string, std::string> &params) {
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
+bool UUV6DOF::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     Eigen::Vector3d &pos = state_->pos();
 
@@ -75,8 +70,7 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     // frame uses Z-axis pointing up. Many aircraft equations of motion are
     // specified with Z-axis pointing down.
     quat_body_ = rot_180_x_axis_ * state_->quat();
-    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll() + M_PI),
-                   quat_body_.pitch(), quat_body_.yaw());
+    quat_body_.set(sc::Angles::angle_pi(quat_body_.roll() + M_PI), quat_body_.pitch(), quat_body_.yaw());
 
     x_[U] = state_->vel()(0);
     x_[V] = 0;
@@ -110,14 +104,12 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     g_ = sc::get<double>("gravity_magnitude", params, 9.81);
     mass_ = sc::get<double>("mass", params, 1.2);
     buoyancy_ = sc::get<double>("buoyancy", params, buoyancy_);
-    surface_height_ =
-        sc::get<double>("surface_height", params, surface_height_);
+    surface_height_ = sc::get<double>("surface_height", params, surface_height_);
 
     {
         // Get the inertia matrix
         std::vector<std::vector<std::string>> vecs;
-        std::string inertia_matrix =
-            sc::get<std::string>("inertia_matrix", params, "");
+        std::string inertia_matrix = sc::get<std::string>("inertia_matrix", params, "");
         // Parse inertia matrix
         bool valid_inertia = false;
         if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
@@ -126,8 +118,7 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
             int row = 0;
             for (std::vector<std::string> vec : vecs) {
                 if (vec.size() != 3) {
-                    cout << "Invalid vector size in: " << inertia_matrix
-                         << endl;
+                    cout << "Invalid vector size in: " << inertia_matrix << endl;
                     break;
                 }
                 for (int i = 0; i < 3; i++) {
@@ -181,17 +172,14 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     // Should we write a CSV file? What values should be written?
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" +
-                         std::to_string(parent_->id().id()) + "-states.csv");
-        cout << "Writing log to " + parent_->mp()->log_dir() + "/" +
-                    std::to_string(parent_->id().id()) + "-states.csv"
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv");
+        cout << "Writing log to " + parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv"
              << endl;
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t",     "x",        "y",      "z",        "U",     "V",
-            "W",     "P",        "Q",      "R",        "U_dot", "V_dot",
-            "W_dot", "P_dot",    "Q_dot",  "R_dot",    "roll",  "pitch",
-            "yaw",   "throttle", "thrust", "elevator", "rudder"});
+        csv_.set_column_headers(sc::CSV::Headers{"t",     "x",        "y",      "z",        "U",     "V",
+                                                 "W",     "P",        "Q",      "R",        "U_dot", "V_dot",
+                                                 "W_dot", "P_dot",    "Q_dot",  "R_dot",    "roll",  "pitch",
+                                                 "yaw",   "throttle", "thrust", "elevator", "rudder"});
     }
 
     Xuu_ = sc::get<double>("Xuu", params, Xuu_);
@@ -229,9 +217,8 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     double Iyy = I_(1, 1);
     double Izz = I_(2, 2);
 
-    masses_ << m - Xu_dot, 0, 0, 0, m * zg, -m * yg, 0, m - Yv_dot, 0, -m * zg,
-        0, m * xg - Yr_dot, 0, 0, m - Zw_dot, m * yg, -m * xg - Zq_dot, 0, 0,
-        -m * zg, m * yg, Ixx - Kp_dot, 0, 0, m * zg, 0, -m * xg - Mw_dot, 0,
+    masses_ << m - Xu_dot, 0, 0, 0, m * zg, -m * yg, 0, m - Yv_dot, 0, -m * zg, 0, m * xg - Yr_dot, 0, 0, m - Zw_dot,
+        m * yg, -m * xg - Zq_dot, 0, 0, -m * zg, m * yg, Ixx - Kp_dot, 0, 0, m * zg, 0, -m * xg - Mw_dot, 0,
         Iyy - Mq_dot, 0, -m * yg, m * xg - Nv_dot, 0, 0, 0, Izz - Nr_dot;
 
     masses_inverse_ = masses_.inverse();
@@ -243,16 +230,13 @@ bool UUV6DOF::step(double time, double dt) {
     // Saturate inputs
     throttle_ = clamp(vars_.input(throttle_idx_), -1.0, 1.0);
     thrust_ = scale<double>(throttle_, -1.0, 1.0, thrust_min_, thrust_max_);
-    Kprop_ =
-        -scale<double>(throttle_, -1.0, 1.0, -Kprop_max_mag_, Kprop_max_mag_);
+    Kprop_ = -scale<double>(throttle_, -1.0, 1.0, -Kprop_max_mag_, Kprop_max_mag_);
 
     delta_elevator_ = clamp(vars_.input(elevator_idx_), -1.0, 1.0);
-    delta_elevator_ = scale<double>(delta_elevator_, -1.0, 1.0,
-                                    delta_elevator_min_, delta_elevator_max_);
+    delta_elevator_ = scale<double>(delta_elevator_, -1.0, 1.0, delta_elevator_min_, delta_elevator_max_);
 
     delta_rudder_ = clamp(vars_.input(rudder_idx_), -1.0, 1.0);
-    delta_rudder_ = scale<double>(delta_rudder_, -1.0, 1.0, delta_rudder_min_,
-                                  delta_rudder_max_);
+    delta_rudder_ = scale<double>(delta_rudder_, -1.0, 1.0, delta_rudder_min_, delta_rudder_max_);
 
     // Cache values to calculate changes:
     Eigen::Vector3d prev_linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
@@ -279,14 +263,12 @@ bool UUV6DOF::step(double time, double dt) {
 
     // Calculate change in velocity to populate acceleration elements
     Eigen::Vector3d linear_vel_ENU(x_[Uw], x_[Vw], x_[Ww]);
-    Eigen::Vector3d linear_acc_ENU =
-        (linear_vel_ENU - prev_linear_vel_ENU) / dt;
+    Eigen::Vector3d linear_acc_ENU = (linear_vel_ENU - prev_linear_vel_ENU) / dt;
     Eigen::Vector3d linear_vel(x_[U], x_[V], x_[W]);
     Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
     Eigen::Vector3d linear_acc = (linear_vel - prev_linear_vel) / dt;
     Eigen::Vector3d angular_acc = (angular_vel - prev_angular_vel) / dt;
-    Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1),
-                                    -angular_acc(2));
+    Eigen::Vector3d angular_acc_FLU(angular_acc(0), -angular_acc(1), -angular_acc(2));
 
     x_[U_dot] = linear_acc(0);
     x_[V_dot] = linear_acc(1);
@@ -297,13 +279,12 @@ bool UUV6DOF::step(double time, double dt) {
 
     // Rotate back to Z-axis pointing up
     state_->quat() = rot_180_x_axis_ * quat_body_;
-    state_->quat().set(sc::Angles::angle_pi(state_->quat().roll() + M_PI),
-                       state_->quat().pitch(), state_->quat().yaw());
+    state_->quat().set(sc::Angles::angle_pi(state_->quat().roll() + M_PI), state_->quat().pitch(),
+                       state_->quat().yaw());
 
     Eigen::Vector3d angvel_b_e_bodyRef = quat_body_.rotate(angular_vel);
     Eigen::Vector3d angvel_b_e_ENU;
-    angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1],
-        -angvel_b_e_bodyRef[2];
+    angvel_b_e_ENU << angvel_b_e_bodyRef[0], -angvel_b_e_bodyRef[1], -angvel_b_e_bodyRef[2];
     state_->ang_vel() = angvel_b_e_ENU;
 
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
@@ -351,43 +332,32 @@ void UUV6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     Eigen::Vector3d F_buoyancy = quat_body_.rotate_reverse(buoyancy_vector);
 
     Eigen::Vector3d F_hydro = F_weight - F_buoyancy;
-    Eigen::Vector3d Moments_hydro =
-        c_g_.cross(F_weight) - c_b_.cross(F_buoyancy);
+    Eigen::Vector3d Moments_hydro = c_g_.cross(F_weight) - c_b_.cross(F_buoyancy);
 
     double Xprop = thrust_;
 
-    double X_ext = F_hydro(0) + Xuu_ * x[U] * std::abs(x[U]) +
-                   Xu_dot * x[U_dot] + Xwq * x[W] * x[Q] + Xqq * x[Q] * x[Q] +
-                   Xvr * x[V] * x[R] + Xrr * x[R] * x[R] + Xprop;
+    double X_ext = F_hydro(0) + Xuu_ * x[U] * std::abs(x[U]) + Xu_dot * x[U_dot] + Xwq * x[W] * x[Q] +
+                   Xqq * x[Q] * x[Q] + Xvr * x[V] * x[R] + Xrr * x[R] * x[R] + Xprop;
 
-    double Y_ext = F_hydro(1) + Yvv_ * x[V] * std::abs(x[V]) +
-                   Yrr * x[R] * std::abs(x[R]) + Yv_dot * x[V_dot] +
-                   Yr_dot * x[R_dot] + Yur * x[U] * x[R] + Ywp * x[W] * x[P] +
-                   Ypq * x[P] * x[Q] + Yuv * x[U] * x[V] +
+    double Y_ext = F_hydro(1) + Yvv_ * x[V] * std::abs(x[V]) + Yrr * x[R] * std::abs(x[R]) + Yv_dot * x[V_dot] +
+                   Yr_dot * x[R_dot] + Yur * x[U] * x[R] + Ywp * x[W] * x[P] + Ypq * x[P] * x[Q] + Yuv * x[U] * x[V] +
                    Yuu_delta_r * pow(x[U], 2) * delta_rudder_;
 
-    double Z_ext = F_hydro(2) + Zww_ * x[W] * std::abs(x[W]) +
-                   Zqq * x[Q] * std::abs(x[Q]) + Zw_dot * x[W_dot] +
-                   Zq_dot * x[Q_dot] + Zuq * x[U] * x[Q] + Zvp * x[V] * x[P] +
-                   Zrp * x[R] * x[P] + Zuw * x[U] * x[W] +
+    double Z_ext = F_hydro(2) + Zww_ * x[W] * std::abs(x[W]) + Zqq * x[Q] * std::abs(x[Q]) + Zw_dot * x[W_dot] +
+                   Zq_dot * x[Q_dot] + Zuq * x[U] * x[Q] + Zvp * x[V] * x[P] + Zrp * x[R] * x[P] + Zuw * x[U] * x[W] +
                    Zuu_delta_s * pow(x[U], 2) * delta_elevator_;
 
     // Roll moment
-    double K_ext = Moments_hydro(0) + Kpp * x[P] * std::abs(x[P]) +
-                   Kp_dot * x[P_dot] + Kprop_;
+    double K_ext = Moments_hydro(0) + Kpp * x[P] * std::abs(x[P]) + Kp_dot * x[P_dot] + Kprop_;
 
     // Pitch moment
-    double M_ext = Moments_hydro(1) + Mww_ * x[W] * std::abs(x[W]) +
-                   Mqq_ * x[Q] * std::abs(x[Q]) + Mw_dot * x[W_dot] +
-                   Mq_dot * x[Q_dot] + Muq * x[U] * x[Q] + Mvp * x[V] * x[P] +
-                   Mrp * x[R] * x[P] + Muw * x[U] * x[W] +
+    double M_ext = Moments_hydro(1) + Mww_ * x[W] * std::abs(x[W]) + Mqq_ * x[Q] * std::abs(x[Q]) + Mw_dot * x[W_dot] +
+                   Mq_dot * x[Q_dot] + Muq * x[U] * x[Q] + Mvp * x[V] * x[P] + Mrp * x[R] * x[P] + Muw * x[U] * x[W] +
                    Muu_delta_s * pow(x[U], 2) * delta_elevator_;
 
     // Yaw moment
-    double N_ext = Moments_hydro(2) + Nvv * x[V] * std::abs(x[V]) +
-                   Nrr * x[R] * std::abs(x[R]) + Nv_dot * x[V_dot] +
-                   Nr_dot * x[R_dot] + Nur * x[U] * x[R] + Nwp * x[W] * x[P] +
-                   Npq * x[P] * x[Q] + Nuv * x[U] * x[V] +
+    double N_ext = Moments_hydro(2) + Nvv * x[V] * std::abs(x[V]) + Nrr * x[R] * std::abs(x[R]) + Nv_dot * x[V_dot] +
+                   Nr_dot * x[R_dot] + Nur * x[U] * x[R] + Nwp * x[W] * x[P] + Npq * x[P] * x[Q] + Nuv * x[U] * x[V] +
                    Nuu_delta_r * pow(x[U], 2) * delta_rudder_;
 
     Eigen::Matrix<double, 6, 1> forces;
@@ -403,16 +373,11 @@ void UUV6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[R] = accelerations(5, 0);
 
     // Compute quaternion derivatives
-    double lambda =
-        1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] =
-        -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
-    dxdt[q1] =
-        +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
-    dxdt[q2] =
-        +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
-    dxdt[q3] =
-        +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Normalize quaternion
     sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);

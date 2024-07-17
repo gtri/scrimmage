@@ -37,8 +37,7 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Control3D,
-                Control3D_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Control3D, Control3D_plugin)
 
 namespace scrimmage {
 namespace autonomy {

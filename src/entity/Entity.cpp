@@ -67,20 +67,15 @@ namespace ba = boost::adaptors;
 
 namespace scrimmage {
 
-bool Entity::init(
-    AttributeMap &overrides, std::map<std::string, std::string> &info,
-    std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-    std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-    ContactMapPtr &contacts, MissionParsePtr mp,
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id,
-    int ent_desc_id, PluginManagerPtr plugin_manager,
-    FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
-    PrintPtr &printer, TimePtr &time, const ParameterServerPtr &param_server,
-    const GlobalServicePtr &global_services,
-    const std::set<std::string> &plugin_tags,
-    std::function<void(std::map<std::string, std::string> &)>
-        param_override_func,
-    const int &debug_level) {
+bool Entity::init(AttributeMap &overrides, std::map<std::string, std::string> &info,
+                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map, ContactMapPtr &contacts,
+                  MissionParsePtr mp, const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id,
+                  int ent_desc_id, PluginManagerPtr plugin_manager, FileSearchPtr &file_search, RTreePtr &rtree,
+                  PubSubPtr &pubsub, PrintPtr &printer, TimePtr &time, const ParameterServerPtr &param_server,
+                  const GlobalServicePtr &global_services, const std::set<std::string> &plugin_tags,
+                  std::function<void(std::map<std::string, std::string> &)> param_override_func,
+                  const int &debug_level) {
     pubsub_ = pubsub;
     printer_ = printer;
     global_services_ = global_services;
@@ -151,18 +146,15 @@ bool Entity::init(
     // The MissionParser appends the order number to the sensor (e.g., sensor0,
     // sensor1, etc.)
     int sensor_ct = 0;
-    std::string sensor_order_name =
-        std::string("sensor") + std::to_string(sensor_ct);
+    std::string sensor_order_name = std::string("sensor") + std::to_string(sensor_ct);
 
     while (info.count(sensor_order_name) > 0) {
         ConfigParse config_parse;
         std::string sensor_name = info[sensor_order_name];
         PluginStatus<Sensor> status = plugin_manager->make_plugin<Sensor>(
-            "scrimmage::Sensor", sensor_name, *file_search, config_parse,
-            overrides[sensor_order_name], plugin_tags);
+            "scrimmage::Sensor", sensor_name, *file_search, config_parse, overrides[sensor_order_name], plugin_tags);
         if (status.status == PluginStatus<Sensor>::cast_failed) {
-            std::cout << "Failed to open sensor plugin: " << sensor_name
-                      << std::endl;
+            std::cout << "Failed to open sensor plugin: " << sensor_name << std::endl;
             return false;
         } else if (status.status == PluginStatus<Sensor>::parse_failed) {
             return false;
@@ -183,8 +175,7 @@ bool Entity::init(
             if (it_rpy != overrides[sensor_order_name].end()) {
                 str2container(it_rpy->second, " ", tf_rpy, 3);
             }
-            sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]),
-                                            Angles::deg2rad(tf_rpy[1]),
+            sensor->transform()->quat().set(Angles::deg2rad(tf_rpy[0]), Angles::deg2rad(tf_rpy[1]),
                                             Angles::deg2rad(tf_rpy[2]));
 
             sensor->set_parent(parent);
@@ -223,12 +214,10 @@ bool Entity::init(
     if (info.count("motion_model") > 0) {
         ConfigParse config_parse;
         PluginStatus<MotionModel> status =
-            plugin_manager->make_plugin<MotionModel>(
-                "scrimmage::MotionModel", info["motion_model"], *file_search,
-                config_parse, overrides["motion_model"], plugin_tags);
+            plugin_manager->make_plugin<MotionModel>("scrimmage::MotionModel", info["motion_model"], *file_search,
+                                                     config_parse, overrides["motion_model"], plugin_tags);
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            cout << "Failed to open motion model plugin: "
-                 << info["motion_model"] << endl;
+            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
             return false;
         } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
             return false;
@@ -249,8 +238,7 @@ bool Entity::init(
 
             if (debug_level > 1) {
                 cout << "--------------------------------" << endl;
-                cout << "Motion plugin params: " << info["motion_model"]
-                     << endl;
+                cout << "Motion plugin params: " << info["motion_model"] << endl;
                 cout << config_parse;
             }
             motion_model_->init(info, config_parse.params());
@@ -275,8 +263,7 @@ bool Entity::init(
     // Create a list of controller names (from XML top-down order)
     std::list<std::string> controller_names;
     int controller_ct = 0;
-    std::string controller_name =
-        std::string("controller") + std::to_string(controller_ct);
+    std::string controller_name = std::string("controller") + std::to_string(controller_ct);
     bool valid_controller_name = true;
     do {
         if (info.count(controller_name) > 0) {
@@ -284,26 +271,22 @@ bool Entity::init(
         } else {
             valid_controller_name = false;
         }
-        controller_name =
-            std::string("controller") + std::to_string(++controller_ct);
+        controller_name = std::string("controller") + std::to_string(++controller_ct);
     } while (valid_controller_name);
 
     // Reverse iterate over controllers, so that the VariableIO can be setup
     // correctly. Last controller connects to motion model, second to last
     // controller connects to the last controller.
-    for (std::list<std::string>::reverse_iterator rit =
-             controller_names.rbegin();
-         rit != controller_names.rend(); ++rit) {
+    for (std::list<std::string>::reverse_iterator rit = controller_names.rbegin(); rit != controller_names.rend();
+         ++rit) {
         std::string controller_name = *rit;
 
         ConfigParse config_parse;
         PluginStatus<Controller> status =
-            plugin_manager_->make_plugin<Controller>(
-                "scrimmage::Controller", info[controller_name], *file_search,
-                config_parse, overrides[controller_name], plugin_tags);
+            plugin_manager_->make_plugin<Controller>("scrimmage::Controller", info[controller_name], *file_search,
+                                                     config_parse, overrides[controller_name], plugin_tags);
         if (status.status == PluginStatus<Controller>::cast_failed) {
-            std::cout << "Failed to open controller plugin: " << controller_name
-                      << std::endl;
+            std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
             return false;
         } else if (status.status == PluginStatus<Controller>::parse_failed) {
             return false;
@@ -341,36 +324,27 @@ bool Entity::init(
             // Initialize this controller.
             if (debug_level > 1) {
                 cout << "--------------------------------" << endl;
-                cout << "Controller plugin params: " << info[controller_name]
-                     << endl;
+                cout << "Controller plugin params: " << info[controller_name] << endl;
                 cout << config_parse;
             }
             controller->init(config_parse.params());
 
             // Verify the VariableIO connection
             if (connect_to_motion_model) {
-                if (!verify_io_connection(controller->vars(),
-                                          motion_model_->vars())) {
-                    std::cout
-                        << "VariableIO Error: "
-                        << std::quoted(controller->name())
-                        << " does not provide inputs required by motion model "
-                        << std::quoted(motion_model_->name()) << ": ";
-                    print_io_error(motion_model_->name(),
-                                   motion_model_->vars());
+                if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
+                    std::cout << "VariableIO Error: " << std::quoted(controller->name())
+                              << " does not provide inputs required by motion model "
+                              << std::quoted(motion_model_->name()) << ": ";
+                    print_io_error(motion_model_->name(), motion_model_->vars());
                     return false;
                 }
             } else if (not connect_to_motion_model) {
-                if (!verify_io_connection(controller->vars(),
-                                          controllers_.back()->vars())) {
-                    std::cout << "VariableIO Error: "
-                              << std::quoted(controller->name())
+                if (!verify_io_connection(controller->vars(), controllers_.back()->vars())) {
+                    std::cout << "VariableIO Error: " << std::quoted(controller->name())
                               << " does not provide inputs required by next "
                                  "controller "
-                              << std::quoted(controllers_.back()->name())
-                              << ": ";
-                    print_io_error(controllers_.back()->name(),
-                                   controllers_.back()->vars());
+                              << std::quoted(controllers_.back()->name()) << ": ";
+                    print_io_error(controllers_.back()->name(), controllers_.back()->vars());
                     return false;
                 }
             }
@@ -387,11 +361,9 @@ bool Entity::init(
 
     // If the motion model requires any inputs and there are no controllers,
     // this is a VariableIO error.
-    if (motion_model_->vars().input_variable_index().size() > 0 &&
-        controllers_.size() == 0) {
+    if (motion_model_->vars().input_variable_index().size() > 0 && controllers_.size() == 0) {
         std::cout << "VariableIO Error: There are not any controllers that "
-                  << "provide the inputs required by "
-                  << std::quoted(motion_model_->name()) << std::endl;
+                  << "provide the inputs required by " << std::quoted(motion_model_->name()) << std::endl;
         print_io_error(motion_model_->name(), motion_model_->vars());
         std::cout << "If you want to directly pass the outputs from the "
                   << "autonomy to the motion_model, see the DirectController "
@@ -405,8 +377,7 @@ bool Entity::init(
     // Create a list of autonomy names
     std::list<std::string> autonomy_names;
     int autonomy_ct = 0;
-    std::string autonomy_name =
-        std::string("autonomy") + std::to_string(autonomy_ct);
+    std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
     while (info.count(autonomy_name) > 0) {
         autonomy_names.push_back(autonomy_name);
         autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
@@ -414,11 +385,10 @@ bool Entity::init(
 
     // Create the autonomy plugins from the autonomy_names list.
     for (auto autonomy_name : autonomy_names) {
-        auto autonomy = make_autonomy<Autonomy>(
-            info[autonomy_name], plugin_manager, overrides[autonomy_name],
-            parent, state_, id_to_team_map, id_to_ent_map, proj_, contacts,
-            file_search, rtree, pubsub, time, param_server, plugin_tags,
-            param_override_func, controllers_, debug_level);
+        auto autonomy =
+            make_autonomy<Autonomy>(info[autonomy_name], plugin_manager, overrides[autonomy_name], parent, state_,
+                                    id_to_team_map, id_to_ent_map, proj_, contacts, file_search, rtree, pubsub, time,
+                                    param_server, plugin_tags, param_override_func, controllers_, debug_level);
 
         if (autonomy) {
             autonomies_.push_back(*autonomy);
@@ -432,24 +402,20 @@ bool Entity::init(
 
     // Verify that at least one autonomy provides the inputs to the first
     // controller if the first controller requires some VariableIO input.
-    if (connect_entity && not controllers_.empty() &&
-        controllers_.front()->vars().input_variable_index().size() > 0) {
+    if (connect_entity && not controllers_.empty() && controllers_.front()->vars().input_variable_index().size() > 0) {
         auto verify_io = [&](auto &autonomy) {
-            return verify_io_connection(autonomy->vars(),
-                                        controllers_.front()->vars());
+            return verify_io_connection(autonomy->vars(), controllers_.front()->vars());
         };
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
             auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
             std::cout << "VariableIO Error: "
                       << "no autonomies provide inputs required by Controller "
-                      << std::quoted(controllers_.front()->name())
-                      << ". Add VariableIO output declarations in ";
+                      << std::quoted(controllers_.front()->name()) << ". Add VariableIO output declarations in ";
             auto get_name = [&](auto &p) { return p->name(); };
             br::copy(autonomies_ | ba::transformed(get_name), out_it);
             std::cout << "as follows " << std::endl;
 
-            print_io_error(controllers_.front()->name(),
-                           controllers_.front()->vars());
+            print_io_error(controllers_.front()->name(), controllers_.front()->vars());
             return false;
         }
     }
@@ -458,15 +424,13 @@ bool Entity::init(
         if (autonomies_.empty()) {
             controllers_.front()->set_desired_state(state_);
         } else {
-            controllers_.front()->set_desired_state(
-                autonomies_.front()->desired_state());
+            controllers_.front()->set_desired_state(autonomies_.front()->desired_state());
         }
     }
     return true;
 }
 
-bool Entity::parse_visual(std::map<std::string, std::string> &info,
-                          MissionParsePtr mp,
+bool Entity::parse_visual(std::map<std::string, std::string> &info, MissionParsePtr mp,
                           std::map<std::string, std::string> &overrides) {
     visual_->set_id(id_.id());
     visual_->set_opacity(1.0);
@@ -478,14 +442,12 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
         return true;
     }
 
-    find_model_properties(it->second, cv_parse, *file_search_, overrides,
-                          visual_, mesh_found, texture_found);
+    find_model_properties(it->second, cv_parse, *file_search_, overrides, visual_, mesh_found, texture_found);
 
     // Set the entity color. Use the team color by default
     std::vector<int> color;
     auto it_color = info.find("color");
-    if (it_color != info.end() and
-        str2container(it_color->second, ", ", color, 3)) {
+    if (it_color != info.end() and str2container(it_color->second, ", ", color, 3)) {
     } else {
         set(color, mp->team_info()[id_.team_id()].color);
     }
@@ -494,9 +456,8 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
     std::string visual_model = boost::to_upper_copy(info["visual_model"]);
     if (mesh_found) {
         type_ = Contact::Type::MESH;
-        visual_->set_visual_mode(texture_found
-                                     ? scrimmage_proto::ContactVisual::TEXTURE
-                                     : scrimmage_proto::ContactVisual::COLOR);
+        visual_->set_visual_mode(texture_found ? scrimmage_proto::ContactVisual::TEXTURE
+                                               : scrimmage_proto::ContactVisual::COLOR);
     } else if (visual_model == std::string("QUADROTOR")) {
         type_ = Contact::Type::QUADROTOR;
         visual_->set_visual_mode(scrimmage_proto::ContactVisual::COLOR);
@@ -515,15 +476,12 @@ bool Entity::parse_visual(std::map<std::string, std::string> &info,
 }
 
 bool Entity::ready() {
-    auto all_ready = [&](auto &rng, auto &func) {
-        return std::all_of(rng.begin(), rng.end(), func);
-    };
+    auto all_ready = [&](auto &rng, auto &func) { return std::all_of(rng.begin(), rng.end(), func); };
 
     auto single_ready = [&](auto &plugin) { return plugin->ready(); };
     auto values_single_ready = [&](auto &kv) { return kv.second->ready(); };
 
-    return all_ready(autonomies_, single_ready) &&
-           all_ready(controllers_, single_ready) &&
+    return all_ready(autonomies_, single_ready) && all_ready(controllers_, single_ready) &&
            all_ready(sensors_, values_single_ready) && motion_model_->ready();
 }
 
@@ -544,9 +502,7 @@ void Entity::collision() { health_points_ -= 1e9; }
 
 void Entity::hit() { health_points_--; }
 
-void Entity::set_health_points(int health_points) {
-    health_points_ = health_points;
-}
+void Entity::set_health_points(int health_points) { health_points_ = health_points; }
 
 int Entity::health_points() { return health_points_; }
 
@@ -554,14 +510,11 @@ bool Entity::is_alive() { return (health_points_ > 0); }
 
 bool Entity::posthumous(double t) {
     bool any_autonomies =
-        std::any_of(autonomies_.begin(), autonomies_.end(),
-                    [t](AutonomyPtr &a) { return a->posthumous(t); });
+        std::any_of(autonomies_.begin(), autonomies_.end(), [t](AutonomyPtr &a) { return a->posthumous(t); });
     return any_autonomies && motion_model_->posthumous(t);
 }
 
-std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection() {
-    return proj_;
-}
+std::shared_ptr<GeographicLib::LocalCartesian> Entity::projection() { return proj_; }
 
 MissionParsePtr Entity::mp() { return mp_; }
 
@@ -572,20 +525,15 @@ RandomPtr Entity::random() { return random_; }
 
 Contact::Type Entity::type() { return type_; }
 
-void Entity::set_visual_changed(bool visual_changed) {
-    visual_changed_ = visual_changed;
-}
+void Entity::set_visual_changed(bool visual_changed) { visual_changed_ = visual_changed; }
 
 bool Entity::visual_changed() { return visual_changed_; }
 
 scrimmage_proto::ContactVisualPtr &Entity::contact_visual() { return visual_; }
 
-std::unordered_map<std::string, SensorPtr> &Entity::sensors() {
-    return sensors_;
-}
+std::unordered_map<std::string, SensorPtr> &Entity::sensors() { return sensors_; }
 
-std::unordered_map<std::string, SensorPtr> Entity::sensors(
-    const std::string &sensor_name) {
+std::unordered_map<std::string, SensorPtr> Entity::sensors(const std::string &sensor_name) {
     std::unordered_map<std::string, SensorPtr> out;
     for (auto &kv : sensors_) {
         if (kv.first.find(sensor_name) != std::string::npos) {
@@ -607,36 +555,27 @@ bool Entity::active() { return active_; }
 void Entity::setup_desired_state() {
     if (controllers_.empty()) return;
 
-    auto it = std::find_if(
-        autonomies_.rbegin(), autonomies_.rend(),
-        [&](auto autonomy) { return autonomy->get_is_controlling(); });
+    auto it = std::find_if(autonomies_.rbegin(), autonomies_.rend(),
+                           [&](auto autonomy) { return autonomy->get_is_controlling(); });
 
     if (it != autonomies_.rend()) {
         controllers_.front()->set_desired_state((*it)->desired_state());
     }
 }
 
-std::unordered_map<std::string, Service> &Entity::services() {
-    return services_;
-}
-std::unordered_map<std::string, Service> &Entity::global_services() {
-    return global_services_->services();
-}
+std::unordered_map<std::string, Service> &Entity::services() { return services_; }
+std::unordered_map<std::string, Service> &Entity::global_services() { return global_services_->services(); }
 
-void Entity::set_global_services(const GlobalServicePtr &global_services) {
-    global_services_ = global_services;
-}
+void Entity::set_global_services(const GlobalServicePtr &global_services) { global_services_ = global_services; }
 
-bool Entity::call_service(scrimmage::MessageBasePtr req,
-                          scrimmage::MessageBasePtr &res,
+bool Entity::call_service(scrimmage::MessageBasePtr req, scrimmage::MessageBasePtr &res,
                           const std::string &service_name) {
     auto it = services_.find(service_name);
     if (it == services_.end()) {
         // First check for a global service of this name
         bool found = global_services_->call_service(req, res, service_name);
         if (!found) {
-            std::cout << "request for service (" << service_name
-                      << ") that does not exist" << std::endl;
+            std::cout << "request for service (" << service_name << ") that does not exist" << std::endl;
             std::cout << "services are: ";
             for (auto &kv : services_) {
                 std::cout << kv.first << ", ";
@@ -699,18 +638,13 @@ void Entity::close(double t) {
     time_ = nullptr;
 }
 
-std::unordered_map<std::string, MessageBasePtr> &Entity::properties() {
-    return properties_;
-}
+std::unordered_map<std::string, MessageBasePtr> &Entity::properties() { return properties_; }
 
 void Entity::set_time_ptr(TimePtr t) { time_ = t; }
 void Entity::set_printer(PrintPtr printer) { printer_ = printer; }
 
 // cppcheck-suppress passedByValue
-void Entity::set_projection(
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
-    proj_ = proj;
-}
+void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) { proj_ = proj; }
 
 void Entity::print_plugins(std::ostream &out) const {
     out << "----------- Sensor -------------" << endl;

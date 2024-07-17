@@ -99,8 +99,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
     scrimmage::Angles angles_to_gps_;
 
-    fdm_packet state6dof_to_fdm_packet(
-        double t, scrimmage::motion::RigidBody6DOFState& state);
+    fdm_packet state6dof_to_fdm_packet(double t, scrimmage::motion::RigidBody6DOFState& state);
 
     boost::asio::io_service recv_io_service_;
     std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;
@@ -108,10 +107,8 @@ class ArduPilot : public scrimmage::Autonomy {
     boost::array<unsigned char, 100> recv_buffer_;
 
     void start_receive();
-    void parse_receive(const boost::system::error_code& error,
-                       std::size_t num_bytes);
-    void handle_receive(const boost::system::error_code& error,
-                        std::size_t num_bytes);
+    void parse_receive(const boost::system::error_code& error, std::size_t num_bytes);
+    void handle_receive(const boost::system::error_code& error, std::size_t num_bytes);
 
     std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
 };

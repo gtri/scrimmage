@@ -76,17 +76,11 @@ std::map<VariableIO::Type, std::string> VariableIO::type_map_ = {
     {VariableIO::Type::acceleration_y, "acceleration_y"},
     {VariableIO::Type::acceleration_z, "acceleration_z"}};
 
-VariableIO::VariableIO()
-    : input_(std::make_shared<Eigen::VectorXd>()),
-      output_(std::make_shared<Eigen::VectorXd>()) {}
+VariableIO::VariableIO() : input_(std::make_shared<Eigen::VectorXd>()), output_(std::make_shared<Eigen::VectorXd>()) {}
 
-std::map<std::string, int> &VariableIO::output_variable_index() {
-    return output_variable_index_;
-}
+std::map<std::string, int> &VariableIO::output_variable_index() { return output_variable_index_; }
 
-std::map<std::string, int> &VariableIO::input_variable_index() {
-    return input_variable_index_;
-}
+std::map<std::string, int> &VariableIO::input_variable_index() { return input_variable_index_; }
 
 int VariableIO::add_input_variable(const std::string &var) {
     // If the variable already exists, return its existing index
@@ -148,9 +142,7 @@ void VariableIO::output(int i, double x) {
     if (i < output_->size()) (*output_)(i) = x;
 }
 
-double VariableIO::output(int i) {
-    return i < output_->size() ? (*output_)(i) : NAN;
-}
+double VariableIO::output(int i) { return i < output_->size() ? (*output_)(i) : NAN; }
 
 void connect(VariableIO &output, VariableIO &input) {
     output.output_variable_index() = input.input_variable_index();
@@ -173,25 +165,16 @@ bool VariableIO::exists(Type type, Direction dir) {
     return exists(it->second, dir);
 }
 
-std::set<std::string> VariableIO::declared_input_variables() {
-    return declared_input_variables_;
-}
+std::set<std::string> VariableIO::declared_input_variables() { return declared_input_variables_; }
 
-std::set<std::string> VariableIO::declared_output_variables() {
-    return declared_output_variables_;
-}
+std::set<std::string> VariableIO::declared_output_variables() { return declared_output_variables_; }
 
-void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) {
-    input_ = input;
-}
-void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) {
-    output_ = output;
-}
+void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) { input_ = input; }
+void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) { output_ = output; }
 
 bool verify_io_connection(VariableIO &output, VariableIO &input) {
     std::vector<std::string> mismatched_keys;
-    br::set_difference(input.declared_input_variables(),
-                       output.declared_output_variables(),
+    br::set_difference(input.declared_input_variables(), output.declared_output_variables(),
                        std::back_inserter(mismatched_keys));
 
     return mismatched_keys.empty();
@@ -203,25 +186,19 @@ void print_io_error(const std::string &in_name, VariableIO &v) {
     std::cout << "First, include the VariableIO class in the cpp file: "
               << "#include <scrimmage/common/VariableIO.h>" << std::endl;
 
-    std::cout << "Second, place the following in its initializer: "
-              << std::endl;
+    std::cout << "Second, place the following in its initializer: " << std::endl;
     for (const std::string &key : keys) {
-        std::cout << "    " << key << "_idx_ = vars_.declare("
-                  << std::quoted(key)
+        std::cout << "    " << key << "_idx_ = vars_.declare(" << std::quoted(key)
                   << ", scrimmage::VariableIO::Direction::Out);" << std::endl;
     }
 
-    std::cout << "Third, place the following in its step function: "
-              << std::endl;
+    std::cout << "Third, place the following in its step function: " << std::endl;
     for (const std::string &key : keys) {
-        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);"
-                  << std::endl;
+        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);" << std::endl;
     }
-    std::cout << "where value_to_output is what you want " << in_name
-              << " to receive as its input." << std::endl;
+    std::cout << "where value_to_output is what you want " << in_name << " to receive as its input." << std::endl;
 
-    std::cout << "Third, place following in the class declaration: "
-              << std::endl;
+    std::cout << "Third, place following in the class declaration: " << std::endl;
     for (const std::string &key : keys) {
         std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
     }

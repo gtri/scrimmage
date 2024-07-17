@@ -53,12 +53,10 @@ class CSV {
 
     void set_column_headers(const std::string &headers, bool write = true);
 
-    bool append(const Pairs &pairs, bool write = true,
-                bool keep_in_memory = false);
+    bool append(const Pairs &pairs, bool write = true, bool keep_in_memory = false);
 
     bool open_output(const std::string &filename,
-                     std::ios_base::openmode mode = (std::ios_base::out |
-                                                     std::ios_base::trunc));
+                     std::ios_base::openmode mode = (std::ios_base::out | std::ios_base::trunc));
 
     bool output_is_open();
 
@@ -66,11 +64,9 @@ class CSV {
 
     bool to_csv(const std::string &filename);
 
-    bool read_csv(const std::string &filename,
-                  const bool &contains_header = true);
+    bool read_csv(const std::string &filename, const bool &contains_header = true);
 
-    bool read_csv_from_string(const std::string &str,
-                              const bool &contains_header = true);
+    bool read_csv_from_string(const std::string &str, const bool &contains_header = true);
 
     void set_no_value_string(const std::string &str);
 
@@ -87,9 +83,7 @@ class CSV {
     // double parameters
     void set_double_precision(int precision) { double_precision_ = precision; }
     void set_double_fixed(bool is_fixed) { double_is_fixed_ = is_fixed; }
-    void set_double_scientific(bool is_scientific) {
-        double_is_scientific_ = is_scientific;
-    }
+    void set_double_scientific(bool is_scientific) { double_is_scientific_ = is_scientific; }
 
  protected:
     std::list<std::string> get_csv_line_elements(const std::string &str);

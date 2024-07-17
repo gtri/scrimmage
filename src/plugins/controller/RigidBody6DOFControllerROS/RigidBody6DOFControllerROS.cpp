@@ -35,8 +35,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::RigidBody6DOFControllerROS,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerROS,
                 RigidBody6DOFControllerROS_plugin)
 
 namespace scrimmage {
@@ -44,8 +43,7 @@ namespace controller {
 
 namespace sc = scrimmage;
 
-void RigidBody6DOFControllerROS::init(
-    std::map<std::string, std::string>& params) {
+void RigidBody6DOFControllerROS::init(std::map<std::string, std::string>& params) {
     u_ = std::make_shared<Eigen::Vector4d>();
 
     if (!ros::isInitialized()) {
@@ -54,8 +52,7 @@ void RigidBody6DOFControllerROS::init(
         ros::init(argc, NULL, name);
     }
     nh_ = std::make_shared<ros::NodeHandle>();
-    cmd_vel_sub_ = nh_->subscribe(
-        "cmd_vel", 1, &RigidBody6DOFControllerROS::cmd_vel_cb, this);
+    cmd_vel_sub_ = nh_->subscribe("cmd_vel", 1, &RigidBody6DOFControllerROS::cmd_vel_cb, this);
 }
 
 bool RigidBody6DOFControllerROS::step(double t, double dt) {
@@ -74,9 +71,6 @@ bool RigidBody6DOFControllerROS::step(double t, double dt) {
     return true;
 }
 
-void RigidBody6DOFControllerROS::cmd_vel_cb(
-    const geometry_msgs::Twist::ConstPtr& msg) {
-    cmd_vel_ = *msg;
-}
+void RigidBody6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) { cmd_vel_ = *msg; }
 }  // namespace controller
 }  // namespace scrimmage

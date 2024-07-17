@@ -82,24 +82,19 @@ class PluginManager {
 
     PluginManager();
 
-    void print_plugins(
-        const std::string &plugin_type, const std::string &title,
-        FileSearch &file_search,
-        const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH");
+    void print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search,
+                       const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH");
     void print_returned_plugins();
 
-    void find_matching_plugins(
-        const std::string &plugin_name_so,
-        std::unordered_map<std::string, std::list<std::string>> &so_files,
-        std::list<std::string> &plugins);
+    void find_matching_plugins(const std::string &plugin_name_so,
+                               std::unordered_map<std::string, std::list<std::string>> &so_files,
+                               std::list<std::string> &plugins);
 
     template <class T>
-    PluginStatus<T> make_plugin(
-        std::string plugin_type, const std::string &plugin_name_xml,
-        FileSearch &file_search, ConfigParse &config_parse,
-        const std::map<std::string, std::string> &overrides,
-        const std::set<std::string> &plugin_tags,
-        const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH") {
+    PluginStatus<T> make_plugin(std::string plugin_type, const std::string &plugin_name_xml, FileSearch &file_search,
+                                ConfigParse &config_parse, const std::map<std::string, std::string> &overrides,
+                                const std::set<std::string> &plugin_tags,
+                                const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH") {
         PluginStatus<T> status;
         std::string plugin_name = plugin_name_xml;
         auto it_orig_plugin_name = overrides.find("ORIGINAL_PLUGIN_NAME");
@@ -108,14 +103,11 @@ class PluginManager {
         }
 
         config_parse.set_required("library");
-        if (!config_parse.parse(overrides, plugin_name, env_var_name,
-                                file_search)) {
-            std::cout << "Failed to parse: " << plugin_name << ".xml for type "
-                      << plugin_type << std::endl;
+        if (!config_parse.parse(overrides, plugin_name, env_var_name, file_search)) {
+            std::cout << "Failed to parse: " << plugin_name << ".xml for type " << plugin_type << std::endl;
             std::cout << "Check that you have sourced ~/.scrimmage/setup.bash "
-                      << "(this sets the environment variable " << env_var_name
-                      << " to a directory including " << plugin_name << ".xml)"
-                      << std::endl;
+                      << "(this sets the environment variable " << env_var_name << " to a directory including "
+                      << plugin_name << ".xml)" << std::endl;
             status.status = PluginStatus<T>::parse_failed;
             return status;
         }
@@ -127,14 +119,12 @@ class PluginManager {
             auto it_tags = overrides.find("tags");
             if (it_tags != overrides.end()) {
                 // Break up the plugin's tags attribute into a set of strings
-                auto tags =
-                    str2container<std::set<std::string>>(it_tags->second, ", ");
+                auto tags = str2container<std::set<std::string>>(it_tags->second, ", ");
                 // If the plugin_tags contains any tag in tags, this plugin
                 // should be loaded
-                valid_tag = std::any_of(
-                    tags.begin(), tags.end(), [&](const std::string &tag) {
-                        return (plugin_tags.find(tag) != plugin_tags.end());
-                    });
+                valid_tag = std::any_of(tags.begin(), tags.end(), [&](const std::string &tag) {
+                    return (plugin_tags.find(tag) != plugin_tags.end());
+                });
             }
             if (not valid_tag) {
                 status.status = PluginStatus<T>::invalid_tag;
@@ -167,8 +157,7 @@ class PluginManager {
 
         // Warn the user if multiple plugin libraries were found
         if (matching_plugins.size() > 1) {
-            std::cout << "WARNING: Multiple paths found for plugin:"
-                      << plugin_name_so << std::endl;
+            std::cout << "WARNING: Multiple paths found for plugin:" << plugin_name_so << std::endl;
             for (const std::string &plugin_path : matching_plugins) {
                 std::cout << plugin_path << std::endl;
             }
@@ -186,8 +175,7 @@ class PluginManager {
             return status;
         }
 
-        std::cout << "ERROR: Could not locate " << plugin_type
-                  << "::" << plugin_name_so << std::endl;
+        std::cout << "ERROR: Could not locate " << plugin_type << "::" << plugin_name_so << std::endl;
         status.status = PluginStatus<T>::missing;
         return status;
     }
@@ -208,8 +196,7 @@ class PluginManager {
     bool files_checked_ = false;
 
     int check_library(std::string lib_path);
-    PluginPtr make_plugin_helper(std::string &plugin_type,
-                                 std::string &plugin_name);
+    PluginPtr make_plugin_helper(std::string &plugin_type, std::string &plugin_name);
     bool reload_;
 
     // std::list<PluginPtr> plugins_;

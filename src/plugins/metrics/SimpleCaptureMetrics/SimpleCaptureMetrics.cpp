@@ -51,8 +51,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCaptureMetrics,
-                SimpleCaptureMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::SimpleCaptureMetrics, SimpleCaptureMetrics_plugin)
 
 namespace scrimmage {
 namespace metrics {
@@ -65,12 +64,10 @@ void SimpleCaptureMetrics::init(std::map<std::string, std::string> &params) {
     };
     subscribe<sm::TeamCapture>("GlobalNetwork", "TeamCapture", teamcapture_cb);
 
-    auto nonteamcapture_cb =
-        [&](scrimmage::MessagePtr<sm::NonTeamCapture> msg) {
-            scores_[msg->data.source_id()].increment_count("NonTeamCapture");
-        };
-    subscribe<sm::NonTeamCapture>("GlobalNetwork", "NonTeamCapture",
-                                  nonteamcapture_cb);
+    auto nonteamcapture_cb = [&](scrimmage::MessagePtr<sm::NonTeamCapture> msg) {
+        scores_[msg->data.source_id()].increment_count("NonTeamCapture");
+    };
+    subscribe<sm::NonTeamCapture>("GlobalNetwork", "NonTeamCapture", nonteamcapture_cb);
 }
 
 bool SimpleCaptureMetrics::step_metrics(double t, double dt) {
@@ -99,18 +96,15 @@ void SimpleCaptureMetrics::calc_team_scores() {
 
         int team_id = (*id_to_team_map_)[kv.first];
 
-        team_scores_map_[team_id].add_count("TeamCapture",
-                                            score.count("TeamCapture"));
-        team_scores_map_[team_id].add_count("NonTeamCapture",
-                                            score.count("NonTeamCapture"));
+        team_scores_map_[team_id].add_count("TeamCapture", score.count("TeamCapture"));
+        team_scores_map_[team_id].add_count("NonTeamCapture", score.count("NonTeamCapture"));
     }
 
     for (auto &kv : team_scores_map_) {
         int team_id = kv.first;
         Score &score = kv.second;
         team_metrics_[team_id]["TeamCapture"] = score.count("TeamCapture");
-        team_metrics_[team_id]["NonTeamCapture"] =
-            score.count("NonTeamCapture");
+        team_metrics_[team_id]["NonTeamCapture"] = score.count("NonTeamCapture");
 
         double s = score.score();
         team_scores_[team_id] = s;

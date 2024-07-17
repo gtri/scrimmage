@@ -38,8 +38,7 @@
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls,
-                AvoidWalls_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls, AvoidWalls_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -48,16 +47,11 @@ void AvoidWalls::init(std::map<std::string, std::string> &params) {
     double initial_speed = get<double>("initial_speed", params, 21);
     avoid_distance_ = get<double>("avoid_distance", params, 20);
 
-    auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
-        point_cloud_ = msg->data;
-    };
-    subscribe<sensor::RayTrace::PointCloud>("LocalNetwork",
-                                            "RayTrace/pointcloud", pc_cb);
+    auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) { point_cloud_ = msg->data; };
+    subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
 
-    heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                 VariableIO::Direction::Out);
-    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                               VariableIO::Direction::Out);
+    heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 
     vars_.output(heading_idx_, state_->quat().yaw());
     vars_.output(speed_idx_, initial_speed);

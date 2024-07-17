@@ -81,26 +81,17 @@ void Boids::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    io_vel_x_idx_ =
-        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-    io_vel_y_idx_ =
-        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-    io_vel_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    io_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    io_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    io_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
-    io_vel_idx_ =
-        vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-    io_turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    io_pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    io_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    io_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    io_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                          VariableIO::Direction::Out);
-    io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                    VariableIO::Direction::Out);
-    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::Out);
+    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
@@ -114,8 +105,7 @@ bool Boids::step_autonomy(double t, double dt) {
         // Ignore own position / id
         if (it->id() == parent_->id().id()) {
             it = rtree_neighbors.erase(it);
-        } else if (state_->InFieldOfView(*(*contacts_)[it->id()].state(),
-                                         fov_az_, fov_el_)) {
+        } else if (state_->InFieldOfView(*(*contacts_)[it->id()].state(), fov_az_, fov_el_)) {
             // The neighbor is "in front"
             ++it;
         } else {
@@ -149,14 +139,12 @@ bool Boids::step_autonomy(double t, double dt) {
         double dist = diff.norm();
 
         // Calculate magnitude of repulsion vector
-        double min_range =
-            is_team ? minimum_team_range_ : minimum_nonteam_range_;
+        double min_range = is_team ? minimum_team_range_ : minimum_nonteam_range_;
         double O_mag = 0;
         if (dist > sphere_of_influence_) {
             O_mag = 0;
         } else if (min_range < dist && dist <= sphere_of_influence_) {
-            O_mag = (sphere_of_influence_ - dist) /
-                    (sphere_of_influence_ - min_range);
+            O_mag = (sphere_of_influence_ - dist) / (sphere_of_influence_ - min_range);
         } else if (dist <= min_range) {
             O_mag = 1e10;
         }
@@ -216,18 +204,14 @@ bool Boids::step_autonomy(double t, double dt) {
     Eigen::Vector3d v_goal_w_gain = v_goal * w_goal_;
     Eigen::Vector3d O_team_vec_w_gain = O_team_vec * w_avoid_team_;
     Eigen::Vector3d O_nonteam_vec_w_gain = O_nonteam_vec * w_avoid_nonteam_;
-    Eigen::Vector3d v_centroid_w_gain =
-        (centroid - state_->pos()).normalized() * w_centroid_;
+    Eigen::Vector3d v_centroid_w_gain = (centroid - state_->pos()).normalized() * w_centroid_;
     Eigen::Vector3d v_align_w_gain = v_align_normed * w_align_;
 
-    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() +
-                       O_nonteam_vec_w_gain.norm() + v_centroid_w_gain.norm() +
-                       v_align_norm;
+    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() + O_nonteam_vec_w_gain.norm() +
+                       v_centroid_w_gain.norm() + v_align_norm;
 
     Eigen::Vector3d v_sum =
-        (v_goal_w_gain + O_team_vec_w_gain + O_nonteam_vec_w_gain +
-         v_centroid_w_gain + v_align_w_gain) /
-        sum_norms;
+        (v_goal_w_gain + O_team_vec_w_gain + O_nonteam_vec_w_gain + v_centroid_w_gain + v_align_w_gain) / sum_norms;
 
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;
@@ -248,8 +232,7 @@ bool Boids::step_autonomy(double t, double dt) {
             line->set_opacity(0.75);
             sc::set(line->mutable_color(), 255, 255, 0);
             sc::set(line->mutable_line()->mutable_start(), state_->pos());
-            sc::set(line->mutable_line()->mutable_end(),
-                    vel_result + state_->pos());
+            sc::set(line->mutable_line()->mutable_end(), vel_result + state_->pos());
             draw_shape(line);
         }
     } else {
@@ -264,10 +247,8 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     double desired_pitch = atan2(v(2), v.head<2>().norm());
 
     vars_.output(io_vel_idx_, max_speed_);
-    vars_.output(io_turn_rate_idx_,
-                 Angles::angle_pi(desired_heading - state_->quat().yaw()));
-    vars_.output(io_pitch_rate_idx_,
-                 Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+    vars_.output(io_turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
+    vars_.output(io_pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
 
     vars_.output(io_heading_idx_, desired_heading);
     vars_.output(io_altitude_idx_, v(2));

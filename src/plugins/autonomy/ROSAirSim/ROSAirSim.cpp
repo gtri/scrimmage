@@ -51,16 +51,14 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim,
-                ROSAirSim_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAirSim, ROSAirSim_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 ROSAirSim::ROSAirSim() {}
 
-Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(
-    Eigen::Isometry3f vehicle_pose_world_NED) {
+Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isometry3f vehicle_pose_world_NED) {
     // Get Vehicle Pose from NED to ENU
     Eigen::Matrix<float, 3, 1> vehicle_position_ENU;
     vehicle_position_ENU.x() = vehicle_pose_world_NED.translation().y();
@@ -76,25 +74,20 @@ Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(
     double zTo = 90 * (M_PI / 180);    // PI/2 rotation about Z (Up)
     Eigen::Quaternion<float> vehicle_orientation_ENU;
     vehicle_orientation_ENU =
-        Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) *
-        NED_quat_vehicle;  // -PI rotation about X
+        Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat_vehicle;  // -PI rotation about X
     vehicle_orientation_ENU =
-        Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) *
-        vehicle_orientation_ENU;  // PI/2 rotation about Z (Up)
+        Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) * vehicle_orientation_ENU;  // PI/2 rotation about Z (Up)
     // Bring vehicle pose in relation to ENU, World into Eigen
     Eigen::Translation3f translation_trans_vehicle(vehicle_position_ENU);
     Eigen::Quaternionf rotation_quat_vehicle(vehicle_orientation_ENU);
-    Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle *
-                                           rotation_quat_vehicle);
+    Eigen::Isometry3f tf_world_vehicle_ENU(translation_trans_vehicle * rotation_quat_vehicle);
     return tf_world_vehicle_ENU;
 }
 
-Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(
-    Eigen::Isometry3f vehicle_pose_world_NED,
-    Eigen::Isometry3f sensor_pose_world_NED) {
+Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::Isometry3f vehicle_pose_world_NED,
+                                                                         Eigen::Isometry3f sensor_pose_world_NED) {
     // Get Vehicle Pose from NED to ENU
-    Eigen::Isometry3f tf_world_vehicle_ENU =
-        get_vehicle_world_pose_from_NED_to_ENU(vehicle_pose_world_NED);
+    Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(vehicle_pose_world_NED);
 
     // AirSim gives pose of camera in relation to the world frame
     // Pose in response is in NED, but scrimmage is in ENU so convert
@@ -102,8 +95,7 @@ Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(
     Eigen::Matrix<float, 3, 1> sensor_position_world_ENU;
     sensor_position_world_ENU.x() = sensor_pose_world_NED.translation().y();
     sensor_position_world_ENU.y() = sensor_pose_world_NED.translation().x();
-    sensor_position_world_ENU.z() =
-        -1 * sensor_pose_world_NED.translation().z();
+    sensor_position_world_ENU.z() = -1 * sensor_pose_world_NED.translation().z();
     // Convert the orientation to ENU
     // Eigen::Quaternion<float> NED_quat = sensor_pose_world_NED.rotation();
     Eigen::Quaternionf NED_quat(sensor_pose_world_NED.rotation());
@@ -112,27 +104,22 @@ Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(
     double zTo = 90 * (M_PI / 180);    // PI/2 rotation about Z (Up)
     Eigen::Quaternion<float> sensor_orientation_world_ENU;
     sensor_orientation_world_ENU =
-        Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) *
-        NED_quat;  // -PI rotation about X
-    sensor_orientation_world_ENU =
-        Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) *
-        sensor_orientation_world_ENU;  // PI/2 rotation about Z (Up)
+        Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX()) * NED_quat;  // -PI rotation about X
+    sensor_orientation_world_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ()) *
+                                   sensor_orientation_world_ENU;  // PI/2 rotation about Z (Up)
     // Place pose of camera in ENU, world frame into Eigen
     Eigen::Translation3f translation_trans_sensor(sensor_position_world_ENU);
     Eigen::Quaternionf rotation_quat_sensor(sensor_orientation_world_ENU);
-    Eigen::Isometry3f tf_world_sensor_ENU(translation_trans_sensor *
-                                          rotation_quat_sensor);
+    Eigen::Isometry3f tf_world_sensor_ENU(translation_trans_sensor * rotation_quat_sensor);
 
     // Get pose of lidar in ENU, vehicle frame using Eigen
-    Eigen::Isometry3f tf_vehicle_sensor_ENU(tf_world_vehicle_ENU.inverse() *
-                                            tf_world_sensor_ENU);
+    Eigen::Isometry3f tf_vehicle_sensor_ENU(tf_world_vehicle_ENU.inverse() * tf_world_sensor_ENU);
     return tf_vehicle_sensor_ENU;
 }
 
 void ROSAirSim::init(std::map<std::string, std::string> &params) {
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
-    show_camera_images_ =
-        scrimmage::get<bool>("show_camera_images", params, "false");
+    show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
     pub_image_data_ = sc::get<bool>("pub_image_data", params, "true");
     pub_lidar_data_ = sc::get<bool>("pub_lidar_data", params, "true");
     pub_imu_data_ = sc::get<bool>("pub_imu_data", params, "true");
@@ -240,24 +227,18 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             // for each image in the message
             for (sc::sensor::AirSimImageType a : image_data_) {
                 // Create the topic name -- ROS needs lowercase names
-                std::string camera_name =
-                    boost::algorithm::to_lower_copy(a.camera_config.cam_name);
-                std::string image_type_name = boost::algorithm::to_lower_copy(
-                    a.camera_config.img_type_name);
-                std::string cam_topic_name =
-                    ros_namespace_ + "/camera/" + camera_name;
-                std::string topic_name_pub =
-                    cam_topic_name + "/" + image_type_name;
+                std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
+                std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
+                std::string cam_topic_name = ros_namespace_ + "/camera/" + camera_name;
+                std::string topic_name_pub = cam_topic_name + "/" + image_type_name;
                 std::string info_topic_name_pub = topic_name_pub + "/info";
                 topic_name_pub += +"/raw";
                 // std::string topic_name = "/" + topic_name_pub;
 
                 if (ros_python_) {
-                    img_publishers_.push_back(
-                        nh_->advertise<sensor_msgs::Image>(topic_name_pub, 1));
+                    img_publishers_.push_back(nh_->advertise<sensor_msgs::Image>(topic_name_pub, 1));
                 } else {
-                    trans_img_publishers_.push_back(
-                        it_->advertise(topic_name_pub, 1));
+                    trans_img_publishers_.push_back(it_->advertise(topic_name_pub, 1));
                 }
 
                 // Publish camera info message
@@ -274,11 +255,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 info_msg.distortion_model = "plumb_bob";
                 info_msg.K = {fx, 0.f, cx, 0.f, fy, cy, 0.f, 0.f, 1.f};
                 info_msg.R = {1.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 1.f};
-                info_msg.P = {fx, 0.f, cx,  0.f, 0.f, fy,
-                              cy, 0.f, 0.f, 0.f, 1.f, 0.f};
-                cam_info_publishers_.push_back(
-                    nh_->advertise<sensor_msgs::CameraInfo>(info_topic_name_pub,
-                                                            1));
+                info_msg.P = {fx, 0.f, cx, 0.f, 0.f, fy, cy, 0.f, 0.f, 0.f, 1.f, 0.f};
+                cam_info_publishers_.push_back(nh_->advertise<sensor_msgs::CameraInfo>(info_topic_name_pub, 1));
                 // publish using last publisher created
                 cam_info_publishers_.back().publish(info_msg);
 
@@ -290,11 +268,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 // Depth Images (Depth Perspective and Depth Planner) come in as
                 // 1 channel float arrays
                 if (a.camera_config.pixels_as_float) {
-                    img_msg =
-                        cv_bridge::CvImage(header, "", a.img).toImageMsg();
+                    img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
                 } else {
-                    img_msg =
-                        cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
+                    img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
                 }
                 // Publish to the last publisher added to img_publishers_
                 if (ros_python_) {
@@ -307,11 +283,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 // Note down camera names since each camera will need its own
                 // image transform old_cam_name=true if camera_name already
                 // exists
-                bool old_cam_name =
-                    std::any_of(camera_names_.begin(), camera_names_.end(),
-                                [camera_name](std::string str) {
-                                    return str == camera_name;
-                                });
+                bool old_cam_name = std::any_of(camera_names_.begin(), camera_names_.end(),
+                                                [camera_name](std::string str) { return str == camera_name; });
                 // If false, this is a new camera name, save and publish
                 // transform
                 if (!old_cam_name) {
@@ -322,12 +295,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
                     // Get Vehicle Pose from NED to ENU
                     Eigen::Isometry3f tf_world_vehicle_ENU =
-                        get_vehicle_world_pose_from_NED_to_ENU(
-                            a.vehicle_pose_world_NED);
+                        get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
                     // Get pose of lidar in ENU, vehicle frame using Eigen
                     Eigen::Isometry3f tf_vehicle_camera_ENU =
-                        get_sensor_pose_from_worldNED_to_vehicleENU(
-                            a.vehicle_pose_world_NED, a.camera_pose_world_NED);
+                        get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED, a.camera_pose_world_NED);
 
                     //////////////////////////////////////////////////////////////////////
                     // Update and Publish Transforms
@@ -337,33 +308,23 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     if (ros_cartographer_) {
                         world_trans_.child_frame_id = ros_namespace_;
                     } else {
-                        world_trans_.child_frame_id =
-                            ros_namespace_ + "/base_link";
+                        world_trans_.child_frame_id = ros_namespace_ + "/base_link";
                     }
-                    world_trans_.transform.translation.x =
-                        tf_world_vehicle_ENU.translation().x();
-                    world_trans_.transform.translation.y =
-                        tf_world_vehicle_ENU.translation().y();
-                    world_trans_.transform.translation.z =
-                        tf_world_vehicle_ENU.translation().z();
-                    Eigen::Quaternionf tf_vehicle_pose_rotation(
-                        tf_world_vehicle_ENU.rotation());
-                    world_trans_.transform.rotation.x =
-                        tf_vehicle_pose_rotation.x();
-                    world_trans_.transform.rotation.y =
-                        tf_vehicle_pose_rotation.y();
-                    world_trans_.transform.rotation.z =
-                        tf_vehicle_pose_rotation.z();
-                    world_trans_.transform.rotation.w =
-                        tf_vehicle_pose_rotation.w();
+                    world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                    world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                    world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                    Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                    world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                    world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                    world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                    world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
                     world_trans_.header.stamp = ros::Time::now();
                     tf_msg_vec_.push_back(world_trans_);
 
                     // Send Robot Transform to Base Link
                     if (ros_cartographer_) {
                         vehicle_trans_.header.frame_id = ros_namespace_;
-                        vehicle_trans_.child_frame_id =
-                            ros_namespace_ + "/base_link";
+                        vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
                         vehicle_trans_.header.stamp = ros::Time::now();
                         vehicle_trans_.transform.translation.x = 0.0;
                         vehicle_trans_.transform.translation.y = 0.0;
@@ -378,29 +339,20 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     // cout << "publishing transform for: " << camera_name <<
                     // endl; Publish Image transform to broadcaster
                     geometry_msgs::TransformStamped image_trans_;
-                    image_trans_.header.frame_id =
-                        ros_namespace_ + "/base_link";
+                    image_trans_.header.frame_id = ros_namespace_ + "/base_link";
                     image_trans_.child_frame_id = cam_topic_name + "_link";
                     image_trans_.header.stamp = ros::Time::now();
 
                     // Position
-                    image_trans_.transform.translation.x =
-                        tf_vehicle_camera_ENU.translation().x();
-                    image_trans_.transform.translation.y =
-                        tf_vehicle_camera_ENU.translation().y();
-                    image_trans_.transform.translation.z =
-                        tf_vehicle_camera_ENU.translation().z();
+                    image_trans_.transform.translation.x = tf_vehicle_camera_ENU.translation().x();
+                    image_trans_.transform.translation.y = tf_vehicle_camera_ENU.translation().y();
+                    image_trans_.transform.translation.z = tf_vehicle_camera_ENU.translation().z();
                     // Orientation
-                    Eigen::Quaternionf tf_vehicle_camera_ENU_rotation(
-                        tf_vehicle_camera_ENU.rotation());
-                    image_trans_.transform.rotation.w =
-                        tf_vehicle_camera_ENU_rotation.w();
-                    image_trans_.transform.rotation.x =
-                        tf_vehicle_camera_ENU_rotation.x();
-                    image_trans_.transform.rotation.y =
-                        tf_vehicle_camera_ENU_rotation.y();
-                    image_trans_.transform.rotation.z =
-                        tf_vehicle_camera_ENU_rotation.z();
+                    Eigen::Quaternionf tf_vehicle_camera_ENU_rotation(tf_vehicle_camera_ENU.rotation());
+                    image_trans_.transform.rotation.w = tf_vehicle_camera_ENU_rotation.w();
+                    image_trans_.transform.rotation.x = tf_vehicle_camera_ENU_rotation.x();
+                    image_trans_.transform.rotation.y = tf_vehicle_camera_ENU_rotation.y();
+                    image_trans_.transform.rotation.z = tf_vehicle_camera_ENU_rotation.z();
                     tf_msg_vec_.push_back(image_trans_);
 
                     laser_broadcaster_->sendTransform(tf_msg_vec_);
@@ -432,13 +384,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             // for each image in the message
             for (sc::sensor::AirSimLidarType l : lidar_data_) {
                 // Create the topic name
-                std::string lidar_name =
-                    boost::algorithm::to_lower_copy(l.lidar_name);
+                std::string lidar_name = boost::algorithm::to_lower_copy(l.lidar_name);
                 std::string topic_name_pub = ros_namespace_ + "/" + lidar_name;
                 // std::string topic_name = "/" + topic_name_pub;
-                lidar_publishers_.push_back(
-                    nh_->advertise<sensor_msgs::PointCloud2>(topic_name_pub,
-                                                             1));
+                lidar_publishers_.push_back(nh_->advertise<sensor_msgs::PointCloud2>(topic_name_pub, 1));
                 sensor_msgs::PointCloud2 lidar_msg;
                 lidar_msg.header.stamp = ros::Time::now();
                 lidar_msg.header.frame_id = topic_name_pub + "_link";
@@ -453,11 +402,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     lidar_msg.fields[2].name = "z";
                     int offset = 0;
 
-                    for (size_t d = 0; d < lidar_msg.fields.size();
-                         ++d, offset += 4) {
+                    for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
                         lidar_msg.fields[d].offset = offset;
-                        lidar_msg.fields[d].datatype =
-                            sensor_msgs::PointField::FLOAT32;
+                        lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
                         lidar_msg.fields[d].count = 1;
                     }
 
@@ -468,10 +415,8 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                     lidar_msg.is_dense = true;
                     std::vector<float> data_std = l.lidar_data.point_cloud;
 
-                    const unsigned char *bytes =
-                        reinterpret_cast<const unsigned char *>(&data_std[0]);
-                    vector<unsigned char> lidar_msg_data(
-                        bytes, bytes + sizeof(float) * data_std.size());
+                    const unsigned char *bytes = reinterpret_cast<const unsigned char *>(&data_std[0]);
+                    vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
                     lidar_msg.data = std::move(lidar_msg_data);
                 }
 
@@ -487,12 +432,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
                 // Get Vehicle Pose from NED to ENU
                 Eigen::Isometry3f tf_world_vehicle_ENU =
-                    get_vehicle_world_pose_from_NED_to_ENU(
-                        l.vehicle_pose_world_NED);
+                    get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
                 // Get pose of lidar in ENU, vehicle frame using Eigen
                 Eigen::Isometry3f tf_vehicle_lidar_ENU =
-                    get_sensor_pose_from_worldNED_to_vehicleENU(
-                        l.vehicle_pose_world_NED, l.lidar_pose_world_NED);
+                    get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED, l.lidar_pose_world_NED);
 
                 //////////////////////////////////////////////////////////////////////
                 // Update and Publish Transforms
@@ -504,30 +447,21 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 } else {
                     world_trans_.child_frame_id = ros_namespace_ + "/base_link";
                 }
-                world_trans_.transform.translation.x =
-                    tf_world_vehicle_ENU.translation().x();
-                world_trans_.transform.translation.y =
-                    tf_world_vehicle_ENU.translation().y();
-                world_trans_.transform.translation.z =
-                    tf_world_vehicle_ENU.translation().z();
-                Eigen::Quaternionf tf_vehicle_pose_rotation(
-                    tf_world_vehicle_ENU.rotation());
-                world_trans_.transform.rotation.x =
-                    tf_vehicle_pose_rotation.x();
-                world_trans_.transform.rotation.y =
-                    tf_vehicle_pose_rotation.y();
-                world_trans_.transform.rotation.z =
-                    tf_vehicle_pose_rotation.z();
-                world_trans_.transform.rotation.w =
-                    tf_vehicle_pose_rotation.w();
+                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
                 world_trans_.header.stamp = ros::Time::now();
                 tf_msg_vec_.push_back(world_trans_);
 
                 // Send Robot Transform to Base Link
                 if (ros_cartographer_) {
                     vehicle_trans_.header.frame_id = ros_namespace_;
-                    vehicle_trans_.child_frame_id =
-                        ros_namespace_ + "/base_link";
+                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
                     vehicle_trans_.header.stamp = ros::Time::now();
                     vehicle_trans_.transform.translation.x = 0.0;
                     vehicle_trans_.transform.translation.y = 0.0;
@@ -546,23 +480,15 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 lidar_trans_.header.stamp = ros::Time::now();
 
                 // Position
-                lidar_trans_.transform.translation.x =
-                    tf_vehicle_lidar_ENU.translation().x();
-                lidar_trans_.transform.translation.y =
-                    tf_vehicle_lidar_ENU.translation().y();
-                lidar_trans_.transform.translation.z =
-                    tf_vehicle_lidar_ENU.translation().z();
+                lidar_trans_.transform.translation.x = tf_vehicle_lidar_ENU.translation().x();
+                lidar_trans_.transform.translation.y = tf_vehicle_lidar_ENU.translation().y();
+                lidar_trans_.transform.translation.z = tf_vehicle_lidar_ENU.translation().z();
                 // Orientation
-                Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(
-                    tf_vehicle_lidar_ENU.rotation());
-                lidar_trans_.transform.rotation.w =
-                    tf_vehicle_lidar_ENU_rotation.w();
-                lidar_trans_.transform.rotation.x =
-                    tf_vehicle_lidar_ENU_rotation.x();
-                lidar_trans_.transform.rotation.y =
-                    tf_vehicle_lidar_ENU_rotation.y();
-                lidar_trans_.transform.rotation.z =
-                    tf_vehicle_lidar_ENU_rotation.z();
+                Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(tf_vehicle_lidar_ENU.rotation());
+                lidar_trans_.transform.rotation.w = tf_vehicle_lidar_ENU_rotation.w();
+                lidar_trans_.transform.rotation.x = tf_vehicle_lidar_ENU_rotation.x();
+                lidar_trans_.transform.rotation.y = tf_vehicle_lidar_ENU_rotation.y();
+                lidar_trans_.transform.rotation.z = tf_vehicle_lidar_ENU_rotation.z();
                 tf_msg_vec_.push_back(lidar_trans_);
 
                 laser_broadcaster_->sendTransform(tf_msg_vec_);
@@ -593,12 +519,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
             // for each image in the message
             for (sc::sensor::AirSimImuType i : imu_data_) {
                 // Create the topic name
-                std::string imu_name =
-                    boost::algorithm::to_lower_copy(i.imu_name);
+                std::string imu_name = boost::algorithm::to_lower_copy(i.imu_name);
                 std::string topic_name_pub = ros_namespace_ + "/" + imu_name;
                 // std::string topic_name = "/" + topic_name_pub;
-                imu_publishers_.push_back(
-                    nh_->advertise<sensor_msgs::Imu>(topic_name_pub, 1));
+                imu_publishers_.push_back(nh_->advertise<sensor_msgs::Imu>(topic_name_pub, 1));
 
                 // Publish current message so we don't miss any imu data
                 sensor_msgs::Imu imu_msg;
@@ -611,12 +535,9 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 imu_msg.angular_velocity.x = i.imu_data.angular_velocity.x();
                 imu_msg.angular_velocity.y = i.imu_data.angular_velocity.y();
                 imu_msg.angular_velocity.z = i.imu_data.angular_velocity.z();
-                imu_msg.linear_acceleration.x =
-                    i.imu_data.linear_acceleration.x();
-                imu_msg.linear_acceleration.y =
-                    i.imu_data.linear_acceleration.y();
-                imu_msg.linear_acceleration.z =
-                    i.imu_data.linear_acceleration.z();
+                imu_msg.linear_acceleration.x = i.imu_data.linear_acceleration.x();
+                imu_msg.linear_acceleration.y = i.imu_data.linear_acceleration.y();
+                imu_msg.linear_acceleration.z = i.imu_data.linear_acceleration.z();
                 // Publish to the last publisher added to imu_publishers_
                 imu_publishers_.back().publish(imu_msg);
 
@@ -629,12 +550,10 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
 
                 // Get Vehicle Pose from NED to ENU
                 Eigen::Isometry3f tf_world_vehicle_ENU =
-                    get_vehicle_world_pose_from_NED_to_ENU(
-                        i.vehicle_pose_world_NED);
+                    get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
                 // Get pose of lidar in ENU, vehicle frame using Eigen
                 Eigen::Isometry3f tf_vehicle_imu_ENU =
-                    get_sensor_pose_from_worldNED_to_vehicleENU(
-                        i.vehicle_pose_world_NED, i.imu_pose_world_NED);
+                    get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED, i.imu_pose_world_NED);
 
                 //////////////////////////////////////////////////////////////////////
                 // Update and Publish Transforms
@@ -646,30 +565,21 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 } else {
                     world_trans_.child_frame_id = ros_namespace_ + "/base_link";
                 }
-                world_trans_.transform.translation.x =
-                    tf_world_vehicle_ENU.translation().x();
-                world_trans_.transform.translation.y =
-                    tf_world_vehicle_ENU.translation().y();
-                world_trans_.transform.translation.z =
-                    tf_world_vehicle_ENU.translation().z();
-                Eigen::Quaternionf tf_vehicle_pose_rotation(
-                    tf_world_vehicle_ENU.rotation());
-                world_trans_.transform.rotation.x =
-                    tf_vehicle_pose_rotation.x();
-                world_trans_.transform.rotation.y =
-                    tf_vehicle_pose_rotation.y();
-                world_trans_.transform.rotation.z =
-                    tf_vehicle_pose_rotation.z();
-                world_trans_.transform.rotation.w =
-                    tf_vehicle_pose_rotation.w();
+                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
                 world_trans_.header.stamp = ros::Time::now();
                 tf_msg_vec_.push_back(world_trans_);
 
                 if (ros_cartographer_) {
                     // Send Robot Transform to Base Link
                     vehicle_trans_.header.frame_id = ros_namespace_;
-                    vehicle_trans_.child_frame_id =
-                        ros_namespace_ + "/base_link";
+                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
                     vehicle_trans_.header.stamp = ros::Time::now();
                     vehicle_trans_.transform.translation.x = 0.0;
                     vehicle_trans_.transform.translation.y = 0.0;
@@ -688,23 +598,15 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 imu_trans_.header.stamp = ros::Time::now();
 
                 // Position
-                imu_trans_.transform.translation.x =
-                    tf_vehicle_imu_ENU.translation().x();
-                imu_trans_.transform.translation.y =
-                    tf_vehicle_imu_ENU.translation().y();
-                imu_trans_.transform.translation.z =
-                    tf_vehicle_imu_ENU.translation().z();
+                imu_trans_.transform.translation.x = tf_vehicle_imu_ENU.translation().x();
+                imu_trans_.transform.translation.y = tf_vehicle_imu_ENU.translation().y();
+                imu_trans_.transform.translation.z = tf_vehicle_imu_ENU.translation().z();
                 // Orientation
-                Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(
-                    tf_vehicle_imu_ENU.rotation());
-                imu_trans_.transform.rotation.w =
-                    tf_vehicle_imu_ENU_rotation.w();
-                imu_trans_.transform.rotation.x =
-                    tf_vehicle_imu_ENU_rotation.x();
-                imu_trans_.transform.rotation.y =
-                    tf_vehicle_imu_ENU_rotation.y();
-                imu_trans_.transform.rotation.z =
-                    tf_vehicle_imu_ENU_rotation.z();
+                Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(tf_vehicle_imu_ENU.rotation());
+                imu_trans_.transform.rotation.w = tf_vehicle_imu_ENU_rotation.w();
+                imu_trans_.transform.rotation.x = tf_vehicle_imu_ENU_rotation.x();
+                imu_trans_.transform.rotation.y = tf_vehicle_imu_ENU_rotation.y();
+                imu_trans_.transform.rotation.z = tf_vehicle_imu_ENU_rotation.z();
                 tf_msg_vec_.push_back(imu_trans_);
 
                 laser_broadcaster_->sendTransform(tf_msg_vec_);
@@ -720,16 +622,13 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     };
 
     if (pub_imu_data_) {
-        subscribe<std::vector<sensor::AirSimImuType>>(
-            "LocalNetwork", "AirSimImu", airsim_imu_cb);
+        subscribe<std::vector<sensor::AirSimImuType>>("LocalNetwork", "AirSimImu", airsim_imu_cb);
     }
     if (pub_lidar_data_) {
-        subscribe<std::vector<sensor::AirSimLidarType>>(
-            "LocalNetwork", "AirSimLidar", airsim_lidar_cb);
+        subscribe<std::vector<sensor::AirSimLidarType>>("LocalNetwork", "AirSimLidar", airsim_lidar_cb);
     }
     if (pub_image_data_) {
-        subscribe<std::vector<sensor::AirSimImageType>>(
-            "LocalNetwork", "AirSimImages", airsim_image_cb);
+        subscribe<std::vector<sensor::AirSimImageType>>("LocalNetwork", "AirSimImages", airsim_image_cb);
     }
 }
 
@@ -764,18 +663,12 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     imu_msg.orientation.y = i.imu_data.orientation.y();
                     imu_msg.orientation.z = i.imu_data.orientation.z();
                     imu_msg.orientation.w = i.imu_data.orientation.w();
-                    imu_msg.angular_velocity.x =
-                        i.imu_data.angular_velocity.x();
-                    imu_msg.angular_velocity.y =
-                        i.imu_data.angular_velocity.y();
-                    imu_msg.angular_velocity.z =
-                        i.imu_data.angular_velocity.z();
-                    imu_msg.linear_acceleration.x =
-                        i.imu_data.linear_acceleration.x();
-                    imu_msg.linear_acceleration.y =
-                        i.imu_data.linear_acceleration.y();
-                    imu_msg.linear_acceleration.z =
-                        i.imu_data.linear_acceleration.z();
+                    imu_msg.angular_velocity.x = i.imu_data.angular_velocity.x();
+                    imu_msg.angular_velocity.y = i.imu_data.angular_velocity.y();
+                    imu_msg.angular_velocity.z = i.imu_data.angular_velocity.z();
+                    imu_msg.linear_acceleration.x = i.imu_data.linear_acceleration.x();
+                    imu_msg.linear_acceleration.y = i.imu_data.linear_acceleration.y();
+                    imu_msg.linear_acceleration.z = i.imu_data.linear_acceleration.z();
                     pub.publish(imu_msg);
                     break;  // break publish for loop after image is published
                 }  // end if topic name matches
@@ -783,13 +676,10 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
             //// for each imu publish a transform
             // Get Vehicle Pose from NED to ENU
-            Eigen::Isometry3f tf_world_vehicle_ENU =
-                get_vehicle_world_pose_from_NED_to_ENU(
-                    i.vehicle_pose_world_NED);
+            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(i.vehicle_pose_world_NED);
             // Get pose of imu in ENU, vehicle frame using Eigen
             Eigen::Isometry3f tf_vehicle_imu_ENU =
-                get_sensor_pose_from_worldNED_to_vehicleENU(
-                    i.vehicle_pose_world_NED, i.imu_pose_world_NED);
+                get_sensor_pose_from_worldNED_to_vehicleENU(i.vehicle_pose_world_NED, i.imu_pose_world_NED);
 
             // cout << "If not publishing lidar or image data, publish world
             // frame from imu" << endl;
@@ -805,14 +695,10 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             } else {
                 world_trans_.child_frame_id = ros_namespace_ + "/base_link";
             }
-            world_trans_.transform.translation.x =
-                tf_world_vehicle_ENU.translation().x();
-            world_trans_.transform.translation.y =
-                tf_world_vehicle_ENU.translation().y();
-            world_trans_.transform.translation.z =
-                tf_world_vehicle_ENU.translation().z();
-            Eigen::Quaternionf tf_vehicle_pose_rotation(
-                tf_world_vehicle_ENU.rotation());
+            world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+            world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+            world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+            Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
             world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
             world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
             world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
@@ -841,15 +727,11 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             imu_trans_.child_frame_id = topic_name_pub + "_link";
             imu_trans_.header.stamp = ros::Time::now();
             // Position
-            imu_trans_.transform.translation.x =
-                tf_vehicle_imu_ENU.translation().x();
-            imu_trans_.transform.translation.y =
-                tf_vehicle_imu_ENU.translation().y();
-            imu_trans_.transform.translation.z =
-                tf_vehicle_imu_ENU.translation().z();
+            imu_trans_.transform.translation.x = tf_vehicle_imu_ENU.translation().x();
+            imu_trans_.transform.translation.y = tf_vehicle_imu_ENU.translation().y();
+            imu_trans_.transform.translation.z = tf_vehicle_imu_ENU.translation().z();
             // Orientation
-            Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(
-                tf_vehicle_imu_ENU.rotation());
+            Eigen::Quaternionf tf_vehicle_imu_ENU_rotation(tf_vehicle_imu_ENU.rotation());
             imu_trans_.transform.rotation.w = tf_vehicle_imu_ENU_rotation.w();
             imu_trans_.transform.rotation.x = tf_vehicle_imu_ENU_rotation.x();
             imu_trans_.transform.rotation.y = tf_vehicle_imu_ENU_rotation.y();
@@ -868,8 +750,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
         // All image topics should be published
         for (sc::sensor::AirSimLidarType l : lidar_data_) {
             // Create the topic name
-            std::string lidar_name =
-                boost::algorithm::to_lower_copy(l.lidar_name);
+            std::string lidar_name = boost::algorithm::to_lower_copy(l.lidar_name);
             std::string topic_name_pub = ros_namespace_ + "/" + lidar_name;
             std::string topic_name_match = "/" + topic_name_pub;
             sensor_msgs::PointCloud2 lidar_msg;
@@ -891,27 +772,21 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         lidar_msg.fields[2].name = "z";
                         int offset = 0;
 
-                        for (size_t d = 0; d < lidar_msg.fields.size();
-                             ++d, offset += 4) {
+                        for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4) {
                             lidar_msg.fields[d].offset = offset;
-                            lidar_msg.fields[d].datatype =
-                                sensor_msgs::PointField::FLOAT32;
+                            lidar_msg.fields[d].datatype = sensor_msgs::PointField::FLOAT32;
                             lidar_msg.fields[d].count = 1;
                         }
 
                         lidar_msg.is_bigendian = false;
                         lidar_msg.point_step = offset;  // 4 * num fields
-                        lidar_msg.row_step =
-                            lidar_msg.point_step * lidar_msg.width;
+                        lidar_msg.row_step = lidar_msg.point_step * lidar_msg.width;
 
                         lidar_msg.is_dense = true;
                         std::vector<float> data_std = l.lidar_data.point_cloud;
 
-                        const unsigned char *bytes =
-                            reinterpret_cast<const unsigned char *>(
-                                &data_std[0]);
-                        vector<unsigned char> lidar_msg_data(
-                            bytes, bytes + sizeof(float) * data_std.size());
+                        const unsigned char *bytes = reinterpret_cast<const unsigned char *>(&data_std[0]);
+                        vector<unsigned char> lidar_msg_data(bytes, bytes + sizeof(float) * data_std.size());
                         lidar_msg.data = std::move(lidar_msg_data);
                     }
                     pub.publish(lidar_msg);
@@ -922,13 +797,10 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
             //// publish a transform for each lidar
             // Get Vehicle Pose from NED to ENU
-            Eigen::Isometry3f tf_world_vehicle_ENU =
-                get_vehicle_world_pose_from_NED_to_ENU(
-                    l.vehicle_pose_world_NED);
+            Eigen::Isometry3f tf_world_vehicle_ENU = get_vehicle_world_pose_from_NED_to_ENU(l.vehicle_pose_world_NED);
             // Get pose of lidar in ENU, vehicle frame using Eigen
             Eigen::Isometry3f tf_vehicle_lidar_ENU =
-                get_sensor_pose_from_worldNED_to_vehicleENU(
-                    l.vehicle_pose_world_NED, l.lidar_pose_world_NED);
+                get_sensor_pose_from_worldNED_to_vehicleENU(l.vehicle_pose_world_NED, l.lidar_pose_world_NED);
 
             // If not publishing imu, publish world frame from lidar -- 2nd
             // least receiving/ processing time.
@@ -946,29 +818,20 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                 } else {
                     world_trans_.child_frame_id = ros_namespace_ + "/base_link";
                 }
-                world_trans_.transform.translation.x =
-                    tf_world_vehicle_ENU.translation().x();
-                world_trans_.transform.translation.y =
-                    tf_world_vehicle_ENU.translation().y();
-                world_trans_.transform.translation.z =
-                    tf_world_vehicle_ENU.translation().z();
-                Eigen::Quaternionf tf_vehicle_pose_rotation(
-                    tf_world_vehicle_ENU.rotation());
-                world_trans_.transform.rotation.x =
-                    tf_vehicle_pose_rotation.x();
-                world_trans_.transform.rotation.y =
-                    tf_vehicle_pose_rotation.y();
-                world_trans_.transform.rotation.z =
-                    tf_vehicle_pose_rotation.z();
-                world_trans_.transform.rotation.w =
-                    tf_vehicle_pose_rotation.w();
+                world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
                 tf_msg_vec_.push_back(world_trans_);
 
                 if (ros_cartographer_) {
                     // Send Robot Transform to Base Link
                     vehicle_trans_.header.frame_id = ros_namespace_;
-                    vehicle_trans_.child_frame_id =
-                        ros_namespace_ + "/base_link";
+                    vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
                     vehicle_trans_.header.stamp = ros::Time::now();
                     vehicle_trans_.transform.translation.x = 0.0;
                     vehicle_trans_.transform.translation.y = 0.0;
@@ -987,23 +850,15 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
             lidar_trans_.header.stamp = ros::Time::now();
 
             // Position
-            lidar_trans_.transform.translation.x =
-                tf_vehicle_lidar_ENU.translation().x();
-            lidar_trans_.transform.translation.y =
-                tf_vehicle_lidar_ENU.translation().y();
-            lidar_trans_.transform.translation.z =
-                tf_vehicle_lidar_ENU.translation().z();
+            lidar_trans_.transform.translation.x = tf_vehicle_lidar_ENU.translation().x();
+            lidar_trans_.transform.translation.y = tf_vehicle_lidar_ENU.translation().y();
+            lidar_trans_.transform.translation.z = tf_vehicle_lidar_ENU.translation().z();
             // Orientation
-            Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(
-                tf_vehicle_lidar_ENU.rotation());
-            lidar_trans_.transform.rotation.w =
-                tf_vehicle_lidar_ENU_rotation.w();
-            lidar_trans_.transform.rotation.x =
-                tf_vehicle_lidar_ENU_rotation.x();
-            lidar_trans_.transform.rotation.y =
-                tf_vehicle_lidar_ENU_rotation.y();
-            lidar_trans_.transform.rotation.z =
-                tf_vehicle_lidar_ENU_rotation.z();
+            Eigen::Quaternionf tf_vehicle_lidar_ENU_rotation(tf_vehicle_lidar_ENU.rotation());
+            lidar_trans_.transform.rotation.w = tf_vehicle_lidar_ENU_rotation.w();
+            lidar_trans_.transform.rotation.x = tf_vehicle_lidar_ENU_rotation.x();
+            lidar_trans_.transform.rotation.y = tf_vehicle_lidar_ENU_rotation.y();
+            lidar_trans_.transform.rotation.z = tf_vehicle_lidar_ENU_rotation.z();
             tf_msg_vec_.push_back(lidar_trans_);
         }  // end lidars in message for loop
     }
@@ -1018,12 +873,9 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
         // All image topics should be published
         for (sc::sensor::AirSimImageType a : image_data_) {
             // create string to match using topic name
-            std::string camera_name =
-                boost::algorithm::to_lower_copy(a.camera_config.cam_name);
-            std::string image_type_name =
-                boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
-            std::string topic_name_pub = ros_namespace_ + "/camera/" +
-                                         camera_name + "/" + image_type_name;
+            std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
+            std::string image_type_name = boost::algorithm::to_lower_copy(a.camera_config.img_type_name);
+            std::string topic_name_pub = ros_namespace_ + "/camera/" + camera_name + "/" + image_type_name;
             // std::string info_topic_name_pub = topic_name_pub + "/info";
             topic_name_pub += +"/raw";
             std::string topic_name_match = "/" + topic_name_pub;
@@ -1042,11 +894,9 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         // Depth Images (Depth Perspective and Depth Planner)
                         // come in as 1 channel float arrays
                         if (a.camera_config.pixels_as_float) {
-                            img_msg = cv_bridge::CvImage(header, "", a.img)
-                                          .toImageMsg();
+                            img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
                         } else {
-                            img_msg = cv_bridge::CvImage(header, "rgb8", a.img)
-                                          .toImageMsg();
+                            img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
                         }
                         pub.publish(img_msg);
                         break;  // break publish for loop after image is
@@ -1060,11 +910,9 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         // Depth Images (Depth Perspective and Depth Planner)
                         // come in as 1 channel float arrays
                         if (a.camera_config.pixels_as_float) {
-                            img_msg = cv_bridge::CvImage(header, "", a.img)
-                                          .toImageMsg();
+                            img_msg = cv_bridge::CvImage(header, "", a.img).toImageMsg();
                         } else {
-                            img_msg = cv_bridge::CvImage(header, "rgb8", a.img)
-                                          .toImageMsg();
+                            img_msg = cv_bridge::CvImage(header, "rgb8", a.img).toImageMsg();
                         }
                         pub.publish(img_msg);
                         break;  // break publish for loop after image is
@@ -1075,9 +923,8 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
             // draw image
             if (show_camera_images_) {
-                std::string window_name = a.vehicle_name + "_" +
-                                          a.camera_config.cam_name + "_" +
-                                          a.camera_config.img_type_name;
+                std::string window_name =
+                    a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
                 if (a.camera_config.pixels_as_float) {
                     cv::Mat tempImage;
                     a.img.convertTo(tempImage, CV_32FC1, 1.f / 255);
@@ -1114,19 +961,15 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                 if (a.camera_config.cam_name == cam_name) {
                     // cout << "publishing transform for: " << cam_name << endl;
                     // create string to match using topic name
-                    std::string camera_name = boost::algorithm::to_lower_copy(
-                        a.camera_config.cam_name);
-                    std::string cam_topic_name =
-                        ros_namespace_ + "/camera/" + camera_name;
+                    std::string camera_name = boost::algorithm::to_lower_copy(a.camera_config.cam_name);
+                    std::string cam_topic_name = ros_namespace_ + "/camera/" + camera_name;
 
                     // Get Vehicle Pose from NED to ENU
                     Eigen::Isometry3f tf_world_vehicle_ENU =
-                        get_vehicle_world_pose_from_NED_to_ENU(
-                            a.vehicle_pose_world_NED);
+                        get_vehicle_world_pose_from_NED_to_ENU(a.vehicle_pose_world_NED);
                     // Get pose of camera in ENU, vehicle frame using Eigen
                     Eigen::Isometry3f tf_vehicle_camera_ENU =
-                        get_sensor_pose_from_worldNED_to_vehicleENU(
-                            a.vehicle_pose_world_NED, a.camera_pose_world_NED);
+                        get_sensor_pose_from_worldNED_to_vehicleENU(a.vehicle_pose_world_NED, a.camera_pose_world_NED);
                     // cout << "publishing transform for: " << cam_name << endl;
 
                     // If not publishing lidar or imu data, publish world frame
@@ -1140,32 +983,22 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         if (ros_cartographer_) {
                             world_trans_.child_frame_id = ros_namespace_;
                         } else {
-                            world_trans_.child_frame_id =
-                                ros_namespace_ + "/base_link";
+                            world_trans_.child_frame_id = ros_namespace_ + "/base_link";
                         }
-                        world_trans_.transform.translation.x =
-                            tf_world_vehicle_ENU.translation().x();
-                        world_trans_.transform.translation.y =
-                            tf_world_vehicle_ENU.translation().y();
-                        world_trans_.transform.translation.z =
-                            tf_world_vehicle_ENU.translation().z();
-                        Eigen::Quaternionf tf_vehicle_pose_rotation(
-                            tf_world_vehicle_ENU.rotation());
-                        world_trans_.transform.rotation.x =
-                            tf_vehicle_pose_rotation.x();
-                        world_trans_.transform.rotation.y =
-                            tf_vehicle_pose_rotation.y();
-                        world_trans_.transform.rotation.z =
-                            tf_vehicle_pose_rotation.z();
-                        world_trans_.transform.rotation.w =
-                            tf_vehicle_pose_rotation.w();
+                        world_trans_.transform.translation.x = tf_world_vehicle_ENU.translation().x();
+                        world_trans_.transform.translation.y = tf_world_vehicle_ENU.translation().y();
+                        world_trans_.transform.translation.z = tf_world_vehicle_ENU.translation().z();
+                        Eigen::Quaternionf tf_vehicle_pose_rotation(tf_world_vehicle_ENU.rotation());
+                        world_trans_.transform.rotation.x = tf_vehicle_pose_rotation.x();
+                        world_trans_.transform.rotation.y = tf_vehicle_pose_rotation.y();
+                        world_trans_.transform.rotation.z = tf_vehicle_pose_rotation.z();
+                        world_trans_.transform.rotation.w = tf_vehicle_pose_rotation.w();
                         tf_msg_vec_.push_back(world_trans_);
 
                         if (ros_cartographer_) {
                             // Send Robot Transform to Base Link
                             vehicle_trans_.header.frame_id = ros_namespace_;
-                            vehicle_trans_.child_frame_id =
-                                ros_namespace_ + "/base_link";
+                            vehicle_trans_.child_frame_id = ros_namespace_ + "/base_link";
                             vehicle_trans_.header.stamp = ros::Time::now();
                             vehicle_trans_.transform.translation.x = 0.0;
                             vehicle_trans_.transform.translation.y = 0.0;
@@ -1180,30 +1013,21 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
                     // Publish Image transform to broadcaster
                     geometry_msgs::TransformStamped image_trans_;
-                    image_trans_.header.frame_id =
-                        ros_namespace_ + "/base_link";
+                    image_trans_.header.frame_id = ros_namespace_ + "/base_link";
                     image_trans_.child_frame_id = cam_topic_name + "_link";
                     image_trans_.header.stamp = ros::Time::now();
 
                     // Pose in image_data.pose is in NED, but scrimmage is in
                     // ENU so use the conversion done in AirSimSensor Position
-                    image_trans_.transform.translation.x =
-                        tf_vehicle_camera_ENU.translation().x();
-                    image_trans_.transform.translation.y =
-                        tf_vehicle_camera_ENU.translation().y();
-                    image_trans_.transform.translation.z =
-                        tf_vehicle_camera_ENU.translation().z();
+                    image_trans_.transform.translation.x = tf_vehicle_camera_ENU.translation().x();
+                    image_trans_.transform.translation.y = tf_vehicle_camera_ENU.translation().y();
+                    image_trans_.transform.translation.z = tf_vehicle_camera_ENU.translation().z();
                     // Orientation
-                    Eigen::Quaternionf tf_vehicle_camera_ENU_rotation(
-                        tf_vehicle_camera_ENU.rotation());
-                    image_trans_.transform.rotation.w =
-                        tf_vehicle_camera_ENU_rotation.w();
-                    image_trans_.transform.rotation.x =
-                        tf_vehicle_camera_ENU_rotation.x();
-                    image_trans_.transform.rotation.y =
-                        tf_vehicle_camera_ENU_rotation.y();
-                    image_trans_.transform.rotation.z =
-                        tf_vehicle_camera_ENU_rotation.z();
+                    Eigen::Quaternionf tf_vehicle_camera_ENU_rotation(tf_vehicle_camera_ENU.rotation());
+                    image_trans_.transform.rotation.w = tf_vehicle_camera_ENU_rotation.w();
+                    image_trans_.transform.rotation.x = tf_vehicle_camera_ENU_rotation.x();
+                    image_trans_.transform.rotation.y = tf_vehicle_camera_ENU_rotation.y();
+                    image_trans_.transform.rotation.z = tf_vehicle_camera_ENU_rotation.z();
                     tf_msg_vec_.push_back(image_trans_);
 
                     break;  // break the image in msg for loop if camera_name is

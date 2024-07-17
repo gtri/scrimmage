@@ -50,8 +50,7 @@ namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 namespace pl = std::placeholders;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::MotionBattery,
-                MotionBattery_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::MotionBattery, MotionBattery_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -62,8 +61,7 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     for (auto &kv : vars_.output_variable_index()) {
         int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
         int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
-        io_map_[kv.first] =
-            std::make_unique<VarLimit>(in_idx, out_idx, 0.0, 0.0, false);
+        io_map_[kv.first] = std::make_unique<VarLimit>(in_idx, out_idx, 0.0, 0.0, false);
     }
 
     double charge = sc::get<double>("charge_initial", params, 1.0);
@@ -72,8 +70,7 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     battery_ = Battery(charge_min, charge_max, charge);
 
     std::vector<std::vector<std::string>> vecs;
-    if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""),
-                        vecs)) {
+    if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""), vecs)) {
         for (auto &vec : vecs) {
             if (vec.size() != 5) {
                 cout << "Invalid depletion mapping: " << endl;
@@ -86,8 +83,7 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
             std::string name = vec[0];
             auto it_name = io_map_.find(name);
             if (it_name == io_map_.end()) {
-                cout << "MotionBattery: Invalid variable name: " << name
-                     << endl;
+                cout << "MotionBattery: Invalid variable name: " << name << endl;
             } else {
                 it_name->second->depletion_rate = std::stod(vec[1]);
                 it_name->second->limit_when_depleted = str2bool(vec[3]);
@@ -104,12 +100,10 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
             battery_.add_charge(msg->data.charge_amount());
         }
     };
-    subscribe<sm::Charge>("GlobalNetwork", "ChargeAdded",
-                          callback_charge_added);
+    subscribe<sm::Charge>("GlobalNetwork", "ChargeAdded", callback_charge_added);
 
     // Service call to get battery charge
-    parent_->services()["get_battery_charge"] =
-        std::bind(&MotionBattery::get_battery_charge, this, pl::_1, pl::_2);
+    parent_->services()["get_battery_charge"] = std::bind(&MotionBattery::get_battery_charge, this, pl::_1, pl::_2);
 
     publish_charge_ = sc::get<bool>("publish_charge", params, publish_charge_);
     pub_charge_percentage_ = advertise("LocalNetwork", "ChargePercentage");
@@ -117,8 +111,7 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
 
 bool MotionBattery::step(double t, double dt) {
     if (publish_charge_) {
-        auto msg =
-            std::make_shared<sc::Message<double>>(battery_.charge_percentage());
+        auto msg = std::make_shared<sc::Message<double>>(battery_.charge_percentage());
         pub_charge_percentage_->publish(msg);
     }
 
@@ -140,16 +133,12 @@ bool MotionBattery::step(double t, double dt) {
     return true;
 }
 
-bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request,
-                                       scrimmage::MessageBasePtr &response) {
+bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response) {
     response = std::make_shared<sc::Message<double>>(battery_.current_charge());
     return true;
 }
 
-double MotionBattery::calculate_charge_usage(const double &throttle,
-                                             const double &dt) {
-    return 0.0;
-}
+double MotionBattery::calculate_charge_usage(const double &throttle, const double &dt) { return 0.0; }
 
 }  // namespace controller
 }  // namespace scrimmage

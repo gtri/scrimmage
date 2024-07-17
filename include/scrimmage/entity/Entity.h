@@ -56,8 +56,7 @@ using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 
 namespace scrimmage {
 
-using Service =
-    std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
@@ -66,26 +65,19 @@ class Entity : public std::enable_shared_from_this<Entity> {
     /*! \name utilities */
     ///@{
 
-    bool init(
-        AttributeMap &overrides, std::map<std::string, std::string> &info,
-        std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-        std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-        ContactMapPtr &contacts, MissionParsePtr mp,
-        const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id,
-        int ent_desc_id, PluginManagerPtr plugin_manager,
-        FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
-        PrintPtr &printer, TimePtr &time,
-        const ParameterServerPtr &param_server,
-        const GlobalServicePtr &global_services,
-        const std::set<std::string> &plugin_tags,
-        std::function<void(std::map<std::string, std::string> &)>
-            param_override_func,
-        const int &debug_level = 0);
+    bool init(AttributeMap &overrides, std::map<std::string, std::string> &info,
+              std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map, ContactMapPtr &contacts,
+              MissionParsePtr mp, const std::shared_ptr<GeographicLib::LocalCartesian> &proj, int id, int ent_desc_id,
+              PluginManagerPtr plugin_manager, FileSearchPtr &file_search, RTreePtr &rtree, PubSubPtr &pubsub,
+              PrintPtr &printer, TimePtr &time, const ParameterServerPtr &param_server,
+              const GlobalServicePtr &global_services, const std::set<std::string> &plugin_tags,
+              std::function<void(std::map<std::string, std::string> &)> param_override_func,
+              const int &debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 
-    bool parse_visual(std::map<std::string, std::string> &info,
-                      MissionParsePtr mp,
+    bool parse_visual(std::map<std::string, std::string> &info, MissionParsePtr mp,
                       std::map<std::string, std::string> &overrides);
 
     void close(double t);
@@ -97,24 +89,20 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void setup_desired_state();
     bool ready();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res,
-                      const std::string &service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
 
     bool call_service(MessageBasePtr &res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
 
     template <class T = MessageBasePtr,
-              class = typename std::enable_if<
-                  !std::is_same<T, MessageBasePtr>::value, void>::type>
-    bool call_service(MessageBasePtr req, T &res,
-                      const std::string &service_name) {
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(MessageBasePtr req, T &res, const std::string &service_name) {
         MessageBasePtr res_base;
         if (call_service(req, res_base, service_name)) {
             res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
             if (res == nullptr) {
-                print(std::string("could not cast for service ") +
-                      service_name);
+                print(std::string("could not cast for service ") + service_name);
                 return false;
             } else {
                 return true;
@@ -125,8 +113,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     }
 
     template <class T = MessageBasePtr,
-              class = typename std::enable_if<
-                  !std::is_same<T, MessageBasePtr>::value, void>::type>
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
     bool call_service(T &res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
@@ -147,8 +134,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     int health_points();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
-    void set_projection(
-        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
     void set_mp(MissionParsePtr mp);
     MissionParsePtr mp();
@@ -164,8 +150,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     scrimmage_proto::ContactVisualPtr &contact_visual();
 
     std::unordered_map<std::string, SensorPtr> &sensors();
-    std::unordered_map<std::string, SensorPtr> sensors(
-        const std::string &sensor_name);
+    std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
     SensorPtr sensor(const std::string &sensor_name);
 
     // Enables creating services at the entity level
@@ -203,8 +188,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
  protected:
     ID id_;
 
-    scrimmage_proto::ContactVisualPtr visual_ =
-        std::make_shared<scrimmage_proto::ContactVisual>();
+    scrimmage_proto::ContactVisualPtr visual_ = std::make_shared<scrimmage_proto::ContactVisual>();
 
     std::vector<ControllerPtr> controllers_;
     MotionModelPtr motion_model_;

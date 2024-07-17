@@ -55,17 +55,12 @@ namespace scrimmage {
 
 ConfigParse::ConfigParse() {}
 
-void ConfigParse::set_required(std::string node_name) {
-    required_.push_back(node_name);
-}
+void ConfigParse::set_required(std::string node_name) { required_.push_back(node_name); }
 
-void ConfigParse::recursive_params(
-    rx::xml_node<char> *root,
-    const std::map<std::string, std::string> &overrides,
-    std::map<std::string, std::string> &params, const std::string &prev) {
+void ConfigParse::recursive_params(rx::xml_node<char> *root, const std::map<std::string, std::string> &overrides,
+                                   std::map<std::string, std::string> &params, const std::string &prev) {
     // End condition
-    if (root == 0 || root->name() == std::string("") ||
-        root->name() == std::string(" ")) {
+    if (root == 0 || root->name() == std::string("") || root->name() == std::string(" ")) {
         return;
     }
 
@@ -101,12 +96,10 @@ void ConfigParse::recursive_params(
     recursive_params(root->next_sibling(), overrides, params, prev);
 }
 
-bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
-                        std::string filename, std::string env_var,
+bool ConfigParse::parse(const std::map<std::string, std::string> &overrides, std::string filename, std::string env_var,
                         FileSearch &file_search, bool verbose) {
     std::string result = "";
-    bool status =
-        file_search.find_file(filename, "xml", env_var, result, verbose);
+    bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
         if (boost::algorithm::to_lower_copy(filename) != "sphere") {
             // sphere does not have a filename so we do not

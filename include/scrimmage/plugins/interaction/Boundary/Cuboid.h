@@ -56,8 +56,7 @@ class Cuboid : public BoundaryBase {
  public:
     Cuboid() {}
 
-    Cuboid(Eigen::Vector3d center, double x_length, double y_width,
-           double z_height, scrimmage::Quaternion quat) {
+    Cuboid(Eigen::Vector3d center, double x_length, double y_width, double z_height, scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -81,12 +80,9 @@ class Cuboid : public BoundaryBase {
     }
 
     explicit Cuboid(const scrimmage_proto::Shape &shape)
-        : Cuboid(proto_2_vector3d(shape.cuboid().center()),
-                 shape.cuboid().x_length(), shape.cuboid().y_length(),
-                 shape.cuboid().z_length(),
-                 sc::proto_2_quat(shape.cuboid().quat())) {
-        set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
-                   shape.opacity());
+        : Cuboid(proto_2_vector3d(shape.cuboid().center()), shape.cuboid().x_length(), shape.cuboid().y_length(),
+                 shape.cuboid().z_length(), sc::proto_2_quat(shape.cuboid().quat())) {
+        set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 
     void compute_dots() {
@@ -109,8 +105,7 @@ class Cuboid : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) &&
-            (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
             (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
@@ -128,11 +123,9 @@ class Cuboid : public BoundaryBase {
         center_ << xy_center(0), xy_center(1), alt_center;
 
         // Compute min / max values for x, y, z
-        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
-                             std::numeric_limits<double>::infinity(),
+        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity(),
                              std::numeric_limits<double>::infinity());
-        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
-                             -std::numeric_limits<double>::infinity(),
+        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(), -std::numeric_limits<double>::infinity(),
                              -std::numeric_limits<double>::infinity());
         for (Eigen::Vector3d p : points) {
             for (int i = 0; i < 3; i++) {
@@ -141,12 +134,9 @@ class Cuboid : public BoundaryBase {
             }
         }
         extents_.clear();
-        extents_.push_back(
-            std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
-        extents_.push_back(
-            std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
-        extents_.push_back(
-            std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
+        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
+        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
+        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -159,8 +149,7 @@ class Cuboid : public BoundaryBase {
         const int num_faces = 6;
         const int vert_per_face = 4;
         int vert_lookup[num_faces][vert_per_face] = {
-            {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4},
-            {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
+            {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4}, {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
         };
 
         for (int f = 0; f < num_faces; f++) {

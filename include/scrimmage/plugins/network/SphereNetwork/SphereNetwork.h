@@ -50,9 +50,8 @@ class SphereNetwork : public scrimmage::Network {
     bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
                       const scrimmage::EntityPluginPtr &sub_plugin) override;
 
-    bool is_successful_transmission(
-        const scrimmage::EntityPluginPtr &pub_plugin,
-        const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                    const scrimmage::EntityPluginPtr &sub_plugin) override;
     double range_;
     double prob_transmit_;
 

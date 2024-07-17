@@ -42,44 +42,32 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::DoubleIntegratorControllerVelYaw,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerVelYaw,
                 DoubleIntegratorControllerVelYaw_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void DoubleIntegratorControllerVelYaw::init(
-    std::map<std::string, std::string> &params) {
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::In);
+void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string> &params) {
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
-    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x,
-                               VariableIO::Direction::Out);
-    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y,
-                               VariableIO::Direction::Out);
-    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z,
-                               VariableIO::Direction::Out);
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
+    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);
+    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 
     if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains"
-             << endl;
+        cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains" << endl;
     }
 
     if (!sc::set_pid_gains(speed_pid_, params["speed_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid"
-             << endl;
+        cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid" << endl;
     }
 
     if (!sc::set_pid_gains(alt_pid_, params["alt_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid"
-             << endl;
+        cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid" << endl;
     }
 }
 

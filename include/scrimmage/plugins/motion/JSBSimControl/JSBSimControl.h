@@ -64,8 +64,7 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
 
     virtual std::tuple<int, int, int> version();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
  protected:

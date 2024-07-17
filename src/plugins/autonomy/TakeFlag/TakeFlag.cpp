@@ -54,8 +54,7 @@ using std::endl;
 namespace sm = scrimmage_msgs;
 namespace sci = scrimmage::interaction;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::TakeFlag,
-                TakeFlag_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::TakeFlag, TakeFlag_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -67,26 +66,21 @@ void TakeFlag::init(std::map<std::string, std::string> &params) {
     capture_boundary_id_ = get<int>("capture_boundary_id", params, 1);
 
     auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
-        std::shared_ptr<sci::BoundaryBase> boundary =
-            sci::Boundary::make_boundary(msg->data);
+        std::shared_ptr<sci::BoundaryBase> boundary = sci::Boundary::make_boundary(msg->data);
         boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
     };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
     auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
-        if (msg->data.entity_id() == parent_->id().id() &&
-            msg->data.flag_boundary_id() == flag_boundary_id_) {
+        if (msg->data.entity_id() == parent_->id().id() && msg->data.flag_boundary_id() == flag_boundary_id_) {
             has_flag_ = true;
         }
     };
     subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
 
-    output_vel_x_idx_ =
-        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-    output_vel_y_idx_ =
-        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-    output_vel_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool TakeFlag::step_autonomy(double t, double dt) {

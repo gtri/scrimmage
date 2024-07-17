@@ -34,9 +34,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UnicycleControllerPoint,
-                UnicycleControllerPoint_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerPoint, UnicycleControllerPoint_plugin)
 
 namespace scrimmage {
 namespace controller {

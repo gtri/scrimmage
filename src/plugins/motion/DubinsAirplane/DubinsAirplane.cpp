@@ -41,8 +41,7 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane,
-                DubinsAirplane_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane, DubinsAirplane_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -53,29 +52,21 @@ namespace pl = std::placeholders;
 
 enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, MODEL_NUM_ITEMS };
 
-bool DubinsAirplane::init(std::map<std::string, std::string> &info,
-                          std::map<std::string, std::string> &params) {
+bool DubinsAirplane::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     // Model limits
     speed_max_ = sc::get<double>("speed_max", params, speed_max_);
     speed_min_ = sc::get<double>("speed_min", params, speed_min_);
-    pitch_max_ =
-        sc::Angles::deg2rad(sc::get<double>("pitch_max", params, pitch_max_));
-    pitch_min_ =
-        sc::Angles::deg2rad(sc::get<double>("pitch_min", params, pitch_min_));
-    roll_max_ =
-        sc::Angles::deg2rad(sc::get<double>("roll_max", params, roll_max_));
-    roll_min_ =
-        sc::Angles::deg2rad(sc::get<double>("roll_min", params, roll_min_));
+    pitch_max_ = sc::Angles::deg2rad(sc::get<double>("pitch_max", params, pitch_max_));
+    pitch_min_ = sc::Angles::deg2rad(sc::get<double>("pitch_min", params, pitch_min_));
+    roll_max_ = sc::Angles::deg2rad(sc::get<double>("roll_max", params, roll_max_));
+    roll_min_ = sc::Angles::deg2rad(sc::get<double>("roll_min", params, roll_min_));
 
     write_csv_ = sc::get<bool>("write_csv", params, false);
 
     // If directly controlling speed, pitch angle, and roll angle (bank)
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
-    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch,
-                                       VariableIO::Direction::In);
-    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll,
-                                      VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch, VariableIO::Direction::In);
+    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
 
     // Model initialization
     x_.resize(MODEL_NUM_ITEMS);
@@ -88,24 +79,19 @@ bool DubinsAirplane::init(std::map<std::string, std::string> &info,
     x_[YAW] = state_->quat().yaw();
 
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" +
-                         std::to_string(parent_->id().id()) +
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
                          "-dubinsairplane-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{"t", "x", "y", "z", "roll",
-                                                 "pitch", "yaw", "speed"});
+        csv_.set_column_headers(sc::CSV::Headers{"t", "x", "y", "z", "roll", "pitch", "yaw", "speed"});
     }
     return true;
 }
 
 bool DubinsAirplane::step(double t, double dt) {
     // Get inputs and saturate
-    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_),
-                                     speed_min_, speed_max_);
-    pitch_ = boost::algorithm::clamp(vars_.input(desired_pitch_idx_),
-                                     pitch_min_, pitch_max_);
-    roll_ = boost::algorithm::clamp(vars_.input(desired_roll_idx_), roll_min_,
-                                    roll_max_);
+    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
+    pitch_ = boost::algorithm::clamp(vars_.input(desired_pitch_idx_), pitch_min_, pitch_max_);
+    roll_ = boost::algorithm::clamp(vars_.input(desired_roll_idx_), roll_min_, roll_max_);
 
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);

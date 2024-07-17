@@ -47,8 +47,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAutonomy,
-                ROSAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ROSAutonomy, ROSAutonomy_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -56,14 +55,10 @@ namespace autonomy {
 ROSAutonomy::ROSAutonomy() {}
 
 void ROSAutonomy::init(std::map<std::string, std::string> &params) {
-    speed_idx_ =
-        vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
-    velocity_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    velocity_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -76,13 +71,10 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     ros_namespace_ = sc::get<std::string>("namespace_prefix", params, "entity");
     ros_namespace_ += std::to_string(parent_->id().id());
 
-    cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1,
-                                  &ROSAutonomy::cmd_vel_cb, this);
+    cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1, &ROSAutonomy::cmd_vel_cb, this);
     odom_pub_ = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/odom", 1);
-    base_scan_pub_ = nh_->advertise<sensor_msgs::LaserScan>(
-        ros_namespace_ + "/base_scan", 1);
-    base_pose_truth_pub = nh_->advertise<nav_msgs::Odometry>(
-        ros_namespace_ + "/base_pose_ground_truth", 1);
+    base_scan_pub_ = nh_->advertise<sensor_msgs::LaserScan>(ros_namespace_ + "/base_scan", 1);
+    base_pose_truth_pub = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/base_pose_ground_truth", 1);
 
     odom_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
     laser_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
@@ -92,22 +84,15 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
 
     laser_trans_.header.frame_id = ros_namespace_ + "/base_link";
     laser_trans_.child_frame_id = ros_namespace_ + "/base_laser";
-    laser_trans_.transform.translation.x =
-        parent_->sensors()["RayTrace0"]->transform()->pos()(0);
-    laser_trans_.transform.translation.y =
-        parent_->sensors()["RayTrace0"]->transform()->pos()(1);
-    laser_trans_.transform.translation.z =
-        parent_->sensors()["RayTrace0"]->transform()->pos()(2);
-    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(
-        parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
+    laser_trans_.transform.translation.x = parent_->sensors()["RayTrace0"]->transform()->pos()(0);
+    laser_trans_.transform.translation.y = parent_->sensors()["RayTrace0"]->transform()->pos()(1);
+    laser_trans_.transform.translation.z = parent_->sensors()["RayTrace0"]->transform()->pos()(2);
+    geometry_msgs::Quaternion laser_quat =
+        tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
     laser_trans_.transform.rotation = laser_quat;
 
-    auto pc_cb =
-        [&](scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
-            pcl_ = msg->data;
-        };
-    subscribe<sc::sensor::RayTrace::PointCloud>("LocalNetwork",
-                                                "RayTrace/pointcloud", pc_cb);
+    auto pc_cb = [&](scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) { pcl_ = msg->data; };
+    subscribe<sc::sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
 
     vars_.output(speed_idx_, 0);
     vars_.output(turn_rate_idx_, 0);
@@ -151,8 +136,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     odom_trans_.transform.translation.y = state_->pos()(1);
     odom_trans_.transform.translation.z = state_->pos()(2);
 
-    geometry_msgs::Quaternion odom_quat =
-        tf::createQuaternionMsgFromYaw(state_->quat().yaw());
+    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(state_->quat().yaw());
     odom_trans_.transform.rotation = odom_quat;
     odom_broadcaster_->sendTransform(odom_trans_);
 
@@ -190,9 +174,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     return true;
 }
 
-void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) {
-    cmd_vel_ = *msg;
-}
+void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) { cmd_vel_ = *msg; }
 
 }  // namespace autonomy
 }  // namespace scrimmage

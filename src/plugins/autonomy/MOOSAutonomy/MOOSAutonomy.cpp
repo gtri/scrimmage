@@ -41,8 +41,7 @@
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MOOSAutonomy,
-                MOOSAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MOOSAutonomy, MOOSAutonomy_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -63,21 +62,16 @@ void MOOSAutonomy::init(std::map<std::string, std::string> &params) {
     moos_app_name_ = sc::get<std::string>("moos_app_name", params, "scrimmage");
     moos_app_name_ += std::string("_") + std::to_string(parent_->id().id());
 
-    moos_script_ = sc::expand_user(
-        sc::get<std::string>("moos_script", params, "launch.sh"));
-    moos_mission_file_ = sc::expand_user(
-        sc::get<std::string>("moos_mission_file", params, "alpha.moos"));
+    moos_script_ = sc::expand_user(sc::get<std::string>("moos_script", params, "launch.sh"));
+    moos_mission_file_ = sc::expand_user(sc::get<std::string>("moos_mission_file", params, "alpha.moos"));
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 21;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
     desired_state_->pos() = Eigen::Vector3d::UnitZ() * state_->pos()(2);
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
     // Kick off moos node thread
     moos_node_.set_time_warp(parent_->mp()->time_warp());
@@ -101,9 +95,8 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
         angles_to_moos_.set_angle(ang::rad2deg(s->quat().yaw()));
         double heading = angles_to_moos_.angle();
 
-        moos_node_.PublishNodeReport(
-            type, std::to_string(kv.first), "", s->pos()(0), s->pos()(1),
-            s->vel().norm(), heading, -s->pos()(2), "kayak", "none", t, "0");
+        moos_node_.PublishNodeReport(type, std::to_string(kv.first), "", s->pos()(0), s->pos()(1), s->vel().norm(),
+                                     heading, -s->pos()(2), "kayak", "none", t, "0");
     }
 
     // Get desired state from moos
@@ -111,8 +104,7 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
 
     // Convert heading to local cartesian
     angles_from_moos_.set_angle(ang::rad2deg(s.quat().yaw()));
-    s.quat().set(s.quat().roll(), s.quat().pitch(),
-                 ang::deg2rad(angles_from_moos_.angle()));
+    s.quat().set(s.quat().roll(), s.quat().pitch(), ang::deg2rad(angles_from_moos_.angle()));
 
     desired_state_->vel() = s.vel();
     desired_state_->quat() = s.quat();
@@ -126,8 +118,6 @@ bool MOOSAutonomy::step_autonomy(double t, double dt) {
     return true;
 }
 
-void MOOSAutonomy::run_moos_node() {
-    moos_node_.Run(moos_app_name_.c_str(), moos_mission_file_.c_str());
-}
+void MOOSAutonomy::run_moos_node() { moos_node_.Run(moos_app_name_.c_str(), moos_mission_file_.c_str()); }
 }  // namespace autonomy
 }  // namespace scrimmage

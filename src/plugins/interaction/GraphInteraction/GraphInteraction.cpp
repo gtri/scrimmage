@@ -67,9 +67,7 @@ namespace fs = ::boost::filesystem;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::GraphInteraction,
-                GraphInteraction_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GraphInteraction, GraphInteraction_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -81,21 +79,17 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
                             std::map<std::string, std::string> &plugin_params) {
     pub_graph_ = advertise("GlobalNetwork", "Graph");
     std::string default_file_name = "default";
-    std::string graph_file_name =
-        sc::get<std::string>("graph_file", plugin_params, default_file_name);
+    std::string graph_file_name = sc::get<std::string>("graph_file", plugin_params, default_file_name);
 
     // If the data tag has been set for this plugin in the  mission file, get
     // the graph and label filenames from that instead of using those above.
     std::map<std::string, std::string> data_params;
     if (sc::parse_autonomy_data(plugin_params, data_params)) {
         FileSearch file_search;
-        graph_file_name =
-            sc::get<std::string>("graph_file", data_params, default_file_name);
+        graph_file_name = sc::get<std::string>("graph_file", data_params, default_file_name);
         if (graph_file_name != default_file_name) {
-            std::string graph_ext =
-                fs::path(graph_file_name).extension().string();
-            file_search.find_file(graph_file_name, graph_ext,
-                                  "SCRIMMAGE_DATA_PATH", graph_file_name);
+            std::string graph_ext = fs::path(graph_file_name).extension().string();
+            file_search.find_file(graph_file_name, graph_ext, "SCRIMMAGE_DATA_PATH", graph_file_name);
         }
     }
 
@@ -160,8 +154,7 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     if (vis_graph_) {
         auto node_idx_to_pos = nodes_idxs_to_pos_map(graph_msg->data);
         auto ptr = std::static_pointer_cast<EntityPlugin>(shared_from_this());
-        bool draw_node_labels =
-            sc::get<bool>("draw_node_labels", plugin_params, true);
+        bool draw_node_labels = sc::get<bool>("draw_node_labels", plugin_params, true);
         auto draw = draw_node_labels ? DrawNodeLabels::YES : DrawNodeLabels::NO;
         draw_graph(graph_msg->data, node_idx_to_pos, draw, ptr);
     }
@@ -169,8 +162,7 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                               double t, double dt) {
+bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     if (ents.empty()) {
         return true;
     }

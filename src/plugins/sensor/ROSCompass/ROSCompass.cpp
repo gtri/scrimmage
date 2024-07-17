@@ -48,8 +48,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ROSCompass,
-                ROSCompass_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ROSCompass, ROSCompass_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -60,8 +59,7 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
     // Setup robot namespace
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "none");
     if (vehicle_name_ == "none") {
-        ros_namespace_ =
-            sc::get<std::string>("ros_namespace_prefix", params, "robot");
+        ros_namespace_ = sc::get<std::string>("ros_namespace_prefix", params, "robot");
         ros_namespace_ += std::to_string(parent_->id().id());
     } else {
         ros_namespace_ = vehicle_name_;
@@ -75,8 +73,7 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
     nh_ = std::make_shared<ros::NodeHandle>();
 
     // Create Publisher
-    compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(
-        ros_namespace_ + "/compass", 1);
+    compass_pub_ = nh_->advertise<sensor_msgs::MagneticField>(ros_namespace_ + "/compass", 1);
 }
 
 bool ROSCompass::step() {
@@ -88,8 +85,7 @@ bool ROSCompass::step() {
     // Get rotation vector
     // Rotate Reverse: Get rotation between orientation of the body and ENU
     // orientation of the north pole (0, 1, 0)
-    Eigen::Vector3d rotation =
-        state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
+    Eigen::Vector3d rotation = state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
 
     // Fill Compass Message. We're using the magnetic field message, but the
     // info is the rotation vector.

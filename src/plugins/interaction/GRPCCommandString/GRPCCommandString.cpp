@@ -49,18 +49,15 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::GRPCCommandString,
-                GRPCCommandString_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GRPCCommandString, GRPCCommandString_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
 GRPCCommandString::GRPCCommandString() {}
 
-bool GRPCCommandString::init(
-    std::map<std::string, std::string> &mission_params,
-    std::map<std::string, std::string> &plugin_params) {
+bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
+                             std::map<std::string, std::string> &plugin_params) {
     ip_ = sc::get<std::string>("ip", plugin_params, ip_);
     port_ = sc::get<int>("port", plugin_params, port_);
 
@@ -69,8 +66,7 @@ bool GRPCCommandString::init(
     return true;
 }
 
-bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                double t, double dt) {
+bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     // Check for new messages:
     msgs_mutex_.lock();
     while (msgs_.size() > 0) {
@@ -91,8 +87,7 @@ bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
             pub = advertise(msg.network(), msg.topic());
             pubs_[msg.network()][msg.topic()] = pub;
         }
-        auto sc_msg = std::make_shared<
-            scrimmage::Message<scrimmage_msgs::CommandString>>();
+        auto sc_msg = std::make_shared<scrimmage::Message<scrimmage_msgs::CommandString>>();
         sc_msg->data = msg;
         pub->publish(sc_msg);
     }

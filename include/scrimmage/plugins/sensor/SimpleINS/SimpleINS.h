@@ -57,8 +57,7 @@ class SimpleINS : public scrimmage::Sensor {
 
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
-    std::vector<std::shared_ptr<std::normal_distribution<double>>>
-        orient_noise_;
+    std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
 
     Eigen::Vector3d pos_error_accum_ = Eigen::Vector3d::Zero();
     Eigen::Vector3d vel_Nminus1 = Eigen::Vector3d::Zero();

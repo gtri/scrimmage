@@ -38,8 +38,7 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::SimpleQuadrotorControllerLQR,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleQuadrotorControllerLQR,
                 SimpleQuadrotorControllerLQR_plugin)
 
 namespace scrimmage {
@@ -47,8 +46,7 @@ namespace controller {
 
 namespace sc = scrimmage;
 
-void SimpleQuadrotorControllerLQR::init(
-    std::map<std::string, std::string> &params) {
+void SimpleQuadrotorControllerLQR::init(std::map<std::string, std::string> &params) {
     double p_gain = sc::get("vel_p_gain", params, 1.0);
     double i_gain = sc::get("vel_i_gain", params, 1.0);
     double d_gain = sc::get("vel_d_gain", params, 1.0);
@@ -68,20 +66,16 @@ bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
     double yaw = state_->quat().yaw();
     double xy_speed = vel.head<2>().norm();
 
-    double yaw_dot = std::isnan(prev_yaw_)
-                         ? 0
-                         : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;
+    double yaw_dot = std::isnan(prev_yaw_) ? 0 : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;
     prev_yaw_ = yaw;
 
     // LQR Altitude Controller:
     double q1 = 1;
-    double z_thrust =
-        -1.0 / q1 * (pos(2) - des_pos(2)) - sqrt(2.0 / q1) * vel(2);
+    double z_thrust = -1.0 / q1 * (pos(2) - des_pos(2)) - sqrt(2.0 / q1) * vel(2);
 
     // LQR Heading Controller:
     double q2 = 1;
-    double turn_force = -1.0 / q2 * sc::Angles::angle_pi(yaw - des_yaw) -
-                        sqrt(2.0 / q2) * yaw_dot;
+    double turn_force = -1.0 / q2 * sc::Angles::angle_pi(yaw - des_yaw) - sqrt(2.0 / q2) * yaw_dot;
 
     // If not close to x/y position, use forward velocity:
     double dist = (des_pos - pos).head<2>().norm();

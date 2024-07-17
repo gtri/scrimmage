@@ -49,9 +49,7 @@ namespace fs = boost::filesystem;
 
 namespace scrimmage {
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map) {
+int next_available_id(std::string name, std::map<std::string, std::string> &info, std::map<int, int> &id_map) {
     int id;
     if (info.count(name) > 0) {
         id = std::stoi(info[name]);
@@ -94,8 +92,7 @@ std::string get_sha(std::string &path) {
     FILE *status_file = popen(status_cmd.c_str(), "r");
 
     char sha[41], status[3];
-    bool success = fgets(sha, 40, sha_file) != NULL &&
-                   fgets(status, 2, status_file) != NULL;
+    bool success = fgets(sha, 40, sha_file) != NULL && fgets(status, 2, status_file) != NULL;
 
     pclose(sha_file);
     pclose(status_file);
@@ -119,8 +116,7 @@ std::string get_version() {
     }
 }
 
-void filter_line(int downsampling_factor, int num_points,
-                 std::vector<Eigen::Vector3d> &path,
+void filter_line(int downsampling_factor, int num_points, std::vector<Eigen::Vector3d> &path,
                  std::vector<Eigen::Vector3d> &filtered_path) {
     int curvature_sz = path.size() / downsampling_factor;
     std::list<std::pair<int, double>> curvature;
@@ -136,11 +132,9 @@ void filter_line(int downsampling_factor, int num_points,
     }
 
     using Pair = std::pair<int, double>;
-    curvature.sort(
-        [](const Pair &a, const Pair &b) { return a.second > b.second; });
+    curvature.sort([](const Pair &a, const Pair &b) { return a.second > b.second; });
     curvature.erase(std::next(curvature.begin(), num_points), curvature.end());
-    curvature.sort(
-        [](const Pair &a, const Pair &b) { return a.first < b.first; });
+    curvature.sort([](const Pair &a, const Pair &b) { return a.first < b.first; });
 
     filtered_path.clear();
     filtered_path.reserve(curvature.size() + 2);

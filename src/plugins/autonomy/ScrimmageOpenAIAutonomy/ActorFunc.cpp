@@ -54,13 +54,10 @@ namespace scrimmage {
 namespace autonomy {
 
 std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> init_actor_func(
-    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
-    const std::map<std::string, std::string> &params,
-    CombineActors combine_actors, UseGlobalSensor global_sensor,
-    bool grpc_mode) {
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies, const std::map<std::string, std::string> &params,
+    CombineActors combine_actors, UseGlobalSensor global_sensor, bool grpc_mode) {
     if (autonomies.empty()) {
-        return std::make_tuple(OpenAIActions(), OpenAIObservations(),
-                               pybind11::none());
+        return std::make_tuple(OpenAIActions(), OpenAIObservations(), pybind11::none());
     }
 
     OpenAIActions actions;
@@ -84,22 +81,18 @@ std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> init_actor_func(
         // get the actor func
         const std::string module_str = get("module", params, "");
         if (module_str == "") {
-            std::cout << "ERROR: ActorFunc: Missing parameter: module"
-                      << std::endl;
+            std::cout << "ERROR: ActorFunc: Missing parameter: module" << std::endl;
         }
 
-        const std::string actor_init_func_str =
-            get("actor_init_func", params, "");
+        const std::string actor_init_func_str = get("actor_init_func", params, "");
         if (actor_init_func_str == "") {
-            std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func"
-                      << std::endl;
+            std::cout << "ERROR: ActorFunc: Missing parameter: actor_init_func" << std::endl;
         }
 
         py::object m = py::module::import(module_str.c_str());
         actor_init_func = m.attr(actor_init_func_str.c_str());
 
-        actor_func = actor_init_func(actions.action_space,
-                                     observations.observation, params);
+        actor_func = actor_init_func(actions.action_space, observations.observation, params);
     }
     return std::make_tuple(actions, observations, actor_func);
 }

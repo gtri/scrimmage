@@ -48,9 +48,7 @@ class MultirotorState : public scrimmage::State {
 
     void set_input_type(InputType input_type) { input_type_ = input_type; }
 
-    void set_prop_input(Eigen::VectorXd prop_input) {
-        prop_input_ = prop_input;
-    }
+    void set_prop_input(Eigen::VectorXd prop_input) { prop_input_ = prop_input; }
 
     InputType &input_type() { return input_type_; }
 

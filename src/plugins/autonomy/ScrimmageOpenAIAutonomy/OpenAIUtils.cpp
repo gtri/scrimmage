@@ -39,8 +39,7 @@ namespace py = pybind11;
 namespace scrimmage {
 namespace autonomy {
 
-void to_continuous(std::vector<std::pair<double, double>> &p,
-                   pybind11::list &minima, pybind11::list &maxima) {
+void to_continuous(std::vector<std::pair<double, double>> &p, pybind11::list &minima, pybind11::list &maxima) {
     for (auto &value : p) {
         py::list min_max;
         minima.append(value.first);
@@ -54,8 +53,7 @@ void to_discrete(std::vector<int> &p, py::list &maxima) {
     }
 }
 
-pybind11::object create_space(pybind11::list discrete_count,
-                              pybind11::list continuous_minima,
+pybind11::object create_space(pybind11::list discrete_count, pybind11::list continuous_minima,
                               pybind11::list continuous_maxima) {
     py::module np = py::module::import("numpy");
     py::object np_array = np.attr("array");
@@ -66,13 +64,11 @@ pybind11::object create_space(pybind11::list discrete_count,
     py::object gym_box_space = get_gym_space("Box");
     py::object gym_tuple_space = get_gym_space("Tuple");
 
-    py::object discrete_space = py::len(discrete_count) == 1
-                                    ? gym_discrete_space(discrete_count[0])
-                                    : gym_multidiscrete_space(discrete_count);
+    py::object discrete_space =
+        py::len(discrete_count) == 1 ? gym_discrete_space(discrete_count[0]) : gym_multidiscrete_space(discrete_count);
 
     py::object continuous_space =
-        gym_box_space(np_array(continuous_minima), np_array(continuous_maxima),
-                      py::none(), np_float32);
+        gym_box_space(np_array(continuous_minima), np_array(continuous_maxima), py::none(), np_float32);
 
     int len_discrete = py::len(discrete_count);
     int len_continuous = py::len(continuous_minima);
@@ -86,8 +82,7 @@ pybind11::object create_space(pybind11::list discrete_count,
     } else if (len_continuous != 0) {
         return continuous_space;
     } else {
-        throw std::runtime_error(
-            "discrete and continuous space do not have maxima set");
+        throw std::runtime_error("discrete and continuous space do not have maxima set");
     }
 }
 

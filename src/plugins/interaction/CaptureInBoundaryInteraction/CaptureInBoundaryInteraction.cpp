@@ -56,8 +56,7 @@ namespace sci = scrimmage::interaction;
 namespace sm = scrimmage_msgs;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::CaptureInBoundaryInteraction,
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::CaptureInBoundaryInteraction,
                 CaptureInBoundaryInteraction_plugin)
 
 namespace scrimmage {
@@ -66,9 +65,8 @@ namespace interaction {
 CaptureInBoundaryInteraction::CaptureInBoundaryInteraction()
     : capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {}
 
-bool CaptureInBoundaryInteraction::init(
-    std::map<std::string, std::string> &mission_params,
-    std::map<std::string, std::string> &plugin_params) {
+bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string> &mission_params,
+                                        std::map<std::string, std::string> &plugin_params) {
     capture_range_ = sc::get<double>("capture_range", plugin_params, 5.0);
     boundary_id_ = sc::get<int>("boundary_id", plugin_params, 1);
     cool_down_period_ = sc::get<double>("cool_down_period", plugin_params, 0.0);
@@ -86,8 +84,7 @@ bool CaptureInBoundaryInteraction::init(
     return true;
 }
 
-bool CaptureInBoundaryInteraction::step_entity_interaction(
-    std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     if (boundary_ == nullptr) {
         return true;
     }
@@ -109,14 +106,12 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(
             }
         }
 
-        if (cool_down_expired &&
-            ent->id().team_id() == boundary_shape_.id().team_id() &&
+        if (cool_down_expired && ent->id().team_id() == boundary_shape_.id().team_id() &&
             boundary_->contains(ent->state_truth()->pos())) {
             // Find all entities within capture range of this entity
             std::vector<ID> rtree_neighbors;
-            parent_->rtree()->neighbors_in_range(
-                ent->state_truth()->pos(), rtree_neighbors, capture_range_,
-                ent->id().id());
+            parent_->rtree()->neighbors_in_range(ent->state_truth()->pos(), rtree_neighbors, capture_range_,
+                                                 ent->id().id());
 
             // Only copy IDs whose team ID isn't the same as the boundary's
             // team ID.
@@ -135,8 +130,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(
         if (it != possible_captures.end()) {
             // If the entity hasn't been captured yet and it's within the
             // boundary, it is captured
-            if (already_captured_.count(it->first) == 0 &&
-                boundary_->contains(ent->state_truth()->pos())) {
+            if (already_captured_.count(it->first) == 0 && boundary_->contains(ent->state_truth()->pos())) {
                 ent->collision();
 
                 // Keep track of all captured entities

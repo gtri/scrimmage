@@ -59,17 +59,14 @@ namespace sc = scrimmage;
 int main(int argc, char *argv[]) {
     // Declare the supported options.
     po::options_description desc("Allowed options");
-    desc.add_options()("help,h", "produce help message")(
-        "plugin-name,p", po::value<std::string>(), "the plugin name")(
+    desc.add_options()("help,h", "produce help message")("plugin-name,p", po::value<std::string>(), "the plugin name")(
         "verbose,v", "increase debugging output");
 
     po::positional_options_description p;
     p.add("plugin-name", -1);
 
     po::variables_map vm;
-    po::store(
-        po::command_line_parser(argc, argv).options(desc).positional(p).run(),
-        vm);
+    po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
     po::notify(vm);
 
     if (vm.count("help")) {
@@ -90,11 +87,9 @@ int main(int argc, char *argv[]) {
     sc::FileSearch file_search;
     sc::ConfigParse config_parse;
     config_parse.set_required("library");
-    if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH",
-                            file_search, verbose)) {
+    if (!config_parse.parse(overrides, plugin_name_xml, "SCRIMMAGE_PLUGIN_PATH", file_search, verbose)) {
         const std::string plugin_type = "autonomy";
-        std::cout << "Failed to parse: " << plugin_name_xml << " for type "
-                  << plugin_type << std::endl;
+        std::cout << "Failed to parse: " << plugin_name_xml << " for type " << plugin_type << std::endl;
         return -2;
     }
 

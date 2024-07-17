@@ -85,9 +85,8 @@ class Network : public EntityPlugin {
     virtual bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
                               const scrimmage::EntityPluginPtr &sub_plugin);
 
-    virtual bool is_successful_transmission(
-        const scrimmage::EntityPluginPtr &pub_plugin,
-        const scrimmage::EntityPluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                            const scrimmage::EntityPluginPtr &sub_plugin);
 
     virtual double get_transmission_delay();
 

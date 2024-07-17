@@ -52,10 +52,7 @@ OpenAIActions::OpenAIActions()
       box_space_(get_gym_space("Box")),
       asarray_(py::module::import("numpy").attr("asarray")) {}
 
-std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &
-OpenAIActions::ext_ctrl_vec() {
-    return ext_ctrl_vec_;
-}
+std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &OpenAIActions::ext_ctrl_vec() { return ext_ctrl_vec_; }
 
 void OpenAIActions::create_action_space(bool combine_actors) {
     if (ext_ctrl_vec_.empty()) {
@@ -69,12 +66,10 @@ void OpenAIActions::create_action_space(bool combine_actors) {
         for (auto &a : ext_ctrl_vec_) {
             a->set_environment();
             to_discrete(a->action_space.discrete_count, discrete_count);
-            to_continuous(a->action_space.continuous_extrema, continuous_minima,
-                          continuous_maxima);
+            to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
         }
 
-        action_space =
-            create_space(discrete_count, continuous_minima, continuous_maxima);
+        action_space = create_space(discrete_count, continuous_minima, continuous_maxima);
 
     } else {
         py::list action_spaces;
@@ -86,11 +81,9 @@ void OpenAIActions::create_action_space(bool combine_actors) {
 
             a->set_environment();
             to_discrete(a->action_space.discrete_count, discrete_count);
-            to_continuous(a->action_space.continuous_extrema, continuous_minima,
-                          continuous_maxima);
+            to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
 
-            auto space = create_space(discrete_count, continuous_minima,
-                                      continuous_maxima);
+            auto space = create_space(discrete_count, continuous_minima, continuous_maxima);
             action_spaces.append(space);
         }
 
@@ -99,8 +92,7 @@ void OpenAIActions::create_action_space(bool combine_actors) {
     }
 }
 
-void OpenAIActions::distribute_action(pybind11::object action,
-                                      bool combine_actors) {
+void OpenAIActions::distribute_action(pybind11::object action, bool combine_actors) {
     py::array_t<int> disc_actions;
     py::array_t<double> cont_actions;
     int *disc_action_data = nullptr;
@@ -114,13 +106,11 @@ void OpenAIActions::distribute_action(pybind11::object action,
             disc_actions = asarray_(action_list[0], py::str("int"));
             cont_actions = asarray_(action_list[1], py::str("float"));
             disc_action_data = static_cast<int *>(disc_actions.request().ptr);
-            cont_action_data =
-                static_cast<double *>(cont_actions.request().ptr);
+            cont_action_data = static_cast<double *>(cont_actions.request().ptr);
 
         } else if (PyObject_IsInstance(space.ptr(), box_space_.ptr())) {
             cont_actions = asarray_(act);
-            cont_action_data =
-                static_cast<double *>(cont_actions.request().ptr);
+            cont_action_data = static_cast<double *>(cont_actions.request().ptr);
 
         } else {
             disc_actions = asarray_(act);
@@ -128,14 +118,12 @@ void OpenAIActions::distribute_action(pybind11::object action,
         }
     };
 
-    auto put_action = [&](int &idx, size_t from_sz, auto *from_data,
-                          auto &to_vec) {
+    auto put_action = [&](int &idx, size_t from_sz, auto *from_data, auto &to_vec) {
         if (to_vec.size() != from_sz) {
             to_vec.resize(from_sz);
         }
         if (from_data == nullptr && from_sz > 0) {
-            std::cout << "Error: disc_action_data not set correctly"
-                      << std::endl;
+            std::cout << "Error: disc_action_data not set correctly" << std::endl;
             return;
         } else {
             for (size_t i = 0; i < from_sz; i++) {
@@ -145,10 +133,8 @@ void OpenAIActions::distribute_action(pybind11::object action,
     };
 
     auto put_actions = [&](auto a, int &disc_action_idx, int &cont_action_idx) {
-        put_action(disc_action_idx, a->action_space.discrete_count.size(),
-                   disc_action_data, a->action.discrete);
-        put_action(cont_action_idx, a->action_space.continuous_extrema.size(),
-                   cont_action_data, a->action.continuous);
+        put_action(disc_action_idx, a->action_space.discrete_count.size(), disc_action_data, a->action.discrete);
+        put_action(cont_action_idx, a->action_space.continuous_extrema.size(), cont_action_data, a->action.continuous);
     };
 
     if ((ext_ctrl_vec_.size() == 1 || combine_actors)) {
@@ -160,8 +146,7 @@ void OpenAIActions::distribute_action(pybind11::object action,
         }
 
     } else {
-        py::list action_space_list =
-            action_space.attr("spaces").cast<py::list>();
+        py::list action_space_list = action_space.attr("spaces").cast<py::list>();
         py::list action_list = action.cast<py::list>();
         for (size_t i = 0; i < ext_ctrl_vec_.size(); i++) {
             py::object indiv_action_space = action_space_list[i];

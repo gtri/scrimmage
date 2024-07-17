@@ -53,26 +53,20 @@ namespace scrimmage {
 
 template <class T>
 boost::optional<std::shared_ptr<T>> make_autonomy(
-    const std::string &autonomy_name, PluginManagerPtr plugin_manager,
-    std::map<std::string, std::string> &overrides, EntityPtr parent,
-    StatePtr state,
-    std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
+    const std::string &autonomy_name, PluginManagerPtr plugin_manager, std::map<std::string, std::string> &overrides,
+    EntityPtr parent, StatePtr state, std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
     std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-    std::shared_ptr<GeographicLib::LocalCartesian> proj,
-    ContactMapPtr &contacts, FileSearchPtr &file_search, RTreePtr &rtree,
-    PubSubPtr &pubsub, const std::shared_ptr<const Time> &time,
-    const ParameterServerPtr &param_server,
+    std::shared_ptr<GeographicLib::LocalCartesian> proj, ContactMapPtr &contacts, FileSearchPtr &file_search,
+    RTreePtr &rtree, PubSubPtr &pubsub, const std::shared_ptr<const Time> &time, const ParameterServerPtr &param_server,
     const std::set<std::string> &plugin_tags = {},
-    std::function<void(std::map<std::string, std::string> &)>
-        param_override_func = [](std::map<std::string, std::string> &params) {},
+    std::function<void(std::map<std::string, std::string> &)> param_override_func =
+        [](std::map<std::string, std::string> &params) {},
     std::vector<ControllerPtr> controllers = {}, const int &debug_level = 0) {
     ConfigParse config_parse;
-    PluginStatus<T> status = plugin_manager->make_plugin<T>(
-        "scrimmage::Autonomy", autonomy_name, *file_search, config_parse,
-        overrides, plugin_tags);
+    PluginStatus<T> status = plugin_manager->make_plugin<T>("scrimmage::Autonomy", autonomy_name, *file_search,
+                                                            config_parse, overrides, plugin_tags);
     if (status.status == PluginStatus<T>::cast_failed) {
-        std::cout << "Failed to open autonomy plugin: " << autonomy_name
-                  << std::endl;
+        std::cout << "Failed to open autonomy plugin: " << autonomy_name << std::endl;
     } else if (status.status == PluginStatus<T>::parse_failed) {
         std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
     } else if (status.status == PluginStatus<T>::loaded) {
@@ -97,8 +91,7 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
 
         if (debug_level > 1) {
             std::cout << "--------------------------------" << std::endl;
-            std::cout << "Autonomy plugin params: " << autonomy_name
-                      << std::endl;
+            std::cout << "Autonomy plugin params: " << autonomy_name << std::endl;
             std::cout << config_parse;
         }
         autonomy->init(config_parse.params());

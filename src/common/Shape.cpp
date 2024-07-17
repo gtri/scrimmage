@@ -52,10 +52,8 @@ ShapePtr make_shape(const Eigen::Vector3d &color, const double &opacity) {
     return shape;
 }
 
-ShapePtr make_arc(const Eigen::Vector3d &center,
-                  const scrimmage::Quaternion &quat, const double &radius,
-                  const double &angle, const Eigen::Vector3d &color,
-                  const double &opacity) {
+ShapePtr make_arc(const Eigen::Vector3d &center, const scrimmage::Quaternion &quat, const double &radius,
+                  const double &angle, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_arc()->mutable_circle()->mutable_center(), center);
     sc::set(shape->mutable_arc()->mutable_circle()->mutable_quat(), quat);
@@ -64,8 +62,7 @@ ShapePtr make_arc(const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_arrow(const Eigen::Vector3d &pos,
-                    const scrimmage::Quaternion &quat, const double &length,
+ShapePtr make_arrow(const Eigen::Vector3d &pos, const scrimmage::Quaternion &quat, const double &length,
                     const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     Eigen::Vector3d head = pos + quat * (Eigen::Vector3d::UnitX() * length);
@@ -74,8 +71,7 @@ ShapePtr make_arrow(const Eigen::Vector3d &pos,
     return shape;
 }
 
-ShapePtr make_circle(const Eigen::Vector3d &center,
-                     const scrimmage::Quaternion &quat, const double &radius,
+ShapePtr make_circle(const Eigen::Vector3d &center, const scrimmage::Quaternion &quat, const double &radius,
                      const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_circle()->mutable_center(), center);
@@ -85,10 +81,8 @@ ShapePtr make_circle(const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_cone(const Eigen::Vector3d &direction,
-                   const Eigen::Vector3d &apex, const double &height,
-                   const double &base_radius, const Eigen::Vector3d &color,
-                   const double &opacity) {
+ShapePtr make_cone(const Eigen::Vector3d &direction, const Eigen::Vector3d &apex, const double &height,
+                   const double &base_radius, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_cone()->mutable_direction(), direction);
     sc::set(shape->mutable_cone()->mutable_apex(), apex);
@@ -97,10 +91,9 @@ ShapePtr make_cone(const Eigen::Vector3d &direction,
     return shape;
 }
 
-ShapePtr make_cuboid(const Eigen::Vector3d &center,
-                     const scrimmage::Quaternion &quat, const double &x_length,
-                     const double &y_length, const double &z_length,
-                     const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_cuboid(const Eigen::Vector3d &center, const scrimmage::Quaternion &quat, const double &x_length,
+                     const double &y_length, const double &z_length, const Eigen::Vector3d &color,
+                     const double &opacity) {
     auto shape = make_shape(color, opacity);
     shape->mutable_cuboid()->set_x_length(x_length);
     shape->mutable_cuboid()->set_y_length(y_length);
@@ -110,10 +103,8 @@ ShapePtr make_cuboid(const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_ellipse(const Eigen::Vector3d &center,
-                      const scrimmage::Quaternion &quat, const double &x_radius,
-                      const double &y_radius, const Eigen::Vector3d &color,
-                      const double &opacity) {
+ShapePtr make_ellipse(const Eigen::Vector3d &center, const scrimmage::Quaternion &quat, const double &x_radius,
+                      const double &y_radius, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_ellipse()->mutable_center(), center);
     sc::set(shape->mutable_ellipse()->mutable_quat(), quat);
@@ -122,17 +113,16 @@ ShapePtr make_ellipse(const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_line(const Eigen::Vector3d &start, const Eigen::Vector3d &stop,
-                   const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_line(const Eigen::Vector3d &start, const Eigen::Vector3d &stop, const Eigen::Vector3d &color,
+                   const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_line()->mutable_start(), start);
     sc::set(shape->mutable_line()->mutable_end(), stop);
     return shape;
 }
 
-ShapePtr make_mesh(const std::string &name, const Eigen::Vector3d &center,
-                   const scrimmage::Quaternion &quat, const double &scale,
-                   const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_mesh(const std::string &name, const Eigen::Vector3d &center, const scrimmage::Quaternion &quat,
+                   const double &scale, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     shape->mutable_mesh()->set_name(name);
     sc::set(shape->mutable_mesh()->mutable_center(), center);
@@ -141,11 +131,9 @@ ShapePtr make_mesh(const std::string &name, const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_plane(const Eigen::Vector3d &center,
-                    const scrimmage::Quaternion &quat, const double &x_length,
-                    const double &y_length, const std::string &texture,
-                    const bool &diffuse_lighting, const Eigen::Vector3d &color,
-                    const double &opacity) {
+ShapePtr make_plane(const Eigen::Vector3d &center, const scrimmage::Quaternion &quat, const double &x_length,
+                    const double &y_length, const std::string &texture, const bool &diffuse_lighting,
+                    const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_plane()->mutable_center(), center);
     sc::set(shape->mutable_plane()->mutable_quat(), quat);
@@ -156,10 +144,8 @@ ShapePtr make_plane(const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_pointcloud(const std::list<Eigen::Vector3d> &points,
-                         const std::list<Eigen::Vector3d> &point_colors,
-                         const double &size, const Eigen::Vector3d &color,
-                         const double &opacity) {
+ShapePtr make_pointcloud(const std::list<Eigen::Vector3d> &points, const std::list<Eigen::Vector3d> &point_colors,
+                         const double &size, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     shape->mutable_pointcloud()->set_size(size);
     for (const Eigen::Vector3d &p : points) {
@@ -169,8 +155,7 @@ ShapePtr make_pointcloud(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_polydata(const std::list<Eigen::Vector3d> &points,
-                       const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_polydata(const std::list<Eigen::Vector3d> &points, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     for (auto &point : points) {
         auto p = shape->mutable_polydata()->add_point();
@@ -179,8 +164,7 @@ ShapePtr make_polydata(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_polygon(const std::list<Eigen::Vector3d> &points,
-                      const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_polygon(const std::list<Eigen::Vector3d> &points, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     for (auto &point : points) {
         auto p = shape->mutable_polygon()->add_point();
@@ -189,8 +173,8 @@ ShapePtr make_polygon(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_polyhedron(const std::list<Eigen::Vector3d> &points,
-                         const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_polyhedron(const std::list<Eigen::Vector3d> &points, const Eigen::Vector3d &color,
+                         const double &opacity) {
     auto shape = make_shape(color, opacity);
     for (auto point : points) {
         auto p = shape->mutable_polyhedron()->add_point();
@@ -199,8 +183,7 @@ ShapePtr make_polyhedron(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_polyline(const std::list<Eigen::Vector3d> &points,
-                       const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_polyline(const std::list<Eigen::Vector3d> &points, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     for (auto &point : points) {
         auto p = shape->mutable_polyline()->add_point();
@@ -209,16 +192,15 @@ ShapePtr make_polyline(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_sphere(const Eigen::Vector3d &center, const double &radius,
-                     const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_sphere(const Eigen::Vector3d &center, const double &radius, const Eigen::Vector3d &color,
+                     const double &opacity) {
     auto shape = make_shape(color, opacity);
     shape->mutable_sphere()->set_radius(radius);
     sc::set(shape->mutable_sphere()->mutable_center(), center);
     return shape;
 }
 
-ShapePtr make_spline(const std::list<Eigen::Vector3d> &points,
-                     const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_spline(const std::list<Eigen::Vector3d> &points, const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     for (auto point : points) {
         auto p = shape->mutable_spline()->add_point();
@@ -227,8 +209,8 @@ ShapePtr make_spline(const std::list<Eigen::Vector3d> &points,
     return shape;
 }
 
-ShapePtr make_text(const std::string &text, const Eigen::Vector3d &center,
-                   const Eigen::Vector3d &color, const double &opacity) {
+ShapePtr make_text(const std::string &text, const Eigen::Vector3d &center, const Eigen::Vector3d &color,
+                   const double &opacity) {
     auto shape = make_shape(color, opacity);
     shape->mutable_text()->set_text(text);
     shape->mutable_text()->set_scale(1.0);
@@ -236,9 +218,7 @@ ShapePtr make_text(const std::string &text, const Eigen::Vector3d &center,
     return shape;
 }
 
-ShapePtr make_triangle(const Eigen::Vector3d &point0,
-                       const Eigen::Vector3d &point1,
-                       const Eigen::Vector3d &point2,
+ShapePtr make_triangle(const Eigen::Vector3d &point0, const Eigen::Vector3d &point1, const Eigen::Vector3d &point2,
                        const Eigen::Vector3d &color, const double &opacity) {
     auto shape = make_shape(color, opacity);
     sc::set(shape->mutable_triangle()->mutable_point0(), point0);

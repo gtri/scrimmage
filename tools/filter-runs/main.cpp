@@ -54,8 +54,7 @@ using std::endl;
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        cout << "usage: " << argv[0] << " <directory of filter results>"
-             << endl;
+        cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
     }
 
@@ -86,8 +85,7 @@ int main(int argc, char *argv[]) {
     std::map<std::string, std::list<std::string> > scenarios;
 
     // Open each .txt file and extract a metric
-    for (std::vector<std::string>::iterator it = paths.begin();
-         it != paths.end(); ++it) {
+    for (std::vector<std::string>::iterator it = paths.begin(); it != paths.end(); ++it) {
         std::string filename = *it;
 
         if (!fs::exists(fs::path(filename))) {
@@ -130,15 +128,13 @@ int main(int argc, char *argv[]) {
         cout << endl;
         cout << "----------------------------------------------------" << endl;
         int i = 0;
-        for (std::map<std::string, std::list<std::string> >::iterator it =
-                 scenarios.begin();
-             it != scenarios.end(); ++it) {
+        for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin(); it != scenarios.end();
+             ++it) {
             name_2_index[i] = it->first;
             std::string select_str = "[" + std::to_string(i) + "]";
             cout << std::left << std::setw(col_wid) << select_str;
             cout << std::left << std::setw(col_wid) << it->first;
-            cout << std::left << std::setw(col_wid) << it->second.size()
-                 << endl;
+            cout << std::left << std::setw(col_wid) << it->second.size() << endl;
             i++;
         }
         cout << ">> ";
@@ -148,8 +144,7 @@ int main(int argc, char *argv[]) {
 
     cout << "Playing back: " << name_2_index[choose_num] << endl;
 
-    for (std::list<std::string>::iterator it =
-             scenarios[name_2_index[choose_num]].begin();
+    for (std::list<std::string>::iterator it = scenarios[name_2_index[choose_num]].begin();
          it != scenarios[name_2_index[choose_num]].end();
          /* no inc */) {
         cout << "Mission: " << *it << endl;

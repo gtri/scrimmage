@@ -36,14 +36,12 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/RLSimpleSensor/RLSimpleSensor.h>
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLSimpleSensor,
-                RLSimpleSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLSimpleSensor, RLSimpleSensor_plugin)
 
 namespace scrimmage {
 namespace sensor {
 
-void RLSimpleSensor::get_observation(double *data, uint32_t beg_idx,
-                                     uint32_t /*end_idx*/) {
+void RLSimpleSensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
     data[beg_idx] = parent_->state()->pos()(0);
     data[beg_idx + 1] = time_->t();
 }

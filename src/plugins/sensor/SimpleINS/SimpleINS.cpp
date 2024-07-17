@@ -48,8 +48,7 @@
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::SimpleINS,
-                SimpleINS_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::SimpleINS, SimpleINS_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -61,11 +60,9 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
             std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
             double mean, stdev;
-            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2)
-                                        ? std::make_pair(vec[0], vec[1])
-                                        : std::make_pair(0.0, 1.0);
-            noise_vec.push_back(
-                parent_->random()->make_rng_normal(mean, stdev));
+            std::tie(mean, stdev) =
+                get_vec(tag_name, params, " ", vec, 2) ? std::make_pair(vec[0], vec[1]) : std::make_pair(0.0, 1.0);
+            noise_vec.push_back(parent_->random()->make_rng_normal(mean, stdev));
         }
     };
 
@@ -102,8 +99,7 @@ bool SimpleINS::step() {
     auto msg = std::make_shared<Message<StateWithCovariance>>();
 
     if (init_m_) {
-        m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(),
-                                       ns.covariance().cols());
+        m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
         init_m_ = false;
     }
 
@@ -140,8 +136,7 @@ bool SimpleINS::step() {
         // GPS fix on - wait on surface timer and snap back to an identity
         // matrix
         if (time_->t() - prev_time_ > surface_timer_) {
-            m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(),
-                                           ns.covariance().cols());
+            m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
             // Reset the position error accumulator
             pos_error_accum_ = Eigen::Vector3d::Zero();
         }
@@ -157,11 +152,9 @@ bool SimpleINS::step() {
     }
     msg->data.pos() = ns.pos() + pos_error_accum_;
 
-    msg->data.quat() =
-        ns.quat() *
-        Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
-        Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener)) *
-        Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
+    msg->data.quat() = ns.quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
+                       Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener)) *
+                       Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
     msg->data.set_covariance(m_);
 

@@ -52,16 +52,14 @@ class ExternalForceField : public scrimmage::EntityInteraction {
     ExternalForceField();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
 
  protected:
     PublisherPtr pub_;
     ForceType force_type_ = Constant;
     Eigen::Vector3d force_ = Eigen::Vector3d::Zero();
 
-    std::shared_ptr<std::normal_distribution<double>>
-        force_change_period_noise_;
+    std::shared_ptr<std::normal_distribution<double>> force_change_period_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> force_noise_;
 
     double next_sample_time_ = -1.0;

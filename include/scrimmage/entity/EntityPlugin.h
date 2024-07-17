@@ -80,20 +80,15 @@ class EntityPlugin : public Plugin {
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
 
-    void set_scoped_property(const std::string &property_name,
-                             const MessageBasePtr &property);
+    void set_scoped_property(const std::string &property_name, const MessageBasePtr &property);
     MessageBasePtr get_scoped_property_helper(const std::string &property_name);
 
     /* Homogeneous transform from parent link */
     StatePtr transform() { return transform_; }
 
-    virtual void set_id_to_team_map(
-        std::shared_ptr<std::unordered_map<int, int>> lookup) {
-        id_to_team_map_ = lookup;
-    }
+    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int>> lookup) { id_to_team_map_ = lookup; }
 
-    virtual void set_id_to_ent_map(
-        std::shared_ptr<std::unordered_map<int, EntityPtr>> lookup) {
+    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> lookup) {
         id_to_ent_map_ = lookup;
     }
 
@@ -102,30 +97,24 @@ class EntityPlugin : public Plugin {
     VariableIO &vars() { return vars_; }
 
     template <class T, class CallbackFunc>
-    SubscriberBasePtr subscribe(const std::string &network_name,
-                                const std::string &topic,
-                                CallbackFunc callback) {
-        SubscriberBasePtr sub = pubsub_->subscribe<T>(
-            network_name, topic, callback, 0, false,
-            std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+    SubscriberBasePtr subscribe(const std::string &network_name, const std::string &topic, CallbackFunc callback) {
+        SubscriberBasePtr sub = pubsub_->subscribe<T>(network_name, topic, callback, 0, false,
+                                                      std::static_pointer_cast<EntityPlugin>(shared_from_this()));
         subs_.push_back(sub);
         return sub;
     }
 
     template <class T, class CallbackFunc>
-    SubscriberBasePtr subscribe(const std::string &network_name,
-                                const std::string &topic, CallbackFunc callback,
+    SubscriberBasePtr subscribe(const std::string &network_name, const std::string &topic, CallbackFunc callback,
                                 unsigned int max_queue_size) {
-        SubscriberBasePtr sub = pubsub_->subscribe<T>(
-            network_name, topic, callback, max_queue_size, true,
-            std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+        SubscriberBasePtr sub = pubsub_->subscribe<T>(network_name, topic, callback, max_queue_size, true,
+                                                      std::static_pointer_cast<EntityPlugin>(shared_from_this()));
         subs_.push_back(sub);
         return sub;
     }
 
     PublisherPtr advertise(std::string network_name, std::string topic);
-    PublisherPtr advertise(std::string network_name, std::string topic,
-                           unsigned int max_queue_size);
+    PublisherPtr advertise(std::string network_name, std::string topic, unsigned int max_queue_size);
 
     void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
     PubSubPtr pubsub() { return pubsub_; }
@@ -144,11 +133,9 @@ class EntityPlugin : public Plugin {
 
     template <class T>
     bool register_param(
-        const std::string &name, T &variable,
-        std::function<void(const T &value)> callback = [](const T &value) {}) {
-        return param_server_->register_param<T>(
-            name, variable, callback,
-            std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+        const std::string &name, T &variable, std::function<void(const T &value)> callback = [](const T &value) {}) {
+        return param_server_->register_param<T>(name, variable, callback,
+                                                std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     }
 
     template <class T>
@@ -158,8 +145,7 @@ class EntityPlugin : public Plugin {
 
     template <class T>
     bool unregister_param(const std::string &name) {
-        return param_server_->unregister_param<T>(
-            name, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+        return param_server_->unregister_param<T>(name, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     }
 
     // loop rate control

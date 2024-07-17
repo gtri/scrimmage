@@ -49,16 +49,14 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Multirotor,
-                Multirotor_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Multirotor, Multirotor_plugin)
 
 namespace scrimmage {
 namespace motion {
 
 Multirotor::Multirotor() : write_csv_(false) { x_.resize(MODEL_NUM_ITEMS); }
 
-bool Multirotor::init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) {
+bool Multirotor::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, false);
 
     x_.resize(MODEL_NUM_ITEMS);
@@ -92,8 +90,7 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 
     // Parse inertia matrix
     std::vector<std::vector<std::string>> vecs;
-    std::string inertia_matrix =
-        sc::get<std::string>("inertia_matrix", params, "");
+    std::string inertia_matrix = sc::get<std::string>("inertia_matrix", params, "");
     bool valid_inertia = false;
     if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
         cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
@@ -149,11 +146,9 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
             r.set_direction(Rotor::Direction::CW);
         }
 
-        r.set_offset(Eigen::Vector3d(std::stod(vec[1]), std::stod(vec[2]),
-                                     std::stod(vec[3])));
+        r.set_offset(Eigen::Vector3d(std::stod(vec[1]), std::stod(vec[2]), std::stod(vec[3])));
 
-        r.quat() = sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])),
-                                  sc::Angles::deg2rad(std::stod(vec[5])),
+        r.quat() = sc::Quaternion(sc::Angles::deg2rad(std::stod(vec[4])), sc::Angles::deg2rad(std::stod(vec[5])),
                                   sc::Angles::deg2rad(std::stod(vec[6])));
         rotors_.push_back(r);
     }
@@ -167,13 +162,11 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" +
-                         std::to_string(parent_->id().id()) + "-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t",    "x",     "y",   "z",   "U",   "V",      "W",      "P",
-            "Q",    "R",     "AXb", "AYb", "AZb", "WXDOTb", "WYDOTb", "WZDOTb",
-            "roll", "pitch", "yaw", "w_1", "w_2", "w_3",    "w_4"});
+        csv_.set_column_headers(sc::CSV::Headers{"t",    "x",     "y",   "z",   "U",   "V",      "W",      "P",
+                                                 "Q",    "R",     "AXb", "AYb", "AZb", "WXDOTb", "WYDOTb", "WZDOTb",
+                                                 "roll", "pitch", "yaw", "w_1", "w_2", "w_3",    "w_4"});
     }
 
     return true;
@@ -181,8 +174,7 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
 
 bool Multirotor::step(double time, double dt) {
     for (int i = 0; i < motor_idx_vec_.size(); i++) {
-        ctrl_u_(i) = boost::algorithm::clamp(vars_.input(motor_idx_vec_(i)),
-                                             wmin_, wmax_);
+        ctrl_u_(i) = boost::algorithm::clamp(vars_.input(motor_idx_vec_(i)), wmin_, wmax_);
     }
 
     // TODO: convert global linear velocity and angular velocity into local
@@ -234,8 +226,7 @@ bool Multirotor::step(double time, double dt) {
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 255, 255, 0);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line->mutable_line()->mutable_end(),
-                state_->pos() + state_->vel());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
         draw_shape(line);
     }
 
@@ -245,8 +236,7 @@ bool Multirotor::step(double time, double dt) {
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 0, 255, 255);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line->mutable_line()->mutable_end(),
-                state_->pos() + state_->ang_vel() * 10);
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel() * 10);
         draw_shape(line);
     }
 
@@ -292,9 +282,8 @@ void Multirotor::model(const vector_t &x, vector_t &dxdt, double t) {
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
         rotor_thrust(i) = c_T_ * omega_sq(i);
-        if (std::abs(omega[i] - wmin_) <
-            std::numeric_limits<double>::epsilon()) {  // if minimum throttle,
-                                                       // servo is off
+        if (std::abs(omega[i] - wmin_) < std::numeric_limits<double>::epsilon()) {  // if minimum throttle,
+                                                                                    // servo is off
             rotor_thrust[i] = 0.0;
         }
         rotor_torque(i) = rotors_[i].direction() * c_Q_ * omega_sq(i);
@@ -312,13 +301,11 @@ void Multirotor::model(const vector_t &x, vector_t &dxdt, double t) {
 
     // Calculate normal force
     force_ext_body_[2] = force_ext_body_[2] - F_thrust[2];
-    if (force_ext_body_[2] > 0) {  // only true if contacting ground
-        force_ext_body_[2] = -1.0 * (F_weight[2]) -
-                             F_thrust[2];  // correctly calculate normal force
+    if (force_ext_body_[2] > 0) {                                 // only true if contacting ground
+        force_ext_body_[2] = -1.0 * (F_weight[2]) - F_thrust[2];  // correctly calculate normal force
     }
 
-    if (force_ext_body_[2] <
-        0) {  // normal force only pushes up from the ground
+    if (force_ext_body_[2] < 0) {  // normal force only pushes up from the ground
         force_ext_body_[2] = 0.0;
     }
 
@@ -350,16 +337,11 @@ void Multirotor::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[R] = pqr_dot(2);
 
     // Update quaternion from angular accelerations
-    double lambda =
-        1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] =
-        -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
-    dxdt[q1] =
-        +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
-    dxdt[q2] =
-        +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
-    dxdt[q3] =
-        +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
     // Normalize quaternion

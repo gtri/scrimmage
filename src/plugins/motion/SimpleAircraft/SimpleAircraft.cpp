@@ -42,8 +42,7 @@
 
 using boost::algorithm::clamp;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft,
-                SimpleAircraft_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, SimpleAircraft_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -52,12 +51,9 @@ enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, SPEED, MODEL_NUM_ITEMS };
 
 enum ControlParams { THRUST = 0, TURN_RATE, PITCH_RATE, CONTROL_NUM_ITEMS };
 
-std::tuple<int, int, int> SimpleAircraft::version() {
-    return std::tuple<int, int, int>(0, 0, 1);
-}
+std::tuple<int, int, int> SimpleAircraft::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool SimpleAircraft::init(std::map<std::string, std::string> &info,
-                          std::map<std::string, std::string> &params) {
+bool SimpleAircraft::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     Quaternion &quat = state_->quat();
@@ -80,20 +76,16 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     length_ = get("turning_radius", params, 50.0);
     speedTarget_ = get("speed_target", params,
                        50.0);  // The "0" speed for adjusting the turning radius
-    lengthSlopePerSpeed_ =
-        get("radius_slope_per_speed", params,
-            0.0);  // Enables adjusting the turning radius based on speed
+    lengthSlopePerSpeed_ = get("radius_slope_per_speed", params,
+                               0.0);  // Enables adjusting the turning radius based on speed
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
     state_->vel() << x_[SPEED] * cos(x_[5]), x_[SPEED] * sin(x_[5]), 0;
 
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
-    roll_rate_idx_ =
-        vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
 
     return true;
 }
@@ -108,8 +100,8 @@ bool SimpleAircraft::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
-    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]),
-        x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
+    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]),
+        x_[SPEED] * sin(x_[PITCH]);
 
     return true;
 }
@@ -138,8 +130,7 @@ void SimpleAircraft::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[ROLL] = roll_rate;
     dxdt[PITCH] = pitch_rate;
     // Adjust the length based on the speed
-    double currentLength =
-        length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
+    double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
     dxdt[YAW] = x[SPEED] / currentLength * tan(x[ROLL]);
 
     dxdt[SPEED] = throttle / 5;

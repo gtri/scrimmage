@@ -40,8 +40,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JSBSimControlControllerHeadingPID,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID,
                 JSBSimControlControllerHeadingPID_plugin)
 
 namespace scrimmage {
@@ -50,8 +49,7 @@ namespace controller {
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-void JSBSimControlControllerHeadingPID::init(
-    std::map<std::string, std::string> &params) {
+void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> &params) {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
     angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
     angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
@@ -73,14 +71,10 @@ void JSBSimControlControllerHeadingPID::init(
     }
 
     // Setup variable index for controllers
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    aileron_idx_ =
-        vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool JSBSimControlControllerHeadingPID::step(double t, double dt) {

@@ -129,8 +129,7 @@ class MissionParse {
     double latitude_origin();
     double altitude_origin();
 
-    void set_lat_lon_alt_origin(const double &lat, const double &lon,
-                                const double &alt);
+    void set_lat_lon_alt_origin(const double &lat, const double &lon, const double &alt);
 
     std::map<int, TeamInfo> &team_info();
 
@@ -229,8 +228,8 @@ class MissionParse {
     std::set<std::string> output_types_;
 
     // Set of all possible output types
-    const std::set<std::string> possible_output_types_ = {
-        "frames", "summary", "git_commits", "mission", "seed", "runtime"};
+    const std::set<std::string> possible_output_types_ = {"frames",  "summary", "git_commits",
+                                                          "mission", "seed",    "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 }  // namespace scrimmage

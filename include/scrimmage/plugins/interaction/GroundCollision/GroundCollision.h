@@ -49,11 +49,9 @@ class GroundCollision : public scrimmage::EntityInteraction {
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
 
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
 
-    bool collision_exists(std::list<scrimmage::EntityPtr> &ents,
-                          Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
  protected:
     double ground_collision_z_;

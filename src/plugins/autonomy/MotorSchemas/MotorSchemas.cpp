@@ -64,8 +64,7 @@ namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace ms = scrimmage::autonomy::motor_schemas;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MotorSchemas,
-                MotorSchemas_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::MotorSchemas, MotorSchemas_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -78,16 +77,12 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
     add_lower_bound_to_vz_ = sc::get("add_lower_bound_to_vz", params, false);
     vz_lower_bound_ = sc::get<double>("vz_lower_bound", params, -1.0);
 
-    auto max_speed_cb = [&](const double &max_speed) {
-        cout << "MotorSchemas Max speed set: " << max_speed << endl;
-    };
+    auto max_speed_cb = [&](const double &max_speed) { cout << "MotorSchemas Max speed set: " << max_speed << endl; };
     register_param<double>("max_speed", max_speed_, max_speed_cb);
 
     // Subscribe to state information
-    std::string state_topic_name =
-        sc::get<std::string>("state_topic_name", params, "State");
-    std::string network_name =
-        sc::get<std::string>("network_name", params, "LocalNetwork");
+    std::string state_topic_name = sc::get<std::string>("state_topic_name", params, "State");
+    std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
     auto state_callback = [&](scrimmage::MessagePtr<std::string> msg) {
         current_state_ = msg->data;
 
@@ -103,29 +98,25 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 
     // Parse the autonomy vectors
     std::list<PluginOverrides> plugin_overrides_list;
-    if (sc::parse_plugin_vector("behaviors", params, plugin_overrides_list) ==
-        static_cast<unsigned int>(0)) {
+    if (sc::parse_plugin_vector("behaviors", params, plugin_overrides_list) == static_cast<unsigned int>(0)) {
         cout << "MotorSchemas: Failed to parse any behaviors." << endl;
     }
 
     // Create the plugin for each autonomy/behavior
     for (auto &plugin_override : plugin_overrides_list) {
-        auto behavior = make_autonomy<ms::BehaviorBase>(
-            plugin_override.name, parent_->plugin_manager(),
-            plugin_override.overrides, parent_, state_, id_to_team_map_,
-            id_to_ent_map_, proj_, contacts_, parent_->file_search(), rtree_,
-            parent_->pubsub(), time_, parent_->param_server());
+        auto behavior = make_autonomy<ms::BehaviorBase>(plugin_override.name, parent_->plugin_manager(),
+                                                        plugin_override.overrides, parent_, state_, id_to_team_map_,
+                                                        id_to_ent_map_, proj_, contacts_, parent_->file_search(),
+                                                        rtree_, parent_->pubsub(), time_, parent_->param_server());
 
         if (behavior) {
             // Extract the gain for this plugin and apply it
-            (*behavior)->set_gain(
-                sc::get<double>("gain", plugin_override.overrides, 1.0));
+            (*behavior)->set_gain(sc::get<double>("gain", plugin_override.overrides, 1.0));
             (*behavior)->set_max_vector_length(max_speed_);
 
             // Determine which states in which this behavior is active
             std::vector<std::string> states;
-            if (sc::get_vec("states", plugin_override.overrides, " ,",
-                            states)) {
+            if (sc::get_vec("states", plugin_override.overrides, " ,", states)) {
                 for (std::string state : states) {
                     behaviors_[state].push_back(*behavior);
                 }
@@ -144,19 +135,13 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
 
     current_behaviors_ = default_behaviors_;
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::Out);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
-    output_vel_x_idx_ =
-        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-    output_vel_y_idx_ =
-        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-    output_vel_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool MotorSchemas::step_autonomy(double t, double dt) {
@@ -187,8 +172,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
 
         if (desired_vector.hasNaN()) {
-            cout << "Behavior error: " << behavior->name()
-                 << ", desired vector has NaN" << endl;
+            cout << "Behavior error: " << behavior->name() << ", desired vector has NaN" << endl;
             continue;
         }
 
@@ -202,13 +186,11 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         // Keep a running sum of all gains that have an effective vector
         Eigen::Vector3d desired_vector_normalized = desired_vector.normalized();
         if (!desired_vector_normalized.hasNaN()) {
-            vec_w_gain_sum +=
-                desired_vector.normalized().norm() * behavior->gain();
+            vec_w_gain_sum += desired_vector.normalized().norm() * behavior->gain();
         }
 
         if (show_shapes_) {
-            std::for_each(behavior->shapes().begin(), behavior->shapes().end(),
-                          [&](auto &s) { this->draw_shape(s); });
+            std::for_each(behavior->shapes().begin(), behavior->shapes().end(), [&](auto &s) { this->draw_shape(s); });
         }
         behavior->shapes().clear();
     }
@@ -234,8 +216,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         vars_.output(output_vel_y_idx_, vel_result(1));
         vars_.output(output_vel_z_idx_, vel_result(2));
     } else {
-        double heading =
-            sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
+        double heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));
         vars_.output(desired_alt_idx_, state_->pos()(2) + vel_result(2));
         vars_.output(desired_speed_idx_, vel_result.norm());
         vars_.output(desired_heading_idx_, heading);
@@ -248,12 +229,10 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         // Draw resultant vector:
         if (line_shape_ == nullptr) {
             line_shape_ =
-                sc::shape::make_line(state_->pos(), vel_result + state_->pos(),
-                                     Eigen::Vector3d(255, 255, 0), 0.75);
+                sc::shape::make_line(state_->pos(), vel_result + state_->pos(), Eigen::Vector3d(255, 255, 0), 0.75);
         }
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line_shape_->mutable_line()->mutable_end(),
-                vel_result + state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel_result + state_->pos());
         draw_shape(line_shape_);
     }
     return true;

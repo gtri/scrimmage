@@ -46,20 +46,15 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
-                JoystickController_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JoystickController, JoystickController_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_,
-                   std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+    joystick_.init(params, vars_, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
-bool JoystickController::step(double t, double dt) {
-    return joystick_.step(t, dt, vars_);
-}
+bool JoystickController::step(double t, double dt) { return joystick_.step(t, dt, vars_); }
 }  // namespace controller
 }  // namespace scrimmage

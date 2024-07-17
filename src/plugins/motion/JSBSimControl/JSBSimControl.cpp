@@ -61,8 +61,7 @@ using std::endl;
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimControl,
-                JSBSimControl_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::JSBSimControl, JSBSimControl_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -84,25 +83,18 @@ JSBSimControl::JSBSimControl() {
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 }
 
-std::tuple<int, int, int> JSBSimControl::version() {
-    return std::tuple<int, int, int>(0, 0, 1);
-}
+std::tuple<int, int, int> JSBSimControl::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool JSBSimControl::init(std::map<std::string, std::string> &info,
-                         std::map<std::string, std::string> &params) {
+bool JSBSimControl::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     draw_vel_ = sc::get<double>("drawVel", params, 1.0);
     draw_ang_vel_ = sc::get<double>("drawAngVel", params, 10.0);
     draw_acc_ = sc::get<double>("drawAcc", params, 1.0);
 
     // Setup variable index for controllers
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
-    aileron_idx_ =
-        vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::In);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
     exec_ = std::make_shared<JSBSim::FGFDMExec>();
 
@@ -111,10 +103,8 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
         output_fg_ = new JSBSim::FGOutputFGMod(&(*exec_));
         std::string ip = get<std::string>("flightgear_ip", params, "localhost");
         std::string port = get<std::string>("flightgear_port", params, "5600");
-        std::string protocol =
-            get<std::string>("flightgear_protocol", params, "UDP");
-        std::string name =
-            ip + ":" + protocol + "/" + port;  // localhost:UDP/5600
+        std::string protocol = get<std::string>("flightgear_protocol", params, "UDP");
+        std::string name = ip + ":" + protocol + "/" + port;  // localhost:UDP/5600
 
         output_fg_->SetIdx(0);
         output_fg_->SetOutputName(name);
@@ -123,8 +113,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     }
 
     exec_->SetDebugLevel(0);
-    std::string jsbsim_root_dir =
-        get<std::string>("jsbsim_root", params, info["JSBSIM_ROOT"]);
+    std::string jsbsim_root_dir = get<std::string>("jsbsim_root", params, info["JSBSIM_ROOT"]);
     if (jsbsim_root_dir == "") {
         exec_->SetRootDir(SGPath(info["JSBSIM_ROOT"]));
     } else {
@@ -150,12 +139,10 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     ic->SetVNorthFpsIC(state_->vel()[1] * meters2feet);
     ic->SetVDownFpsIC(-state_->vel()[2] * meters2feet);
 
-    ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() *
-                                meters2feet);
+    ic->SetTerrainElevationFtIC(parent_->projection()->HeightOrigin() * meters2feet);
 
     Eigen::Vector3d lla;
-    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1],
-                                   state_->pos()[2], lla[0], lla[1], lla[2]);
+    parent_->projection()->Reverse(state_->pos()[0], state_->pos()[1], state_->pos()[2], lla[0], lla[1], lla[2]);
     ic->SetLatitudeDegIC(lla[0]);
     ic->SetLongitudeDegIC(lla[1]);
     ic->SetAltitudeASLFtIC(lla[2] * meters2feet);
@@ -237,28 +224,22 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
     az_pilot_node_ = mgr->GetNode("accelerations/a-pilot-z-ft_sec2");
 
     // Save state
-    parent_->projection()->Forward(
-        latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-        altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0),
-        state_->pos()(1), state_->pos()(2));
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+                                   state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(),
-                       -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
-        vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
-    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(),
-                                -q_node_->getDoubleValue(),
-                                -r_node_->getDoubleValue());
+    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
     state_->ang_vel() = state_->quat().rotate(ang_vel_FLU);
 
-    Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue(),
-                          -ay_pilot_node_->getDoubleValue(),
+    Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue(), -ay_pilot_node_->getDoubleValue(),
                           -az_pilot_node_->getDoubleValue());
     linear_accel_body_ = state_->quat().rotate(a_FLU);
 
@@ -285,24 +266,19 @@ bool JSBSimControl::step(double time, double dt) {
 
     ///////////////////////////////////////////////////////////////////////////
     // Save state
-    parent_->projection()->Forward(
-        latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
-        altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0),
-        state_->pos()(1), state_->pos()(2));
+    parent_->projection()->Forward(latitude_node_->getDoubleValue(), longitude_node_->getDoubleValue(),
+                                   altitude_node_->getDoubleValue() * feet2meters, state_->pos()(0), state_->pos()(1),
+                                   state_->pos()(2));
 
     angles_from_jsbsim_.set_angle(ang::rad2deg(yaw_node_->getDoubleValue()));
 
-    state_->quat().set(roll_node_->getDoubleValue(),
-                       -pitch_node_->getDoubleValue(),
+    state_->quat().set(roll_node_->getDoubleValue(), -pitch_node_->getDoubleValue(),
                        ang::deg2rad(angles_from_jsbsim_.angle()));
 
-    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters,
-        vel_north_node_->getDoubleValue() * feet2meters,
+    state_->vel() << vel_east_node_->getDoubleValue() * feet2meters, vel_north_node_->getDoubleValue() * feet2meters,
         -vel_down_node_->getDoubleValue() * feet2meters;
 
-    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(),
-                                -q_node_->getDoubleValue(),
-                                -r_node_->getDoubleValue());
+    Eigen::Vector3d ang_vel_FLU(p_node_->getDoubleValue(), -q_node_->getDoubleValue(), -r_node_->getDoubleValue());
     state_->ang_vel() = state_->quat().rotate(ang_vel_FLU);
 
     Eigen::Vector3d a_FLU(ax_pilot_node_->getDoubleValue() * feet2meters,
@@ -322,8 +298,7 @@ bool JSBSimControl::step(double time, double dt) {
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 255, 0, 0);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line->mutable_line()->mutable_end(),
-                state_->pos() + state_->vel());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->vel());
         draw_shape(line);
     }
 
@@ -333,8 +308,7 @@ bool JSBSimControl::step(double time, double dt) {
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 0, 255, 0);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line->mutable_line()->mutable_end(),
-                state_->pos() + state_->ang_vel());
+        sc::set(line->mutable_line()->mutable_end(), state_->pos() + state_->ang_vel());
         draw_shape(line);
     }
 

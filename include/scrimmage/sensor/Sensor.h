@@ -55,24 +55,19 @@ class Sensor : public EntityPlugin {
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting)
      */
-    template <
-        class T = MessageBase,
-        class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     MessageBasePtr sense(double t) {
         return sensor_msg(t);
     }
 
     /*! \brief default version */
     template <class T>
-    [[deprecated(
-        "use Sensor::step() with publish/subscribe functionality instead")]]
+    [[deprecated("use Sensor::step() with publish/subscribe functionality instead")]]
     std::shared_ptr<scrimmage::Message<T>> sense(double t) {
         auto msg = sensor_msg(t);
         if (msg) {
-            auto msg_cast =
-                std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
-            return msg_cast ? std::shared_ptr<scrimmage::Message<T>>(msg_cast)
-                            : nullptr;
+            auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
+            return msg_cast ? std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
         } else {
             return nullptr;
         }

@@ -48,8 +48,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicyclePID,
-                UnicyclePID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicyclePID, UnicyclePID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -59,29 +58,22 @@ UnicyclePID::UnicyclePID() {}
 void UnicyclePID::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::In);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     // Is the motion model using speed or acceleration input control?
     std::string input_name = vars_.type_map().at(VariableIO::Type::speed);
-    if (vars_.exists(VariableIO::Type::acceleration_x,
-                     VariableIO::Direction::Out)) {
+    if (vars_.exists(VariableIO::Type::acceleration_x, VariableIO::Direction::Out)) {
         input_name = vars_.type_map().at(VariableIO::Type::acceleration_x);
         use_accel_ = true;
     }
 
     speed_idx_ = vars_.declare(input_name, VariableIO::Direction::Out);
 
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
-    roll_rate_idx_ =
-        vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
 
     // Outer loop PIDs
     if (!heading_pid_.init(params["heading_pid"], true)) {
@@ -100,35 +92,29 @@ void UnicyclePID::init(std::map<std::string, std::string> &params) {
 
 bool UnicyclePID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    vars_.output(turn_rate_idx_,
-                 heading_pid_.step(time_->dt(), state_->quat().yaw()));
+    vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
     // Reconstruct original velocity vector (close, but not exact
-    double x_vel = vars_.input(desired_speed_idx_) /
-                   sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
+    double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel,
-                        vars_.input(desired_alt_idx_) - state_->pos()(2));
+    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_) - state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    vars_.output(pitch_rate_idx_,
-                 -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
+    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
 
     // Track zero roll
     roll_pid_.set_setpoint(0);
-    vars_.output(roll_rate_idx_,
-                 -roll_pid_.step(time_->dt(), -state_->quat().roll()));
+    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), -state_->quat().roll()));
 
     if (show_shapes_) {
         line_shape_->set_persistent(true);
         sc::set(line_shape_->mutable_color(), 255, 0, 0);
         line_shape_->set_opacity(1.0);
         sc::set(line_shape_->mutable_line()->mutable_start(), state_->pos());
-        sc::set(line_shape_->mutable_line()->mutable_end(),
-                vel + state_->pos());
+        sc::set(line_shape_->mutable_line()->mutable_end(), vel + state_->pos());
         draw_shape(line_shape_);
     }
 

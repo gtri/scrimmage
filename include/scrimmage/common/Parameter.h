@@ -55,8 +55,7 @@ class ParameterBase {
 template <class T>
 class Parameter : public ParameterBase {
  public:
-    Parameter(T &variable, std::function<void(const T &value)> callback,
-              PluginPtr &owner)
+    Parameter(T &variable, std::function<void(const T &value)> callback, PluginPtr &owner)
         : ParameterBase(owner), value_(variable), callback_(callback) {}
     void set_value(const T &value) {
         value_ = value;

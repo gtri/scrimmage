@@ -62,23 +62,15 @@ namespace interaction {
 
 enum class DrawNodeLabels { NO, YES };
 using NodePair = std::pair<uint64_t, uint64_t>;
-using NodePairColorMap =
-    std::unordered_map<NodePair, std::vector<int>, boost::hash<NodePair>>;
-using NodePairShapeMap =
-    std::unordered_map<NodePair, std::shared_ptr<scrimmage_proto::Shape>,
-                       boost::hash<NodePair>>;
-using NodeShapeMap =
-    std::unordered_map<uint64_t, std::shared_ptr<scrimmage_proto::Shape>>;
+using NodePairColorMap = std::unordered_map<NodePair, std::vector<int>, boost::hash<NodePair>>;
+using NodePairShapeMap = std::unordered_map<NodePair, std::shared_ptr<scrimmage_proto::Shape>, boost::hash<NodePair>>;
+using NodeShapeMap = std::unordered_map<uint64_t, std::shared_ptr<scrimmage_proto::Shape>>;
 
-std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap,
-           NodeShapeMap>
-draw_graph(scrimmage_msgs::Graph &graph,
-           const std::unordered_map<uint64_t, scrimmage_proto::Vector3d>
-               &node_idx_to_pos,
-           DrawNodeLabels draw_node_labels, EntityPluginPtr plugin);
+std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap> draw_graph(
+    scrimmage_msgs::Graph &graph, const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
+    DrawNodeLabels draw_node_labels, EntityPluginPtr plugin);
 
-std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
-    const scrimmage_msgs::Graph &graph);
+std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(const scrimmage_msgs::Graph &graph);
 }  // namespace interaction
 }  // namespace scrimmage
 

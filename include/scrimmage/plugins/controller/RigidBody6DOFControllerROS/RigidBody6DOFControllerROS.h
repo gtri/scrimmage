@@ -44,8 +44,7 @@
 
 namespace scrimmage {
 namespace controller {
-class RigidBody6DOFControllerROS
-    : public scrimmage::motion::RigidBody6DOF::Controller {
+class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Controller {
  public:
     void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;

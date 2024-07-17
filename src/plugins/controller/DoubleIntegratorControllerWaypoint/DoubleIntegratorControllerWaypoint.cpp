@@ -37,15 +37,13 @@
 
 #include <iostream>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::DoubleIntegratorControllerWaypoint,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::DoubleIntegratorControllerWaypoint,
                 DoubleIntegratorControllerWaypoint_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void DoubleIntegratorControllerWaypoint::init(
-    std::map<std::string, std::string> &params) {
+void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
     std::vector<double> gain;
     if (!scrimmage::str2container(params.at("gain"), ",", gain, 2)) {
         std::cout << "warning: did not get gain properly in "
@@ -55,26 +53,18 @@ void DoubleIntegratorControllerWaypoint::init(
         gain_ << gain[0], gain[1];
     }
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                     VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::In);
+    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
-    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x,
-                               VariableIO::Direction::Out);
-    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y,
-                               VariableIO::Direction::Out);
-    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z,
-                               VariableIO::Direction::Out);
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);
+    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);
+    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 }
 
 bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
-    Eigen::Vector3d acc = -gain_(0) * (state_->pos() - desired_state_->pos()) -
-                          gain_(1) * state_->vel();
+    Eigen::Vector3d acc = -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
 
     vars_.output(acc_x_idx_, acc(0));
     vars_.output(acc_y_idx_, acc(1));

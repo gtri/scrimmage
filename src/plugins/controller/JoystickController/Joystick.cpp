@@ -52,10 +52,8 @@ Joystick::~Joystick() {
     free(button_);
 }
 
-void Joystick::init(std::map<std::string, std::string> &params,
-                    VariableIO &vars, EntityPluginPtr plugin) {
-    print_js_values_ =
-        sc::get<bool>("print_raw_joystick_values", params, false);
+void Joystick::init(std::map<std::string, std::string> &params, VariableIO &vars, EntityPluginPtr plugin) {
+    print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
     if ((joy_fd_ = open(dev.c_str(), O_RDONLY)) == -1) {
@@ -97,24 +95,18 @@ void Joystick::init(std::map<std::string, std::string> &params,
 
             int axis = std::stod(vec[1]);
             if (axis >= num_of_axis_) {
-                cout << "Warning: axis_map contains out-of-range axis index"
-                     << endl;
+                cout << "Warning: axis_map contains out-of-range axis index" << endl;
             } else {
-                AxisScale at(axis, std::stod(vec[2]), std::stod(vec[3]),
-                             std::stod(vec[4]), std::stod(vec[5]),
-                             std::stod(vec[6]),
-                             vars.declare(vec[0], VariableIO::Direction::Out));
+                AxisScale at(axis, std::stod(vec[2]), std::stod(vec[3]), std::stod(vec[4]), std::stod(vec[5]),
+                             std::stod(vec[6]), vars.declare(vec[0], VariableIO::Direction::Out));
                 axis_tfs_.push_back(at);
             }
         }
     }
 
-    publish_button_state_ =
-        sc::get<bool>("publish_button_state", params, false);
-    std::string button_topic =
-        sc::get<std::string>("button_topic", params, "joystick_buttons");
-    std::string button_network_name =
-        sc::get<std::string>("button_network_name", params, "LocalNetwork");
+    publish_button_state_ = sc::get<bool>("publish_button_state", params, false);
+    std::string button_topic = sc::get<std::string>("button_topic", params, "joystick_buttons");
+    std::string button_network_name = sc::get<std::string>("button_network_name", params, "LocalNetwork");
     if (publish_button_state_) {
         pub_buttons_ = plugin->advertise(button_network_name, button_topic);
     }
@@ -151,8 +143,7 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     }
 
     for (AxisScale axis_tf : axis_tfs_) {
-        vars.output(axis_tf.vector_index(),
-                    axis_tf.scale(axis_[axis_tf.axis_index()]));
+        vars.output(axis_tf.vector_index(), axis_tf.scale(axis_[axis_tf.axis_index()]));
     }
 
     if (publish_button_state_) {
@@ -165,8 +156,7 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
                 msg->data[i] = button_[i];
             }
 
-            auto it = std::mismatch(msg->data.begin(), msg->data.end(),
-                                    prev_button_state_.begin());
+            auto it = std::mismatch(msg->data.begin(), msg->data.end(), prev_button_state_.begin());
             if (it.first != msg->data.end()) {
                 pub_buttons_->publish(msg);
                 prev_button_state_ = msg->data;

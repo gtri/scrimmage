@@ -36,8 +36,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple,
-                RLSimple_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -73,8 +72,7 @@ void RLSimple::set_environment() {
         if (is_discrete) {
             action_space.discrete_count.push_back(2);  // forward/backward
         } else {
-            action_space.continuous_extrema.push_back(
-                {-max_speed_, max_speed_});
+            action_space.continuous_extrema.push_back({-max_speed_, max_speed_});
         }
     };
 

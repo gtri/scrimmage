@@ -108,9 +108,7 @@ int PluginManager::check_library(std::string lib_path) {
 
 PluginManager::PluginManager() : reload_(false) {}
 
-void PluginManager::print_plugins(const std::string &plugin_type,
-                                  const std::string &title,
-                                  FileSearch &file_search,
+void PluginManager::print_plugins(const std::string &plugin_type, const std::string &title, FileSearch &file_search,
                                   const std::string &env_var_name) {
     // make sure all files are loaded
     if (!files_checked_) {
@@ -148,8 +146,7 @@ void PluginManager::print_returned_plugins() {
     }
 }
 
-PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type,
-                                            std::string &plugin_name) {
+PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::string &plugin_name) {
     auto it = plugins_info_.find(plugin_type);
     if (it != plugins_info_.end()) {
         auto it2 = it->second.find(plugin_name);
@@ -175,8 +172,7 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type,
     return nullptr;
 }
 
-std::map<std::string, std::unordered_set<std::string>>
-PluginManager::get_commits() {
+std::map<std::string, std::unordered_set<std::string>> PluginManager::get_commits() {
     std::map<std::string, std::unordered_set<std::string>> commits;
     std::string sha;
     for (auto &kv : plugins_info_) {
@@ -184,9 +180,7 @@ PluginManager::get_commits() {
             scrimmage::PluginInfo &plugin_info = kv2.second;
             if (!plugin_info.returned) continue;
 
-            std::string path = boost::filesystem::path(plugin_info.path)
-                                   .parent_path()
-                                   .string();
+            std::string path = boost::filesystem::path(plugin_info.path).parent_path().string();
 
             if ((sha = scrimmage::get_sha(path)) != "") {
                 commits[sha].insert(plugin_info.name);
@@ -196,10 +190,9 @@ PluginManager::get_commits() {
     return commits;
 }
 
-void PluginManager::find_matching_plugins(
-    const std::string &plugin_name_so,
-    std::unordered_map<std::string, std::list<std::string>> &so_files,
-    std::list<std::string> &plugins) {
+void PluginManager::find_matching_plugins(const std::string &plugin_name_so,
+                                          std::unordered_map<std::string, std::list<std::string>> &so_files,
+                                          std::list<std::string> &plugins) {
     auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
     if (it != so_files.end()) {
         for (std::string &full_fname : it->second) {

@@ -41,8 +41,7 @@
 
 using boost::algorithm::clamp;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::RigidBody6DOF,
-                RigidBody6DOF_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::RigidBody6DOF, RigidBody6DOF_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -50,34 +49,13 @@ namespace motion {
 namespace sc = scrimmage;
 namespace pl = std::placeholders;
 
-enum ModelParams {
-    U = 0,
-    V,
-    W,
-    P,
-    Q,
-    R,
-    Uw,
-    Vw,
-    Ww,
-    Xw,
-    Yw,
-    Zw,
-    q0,
-    q1,
-    q2,
-    q3,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { U = 0, V, W, P, Q, R, Uw, Vw, Ww, Xw, Yw, Zw, q0, q1, q2, q3, MODEL_NUM_ITEMS };
 
 enum ControlParams { THRUST = 0, ELEVATOR, AILERON, RUDDER, CONTROL_NUM_ITEMS };
 
-std::tuple<int, int, int> RigidBody6DOF::version() {
-    return std::tuple<int, int, int>(0, 0, 1);
-}
+std::tuple<int, int, int> RigidBody6DOF::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
-bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
-                         std::map<std::string, std::string> &params) {
+bool RigidBody6DOF::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
@@ -114,9 +92,7 @@ bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
 
 bool RigidBody6DOF::step(double time, double dt) {
     if (ctrl_u_ == nullptr) {
-        std::shared_ptr<Controller> ctrl =
-            std::dynamic_pointer_cast<Controller>(
-                parent_->controllers().back());
+        std::shared_ptr<Controller> ctrl = std::dynamic_pointer_cast<Controller>(parent_->controllers().back());
         if (ctrl) {
             ctrl_u_ = ctrl->u();
         }
@@ -186,31 +162,22 @@ void RigidBody6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[V] = 0;  // x[W]*x[P] - x[U]*x[R] + g*sin(phi)*cos(theta) + F_y / m;
     dxdt[W] = 0;  // x[U]*x[Q] - x[V]*x[P] + g*cos(phi)*cos(theta) + F_z / m;
 
-    double L = aileron + Ixx * P_dot - Ixz * R_dot - Ixz * x[P] * x[Q] +
-               (Izz - Iyy) * x[R] * x[Q];
-    double M = elevator + Iyy * Q_dot + (Ixx - Izz) * x[P] * x[R] +
-               (Ixz * (pow(x[P], 2) - pow(x[R], 2)));
-    double N = rudder + Izz * R_dot - Ixz * P_dot + (Iyy - Ixx) * x[P] * x[Q] +
-               Ixz * x[Q] * x[R];
+    double L = aileron + Ixx * P_dot - Ixz * R_dot - Ixz * x[P] * x[Q] + (Izz - Iyy) * x[R] * x[Q];
+    double M = elevator + Iyy * Q_dot + (Ixx - Izz) * x[P] * x[R] + (Ixz * (pow(x[P], 2) - pow(x[R], 2)));
+    double N = rudder + Izz * R_dot - Ixz * P_dot + (Iyy - Ixx) * x[P] * x[Q] + Ixz * x[Q] * x[R];
 
     double L_tic = L + Ixz * x[P] * x[Q] - (Izz - Iyy) * x[R] * x[Q];
     double N_tic = N - (Iyy - Ixx) * x[P] * x[Q] - Ixz * x[R] * x[Q];
 
     dxdt[P] = (L_tic * Izz - N_tic * Ixz) / (Ixx * Izz - pow(Ixz, 2));
-    dxdt[Q] = (M - (Ixx - Izz) * x[P] * x[R]) -
-              Ixz * (pow(x[P], 2) - pow(x[R], 2)) / Iyy;
+    dxdt[Q] = (M - (Ixx - Izz) * x[P] * x[R]) - Ixz * (pow(x[P], 2) - pow(x[R], 2)) / Iyy;
     dxdt[R] = (N_tic * Ixx + L_tic * Ixz) / (Ixx * Izz - pow(Ixz, 2));
 
-    double lambda =
-        1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] =
-        -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
-    dxdt[q1] =
-        +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
-    dxdt[q2] =
-        +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
-    dxdt[q3] =
-        +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
     // Normalize quaternion

@@ -76,8 +76,7 @@ bool CSV::append(const Pairs &pairs, bool write, bool keep_in_memory) {
     for (std::pair<std::string, double> pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
-            cout << "Warning: column header doesn't exist: " << pair.first
-                 << endl;
+            cout << "Warning: column header doesn't exist: " << pair.first << endl;
         }
         table_[next_row_][it->second] = pair.second;
     }
@@ -95,8 +94,7 @@ bool CSV::append(const Pairs &pairs, bool write, bool keep_in_memory) {
     return true;
 }
 
-bool CSV::open_output(const std::string &filename,
-                      std::ios_base::openmode mode) {
+bool CSV::open_output(const std::string &filename, std::ios_base::openmode mode) {
     file_out_.open(filename, mode);
     return file_out_.is_open();
 }
@@ -110,9 +108,7 @@ bool CSV::close_output() {
     return !file_out_.is_open();
 }
 
-std::string CSV::to_string() const {
-    return headers_to_string() + "\n" + rows_to_string();
-}
+std::string CSV::to_string() const { return headers_to_string() + "\n" + rows_to_string(); }
 
 std::ostream &operator<<(std::ostream &os, const CSV &csv) {
     os << csv.to_string();
@@ -210,8 +206,7 @@ bool CSV::to_csv(const std::string &filename) {
     return true;
 }
 
-bool CSV::read_csv_from_string(const std::string &csv_str,
-                               const bool &contains_header) {
+bool CSV::read_csv_from_string(const std::string &csv_str, const bool &contains_header) {
     table_.clear();
     column_headers_.clear();
 
@@ -250,10 +245,8 @@ bool CSV::read_csv_from_string(const std::string &csv_str,
             // Print a warning if the number of comma separated values doesn't
             // match the number of columns
             if (column_headers_.size() != tokens.size()) {
-                cout << "Warning the number of values (" << tokens.size()
-                     << ") on line number " << row_num
-                     << " doesn't match the number of column headers: "
-                     << column_headers_.size() << endl;
+                cout << "Warning the number of values (" << tokens.size() << ") on line number " << row_num
+                     << " doesn't match the number of column headers: " << column_headers_.size() << endl;
             }
             row_num++;
         }
@@ -269,8 +262,7 @@ bool CSV::read_csv(const std::string &filename, const bool &contains_header) {
     }
 
     // Read in the CSV file as a string and parse it
-    std::string str((std::istreambuf_iterator<char>(file)),
-                    std::istreambuf_iterator<char>());
+    std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     return read_csv_from_string(str, contains_header);
 }
 
@@ -290,8 +282,7 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
     for (unsigned int i = 0; i < tokens.size(); i++) {
         // Remove whitespace
         tokens[i].erase(
-            std::remove_if(tokens[i].begin(), tokens[i].end(),
-                           [](unsigned char x) { return std::isspace(x); }),
+            std::remove_if(tokens[i].begin(), tokens[i].end(), [](unsigned char x) { return std::isspace(x); }),
             tokens[i].end());
 
         if (tokens[i] != "") {
@@ -306,14 +297,12 @@ void CSV::write_headers() { file_out_ << headers_to_string() << endl; }
 void CSV::write_row(const int &row) { file_out_ << row_to_string(row) << endl; }
 
 bool CSV::equals(const CSV &other) {
-    if (not std::equal(column_headers_.begin(), column_headers_.end(),
-                       other.column_headers_.begin(),
+    if (not std::equal(column_headers_.begin(), column_headers_.end(), other.column_headers_.begin(),
                        other.column_headers_.end())) {
         return false;
     }
 
-    if (not std::equal(table_.begin(), table_.end(), other.table_.begin(),
-                       other.table_.end())) {
+    if (not std::equal(table_.begin(), table_.end(), other.table_.begin(), other.table_.end())) {
         return false;
     }
 

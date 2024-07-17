@@ -49,12 +49,10 @@ namespace interaction {
 TerrainMap::TerrainMap() {}
 
 TerrainMap::TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
-                       std::shared_ptr<std::default_random_engine> gener,
-                       const Technique &technique,
-                       const Eigen::Vector3d &center, const double &x_length,
-                       const double &y_length, const double &x_resolution,
-                       const double &y_resolution, const double &z_min,
-                       const double &z_max, const Eigen::Vector3d &color)
+                       std::shared_ptr<std::default_random_engine> gener, const Technique &technique,
+                       const Eigen::Vector3d &center, const double &x_length, const double &y_length,
+                       const double &x_resolution, const double &y_resolution, const double &z_min, const double &z_max,
+                       const Eigen::Vector3d &color)
     : rng_(rng),
       gener_(gener),
       technique_(technique),
@@ -68,8 +66,7 @@ TerrainMap::TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
       color_(color),
       num_x_cols_(x_length_ / x_resolution_),
       num_y_rows_(y_length_ / y_resolution_),
-      grid_(std::vector<std::vector<Node>>(num_y_rows_,
-                                           std::vector<Node>(num_x_cols_))) {
+      grid_(std::vector<std::vector<Node>>(num_y_rows_, std::vector<Node>(num_x_cols_))) {
     generate();
 }
 
@@ -85,8 +82,7 @@ TerrainMap::TerrainMap(const scrimmage_msgs::Terrain &terrain)
       z_max_(terrain.z_max()),
       num_x_cols_(x_length_ / x_resolution_),
       num_y_rows_(y_length_ / y_resolution_),
-      grid_(std::vector<std::vector<Node>>(num_y_rows_,
-                                           std::vector<Node>(num_x_cols_))) {
+      grid_(std::vector<std::vector<Node>>(num_y_rows_, std::vector<Node>(num_x_cols_))) {
     sc::set(center_, terrain.center());
 
     // Populate the grid
@@ -187,10 +183,7 @@ bool TerrainMap::generate_linear_walk() {
 
 void TerrainMap::center_height_adjust() {
     // Make sure the grid's center is located at the appropriate height.
-    double offset =
-        center_(2) -
-        grid_[std::round(num_y_rows_ / 2.0)][std::round(num_x_cols_ / 2.0)]
-            .height;
+    double offset = center_(2) - grid_[std::round(num_y_rows_ / 2.0)][std::round(num_x_cols_ / 2.0)].height;
     for (unsigned int row = 0; row < num_y_rows_; ++row) {
         for (unsigned int col = 0; col < num_x_cols_; ++col) {
             grid_[row][col].height += offset;
@@ -202,8 +195,7 @@ void TerrainMap::clamp_height() {
     // Ensure all height values fall within z_min and z_max
     for (unsigned int row = 0; row < num_y_rows_; ++row) {
         for (unsigned int col = 0; col < num_x_cols_; ++col) {
-            grid_[row][col].height =
-                clamp(grid_[row][col].height, z_min_, z_max_);
+            grid_[row][col].height = clamp(grid_[row][col].height, z_min_, z_max_);
         }
     }
 }
@@ -266,12 +258,11 @@ scrimmage_msgs::Terrain TerrainMap::proto() {
     return terrain;
 }
 
-boost::optional<double> TerrainMap::height_at(const double &x,
-                                              const double &y) {
+boost::optional<double> TerrainMap::height_at(const double &x, const double &y) {
     int row = std::floor((y + y_length_ / 2.0 - center_(1)) / y_resolution_);
     int col = std::floor((x + x_length_ / 2.0 - center_(0)) / x_resolution_);
-    if (row < 0 || row >= static_cast<int>(num_y_rows_) || col < 0 ||
-        col >= static_cast<int>(num_x_cols_) || not grid_[row][col].is_set) {
+    if (row < 0 || row >= static_cast<int>(num_y_rows_) || col < 0 || col >= static_cast<int>(num_x_cols_) ||
+        not grid_[row][col].is_set) {
         return boost::optional<double>{};
     }
     return grid_[row][col].height;

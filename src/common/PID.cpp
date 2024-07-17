@@ -83,8 +83,7 @@ bool PID::init(const std::string &str, const bool &is_angle) {
     return true;
 }
 
-void PID::set_output_limits(const double &min, const double &max,
-                            const double &enable) {
+void PID::set_output_limits(const double &min, const double &max, const double &enable) {
     output_min_ = min;
     output_max_ = max;
     enable_output_limits_ = enable;
@@ -98,9 +97,7 @@ void PID::set_parameters(const double &kp, const double &ki, const double &kd) {
 
 void PID::set_setpoint(const double &setpoint) { setpoint_ = setpoint; }
 
-void PID::set_integral_band(const double &integral_band) {
-    integral_band_ = integral_band;
-}
+void PID::set_integral_band(const double &integral_band) { integral_band_ = integral_band; }
 
 void PID::reset() {
     integral_ = 0.0;

@@ -54,8 +54,7 @@ namespace sc = scrimmage;
 
 using BidMsg = sc::Message<auction::BidAuction>;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AuctionAssign,
-                AuctionAssign_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AuctionAssign, AuctionAssign_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -74,52 +73,42 @@ void AuctionAssign::init(std::map<std::string, std::string> &params) {
     result_auction_pub_ = advertise("CommsNetwork", "ResultAuction");
 
     // Setup the lambda function to process the StartAuction message
-    auto start_auction_callback =
-        [&](scrimmage::MessagePtr<auction::StartAuction> msg) {
-            cout << "-----------------------------" << endl;
-            cout << "Time: " << time_->t() << endl;
-            cout << "StartAuction: entity ID (" << id_ << ")"
-                 << " received message from entity ID: "
-                 << msg->data.sender_id() << endl;
+    auto start_auction_callback = [&](scrimmage::MessagePtr<auction::StartAuction> msg) {
+        cout << "-----------------------------" << endl;
+        cout << "Time: " << time_->t() << endl;
+        cout << "StartAuction: entity ID (" << id_ << ")"
+             << " received message from entity ID: " << msg->data.sender_id() << endl;
 
-            auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
-            msg_bid->data.set_sender_id(id_);
-            const double bid = parent_->random()->rng_uniform() * 10.0;
-            msg_bid->data.set_bid(bid);
-            cout << "Sending bid of " << bid << endl;
-            bid_auction_pub_->publish(msg_bid);
-        };
+        auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
+        msg_bid->data.set_sender_id(id_);
+        const double bid = parent_->random()->rng_uniform() * 10.0;
+        msg_bid->data.set_bid(bid);
+        cout << "Sending bid of " << bid << endl;
+        bid_auction_pub_->publish(msg_bid);
+    };
 
     // Subscribe to the StartAuction topic
-    subscribe<auction::StartAuction>("CommsNetwork", "StartAuction",
-                                     start_auction_callback);
+    subscribe<auction::StartAuction>("CommsNetwork", "StartAuction", start_auction_callback);
 
     // Setup the lambda function to process the BidAuction messages
-    auto bid_auction_callback =
-        [&](scrimmage::MessagePtr<auction::BidAuction> msg) {
-            cout << "-----------------------------" << endl;
-            cout << "Time: " << time_->t() << endl;
-            cout << "BidAuction: entity ID (" << id_
-                 << ") received message from "
-                 << "entity ID (" << msg->data.sender_id()
-                 << "),  bid: " << msg->data.bid() << endl;
+    auto bid_auction_callback = [&](scrimmage::MessagePtr<auction::BidAuction> msg) {
+        cout << "-----------------------------" << endl;
+        cout << "Time: " << time_->t() << endl;
+        cout << "BidAuction: entity ID (" << id_ << ") received message from "
+             << "entity ID (" << msg->data.sender_id() << "),  bid: " << msg->data.bid() << endl;
 
-            if (msg->data.bid() > max_bid_) {
-                max_bid_ = msg->data.bid();
-                max_bid_champ_ = msg->data.sender_id();
-            }
-        };
+        if (msg->data.bid() > max_bid_) {
+            max_bid_ = msg->data.bid();
+            max_bid_champ_ = msg->data.sender_id();
+        }
+    };
 
     // Subscribe to the BidAuction topic
-    subscribe<auction::BidAuction>("CommsNetwork", "BidAuction",
-                                   bid_auction_callback);
+    subscribe<auction::BidAuction>("CommsNetwork", "BidAuction", bid_auction_callback);
 
-    output_vel_x_idx_ =
-        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-    output_vel_y_idx_ =
-        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-    output_vel_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
@@ -135,8 +124,7 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
         auction_start_time_ = t;
     }
 
-    if (auction_in_prog_ && t > auction_start_time_ + auction_max_time_ &&
-        id_ == 1) {
+    if (auction_in_prog_ && t > auction_start_time_ + auction_max_time_ && id_ == 1) {
         cout << "======================================" << endl;
         cout << "Auction Complete" << endl;
         cout << "Max Bidder: " << max_bid_champ_ << endl;

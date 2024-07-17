@@ -56,16 +56,11 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-void usage(char *argv[]) {
-    cout << endl
-         << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl
-         << endl;
-}
+void usage(char *argv[]) { cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl; }
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        cout << "usage: " << argv[0] << " <directory of filter results>"
-             << endl;
+        cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
     }
 
@@ -87,8 +82,7 @@ int main(int argc, char *argv[]) {
 
         while (it != endit) {
             const std::string summary_csv = "summary.csv";
-            if (fs::is_regular_file(*it) &&
-                it->path().filename() == summary_csv) {
+            if (fs::is_regular_file(*it) && it->path().filename() == summary_csv) {
                 std::string full_path = fs::absolute(it->path()).string();
                 paths.push_back(full_path);
             }
@@ -162,8 +156,7 @@ int main(int argc, char *argv[]) {
 
         std::string result_filename = "";
         if (winning_team.size() == 0) {
-            cout << "Warning: Couldn't determine winner of: " << filename
-                 << endl;
+            cout << "Warning: Couldn't determine winner of: " << filename << endl;
             continue;
         } else if (winning_team.size() == 1) {
             result_filename = "team_" + std::to_string(winning_team[0]);
@@ -204,8 +197,7 @@ int main(int argc, char *argv[]) {
     }
     cout << endl;
 
-    double duration =
-        (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
+    double duration = (std::clock() - start) / static_cast<double>(CLOCKS_PER_SEC);
     cout << "Total time to process log files: " << duration << endl;
 
     // Make a map of the available team ids, so we can loop over it while

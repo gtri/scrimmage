@@ -44,8 +44,7 @@ namespace scrimmage {
 namespace motion {
 class SimpleQuadrotor : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
     void model(const vector_t &x, vector_t &dxdt, double t) override;

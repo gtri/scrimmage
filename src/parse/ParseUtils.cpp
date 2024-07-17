@@ -58,9 +58,8 @@ namespace sc = scrimmage;
 
 namespace scrimmage {
 
-bool find_terrain_files(
-    std::string terrain_name, ConfigParse &terrain_parse,
-    std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool find_terrain_files(std::string terrain_name, ConfigParse &terrain_parse,
+                        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
     if (utm_terrain == nullptr) {
         cout << "utm_terrain is null." << endl;
         return false;
@@ -77,24 +76,17 @@ bool find_terrain_files(
 
     FileSearch file_search;
     std::map<std::string, std::string> overrides;  // empty, no overrides
-    if (terrain_parse.parse(overrides, terrain_name, "SCRIMMAGE_DATA_PATH",
-                            file_search)) {
-        std::string polydata_file = terrain_parse.directory() + "/" +
-                                    terrain_parse.params()["polydata"];
-        std::string texture_file =
-            terrain_parse.directory() + "/" + terrain_parse.params()["texture"];
-        std::string extrusion_file = terrain_parse.directory() + "/" +
-                                     terrain_parse.params()["extrusion"];
-        std::string extrusion_property =
-            terrain_parse.params()["extrusion_property"];
-        if (fs::exists(extrusion_file) && fs::is_regular_file(extrusion_file) &&
-            !extrusion_property.empty()) {
+    if (terrain_parse.parse(overrides, terrain_name, "SCRIMMAGE_DATA_PATH", file_search)) {
+        std::string polydata_file = terrain_parse.directory() + "/" + terrain_parse.params()["polydata"];
+        std::string texture_file = terrain_parse.directory() + "/" + terrain_parse.params()["texture"];
+        std::string extrusion_file = terrain_parse.directory() + "/" + terrain_parse.params()["extrusion"];
+        std::string extrusion_property = terrain_parse.params()["extrusion_property"];
+        if (fs::exists(extrusion_file) && fs::is_regular_file(extrusion_file) && !extrusion_property.empty()) {
             utm_terrain->set_extrusion_file(extrusion_file);
             utm_terrain->set_extrusion_property(extrusion_property);
             utm_terrain->set_enable_extrusion(true);
         }
-        if (fs::exists(polydata_file) && fs::exists(texture_file) &&
-            fs::is_regular_file(polydata_file) &&
+        if (fs::exists(polydata_file) && fs::exists(texture_file) && fs::is_regular_file(polydata_file) &&
             fs::is_regular_file(texture_file)) {
             utm_terrain->set_texture_file(texture_file);
             utm_terrain->set_poly_data_file(polydata_file);
@@ -104,11 +96,9 @@ bool find_terrain_files(
     return false;
 }
 
-bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
-                           FileSearch &file_search,
+bool find_model_properties(std::string model_name, ConfigParse &cv_parse, FileSearch &file_search,
                            std::map<std::string, std::string> &overrides,
-                           std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
-                           bool &mesh_found, bool &texture_found) {
+                           std::shared_ptr<scrimmage_proto::ContactVisual> &cv, bool &mesh_found, bool &texture_found) {
     if (cv == nullptr) {
         cout << "Contact Visual is null." << endl;
         return false;
@@ -120,12 +110,9 @@ bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
 
     cv_parse.set_required("model");
 
-    if (cv_parse.parse(overrides, model_name, "SCRIMMAGE_DATA_PATH",
-                       file_search)) {
-        std::string model_file =
-            cv_parse.directory() + "/" + cv_parse.params()["model"];
-        std::string texture_file =
-            cv_parse.directory() + "/" + cv_parse.params()["texture"];
+    if (cv_parse.parse(overrides, model_name, "SCRIMMAGE_DATA_PATH", file_search)) {
+        std::string model_file = cv_parse.directory() + "/" + cv_parse.params()["model"];
+        std::string texture_file = cv_parse.directory() + "/" + cv_parse.params()["texture"];
 
         if (fs::exists(model_file) && fs::is_regular_file(model_file)) {
             cv->set_model_file(model_file);
@@ -165,8 +152,7 @@ bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
     return (mesh_found && texture_found);
 }
 
-bool parse_autonomy_data(std::map<std::string, std::string> &params,
-                         std::map<std::string, std::string> &data_params) {
+bool parse_autonomy_data(std::map<std::string, std::string> &params, std::map<std::string, std::string> &data_params) {
     if (params.count("data") == 0) {
         cout << "Missing data tag in params" << endl;
         return false;
@@ -175,8 +161,7 @@ bool parse_autonomy_data(std::map<std::string, std::string> &params,
     ConfigParse data;
     FileSearch file_search;
     std::map<std::string, std::string> overrides;  // empty, no overrides
-    if (data.parse(overrides, params["data"], "SCRIMMAGE_DATA_PATH",
-                   file_search)) {
+    if (data.parse(overrides, params["data"], "SCRIMMAGE_DATA_PATH", file_search)) {
         data_params = data.params();
     } else {
         cout << "Failed to find data file: " << params["data"] << endl;
@@ -192,8 +177,7 @@ std::string expand_user(std::string path) {
         if (home || (home = std::getenv("USERPROFILE"))) {
             path.replace(0, 1, home);
         } else {
-            char const *hdrive = std::getenv("HOMEDRIVE"),
-                       *hpath = std::getenv("HOMEPATH");
+            char const *hdrive = std::getenv("HOMEDRIVE"), *hpath = std::getenv("HOMEPATH");
             assert(hdrive);  // or other error handling
             assert(hpath);
             path.replace(0, 1, std::string(hdrive) + hpath);
@@ -218,8 +202,7 @@ bool str2bool(std::string str) {
     return (num == 1);
 }
 
-bool get_vec(const std::string &str, std::map<std::string, std::string> &params,
-             std::vector<std::string> &vec) {
+bool get_vec(const std::string &str, std::map<std::string, std::string> &params, std::vector<std::string> &vec) {
     vec.clear();
 
     // Determine if the string name is a list
@@ -252,16 +235,12 @@ Eigen::Vector3d vec2eigen(std::vector<double> &vec) {
 
 std::string remove_whitespace(const std::string &str) {
     std::string result = str;
-    result.erase(
-        std::remove_if(result.begin(), result.end(),
-                       [](unsigned char x) { return std::isspace(x); }),
-        result.end());
+    result.erase(std::remove_if(result.begin(), result.end(), [](unsigned char x) { return std::isspace(x); }),
+                 result.end());
     return result;
 }
 
-bool get_vec_of_vecs(const std::string &str,
-                     std::vector<std::vector<std::string>> &out,
-                     const std::string &delims) {
+bool get_vec_of_vecs(const std::string &str, std::vector<std::vector<std::string>> &out, const std::string &delims) {
     // Of the form...
     // [a b c d]
     // [e f g h]
@@ -274,8 +253,7 @@ bool get_vec_of_vecs(const std::string &str,
 
     // First split based on user defined delimiters (typically ", ")
     std::vector<std::string> tokens;
-    boost::algorithm::split(tokens, str_copy, boost::is_any_of(delims),
-                            boost::token_compress_on);
+    boost::algorithm::split(tokens, str_copy, boost::is_any_of(delims), boost::token_compress_on);
 
     // The tokens vector consists of the delimited items. Break up each vector
     // based on the start "[" and stop "]" delimiters. However, we will allow
@@ -285,10 +263,8 @@ bool get_vec_of_vecs(const std::string &str,
     std::string item = "";
     for (std::string token : tokens) {
         // Remove whitespace
-        token.erase(
-            std::remove_if(token.begin(), token.end(),
-                           [](unsigned char x) { return std::isspace(x); }),
-            token.end());
+        token.erase(std::remove_if(token.begin(), token.end(), [](unsigned char x) { return std::isspace(x); }),
+                    token.end());
 
         // cout << token << endl;
 
@@ -329,21 +305,16 @@ bool get_vec_of_vecs(const std::string &str,
 
     // Remove any empty strings from the individual vectors
     for (auto &vec : out) {
-        vec.erase(std::remove_if(vec.begin(), vec.end(),
-                                 [](auto &str) { return str.empty(); }),
-                  vec.end());
+        vec.erase(std::remove_if(vec.begin(), vec.end(), [](auto &str) { return str.empty(); }), vec.end());
     }
 
     // Remove any empty vectors from the out vector of vectors
-    out.erase(std::remove_if(out.begin(), out.end(),
-                             [](auto &vec) { return vec.empty(); }),
-              out.end());
+    out.erase(std::remove_if(out.begin(), out.end(), [](auto &vec) { return vec.empty(); }), out.end());
 
     return true;
 }
 
-void split(std::vector<std::string> &tokens, const std::string &str,
-           const std::string &delims) {
+void split(std::vector<std::string> &tokens, const std::string &str, const std::string &delims) {
     boost::split(tokens, str, boost::is_any_of(delims));
 }
 
@@ -371,9 +342,8 @@ bool set_pid_gains(sc::PID &pid, std::string str, bool is_angle) {
     return true;
 }
 
-unsigned int parse_plugin_vector(
-    const std::string &key, std::map<std::string, std::string> &params,
-    std::list<PluginOverrides> &plugin_overrides_list) {
+unsigned int parse_plugin_vector(const std::string &key, std::map<std::string, std::string> &params,
+                                 std::list<PluginOverrides> &plugin_overrides_list) {
     // Parse the behavior plugins
     std::string plugins_str = sc::get<std::string>(key, params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
@@ -400,19 +370,15 @@ unsigned int parse_plugin_vector(
                 boost::split(tokens, str, boost::is_any_of("="));
                 if (tokens.size() == 2) {
                     // Remove the quotes from the value
-                    tokens[1].erase(
-                        std::remove_if(tokens[1].begin(), tokens[1].end(),
-                                       [](unsigned char x) {
-                                           return (x == '\"') || (x == '\'');
-                                       }),
-                        tokens[1].end());
+                    tokens[1].erase(std::remove_if(tokens[1].begin(), tokens[1].end(),
+                                                   [](unsigned char x) { return (x == '\"') || (x == '\''); }),
+                                    tokens[1].end());
                     plugin_overrides[tokens[0]] = tokens[1];
                 }
             }
             ++i;
         }
-        plugin_overrides_list.push_back(
-            PluginOverrides(plugin_name, plugin_overrides));
+        plugin_overrides_list.push_back(PluginOverrides(plugin_name, plugin_overrides));
     }
 
     // for (auto &plugin_override : plugin_overrides_list) {
@@ -426,16 +392,12 @@ unsigned int parse_plugin_vector(
 }
 
 void remove_leading_spaces(std::string &s) {
-    auto it = std::find_if(s.begin(), s.end(), [](char c) {
-        return !std::isspace<char>(c, std::locale::classic());
-    });
+    auto it = std::find_if(s.begin(), s.end(), [](char c) { return !std::isspace<char>(c, std::locale::classic()); });
     s.erase(s.begin(), it);
 }
 
 void remove_trailing_spaces(std::string &s) {
-    auto it = std::find_if(s.rbegin(), s.rend(), [](char c) {
-        return !std::isspace<char>(c, std::locale::classic());
-    });
+    auto it = std::find_if(s.rbegin(), s.rend(), [](char c) { return !std::isspace<char>(c, std::locale::classic()); });
     s.erase(it.base(), s.end());
 }
 

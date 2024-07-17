@@ -211,8 +211,7 @@ class SimControl {
      * parameters, and plugin specific params. This is utilized for
      * GenerateEntity publishers.
      */
-    bool generate_entity(const int &ent_desc_id,
-                         std::map<std::string, std::string> &params,
+    bool generate_entity(const int &ent_desc_id, std::map<std::string, std::string> &params,
                          AttributeMap &plugin_attr_map);
 
     /// @brief Get the pointer to the MissionParser instance.
@@ -464,8 +463,7 @@ class SimControl {
     void dec_warp();
 
     bool wait_for_ready();
-    bool check_output(const std::string &output_type,
-                      const std::string &desired_output);
+    bool check_output(const std::string &output_type, const std::string &desired_output);
     bool setup_logging();
     bool logging_logic(const std::string &s);
     void end_of_simulation();

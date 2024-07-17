@@ -64,19 +64,13 @@ double Angles::deg2rad(double deg) { return deg * M_PI / 180.0; }
 
 double Angles::rad2deg(double rad) { return rad * 180.0 / M_PI; }
 
-void Angles::set_input_clock_direction(Angles::Rotate direction) {
-    in_direction_ = direction;
-}
+void Angles::set_input_clock_direction(Angles::Rotate direction) { in_direction_ = direction; }
 
 void Angles::set_input_zero_axis(Angles::HeadingZero zero) { in_zero_ = zero; }
 
-void Angles::set_output_clock_direction(Angles::Rotate direction) {
-    out_direction_ = direction;
-}
+void Angles::set_output_clock_direction(Angles::Rotate direction) { out_direction_ = direction; }
 
-void Angles::set_output_zero_axis(Angles::HeadingZero zero) {
-    out_zero_ = zero;
-}
+void Angles::set_output_zero_axis(Angles::HeadingZero zero) { out_zero_ = zero; }
 
 bool Angles::is_angle_360(double angle) {
     if (angle >= 0 && angle < 360) {
@@ -134,17 +128,11 @@ double Angles::angle_diff(double ang1, double ang2) {
     return diff;
 }
 
-double Angles::angle_diff_rad(double ang1, double ang2) {
-    return angle_pi(angle_pi(ang1) - angle_pi(ang2));
-}
+double Angles::angle_diff_rad(double ang1, double ang2) { return angle_pi(angle_pi(ang1) - angle_pi(ang2)); }
 
-double Angles::angle_avg(double ang1, double ang2) {
-    return angle_180(ang2 + angle_diff(ang1, ang2) / 2.0);
-}
+double Angles::angle_avg(double ang1, double ang2) { return angle_180(ang2 + angle_diff(ang1, ang2) / 2.0); }
 
-double Angles::angle_avg_rad(double ang1, double ang2) {
-    return angle_pi(ang2 + angle_diff_rad(ang1, ang2) / 2.0);
-}
+double Angles::angle_avg_rad(double ang1, double ang2) { return angle_pi(ang2 + angle_diff_rad(ang1, ang2) / 2.0); }
 
 void Angles::set_angle(double angle) {
     // Norm the angle
@@ -182,14 +170,12 @@ double Angles::angle() { return angle_; }
 bool Angles::angle_within(double ang1, double ang2, double ang) {
     double diff = angle_diff(ang1, ang2);
     double diff1 = angle_diff(ang, ang2);
-    return boost::math::sign(diff) == boost::math::sign(diff1) &&
-           std::abs(diff) > std::abs(diff1);
+    return boost::math::sign(diff) == boost::math::sign(diff1) && std::abs(diff) > std::abs(diff1);
 }
 
 bool Angles::angle_within_rad(double ang1, double ang2, double ang) {
     double diff = angle_diff_rad(ang1, ang2);
     double diff1 = angle_diff_rad(ang, ang2);
-    return boost::math::sign(diff) == boost::math::sign(diff1) &&
-           std::abs(diff) > std::abs(diff1);
+    return boost::math::sign(diff) == boost::math::sign(diff1) && std::abs(diff) > std::abs(diff1);
 }
 }  // namespace scrimmage

@@ -40,8 +40,7 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D,
-                DubinsAirplane3D_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D, DubinsAirplane3D_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -70,8 +69,7 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
-                            std::map<std::string, std::string> &params) {
+bool DubinsAirplane3D::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     write_csv_ = sc::get<bool>("write_csv", params, false);
 
     // Model limits
@@ -79,12 +77,9 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     speed_min_ = sc::get<double>("speed_min", params, speed_min_);
 
     // Directly set speed, pitch, and roll
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
-    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch,
-                                       VariableIO::Direction::In);
-    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll,
-                                      VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
+    desired_pitch_idx_ = vars_.declare(VariableIO::Type::desired_pitch, VariableIO::Direction::In);
+    desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     Eigen::Vector3d &pos = state_->pos();
@@ -122,21 +117,18 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     x_[q3] = quat_local_.z();
 
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" +
-                         std::to_string(parent_->id().id()) +
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
                          "-dubins-airplane3d-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t", "x", "y", "z", "U", "V", "W", "P", "Q", "R", "roll", "pitch",
-            "yaw", "speed", "Uw", "Vw", "Ww"});
+        csv_.set_column_headers(sc::CSV::Headers{"t", "x", "y", "z", "U", "V", "W", "P", "Q", "R", "roll", "pitch",
+                                                 "yaw", "speed", "Uw", "Vw", "Ww"});
     }
     return true;
 }
 
 bool DubinsAirplane3D::step(double t, double dt) {
     // Get inputs and saturate
-    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_),
-                                     speed_min_, speed_max_);
+    speed_ = boost::algorithm::clamp(vars_.input(desired_speed_idx_), speed_min_, speed_max_);
     pitch_ = vars_.input(desired_pitch_idx_);
     roll_ = vars_.input(desired_roll_idx_);
 
@@ -232,16 +224,11 @@ void DubinsAirplane3D::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[Q] = 0;
     dxdt[R] = 0;
 
-    double lambda =
-        1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] =
-        -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
-    dxdt[q1] =
-        +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
-    dxdt[q2] =
-        +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
-    dxdt[q3] =
-        +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
     // Normalize quaternion

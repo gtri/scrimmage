@@ -71,10 +71,8 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
         double z = frame.contact(i).state().position().z();
         double lat, lon, h;
         proj_->Reverse(x, y, z, lat, lon, h);
-        frame.mutable_contact(i)->mutable_state()->mutable_position()->set_x(
-            lon);
-        frame.mutable_contact(i)->mutable_state()->mutable_position()->set_y(
-            lat);
+        frame.mutable_contact(i)->mutable_state()->mutable_position()->set_x(lon);
+        frame.mutable_contact(i)->mutable_state()->mutable_position()->set_y(lat);
         frame.mutable_contact(i)->mutable_state()->mutable_position()->set_z(h);
 
         x = frame.contact(i).state().orientation().x();
@@ -90,14 +88,10 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
         yaw = Angles::deg2rad(angles_to_gps_.angle());
         q = scrimmage::Quaternion(q.roll(), q.pitch(), yaw);
 
-        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_x(
-            q.x());
-        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_y(
-            q.y());
-        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_z(
-            q.z());
-        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_w(
-            q.w());
+        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_x(q.x());
+        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_y(q.y());
+        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_z(q.z());
+        frame.mutable_contact(i)->mutable_state()->mutable_orientation()->set_w(q.w());
 
         frame.mutable_contact(i)->set_type(scrimmage_proto::AIRCRAFT);
     }
@@ -126,8 +120,5 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
     return true;
 }
 
-void FrameUpdateClient::set_projection(
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
-    proj_ = proj;
-}
+void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) { proj_ = proj; }
 }  // namespace scrimmage

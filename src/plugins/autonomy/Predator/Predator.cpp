@@ -44,8 +44,7 @@
 
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Predator,
-                Predator_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Predator, Predator_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -61,17 +60,12 @@ void Predator::init(std::map<std::string, std::string> &params) {
 
     follow_id_ = -1;
 
-    speed_idx_ =
-        vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                         VariableIO::Direction::Out);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::Out);
+    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 }
 
 bool Predator::step_autonomy(double t, double dt) {
@@ -124,18 +118,15 @@ bool Predator::step_autonomy(double t, double dt) {
         StatePtr ent_state = contacts_->at(follow_id_).state();
 
         // Calculate max velocity towards target entity:
-        Eigen::Vector3d v =
-            (ent_state->pos() - state_->pos()).normalized() * max_speed_;
+        Eigen::Vector3d v = (ent_state->pos() - state_->pos()).normalized() * max_speed_;
 
         // Convert to spherical coordinates:
         double desired_heading = atan2(v(1), v(0));
         double desired_pitch = atan2(v(2), v.head<2>().norm());
 
         vars_.output(speed_idx_, max_speed_);
-        vars_.output(turn_rate_idx_,
-                     Angles::angle_pi(desired_heading - state_->quat().yaw()));
-        vars_.output(pitch_rate_idx_,
-                     Angles::angle_pi(desired_pitch + state_->quat().pitch()));
+        vars_.output(turn_rate_idx_, Angles::angle_pi(desired_heading - state_->quat().yaw()));
+        vars_.output(pitch_rate_idx_, Angles::angle_pi(desired_pitch + state_->quat().pitch()));
 
         vars_.output(desired_heading_idx_, desired_heading);
         vars_.output(desired_speed_idx_, max_speed_);

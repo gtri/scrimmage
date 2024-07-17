@@ -46,9 +46,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::MultirotorControllerPID,
-                MultirotorControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::MultirotorControllerPID, MultirotorControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -56,8 +54,7 @@ namespace controller {
 MultirotorControllerPID::MultirotorControllerPID() {}
 
 void MultirotorControllerPID::init(std::map<std::string, std::string> &params) {
-    multirotor_ =
-        std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
+    multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
 
     if (multirotor_ == nullptr) {
         cout << "WARNING: MultirotorControllerOmega can't control the motion "
@@ -76,8 +73,7 @@ void MultirotorControllerPID::init(std::map<std::string, std::string> &params) {
     for (int i = 0; i < 3; i++) {
         vel_pids_.push_back(sc::PID());
         if (!sc::set_pid_gains(vel_pids_[i], params["vel_pid"])) {
-            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain"
-                 << endl;
+            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain" << endl;
         }
     }
 
@@ -92,8 +88,7 @@ void MultirotorControllerPID::init(std::map<std::string, std::string> &params) {
 }
 
 bool MultirotorControllerPID::step(double t, double dt) {
-    Eigen::Vector3d des_vel_body =
-        state_->quat().rotate_reverse(desired_state_->vel());
+    Eigen::Vector3d des_vel_body = state_->quat().rotate_reverse(desired_state_->vel());
     Eigen::Vector3d vel_body = state_->quat().rotate_reverse(state_->vel());
     Eigen::Vector3d vel_ctrl(0, 0, 0);
     for (int i = 0; i < 3; i++) {

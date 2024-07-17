@@ -54,30 +54,25 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::Boundary,
-                Boundary_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::Boundary, Boundary_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
-Boundary::Boundary()
-    : boundary_shape_(std::make_shared<scrimmage_proto::Shape>()) {}
+Boundary::Boundary() : boundary_shape_(std::make_shared<scrimmage_proto::Shape>()) {}
 
 bool Boundary::init(std::map<std::string, std::string> &mission_params,
                     std::map<std::string, std::string> &plugin_params) {
     // Parse common boundary properties
 
     // Parse boundary name
-    boundary_shape_->set_name(
-        sc::get<std::string>("name", plugin_params, "no_name"));
+    boundary_shape_->set_name(sc::get<std::string>("name", plugin_params, "no_name"));
 
     // Parse boundary ID
     boundary_shape_->mutable_id()->set_id(sc::get<int>("id", plugin_params, 0));
-    boundary_shape_->mutable_id()->set_team_id(
-        sc::get<int>("team_id", plugin_params, 0));
+    boundary_shape_->mutable_id()->set_team_id(sc::get<int>("team_id", plugin_params, 0));
 
-    std::string network_name =
-        sc::get("network_name", plugin_params, "GlobalNetwork");
+    std::string network_name = sc::get("network_name", plugin_params, "GlobalNetwork");
     pub_boundary_ = advertise(network_name, "Boundary");
 
     // Parse boundary type
@@ -89,8 +84,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
             std::cout << "Failed to parse 'center'" << endl;
             return false;
         }
-        sc::set(boundary_shape_->mutable_cuboid()->mutable_center(),
-                sc::vec2eigen(center));
+        sc::set(boundary_shape_->mutable_cuboid()->mutable_center(), sc::vec2eigen(center));
 
         std::vector<double> lengths;
         if (!sc::get_vec<double>("lengths", plugin_params, " ,", lengths, 3)) {
@@ -110,8 +104,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         sc::set(boundary_shape_->mutable_cuboid()->mutable_quat(), quat);
 
     } else if (type == "polyhedron") {
-        std::string polyhedron_points =
-            sc::get<std::string>("polyhedron_points", plugin_params, "");
+        std::string polyhedron_points = sc::get<std::string>("polyhedron_points", plugin_params, "");
 
         std::vector<std::vector<std::string>> vecs;
         if (!sc::get_vec_of_vecs(polyhedron_points, vecs)) {
@@ -125,22 +118,19 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
                 cout << "Invalid vector size in: " << polyhedron_points << endl;
                 return false;
             }
-            sp::Vector3d *point =
-                boundary_shape_->mutable_polyhedron()->add_point();
+            sp::Vector3d *point = boundary_shape_->mutable_polyhedron()->add_point();
             point->set_x(std::stod(vec[0]));
             point->set_y(std::stod(vec[1]));
             point->set_z(std::stod(vec[2]));
         }
     } else if (type == "sphere") {
-        boundary_shape_->mutable_sphere()->set_radius(
-            sc::get<double>("radius", plugin_params, 10));
+        boundary_shape_->mutable_sphere()->set_radius(sc::get<double>("radius", plugin_params, 10));
         std::vector<double> center;
         if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
             std::cout << "Failed to parse 'center'" << endl;
             return false;
         }
-        sc::set(boundary_shape_->mutable_sphere()->mutable_center(),
-                sc::vec2eigen(center));
+        sc::set(boundary_shape_->mutable_sphere()->mutable_center(), sc::vec2eigen(center));
     } else if (type == "plane") {
         std::vector<double> center;
         if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
@@ -197,8 +187,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool Boundary::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                                       double dt) {
+bool Boundary::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     if (!boundary_published_) {
         boundary_published_ = true;
         auto msg = std::make_shared<sc::Message<sp::Shape>>(*boundary_shape_);
@@ -208,8 +197,7 @@ bool Boundary::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
     return true;
 }
 
-std::shared_ptr<BoundaryBase> Boundary::make_boundary(
-    const scrimmage_proto::Shape &shape) {
+std::shared_ptr<BoundaryBase> Boundary::make_boundary(const scrimmage_proto::Shape &shape) {
     std::shared_ptr<BoundaryBase> boundary = nullptr;
     switch (shape.oneof_type_case()) {
         case sp::Shape::kTriangle:
@@ -244,8 +232,7 @@ std::shared_ptr<BoundaryBase> Boundary::make_boundary(
     }
 
     if (boundary != nullptr) {
-        sc::ShapePtr shape_ptr =
-            std::make_shared<scrimmage_proto::Shape>(shape);
+        sc::ShapePtr shape_ptr = std::make_shared<scrimmage_proto::Shape>(shape);
         boundary->set_shape(shape_ptr);
     }
 

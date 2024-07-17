@@ -37,8 +37,7 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleQuadrotor,
-                SimpleQuadrotor_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleQuadrotor, SimpleQuadrotor_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -47,28 +46,11 @@ namespace pl = std::placeholders;
 namespace sc = scrimmage;
 using ang = sc::Angles;
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    XDOT,
-    YDOT,
-    ZDOT,
-    YAW,
-    YAWDOT,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, XDOT, YDOT, ZDOT, YAW, YAWDOT, MODEL_NUM_ITEMS };
 
-enum ControlParams {
-    X_THRUST = 0,
-    Y_THRUST,
-    Z_THRUST,
-    TURN_RATE,
-    CONTROL_NUM_ITEMS
-};
+enum ControlParams { X_THRUST = 0, Y_THRUST, Z_THRUST, TURN_RATE, CONTROL_NUM_ITEMS };
 
-bool SimpleQuadrotor::init(std::map<std::string, std::string> &info,
-                           std::map<std::string, std::string> &params) {
+bool SimpleQuadrotor::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
@@ -112,9 +94,7 @@ void SimpleQuadrotor::model(const vector_t &x, vector_t &dxdt, double t) {
     /// 6 : yaw
     /// 7 : yaw-velocity
 
-    Eigen::Vector4d &u =
-        std::static_pointer_cast<Controller>(parent_->controllers().back())
-            ->u();
+    Eigen::Vector4d &u = std::static_pointer_cast<Controller>(parent_->controllers().back())->u();
     double max_x_velocity = 15;
     double max_z_velocity = 10;
 

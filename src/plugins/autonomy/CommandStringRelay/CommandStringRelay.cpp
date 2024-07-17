@@ -49,8 +49,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::CommandStringRelay,
-                CommandStringRelay_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::CommandStringRelay, CommandStringRelay_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -70,33 +69,28 @@ void CommandStringRelay::init(std::map<std::string, std::string> &params) {
         std::string original_network = vecs[0];
         std::string topic = vecs[1];
         std::string relay_to_network = vecs[2];
-        std::string original_topic_str =
-            "/" + std::to_string(parent_->id().id()) + "/" + topic;
+        std::string original_topic_str = "/" + std::to_string(parent_->id().id()) + "/" + topic;
         pubs_[topic] = advertise(relay_to_network, topic);
 
-        auto cb =
-            [&](scrimmage::MessagePtr<scrimmage_msgs::CommandString> msg) {
-                std::vector<std::string> tokens;
-                boost::split(tokens, msg->data.topic(), boost::is_any_of("/"));
+        auto cb = [&](scrimmage::MessagePtr<scrimmage_msgs::CommandString> msg) {
+            std::vector<std::string> tokens;
+            boost::split(tokens, msg->data.topic(), boost::is_any_of("/"));
 
-                if (tokens.size() == 3) {
-                    sc::PublisherPtr pub;
-                    auto it = pubs_.find(tokens[2]);
-                    if (it != pubs_.end()) {
-                        auto relay_msg =
-                            std::make_shared<scrimmage::Message<std::string>>();
-                        relay_msg->data = msg->data.value();
-                        it->second->publish(relay_msg);
-                    } else {
-                        cout << "CommandStringRelay: Failed to find publisher"
-                             << endl;
-                    }
+            if (tokens.size() == 3) {
+                sc::PublisherPtr pub;
+                auto it = pubs_.find(tokens[2]);
+                if (it != pubs_.end()) {
+                    auto relay_msg = std::make_shared<scrimmage::Message<std::string>>();
+                    relay_msg->data = msg->data.value();
+                    it->second->publish(relay_msg);
                 } else {
-                    cout << "CommandStrinRelay: Ignoring message" << endl;
+                    cout << "CommandStringRelay: Failed to find publisher" << endl;
                 }
-            };
-        subscribe<scrimmage_msgs::CommandString>(original_network,
-                                                 original_topic_str, cb);
+            } else {
+                cout << "CommandStrinRelay: Ignoring message" << endl;
+            }
+        };
+        subscribe<scrimmage_msgs::CommandString>(original_network, original_topic_str, cb);
     }
 }
 

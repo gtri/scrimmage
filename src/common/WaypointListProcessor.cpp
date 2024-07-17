@@ -40,8 +40,7 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace autonomy {
 
-void WaypointListProcessor::set_waypoint_list(
-    const scrimmage_msgs::WaypointList &wp_list) {
+void WaypointListProcessor::set_waypoint_list(const scrimmage_msgs::WaypointList &wp_list) {
     returning_stage_ = false;
 
     // Construct a list of Waypoints from protobuf waypoint list
@@ -57,8 +56,7 @@ void WaypointListProcessor::set_waypoint_list(
             return std::abs(a - b) < std::numeric_limits<double>::epsilon();
         };
         return numbers_are_close(wp0.latitude(), wp1.latitude()) &&
-               numbers_are_close(wp0.longitude(), wp1.longitude()) &&
-               numbers_are_close(wp0.altitude(), wp1.altitude());
+               numbers_are_close(wp0.longitude(), wp1.longitude()) && numbers_are_close(wp0.altitude(), wp1.altitude());
     };
     wp_list_.unique(wps_are_close);
 
@@ -69,8 +67,7 @@ void WaypointListProcessor::set_waypoint_list(
 }
 
 WaypointListProcessor::Status WaypointListProcessor::process(
-    const scrimmage::StatePtr &state,
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+    const scrimmage::StatePtr &state, const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
     if (wp_list_.size() == 0) {
         return Status::Empty;
     }
@@ -89,8 +86,7 @@ WaypointListProcessor::Status WaypointListProcessor::process(
     return Status::Changed;
 }
 
-std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(
-    const std::list<Waypoint>::iterator &it_wp) {
+std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
     std::list<Waypoint>::iterator it_next;
     switch (mode_) {
         case scrimmage_msgs::WaypointList::FOLLOW_ONCE:
@@ -129,21 +125,18 @@ std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(
 }
 
 boost::optional<const Waypoint &> WaypointListProcessor::previous_waypoint() {
-    return prev_wp_it_ != wp_list_.end()
-               ? boost::optional<const Waypoint &>{*prev_wp_it_}
-               : boost::optional<const Waypoint &>{};
+    return prev_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint &>{*prev_wp_it_}
+                                         : boost::optional<const Waypoint &>{};
 }
 
 boost::optional<const Waypoint &> WaypointListProcessor::current_waypoint() {
-    return curr_wp_it_ != wp_list_.end()
-               ? boost::optional<const Waypoint &>{*curr_wp_it_}
-               : boost::optional<const Waypoint &>{};
+    return curr_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint &>{*curr_wp_it_}
+                                         : boost::optional<const Waypoint &>{};
 }
 
 boost::optional<const Waypoint &> WaypointListProcessor::next_waypoint() {
-    return next_wp_it_ != wp_list_.end()
-               ? boost::optional<const Waypoint &>{*next_wp_it_}
-               : boost::optional<const Waypoint &>{};
+    return next_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint &>{*next_wp_it_}
+                                         : boost::optional<const Waypoint &>{};
 }
 }  // namespace autonomy
 }  // namespace scrimmage

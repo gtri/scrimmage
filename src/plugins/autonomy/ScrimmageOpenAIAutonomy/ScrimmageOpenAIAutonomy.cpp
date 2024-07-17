@@ -61,16 +61,13 @@ namespace py = pybind11;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::ScrimmageOpenAIAutonomy,
-                ScrimmageOpenAIAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ScrimmageOpenAIAutonomy, ScrimmageOpenAIAutonomy_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy()
-    : reward_range(-std::numeric_limits<double>::infinity(),
-                   std::numeric_limits<double>::infinity()),
+    : reward_range(-std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity()),
       tuple_space_(get_gym_space("Tuple")),
       box_space_(get_gym_space("Box")),
       nonlearning_mode_(false) {}
@@ -90,17 +87,14 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
 
     if (grpc_mode_) {
         const size_t port = get("port", params, 50050);
-        const std::string grpc_address_ =
-            get("grpc_address", params, "127.0.0.1");
+        const std::string grpc_address_ = get("grpc_address", params, "127.0.0.1");
 
         const std::string port_str = std::to_string(port + parent_->id().id());
         const std::string address = grpc_address_ + ":" + port_str;
 
-        python_cmd_ = std::string("openai_grpc_link.py") + " --port " +
-                      port_str + " --actor " + module + ":" + actor_func_str +
-                      " --ip " + grpc_address_;
-        auto channel =
-            grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
+        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str + " --actor " + module + ":" +
+                      actor_func_str + " --ip " + grpc_address_;
+        auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
         openai_stub_ = sp::OpenAI::NewStub(channel);
     }
 #endif
@@ -113,32 +107,26 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             setup_complete_ = true;
 
             // need contacts size to be set before calling init
-            auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(
-                shared_from_this());
+            auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
             std::tie(actions_, observations_, actor_func_) =
-                init_actor_func({p}, params_, CombineActors::NO,
-                                UseGlobalSensor::NO, grpc_mode_);
+                init_actor_func({p}, params_, CombineActors::NO, UseGlobalSensor::NO, grpc_mode_);
 
 #if ENABLE_GRPC
             if (grpc_mode_) {
                 int attempts = 0;
                 bool done = false;
                 while (attempts++ < 10 && !done) {
-                    std::cout
-                        << "Connecting to gRPC Server attempt: " << attempts
-                        << "/10" << std::endl;
+                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10" << std::endl;
                     done = send_env();
                 }
                 // Return an exception saying we could not connect to grpc
                 if (!done) {
-                    const std::string err_msg =
-                        std::string(
-                            "Didn't connect to the grpc server. Make sure") +
-                        " the grpc client is running and your python" +
-                        " bindings are up to date." +
-                        "You can start a grpc server with the followning "
-                        "command: " +
-                        python_cmd_;
+                    const std::string err_msg = std::string("Didn't connect to the grpc server. Make sure") +
+                                                " the grpc client is running and your python" +
+                                                " bindings are up to date." +
+                                                "You can start a grpc server with the followning "
+                                                "command: " +
+                                                python_cmd_;
                     throw std::runtime_error(err_msg);
                 }
             }
@@ -166,8 +154,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 
         temp_action = actor_func_(observations_.observation);
 
-        actions_.distribute_action(temp_action,
-                                   observations_.get_combine_actors());
+        actions_.distribute_action(temp_action, observations_.get_combine_actors());
 
         if (first_step_) {
             // there is no reward on the first step
@@ -186,19 +173,15 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 }
 
 #if ENABLE_GRPC
-boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(
-    sp::Obs &observation) {
+boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observation) {
     if (!openai_stub_) return boost::none;
 
     sp::Action action;
     grpc::ClientContext context;
-    auto deadline =
-        std::chrono::system_clock::now() + std::chrono::milliseconds(500);
+    auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(500);
     context.set_deadline(deadline);
-    grpc::Status status =
-        openai_stub_->GetAction(&context, observation, &action);
-    if (!(status.error_code() == grpc::StatusCode::OK ||
-          status.error_code() == grpc::StatusCode::UNKNOWN)) {
+    grpc::Status status = openai_stub_->GetAction(&context, observation, &action);
+    if (!(status.error_code() == grpc::StatusCode::OK || status.error_code() == grpc::StatusCode::UNKNOWN)) {
         return boost::none;
     } else if (action.done()) {
         return boost::none;
@@ -211,12 +194,9 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     sp::Environment env;
     // Setup action space parameters
     auto discrete_space = env.mutable_action_spaces()->mutable_discrete();
-    *(discrete_space) = {action_space.discrete_count.begin(),
-                         action_space.discrete_count.end()};
-    for (std::pair<double, double> cont_extrema :
-         action_space.continuous_extrema) {
-        sp::ContExtrema *proto_extrema =
-            env.mutable_action_spaces()->add_continuous();
+    *(discrete_space) = {action_space.discrete_count.begin(), action_space.discrete_count.end()};
+    for (std::pair<double, double> cont_extrema : action_space.continuous_extrema) {
+        sp::ContExtrema *proto_extrema = env.mutable_action_spaces()->add_continuous();
         proto_extrema->set_min(cont_extrema.first);
         proto_extrema->set_max(cont_extrema.second);
     }
@@ -232,10 +212,8 @@ bool ScrimmageOpenAIAutonomy::send_env() {
                 env.mutable_observation_spaces()->add_discrete(discrete_obs);
             }
             // Add continuous/ observation spaces to the protobuf environment
-            for (std::pair<double, double> cont_extrema :
-                 obs_space.continuous_extrema) {
-                sp::ContExtrema *proto_extrema =
-                    env.mutable_observation_spaces()->add_continuous();
+            for (std::pair<double, double> cont_extrema : obs_space.continuous_extrema) {
+                sp::ContExtrema *proto_extrema = env.mutable_observation_spaces()->add_continuous();
                 proto_extrema->set_min(cont_extrema.first);
                 proto_extrema->set_max(cont_extrema.second);
             }
@@ -259,8 +237,7 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     context.set_deadline(deadline);
     grpc::Status status = openai_stub_->SendEnvironment(&context, env, &reply);
     if (!status.ok()) {
-        std::cout << "Can't Connect: message " << status.error_code() << ", "
-                  << status.error_message() << std::endl;
+        std::cout << "Can't Connect: message " << status.error_code() << ", " << status.error_message() << std::endl;
     }
     return status.ok();
 }
@@ -269,19 +246,15 @@ sp::Obs ScrimmageOpenAIAutonomy::obs_to_proto() {
     // Convert observation to proto message
     sp::Obs proto_obs;
 
-    if (PyObject_IsInstance(observations_.observation_space.ptr(),
-                            tuple_space_.ptr())) {
-        for (py::handle disc_val :
-             observations_.observation.cast<py::list>()[0]) {
+    if (PyObject_IsInstance(observations_.observation_space.ptr(), tuple_space_.ptr())) {
+        for (py::handle disc_val : observations_.observation.cast<py::list>()[0]) {
             proto_obs.add_discrete(disc_val.cast<int>());
         }
 
-        for (py::handle cont_val :
-             observations_.observation.cast<py::list>()[1]) {
+        for (py::handle cont_val : observations_.observation.cast<py::list>()[1]) {
             proto_obs.add_continuous(cont_val.cast<double>());
         }
-    } else if (PyObject_IsInstance(observations_.observation_space.ptr(),
-                                   box_space_.ptr())) {
+    } else if (PyObject_IsInstance(observations_.observation_space.ptr(), box_space_.ptr())) {
         for (py::handle cont_val : observations_.observation.cast<py::list>()) {
             proto_obs.add_continuous(cont_val.cast<double>());
         }
@@ -293,8 +266,7 @@ sp::Obs ScrimmageOpenAIAutonomy::obs_to_proto() {
     return proto_obs;
 }
 
-pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(
-    const sp::Action &proto_act) {
+pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(const sp::Action &proto_act) {
     pybind11::list py_act;
     std::vector<int> disc(proto_act.discrete_size(), 0);
     std::vector<double> cont(proto_act.continuous_size(), 0);
@@ -310,8 +282,7 @@ pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(
     if (PyObject_IsInstance(actions_.action_space.ptr(), tuple_space_.ptr())) {
         py_act.attr("append")(py::cast(disc));
         py_act.attr("append")(py::cast(cont));
-    } else if (PyObject_IsInstance(actions_.action_space.ptr(),
-                                   box_space_.ptr())) {
+    } else if (PyObject_IsInstance(actions_.action_space.ptr(), box_space_.ptr())) {
         py_act = py::cast(cont);
     } else {
         py_act = py::cast(disc);
@@ -320,8 +291,7 @@ pybind11::object ScrimmageOpenAIAutonomy::convert_proto_action(
 }
 #endif
 
-std::tuple<bool, double, pybind11::dict>
-ScrimmageOpenAIAutonomy::calculate_reward() {
+std::tuple<bool, double, pybind11::dict> ScrimmageOpenAIAutonomy::calculate_reward() {
     std::tuple<bool, double, pybind11::dict> result = this->calc_reward();
 
     double reward = std::get<1>(result);
@@ -335,8 +305,7 @@ ScrimmageOpenAIAutonomy::calculate_reward() {
     return result;
 }
 
-std::tuple<bool, double, pybind11::dict>
-ScrimmageOpenAIAutonomy::calc_reward() {
+std::tuple<bool, double, pybind11::dict> ScrimmageOpenAIAutonomy::calc_reward() {
     return std::make_tuple(false, 0.0, pybind11::dict());
 }
 

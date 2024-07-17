@@ -60,9 +60,7 @@ class BoundaryBase {
     virtual void set_visual(int R, int G, int B, double opacity) = 0;
     virtual Eigen::Vector3d center() { return center_; }
 
-    virtual const std::vector<std::tuple<double, double>> &extents() {
-        return extents_;
-    }
+    virtual const std::vector<std::tuple<double, double>> &extents() { return extents_; }
 
  protected:
     sc::ShapePtr shape_;

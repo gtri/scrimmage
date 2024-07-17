@@ -61,15 +61,12 @@ class BulletCollision : public scrimmage::EntityInteraction {
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
 
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                                 double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
-    bool collision_exists(std::list<sc::EntityPtr> &ents,
-                          Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<sc::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
     /** For the service call */
-    bool get_ray_tracing(scrimmage::MessageBasePtr request,
-                         scrimmage::MessageBasePtr &response);
+    bool get_ray_tracing(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response);
 
  protected:
     std::pair<bool, scrimmage::EntityPtr> get_entity(const int &id);
@@ -102,8 +99,7 @@ class BulletCollision : public scrimmage::EntityInteraction {
     // Value 2: map
     // Key 2: Sensor Name (sensor0)
     // Value 2: PointCloudDescription
-    std::map<int, std::map<std::string, std::unique_ptr<PointCloudDescription>>>
-        pc_descs_;
+    std::map<int, std::map<std::string, std::unique_ptr<PointCloudDescription>>> pc_descs_;
 
     bool show_rays_ = false;
     bool enable_collision_detection_ = true;

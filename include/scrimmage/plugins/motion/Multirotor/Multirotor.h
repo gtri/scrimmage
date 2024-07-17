@@ -49,30 +49,11 @@ namespace scrimmage {
 namespace motion {
 class Multirotor : public scrimmage::motion::RigidBody6DOFBase {
  public:
-    enum ModelParams {
-        U = 0,
-        V,
-        W,
-        P,
-        Q,
-        R,
-        Uw,
-        Vw,
-        Ww,
-        Xw,
-        Yw,
-        Zw,
-        q0,
-        q1,
-        q2,
-        q3,
-        MODEL_NUM_ITEMS
-    };
+    enum ModelParams { U = 0, V, W, P, Q, R, Uw, Vw, Ww, Xw, Yw, Zw, q0, q1, q2, q3, MODEL_NUM_ITEMS };
 
     Multirotor();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
 
     void model(const vector_t &x, vector_t &dxdt, double t) override;

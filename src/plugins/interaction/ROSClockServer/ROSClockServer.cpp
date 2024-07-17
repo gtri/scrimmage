@@ -49,8 +49,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::ROSClockServer, ROSClockServer_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::ROSClockServer, ROSClockServer_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -75,8 +74,7 @@ bool ROSClockServer::init(std::map<std::string, std::string> &mission_params,
 
     // rosmaster check thread
     running_ = true;
-    check_rosmaster_thread_ =
-        std::thread(&ROSClockServer::check_rosmaster_loop, this);
+    check_rosmaster_thread_ = std::thread(&ROSClockServer::check_rosmaster_loop, this);
 
     return true;
 }
@@ -113,14 +111,12 @@ void ROSClockServer::check_rosmaster_loop() {
 void ROSClockServer::publish_clock_msg(const double &t) {
     // Add the current simulation time to the system time at the start of the
     // simulation.
-    std::chrono::time_point<std::chrono::system_clock,
-                            std::chrono::duration<double>>
-        sim_time_point = sim_start_time_ + std::chrono::duration<double>(t);
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> sim_time_point =
+        sim_start_time_ + std::chrono::duration<double>(t);
 
     // Convert the time_point into a duration that represents double time since
     // the epoch.
-    std::chrono::duration<double> time_since_epoch =
-        sim_time_point.time_since_epoch();
+    std::chrono::duration<double> time_since_epoch = sim_time_point.time_since_epoch();
     double sim_time = time_since_epoch.count();
 
     // Extract the seconds and nanoseconds to construct the ros::Time message
@@ -136,8 +132,7 @@ void ROSClockServer::publish_clock_msg(const double &t) {
     pub_mutex_.unlock();
 }
 
-bool ROSClockServer::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                             double t, double dt) {
+bool ROSClockServer::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     publish_clock_msg(time_->t());
     return true;
 }

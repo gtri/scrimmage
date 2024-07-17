@@ -45,10 +45,8 @@ void ParameterServer::unregister_params(PluginPtr owner) {
     }
 }
 
-bool ParameterServer::remove_if_owner(std::set<ParameterBasePtr> &param_set,
-                                      PluginPtr owner) {
-    auto it_param = std::find_if(param_set.begin(), param_set.end(),
-                                 [&](auto p) { return p->owner() == owner; });
+bool ParameterServer::remove_if_owner(std::set<ParameterBasePtr> &param_set, PluginPtr owner) {
+    auto it_param = std::find_if(param_set.begin(), param_set.end(), [&](auto p) { return p->owner() == owner; });
     if (it_param != param_set.end()) {
         param_set.erase(it_param);
         return true;

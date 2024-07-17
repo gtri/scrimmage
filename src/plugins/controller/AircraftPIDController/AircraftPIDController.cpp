@@ -50,9 +50,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::AircraftPIDController,
-                AircraftPIDController_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::AircraftPIDController, AircraftPIDController_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -60,36 +58,27 @@ namespace controller {
 AircraftPIDController::AircraftPIDController() {}
 
 void AircraftPIDController::init(std::map<std::string, std::string> &params) {
-    use_roll_control_ =
-        sc::get<bool>("use_roll_control", params, use_roll_control_);
+    use_roll_control_ = sc::get<bool>("use_roll_control", params, use_roll_control_);
 
     // Setup input variables
     if (use_roll_control_) {
-        desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll,
-                                          VariableIO::Direction::In);
+        desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
     } else {
-        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading,
-                                             VariableIO::Direction::In);
+        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
         // Outer loop heading PID
         if (!heading_pid_.init(params["heading_pid"], true)) {
             std::cout << "Failed to set heading PID" << std::endl;
         }
     }
-    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude,
-                                          VariableIO::Direction::In);
-    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed,
-                                       VariableIO::Direction::In);
+    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
     // Setup output variables
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    aileron_idx_ =
-        vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     // Outer loop PIDs
     if (!altitude_pid_.init(params["altitude_pid"], false)) {
@@ -107,10 +96,8 @@ void AircraftPIDController::init(std::map<std::string, std::string> &params) {
         std::cout << "Failed to set roll PID" << std::endl;
     }
 
-    max_pitch_ =
-        sc::Angles::deg2rad(sc::get<double>("max_pitch", params, max_pitch_));
-    max_roll_ =
-        sc::Angles::deg2rad(sc::get<double>("max_roll", params, max_roll_));
+    max_pitch_ = sc::Angles::deg2rad(sc::get<double>("max_pitch", params, max_pitch_));
+    max_roll_ = sc::Angles::deg2rad(sc::get<double>("max_roll", params, max_roll_));
 }
 
 bool AircraftPIDController::step(double t, double dt) {
@@ -121,8 +108,7 @@ bool AircraftPIDController::step(double t, double dt) {
 
     // Desired pitch to elevator
     pitch_pid_.set_setpoint(desired_pitch);
-    double elevator =
-        clamp(pitch_pid_.step(time_->dt(), state_->quat().pitch()), -1.0, 1.0);
+    double elevator = clamp(pitch_pid_.step(time_->dt(), state_->quat().pitch()), -1.0, 1.0);
     vars_.output(elevator_idx_, elevator);
 
     double desired_roll;
@@ -137,14 +123,12 @@ bool AircraftPIDController::step(double t, double dt) {
 
     // Desired roll to aileron
     roll_pid_.set_setpoint(desired_roll);
-    double aileron =
-        clamp(roll_pid_.step(time_->dt(), state_->quat().roll()), -1.0, 1.0);
+    double aileron = clamp(roll_pid_.step(time_->dt(), state_->quat().roll()), -1.0, 1.0);
     vars_.output(aileron_idx_, aileron);
 
     // Speed to throttle PID
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double throttle =
-        clamp(speed_pid_.step(time_->dt(), state_->vel().norm()), -1.0, 1.0);
+    double throttle = clamp(speed_pid_.step(time_->dt(), state_->vel().norm()), -1.0, 1.0);
     vars_.output(throttle_idx_, throttle);
 
     // Rudder is static for now

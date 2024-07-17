@@ -51,15 +51,12 @@ DelayedTask::DelayedTask(double _delay, int repeats)
     set_repeats(repeats);
 }
 
-void DelayedTask::set_delay_from_freq(double freq) {
-    delay = freq > 0 ? 1 / freq : 0;
-}
+void DelayedTask::set_delay_from_freq(double freq) { delay = freq > 0 ? 1 / freq : 0; }
 
 std::pair<bool, bool> DelayedTask::update(double t) {
     bool updated = false, task_success = true;
     const bool condition_satisfied = condition ? condition(t) : true;
-    const bool time_good =
-        t >= last_updated_time + delay - eps && t <= end_time + eps;
+    const bool time_good = t >= last_updated_time + delay - eps && t <= end_time + eps;
 
     if (!disable && !done() && condition_satisfied && time_good) {
         last_updated_time = t;
@@ -75,9 +72,7 @@ std::pair<bool, bool> DelayedTask::update(double t) {
     return std::make_pair(updated, task_success);
 }
 
-bool DelayedTask::done() const {
-    return !repeat_infinitely_ && repeats_left_ < 0;
-}
+bool DelayedTask::done() const { return !repeat_infinitely_ && repeats_left_ < 0; }
 
 void DelayedTask::set_repeats(int repeats_left) {
     repeats_left_ = repeats_left;

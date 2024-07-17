@@ -47,8 +47,7 @@ namespace sp = scrimmage_proto;
 namespace ba = boost::adaptors;
 namespace br = boost::range;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor,
-                RLConsensusSensor_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor, RLConsensusSensor_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -58,12 +57,10 @@ RLConsensusSensor::RLConsensusSensor() : ScrimmageOpenAISensor() {}
 void RLConsensusSensor::set_observation_space() {
     const int num_veh = parent_->contacts()->size();
     const double inf = std::numeric_limits<double>::infinity();
-    observation_space.continuous_extrema.assign(num_veh,
-                                                std::make_pair(-inf, inf));
+    observation_space.continuous_extrema.assign(num_veh, std::make_pair(-inf, inf));
 }
 
-void RLConsensusSensor::get_observation(double *data, uint32_t beg_idx,
-                                        uint32_t end_idx) {
+void RLConsensusSensor::get_observation(double *data, uint32_t beg_idx, uint32_t end_idx) {
     auto c = parent_->contacts();
     if (c->size() != end_idx - beg_idx) {
         std::cout << "RLConsensusSensor::get_observation (end_idx - beg_idx) "

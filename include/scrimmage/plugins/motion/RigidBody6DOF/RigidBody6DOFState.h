@@ -61,19 +61,13 @@ class RigidBody6DOFState : public scrimmage::State {
 
     Eigen::Vector3d &wind() { return wind_; }
 
-    const Eigen::Vector3d &linear_vel_body_const() const {
-        return linear_vel_body_;
-    }
+    const Eigen::Vector3d &linear_vel_body_const() const { return linear_vel_body_; }
 
     const Eigen::Vector3d &ang_vel_body_const() const { return ang_vel_body_; }
 
-    const Eigen::Vector3d &linear_accel_body_const() const {
-        return linear_accel_body_;
-    }
+    const Eigen::Vector3d &linear_accel_body_const() const { return linear_accel_body_; }
 
-    const Eigen::Vector3d &ang_accel_body_const() const {
-        return ang_accel_body_;
-    }
+    const Eigen::Vector3d &ang_accel_body_const() const { return ang_accel_body_; }
 
     const Eigen::Vector3d &wind() const { return wind_; }
 

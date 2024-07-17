@@ -45,8 +45,7 @@ class RLConsensusSensor : public ScrimmageOpenAISensor {
  public:
     RLConsensusSensor();
     void set_observation_space() override;
-    void get_observation(double *data, uint32_t beg_idx,
-                         uint32_t end_idx) override;
+    void get_observation(double *data, uint32_t beg_idx, uint32_t end_idx) override;
 };
 }  // namespace sensor
 }  // namespace scrimmage

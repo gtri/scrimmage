@@ -53,11 +53,9 @@ class Boundary : public scrimmage::EntityInteraction {
     Boundary();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                                 double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
-    static std::shared_ptr<BoundaryBase> make_boundary(
-        const scrimmage_proto::Shape &shape);
+    static std::shared_ptr<BoundaryBase> make_boundary(const scrimmage_proto::Shape &shape);
 
  protected:
     sc::PublisherPtr pub_boundary_;

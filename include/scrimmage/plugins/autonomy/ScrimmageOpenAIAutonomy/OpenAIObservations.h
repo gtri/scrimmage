@@ -58,11 +58,9 @@ class DLL_PUBLIC OpenAIObservations {
     OpenAIObservations();
 
     void create_observation_space(size_t num_entities, bool static_obs_space);
-    pybind11::object update_observation(size_t num_entities,
-                                        bool static_obs_space);
+    pybind11::object update_observation(size_t num_entities, bool static_obs_space);
 
-    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>&
-    ext_sensor_vec() {
+    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>& ext_sensor_vec() {
         return ext_sensor_vec_;
     }
 
@@ -71,19 +69,14 @@ class DLL_PUBLIC OpenAIObservations {
     pybind11::object observation_space;
     pybind11::object observation;
 
-    void set_global_sensor(bool global_sensor) {
-        global_sensor_ = global_sensor;
-    }
+    void set_global_sensor(bool global_sensor) { global_sensor_ = global_sensor; }
     bool get_global_sensor() const { return global_sensor_; }
 
-    void set_combine_actors(bool combine_actors) {
-        combine_actors_ = combine_actors;
-    }
+    void set_combine_actors(bool combine_actors) { combine_actors_ = combine_actors; }
     bool get_combine_actors() const { return combine_actors_; }
 
  protected:
-    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>>
-        ext_sensor_vec_;
+    std::vector<std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>>> ext_sensor_vec_;
 
     pybind11::object tuple_space_;
     pybind11::object box_space_;

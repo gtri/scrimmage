@@ -46,8 +46,7 @@ namespace scrimmage {
 class State {
  public:
     State();
-    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Eigen::Vector3d _ang_vel,
-          Quaternion _quat);
+    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Eigen::Vector3d _ang_vel, Quaternion _quat);
 
     virtual ~State();
 
@@ -84,8 +83,7 @@ class State {
     /*! \brief return position offset by trailing_distance in the direction of
      * velocity or orientation
      */
-    Eigen::Vector3d pos_offset(double distance,
-                               bool offset_with_velocity = true) const;
+    Eigen::Vector3d pos_offset(double distance, bool offset_with_velocity = true) const;
 
     /*! \brief returns the vector extending forward */
     Eigen::Vector3d orient_global_frame() const;
@@ -100,10 +98,9 @@ class State {
     /*! \brief Downcast a scrimmage::State to a subclassed type, returing
      * nullptr if not successful
      */
-    template <class T, class = std::enable_if_t<
-                           !std::is_same<T, scrimmage::State>::value &&
-                               std::is_base_of<scrimmage::State, T>::value,
-                           void>>
+    template <class T,
+              class = std::enable_if_t<
+                  !std::is_same<T, scrimmage::State>::value && std::is_base_of<scrimmage::State, T>::value, void>>
     static std::shared_ptr<T> cast(std::shared_ptr<scrimmage::State> state) {
         std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(state);
         try {

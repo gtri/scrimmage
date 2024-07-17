@@ -44,26 +44,19 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::TrajectoryRecordPlayback,
-                TrajectoryRecordPlayback_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::TrajectoryRecordPlayback, TrajectoryRecordPlayback_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 TrajectoryRecordPlayback::TrajectoryRecordPlayback()
-    : enable_playback_(false),
-      remove_at_end_(true),
-      trajectory_filename_("trajectory.txt") {}
+    : enable_playback_(false), remove_at_end_(true), trajectory_filename_("trajectory.txt") {}
 
 TrajectoryRecordPlayback::~TrajectoryRecordPlayback() { csv_.close_output(); }
 
-void TrajectoryRecordPlayback::init(
-    std::map<std::string, std::string> &params) {
-    trajectory_filename_ =
-        sc::get<std::string>("trajectory_filename", params, "trajectory.txt");
-    trajectory_filename_ =
-        parent_->mp()->root_log_dir() + "/" + trajectory_filename_;
+void TrajectoryRecordPlayback::init(std::map<std::string, std::string> &params) {
+    trajectory_filename_ = sc::get<std::string>("trajectory_filename", params, "trajectory.txt");
+    trajectory_filename_ = parent_->mp()->root_log_dir() + "/" + trajectory_filename_;
 
     remove_at_end_ = sc::get<bool>("remove_at_end", params, true);
 
@@ -90,15 +83,11 @@ void TrajectoryRecordPlayback::init(
 
         for (size_t r = 0; r < csv_.rows(); r++) {
             scrimmage::State desired_state;
-            desired_state.pos() << csv_.at(r, "x_d"), csv_.at(r, "y_d"),
-                csv_.at(r, "z_d");
+            desired_state.pos() << csv_.at(r, "x_d"), csv_.at(r, "y_d"), csv_.at(r, "z_d");
 
-            desired_state.vel() << csv_.at(r, "vx_d"), csv_.at(r, "vy_d"),
-                csv_.at(r, "vz_d");
+            desired_state.vel() << csv_.at(r, "vx_d"), csv_.at(r, "vy_d"), csv_.at(r, "vz_d");
 
-            scrimmage::Quaternion quat(csv_.at(r, "roll_d"),
-                                       csv_.at(r, "pitch_d"),
-                                       csv_.at(r, "yaw_d"));
+            scrimmage::Quaternion quat(csv_.at(r, "roll_d"), csv_.at(r, "pitch_d"), csv_.at(r, "yaw_d"));
 
             desired_state.quat() = quat;
 
@@ -114,9 +103,8 @@ void TrajectoryRecordPlayback::init(
 bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
     if (!enable_playback_) {
         // Get previous autonomy's desired_state
-        auto it = std::find_if(
-            parent_->autonomies().rbegin(), parent_->autonomies().rend(),
-            [&](auto autonomy) { return autonomy->get_is_controlling(); });
+        auto it = std::find_if(parent_->autonomies().rbegin(), parent_->autonomies().rend(),
+                               [&](auto autonomy) { return autonomy->get_is_controlling(); });
 
         csv_.append(sc::CSV::Pairs{
             {"t", t},

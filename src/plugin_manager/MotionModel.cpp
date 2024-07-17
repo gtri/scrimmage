@@ -40,13 +40,11 @@ namespace pl = std::placeholders;
 
 namespace scrimmage {
 
-MotionModel::MotionModel()
-    : ext_force_(0, 0, 0), ext_moment_(0, 0, 0), mass_(1.0), g_(9.81) {}
+MotionModel::MotionModel() : ext_force_(0, 0, 0), ext_moment_(0, 0, 0), mass_(1.0), g_(9.81) {}
 
 std::string MotionModel::type() { return std::string("MotionModel"); }
 
-bool MotionModel::init(std::map<std::string, std::string> &info,
-                       std::map<std::string, std::string> &params) {
+bool MotionModel::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     return false;
 }
 
@@ -66,16 +64,11 @@ void MotionModel::ode_step(double dt) {
     stepper.do_step(sys, x_, 0, dt);
 }
 
-void MotionModel::model(const MotionModel::vector_t &x,
-                        MotionModel::vector_t &dxdt, double t) {}
+void MotionModel::model(const MotionModel::vector_t &x, MotionModel::vector_t &dxdt, double t) {}
 
-void MotionModel::set_external_force(const Eigen::Vector3d &force) {
-    ext_force_ = force;
-}
+void MotionModel::set_external_force(const Eigen::Vector3d &force) { ext_force_ = force; }
 
-void MotionModel::set_external_moment(const Eigen::Vector3d &moment) {
-    ext_moment_ = moment;
-}
+void MotionModel::set_external_moment(const Eigen::Vector3d &moment) { ext_moment_ = moment; }
 
 void MotionModel::close(double t) { state_ = nullptr; }
 }  // namespace scrimmage

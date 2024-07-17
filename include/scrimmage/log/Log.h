@@ -65,24 +65,13 @@ namespace scrimmage {
 
 class Log {
  public:
-    using ZeroCopyInputStreamPtr =
-        std::shared_ptr<google::protobuf::io::ZeroCopyInputStream>;
-    using ZeroCopyOutputStreamPtr =
-        std::shared_ptr<google::protobuf::io::ZeroCopyOutputStream>;
-    using FileOutputStreamPtr =
-        std::shared_ptr<google::protobuf::io::FileOutputStream>;
+    using ZeroCopyInputStreamPtr = std::shared_ptr<google::protobuf::io::ZeroCopyInputStream>;
+    using ZeroCopyOutputStreamPtr = std::shared_ptr<google::protobuf::io::ZeroCopyOutputStream>;
+    using FileOutputStreamPtr = std::shared_ptr<google::protobuf::io::FileOutputStream>;
 
     Log();
 
-    enum FileType {
-        FRAMES = 0,
-        SHAPES = 1,
-        UTMTERRAIN = 2,
-        SIMINFO = 3,
-        CONTACTVISUAL = 4,
-        GUIMSG = 5,
-        MSG = 6
-    };
+    enum FileType { FRAMES = 0, SHAPES = 1, UTMTERRAIN = 2, SIMINFO = 3, CONTACTVISUAL = 4, GUIMSG = 5, MSG = 6 };
 
     enum Mode { READ = 0, WRITE = 1, NONE };
 
@@ -97,8 +86,7 @@ class Log {
 
     bool parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_contact_visual(std::string filename,
-                              ZeroCopyInputStreamPtr input);
+    bool parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input);
 
     bool close_log();
 
@@ -107,8 +95,7 @@ class Log {
     std::list<std::shared_ptr<scrimmage_proto::Frame>> &frames();
     std::list<std::shared_ptr<scrimmage_proto::Shapes>> &shapes();
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> &utm_terrain();
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> &
-    contact_visual();
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> &contact_visual();
 
     std::string log_dir();
 
@@ -118,11 +105,9 @@ class Log {
 
     bool save_shapes(const scrimmage_proto::Shapes &shapes);
 
-    bool save_utm_terrain(
-        const std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+    bool save_utm_terrain(const std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
 
-    bool save_contact_visual(
-        const std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual);
+    bool save_contact_visual(const std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual);
 
     // bool save_messages();
 
@@ -175,12 +160,10 @@ class Log {
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> utm_terrain_;
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_;
 
-    bool writeDelimitedTo(const google::protobuf::MessageLite &message,
-                          ZeroCopyOutputStreamPtr rawOutput);
+    bool writeDelimitedTo(const google::protobuf::MessageLite &message, ZeroCopyOutputStreamPtr rawOutput);
 
-    bool readDelimitedFrom(const std::string &filename,
-                           ZeroCopyInputStreamPtr rawInput,
-                           MessageLitePtr message, bool &clean_eof);
+    bool readDelimitedFrom(const std::string &filename, ZeroCopyInputStreamPtr rawInput, MessageLitePtr message,
+                           bool &clean_eof);
 
     bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);
 };

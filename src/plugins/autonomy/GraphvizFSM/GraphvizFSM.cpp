@@ -47,8 +47,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::GraphvizFSM,
-                GraphvizFSM_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::GraphvizFSM, GraphvizFSM_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -56,8 +55,7 @@ namespace autonomy {
 GraphvizFSM::GraphvizFSM() {}
 
 void GraphvizFSM::init(std::map<std::string, std::string> &params) {
-    print_current_state_ =
-        sc::get<bool>("print_current_state", params, print_current_state_);
+    print_current_state_ = sc::get<bool>("print_current_state", params, print_current_state_);
     std::string graph_str = sc::get<std::string>("graphviz_fsm", params, "");
 
     // Replace any ' with " characters. This allows the graphviz_fsm string to
@@ -89,8 +87,7 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    std::string qi_name =
-        sc::get<std::string>("initial_node_name", params, "qi");
+    std::string qi_name = sc::get<std::string>("initial_node_name", params, "qi");
 
     // Find the initial state
     typedef boost::graph_traits<graph_t>::vertex_iterator vertex_iter;
@@ -102,12 +99,9 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
         }
     }
 
-    std::string state_topic =
-        sc::get<std::string>("state_topic_name", params, "State");
-    std::string event_topic =
-        sc::get<std::string>("event_topic_name", params, "Event");
-    std::string network_name =
-        sc::get<std::string>("network_name", params, "LocalNetwork");
+    std::string state_topic = sc::get<std::string>("state_topic_name", params, "State");
+    std::string event_topic = sc::get<std::string>("event_topic_name", params, "Event");
+    std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
 
     // Setup publisher on the state topic
     state_pub_ = advertise(network_name, state_topic);
@@ -117,12 +111,9 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
         // If the event received is a trigger for the current state, transition
         // to the next state.
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) =
-                 boost::out_edges(current_state_, fsm_graph_);
-             ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
             if (label_(*ei) == msg->data) {
-                this->update_state_info(current_state_,
-                                        boost::target(*ei, fsm_graph_));
+                this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }
         }
     };
@@ -137,21 +128,17 @@ bool GraphvizFSM::step_autonomy(double t, double dt) {
     // state since this is just a designator for the "initial" state.
     if (boost::out_degree(current_state_, fsm_graph_) == 1) {
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) =
-                 boost::out_edges(current_state_, fsm_graph_);
-             ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
             if (label_(*ei) == std::string("")) {
-                this->update_state_info(current_state_,
-                                        boost::target(*ei, fsm_graph_));
+                this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }
         }
     }
     return true;
 }
 
-void GraphvizFSM::update_state_info(
-    boost::graph_traits<graph_t>::vertex_descriptor current_state,
-    boost::graph_traits<graph_t>::vertex_descriptor next_state) {
+void GraphvizFSM::update_state_info(boost::graph_traits<graph_t>::vertex_descriptor current_state,
+                                    boost::graph_traits<graph_t>::vertex_descriptor next_state) {
     current_state_ = next_state;
 
     if (print_current_state_) {

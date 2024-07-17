@@ -41,8 +41,7 @@ void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer) {
     axes_->SetTotalLength(length, length, length);
 
     // The axes are positioned with a user transform
-    vtkSmartPointer<vtkTransform> transform =
-        vtkSmartPointer<vtkTransform>::New();
+    vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
     transform->Translate(0, 0.0, 0);
 
     axes_->SetUserTransform(transform);

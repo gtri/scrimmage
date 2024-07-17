@@ -42,29 +42,16 @@
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Ballistic,
-                Ballistic_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Ballistic, Ballistic_plugin)
 
 using boost::algorithm::clamp;
 
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    X_vel,
-    Y_vel,
-    Z_vel,
-    X_acc,
-    Y_acc,
-    Z_acc,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, X_vel, Y_vel, Z_vel, X_acc, Y_acc, Z_acc, MODEL_NUM_ITEMS };
 
-bool Ballistic::init(std::map<std::string, std::string> &info,
-                     std::map<std::string, std::string> &params) {
+bool Ballistic::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);

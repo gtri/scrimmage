@@ -3,6 +3,7 @@ AccessModifierOffset: -3
 IndentWidth:          4
 ---
 Language:           Cpp
+ColumnLimit:        120
 IncludeCategories:
   - Regex:           '^<scrimmage/.*\.h>'
     Priority:        1
@@ -32,4 +33,3 @@ IncludeCategories:
     Priority:        6
     SortPriority:    0
     CaseSensitive:   false
-

@@ -40,25 +40,15 @@ namespace scrimmage {
 
 NetworkDevice::NetworkDevice() : plugin_(std::make_shared<EntityPlugin>()) {}
 
-NetworkDevice::NetworkDevice(const std::string& topic,
-                             const unsigned int& max_queue_size,
-                             const bool& enable_queue_size,
-                             EntityPluginPtr plugin)
-    : topic_(topic),
-      max_queue_size_(max_queue_size),
-      enable_queue_size_(enable_queue_size),
-      plugin_(plugin) {}
+NetworkDevice::NetworkDevice(const std::string& topic, const unsigned int& max_queue_size,
+                             const bool& enable_queue_size, EntityPluginPtr plugin)
+    : topic_(topic), max_queue_size_(max_queue_size), enable_queue_size_(enable_queue_size), plugin_(plugin) {}
 
 NetworkDevice::NetworkDevice(NetworkDevice& rhs)
-    : topic_(rhs.topic_),
-      max_queue_size_(rhs.max_queue_size_),
-      plugin_(rhs.plugin_),
-      msg_list_(rhs.msg_list_) {}
+    : topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_), plugin_(rhs.plugin_), msg_list_(rhs.msg_list_) {}
 
 NetworkDevice::NetworkDevice(NetworkDevice&& rhs)
-    : topic_(rhs.topic_),
-      max_queue_size_(rhs.max_queue_size_),
-      msg_list_(rhs.msg_list_) {}
+    : topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_), msg_list_(rhs.msg_list_) {}
 
 std::string NetworkDevice::get_topic() const { return topic_; }
 
@@ -70,15 +60,11 @@ void NetworkDevice::set_msg_list(const std::list<MessageBasePtr>& msg_list) {
     mutex_.unlock();
 }
 
-void NetworkDevice::set_max_queue_size(const unsigned int& size) {
-    max_queue_size_ = size;
-}
+void NetworkDevice::set_max_queue_size(const unsigned int& size) { max_queue_size_ = size; }
 
 unsigned int NetworkDevice::max_queue_size() { return max_queue_size_; }
 
-void NetworkDevice::enable_queue_size(const bool& enforce) {
-    enable_queue_size_ = enforce;
-}
+void NetworkDevice::enable_queue_size(const bool& enforce) { enable_queue_size_ = enforce; }
 
 bool NetworkDevice::enable_queue_size() { return enable_queue_size_; }
 
@@ -92,10 +78,8 @@ void NetworkDevice::enforce_queue_size() {
 
             // enforce size constraint on undelivered messages
             erase_end = undelivered_msg_list_.begin();
-            std::advance(erase_end,
-                         undelivered_msg_list_.size() - max_queue_size_);
-            undelivered_msg_list_.erase(undelivered_msg_list_.begin(),
-                                        erase_end);
+            std::advance(erase_end, undelivered_msg_list_.size() - max_queue_size_);
+            undelivered_msg_list_.erase(undelivered_msg_list_.begin(), erase_end);
 
             mutex_.unlock();
         }
@@ -114,15 +98,12 @@ void NetworkDevice::clear_msg_list() {
     mutex_.unlock();
 }
 
-void NetworkDevice::print_str(const std::string& msg) {
-    std::cout << msg << std::endl;
-}
+void NetworkDevice::print_str(const std::string& msg) { std::cout << msg << std::endl; }
 
 EntityPluginPtr& NetworkDevice::plugin() { return plugin_; }
 
 /* added for delay handling */
-void NetworkDevice::add_undelivered_msg(MessageBasePtr msg,
-                                        const bool& is_stochastic_delay) {
+void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay) {
     mutex_.lock();
     if (!is_stochastic_delay) {
         // in case of a single, deterministic delay, just add msg to end of
@@ -131,8 +112,7 @@ void NetworkDevice::add_undelivered_msg(MessageBasePtr msg,
     } else {
         // if delay is stochastic, sort messages by delivery time, with
         // first-to-deliver in front
-        std::list<MessageBasePtr>::reverse_iterator it =
-            undelivered_msg_list_.rbegin();
+        std::list<MessageBasePtr>::reverse_iterator it = undelivered_msg_list_.rbegin();
         for (; it != undelivered_msg_list_.rend();) {
             if ((*it)->time <= msg->time) {
                 break;
@@ -145,8 +125,7 @@ void NetworkDevice::add_undelivered_msg(MessageBasePtr msg,
     mutex_.unlock();
 }
 
-auto NetworkDevice::deliver_undelivered_msg(
-    std::list<MessageBasePtr>::iterator it) {
+auto NetworkDevice::deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it) {
     mutex_.lock();
     msg_list_.push_back(*it);
     it = undelivered_msg_list_.erase(it);
@@ -154,13 +133,11 @@ auto NetworkDevice::deliver_undelivered_msg(
     return it;
 }
 
-int NetworkDevice::deliver_undelivered_msg(const double& time_now,
-                                           const bool& is_stochastic_delay) {
+int NetworkDevice::deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay) {
     // number of messages delivered
     int n_delivered = 0;
 
-    for (auto it = undelivered_msg_list_.begin();
-         it != undelivered_msg_list_.end();
+    for (auto it = undelivered_msg_list_.begin(); it != undelivered_msg_list_.end();
          /**/) {
         if (time_now >= (*it)->time) {
             mutex_.lock();

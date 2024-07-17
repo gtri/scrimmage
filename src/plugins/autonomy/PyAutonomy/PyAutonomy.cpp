@@ -51,8 +51,7 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy,
-                PyAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy, PyAutonomy_plugin)
 
 namespace py = pybind11;
 namespace sc = scrimmage;
@@ -81,8 +80,7 @@ py::object PyAutonomy::get_py_obj(std::map<std::string, std::string> &params) {
 void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
     py::dict py_params;
     for (auto &kv : params) {
-        if (kv.first != "module" && kv.first != "class" &&
-            kv.first != "library") {
+        if (kv.first != "module" && kv.first != "class" && kv.first != "library") {
             py_params[kv.first.c_str()] = py::str(kv.second);
         }
     }
@@ -102,16 +100,11 @@ void PyAutonomy::cache_python_vars() {
         py_contact_class_ = py_scrimmage.attr("Contact");
         py_msg_class_ = py_scrimmage.attr("Message");
 
-        py_contact_types_[sc::Contact::Type::AIRCRAFT] =
-            py_contact_class_.attr("AIRCRAFT");
-        py_contact_types_[sc::Contact::Type::QUADROTOR] =
-            py_contact_class_.attr("QUADROTOR");
-        py_contact_types_[sc::Contact::Type::SPHERE] =
-            py_contact_class_.attr("SPHERE");
-        py_contact_types_[sc::Contact::Type::MESH] =
-            py_contact_class_.attr("MESH");
-        py_contact_types_[sc::Contact::Type::UNKNOWN] =
-            py_contact_class_.attr("UNKNOWN");
+        py_contact_types_[sc::Contact::Type::AIRCRAFT] = py_contact_class_.attr("AIRCRAFT");
+        py_contact_types_[sc::Contact::Type::QUADROTOR] = py_contact_class_.attr("QUADROTOR");
+        py_contact_types_[sc::Contact::Type::SPHERE] = py_contact_class_.attr("SPHERE");
+        py_contact_types_[sc::Contact::Type::MESH] = py_contact_class_.attr("MESH");
+        py_contact_types_[sc::Contact::Type::UNKNOWN] = py_contact_class_.attr("UNKNOWN");
 
         py::module py_numpy = py::module::import("numpy");
 
@@ -142,21 +135,17 @@ py::object PyAutonomy::contact2py(scrimmage::Contact contact) {
     py::object py_contact = py_contact_class_();
     scrimmage::ID id = contact.id();
     py_contact.attr("state") = state2py(contact.state());
-    py_contact.attr("id") =
-        py_id_class_(id.id(), id.sub_swarm_id(), id.team_id());
+    py_contact.attr("id") = py_id_class_(id.id(), id.sub_swarm_id(), id.team_id());
     py_contact.attr("type") = py_contact_types_[contact.type()];
 
     return py_contact;
 }
 
-std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(
-    const pybind11::handle &py_handle) {
+std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(const pybind11::handle &py_handle) {
     // Convert python shape to c++ shape.
     py::object shape_obj = py_handle.cast<py::object>();
-    py::function serialize_func =
-        shape_obj.attr("SerializeToString").cast<py::function>();
-    std::shared_ptr<scrimmage_proto::Shape> cpp_shape(
-        new scrimmage_proto::Shape());
+    py::function serialize_func = shape_obj.attr("SerializeToString").cast<py::function>();
+    std::shared_ptr<scrimmage_proto::Shape> cpp_shape(new scrimmage_proto::Shape());
     cpp_shape->ParseFromString(serialize_func().cast<std::string>());
 
     return cpp_shape;
@@ -255,8 +244,7 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
 
     py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
     std::list<std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
-    std::transform(py_shapes.begin(), py_shapes.end(),
-                   std::back_inserter(cpp_shapes), py2shape);
+    std::transform(py_shapes.begin(), py_shapes.end(), std::back_inserter(cpp_shapes), py2shape);
     // shapes_ = cpp_shapes; // SHAPES TODO
 
     step_autonomy_called_ = true;

@@ -54,8 +54,7 @@ class Random {
     double rng_normal(double mean, double sigma);
     int rng_uniform_int(int low, int high);  // inclusive of low and high
 
-    std::shared_ptr<std::normal_distribution<double>> make_rng_normal(
-        double mean, double sigma);
+    std::shared_ptr<std::normal_distribution<double>> make_rng_normal(double mean, double sigma);
 
     int rng_discrete_int(std::vector<double> &weights);
 

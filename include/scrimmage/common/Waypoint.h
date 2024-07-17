@@ -50,12 +50,10 @@ namespace autonomy {
 class Waypoint {
  public:
     Waypoint() = default;
-    Waypoint(const double& latitude, const double& longitude,
-             const double& altitude);
+    Waypoint(const double& latitude, const double& longitude, const double& altitude);
     Waypoint(const double& x, const double& y, const double& z,
              const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
-    Waypoint(const Eigen::Vector3d& xyz,
-             const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
+    Waypoint(const Eigen::Vector3d& xyz, const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
     explicit Waypoint(const scrimmage_msgs::Waypoint& wp);
 
     void set_id(const size_t& id) { id_ = id; }
@@ -82,12 +80,10 @@ class Waypoint {
 
     friend bool operator==(const Waypoint& lhs, const Waypoint& rhs);
 
-    Eigen::Vector3d xyz(
-        const std::shared_ptr<GeographicLib::LocalCartesian>& proj) const;
+    Eigen::Vector3d xyz(const std::shared_ptr<GeographicLib::LocalCartesian>& proj) const;
 
-    bool is_within_tolerance(
-        const scrimmage::StatePtr& state,
-        const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
+    bool is_within_tolerance(const scrimmage::StatePtr& state,
+                             const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
 
  protected:
     size_t id_ = 0;

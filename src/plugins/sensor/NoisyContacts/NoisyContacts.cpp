@@ -50,8 +50,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyContacts,
-                NoisyContacts_plugin)
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::NoisyContacts, NoisyContacts_plugin)
 
 namespace scrimmage {
 namespace sensor {
@@ -64,11 +63,9 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
             std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
             double mean, stdev;
-            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2)
-                                        ? std::make_pair(vec[0], vec[1])
-                                        : std::make_pair(0.0, 1.0);
-            noise_vec.push_back(
-                parent_->random()->make_rng_normal(mean, stdev));
+            std::tie(mean, stdev) =
+                get_vec(tag_name, params, " ", vec, 2) ? std::make_pair(vec[0], vec[1]) : std::make_pair(0.0, 1.0);
+            noise_vec.push_back(parent_->random()->make_rng_normal(mean, stdev));
         }
     };
 
@@ -76,8 +73,7 @@ void NoisyContacts::init(std::map<std::string, std::string> &params) {
     add_noise("vel_noise", vel_noise_);
     add_noise("orient_noise", orient_noise_);
 
-    std::string topic_name =
-        sc::get<std::string>("topic_name", params, "ContactsWithCovariances");
+    std::string topic_name = sc::get<std::string>("topic_name", params, "ContactsWithCovariances");
     pub_ = advertise("LocalNetwork", topic_name);
 }
 
@@ -95,8 +91,7 @@ bool NoisyContacts::step() {
         // Construct a StateWithCovariance.
         // Covar Matrix is 3x3 (x, y, z) with 5.0 along diagonal
         std::shared_ptr<StateWithCovariance> state =
-            std::make_shared<StateWithCovariance>(*(kv.second.state()), 3, 3,
-                                                  5.0);
+            std::make_shared<StateWithCovariance>(*(kv.second.state()), 3, 3, 5.0);
 
         // Add noise to position and velocity
         for (int i = 0; i < 3; i++) {
@@ -105,16 +100,12 @@ bool NoisyContacts::step() {
         }
 
         // add noise in roll, pitch, yaw order
-        state->quat() =
-            state->quat() *
-            Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
-            Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener)) *
-            Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
+        state->quat() = state->quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener)) *
+                        Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener)) *
+                        Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
         // Construct a new Contact in place
-        msg->data.emplace(
-            kv.second.id().id(),
-            Contact(kv.second.id(), std::static_pointer_cast<State>(state)));
+        msg->data.emplace(kv.second.id().id(), Contact(kv.second.id(), std::static_pointer_cast<State>(state)));
     }
 
     // Publish the noisy contact map

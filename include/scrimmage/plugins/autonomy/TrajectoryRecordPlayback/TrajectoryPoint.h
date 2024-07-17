@@ -41,8 +41,7 @@ namespace autonomy {
 class TrajectoryPoint {
  public:
     TrajectoryPoint() : t_(0) {}
-    TrajectoryPoint(double t, scrimmage::State &state,
-                    scrimmage::State &desired)
+    TrajectoryPoint(double t, scrimmage::State &state, scrimmage::State &desired)
         : t_(t), state_(state), desired_state_(desired) {}
 
     double t() { return t_; }

@@ -45,9 +45,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UUV6DOFLinearEnergy,
-                UUV6DOFLinearEnergy_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UUV6DOFLinearEnergy, UUV6DOFLinearEnergy_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -57,19 +55,13 @@ void UUV6DOFLinearEnergy::init(std::map<std::string, std::string> &params) {
     energy_max_ = sc::get<double>("energy_max", params, energy_max_);
     energy_min_ = sc::get<double>("energy_min", params, energy_min_);
 
-    in_throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
-    in_elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
-    in_rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
+    in_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
+    in_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
+    in_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
-    out_throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    out_elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    out_rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    out_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    out_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    out_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool UUV6DOFLinearEnergy::step(double t, double dt) {

@@ -55,8 +55,8 @@ class NetworkDevice {
 
     virtual ~NetworkDevice() = default;  // Make NetworkDevice Polymorphic
 
-    NetworkDevice(const std::string& topic, const unsigned int& max_queue_size,
-                  const bool& enable_queue_size, EntityPluginPtr plugin);
+    NetworkDevice(const std::string& topic, const unsigned int& max_queue_size, const bool& enable_queue_size,
+                  EntityPluginPtr plugin);
 
     std::string get_topic() const;
     void set_topic(const std::string& topic);
@@ -66,9 +66,7 @@ class NetworkDevice {
 
     unsigned int msg_list_size() { return msg_list_.size(); }
 
-    unsigned int undelivered_msg_list_size() {
-        return undelivered_msg_list_.size();
-    }
+    unsigned int undelivered_msg_list_size() { return undelivered_msg_list_.size(); }
 
     void set_max_queue_size(const unsigned int& size);
     unsigned int max_queue_size();
@@ -80,16 +78,12 @@ class NetworkDevice {
     void add_msg(MessageBasePtr msg);
 
     /* added for delay handling */
-    void add_undelivered_msg(MessageBasePtr msg,
-                             const bool& is_stochastic_delay = false);
+    void add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay = false);
     auto deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it);
-    int deliver_undelivered_msg(const double& time_now,
-                                const bool& is_stochastic_delay = false);
+    int deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay = false);
     /* end delay handling */
 
-    template <
-        class T = MessageBase,
-        class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     std::list<MessageBasePtr> pop_msgs() {
         mutex_.lock();
         std::list<MessageBasePtr> msg_list_cast;
@@ -104,9 +98,7 @@ class NetworkDevice {
     }
 
     template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value &&
-                               std::is_base_of<MessageBase, T>::value,
-                           void>>
+                           !std::is_same<T, MessageBase>::value && std::is_base_of<MessageBase, T>::value, void>>
     std::list<std::shared_ptr<T>> pop_msgs() {
         mutex_.lock();
         std::list<std::shared_ptr<T>> msg_list_cast;
@@ -117,9 +109,7 @@ class NetworkDevice {
             if (msg_cast) {
                 msg_list_cast.push_back(msg_cast);
             } else {
-                print_str(
-                    std::string("WARNING: could not cast message on topic \"") +
-                    topic_);
+                print_str(std::string("WARNING: could not cast message on topic \"") + topic_);
             }
             it = msg_list_.erase(it);
         }
@@ -128,9 +118,7 @@ class NetworkDevice {
     }
 
     template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value &&
-                               !std::is_base_of<MessageBase, T>::value,
-                           void>>
+                           !std::is_same<T, MessageBase>::value && !std::is_base_of<MessageBase, T>::value, void>>
     std::list<std::shared_ptr<Message<T>>> pop_msgs() {
         return pop_msgs<Message<T>>();
     }
@@ -142,15 +130,12 @@ class NetworkDevice {
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <
-        class T = MessageBase,
-        class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <class T = MessageBase, class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     std::list<MessageBasePtr> msgs(bool pop_msgs = true) {
-        static_assert(
-            always_false<T>::value,
-            "You are using the old publisher/subscriber interface (i.e., "
-            "msgs(bool)) in your plugin. Please use the new subscriber "
-            "callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., "
+                      "msgs(bool)) in your plugin. Please use the new subscriber "
+                      "callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }
@@ -158,15 +143,12 @@ class NetworkDevice {
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
     template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value &&
-                               std::is_base_of<MessageBase, T>::value,
-                           void>>
+                           !std::is_same<T, MessageBase>::value && std::is_base_of<MessageBase, T>::value, void>>
     std::list<std::shared_ptr<T>> msgs(bool pop_msgs = true) {
-        static_assert(
-            always_false<T>::value,
-            "You are using the old publisher/subscriber interface (i.e., "
-            "msgs(bool)) in your plugin. Please use the new subscriber "
-            "callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., "
+                      "msgs(bool)) in your plugin. Please use the new subscriber "
+                      "callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }
@@ -174,15 +156,12 @@ class NetworkDevice {
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
     template <class T, class = std::enable_if_t<
-                           !std::is_same<T, MessageBase>::value &&
-                               !std::is_base_of<MessageBase, T>::value,
-                           void>>
+                           !std::is_same<T, MessageBase>::value && !std::is_base_of<MessageBase, T>::value, void>>
     std::list<std::shared_ptr<Message<T>>> msgs(bool pop_msgs = true) {
-        static_assert(
-            always_false<T>::value,
-            "You are using the old publisher/subscriber interface (i.e., "
-            "msgs(bool)) in your plugin. Please use the new subscriber "
-            "callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., "
+                      "msgs(bool)) in your plugin. Please use the new subscriber "
+                      "callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }

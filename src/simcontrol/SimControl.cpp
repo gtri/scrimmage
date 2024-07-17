@@ -75,13 +75,12 @@
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>
 #ifdef __clang__
-_Pragma("clang diagnostic push")
-    _Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
-        _Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
+_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
+    _Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
 #endif
 #include <Python.h>
 #ifdef __clang__
-            _Pragma("clang diagnostic pop")
+        _Pragma("clang diagnostic pop")
 #endif
 #endif
 
@@ -92,7 +91,7 @@ _Pragma("clang diagnostic push")
 #include <boost/range/numeric.hpp>
 #include <boost/thread.hpp>
 
-                namespace sc = scrimmage;
+            namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sm = scrimmage_msgs;
 namespace br = boost::range;
@@ -160,8 +159,7 @@ bool SimControl::setup_logging() {
     return true;
 }
 
-bool SimControl::init(const std::string &mission_file,
-                      const bool &init_python) {
+bool SimControl::init(const std::string &mission_file, const bool &init_python) {
 #if ENABLE_PYTHON_BINDINGS == 1
     if (init_python) {
         Py_Initialize();
@@ -239,8 +237,7 @@ bool SimControl::generate_entities(const double &t) {
 
             // Is rate generation enabled?
             if (gen_info.rate > 0) {
-                NormDistribution norm_dist(t + 1.0 / gen_info.rate,
-                                           gen_info.time_variance);
+                NormDistribution norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
 
                 // save next gen time to pointer to next gen time
                 gen_time = norm_dist(*random_->gener());
@@ -257,17 +254,14 @@ bool SimControl::generate_entities(const double &t) {
         }
     }
     // Delete gen_info's that don't have ents remaining (count==0)
-    remove_if(mp_->gen_info(),
-              [&](auto &kv) { return kv.second.total_count <= 0; });
+    remove_if(mp_->gen_info(), [&](auto &kv) { return kv.second.total_count <= 0; });
 
     // Create a new rtree from the existing entity map and provide additional
     // space in the rtree for the new entities that will be generated.
     create_rtree(ents_to_gen.size());
 
     // Call generate_entity on each entity description id.
-    auto gen_ent = [&](const int &ent_desc_id) -> bool {
-        return generate_entity(ent_desc_id);
-    };
+    auto gen_ent = [&](const int &ent_desc_id) -> bool { return generate_entity(ent_desc_id); };
     bool status = std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
 
     return status;
@@ -286,8 +280,7 @@ bool SimControl::generate_entity(const int &ent_desc_id) {
     return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
 }
 
-bool SimControl::generate_entity(const int &ent_desc_id,
-                                 std::map<std::string, std::string> &params,
+bool SimControl::generate_entity(const int &ent_desc_id, std::map<std::string, std::string> &params,
                                  AttributeMap &plugin_attr_map) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
@@ -303,18 +296,13 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     Eigen::Vector3d pos(x0, y0, z0);
 
     auto gener = random_->gener();
-    NormDistribution x_normal_dist(x0,
-                                   pow(get("variance_x", params, 100.0), 0.5));
-    NormDistribution y_normal_dist(y0,
-                                   pow(get("variance_y", params, 100.0), 0.5));
-    NormDistribution z_normal_dist(z0,
-                                   pow(get("variance_z", params, 0.0), 0.5));
-    NormDistribution heading_normal_dist(
-        heading, pow(get("variance_heading", params, 0.0), 0.5));
+    NormDistribution x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
+    NormDistribution y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
+    NormDistribution z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
+    NormDistribution heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
     params["heading"] = std::to_string(heading_normal_dist(*gener));
 
-    bool use_variance_all_ents =
-        scrimmage::get("use_variance_all_ents", params, false);
+    bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
 
     // Use variance if a collision exists (This happens when you place <entity>
     // tags" at the same location). Or, if use_variance_all_ents is specified
@@ -338,8 +326,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
                     "for "
                     "entity at: "
                  << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
-                 << "With variance: (" << pos(0) << "," << pos(1) << ","
-                 << pos(2) << ")" << endl;
+                 << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
             return false;
         } else if (exit_) {
             return false;
@@ -364,11 +351,10 @@ bool SimControl::generate_entity(const int &ent_desc_id,
 
     int id = find_available_id(params);
 
-    bool ent_status = ent->init(
-        plugin_attr_map, params, id_to_team_map_, id_to_ent_map_, contacts_,
-        mp_, proj_, id, ent_desc_id, plugin_manager_, file_search_, rtree_,
-        pubsub_, printer_, time_, param_server_, global_services_,
-        std::set<std::string>{}, [](std::map<std::string, std::string> &) {});
+    bool ent_status =
+        ent->init(plugin_attr_map, params, id_to_team_map_, id_to_ent_map_, contacts_, mp_, proj_, id, ent_desc_id,
+                  plugin_manager_, file_search_, rtree_, pubsub_, printer_, time_, param_server_, global_services_,
+                  std::set<std::string>{}, [](std::map<std::string, std::string> &) {});
     contacts_mutex_.unlock();
 
     if (!ent_status) {
@@ -395,8 +381,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     rtree_->add(ent->state()->pos(), ent->id());
     contacts_mutex_.lock();
     (*contacts_)[ent->id().id()] =
-        Contact(ent->id(), ent->radius(), ent->state_truth(), ent->type(),
-                ent->contact_visual(), ent->properties());
+        Contact(ent->id(), ent->radius(), ent->state_truth(), ent->type(), ent->contact_visual(), ent->properties());
     contacts_mutex_.unlock();
 
     auto msg = std::make_shared<Message<sm::EntityGenerated>>();
@@ -410,9 +395,7 @@ MissionParsePtr SimControl::mp() { return mp_; }
 
 bool SimControl::enable_gui() { return mp_->enable_gui(); }
 
-void SimControl::display_progress(const bool &enable) {
-    display_progress_ = enable;
-}
+void SimControl::display_progress(const bool &enable) { display_progress_ = enable; }
 
 void SimControl::join() { thread_.join(); }
 
@@ -448,16 +431,13 @@ void SimControl::set_autonomy_contacts() {
 bool SimControl::run_networks() {
     bool all_true = true;
     for (auto &kv : *networks_) {
-        bool result = kv.second->step(pubsub_->pubs()[kv.second->name()],
-                                      pubsub_->subs()[kv.second->name()]);
+        bool result = kv.second->step(pubsub_->pubs()[kv.second->name()], pubsub_->subs()[kv.second->name()]);
         if (!result && kv.second->print_err_on_exit) {
-            cout << "Network requested simulation termination: "
-                 << kv.second->name() << endl;
+            cout << "Network requested simulation termination: " << kv.second->name() << endl;
         }
         all_true &= result;
 
-        shapes_[0].insert(shapes_[0].end(), kv.second->shapes().begin(),
-                          kv.second->shapes().end());
+        shapes_[0].insert(shapes_[0].end(), kv.second->shapes().begin(), kv.second->shapes().end());
         kv.second->shapes().clear();
     }
     return all_true;
@@ -467,21 +447,18 @@ bool SimControl::run_interaction_detection() {
     auto run_interaction = [&](auto ent_inter) {
         bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
         if (!result && ent_inter->print_err_on_exit) {
-            cout << "Entity interaction requested simulation termination: "
-                 << ent_inter->name() << endl;
+            cout << "Entity interaction requested simulation termination: " << ent_inter->name() << endl;
         }
         return result;
     };
 
     auto handle_shapes = [&](auto ent_inter) {
-        shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(),
-                          ent_inter->shapes().end());
+        shapes_[0].insert(shapes_[0].end(), ent_inter->shapes().begin(), ent_inter->shapes().end());
         ent_inter->shapes().clear();
     };
 
     br::for_each(ent_inters_, run_callbacks);
-    bool success =
-        std::all_of(ent_inters_.begin(), ent_inters_.end(), run_interaction);
+    bool success = std::all_of(ent_inters_.begin(), ent_inters_.end(), run_interaction);
     br::for_each(ent_inters_, handle_shapes);
 
     // Determine if entities need to be removed
@@ -509,17 +486,14 @@ bool SimControl::run_interaction_detection() {
 
 bool SimControl::run_metrics() {
     br::for_each(metrics_, run_callbacks);
-    auto run_metric = [&](auto &metric) {
-        return metric->step_metrics(t_, dt_);
-    };
+    auto run_metric = [&](auto &metric) { return metric->step_metrics(t_, dt_); };
     return std::all_of(metrics_.begin(), metrics_.end(), run_metric);
 }
 
 bool SimControl::run_logging() {
     contacts_mutex_.lock();
 
-    std::shared_ptr<scrimmage_proto::Frame> frame =
-        create_frame(t_ + dt_, contacts_);
+    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(t_ + dt_, contacts_);
 
     outgoing_interface_->send_frame(frame);
     log_->save_frame(frame);
@@ -543,8 +517,7 @@ void SimControl::run_remove_inactive() {
             // entity from the id_to_team_map.
             auto it_id_ent = id_to_ent_map_->find(id);
             if (it_id_ent == id_to_ent_map_->end()) {
-                cout << "WARNING: Failed to remove entity ID (" << id
-                     << ") from id_to_ent_map" << endl;
+                cout << "WARNING: Failed to remove entity ID (" << id << ") from id_to_ent_map" << endl;
             } else {
                 id_to_ent_map_->erase(it_id_ent);
             }
@@ -675,9 +648,7 @@ void SimControl::run_threaded() {
     thread_ = std::thread(&SimControl::run, this);
 }
 
-void SimControl::set_running_in_thread(bool running_in_thread) {
-    running_in_thread_ = running_in_thread;
-}
+void SimControl::set_running_in_thread(bool running_in_thread) { running_in_thread_ = running_in_thread; }
 
 bool SimControl::start() {
     setup_logging();
@@ -696,19 +667,12 @@ bool SimControl::start() {
     proj_ = mp_->projection();  // get projection (origin) from mission
 
     if (get("show_plugins", mp_->params(), false)) {
-        plugin_manager_->print_plugins("scrimmage::Autonomy",
-                                       "Autonomy Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::MotionModel",
-                                       "Motion Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Controller",
-                                       "Controller Plugins", *file_search_);
-        plugin_manager_->print_plugins("scrimmage::EntityInteraction",
-                                       "Entity Interaction Plugins",
-                                       *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins",
-                                       *file_search_);
-        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins",
-                                       *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Autonomy", "Autonomy Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::MotionModel", "Motion Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Controller", "Controller Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::EntityInteraction", "Entity Interaction Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Sensor", "Sensor Plugins", *file_search_);
+        plugin_manager_->print_plugins("scrimmage::Metrics", "Metrics Plugins", *file_search_);
     }
 
     // Setup random seed
@@ -731,8 +695,7 @@ bool SimControl::start() {
     log_->write_ascii("Seed: " + std::to_string(random_->get_seed()));
 
     auto get_count = [&](auto &kv) { return kv.second.total_count; };
-    int max_num_entities =
-        boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
+    int max_num_entities = boost::accumulate(mp_->gen_info() | ba::transformed(get_count), 0);
 
     // What is the end condition?
     if (mp_->params().count("end_condition") > 0) {
@@ -753,17 +716,13 @@ bool SimControl::start() {
         end_conditions_.insert(EndConditionFlags::TIME);
     }
 
-    if (mp_->params().count("stream_port") > 0 &&
-        mp_->params().count("stream_ip") > 0) {
+    if (mp_->params().count("stream_port") > 0 && mp_->params().count("stream_ip") > 0) {
         if (mp_->network_gui()) {
-            outgoing_interface_->init_network(
-                Interface::client, mp_->params()["stream_ip"],
-                std::stoi(mp_->params()["stream_port"]));
+            outgoing_interface_->init_network(Interface::client, mp_->params()["stream_ip"],
+                                              std::stoi(mp_->params()["stream_port"]));
 
-            network_thread_ =
-                std::thread(&Interface::init_network, &(*incoming_interface_),
-                            Interface::server, "localhost",
-                            std::stoi(mp_->params()["stream_port"]) + 1);
+            network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_), Interface::server,
+                                          "localhost", std::stoi(mp_->params()["stream_port"]) + 1);
             network_thread_.detach();
         } else {
             outgoing_interface_->set_mode(Interface::shared);
@@ -776,9 +735,7 @@ bool SimControl::start() {
     }
 
     // If the GlobalNetwork doesn't exist, add it.
-    auto it_global_network =
-        std::find(mp_->network_names().begin(), mp_->network_names().end(),
-                  "GlobalNetwork");
+    auto it_global_network = std::find(mp_->network_names().begin(), mp_->network_names().end(), "GlobalNetwork");
     if (it_global_network == mp_->network_names().end()) {
         mp_->network_names().push_back("GlobalNetwork");
     }
@@ -821,41 +778,31 @@ bool SimControl::start() {
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(info, *networks_)) return false;
     if (!create_metrics(info, contacts_, metrics_)) return false;
-    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_,
-                           global_services_))
-        return false;
+    if (!create_ent_inters(info, contacts_, shapes_[0], ent_inters_, global_services_)) return false;
 
     // Setup simcontrol's pubsub plugin
     pub_end_time_ = sim_plugin_->advertise("GlobalNetwork", "EndTime");
     pub_ent_gen_ = sim_plugin_->advertise("GlobalNetwork", "EntityGenerated");
     pub_ent_rm_ = sim_plugin_->advertise("GlobalNetwork", "EntityRemoved");
-    pub_ent_pres_end_ =
-        sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
-    pub_ent_int_exit_ =
-        sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
+    pub_ent_pres_end_ = sim_plugin_->advertise("GlobalNetwork", "EntityPresentAtEnd");
+    pub_ent_int_exit_ = sim_plugin_->advertise("GlobalNetwork", "EntityInteractionExit");
     pub_no_teams_ = sim_plugin_->advertise("GlobalNetwork", "NoTeamsPresent");
     pub_one_team_ = sim_plugin_->advertise("GlobalNetwork", "OneTeamPresent");
-    pub_world_point_clicked_ =
-        sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
+    pub_world_point_clicked_ = sim_plugin_->advertise("GlobalNetwork", "WorldPointClicked");
     pub_custom_key_ = sim_plugin_->advertise("GlobalNetwork", "CustomKeyPress");
 
     // Set subscriber / callback that allows plugins to generate entities
     auto gen_ent_cb = [&](auto &msg) {
-        auto it_ent_desc_id =
-            mp_->entity_tag_to_id().find(msg->data.entity_tag());
+        auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
         if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
-            cout << "ERROR: Failed to find entity_tag, "
-                 << msg->data.entity_tag() << ", in mission file." << endl;
+            cout << "ERROR: Failed to find entity_tag, " << msg->data.entity_tag() << ", in mission file." << endl;
             return;
         }
         // Get the vehicle's params block:
-        auto it_params =
-            mp_->entity_descriptions().find(it_ent_desc_id->second);
+        auto it_params = mp_->entity_descriptions().find(it_ent_desc_id->second);
         if (it_params == mp_->entity_descriptions().end()) {
-            cout << "ERROR: Failed to find entity block id, "
-                 << it_ent_desc_id->second
-                 << ", for entity_tag: " << msg->data.entity_tag()
-                 << ", in mission file." << endl;
+            cout << "ERROR: Failed to find entity block id, " << it_ent_desc_id->second
+                 << ", for entity_tag: " << msg->data.entity_tag() << ", in mission file." << endl;
             return;
         }
 
@@ -879,30 +826,24 @@ bool SimControl::start() {
 
         // Override any manually specified entity_params
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
-            params[msg->data.entity_param(i).key()] =
-                msg->data.entity_param(i).value();
+            params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
         }
 
-        AttributeMap plugin_attr_map =
-            mp_->entity_attributes()[it_ent_desc_id->second];
+        AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
         for (int i = 0; i < msg->data.plugin_param().size(); i++) {
-            plugin_attr_map[msg->data.plugin_param(i).plugin_type()]
-                           [msg->data.plugin_param(i).tag_name()] =
-                               msg->data.plugin_param(i).tag_value();
+            plugin_attr_map[msg->data.plugin_param(i).plugin_type()][msg->data.plugin_param(i).tag_name()] =
+                msg->data.plugin_param(i).tag_value();
         }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params,
-                                      plugin_attr_map)) {
-            cout << "Failed to generate entity with tag: "
-                 << msg->data.entity_tag() << endl;
+        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
+            cout << "Failed to generate entity with tag: " << msg->data.entity_tag() << endl;
             return;
         }
     };
-    sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork",
-                                               "GenerateEntity", gen_ent_cb);
+    sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork", "GenerateEntity", gen_ent_cb);
 
     // Set subscriber / callback that allows plugins to take a screenshot of the
     // GUI if the enable_gui XML tag is set to true
@@ -938,20 +879,17 @@ bool SimControl::start() {
 
         if (!entity_thread_types_.empty()) {
             entity_pool_stop_ = false;
-            num_entity_threads_ =
-                get("num_threads", mp_->attributes()["multi_threaded"], 1);
+            num_entity_threads_ = get("num_threads", mp_->attributes()["multi_threaded"], 1);
             entity_worker_threads_.clear();
             entity_worker_threads_.reserve(num_entity_threads_);
             for (int i = 0; i < num_entity_threads_; i++) {
-                entity_worker_threads_.push_back(
-                    std::thread(&SimControl::worker, this));
+                entity_worker_threads_.push_back(std::thread(&SimControl::worker, this));
             }
         }
     }
 
     // screenshots
-    if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) &&
-        mp_) {
+    if (enable_gui() && get<bool>("enable_screenshots", mp_->params(), false) && mp_) {
         auto it = mp_->attributes().find("enable_screenshots");
         std::map<std::string, std::string> attr;
         if (it != mp_->attributes().end()) {
@@ -962,10 +900,8 @@ bool SimControl::start() {
 
         screenshot_task_.delay = get<double>("min_period", attr, 0.0);
         screenshot_task_.set_repeat_infinitely(true);
-        screenshot_task_.last_updated_time =
-            get<double>("start", attr, 0.0) - screenshot_task_.delay;
-        screenshot_task_.end_time =
-            get<double>("end", attr, std::numeric_limits<double>::infinity());
+        screenshot_task_.last_updated_time = get<double>("start", attr, 0.0) - screenshot_task_.delay;
+        screenshot_task_.end_time = get<double>("end", attr, std::numeric_limits<double>::infinity());
         screenshot_task_.eps = dt_ / 4;
 
         if (screenshot_task_.update(t_).first) {
@@ -995,8 +931,7 @@ bool SimControl::start() {
                 } else {
                     random_->seed();
                 }
-                log_->write_ascii("ReSeed: " +
-                                  std::to_string(random_->get_seed()));
+                log_->write_ascii("ReSeed: " + std::to_string(random_->get_seed()));
                 return true;
             };
         }
@@ -1172,8 +1107,7 @@ bool SimControl::wait_for_ready() {
     // Wait for all entities to be ready
     int not_ready_loop = 0;
     while (!not_ready_.empty()) {
-        for (std::list<EntityPtr>::iterator it = not_ready_.begin();
-             it != not_ready_.end();
+        for (std::list<EntityPtr>::iterator it = not_ready_.begin(); it != not_ready_.end();
              /* No increment */) {
             if ((*it)->ready()) {
                 // Remove references to entities that are ready
@@ -1207,8 +1141,7 @@ bool SimControl::wait_for_ready() {
 }
 
 bool SimControl::end_condition_reached() {
-    if (end_conditions_.count(EndConditionFlags::TIME) &&
-        t() > mp_->tend() - dt_ / 2.0) {
+    if (end_conditions_.count(EndConditionFlags::TIME) && t() > mp_->tend() - dt_ / 2.0) {
         auto msg = std::make_shared<Message<sm::EndTime>>();
         pub_end_time_->publish(msg);
         return true;
@@ -1217,24 +1150,18 @@ bool SimControl::end_condition_reached() {
     if (ents_.empty()) {
         auto msg = std::make_shared<Message<sm::NoTeamsPresent>>();
         pub_no_teams_->publish(msg);
-        if (end_conditions_.count(EndConditionFlags::ALL_DEAD) ||
-            end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
-            std::cout << std::endl
-                      << "End of Simulation: No Entities Remaining"
-                      << std::endl;
+        if (end_conditions_.count(EndConditionFlags::ALL_DEAD) || end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
+            std::cout << std::endl << "End of Simulation: No Entities Remaining" << std::endl;
             return true;
         }
     } else if (end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
         const int team1_id = ents_.front()->id().team_id();
-        const bool all_same_team = std::all_of(
-            ents_.rbegin(), ents_.rend(),
-            [&](EntityPtr &ent) { return team1_id == ent->id().team_id(); });
+        const bool all_same_team =
+            std::all_of(ents_.rbegin(), ents_.rend(), [&](EntityPtr &ent) { return team1_id == ent->id().team_id(); });
         if (all_same_team) {
             auto msg = std::make_shared<Message<sm::OneTeamPresent>>();
             pub_one_team_->publish(msg);
-            std::cout << std::endl
-                      << "End of Simulation: One Team (" << team1_id << ")"
-                      << std::endl;
+            std::cout << std::endl << "End of Simulation: One Team (" << team1_id << ")" << std::endl;
             return true;
         }
     }
@@ -1256,13 +1183,9 @@ bool SimControl::take_step() {
     return value;
 }
 
-void SimControl::set_incoming_interface(InterfacePtr &incoming_interface) {
-    incoming_interface_ = incoming_interface;
-}
+void SimControl::set_incoming_interface(InterfacePtr &incoming_interface) { incoming_interface_ = incoming_interface; }
 
-void SimControl::set_outgoing_interface(InterfacePtr &outgoing_interface) {
-    outgoing_interface_ = outgoing_interface;
-}
+void SimControl::set_outgoing_interface(InterfacePtr &outgoing_interface) { outgoing_interface_ = outgoing_interface; }
 
 void SimControl::run_check_network_msgs() {
     // Do we have any simcontrol message updates from GUI?
@@ -1311,9 +1234,8 @@ void SimControl::run_check_network_msgs() {
 }
 
 bool SimControl::collision_exists(Eigen::Vector3d &p) {
-    return std::any_of(
-        ent_inters_.begin(), ent_inters_.end(),
-        [&](auto ent_inter) { return ent_inter->collision_exists(ents_, p); });
+    return std::any_of(ent_inters_.begin(), ent_inters_.end(),
+                       [&](auto ent_inter) { return ent_inter->collision_exists(ents_, p); });
 }
 
 void SimControl::force_exit() {
@@ -1348,8 +1270,7 @@ void SimControl::get_contacts(std::unordered_map<int, Contact> &contacts) {
     contacts_mutex_.unlock();
 }
 
-void SimControl::get_contact_visuals(
-    std::map<int, ContactVisualPtr> &contact_visuals) {
+void SimControl::get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals) {
     contact_visuals = contact_visuals_;
 }
 
@@ -1480,30 +1401,20 @@ void SimControl::worker() {
                 auto &autonomies = ent->autonomies();
                 br::for_each(autonomies, run_callbacks);
                 auto run = [&](auto &a) {
-                    return a->step_loop_timer(temp_dt)
-                               ? a->step_autonomy(temp_t, temp_dt)
-                               : true;
+                    return a->step_loop_timer(temp_dt) ? a->step_autonomy(temp_t, temp_dt) : true;
                 };
-                success =
-                    std::all_of(autonomies.begin(), autonomies.end(), run);
+                success = std::all_of(autonomies.begin(), autonomies.end(), run);
             } else if (task_type == Task::Type::CONTROLLER) {
                 auto &controllers = ent->controllers();
                 br::for_each(controllers, run_callbacks);
-                auto run = [&](auto &c) {
-                    return c->step_loop_timer(temp_dt)
-                               ? c->step(temp_t, temp_dt)
-                               : true;
-                };
-                success =
-                    std::all_of(controllers.begin(), controllers.end(), run);
+                auto run = [&](auto &c) { return c->step_loop_timer(temp_dt) ? c->step(temp_t, temp_dt) : true; };
+                success = std::all_of(controllers.begin(), controllers.end(), run);
             } else if (task_type == Task::Type::MOTION) {
                 success = ent->motion()->step(temp_t, temp_dt);
             } else if (task_type == Task::Type::SENSOR) {
                 auto sensors = ent->sensors() | ba::map_values;
                 br::for_each(sensors, run_callbacks);
-                auto run = [&](auto &s) {
-                    return s->step_loop_timer(temp_dt) ? s->step() : true;
-                };
+                auto run = [&](auto &s) { return s->step_loop_timer(temp_dt) ? s->step() : true; };
                 success = std::all_of(sensors.begin(), sensors.end(), run);
             }
 
@@ -1516,8 +1427,7 @@ void SimControl::worker() {
 
 void print_err(EntityPluginPtr p) {
     if (p->print_err_on_exit) {
-        std::cout << "failed to update entity " << p->parent()->id().id()
-                  << ", plugin type \"" << p->type() << "\""
+        std::cout << "failed to update entity " << p->parent()->id().id() << ", plugin type \"" << p->type() << "\""
                   << ", plugin name \"" << p->name() << "\"" << std::endl;
     }
 }
@@ -1543,8 +1453,7 @@ bool SimControl::run_sensors() {
     for (EntityPtr &ent : ents_) {
         auto &shapes = shapes_[ent->id().id()];
         for (auto &sensor : ent->sensors() | ba::map_values) {
-            shapes.insert(shapes.end(), sensor->shapes().begin(),
-                          sensor->shapes().end());
+            shapes.insert(shapes.end(), sensor->shapes().begin(), sensor->shapes().end());
             sensor->shapes().clear();
         }
     }
@@ -1601,10 +1510,8 @@ bool SimControl::run_entities() {
     } else {
         for (EntityPtr &ent : ents_) {
             for (auto a : ent->autonomies()) {
-                success &= exec_step(a, [&](auto a) {
-                    return a->step_loop_timer(dt_) ? a->step_autonomy(t_, dt_)
-                                                   : true;
-                });
+                success &=
+                    exec_step(a, [&](auto a) { return a->step_loop_timer(dt_) ? a->step_autonomy(t_, dt_) : true; });
             }
         }
     }
@@ -1615,9 +1522,7 @@ bool SimControl::run_entities() {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr &ent : ents_) {
             for (auto c : ent->controllers()) {
-                success &= exec_step(c, [&](auto c) {
-                    return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true;
-                });
+                success &= exec_step(c, [&](auto c) { return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true; });
             }
         }
 
@@ -1627,9 +1532,7 @@ bool SimControl::run_entities() {
                 success &= add_tasks(type, temp_t, motion_dt);
             } else {
                 for (EntityPtr &ent : ents_) {
-                    auto step = [&](auto p) {
-                        return p->step(temp_t, motion_dt);
-                    };
+                    auto step = [&](auto p) { return p->step(temp_t, motion_dt); };
                     success &= exec_step(getter(ent), step);
                 }
             }
@@ -1642,8 +1545,7 @@ bool SimControl::run_entities() {
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
         if (ent->state()->pos().hasNaN()) {
-            cout << "WARNING: Entity with motion model, "
-                 << ent->motion()->name() << ", contains a NaN value." << endl
+            cout << "WARNING: Entity with motion model, " << ent->motion()->name() << ", contains a NaN value." << endl
                  << "Check your time step values and for NaN values coming "
                  << "from Autonomy and Controller plugins." << endl;
             cout << "Removing entity ID: " << ent->id().id() << endl;
@@ -1716,8 +1618,7 @@ bool SimControl::output_runtime() {
 }
 
 bool SimControl::output_git_summary() {
-    std::map<std::string, std::unordered_set<std::string>> commits =
-        plugin_manager_->get_commits();
+    std::map<std::string, std::unordered_set<std::string>> commits = plugin_manager_->get_commits();
     std::string scrimmage_version = get_version();
 
     if (scrimmage_version != "") {
@@ -1755,8 +1656,7 @@ bool SimControl::output_summary() {
         // Add all elements from individual metrics plugin to overall
         // metrics data structure
         for (auto const &team_str_double : metrics->team_metrics()) {
-            team_metrics[team_str_double.first].insert(
-                team_str_double.second.begin(), team_str_double.second.end());
+            team_metrics[team_str_double.first].insert(team_str_double.second.begin(), team_str_double.second.end());
             metrics_empty = false;
         }
 
@@ -1769,8 +1669,7 @@ bool SimControl::output_summary() {
         }
 
         // Create list of all csv headers
-        headers.insert(headers.end(), metrics->headers().begin(),
-                       metrics->headers().end());
+        headers.insert(headers.end(), metrics->headers().begin(), metrics->headers().end());
     }
 
     // Create headers string
@@ -1805,8 +1704,7 @@ bool SimControl::output_summary() {
     std::string out_file = mp_->log_dir() + "/summary.csv";
     std::ofstream summary_file(out_file);
     if (!summary_file.is_open()) {
-        std::cout << "could not open " << out_file << " for writing metrics"
-                  << std::endl;
+        std::cout << "could not open " << out_file << " for writing metrics" << std::endl;
         return false;
     }
     summary_file << csv_str << std::flush;
@@ -1834,13 +1732,9 @@ std::list<EntityPtr> &SimControl::ents() { return ents_; }
 
 EntityPluginPtr SimControl::plugin() { return sim_plugin_; }
 
-std::shared_ptr<std::unordered_map<int, EntityPtr>>
-SimControl::id_to_entity_map() {
-    return id_to_ent_map_;
-}
+std::shared_ptr<std::unordered_map<int, EntityPtr>> SimControl::id_to_entity_map() { return id_to_ent_map_; }
 
-int SimControl::find_available_id(
-    const std::map<std::string, std::string> &params) {
+int SimControl::find_available_id(const std::map<std::string, std::string> &params) {
     // Use the mission file specified ID, if it exists, otherwise, find the
     // next available ID from the back of the ids_used_ std::set.
     int id = 0;
@@ -1849,8 +1743,7 @@ int SimControl::find_available_id(
         try {
             id = std::stoi(it_id->second);
         } catch (...) {
-            cout << "Failed to convert the following <id> tag into an integer: "
-                 << it_id->second << endl;
+            cout << "Failed to convert the following <id> tag into an integer: " << it_id->second << endl;
             id = 0;
         }
     }

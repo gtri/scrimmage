@@ -37,29 +37,22 @@
 
 namespace scrimmage {
 
-Quaternion::Quaternion()
-    : Eigen::Quaternion<double, Eigen::DontAlign>(1, 0, 0, 0) {}
+Quaternion::Quaternion() : Eigen::Quaternion<double, Eigen::DontAlign>(1, 0, 0, 0) {}
 
-Quaternion::Quaternion(const Quaternion &other)
-    : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
+Quaternion::Quaternion(const Quaternion &other) : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
 
 Quaternion::Quaternion(const Eigen::Quaternion<double, Eigen::DontAlign> &other)
     : Eigen::Quaternion<double, Eigen::DontAlign>(other) {}
 
-Quaternion::Quaternion(const double &w, const double &x, const double &y,
-                       const double &z)
+Quaternion::Quaternion(const double &w, const double &x, const double &y, const double &z)
     : Eigen::Quaternion<double, Eigen::DontAlign>(w, x, y, z) {}
 
 Quaternion::Quaternion(double &w, double &x, double &y, double &z)
     : Eigen::Quaternion<double, Eigen::DontAlign>(w, x, y, z) {}
 
-Quaternion::Quaternion(const Eigen::Vector3d &vector, double angle_radians) {
-    set(vector, angle_radians);
-}
+Quaternion::Quaternion(const Eigen::Vector3d &vector, double angle_radians) { set(vector, angle_radians); }
 
-Quaternion::Quaternion(double roll, double pitch, double yaw) {
-    set(roll, pitch, yaw);
-}
+Quaternion::Quaternion(double roll, double pitch, double yaw) { set(roll, pitch, yaw); }
 
 Quaternion &Quaternion::operator=(const Quaternion &other) {
     if (this != &other) {
@@ -68,16 +61,14 @@ Quaternion &Quaternion::operator=(const Quaternion &other) {
     return *this;
 }
 
-Quaternion &Quaternion::operator=(
-    const Eigen::Quaternion<double, Eigen::DontAlign> &other) {
+Quaternion &Quaternion::operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other) {
     if (this != &other) {
         set(other.w(), other.x(), other.y(), other.z());
     }
     return *this;
 }
 
-void Quaternion::set(double w_coeff, double x_coeff, double y_coeff,
-                     double z_coeff) {
+void Quaternion::set(double w_coeff, double x_coeff, double y_coeff, double z_coeff) {
     w() = w_coeff;
     x() = x_coeff;
     y() = y_coeff;
@@ -106,42 +97,32 @@ void Quaternion::set(double roll, double pitch, double yaw) {
     z() = cr * cp * sy - sr * sp * cy;
 }
 
-double Quaternion::roll() const {
-    return atan2(2 * (w() * x() + y() * z()),
-                 1 - 2 * (pow(x(), 2) + pow(y(), 2)));
-}
+double Quaternion::roll() const { return atan2(2 * (w() * x() + y() * z()), 1 - 2 * (pow(x(), 2) + pow(y(), 2))); }
 
 double Quaternion::pitch() const { return asin(2 * (w() * y() - z() * x())); }
 
-double Quaternion::yaw() const {
-    return atan2(2 * (w() * z() + x() * y()),
-                 1 - 2 * (pow(y(), 2) + pow(z(), 2)));
-}
+double Quaternion::yaw() const { return atan2(2 * (w() * z() + x() * y()), 1 - 2 * (pow(y(), 2) + pow(z(), 2))); }
 
 double Quaternion::rotation_angle() const { return 2 * acos(w()); }
 
 Eigen::Vector3d Quaternion::rotate(const Eigen::Vector3d &vec) const {
-    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(),
-                                                          vec.z());
+    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(), vec.z());
     return (*this * pure_quat * inverse()).vec();
 }
 
 Eigen::Vector3d Quaternion::rotate_reverse(const Eigen::Vector3d &vec) const {
-    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(),
-                                                          vec.z());
+    Eigen::Quaternion<double, Eigen::DontAlign> pure_quat(0, vec.x(), vec.y(), vec.z());
     return (inverse() * pure_quat * *this).vec();
 }
 
 std::ostream &operator<<(std::ostream &os, const Quaternion &q) {
-    os << "w: " << std::setprecision(q.output_precision) << q.w()
-       << ", x: " << std::setprecision(q.output_precision) << q.x()
-       << ", y: " << std::setprecision(q.output_precision) << q.y()
+    os << "w: " << std::setprecision(q.output_precision) << q.w() << ", x: " << std::setprecision(q.output_precision)
+       << q.x() << ", y: " << std::setprecision(q.output_precision) << q.y()
        << ", z: " << std::setprecision(q.output_precision) << q.z();
     return os;
 }
 
-scrimmage::Quaternion operator*(const scrimmage::Quaternion &p,
-                                const scrimmage::Quaternion &q) {
+scrimmage::Quaternion operator*(const scrimmage::Quaternion &p, const scrimmage::Quaternion &q) {
     const Eigen::Quaternion<double, Eigen::DontAlign> &ep = p;
     const Eigen::Quaternion<double, Eigen::DontAlign> &eq = q;
     return scrimmage::Quaternion(ep * eq);

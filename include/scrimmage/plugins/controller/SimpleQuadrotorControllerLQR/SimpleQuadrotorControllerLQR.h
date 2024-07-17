@@ -40,8 +40,7 @@
 
 namespace scrimmage {
 namespace controller {
-class SimpleQuadrotorControllerLQR
-    : public motion::SimpleQuadrotor::Controller {
+class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;

@@ -64,8 +64,7 @@ class JSBSimModel : public MotionModel {
  public:
     virtual std::tuple<int, int, int> version();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    virtual bool init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params);
     virtual bool step(double time, double dt);
 
     virtual void teleport(StatePtr &state);

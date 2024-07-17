@@ -46,8 +46,7 @@
 
 namespace scrimmage {
 
-using Service =
-    std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
 
 class GlobalService {
  public:
@@ -58,24 +57,20 @@ class GlobalService {
     // All service call functions
     std::unordered_map<std::string, Service> &services();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res,
-                      const std::string &service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
 
     bool call_service(MessageBasePtr &res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
 
     template <class T = MessageBasePtr,
-              class = typename std::enable_if<
-                  !std::is_same<T, MessageBasePtr>::value, void>::type>
-    bool call_service(MessageBasePtr req, T &res,
-                      const std::string &service_name) {
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+    bool call_service(MessageBasePtr req, T &res, const std::string &service_name) {
         MessageBasePtr res_base;
         if (call_service(req, res_base, service_name)) {
             res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
             if (res == nullptr) {
-                std::cout << "could not cast for global service "
-                          << service_name.c_str() << std::endl;
+                std::cout << "could not cast for global service " << service_name.c_str() << std::endl;
                 return false;
             } else {
                 return true;
@@ -86,8 +81,7 @@ class GlobalService {
     }
 
     template <class T = MessageBasePtr,
-              class = typename std::enable_if<
-                  !std::is_same<T, MessageBasePtr>::value, void>::type>
+              class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
     bool call_service(T &res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }

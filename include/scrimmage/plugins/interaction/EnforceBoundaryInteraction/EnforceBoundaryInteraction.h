@@ -55,8 +55,7 @@ class EnforceBoundaryInteraction : public scrimmage::EntityInteraction {
     EnforceBoundaryInteraction();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                                 double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
  protected:
     std::list<std::shared_ptr<sci::BoundaryBase>> boundaries_;

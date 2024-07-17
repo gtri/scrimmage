@@ -59,12 +59,9 @@ class WaypointDispatcher : public scrimmage::Autonomy {
     double lead_distance_ = 50;
     double filter_dist_ = 1;
 
-    scrimmage_proto::ShapePtr track_sphere_shape_ =
-        std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr curr_wp_sphere_shape_ =
-        std::make_shared<scrimmage_proto::Shape>();
-    scrimmage_proto::ShapePtr prev_wp_sphere_shape_ =
-        std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr track_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr curr_wp_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
+    scrimmage_proto::ShapePtr prev_wp_sphere_shape_ = std::make_shared<scrimmage_proto::Shape>();
     bool show_shapes_ = false;
 
     scrimmage::PublisherPtr wp_pub_;

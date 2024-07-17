@@ -42,8 +42,7 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::FixedWing6DOFControllerPID,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerPID,
                 FixedWing6DOFControllerPID_plugin)
 
 namespace scrimmage {
@@ -74,20 +73,15 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     }
 }
 
-void FixedWing6DOFControllerPID::init(
-    std::map<std::string, std::string> &params) {
+void FixedWing6DOFControllerPID::init(std::map<std::string, std::string> &params) {
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
 
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    aileron_idx_ =
-        vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 }
 
 bool FixedWing6DOFControllerPID::step(double t, double dt) {

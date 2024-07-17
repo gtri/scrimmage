@@ -54,8 +54,7 @@ class ROSClockServer : public scrimmage::EntityInteraction {
     ROSClockServer();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
     void close(double t) override;
 
  protected:
@@ -74,9 +73,7 @@ class ROSClockServer : public scrimmage::EntityInteraction {
     bool running_ = false;
     std::mutex pub_mutex_;
 
-    std::chrono::time_point<std::chrono::system_clock,
-                            std::chrono::duration<double>>
-        sim_start_time_;
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>> sim_start_time_;
 };
 }  // namespace interaction
 }  // namespace scrimmage

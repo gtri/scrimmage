@@ -92,10 +92,8 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
 #if ENABLE_GRPC
     std::unique_ptr<scrimmage_proto::OpenAI::Stub> openai_stub_;
     std::unique_ptr<grpc::Server> server_;
-    boost::optional<scrimmage_proto::Action> get_action(
-        scrimmage_proto::Obs &observation);
-    pybind11::object convert_proto_action(
-        const scrimmage_proto::Action &proto_act);
+    boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs &observation);
+    pybind11::object convert_proto_action(const scrimmage_proto::Action &proto_act);
     scrimmage_proto::Obs obs_to_proto();
     bool send_env();
 

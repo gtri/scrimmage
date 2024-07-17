@@ -58,9 +58,7 @@ class TakeFlag : public scrimmage::Autonomy {
     int flag_boundary_id_ = -1;
     int capture_boundary_id_ = -1;
 
-    std::map<int, std::pair<scrimmage_proto::Shape,
-                            std::shared_ptr<interaction::BoundaryBase>>>
-        boundaries_;
+    std::map<int, std::pair<scrimmage_proto::Shape, std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
 
     bool has_flag_ = false;
 

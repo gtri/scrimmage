@@ -42,8 +42,7 @@ namespace controller {
 
 class AxisScale {
  public:
-    AxisScale(int axis_index, double input_min, double input_max,
-              double output_min, double output_max, double coeff,
+    AxisScale(int axis_index, double input_min, double input_max, double output_min, double output_max, double coeff,
               int vector_index)
         : axis_index_(axis_index),
           input_min_(input_min),
@@ -57,8 +56,7 @@ class AxisScale {
     int vector_index() { return vector_index_; }
 
     double scale(double input) {
-        return coeff_ * scrimmage::scale<double>(input, input_min_, input_max_,
-                                                 output_min_, output_max_);
+        return coeff_ * scrimmage::scale<double>(input, input_min_, input_max_, output_min_, output_max_);
     }
 
  protected:

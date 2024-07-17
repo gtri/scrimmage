@@ -43,16 +43,13 @@ namespace scrimmage {
 
 void display_progress(float progress);
 
-int next_available_id(std::string name,
-                      std::map<std::string, std::string> &info,
-                      std::map<int, int> &id_map);
+int next_available_id(std::string name, std::map<std::string, std::string> &info, std::map<int, int> &id_map);
 
 std::string get_sha(std::string &path);
 
 std::string get_version();
 
-void filter_line(int downsampling_factor, int num_points,
-                 std::vector<Eigen::Vector3d> &path,
+void filter_line(int downsampling_factor, int num_points, std::vector<Eigen::Vector3d> &path,
                  std::vector<Eigen::Vector3d> &filtered_path);
 
 std::string generate_chars(const std::string &symbol, int num);
@@ -67,8 +64,7 @@ T interp(const T &low, const T &high, double pct) {
 }
 
 template <class T>
-T scale(const T &input, const T &in_min, const T &in_max, const T &out_min,
-        const T &out_max) {
+T scale(const T &input, const T &in_min, const T &in_max, const T &out_min, const T &out_max) {
     T result = input;
     // Check for input/output min/max bounds
     if (in_min > in_max || out_min > out_max) {
@@ -88,8 +84,8 @@ T scale(const T &input, const T &in_min, const T &in_max, const T &out_min,
 }
 
 template <class T>
-Eigen::VectorXd scale(const Eigen::VectorXd &input, const T &in_min,
-                      const T &in_max, const T &out_min, const T &out_max) {
+Eigen::VectorXd scale(const Eigen::VectorXd &input, const T &in_min, const T &in_max, const T &out_min,
+                      const T &out_max) {
     Eigen::VectorXd result = input;
     for (int i = 0; i < input.size(); i++) {
         result(i) = scale(input(i), in_min, in_max, out_min, out_max);

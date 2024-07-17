@@ -66,8 +66,7 @@ GPS::GPS() : gps_found_(false), boundary_id_(-1) {}
 void GPS::init(std::map<std::string, std::string> &params) {
     // Loading in params
     if (params.count("gps_denied_ids") > 0) {
-        gps_found_ =
-            str2container(params["gps_denied_ids"], ",", gps_denied_ids_);
+        gps_found_ = str2container(params["gps_denied_ids"], ",", gps_denied_ids_);
     }
 
     pub_ = advertise("GlobalNetwork", "GPSStatus");
@@ -90,8 +89,7 @@ bool GPS::step() {
     double lat = 0;
     double lon = 0;
     double alt = 0;
-    parent_->projection()->Reverse(ns.pos()(0), ns.pos()(1), ns.pos()(2), lat,
-                                   lon, alt);
+    parent_->projection()->Reverse(ns.pos()(0), ns.pos()(1), ns.pos()(2), lat, lon, alt);
     msg->data.set_lat(lat);
     msg->data.set_lon(lon);
     msg->data.set_alt(alt);
@@ -100,8 +98,7 @@ bool GPS::step() {
 
     bool gps_fix = true;
     if (boundary_ != nullptr && gps_found_) {
-        if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(),
-                      boundary_id_) != gps_denied_ids_.end() &&
+        if (std::find(gps_denied_ids_.begin(), gps_denied_ids_.end(), boundary_id_) != gps_denied_ids_.end() &&
             boundary_->contains(ns.pos())) {
             gps_fix = false;
         }

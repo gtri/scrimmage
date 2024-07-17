@@ -40,8 +40,7 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle3D,
-                Unicycle3D_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle3D, Unicycle3D_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -70,10 +69,8 @@ enum ModelParams {
     MODEL_NUM_ITEMS
 };
 
-bool Unicycle3D::init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) {
-    auto get_max_min = [&params](const std::string &str, double &max,
-                                 double &min) {
+bool Unicycle3D::init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) {
+    auto get_max_min = [&params](const std::string &str, double &max, double &min) {
         max = sc::get<double>(str + "_max", params, max);
         min = sc::get<double>(str + "_min", params, -max);
         if (max < min) {
@@ -92,21 +89,16 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
     // If the acceleration max is less than zero, directly use speed
     // input. Otherwise, use acceleration input.
     if (accel_max_ < 0) {
-        speed_idx_ =
-            vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
+        speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     } else {
-        accel_idx_ = vars_.declare(VariableIO::Type::acceleration_x,
-                                   VariableIO::Direction::In);
+        accel_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::In);
         use_accel_input_ = true;
     }
 
     // Setup turn_rate, pitch_rate, and roll_rate inputs
-    turn_rate_idx_ =
-        vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
-    pitch_rate_idx_ =
-        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
-    roll_rate_idx_ =
-        vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
+    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
+    pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::In);
+    roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::In);
 
     // Setup model size and quaternions
     x_.resize(MODEL_NUM_ITEMS);
@@ -146,27 +138,20 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/" +
-                         std::to_string(parent_->id().id()) +
-                         "-unicycle-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-unicycle-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{
-            "t",          "x",         "y",   "z",     "U",
-            "V",          "W",         "P",   "Q",     "R",
-            "roll",       "pitch",     "yaw", "speed", "turn_rate",
-            "pitch_rate", "roll_rate", "Uw",  "Vw",    "Ww"});
+            "t",    "x",     "y",   "z",     "U",         "V",          "W",         "P",  "Q",  "R",
+            "roll", "pitch", "yaw", "speed", "turn_rate", "pitch_rate", "roll_rate", "Uw", "Vw", "Ww"});
     }
     return true;
 }
 
 bool Unicycle3D::step(double t, double dt) {
     // Get inputs and saturate
-    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_),
-                                         turn_rate_min_, turn_rate_max_);
-    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_),
-                                          pitch_rate_min_, pitch_rate_max_);
-    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_),
-                                         roll_rate_min_, roll_rate_max_);
+    turn_rate_ = boost::algorithm::clamp(vars_.input(turn_rate_idx_), turn_rate_min_, turn_rate_max_);
+    pitch_rate_ = boost::algorithm::clamp(vars_.input(pitch_rate_idx_), pitch_rate_min_, pitch_rate_max_);
+    roll_rate_ = boost::algorithm::clamp(vars_.input(roll_rate_idx_), roll_rate_min_, roll_rate_max_);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -191,13 +176,11 @@ bool Unicycle3D::step(double t, double dt) {
 
     if (use_accel_input_) {
         // Enforce acceleration input limits
-        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_),
-                                                accel_min_, accel_max_);
+        acceleration_ = boost::algorithm::clamp(vars_.input(accel_idx_), accel_min_, accel_max_);
         x_[U] += force_body(0) / mass_;
     } else {
         // Enforce velocity input limits
-        speed_ = boost::algorithm::clamp(vars_.input(speed_idx_), speed_min_,
-                                         speed_max_);
+        speed_ = boost::algorithm::clamp(vars_.input(speed_idx_), speed_min_, speed_max_);
         x_[U] = speed_ + force_body(0) / mass_;
     }
 
@@ -267,16 +250,11 @@ void Unicycle3D::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[Q] = 0;
     dxdt[R] = 0;
 
-    double lambda =
-        1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] =
-        -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
-    dxdt[q1] =
-        +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
-    dxdt[q2] =
-        +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
-    dxdt[q3] =
-        +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
+    double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
     // Normalize quaternion

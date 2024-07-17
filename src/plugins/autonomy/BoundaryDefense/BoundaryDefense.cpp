@@ -55,8 +55,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::BoundaryDefense,
-                BoundaryDefense_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::BoundaryDefense, BoundaryDefense_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -67,18 +66,14 @@ void BoundaryDefense::init(std::map<std::string, std::string> &params) {
     boundary_id_ = sc::get<int>("boundary_id", params, boundary_id_);
 
     auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
-        std::shared_ptr<sci::BoundaryBase> boundary =
-            sci::Boundary::make_boundary(msg->data);
+        std::shared_ptr<sci::BoundaryBase> boundary = sci::Boundary::make_boundary(msg->data);
         boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
     };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-    output_vel_x_idx_ =
-        vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
-    output_vel_y_idx_ =
-        vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
-    output_vel_z_idx_ =
-        vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
+    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);
+    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);
+    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);
 }
 
 bool BoundaryDefense::step_autonomy(double t, double dt) {
@@ -102,8 +97,7 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
 
         // Is the entity within the boundary?
         if (std::get<1>(it->second)->contains(cnt.state()->pos())) {
-            if (closest == nullptr ||
-                (state_->pos() - closest->pos()).norm() < min_dist) {
+            if (closest == nullptr || (state_->pos() - closest->pos()).norm() < min_dist) {
                 closest = cnt.state();
                 min_dist = (state_->pos() - closest->pos()).norm();
             }

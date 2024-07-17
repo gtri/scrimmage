@@ -61,17 +61,11 @@ bool Battery::deplete(const double &amount) {
     return true;
 }
 
-bool Battery::is_full() {
-    return std::abs(current_charge_ - max_charge_) <
-           std::numeric_limits<double>::epsilon();
-}
+bool Battery::is_full() { return std::abs(current_charge_ - max_charge_) < std::numeric_limits<double>::epsilon(); }
 
 bool Battery::has_charge() { return current_charge_ > min_charge_; }
 
 const double &Battery::current_charge() { return current_charge_; }
 
-double Battery::charge_percentage() {
-    return 100.0 * (current_charge_ - min_charge_) /
-           (max_charge_ - min_charge_);
-}
+double Battery::charge_percentage() { return 100.0 * (current_charge_ - min_charge_) / (max_charge_ - min_charge_); }
 }  // namespace scrimmage

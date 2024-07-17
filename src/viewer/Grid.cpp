@@ -34,14 +34,12 @@
 
 namespace scrimmage {
 
-void Grid::create(int size, double spacing,
-                  vtkSmartPointer<vtkRenderer> &renderer) {
+void Grid::create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer) {
     renderer_ = renderer;
 
     // Create a plane
     double plane_size = size;
-    vtkSmartPointer<vtkPlaneSource> planeSource =
-        vtkSmartPointer<vtkPlaneSource>::New();
+    vtkSmartPointer<vtkPlaneSource> planeSource = vtkSmartPointer<vtkPlaneSource>::New();
     planeSource->SetCenter(0, 0, 0);
     planeSource->SetNormal(plane_size / 2.0, plane_size / 2.0, 1.0);
     planeSource->SetPoint1(plane_size, 0, 0);
@@ -53,8 +51,7 @@ void Grid::create(int size, double spacing,
     const double z_pos = 0;
 
     auto create_line = [&](double val, bool along_y) {
-        vtkSmartPointer<vtkLineSource> lineSource =
-            vtkSmartPointer<vtkLineSource>::New();
+        vtkSmartPointer<vtkLineSource> lineSource = vtkSmartPointer<vtkLineSource>::New();
 
         if (along_y) {
             lineSource->SetPoint1(low, val, z_pos);
@@ -67,8 +64,7 @@ void Grid::create(int size, double spacing,
         lineSource->Update();
 
         // Visualize
-        vtkSmartPointer<vtkPolyDataMapper> mapper =
-            vtkSmartPointer<vtkPolyDataMapper>::New();
+        vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
         mapper->SetInputConnection(lineSource->GetOutputPort());
 
         vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();

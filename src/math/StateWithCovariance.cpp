@@ -32,23 +32,16 @@
 #include <scrimmage/math/StateWithCovariance.h>
 
 namespace scrimmage {
-StateWithCovariance::StateWithCovariance()
-    : covariance_(Eigen::MatrixXd::Identity(3, 3)) {}
+StateWithCovariance::StateWithCovariance() : covariance_(Eigen::MatrixXd::Identity(3, 3)) {}
 
-StateWithCovariance::StateWithCovariance(const scrimmage::State &state)
-    : StateWithCovariance(state, 3, 3, 1.0) {}
+StateWithCovariance::StateWithCovariance(const scrimmage::State &state) : StateWithCovariance(state, 3, 3, 1.0) {}
 
-StateWithCovariance::StateWithCovariance(const scrimmage::State &state,
-                                         const int &cov_num_rows,
-                                         const int &cov_num_cols,
-                                         const double &cov_diag)
+StateWithCovariance::StateWithCovariance(const scrimmage::State &state, const int &cov_num_rows,
+                                         const int &cov_num_cols, const double &cov_diag)
     : State(state.pos(), state.vel(), state.ang_vel(), state.quat()),
-      covariance_(cov_diag *
-                  Eigen::MatrixXd::Identity(cov_num_rows, cov_num_cols)) {}
+      covariance_(cov_diag * Eigen::MatrixXd::Identity(cov_num_rows, cov_num_cols)) {}
 
-void StateWithCovariance::set_covariance(const Eigen::MatrixXd &covariance) {
-    covariance_ = covariance;
-}
+void StateWithCovariance::set_covariance(const Eigen::MatrixXd &covariance) { covariance_ = covariance; }
 
 const Eigen::MatrixXd &StateWithCovariance::covariance() { return covariance_; }
 }  // namespace scrimmage

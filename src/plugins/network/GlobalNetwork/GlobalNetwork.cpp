@@ -52,8 +52,7 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GlobalNetwork,
-                GlobalNetwork_plugin)
+REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GlobalNetwork, GlobalNetwork_plugin)
 
 namespace scrimmage {
 namespace network {
@@ -71,9 +70,8 @@ bool GlobalNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
     return true;
 }
 
-bool GlobalNetwork::is_successful_transmission(
-    const scrimmage::EntityPluginPtr &pub_plugin,
-    const scrimmage::EntityPluginPtr &sub_plugin) {
+bool GlobalNetwork::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                               const scrimmage::EntityPluginPtr &sub_plugin) {
     return true;
 }
 

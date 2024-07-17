@@ -49,8 +49,7 @@ namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::EnforceBoundaryInteraction,
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::EnforceBoundaryInteraction,
                 EnforceBoundaryInteraction_plugin)
 
 namespace scrimmage {
@@ -58,17 +57,14 @@ namespace interaction {
 
 EnforceBoundaryInteraction::EnforceBoundaryInteraction() {}
 
-bool EnforceBoundaryInteraction::init(
-    std::map<std::string, std::string> &mission_params,
-    std::map<std::string, std::string> &plugin_params) {
+bool EnforceBoundaryInteraction::init(std::map<std::string, std::string> &mission_params,
+                                      std::map<std::string, std::string> &plugin_params) {
     std::vector<int> active_boundary_ids;
-    if (!sc::get_vec<int>("active_boundary_ids", plugin_params, ", ",
-                          active_boundary_ids)) {
+    if (!sc::get_vec<int>("active_boundary_ids", plugin_params, ", ", active_boundary_ids)) {
         std::cout << "Failed to parse 'active_boundary_ids'" << endl;
         return false;
     } else {
-        active_boundary_ids_ = std::set<int>(active_boundary_ids.begin(),
-                                             active_boundary_ids.end());
+        active_boundary_ids_ = std::set<int>(active_boundary_ids.begin(), active_boundary_ids.end());
     }
 
     auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
@@ -81,8 +77,7 @@ bool EnforceBoundaryInteraction::init(
     return true;
 }
 
-bool EnforceBoundaryInteraction::step_entity_interaction(
-    std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool EnforceBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     // If the boundaries haven't been received yet, ignore, just return.
     if (boundaries_.empty()) return true;
 

@@ -47,8 +47,7 @@ namespace scrimmage {
 namespace motion {
 class Unicycle3D : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string> &info, std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;
     void model(const vector_t &x, vector_t &dxdt, double t) override;
 

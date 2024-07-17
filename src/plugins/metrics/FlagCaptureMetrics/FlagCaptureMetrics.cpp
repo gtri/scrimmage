@@ -52,8 +52,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::FlagCaptureMetrics,
-                FlagCaptureMetrics_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::FlagCaptureMetrics, FlagCaptureMetrics_plugin)
 
 namespace scrimmage {
 namespace metrics {
@@ -71,8 +70,7 @@ void FlagCaptureMetrics::init(std::map<std::string, std::string> &params) {
     auto flag_captured_cb = [&](scrimmage::MessagePtr<sm::FlagCaptured> msg) {
         scores_[msg->data.entity_id()].increment_flags_captured();
     };
-    subscribe<sm::FlagCaptured>("GlobalNetwork", "FlagCaptured",
-                                flag_captured_cb);
+    subscribe<sm::FlagCaptured>("GlobalNetwork", "FlagCaptured", flag_captured_cb);
 }
 
 bool FlagCaptureMetrics::step_metrics(double t, double dt) { return true; }
@@ -107,8 +105,7 @@ void FlagCaptureMetrics::calc_team_scores() {
 }
 
 void FlagCaptureMetrics::print_team_summaries() {
-    for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
-         it != team_flag_scores_.end(); ++it) {
+    for (std::map<int, Score>::iterator it = team_flag_scores_.begin(); it != team_flag_scores_.end(); ++it) {
         cout << "Team ID: " << it->first << endl;
         cout << "Score: " << it->second.score() << endl;
         cout << "Flags Taken: " << it->second.flags_taken() << endl;

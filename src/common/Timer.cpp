@@ -67,8 +67,7 @@ void Timer::start_loop_timer() {
 void Timer::pause_loop_timer() { loop_timer_running_ = false; }
 
 boost::posix_time::time_duration Timer::loop_wait() {
-    boost::posix_time::ptime time =
-        boost::posix_time::microsec_clock::local_time();
+    boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
     if (time > loop_end_time_) {
         // already took too long, go to next period now.
         return boost::posix_time::time_duration(0, 0, 0, 0);
@@ -80,9 +79,7 @@ boost::posix_time::time_duration Timer::loop_wait() {
     return remainder;
 }
 
-void Timer::set_iterate_rate(double iterate_rate) {
-    iterate_rate_ = iterate_rate;
-}
+void Timer::set_iterate_rate(double iterate_rate) { iterate_rate_ = iterate_rate; }
 
 void Timer::set_time_warp(double time_warp) { time_warp_ = time_warp; }
 

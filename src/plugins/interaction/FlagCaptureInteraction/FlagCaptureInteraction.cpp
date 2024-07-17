@@ -52,8 +52,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::FlagCaptureInteraction,
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::FlagCaptureInteraction,
                 FlagCaptureInteraction_plugin)
 
 namespace scrimmage {
@@ -61,12 +60,10 @@ namespace interaction {
 
 FlagCaptureInteraction::FlagCaptureInteraction() {}
 
-bool FlagCaptureInteraction::init(
-    std::map<std::string, std::string> &mission_params,
-    std::map<std::string, std::string> &plugin_params) {
+bool FlagCaptureInteraction::init(std::map<std::string, std::string> &mission_params,
+                                  std::map<std::string, std::string> &plugin_params) {
     flag_boundary_id_ = sc::get<int>("flag_boundary_id", plugin_params, 2);
-    capture_boundary_id_ =
-        sc::get<int>("capture_boundary_id", plugin_params, 1);
+    capture_boundary_id_ = sc::get<int>("capture_boundary_id", plugin_params, 1);
 
     auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
         if (msg->data.id().id() == flag_boundary_id_) {
@@ -85,8 +82,7 @@ bool FlagCaptureInteraction::init(
     return true;
 }
 
-bool FlagCaptureInteraction::step_entity_interaction(
-    std::list<sc::EntityPtr> &ents, double t, double dt) {
+bool FlagCaptureInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     if (flag_boundary_ == nullptr || capture_boundary_ == nullptr) {
         return true;
     }
@@ -112,8 +108,7 @@ bool FlagCaptureInteraction::step_entity_interaction(
         }
     } else if (!flag_captured_) {
         auto it = id_to_ent_map_->find(entity_with_flag_.id());
-        if (it != id_to_ent_map_->end() && it->second != nullptr &&
-            it->second->state_truth() != nullptr) {
+        if (it != id_to_ent_map_->end() && it->second != nullptr && it->second->state_truth() != nullptr) {
             if (capture_boundary_->contains(it->second->state_truth()->pos())) {
                 flag_captured_ = true;
 

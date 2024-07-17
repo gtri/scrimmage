@@ -85,31 +85,23 @@ class IMUErrorSimulator {
     std::mt19937 GyroBiasRNG = std::mt19937(4);
     std::mt19937 GyroARWRNG = std::mt19937(5);
 
-    std::normal_distribution<double> InitDist =
-        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-    std::normal_distribution<double> AccelBiasDist =
-        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-    std::normal_distribution<double> AccelVRWDist =
-        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-    std::normal_distribution<double> GyroBiasDist =
-        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
-    std::normal_distribution<double> GyroARWDist =
-        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> InitDist = std::normal_distribution<double>(0, 1);       // mean 0, std deviation 1
+    std::normal_distribution<double> AccelBiasDist = std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> AccelVRWDist = std::normal_distribution<double>(0, 1);   // mean 0, std deviation 1
+    std::normal_distribution<double> GyroBiasDist = std::normal_distribution<double>(0, 1);   // mean 0, std deviation 1
+    std::normal_distribution<double> GyroARWDist = std::normal_distribution<double>(0, 1);    // mean 0, std deviation 1
 
     explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
 
     // generate a 3d vector with the passed in random distribution and generator
-    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution,
-                                 std::mt19937& generator);
+    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution, std::mt19937& generator);
 
     void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
 
     void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
 
-    NoisyIMUData EachCycle(
-        IMUErrorBudgetTemplate& errorBudget,
-        Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
-        Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+    NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
+                           Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
 };
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_

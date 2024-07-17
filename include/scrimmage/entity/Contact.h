@@ -58,18 +58,15 @@ class Contact {
     Contact();
 
     Contact(const ID &id, const StatePtr &state);
-    Contact(ID &id, double radius, StatePtr &state, Type type,
-            scrimmage_proto::ContactVisualPtr cv,
+    Contact(ID &id, double radius, StatePtr &state, Type type, scrimmage_proto::ContactVisualPtr cv,
             const std::unordered_map<std::string, MessageBasePtr> &properties);
 
     template <class T>
-    std::unordered_map<std::string, MessagePtr<T>> get_properties(
-        std::string name = "") {
+    std::unordered_map<std::string, MessagePtr<T>> get_properties(std::string name = "") {
         std::unordered_map<std::string, MessagePtr<T>> out;
         for (auto &kv : properties_) {
             if (name == "" || kv.first.find(name) != std::string::npos) {
-                auto property_cast =
-                    std::dynamic_pointer_cast<Message<T>>(kv.second);
+                auto property_cast = std::dynamic_pointer_cast<Message<T>>(kv.second);
                 if (property_cast) {
                     out[kv.first] = property_cast;
                 }
@@ -78,9 +75,7 @@ class Contact {
         return out;
     }
 
-    std::unordered_map<std::string, MessageBasePtr> &properties() {
-        return properties_;
-    }
+    std::unordered_map<std::string, MessageBasePtr> &properties() { return properties_; }
     void set_id(const ID &id);
     ID &id();
 

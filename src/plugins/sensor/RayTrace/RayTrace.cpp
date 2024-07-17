@@ -53,8 +53,7 @@ std::vector<RayTrace::PCRay> RayTrace::PointCloud::get_rays() {
     std::vector<RayTrace::PCRay> return_rays;
     for (auto &ray : rays) {
         // Make a copy so can be used cleanly
-        return_rays.push_back(
-            RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
+        return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
     }
     return return_rays;
 }
@@ -73,8 +72,7 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
         std::vector<double> vec;
         bool status = sc::get_vec(tag_name, params, " ", vec, 2);
         if (status) {
-            pos_noise_.push_back(
-                parent_->random()->make_rng_normal(vec[0], vec[1]));
+            pos_noise_.push_back(parent_->random()->make_rng_normal(vec[0], vec[1]));
         } else {
             pos_noise_.push_back(parent_->random()->make_rng_normal(0, 1));
         }
@@ -86,10 +84,8 @@ void RayTrace::init(std::map<std::string, std::string> &params) {
     auto_ray_tracing_ = sc::get<bool>("auto_ray_tracing", params, true);
 
     // Create the ray definitions
-    double angle_res_vert =
-        sc::Angles::deg2rad(sc::get<double>("angle_res_vert", params, 1));
-    double angle_res_horiz =
-        sc::Angles::deg2rad(sc::get<double>("angle_res_horiz", params, 1));
+    double angle_res_vert = sc::Angles::deg2rad(sc::get<double>("angle_res_vert", params, 1));
+    double angle_res_horiz = sc::Angles::deg2rad(sc::get<double>("angle_res_horiz", params, 1));
     int num_rays_vert = sc::get<int>("num_rays_vert", params, 1);
     int num_rays_horiz = sc::get<int>("num_rays_horiz", params, 1);
     rays_.clear();
@@ -123,8 +119,7 @@ std::vector<RayTrace::PCRay> RayTrace::rays() {
     std::vector<RayTrace::PCRay> return_rays;
     for (auto &ray : rays_) {
         // Make a copy so can be used cleanly
-        return_rays.push_back(
-            RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
+        return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
     }
     return return_rays;
 }

@@ -56,8 +56,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::MapGen2D,
-                MapGen2D_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::MapGen2D, MapGen2D_plugin)
 
 namespace scrimmage {
 namespace interaction {
@@ -77,8 +76,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
 
     sc::FileSearch file_search;
     std::map<std::string, std::string> overrides;  // empty, no overrides
-    if (!map_parse.parse(overrides, plugin_params["map"], "SCRIMMAGE_DATA_PATH",
-                         file_search)) {
+    if (!map_parse.parse(overrides, plugin_params["map"], "SCRIMMAGE_DATA_PATH", file_search)) {
         cout << "Failed to find map: " << plugin_params["map"] << endl;
         return false;
     }
@@ -86,18 +84,15 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     resolution_ = sc::get<double>("resolution", map_parse.params(), 1.0);
     wall_bottom_z_ = sc::get<double>("wall_bottom_z", map_parse.params(), 0.0);
     wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
-    enable_map_boundary_ =
-        sc::get<bool>("enable_map_boundary", map_parse.params(), false);
-    occupied_thresh_ =
-        sc::get<double>("occupied_thresh", map_parse.params(), 0.65);
+    enable_map_boundary_ = sc::get<bool>("enable_map_boundary", map_parse.params(), false);
+    occupied_thresh_ = sc::get<double>("occupied_thresh", map_parse.params(), 0.65);
 
     x_origin_ = sc::get<double>("x_origin", map_parse.params(), 0);
     y_origin_ = sc::get<double>("y_origin", map_parse.params(), 0);
     z_origin_ = sc::get<double>("z_origin", map_parse.params(), 0);
 
     // Parse wall_color (default to blue)
-    std::string color_str =
-        sc::get<std::string>("wall_color", map_parse.params(), "0 0 255");
+    std::string color_str = sc::get<std::string>("wall_color", map_parse.params(), "0 0 255");
 
     // Parse wall color
     std::vector<int> color;
@@ -107,8 +102,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         color = {0, 0, 255};
     }
 
-    std::string filename =
-        map_parse.params()["XML_DIR"] + "/" + map_parse.params()["filename"];
+    std::string filename = map_parse.params()["XML_DIR"] + "/" + map_parse.params()["filename"];
 
     map_img_ = cv::imread(filename, cv::IMREAD_COLOR);
     if (!map_img_.data) {
@@ -126,8 +120,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         double height = rect.height * resolution_;
 
         // Convert rectangle into cube shape
-        Eigen::Vector3d center(x + width / 2.0 + x_origin_,
-                               y - height / 2.0 + y_origin_,
+        Eigen::Vector3d center(x + width / 2.0 + x_origin_, y - height / 2.0 + y_origin_,
                                wall_bottom_z_ + wall_height_ / 2.0 + z_origin_);
 
         sc::Quaternion quat(0, 0, 0);
@@ -154,8 +147,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
-                                       double dt) {
+bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     if (!map_info_published_) {
         map_info_published_ = true;
 
@@ -164,8 +156,7 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t,
         msg_map2d->data.img = map_img_;
         msg_map2d->data.occupied_thresh = occupied_thresh_;
         msg_map2d->data.resolution = resolution_;
-        msg_map2d->data.origin =
-            Eigen::Vector3d(x_origin_, y_origin_, z_origin_);
+        msg_map2d->data.origin = Eigen::Vector3d(x_origin_, y_origin_, z_origin_);
         pub_map_2d_info_->publish(msg_map2d);
     }
 
@@ -178,8 +169,7 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     cv::cvtColor(img, gray, cv::COLOR_BGRA2GRAY);
 
     cv::Mat thresh;
-    cv::threshold(gray, thresh, std::floor(threshold * 255), 255,
-                  cv::THRESH_BINARY_INV);
+    cv::threshold(gray, thresh, std::floor(threshold * 255), 255, cv::THRESH_BINARY_INV);
 
     cv::Mat img_rects = img.clone();
 

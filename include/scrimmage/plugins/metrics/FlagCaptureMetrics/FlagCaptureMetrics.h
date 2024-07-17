@@ -60,13 +60,10 @@ class Score {
     void increment_flags_captured() { flags_captured_++; }
     void add_flags_captured(int c) { flags_captured_ += c; }
     int flags_captured() { return flags_captured_; }
-    void set_flags_captured(int flags_captured) {
-        flags_captured_ = flags_captured;
-    }
+    void set_flags_captured(int flags_captured) { flags_captured_ = flags_captured; }
 
     double score() {
-        double s = flags_taken() * flags_taken_w_ +
-                   flags_captured() * flags_captured_w_;
+        double s = flags_taken() * flags_taken_w_ + flags_captured() * flags_captured_w_;
         return s;
     }
 

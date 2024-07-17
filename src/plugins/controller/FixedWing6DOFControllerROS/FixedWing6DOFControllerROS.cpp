@@ -35,8 +35,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::FixedWing6DOFControllerROS,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerROS,
                 FixedWing6DOFControllerROS_plugin)
 
 namespace scrimmage {
@@ -44,16 +43,11 @@ namespace controller {
 
 namespace sc = scrimmage;
 
-void FixedWing6DOFControllerROS::init(
-    std::map<std::string, std::string>& params) {
-    aileron_idx_ =
-        vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-    elevator_idx_ =
-        vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-    throttle_idx_ =
-        vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-    rudder_idx_ =
-        vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+void FixedWing6DOFControllerROS::init(std::map<std::string, std::string>& params) {
+    aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -61,8 +55,7 @@ void FixedWing6DOFControllerROS::init(
         ros::init(argc, NULL, name);
     }
     nh_ = std::make_shared<ros::NodeHandle>();
-    cmd_vel_sub_ = nh_->subscribe(
-        "cmd_vel", 1, &FixedWing6DOFControllerROS::cmd_vel_cb, this);
+    cmd_vel_sub_ = nh_->subscribe("cmd_vel", 1, &FixedWing6DOFControllerROS::cmd_vel_cb, this);
 
     // Zero out controls
     cmd_vel_.linear.x = 0;
@@ -82,9 +75,6 @@ bool FixedWing6DOFControllerROS::step(double t, double dt) {
     return true;
 }
 
-void FixedWing6DOFControllerROS::cmd_vel_cb(
-    const geometry_msgs::Twist::ConstPtr& msg) {
-    cmd_vel_ = *msg;
-}
+void FixedWing6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) { cmd_vel_ = *msg; }
 }  // namespace controller
 }  // namespace scrimmage

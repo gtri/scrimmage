@@ -50,8 +50,7 @@ class FrameUpdateClient {
     FrameUpdateClient(const std::string &ip, int port);
     bool send_frame(scrimmage_proto::Frame &frame);
 
-    void set_projection(
-        const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
  private:
 #if ENABLE_GRPC == 1
