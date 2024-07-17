@@ -85,6 +85,8 @@ DEPS_DPKG=(
     gcc
     build-essential
     librapidxml-dev
+    libxml2-dev
+    libxmlsec1-dev
     libeigen3-dev
     libgeographic-dev
     libboost-thread-dev

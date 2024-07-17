@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<entity xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<name>uav_entity</name>
+<team_id>1</team_id>
+<color>77 77 255</color>
+<count>1</count>
+<health>1</health>
+<radius>1</radius>
+
+<variance_x>20</variance_x>
+<variance_y>20</variance_y>
+<variance_z>10</variance_z>
+
+<x>-900</x>
+<y>0</y>
+<z>195</z>
+
+<!-- The vehicle's initial heading, roll, and pitch can be specified -->
+<heading>0</heading>
+
+<controller>SimpleAircraftControllerPID</controller>
+<motion_model>SimpleAircraft</motion_model>
+
+<visual_model>zephyr-blue</visual_model>
+<xi:include href="base1.xml"/>
+
+<autonomy show_text_label="true"
+generate_entities="false"
+enable_boundary_control="true"
+param_common="foo">Straight</autonomy>
+
+</entity>
