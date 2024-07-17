@@ -57,9 +57,14 @@ class LibXML2ParserAttribute
 
   bool is_valid_attribute() const;
 
-  friend bool operator==(const LibXML2ParserAttribute& lhs,
+  friend inline bool operator==(const LibXML2ParserAttribute& lhs,
                          const LibXML2ParserAttribute& rhs) {
     return lhs.attribute_ == rhs.attribute_;
+  }
+
+  friend inline bool operator!=(const LibXML2ParserAttribute& lhs,
+                         const LibXML2ParserAttribute& rhs) {
+    return !(lhs == rhs);
   }
 
  protected:
@@ -92,9 +97,14 @@ class LibXML2ParserNode : public XMLParserNode<LibXML2ParserNode> {
 
   bool is_valid_node() const;
 
-  friend bool operator==(const LibXML2ParserNode& lhs,
+  friend inline bool operator==(const LibXML2ParserNode& lhs,
                          const LibXML2ParserNode& rhs) {
     return lhs.node_ == rhs.node_;
+  }
+
+  friend inline bool operator!=(const LibXML2ParserNode& lhs,
+                         const LibXML2ParserNode& rhs) {
+    return !(lhs == rhs);
   }
 
  protected:

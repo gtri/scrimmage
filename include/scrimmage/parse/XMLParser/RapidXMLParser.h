@@ -58,9 +58,14 @@ class RapidXMLParserAttribute
 
   bool is_valid_attribute() const;
 
-  friend bool operator==(const RapidXMLParserAttribute &lhs,
-                         const RapidXMLParserAttribute &rhs) {
+  friend bool inline operator==(const RapidXMLParserAttribute &lhs,
+                                const RapidXMLParserAttribute &rhs) {
     return lhs.attribute_ == rhs.attribute_;
+  }
+
+  friend bool inline operator!=(const RapidXMLParserAttribute &lhs,
+                                const RapidXMLParserAttribute &rhs) {
+    return !(lhs == rhs);
   }
 
  protected:
@@ -93,9 +98,14 @@ class RapidXMLParserNode : public XMLParserNode<RapidXMLParserNode> {
 
   bool is_valid_node() const;
 
-  friend bool operator==(const RapidXMLParserNode &lhs,
-                         const RapidXMLParserNode &rhs) {
+  friend bool inline operator==(const RapidXMLParserNode &lhs,
+                                const RapidXMLParserNode &rhs) {
     return lhs.node_ == rhs.node_;
+  }
+
+  friend bool inline operator!=(const RapidXMLParserNode &lhs,
+                                const RapidXMLParserNode &rhs) {
+    return !(lhs == rhs);
   }
 
  protected:
@@ -111,7 +121,7 @@ class RapidXMLParserDocument
     : public XMLParserDocument<RapidXMLParserDocument> {
  public:
   bool parse_document(std::filesystem::path path);
-  bool parse_document(std::vector<char> &filecontent);
+  bool parse_document(const std::vector<char> &filecontent);
 
   RapidXMLParserNode find_first_node(const std::string &name) const;
   RapidXMLParserNode find_first_node() const;

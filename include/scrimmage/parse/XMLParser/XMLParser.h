@@ -64,7 +64,7 @@ class XMLParserAttribute {
     pointer operator->() { return &attribute_; }
 
     Iterator &operator++() {
-      if (attribute_ != Iterator{T{nullptr}}) {
+      if (attribute_ != T{nullptr}) {
         attribute_ = attribute_.next();
         if (!attribute_.is_valid()) {
           attribute_ = T{nullptr};
@@ -339,14 +339,14 @@ class XMLParserDocument {
 
   NodeChildIterator begin() const { return NodeChildIterator{first_node()}; }
 
-  NodeChildIterator end() const { return NodeChildIterator{nullptr}; }
+  NodeChildIterator end() const { return NodeChildIterator{XMLNode{nullptr}}; }
 
   NodeRecursiveIterator recur_begin() const {
     return NodeRecursiveIterator{first_node()};
   }
 
   NodeRecursiveIterator recur_end() const {
-    return NodeRecursiveIterator{nullptr};
+    return NodeRecursiveIterator{XMLNode{nullptr}};
   }
 
   void set_filename(const std::string &filename) { filename_ = filename; }
@@ -375,7 +375,6 @@ std::ostream &operator<<(std::ostream &out, const XMLParserNode<T> &xml_node) {
     pos_type cur_pos;
 
     std::string name = xml_node.name();
-    std::string value = xml_node.value();
     assert(!name.empty());
     std::ostringstream ss;
 
@@ -387,7 +386,6 @@ std::ostream &operator<<(std::ostream &out, const XMLParserNode<T> &xml_node) {
     cur_pos = ss.tellp();
     assert(cur_pos != pos_type(-1));
     ss.seekp(cur_pos - pos_type(1));
-    cur_pos = ss.tellp();
     ss << ">";
     auto child_it = xml_node.child_begin();
     auto child_end = xml_node.child_end();
