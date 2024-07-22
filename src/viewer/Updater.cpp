@@ -32,65 +32,70 @@
 
 #include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/common/terrain/ElevationGrid.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/parse/TerrainReaders/DTEDReader.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/viewer/Grid.h>
 #include <scrimmage/viewer/OriginAxes.h>
 #include <scrimmage/viewer/Updater.h>
-#include <scrimmage/viewer/Grid.h>
 
-#include <iostream>
-
-#include <vtkRenderer.h>
+#include <vtkArcSource.h>
+#include <vtkArrowSource.h>
+#include <vtkCallbackCommand.h>
+#include <vtkCamera.h>
+#include <vtkCellArray.h>
+#include <vtkConeSource.h>
+#include <vtkCubeSource.h>
+#include <vtkDataSetMapper.h>
+#include <vtkJPEGReader.h>
+#include <vtkOBJReader.h>
+#include <vtkPNGReader.h>
+#include <vtkPNGWriter.h>
+#include <vtkParametricFunctionSource.h>
+#include <vtkParametricSpline.h>
+#include <vtkPlaneSource.h>
+#include <vtkPointData.h>
+#include <vtkPoints.h>
+#include <vtkPolyDataNormals.h>
+#include <vtkPolyDataReader.h>
+#include <vtkPolyLine.h>
+#include <vtkPolygon.h>
+#include <vtkPyramid.h>
+#include <vtkQuad.h>
+#include <vtkRegularPolygonSource.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
-#include <vtkDataSetMapper.h>
-#include <vtkPNGReader.h>
-#include <vtkOBJReader.h>
+#include <vtkRenderer.h>
 #include <vtkSTLReader.h>
+#include <vtkSmoothPolyDataFilter.h>
+#include <vtkSphereSource.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+#include <vtkTextureMapToPlane.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 #include <vtkTriangle.h>
-#include <vtkArrowSource.h>
-#include <vtkVectorText.h>
-#include <vtkCamera.h>
-#include <vtkJPEGReader.h>
-#include <vtkPolyDataReader.h>
-#include <vtkSmoothPolyDataFilter.h>
-#include <vtkParametricFunctionSource.h>
-#include <vtkParametricSpline.h>
-#include <vtkPolyDataNormals.h>
-#include <vtkTextureMapToPlane.h>
-#include <vtkPointData.h>
-#include <vtkPoints.h>
-#include <vtkPolygon.h>
-#include <vtkPolyLine.h>
-#include <vtkTextActor.h>
-#include <vtkTextProperty.h>
-#include <vtkCallbackCommand.h>
-#include <vtkCellArray.h>
-#include <vtkSphereSource.h>
-#include <vtkCubeSource.h>
-#include <vtkPyramid.h>
+#include <vtkTrivialProducer.h>
 #include <vtkUnstructuredGrid.h>
-#include <vtkConeSource.h>
+#include <vtkVectorText.h>
 #include <vtkVertexGlyphFilter.h>
-#include <vtkPlaneSource.h>
-#include <vtkRegularPolygonSource.h>
 #include <vtkWindowToImageFilter.h>
-#include <vtkPNGWriter.h>
-#include <vtkArcSource.h>
+
+#include <iostream>
+
 #include <vtksys/SystemTools.hxx>
 
 #if VTK_MAJOR_VERSION > 6
-#include <vtkCellLocator.h>
-#include <vtkGeoJSONReader.h>
-#include <vtkCellData.h>
-#include <vtkDoubleArray.h>
 #include <vtkAppendPolyData.h>
+#include <vtkCellData.h>
+#include <vtkCellLocator.h>
+#include <vtkDoubleArray.h>
+#include <vtkGeoJSONReader.h>
 #include <vtkLinearExtrusionFilter.h>
 #include <vtkProperty.h>
 #endif
@@ -109,1607 +114,1568 @@ namespace sc = scrimmage;
 namespace scrimmage {
 
 double fps = 0;
-void fpsCallbackFunction(vtkObject* caller, long unsigned int vtkNotUsed(eventId), // NOLINT
-                         void* vtkNotUsed(clientData), void* vtkNotUsed(callData)) {
-    vtkRenderer* renderer = static_cast<vtkRenderer*>(caller);
-    double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
-    fps = 1.0/timeInSeconds;
+void fpsCallbackFunction(vtkObject *caller,
+                         long unsigned int vtkNotUsed(eventId),  // NOLINT
+                         void *vtkNotUsed(clientData),
+                         void *vtkNotUsed(callData)) {
+  vtkRenderer *renderer = static_cast<vtkRenderer *>(caller);
+  double timeInSeconds = renderer->GetLastRenderTimeInSeconds();
+  fps = 1.0 / timeInSeconds;
 }
 
-void Updater::set_quat(const scrimmage_proto::Quaternion &quat,
-                       vtkSmartPointer<vtkActor> &actor) {
-    set_quat(proto_2_quat(quat), actor);
+void Updater::set_quat(const scrimmage_proto::Quaternion &quat, vtkSmartPointer<vtkActor> &actor) {
+  set_quat(proto_2_quat(quat), actor);
 }
 
-void Updater::set_quat(const scrimmage::Quaternion &quat,
-                       vtkSmartPointer<vtkActor> &actor) {
-    Eigen::AngleAxisd aa(quat);
-    actor->SetOrientation(0, 0, 0); // Reset to zero rotation
-    actor->RotateWXYZ(sc::Angles::rad2deg(aa.angle()), aa.axis()(0),
-                      aa.axis()(1), aa.axis()(2));
+void Updater::set_quat(const scrimmage::Quaternion &quat, vtkSmartPointer<vtkActor> &actor) {
+  Eigen::AngleAxisd aa(quat);
+  actor->SetOrientation(0, 0, 0);  // Reset to zero rotation
+  actor->RotateWXYZ(sc::Angles::rad2deg(aa.angle()), aa.axis()(0), aa.axis()(1), aa.axis()(2));
 }
 
-Updater::Updater() :
-        frame_time_(-1.0), update_count(0), inc_follow_(true),
-        dec_follow_(false), view_mode_(ViewMode::FOLLOW), view_mode_prev_(ViewMode::FREE),
-        follow_offset_(50), follow_vec_(-50, 10, 10), show_helpmenu_(false) {
-    prev_time.tv_nsec = 0;
-    prev_time.tv_sec = 0;
-    max_update_rate_ = 1.0;
+Updater::Updater()
+    : frame_time_(-1.0),
+      update_count(0),
+      inc_follow_(true),
+      dec_follow_(false),
+      view_mode_(ViewMode::FOLLOW),
+      view_mode_prev_(ViewMode::FREE),
+      follow_offset_(50),
+      follow_vec_(-50, 10, 10),
+      show_helpmenu_(false) {
+  prev_time.tv_nsec = 0;
+  prev_time.tv_sec = 0;
+  max_update_rate_ = 1.0;
 
-    reset_scale();
-    scale_required_ = false;
+  reset_scale();
+  scale_required_ = false;
 
-    follow_id_ = 0;
+  follow_id_ = 0;
 
-    enable_trails_ = false;
+  enable_trails_ = false;
 
-    gui_msg_.set_inc_warp(false);
-    gui_msg_.set_dec_warp(false);
-    gui_msg_.set_toggle_pause(false);
-    gui_msg_.set_single_step(false);
+  gui_msg_.set_inc_warp(false);
+  gui_msg_.set_dec_warp(false);
+  gui_msg_.set_toggle_pause(false);
+  gui_msg_.set_single_step(false);
 
-    send_shutdown_msg_ = true;
+  send_shutdown_msg_ = true;
 }
 
 void Updater::init(const std::string &log_dir, double dt) {
-    // Create a default grid:
-    grid_ = std::make_shared<Grid>();
-    grid_->create(20, 1, renderer_);
+  // Create a default grid:
+  grid_ = std::make_shared<Grid>();
+  grid_->create(20, 1, renderer_);
 
-    // Create a default origin:
-    origin_axes_ = std::make_shared<OriginAxes>();
-    origin_axes_->create(1, renderer_);
+  // Create a default origin:
+  origin_axes_ = std::make_shared<OriginAxes>();
+  origin_axes_->create(1, renderer_);
 
-    renderer_->SetNearClippingPlaneTolerance(0.00001);
+  renderer_->SetNearClippingPlaneTolerance(0.00001);
 
-    enable_fps();
-    log_dir_ = log_dir;
-    dt_ = dt;
+  enable_fps();
+  log_dir_ = log_dir;
+  dt_ = dt;
 }
 
-void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
-                      void * vtkNotUsed(callData)) {
-    if (not update()) {
-        return;
+void Updater::Execute(vtkObject *caller,
+                      unsigned long vtkNotUsed(eventId),  // NOLINT
+                      void *vtkNotUsed(callData)) {
+  if (not update()) {
+    return;
+  }
+
+  vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
+  iren->GetRenderWindow()->Render();
+
+  incoming_interface_->gui_msg_mutex.lock();
+  auto &gui_msg_list = incoming_interface_->gui_msg();
+  if (!gui_msg_list.empty()) {
+    auto &msg = gui_msg_list.front();
+    if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
+      vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+          vtkSmartPointer<vtkWindowToImageFilter>::New();
+      windowToImageFilter->SetInput(rwi_->GetRenderWindow());
+      windowToImageFilter->Update();
+
+      vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
+
+      const std::string fname = log_dir_ + "/screenshot_" + std::to_string(frame_time_) + ".png";
+      if (!fs::exists(fname)) {
+        writer->SetFileName(fname.c_str());
+        writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+        writer->Write();
+      }
+      single_step();
+      gui_msg_list.pop_front();
     }
-
-    vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::SafeDownCast(caller);
-    iren->GetRenderWindow()->Render();
-
-    incoming_interface_->gui_msg_mutex.lock();
-    auto &gui_msg_list = incoming_interface_->gui_msg();
-    if (!gui_msg_list.empty()) {
-        auto &msg = gui_msg_list.front();
-        if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
-
-            vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
-                vtkSmartPointer<vtkWindowToImageFilter>::New();
-            windowToImageFilter->SetInput(rwi_->GetRenderWindow());
-            windowToImageFilter->Update();
-
-            vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
-
-            const std::string fname =
-                log_dir_ + "/screenshot_" + std::to_string(frame_time_) + ".png";
-            if (!fs::exists(fname)) {
-                writer->SetFileName(fname.c_str());
-                writer->SetInputConnection(windowToImageFilter->GetOutputPort());
-                writer->Write();
-            }
-            single_step();
-            gui_msg_list.pop_front();
-        }
-    }
-    incoming_interface_->gui_msg_mutex.unlock();
+  }
+  incoming_interface_->gui_msg_mutex.unlock();
 }
 
 bool Updater::update() {
-    // Make sure we don't update the contacts faster than the max rate
-    struct timespec now;
-    clock_gettime(CLOCK_MONOTONIC, &now);
-    uint64_t diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
-    if (diff < (1.0 / max_update_rate_*BILLION)) {
-        return true;
-    }
-    prev_time = now;
-
-    ///////////////////////////////////////////////////////////////////////
-    // Network / Shared Memory Messages
-    ///////////////////////////////////////////////////////////////////////
-
-    // Do we have any updates to the terrain info
-    if (incoming_interface_->utm_terrain_update()) {
-        incoming_interface_->utm_terrain_mutex.lock();
-        auto &utms = incoming_interface_->utm_terrain();
-
-        // We only care about the last message
-        auto &utm = utms.back();
-
-        // Process utm terrain data
-        update_utm_terrain(utm);
-
-        utms.clear();
-        incoming_interface_->utm_terrain_mutex.unlock();
-    }
-
-    // Do we have any updates to the contact_visuals
-    if (incoming_interface_->contact_visual_update()) {
-        incoming_interface_->contact_visual_mutex.lock();
-        auto &cv = incoming_interface_->contact_visual();
-        auto it = cv.begin();
-        while (it != cv.end()) {
-            (*it)->set_update_required(true);
-            contact_visuals_[(*it)->id()] = *it;
-            cv.erase(it++);
-        }
-        incoming_interface_->contact_visual_mutex.unlock();
-    }
-
-    // Do we have any updates to the frames?
-    if (incoming_interface_->frames_update(frame_time_)) {
-        incoming_interface_->frames_mutex.lock();
-        auto &frames = incoming_interface_->frames();
-
-        // Check to see if we have to remove any contacts.
-        // Need to check every frame so we don't miss a discrete removal
-        // Maybe we make this it's own message one day.
-        for (auto it : frames) {
-            for (int i = 0; i < it->contact_size(); i++) {
-                if (!it->contact(i).active()) {
-                    auto it_ac = actor_contacts_.find(it->contact(i).id().id());
-                    if (it_ac != actor_contacts_.end()) {
-                        it_ac->second->remove = true;
-                    }
-                }
-            }
-        }
-
-        // We only care about the last frame for display purposes
-        auto &frame = frames.back();
-        update_contacts(frame);
-        frames.erase(frames.begin(), std::next(frames.end(), -1));
-
-        // We want the shapes' ttl counter to be linked to newly received
-        // frames. Update the shapes on a newly received frame.
-        update_shapes();
-
-        incoming_interface_->frames().clear();
-
-        incoming_interface_->frames_mutex.unlock();
-    }
-
-    // Do we have any updates to the sim info?
-    if (incoming_interface_->sim_info_update()) {
-        incoming_interface_->sim_info_mutex.lock();
-        auto &info_list = incoming_interface_->sim_info();
-
-        // Check for shutting_down message from simcontrol
-        for (auto it : info_list) {
-            if (it.shutting_down()) {
-                send_shutdown_msg_ = false;
-
-                // Terminate the VTK application
-                rwi_->TerminateApp();
-                return false;
-            }
-        }
-
-        // We only care about the last message for actual data
-        sim_info_ = info_list.back();
-        info_list.clear();
-        incoming_interface_->sim_info_mutex.unlock();
-    }
-
-    // Do we have any new shapes?
-    if (incoming_interface_->shapes_update()) {
-        incoming_interface_->shapes_mutex.lock();
-        auto &shapes_list = incoming_interface_->shapes();
-
-        auto it = shapes_list.begin();
-        while (it != shapes_list.end()) {
-            draw_shapes(*it);
-
-            // Update ttl for shapes that aren't the last in the list
-            if (++it != shapes_list.end()) {
-                update_shapes();
-            }
-            --it;
-            shapes_list.erase(it++);
-        }
-        incoming_interface_->shapes_mutex.unlock();
-    }
-
-    // Update scale
-    if (scale_required_) {
-        update_scale();
-        scale_required_ = false;
-    }
-
-    ///////////////////////////////////////////////////////////////////////
-    // Update camera and GUI elements
-    ///////////////////////////////////////////////////////////////////////
-    update_camera();
-    update_text_display();
-
+  // Make sure we don't update the contacts faster than the max rate
+  struct timespec now;
+  clock_gettime(CLOCK_MONOTONIC, &now);
+  uint64_t diff = BILLION * (now.tv_sec - prev_time.tv_sec) + now.tv_nsec - prev_time.tv_nsec;
+  if (diff < (1.0 / max_update_rate_ * BILLION)) {
     return true;
+  }
+  prev_time = now;
+
+  ///////////////////////////////////////////////////////////////////////
+  // Network / Shared Memory Messages
+  ///////////////////////////////////////////////////////////////////////
+
+  // Do we have any updates to the terrain info
+  if (incoming_interface_->utm_terrain_update()) {
+    incoming_interface_->utm_terrain_mutex.lock();
+    auto &utms = incoming_interface_->utm_terrain();
+
+    // We only care about the last message
+    auto &utm = utms.back();
+
+    // Process utm terrain data
+    update_utm_terrain(utm);
+
+    utms.clear();
+    incoming_interface_->utm_terrain_mutex.unlock();
+  }
+
+  // Do we have any updates to the contact_visuals
+  if (incoming_interface_->contact_visual_update()) {
+    incoming_interface_->contact_visual_mutex.lock();
+    auto &cv = incoming_interface_->contact_visual();
+    auto it = cv.begin();
+    while (it != cv.end()) {
+      (*it)->set_update_required(true);
+      contact_visuals_[(*it)->id()] = *it;
+      cv.erase(it++);
+    }
+    incoming_interface_->contact_visual_mutex.unlock();
+  }
+
+  // Do we have any updates to the frames?
+  if (incoming_interface_->frames_update(frame_time_)) {
+    incoming_interface_->frames_mutex.lock();
+    auto &frames = incoming_interface_->frames();
+
+    // Check to see if we have to remove any contacts.
+    // Need to check every frame so we don't miss a discrete removal
+    // Maybe we make this it's own message one day.
+    for (auto it : frames) {
+      for (int i = 0; i < it->contact_size(); i++) {
+        if (!it->contact(i).active()) {
+          auto it_ac = actor_contacts_.find(it->contact(i).id().id());
+          if (it_ac != actor_contacts_.end()) {
+            it_ac->second->remove = true;
+          }
+        }
+      }
+    }
+
+    // We only care about the last frame for display purposes
+    auto &frame = frames.back();
+    update_contacts(frame);
+    frames.erase(frames.begin(), std::next(frames.end(), -1));
+
+    // We want the shapes' ttl counter to be linked to newly received
+    // frames. Update the shapes on a newly received frame.
+    update_shapes();
+
+    incoming_interface_->frames().clear();
+
+    incoming_interface_->frames_mutex.unlock();
+  }
+
+  // Do we have any updates to the sim info?
+  if (incoming_interface_->sim_info_update()) {
+    incoming_interface_->sim_info_mutex.lock();
+    auto &info_list = incoming_interface_->sim_info();
+
+    // Check for shutting_down message from simcontrol
+    for (auto it : info_list) {
+      if (it.shutting_down()) {
+        send_shutdown_msg_ = false;
+
+        // Terminate the VTK application
+        rwi_->TerminateApp();
+        return false;
+      }
+    }
+
+    // We only care about the last message for actual data
+    sim_info_ = info_list.back();
+    info_list.clear();
+    incoming_interface_->sim_info_mutex.unlock();
+  }
+
+  // Do we have any new shapes?
+  if (incoming_interface_->shapes_update()) {
+    incoming_interface_->shapes_mutex.lock();
+    auto &shapes_list = incoming_interface_->shapes();
+
+    auto it = shapes_list.begin();
+    while (it != shapes_list.end()) {
+      draw_shapes(*it);
+
+      // Update ttl for shapes that aren't the last in the list
+      if (++it != shapes_list.end()) {
+        update_shapes();
+      }
+      --it;
+      shapes_list.erase(it++);
+    }
+    incoming_interface_->shapes_mutex.unlock();
+  }
+
+  // Update scale
+  if (scale_required_) {
+    update_scale();
+    scale_required_ = false;
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  // Update camera and GUI elements
+  ///////////////////////////////////////////////////////////////////////
+  update_camera();
+  update_text_display();
+
+  return true;
 }
 
 bool Updater::update_scale() {
-    for (auto &kv : actor_contacts_) {
-        // Get the desired scale amount, which is a factor of the current
-        // visualization scale (scale_) and the scale amount associated with
-        // the contact visual information
-        double desired_scale_amount = 1.0;
-        auto it = contact_visuals_.find(kv.first);
-        if (it != contact_visuals_.end()) {
-            desired_scale_amount = it->second->scale() * scale_;
-        }
-
-        // Get the 4x4 matrix that defines the scale, rotation, and translation
-        vtkMatrix4x4 *m;
-        m = kv.second->actor->GetMatrix();
-
-        // Compute the current scale factor for the object. The top-left 3x3
-        // part of the matrix contains the rotation and scale. The length of
-        // each row of the 3x3 matrix is the current scaling factor.
-        double sq_sum = 0;
-        for (int c = 0; c < 3; c++) {
-            sq_sum += pow(m->GetElement(0, c), 2);
-        }
-        double curr_scale_factor = sqrt(sq_sum);
-
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                // For each element in the top-left 3x3 matrix, normalize the
-                // scaling factor to 1 and then apply the desired scaling
-                // amount.
-                double elem = m->GetElement(r, c);
-                elem = elem / curr_scale_factor * desired_scale_amount;
-                m->SetElement(r, c, elem);
-            }
-        }
-
-        // update the label scale
-        kv.second->label->SetScale(label_scale_, label_scale_, label_scale_);
+  for (auto &kv : actor_contacts_) {
+    // Get the desired scale amount, which is a factor of the current
+    // visualization scale (scale_) and the scale amount associated with
+    // the contact visual information
+    double desired_scale_amount = 1.0;
+    auto it = contact_visuals_.find(kv.first);
+    if (it != contact_visuals_.end()) {
+      desired_scale_amount = it->second->scale() * scale_;
     }
-    return true;
+
+    // Get the 4x4 matrix that defines the scale, rotation, and translation
+    vtkMatrix4x4 *m;
+    m = kv.second->actor->GetMatrix();
+
+    // Compute the current scale factor for the object. The top-left 3x3
+    // part of the matrix contains the rotation and scale. The length of
+    // each row of the 3x3 matrix is the current scaling factor.
+    double sq_sum = 0;
+    for (int c = 0; c < 3; c++) {
+      sq_sum += pow(m->GetElement(0, c), 2);
+    }
+    double curr_scale_factor = sqrt(sq_sum);
+
+    for (int r = 0; r < 3; r++) {
+      for (int c = 0; c < 3; c++) {
+        // For each element in the top-left 3x3 matrix, normalize the
+        // scaling factor to 1 and then apply the desired scaling
+        // amount.
+        double elem = m->GetElement(r, c);
+        elem = elem / curr_scale_factor * desired_scale_amount;
+        m->SetElement(r, c, elem);
+      }
+    }
+
+    // update the label scale
+    kv.second->label->SetScale(label_scale_, label_scale_, label_scale_);
+  }
+  return true;
 }
 
 bool Updater::update_shapes() {
-    // Remove past frames shapes that have reached time-to-live, if they
-    // are not persistent
-    for (auto it = shapes_.begin(); it != shapes_.end();) {
-        bool remove = false;
+  // Remove past frames shapes that have reached time-to-live, if they
+  // are not persistent
+  for (auto it = shapes_.begin(); it != shapes_.end();) {
+    bool remove = false;
 
-        scrimmage_proto::Shape &s = std::get<0>(it->second);
-        if (not s.persistent()) {
-            switch (s.oneof_ttl_case()) {
-            case sp::Shape::kTtl:
-                s.set_ttl(s.ttl()-1);
-                if (s.ttl() <= 0) {
-                    remove = true;
-                }
-                break;
-            case sp::Shape::kPersistDuration:
-                if (std::get<3>(it->second) + s.persist_duration() < frame_time_) {
-                    remove = true;
-                }
-                break;
-            case sp::Shape::kPersistUntil:
-                if (s.persist_until() < frame_time_) {
-                    remove = true;
-                }
-                break;
-            default:
-                break;
-            }
-        }
-
-        if (remove) {
-            renderer_->RemoveActor(std::get<1>(it->second));
-            it = shapes_.erase(it);
-        } else {
-            ++it;
-        }
+    scrimmage_proto::Shape &s = std::get<0>(it->second);
+    if (not s.persistent()) {
+      switch (s.oneof_ttl_case()) {
+        case sp::Shape::kTtl:
+          s.set_ttl(s.ttl() - 1);
+          if (s.ttl() <= 0) {
+            remove = true;
+          }
+          break;
+        case sp::Shape::kPersistDuration:
+          if (std::get<3>(it->second) + s.persist_duration() < frame_time_) {
+            remove = true;
+          }
+          break;
+        case sp::Shape::kPersistUntil:
+          if (s.persist_until() < frame_time_) {
+            remove = true;
+          }
+          break;
+        default:
+          break;
+      }
     }
-    return true;
+
+    if (remove) {
+      renderer_->RemoveActor(std::get<1>(it->second));
+      it = shapes_.erase(it);
+    } else {
+      ++it;
+    }
+  }
+  return true;
 }
 
 bool Updater::draw_shapes(scrimmage_proto::Shapes &shapes) {
-    // Display new shapes
-    for (int i = 0; i < shapes.shape_size(); i++) {
-        sp::Shape shape = shapes.shape(i);
+  // Display new shapes
+  for (int i = 0; i < shapes.shape_size(); i++) {
+    sp::Shape shape = shapes.shape(i);
 
-        bool new_shape = false;
-        vtkSmartPointer<vtkActor> actor;
-        vtkSmartPointer<vtkPolyDataAlgorithm> source;
-        vtkSmartPointer<vtkPolyDataMapper> mapper;
+    bool new_shape = false;
+    vtkSmartPointer<vtkActor> actor;
+    vtkSmartPointer<vtkPolyDataAlgorithm> source;
+    vtkSmartPointer<vtkPolyDataMapper> mapper;
 
-        // Does this shape ID exist already?
-        auto it = shapes_.find(shape.hash());
-        if (it != shapes_.end()) {
-            new_shape = false;
-            actor = std::get<1>(it->second);
-            source = std::get<2>(it->second);
-        } else {
-            new_shape = true;
-            mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-            actor = vtkSmartPointer<vtkActor>::New();
-        }
-
-        bool shape_status = false;
-        switch (shape.oneof_type_case()) {
-        case sp::Shape::kArc:
-            shape_status = draw_arc(new_shape, shape.arc(), actor, source, mapper);
-            break;
-        case sp::Shape::kArrow:
-            shape_status = draw_arrow(new_shape, shape.arrow(), actor, source, mapper);
-            break;
-        case sp::Shape::kCircle:
-            shape_status = draw_circle(new_shape, shape.circle(), actor, source, mapper);
-            break;
-        case sp::Shape::kCone:
-            shape_status = draw_cone(new_shape, shape.cone(), actor, source, mapper);
-            break;
-        case sp::Shape::kCuboid:
-            shape_status = draw_cube(new_shape, shape.cuboid(), actor, source, mapper);
-            break;
-        case sp::Shape::kEllipse:
-            shape_status = draw_ellipse(new_shape, shape.ellipse(), actor, source, mapper);
-            break;
-        case sp::Shape::kLine:
-            shape_status = draw_line(new_shape, shape.line(), actor, source, mapper);
-            break;
-        case sp::Shape::kMesh:
-            shape_status = draw_mesh(new_shape, shape.mesh(), actor, source, mapper);
-            break;
-        case sp::Shape::kPlane:
-            shape_status = draw_plane(new_shape, shape.plane(), actor, source, mapper);
-            break;
-        case sp::Shape::kPointcloud:
-            shape_status = draw_pointcloud(new_shape, shape, actor, source, mapper);
-            break;
-        case sp::Shape::kPolydata:
-            shape_status = draw_polydata(new_shape, shape.polydata(), actor, source, mapper);
-            break;
-        case sp::Shape::kPolygon:
-            shape_status = draw_polygon(new_shape, shape.polygon(), actor, source, mapper);
-            break;
-        case sp::Shape::kPolyline:
-            shape_status = draw_polyline(new_shape, shape.polyline(), actor, source, mapper);
-            break;
-        case sp::Shape::kSphere:
-            shape_status = draw_sphere(new_shape, shape.sphere(), actor, source, mapper);
-            break;
-        case sp::Shape::kSpline:
-            shape_status = draw_spline(new_shape, shape.spline(), actor, source, mapper);
-            break;
-        case sp::Shape::kText:
-            shape_status = draw_text(new_shape, shape.text(), actor, source, mapper);
-            break;
-        case sp::Shape::kTriangle:
-            shape_status = draw_triangle(new_shape, shape.triangle(), actor, source, mapper);
-            break;
-        default:
-            break;
-        }
-
-        // Only add the actor if it was correctly constructed
-        if (shape_status) {
-            double opacity = shape.opacity();
-            if (opacity < 0.00001) {
-                actor->GetProperty()->SetOpacity(1.0);
-            } else {
-                actor->GetProperty()->SetOpacity(shape.opacity());
-            }
-
-            actor->GetProperty()->SetColor(shape.color().r()/255.0,
-                                           shape.color().g()/255.0,
-                                           shape.color().b()/255.0);
-
-            if (new_shape) {
-                renderer_->AddActor(actor);
-                shapes_[shape.hash()] = std::make_tuple(shape, actor, source,
-                                                        frame_time_);
-            } else {
-                std::get<0>(it->second) = shape;
-            }
-        }
+    // Does this shape ID exist already?
+    auto it = shapes_.find(shape.hash());
+    if (it != shapes_.end()) {
+      new_shape = false;
+      actor = std::get<1>(it->second);
+      source = std::get<2>(it->second);
+    } else {
+      new_shape = true;
+      mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+      actor = vtkSmartPointer<vtkActor>::New();
     }
-    return true;
+
+    bool shape_status = false;
+    switch (shape.oneof_type_case()) {
+      case sp::Shape::kArc:
+        shape_status = draw_arc(new_shape, shape.arc(), actor, source, mapper);
+        break;
+      case sp::Shape::kArrow:
+        shape_status = draw_arrow(new_shape, shape.arrow(), actor, source, mapper);
+        break;
+      case sp::Shape::kCircle:
+        shape_status = draw_circle(new_shape, shape.circle(), actor, source, mapper);
+        break;
+      case sp::Shape::kCone:
+        shape_status = draw_cone(new_shape, shape.cone(), actor, source, mapper);
+        break;
+      case sp::Shape::kCuboid:
+        shape_status = draw_cube(new_shape, shape.cuboid(), actor, source, mapper);
+        break;
+      case sp::Shape::kEllipse:
+        shape_status = draw_ellipse(new_shape, shape.ellipse(), actor, source, mapper);
+        break;
+      case sp::Shape::kLine:
+        shape_status = draw_line(new_shape, shape.line(), actor, source, mapper);
+        break;
+      case sp::Shape::kMesh:
+        shape_status = draw_mesh(new_shape, shape.mesh(), actor, source, mapper);
+        break;
+      case sp::Shape::kPlane:
+        shape_status = draw_plane(new_shape, shape.plane(), actor, source, mapper);
+        break;
+      case sp::Shape::kPointcloud:
+        shape_status = draw_pointcloud(new_shape, shape, actor, source, mapper);
+        break;
+      case sp::Shape::kPolydata:
+        shape_status = draw_polydata(new_shape, shape.polydata(), actor, source, mapper);
+        break;
+      case sp::Shape::kPolygon:
+        shape_status = draw_polygon(new_shape, shape.polygon(), actor, source, mapper);
+        break;
+      case sp::Shape::kPolyline:
+        shape_status = draw_polyline(new_shape, shape.polyline(), actor, source, mapper);
+        break;
+      case sp::Shape::kSphere:
+        shape_status = draw_sphere(new_shape, shape.sphere(), actor, source, mapper);
+        break;
+      case sp::Shape::kSpline:
+        shape_status = draw_spline(new_shape, shape.spline(), actor, source, mapper);
+        break;
+      case sp::Shape::kText:
+        shape_status = draw_text(new_shape, shape.text(), actor, source, mapper);
+        break;
+      case sp::Shape::kTriangle:
+        shape_status = draw_triangle(new_shape, shape.triangle(), actor, source, mapper);
+        break;
+      default:
+        break;
+    }
+
+    // Only add the actor if it was correctly constructed
+    if (shape_status) {
+      double opacity = shape.opacity();
+      if (opacity < 0.00001) {
+        actor->GetProperty()->SetOpacity(1.0);
+      } else {
+        actor->GetProperty()->SetOpacity(shape.opacity());
+      }
+
+      actor->GetProperty()->SetColor(
+          shape.color().r() / 255.0, shape.color().g() / 255.0, shape.color().b() / 255.0);
+
+      if (new_shape) {
+        renderer_->AddActor(actor);
+        shapes_[shape.hash()] = std::make_tuple(shape, actor, source, frame_time_);
+      } else {
+        std::get<0>(it->second) = shape;
+      }
+    }
+  }
+  return true;
 }
 
 void Updater::set_view_mode(ViewMode view_mode) {
-    view_mode_ = view_mode;
-    switch (view_mode_) {
-        case ViewMode::FOLLOW:
-            view_mode_actor_->SetInput("View: Follow");
-            break;
-        case ViewMode::FREE:
-            view_mode_actor_->SetInput("View: Free");
-            break;
-        case ViewMode::OFFSET:
-            view_mode_actor_->SetInput("View: Offset");
-            break;
-        case ViewMode::FPV:
-            view_mode_actor_->SetInput("View: FPV");
-            break;
-        default:
-            break;
-    }
+  view_mode_ = view_mode;
+  switch (view_mode_) {
+    case ViewMode::FOLLOW:
+      view_mode_actor_->SetInput("View: Follow");
+      break;
+    case ViewMode::FREE:
+      view_mode_actor_->SetInput("View: Free");
+      break;
+    case ViewMode::OFFSET:
+      view_mode_actor_->SetInput("View: Offset");
+      break;
+    case ViewMode::FPV:
+      view_mode_actor_->SetInput("View: FPV");
+      break;
+    default:
+      break;
+  }
 }
 
 bool Updater::update_camera() {
-    // Free mode if contacts don't exist
-    if (actor_contacts_.empty()) {
-        set_view_mode(ViewMode::FREE);
-        return true;
-    }
-
-    // Handle changing follow ids
-    if (inc_follow_) {
-        follow_id_++;
-    } else if (dec_follow_) {
-        follow_id_--;
-    }
-
-    // Find min/max ids
-    // this is a map so the front will be the min and the back is the max
-    int min = actor_contacts_.begin()->first;
-    int max = actor_contacts_.rbegin()->first;
-
-    auto it = actor_contacts_.find(follow_id_);
-    while (it == actor_contacts_.end()) {
-        if (follow_id_ > max) {
-            follow_id_ = actor_contacts_.begin()->second->contact.id().id();
-        } else if (follow_id_ < min) {
-            follow_id_ = actor_contacts_.rbegin()->second->contact.id().id();
-        } else if (inc_follow_) {
-            follow_id_++;
-        } else if (dec_follow_) {
-            follow_id_--;
-        } else {
-            // The ID might have been removed, increment to search for next
-            // available
-            follow_id_++;
-        }
-        it = actor_contacts_.find(follow_id_);
-    }
-    inc_follow_ = dec_follow_ = false;
-
-    double x_pos = it->second->contact.state().position().x();
-    double y_pos = it->second->contact.state().position().y();
-    double z_pos = it->second->contact.state().position().z();
-
-    double x_pos_fp = x_pos;
-    double y_pos_fp = y_pos;
-    double z_pos_fp = z_pos;
-
-    double camera_pos[3] {0, 0, 0};
-    if (view_mode_ == ViewMode::FREE) {
-        if (reset_camera_) {
-            x_pos_fp = camera_reset_params_.focal_x;
-            y_pos_fp = camera_reset_params_.focal_y;
-            z_pos_fp = camera_reset_params_.focal_z;
-
-            // there appears to be some type of gimbal lock in VTK
-            // so the y-position is slightly off of 0
-            camera_pos[0] = camera_reset_params_.pos_x;
-            camera_pos[1] = camera_reset_params_.pos_y;
-            camera_pos[2] = camera_reset_params_.pos_z;
-
-            renderer_->GetActiveCamera()->SetViewUp(0, 1, 0);
-
-        } else {
-            return true;
-        }
-    } else {
-        if (view_mode_ == ViewMode::OFFSET) {
-            camera_pos[0] = x_pos + 0.0;
-            camera_pos[1] = y_pos - 6.0;
-            camera_pos[2] = z_pos + 2.0;
-        } else if (view_mode_ == ViewMode::FOLLOW) {
-
-            if (view_mode_prev_ == ViewMode::FOLLOW) {
-                double currentPos[3];
-                renderer_->GetActiveCamera()->GetPosition(currentPos);
-                double currentFp[3];
-                renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
-                for (int i = 0; i < 3; i++)
-                    follow_vec_[i] = currentPos[i]-currentFp[i];
-                follow_offset_ = follow_vec_.norm();
-            }
-
-            Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
-            Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
-
-            sp::Quaternion sp_quat = it->second->contact.state().orientation();
-            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
-
-            Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) +
-                unit_vector * rel_cam_pos.norm();
-
-            camera_pos[0] = pos[0];
-            camera_pos[1] = pos[1];
-            camera_pos[2] = pos[2];
-
-            // Compute the camera's "up" vector
-            Eigen::Vector3d z_axis(0, 0, 1);
-            renderer_->GetActiveCamera()->SetViewUp(z_axis(0), z_axis(1), z_axis(2));
-
-        } else if (view_mode_ == ViewMode::FPV) {
-            sp::Quaternion sp_quat = it->second->contact.state().orientation();
-            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
-
-            // Compute camera position
-            Eigen::Vector3d base_offset(1, 0, 0);
-            Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) +
-                quat * base_offset * 5;
-
-            // Compute camera focal point
-            Eigen::Vector3d cam_dir = quat.rotate(base_offset.normalized());
-            Eigen::Vector3d fp = Eigen::Vector3d(x_pos, y_pos, z_pos) + cam_dir * 100;
-
-            x_pos_fp = fp(0);
-            y_pos_fp = fp(1);
-            z_pos_fp = fp(2);
-
-            camera_pos[0] = pos[0];
-            camera_pos[1] = pos[1];
-            camera_pos[2] = pos[2];
-
-            // Compute the camera's "up" vector
-            Eigen::Vector3d z_axis(0, 0, 1);
-            Eigen::Vector3d up = quat * z_axis;
-            renderer_->GetActiveCamera()->SetViewUp(up(0), up(1), up(2));
-        }
-    }
-    view_mode_prev_ = view_mode_;
-    reset_camera_ = false;
-    renderer_->GetActiveCamera()->SetPosition(camera_pos);
-    renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
-    renderer_->ResetCameraClippingRange(); // fixes missing terrain/entity issue
+  // Free mode if contacts don't exist
+  if (actor_contacts_.empty()) {
+    set_view_mode(ViewMode::FREE);
     return true;
+  }
+
+  // Handle changing follow ids
+  if (inc_follow_) {
+    follow_id_++;
+  } else if (dec_follow_) {
+    follow_id_--;
+  }
+
+  // Find min/max ids
+  // this is a map so the front will be the min and the back is the max
+  int min = actor_contacts_.begin()->first;
+  int max = actor_contacts_.rbegin()->first;
+
+  auto it = actor_contacts_.find(follow_id_);
+  while (it == actor_contacts_.end()) {
+    if (follow_id_ > max) {
+      follow_id_ = actor_contacts_.begin()->second->contact.id().id();
+    } else if (follow_id_ < min) {
+      follow_id_ = actor_contacts_.rbegin()->second->contact.id().id();
+    } else if (inc_follow_) {
+      follow_id_++;
+    } else if (dec_follow_) {
+      follow_id_--;
+    } else {
+      // The ID might have been removed, increment to search for next
+      // available
+      follow_id_++;
+    }
+    it = actor_contacts_.find(follow_id_);
+  }
+  inc_follow_ = dec_follow_ = false;
+
+  double x_pos = it->second->contact.state().position().x();
+  double y_pos = it->second->contact.state().position().y();
+  double z_pos = it->second->contact.state().position().z();
+
+  double x_pos_fp = x_pos;
+  double y_pos_fp = y_pos;
+  double z_pos_fp = z_pos;
+
+  double camera_pos[3]{0, 0, 0};
+  if (view_mode_ == ViewMode::FREE) {
+    if (reset_camera_) {
+      x_pos_fp = camera_reset_params_.focal_x;
+      y_pos_fp = camera_reset_params_.focal_y;
+      z_pos_fp = camera_reset_params_.focal_z;
+
+      // there appears to be some type of gimbal lock in VTK
+      // so the y-position is slightly off of 0
+      camera_pos[0] = camera_reset_params_.pos_x;
+      camera_pos[1] = camera_reset_params_.pos_y;
+      camera_pos[2] = camera_reset_params_.pos_z;
+
+      renderer_->GetActiveCamera()->SetViewUp(0, 1, 0);
+
+    } else {
+      return true;
+    }
+  } else {
+    if (view_mode_ == ViewMode::OFFSET) {
+      camera_pos[0] = x_pos + 0.0;
+      camera_pos[1] = y_pos - 6.0;
+      camera_pos[2] = z_pos + 2.0;
+    } else if (view_mode_ == ViewMode::FOLLOW) {
+      if (view_mode_prev_ == ViewMode::FOLLOW) {
+        double currentPos[3];
+        renderer_->GetActiveCamera()->GetPosition(currentPos);
+        double currentFp[3];
+        renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
+        for (int i = 0; i < 3; i++) follow_vec_[i] = currentPos[i] - currentFp[i];
+        follow_offset_ = follow_vec_.norm();
+      }
+
+      Eigen::Vector3d rel_cam_pos = follow_vec_.normalized() * follow_offset_;
+      Eigen::Vector3d unit_vector = rel_cam_pos / rel_cam_pos.norm();
+
+      sp::Quaternion sp_quat = it->second->contact.state().orientation();
+      sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+
+      Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) + unit_vector * rel_cam_pos.norm();
+
+      camera_pos[0] = pos[0];
+      camera_pos[1] = pos[1];
+      camera_pos[2] = pos[2];
+
+      // Compute the camera's "up" vector
+      Eigen::Vector3d z_axis(0, 0, 1);
+      renderer_->GetActiveCamera()->SetViewUp(z_axis(0), z_axis(1), z_axis(2));
+
+    } else if (view_mode_ == ViewMode::FPV) {
+      sp::Quaternion sp_quat = it->second->contact.state().orientation();
+      sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+
+      // Compute camera position
+      Eigen::Vector3d base_offset(1, 0, 0);
+      Eigen::Vector3d pos = Eigen::Vector3d(x_pos, y_pos, z_pos) + quat * base_offset * 5;
+
+      // Compute camera focal point
+      Eigen::Vector3d cam_dir = quat.rotate(base_offset.normalized());
+      Eigen::Vector3d fp = Eigen::Vector3d(x_pos, y_pos, z_pos) + cam_dir * 100;
+
+      x_pos_fp = fp(0);
+      y_pos_fp = fp(1);
+      z_pos_fp = fp(2);
+
+      camera_pos[0] = pos[0];
+      camera_pos[1] = pos[1];
+      camera_pos[2] = pos[2];
+
+      // Compute the camera's "up" vector
+      Eigen::Vector3d z_axis(0, 0, 1);
+      Eigen::Vector3d up = quat * z_axis;
+      renderer_->GetActiveCamera()->SetViewUp(up(0), up(1), up(2));
+    }
+  }
+  view_mode_prev_ = view_mode_;
+  reset_camera_ = false;
+  renderer_->GetActiveCamera()->SetPosition(camera_pos);
+  renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
+  renderer_->ResetCameraClippingRange();  // fixes missing terrain/entity issue
+  return true;
 }
 
 bool Updater::update_text_display() {
-    // Update FPS
-    if (show_fps_) {
-        std::stringstream stream_fps;
-        stream_fps << std::fixed << std::setprecision(2) << fps;
-        std::string fps_str = "FPS: " + stream_fps.str();
-        fps_actor_->SetInput(fps_str.c_str());
-    } else {
-        fps_actor_->SetInput(" ");
+  // Update FPS
+  if (show_fps_) {
+    std::stringstream stream_fps;
+    stream_fps << std::fixed << std::setprecision(2) << fps;
+    std::string fps_str = "FPS: " + stream_fps.str();
+    fps_actor_->SetInput(fps_str.c_str());
+  } else {
+    fps_actor_->SetInput(" ");
+  }
+
+  // Update the time (text) display
+  const int num_digits = std::abs(log10(dt_));
+  std::stringstream ss;
+  ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
+  time_actor_->SetInput(ss.str().c_str());
+
+  // Update the time warp
+  std::stringstream stream_warp;
+  stream_warp << std::fixed << std::setprecision(2) << sim_info_.desired_warp();
+  std::string time_warp_str = stream_warp.str() + " X";
+  warp_actor_->SetInput(time_warp_str.c_str());
+
+  // Display information about the aircraft we are following:
+  if (view_mode_ == ViewMode::FREE) {
+    heading_actor_->SetInput(" ");
+    alt_actor_->SetInput(" ");
+
+  } else {
+    auto it = actor_contacts_.find(follow_id_);
+    if (it != actor_contacts_.end()) {
+      sp::Quaternion sp_quat = it->second->contact.state().orientation();
+      sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+      std::string heading_str = "H: " + std::to_string(sc::Angles::rad2deg(quat.yaw()));
+      heading_actor_->SetInput(heading_str.c_str());
+
+      std::string alt_str = "Alt: " + std::to_string(it->second->contact.state().position().z());
+      alt_actor_->SetInput(alt_str.c_str());
     }
+  }
 
-    // Update the time (text) display
-    const int num_digits = std::abs(log10(dt_));
-    std::stringstream ss;
-    ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
-    time_actor_->SetInput(ss.str().c_str());
-
-    // Update the time warp
-    std::stringstream stream_warp;
-    stream_warp << std::fixed << std::setprecision(2) << sim_info_.desired_warp();
-    std::string time_warp_str = stream_warp.str() + " X";
-    warp_actor_->SetInput(time_warp_str.c_str());
-
-    // Display information about the aircraft we are following:
-    if (view_mode_ == ViewMode::FREE) {
-        heading_actor_->SetInput(" ");
-        alt_actor_->SetInput(" ");
-
-    } else {
-        auto it = actor_contacts_.find(follow_id_);
-        if (it != actor_contacts_.end()) {
-            sp::Quaternion sp_quat = it->second->contact.state().orientation();
-            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
-            std::string heading_str = "H: " + std::to_string(sc::Angles::rad2deg(quat.yaw()));
-            heading_actor_->SetInput(heading_str.c_str());
-
-            std::string alt_str = "Alt: " + std::to_string(it->second->contact.state().position().z());
-            alt_actor_->SetInput(alt_str.c_str());
-        }
-    }
-
-    return true;
+  return true;
 }
-
 
 void Updater::next_mode() {
-    switch (view_mode_) {
-        case ViewMode::FOLLOW:
-            set_view_mode(ViewMode::FREE);
-            break;
-        case ViewMode::FREE:
-            set_view_mode(ViewMode::OFFSET);
-            break;
-        case ViewMode::OFFSET:
-            set_view_mode(ViewMode::FPV);
-            break;
-        case ViewMode::FPV:
-            set_view_mode(ViewMode::FOLLOW);
-            break;
-        default:
-            set_view_mode(ViewMode::FOLLOW);
-            break;
-    }
+  switch (view_mode_) {
+    case ViewMode::FOLLOW:
+      set_view_mode(ViewMode::FREE);
+      break;
+    case ViewMode::FREE:
+      set_view_mode(ViewMode::OFFSET);
+      break;
+    case ViewMode::OFFSET:
+      set_view_mode(ViewMode::FPV);
+      break;
+    case ViewMode::FPV:
+      set_view_mode(ViewMode::FOLLOW);
+      break;
+    default:
+      set_view_mode(ViewMode::FOLLOW);
+      break;
+  }
 }
 
-void Updater::track_camera_pos() { 
-    // Camera cannot be updated for OFFSET or FPV view modes
-    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV)) {
-        return;
-    }
+void Updater::track_camera_pos() {
+  // Camera cannot be updated for OFFSET or FPV view modes
+  if ((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV)) {
+    return;
+  }
 
-    // If in FREE or FOLLOW view modes, save the current position and focal point
-    double currentPos[3];
-    renderer_->GetActiveCamera()->GetPosition(currentPos);
+  // If in FREE or FOLLOW view modes, save the current position and focal point
+  double currentPos[3];
+  renderer_->GetActiveCamera()->GetPosition(currentPos);
 
-    double currentFp[3];
-    renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
-        
-    double camera_pos[3] {0, 0, 0};
-    camera_pos[0] = currentPos[0];
-    camera_pos[1] = currentPos[1];
-    camera_pos[2] = currentPos[2];
+  double currentFp[3];
+  renderer_->GetActiveCamera()->GetFocalPoint(currentFp);
 
-    double x_pos_fp = currentFp[0];  
-    double y_pos_fp = currentFp[1]; 
-    double z_pos_fp = currentFp[2]; 
+  double camera_pos[3]{0, 0, 0};
+  camera_pos[0] = currentPos[0];
+  camera_pos[1] = currentPos[1];
+  camera_pos[2] = currentPos[2];
 
-    std::vector<double> camera_pos_tracker;
+  double x_pos_fp = currentFp[0];
+  double y_pos_fp = currentFp[1];
+  double z_pos_fp = currentFp[2];
 
-    camera_pos_tracker.push_back(camera_pos[0]);
-    camera_pos_tracker.push_back(camera_pos[1]);
-    camera_pos_tracker.push_back(camera_pos[2]);
+  std::vector<double> camera_pos_tracker;
 
-    camera_pos_tracker.push_back(x_pos_fp);
-    camera_pos_tracker.push_back(y_pos_fp);
-    camera_pos_tracker.push_back(z_pos_fp);
+  camera_pos_tracker.push_back(camera_pos[0]);
+  camera_pos_tracker.push_back(camera_pos[1]);
+  camera_pos_tracker.push_back(camera_pos[2]);
 
-    prev_camera_pos.push_back(camera_pos_tracker);
+  camera_pos_tracker.push_back(x_pos_fp);
+  camera_pos_tracker.push_back(y_pos_fp);
+  camera_pos_tracker.push_back(z_pos_fp);
+
+  prev_camera_pos.push_back(camera_pos_tracker);
 }
 
 void Updater::undo_camera() {
-    // Return with no update if the view modes are OFFSET or FPV or if there
-    // is no previous state to return to
-    if((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV) || prev_camera_pos.size() < 2) {
-        return;
-    } else {
-        std::vector<double> new_camera_pos;
+  // Return with no update if the view modes are OFFSET or FPV or if there
+  // is no previous state to return to
+  if ((view_mode_ == ViewMode::OFFSET) || (view_mode_ == ViewMode::FPV) ||
+      prev_camera_pos.size() < 2) {
+    return;
+  } else {
+    std::vector<double> new_camera_pos;
 
-        prev_camera_pos.pop_back();
-        new_camera_pos = prev_camera_pos.back();
+    prev_camera_pos.pop_back();
+    new_camera_pos = prev_camera_pos.back();
 
-        double camera_pos[3] = {new_camera_pos[0], new_camera_pos[1], new_camera_pos[2]};
+    double camera_pos[3] = {new_camera_pos[0], new_camera_pos[1], new_camera_pos[2]};
 
-        double x_pos_fp = new_camera_pos[3];
-        double y_pos_fp = new_camera_pos[4];
-        double z_pos_fp = new_camera_pos[5];
+    double x_pos_fp = new_camera_pos[3];
+    double y_pos_fp = new_camera_pos[4];
+    double z_pos_fp = new_camera_pos[5];
 
-        renderer_->GetActiveCamera()->SetPosition(camera_pos);
-        renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
-    }
+    renderer_->GetActiveCamera()->SetPosition(camera_pos);
+    renderer_->GetActiveCamera()->SetFocalPoint(x_pos_fp, y_pos_fp, z_pos_fp);
+  }
 }
 
 bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm) {
-    // Reset the grid
-    grid_->remove();
-    if (utm->enable_grid()) {
-        grid_->create(utm->grid_size(), utm->grid_spacing(), renderer_);
+  // Reset the grid
+  grid_->remove();
+  if (utm->enable_grid()) {
+    grid_->create(utm->grid_size(), utm->grid_spacing(), renderer_);
+  }
+
+  // Reset / Show the origin?
+  origin_axes_->remove();
+  if (utm->show_origin()) {
+    origin_axes_->create(utm->origin_length(), renderer_);
+  }
+
+  // Set the background color:
+  renderer_->SetBackground(
+      utm->background().r() / 255.0, utm->background().g() / 255.0, utm->background().b() / 255.0);
+
+  // Exit if the terrain is disabled in this messasge
+  if (!utm->enable_terrain()) return true;
+
+  // If the terrain data already exists in our map, use that instead:
+  auto it = terrain_map_.find(utm->terrain_name());
+  if (it != terrain_map_.end()) {
+    utm = it->second;
+  } else {
+    // Search for the appropriate files on the local system
+    ConfigParse terrain_parse;
+    find_terrain_files(utm->terrain_name(), terrain_parse, utm);
+    terrain_map_[utm->terrain_name()] = utm;
+  }
+
+  if (utm->enable_terrain()) {
+    // Read and create texture...
+    vtkSmartPointer<vtkJPEGReader> terrain_jPEGReader = vtkSmartPointer<vtkJPEGReader>::New();
+    terrain_jPEGReader->SetFileName(utm->texture_file().c_str());
+    terrain_jPEGReader->Update();
+
+    // Apply the texture
+    vtkSmartPointer<vtkTexture> terrain_texture = vtkSmartPointer<vtkTexture>::New();
+    terrain_texture->SetInputConnection(terrain_jPEGReader->GetOutputPort());
+    terrain_texture->InterpolateOn();
+
+    // Read the terrain polydata
+    const std::string &utm_polydata_file = utm->poly_data_file();
+    const std::size_t extension_ind = utm_polydata_file.find_last_of(".");
+    const std::string extension = utm_polydata_file.substr(extension_ind + 1);
+
+    if (extension_ind == std::string::npos) {
+      std::cout << "No file extension of terrain file found. Unable"
+                   "to determine terrain file type\n";
+      return false;
+    }
+    vtkSmartPointer<vtkPolyData> polydata;
+    vtkSmartPointer<vtkCellArray> polys;
+    if (extension.find("vtk", 0) == 0) {
+      vtkSmartPointer<vtkPolyDataReader> terrain_reader1 =
+          vtkSmartPointer<vtkPolyDataReader>::New();
+      terrain_reader1->SetFileName(utm_polydata_file.c_str());
+      terrain_reader1->Update();
+      polydata = terrain_reader1->GetOutput();
+    } else if (extension.find("dt", 0) == 0 && extension.size() == 3) {
+      DTEDReader dted_reader(utm_polydata_file, utm->terrain_extent());
+      std::unique_ptr<std::array<std::vector<double>, 3>> elevation_grid =
+          dted_reader.ParseAsUTM(utm->zone(), utm->hemisphere() == "north");
+
+      if (!elevation_grid) {
+        std::cout << "Could not create elevation grid from DTED\n";
+        return true;
+      }
+      polydata = ElevationToPolyData(std::move(elevation_grid));
     }
 
-    // Reset / Show the origin?
-    origin_axes_->remove();
-    if (utm->show_origin()) {
-        origin_axes_->create(utm->origin_length(), renderer_);
+    double bad_z_thresh = -90000;
+    double testpoint[3];
+    double z_sum = 0;
+    int z_count = 0;
+    for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
+      polydata->GetPoint(n, testpoint);
+      if (testpoint[2] > bad_z_thresh) {
+        z_sum += testpoint[2];
+        z_count++;
+      }
     }
 
-    // Set the background color:
-    renderer_->SetBackground(utm->background().r() / 255.0,
-                             utm->background().g() / 255.0,
-                             utm->background().b() / 255.0);
-
-    // Exit if the terrain is disabled in this messasge
-    if (!utm->enable_terrain()) return true;
-
-    // If the terrain data already exists in our map, use that instead:
-    auto it = terrain_map_.find(utm->terrain_name());
-    if (it != terrain_map_.end()) {
-        utm = it->second;
-    } else {
-        // Search for the appropriate files on the local system
-        ConfigParse terrain_parse;
-        find_terrain_files(utm->terrain_name(),
-                           terrain_parse, utm);
-        terrain_map_[utm->terrain_name()] = utm;
+    double z_avg = z_sum / z_count;
+    for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
+      polydata->GetPoint(n, testpoint);
+      if (testpoint[2] < bad_z_thresh) {
+        testpoint[2] = z_avg;
+        polydata->GetPoints()->SetPoint(n, testpoint);
+        z_sum += testpoint[2];
+      }
     }
 
-    if (utm->enable_terrain()) {
-        // Read and create texture...
-        vtkSmartPointer<vtkJPEGReader> terrain_jPEGReader =
-            vtkSmartPointer<vtkJPEGReader>::New();
-        terrain_jPEGReader->SetFileName(utm->texture_file().c_str());
-        terrain_jPEGReader->Update();
-
-        // Apply the texture
-        vtkSmartPointer<vtkTexture> terrain_texture =
-            vtkSmartPointer<vtkTexture>::New();
-        terrain_texture->SetInputConnection(terrain_jPEGReader->GetOutputPort());
-        terrain_texture->InterpolateOn();
-
-        // Read the terrain polydata
-        vtkSmartPointer<vtkPolyDataReader> terrain_reader1 =
-            vtkSmartPointer<vtkPolyDataReader>::New();
-        terrain_reader1->SetFileName(utm->poly_data_file().c_str());
-        terrain_reader1->Update();
-
-        vtkSmartPointer<vtkPolyData> polydata;
-        polydata = terrain_reader1->GetOutput();
-
-        double bad_z_thresh = -90000;
-        double testpoint[3];
-        double z_sum = 0;
-        int z_count = 0;
-        for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
-            polydata->GetPoint(n, testpoint);
-            if (testpoint[2] > bad_z_thresh) {
-                z_sum += testpoint[2];
-                z_count++;
-            }
-        }
-
-        double z_avg = z_sum / z_count;
-        for (vtkIdType n = 0; n < polydata->GetNumberOfPoints(); n++) {
-            polydata->GetPoint(n, testpoint);
-            if (testpoint[2] < bad_z_thresh) {
-                testpoint[2] = z_avg;
-                polydata->GetPoints()->SetPoint(n, testpoint);
-                z_sum += testpoint[2];
-            }
-        }
-
-        // Setup colors
-        vtkSmartPointer<vtkUnsignedCharArray> colors =
-            vtkSmartPointer<vtkUnsignedCharArray>::New();
-        colors->SetNumberOfComponents(3);
-        colors->SetName("Colors");
-        for (int i = 0; i < polydata->GetNumberOfPoints(); ++i) {
-            unsigned char tempColor[3] = {255, 255, 255};
+    // Setup colors
+    vtkSmartPointer<vtkUnsignedCharArray> colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+    colors->SetName("Colors");
+    for (int i = 0; i < polydata->GetNumberOfPoints(); ++i) {
+      unsigned char tempColor[3] = {255, 255, 255};
 #if VTK_MAJOR_VERSION <= 6
-            colors->InsertNextTupleValue(tempColor);
+      colors->InsertNextTupleValue(tempColor);
 #else
-            colors->InsertNextTypedTuple(tempColor);
-#endif
-        }
-
-        terrain_reader1->Update();
-        polydata->GetPointData()->SetScalars(colors);
-
-        vtkSmartPointer<vtkTransform> translation =
-            vtkSmartPointer<vtkTransform>::New();
-        translation->Translate(-utm->x_translate(), -utm->y_translate(),
-                               -utm->z_translate());
-
-        vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
-            vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-        transformFilter->SetInputConnection(terrain_reader1->GetOutputPort());
-
-        transformFilter->SetTransform(translation);
-        transformFilter->Update();
-
-        // Smooth poly data
-        vtkSmartPointer<vtkSmoothPolyDataFilter> smoothFilter =
-            vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
-        smoothFilter->SetInputConnection(transformFilter->GetOutputPort());
-        smoothFilter->SetNumberOfIterations(15);
-        smoothFilter->SetRelaxationFactor(0.1);
-        smoothFilter->FeatureEdgeSmoothingOff();
-        smoothFilter->BoundarySmoothingOn();
-        smoothFilter->Update();
-
-        // Update normals on newly smoothed polydata
-        vtkSmartPointer<vtkPolyDataNormals> normalGenerator = vtkSmartPointer<vtkPolyDataNormals>::New();
-        normalGenerator->SetInputConnection(smoothFilter->GetOutputPort());
-        normalGenerator->ComputePointNormalsOn();
-        normalGenerator->ComputeCellNormalsOn();
-        normalGenerator->Update();
-
-        vtkSmartPointer<vtkTextureMapToPlane> texturePlane =
-            vtkSmartPointer<vtkTextureMapToPlane>::New();
-        texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
-
-#if VTK_MAJOR_VERSION > 6
-        if (utm->enable_extrusion()) {
-            // Locate elevation data
-            vtkSmartPointer<vtkCellLocator> cellLocator =
-              vtkSmartPointer<vtkCellLocator>::New();
-            cellLocator->SetDataSet(normalGenerator->GetOutput());
-            cellLocator->BuildLocator();
-            double closestPoint[3];
-            double closestPointDist2;
-            vtkIdType cellId;
-            int subId;
-
-            // Default extrusion height
-            vtkVariant defval = vtkVariant(static_cast<double>(0.0));
-
-            // Read extrusion file and extract polydata and height property
-            vtkSmartPointer<vtkGeoJSONReader> extrusion_reader =
-                    vtkSmartPointer<vtkGeoJSONReader>::New();
-            extrusion_reader->SetFileName(utm->extrusion_file().c_str());
-            extrusion_reader->AddFeatureProperty(
-                    utm->extrusion_property().c_str(), defval);
-            extrusion_reader->Update();
-
-            vtkSmartPointer<vtkTransformPolyDataFilter> extrudeTransform =
-                vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-            extrudeTransform->SetInputConnection(
-                    extrusion_reader->GetOutputPort());
-            extrudeTransform->SetTransform(translation);
-            extrudeTransform->Update();
-
-            // Get all the data in the extrusion file
-            vtkSmartPointer<vtkPolyData> extrusion_data =
-                    vtkSmartPointer<vtkPolyData>::New();
-            extrusion_data = extrudeTransform->GetOutput();
-
-            vtkSmartPointer<vtkDoubleArray> heights =
-                    vtkDoubleArray::SafeDownCast(
-                            extrusion_data->GetCellData()->GetArray("Height"));
-
-            // Extract each polygon, extrude it, and append to new polydata
-            vtkIdType numCells = extrusion_data->GetPolys()->GetNumberOfCells();
-            vtkSmartPointer<vtkAppendPolyData> appendPolys =
-                        vtkSmartPointer<vtkAppendPolyData>::New();
-            for (vtkIdType n(0); n < numCells; n++) {
-                auto pts = vtkSmartPointer<vtkPoints>::New();
-                auto polygon = vtkSmartPointer<vtkPolygon>::New();
-                auto polygons = vtkSmartPointer<vtkCellArray>::New();
-                auto cellPointIds = vtkSmartPointer<vtkIdList>::New();
-                auto polygonPolydata = vtkSmartPointer<vtkPolyData>::New();
-                auto extrudeFilter =
-                        vtkSmartPointer<vtkLinearExtrusionFilter>::New();
-
-                // Get PointIds for the n-th polygon in the polydata
-                extrusion_data->GetCellPoints(n, cellPointIds);
-
-                // Set number of ids in the new polygon
-                polygon->GetPointIds()->SetNumberOfIds(
-                        cellPointIds->GetNumberOfIds());
-
-                // Copy the points to the new polygon
-                for (vtkIdType m(0); m < cellPointIds->GetNumberOfIds(); m++) {
-                    double p[3];
-                    extrusion_data->GetPoint(cellPointIds->GetId(m), p);
-                    if (m == 0) {
-                        cellLocator->FindClosestPoint(p, closestPoint, cellId,
-                                subId, closestPointDist2);
-                    }
-                    pts->InsertNextPoint(p[0], p[1], closestPoint[2]);
-                    polygon->GetPointIds()->SetId(m, m);
-                }
-
-                // Create new polydata for the new polygon
-                polygons->InsertNextCell(polygon);
-                polygonPolydata->SetPoints(pts);
-                polygonPolydata->SetPolys(polygons);
-
-                // Extrude the new polydata
-                extrudeFilter->SetExtrusionTypeToNormalExtrusion();
-                extrudeFilter->SetScaleFactor(1);
-                extrudeFilter->SetInputData(polygonPolydata);
-                extrudeFilter->SetVector(0, 0, heights->GetValue(n));
-                extrudeFilter->Update();
-
-                // Append the extruded polydata
-                appendPolys->AddInputData(extrudeFilter->GetOutput());
-            }
-            vtkSmartPointer<vtkPolyDataMapper> extrusion_mapper =
-                    vtkSmartPointer<vtkPolyDataMapper>::New();
-            extrusion_mapper->SetInputConnection(appendPolys->GetOutputPort());
-
-            if (extrusion_actor_ != NULL) {
-                renderer_ ->RemoveActor(extrusion_actor_);
-            }
-
-            extrusion_actor_ = vtkSmartPointer<vtkActor>::New();
-            extrusion_actor_->SetMapper(extrusion_mapper);
-        }
-#endif
-        vtkSmartPointer<vtkPolyDataMapper> terrain_mapper =
-            vtkSmartPointer<vtkPolyDataMapper>::New();
-        terrain_mapper->SetInputConnection(texturePlane->GetOutputPort());
-
-        // Remove the old terrain actor if it exists already
-        if (terrain_actor_ != NULL) {
-            renderer_->RemoveActor(terrain_actor_);
-        }
-        terrain_actor_ = vtkSmartPointer<vtkActor>::New();
-        terrain_actor_->SetMapper(terrain_mapper);
-        terrain_actor_->SetTexture(terrain_texture);
-        terrain_actor_->GetProperty()->SetColor(0, 0, 0);
-
-        renderer_->AddActor(terrain_actor_);
-#if VTK_MAJOR_VERSION > 6
-        if (utm->enable_extrusion())
-            renderer_->AddActor(extrusion_actor_);
+      colors->InsertNextTypedTuple(tempColor);
 #endif
     }
-    return true;
+
+    // terrain_reader1->Update();
+    polydata->GetPointData()->SetScalars(colors);
+
+    vtkSmartPointer<vtkTransform> translation = vtkSmartPointer<vtkTransform>::New();
+    translation->Translate(-utm->x_translate(), -utm->y_translate(), -utm->z_translate());
+
+    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
+        vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    transformFilter->SetInputDataObject(polydata);
+    transformFilter->SetTransform(translation);
+    transformFilter->Update();
+
+    // Smooth poly data
+    vtkSmartPointer<vtkSmoothPolyDataFilter> smoothFilter =
+        vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
+    smoothFilter->SetInputConnection(transformFilter->GetOutputPort());
+    smoothFilter->SetNumberOfIterations(15);
+    smoothFilter->SetRelaxationFactor(0.1);
+    smoothFilter->FeatureEdgeSmoothingOff();
+    smoothFilter->BoundarySmoothingOn();
+    smoothFilter->Update();
+
+    // Update normals on newly smoothed polydata
+    vtkSmartPointer<vtkPolyDataNormals> normalGenerator =
+        vtkSmartPointer<vtkPolyDataNormals>::New();
+    normalGenerator->SetInputConnection(smoothFilter->GetOutputPort());
+    normalGenerator->ComputePointNormalsOn();
+    normalGenerator->ComputeCellNormalsOn();
+    normalGenerator->Update();
+
+    vtkSmartPointer<vtkTextureMapToPlane> texturePlane =
+        vtkSmartPointer<vtkTextureMapToPlane>::New();
+    texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
+
+#if VTK_MAJOR_VERSION > 6
+    if (utm->enable_extrusion()) {
+      // Locate elevation data
+      vtkSmartPointer<vtkCellLocator> cellLocator = vtkSmartPointer<vtkCellLocator>::New();
+      cellLocator->SetDataSet(normalGenerator->GetOutput());
+      cellLocator->BuildLocator();
+      double closestPoint[3];
+      double closestPointDist2;
+      vtkIdType cellId;
+      int subId;
+
+      // Default extrusion height
+      vtkVariant defval = vtkVariant(static_cast<double>(0.0));
+
+      // Read extrusion file and extract polydata and height property
+      vtkSmartPointer<vtkGeoJSONReader> extrusion_reader = vtkSmartPointer<vtkGeoJSONReader>::New();
+      extrusion_reader->SetFileName(utm->extrusion_file().c_str());
+      extrusion_reader->AddFeatureProperty(utm->extrusion_property().c_str(), defval);
+      extrusion_reader->Update();
+
+      vtkSmartPointer<vtkTransformPolyDataFilter> extrudeTransform =
+          vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+      extrudeTransform->SetInputConnection(extrusion_reader->GetOutputPort());
+      extrudeTransform->SetTransform(translation);
+      extrudeTransform->Update();
+
+      // Get all the data in the extrusion file
+      vtkSmartPointer<vtkPolyData> extrusion_data = vtkSmartPointer<vtkPolyData>::New();
+      extrusion_data = extrudeTransform->GetOutput();
+
+      vtkSmartPointer<vtkDoubleArray> heights =
+          vtkDoubleArray::SafeDownCast(extrusion_data->GetCellData()->GetArray("Height"));
+
+      // Extract each polygon, extrude it, and append to new polydata
+      vtkIdType numCells = extrusion_data->GetPolys()->GetNumberOfCells();
+      vtkSmartPointer<vtkAppendPolyData> appendPolys = vtkSmartPointer<vtkAppendPolyData>::New();
+      for (vtkIdType n(0); n < numCells; n++) {
+        auto pts = vtkSmartPointer<vtkPoints>::New();
+        auto polygon = vtkSmartPointer<vtkPolygon>::New();
+        auto polygons = vtkSmartPointer<vtkCellArray>::New();
+        auto cellPointIds = vtkSmartPointer<vtkIdList>::New();
+        auto polygonPolydata = vtkSmartPointer<vtkPolyData>::New();
+        auto extrudeFilter = vtkSmartPointer<vtkLinearExtrusionFilter>::New();
+
+        // Get PointIds for the n-th polygon in the polydata
+        extrusion_data->GetCellPoints(n, cellPointIds);
+
+        // Set number of ids in the new polygon
+        polygon->GetPointIds()->SetNumberOfIds(cellPointIds->GetNumberOfIds());
+
+        // Copy the points to the new polygon
+        for (vtkIdType m(0); m < cellPointIds->GetNumberOfIds(); m++) {
+          double p[3];
+          extrusion_data->GetPoint(cellPointIds->GetId(m), p);
+          if (m == 0) {
+            cellLocator->FindClosestPoint(p, closestPoint, cellId, subId, closestPointDist2);
+          }
+          pts->InsertNextPoint(p[0], p[1], closestPoint[2]);
+          polygon->GetPointIds()->SetId(m, m);
+        }
+
+        // Create new polydata for the new polygon
+        polygons->InsertNextCell(polygon);
+        polygonPolydata->SetPoints(pts);
+        polygonPolydata->SetPolys(polygons);
+
+        // Extrude the new polydata
+        extrudeFilter->SetExtrusionTypeToNormalExtrusion();
+        extrudeFilter->SetScaleFactor(1);
+        extrudeFilter->SetInputData(polygonPolydata);
+        extrudeFilter->SetVector(0, 0, heights->GetValue(n));
+        extrudeFilter->Update();
+
+        // Append the extruded polydata
+        appendPolys->AddInputData(extrudeFilter->GetOutput());
+      }
+      vtkSmartPointer<vtkPolyDataMapper> extrusion_mapper =
+          vtkSmartPointer<vtkPolyDataMapper>::New();
+      extrusion_mapper->SetInputConnection(appendPolys->GetOutputPort());
+
+      if (extrusion_actor_ != NULL) {
+        renderer_->RemoveActor(extrusion_actor_);
+      }
+
+      extrusion_actor_ = vtkSmartPointer<vtkActor>::New();
+      extrusion_actor_->SetMapper(extrusion_mapper);
+    }
+#endif
+    vtkSmartPointer<vtkPolyDataMapper> terrain_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    terrain_mapper->SetInputConnection(texturePlane->GetOutputPort());
+
+    // Remove the old terrain actor if it exists already
+    if (terrain_actor_ != NULL) {
+      renderer_->RemoveActor(terrain_actor_);
+    }
+    terrain_actor_ = vtkSmartPointer<vtkActor>::New();
+    terrain_actor_->SetMapper(terrain_mapper);
+    terrain_actor_->SetTexture(terrain_texture);
+    terrain_actor_->GetProperty()->SetColor(0, 0, 0);
+
+    renderer_->AddActor(terrain_actor_);
+#if VTK_MAJOR_VERSION > 6
+    if (utm->enable_extrusion()) renderer_->AddActor(extrusion_actor_);
+#endif
+  }
+  return true;
 }
 
-void Updater::set_max_update_rate(double max_update_rate)
-{ max_update_rate_ = max_update_rate; }
+void Updater::set_max_update_rate(double max_update_rate) { max_update_rate_ = max_update_rate; }
 
 void Updater::set_renderer(vtkSmartPointer<vtkRenderer> &renderer) {
-    renderer_ = renderer;
+  renderer_ = renderer;
 
-    // After the renderer is set, we can setup the text display
-    create_text_display();
-    set_view_mode(ViewMode::FOLLOW);
+  // After the renderer is set, we can setup the text display
+  create_text_display();
+  set_view_mode(ViewMode::FOLLOW);
 }
 
-void Updater::set_rwi(vtkSmartPointer<vtkRenderWindowInteractor> &rwi)
-{ rwi_ = rwi; }
+void Updater::set_rwi(vtkSmartPointer<vtkRenderWindowInteractor> &rwi) { rwi_ = rwi; }
 
-void Updater::set_incoming_interface(InterfacePtr &incoming_interface)
-{ incoming_interface_ = incoming_interface; }
+void Updater::set_incoming_interface(InterfacePtr &incoming_interface) {
+  incoming_interface_ = incoming_interface;
+}
 
-void Updater::set_outgoing_interface(InterfacePtr &outgoing_interface)
-{ outgoing_interface_ = outgoing_interface; }
+void Updater::set_outgoing_interface(InterfacePtr &outgoing_interface) {
+  outgoing_interface_ = outgoing_interface;
+}
 
 bool Updater::update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame) {
-    frame_time_ = frame->time();
+  frame_time_ = frame->time();
 
-    // Add new contacts to contact map
-    for (int i = 0; i < frame->contact_size(); i++) {
+  // Add new contacts to contact map
+  for (int i = 0; i < frame->contact_size(); i++) {
+    const sp::Contact cnt = frame->contact(i);
+    int id = cnt.id().id();
 
-        const sp::Contact cnt = frame->contact(i);
-        int id = cnt.id().id();
+    if (actor_contacts_.count(id) == 0 && cnt.active()) {
+      // Initialize everything as a sphere until it can be matched
+      // with information in the contact_visuals_ map
+      vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
+      sphereSource->SetCenter(0, 0, 0);
+      sphereSource->SetRadius(1);
 
-        if (actor_contacts_.count(id) == 0 && cnt.active()) {
-            // Initialize everything as a sphere until it can be matched
-            // with information in the contact_visuals_ map
-            vtkSmartPointer<vtkSphereSource> sphereSource =
-                vtkSmartPointer<vtkSphereSource>::New();
-            sphereSource->SetCenter(0, 0, 0);
-            sphereSource->SetRadius(1);
+      // Create a mapper
+      vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+      mapper->SetInputConnection(sphereSource->GetOutputPort());
 
-            // Create a mapper
-            vtkSmartPointer<vtkDataSetMapper> mapper =
-                vtkSmartPointer<vtkDataSetMapper>::New();
-            mapper->SetInputConnection(sphereSource->GetOutputPort());
+      // Create an actor
+      vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+      actor->SetMapper(mapper);
 
-            // Create an actor
-            vtkSmartPointer<vtkActor> actor =
-                vtkSmartPointer<vtkActor>::New();
-            actor->SetMapper(mapper);
+      actor->GetProperty()->SetColor(161, 161, 161);
+      actor->GetProperty()->SetOpacity(0.25);
 
-            actor->GetProperty()->SetColor(161, 161, 161);
-            actor->GetProperty()->SetOpacity(0.25);
+      renderer_->AddActor(actor);
 
-            renderer_->AddActor(actor);
+      // Add the object label
+      vtkSmartPointer<vtkVectorText> textSource = vtkSmartPointer<vtkVectorText>::New();
+      textSource->SetText(std::to_string(id).c_str());
 
-            // Add the object label
-            vtkSmartPointer<vtkVectorText> textSource =
-                vtkSmartPointer<vtkVectorText>::New();
-            textSource->SetText(std::to_string(id).c_str());
+      // Create a mapper for the label
+      vtkSmartPointer<vtkPolyDataMapper> label_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+      label_mapper->SetInputConnection(textSource->GetOutputPort());
 
-            // Create a mapper for the label
-            vtkSmartPointer<vtkPolyDataMapper> label_mapper =
-                vtkSmartPointer<vtkPolyDataMapper>::New();
-            label_mapper->SetInputConnection(textSource->GetOutputPort());
+      // Create a subclass of vtkActor: a vtkFollower that remains facing the camera
+      vtkSmartPointer<vtkFollower> label = vtkSmartPointer<vtkFollower>::New();
+      label->SetMapper(label_mapper);
+      label->GetProperty()->SetColor(1, 1, 1);  // white
+      label->SetScale(label_scale_, label_scale_, label_scale_);
 
-            // Create a subclass of vtkActor: a vtkFollower that remains facing the camera
-            vtkSmartPointer<vtkFollower> label =
-                vtkSmartPointer<vtkFollower>::New();
-            label->SetMapper(label_mapper);
-            label->GetProperty()->SetColor(1, 1, 1); // white
-            label->SetScale(label_scale_, label_scale_, label_scale_);
+      // Add the actor to the scene
+      // renderer_->AddActor(actor);
+      renderer_->AddActor(label);
 
-            // Add the actor to the scene
-            // renderer_->AddActor(actor);
-            renderer_->AddActor(label);
+      // Save a reference to the actor for modifying later
+      std::shared_ptr<ActorContact> actor_contact = std::make_shared<ActorContact>();
+      actor_contact->actor = actor;
 
-            // Save a reference to the actor for modifying later
-            std::shared_ptr<ActorContact> actor_contact = std::make_shared<ActorContact>();
-            actor_contact->actor = actor;
-
-            sc::set(actor_contact->color, 161, 161, 161);
-            actor_contact->contact = cnt;
-            actor_contact->label = label;
-            actor_contact->exists = true;
-            actor_contact->remove = false;
-            actor_contacts_[id] = actor_contact;
-        }
+      sc::set(actor_contact->color, 161, 161, 161);
+      actor_contact->contact = cnt;
+      actor_contact->label = label;
+      actor_contact->exists = true;
+      actor_contact->remove = false;
+      actor_contacts_[id] = actor_contact;
     }
+  }
 
-    // Update contacts in contact map
-    for (int i = 0; i < frame->contact_size(); i++) {
-        const sp::Contact cnt = frame->contact(i);
-        int id = cnt.id().id();
+  // Update contacts in contact map
+  for (int i = 0; i < frame->contact_size(); i++) {
+    const sp::Contact cnt = frame->contact(i);
+    int id = cnt.id().id();
 
-        if (actor_contacts_.count(id) > 0) {
-            // Update an existing contact
-            std::shared_ptr<ActorContact> ac = actor_contacts_[id];
-            ac->exists = true;
-            ac->contact = cnt;
+    if (actor_contacts_.count(id) > 0) {
+      // Update an existing contact
+      std::shared_ptr<ActorContact> ac = actor_contacts_[id];
+      ac->exists = true;
+      ac->contact = cnt;
 
-            // Update the visuals for the actor, if neccessary
-            auto it = contact_visuals_.find(id);
-            if (it != contact_visuals_.end() && it->second->update_required()) {
-                update_contact_visual(ac, it->second);
-                it->second->set_update_required(false);
-            }
+      // Update the visuals for the actor, if neccessary
+      auto it = contact_visuals_.find(id);
+      if (it != contact_visuals_.end() && it->second->update_required()) {
+        update_contact_visual(ac, it->second);
+        it->second->set_update_required(false);
+      }
 
-            double x_pos = cnt.state().position().x();
-            double y_pos = cnt.state().position().y();
-            double z_pos = cnt.state().position().z();
+      double x_pos = cnt.state().position().x();
+      double y_pos = cnt.state().position().y();
+      double z_pos = cnt.state().position().z();
 
-            ac->actor->SetPosition(x_pos, y_pos, z_pos);
+      ac->actor->SetPosition(x_pos, y_pos, z_pos);
 
-            sp::Quaternion sp_quat = cnt.state().orientation();
-            sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
-            Eigen::Matrix3d mat3 = quat.toRotationMatrix();
+      sp::Quaternion sp_quat = cnt.state().orientation();
+      sc::Quaternion quat(sp_quat.w(), sp_quat.x(), sp_quat.y(), sp_quat.z());
+      Eigen::Matrix3d mat3 = quat.toRotationMatrix();
 
-            double desired_scale_amount = 1.0;
-            auto it_cv = contact_visuals_.find(id);
-            if (it_cv != contact_visuals_.end()) {
-                desired_scale_amount = it_cv->second->scale() * scale_;
-            }
+      double desired_scale_amount = 1.0;
+      auto it_cv = contact_visuals_.find(id);
+      if (it_cv != contact_visuals_.end()) {
+        desired_scale_amount = it_cv->second->scale() * scale_;
+      }
 
-            vtkMatrix4x4 *m;
-            m = ac->actor->GetMatrix();
+      vtkMatrix4x4 *m;
+      m = ac->actor->GetMatrix();
 
-            for (int r = 0; r < 3; r++) {
-                for (int c = 0; c < 3; c++) {
-                    m->SetElement(r, c, desired_scale_amount*mat3(r, c));
-                }
-            }
-
-            // Tells each label to "face" the camera
-            ac->label->SetCamera(renderer_->GetActiveCamera());
-            ac->label->SetPosition(x_pos, y_pos, z_pos + 0.1);
-
-            update_trail(ac, x_pos, y_pos, z_pos);
+      for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
+          m->SetElement(r, c, desired_scale_amount * mat3(r, c));
         }
+      }
+
+      // Tells each label to "face" the camera
+      ac->label->SetCamera(renderer_->GetActiveCamera());
+      ac->label->SetPosition(x_pos, y_pos, z_pos + 0.1);
+
+      update_trail(ac, x_pos, y_pos, z_pos);
     }
+  }
 
-    // Set opacity of stale actors
-    for (auto &kv : actor_contacts_) {
-        if (!kv.second->exists) {
-            kv.second->actor->GetProperty()->SetOpacity(0.10);
-            kv.second->label->GetProperty()->SetOpacity(0.10);
-        }
-        kv.second->exists = false;
+  // Set opacity of stale actors
+  for (auto &kv : actor_contacts_) {
+    if (!kv.second->exists) {
+      kv.second->actor->GetProperty()->SetOpacity(0.10);
+      kv.second->label->GetProperty()->SetOpacity(0.10);
     }
+    kv.second->exists = false;
+  }
 
-    // Remove actors that had an inactive tag in their message
-    auto it = actor_contacts_.begin();
-    while (it != actor_contacts_.end()) {
-        if (it->second->remove) {
-            // Remove actor and label from viewer
-            renderer_->RemoveActor(it->second->actor);
-            renderer_->RemoveActor(it->second->label);
+  // Remove actors that had an inactive tag in their message
+  auto it = actor_contacts_.begin();
+  while (it != actor_contacts_.end()) {
+    if (it->second->remove) {
+      // Remove actor and label from viewer
+      renderer_->RemoveActor(it->second->actor);
+      renderer_->RemoveActor(it->second->label);
 
-            // Remove the trail points
-            for (std::list<vtkSmartPointer<vtkActor> >::iterator it_trail = it->second->trail.begin();
-                 it_trail != it->second->trail.end(); ++it_trail) {
-                renderer_->RemoveActor(*it_trail);
-            }
-            actor_contacts_.erase(it++); // remove map entry
-        } else {
-            it++;
-        }
+      // Remove the trail points
+      for (std::list<vtkSmartPointer<vtkActor>>::iterator it_trail = it->second->trail.begin();
+           it_trail != it->second->trail.end();
+           ++it_trail) {
+        renderer_->RemoveActor(*it_trail);
+      }
+      actor_contacts_.erase(it++);  // remove map entry
+    } else {
+      it++;
     }
+  }
 
-    return true;
+  return true;
 }
 
 void Updater::update_contact_visual(std::shared_ptr<ActorContact> &actor_contact,
                                     std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
-    // Only update the meshes if the model name has changed
-    if (actor_contact->model_name != cv->name()) {
-        actor_contact->model_name = cv->name();
+  // Only update the meshes if the model name has changed
+  if (actor_contact->model_name != cv->name()) {
+    actor_contact->model_name = cv->name();
 
-        // Remove the old actor:
-        renderer_->RemoveActor(actor_contact->actor);
+    // Remove the old actor:
+    renderer_->RemoveActor(actor_contact->actor);
 
-        // Create a new actor and mapper
-        vtkSmartPointer<vtkDataSetMapper> mapper =
-            vtkSmartPointer<vtkDataSetMapper>::New();
+    // Create a new actor and mapper
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
 
-        vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
 
-        // Search for the appropriate files on the local system
-        ConfigParse cv_parse;
-        FileSearch file_search;
-        bool mesh_found, texture_found;
+    // Search for the appropriate files on the local system
+    ConfigParse cv_parse;
+    FileSearch file_search;
+    bool mesh_found, texture_found;
 
-        // Setup the overrides based on the data in the message
-        std::map<std::string, std::string> overrides;
-        overrides["visual_scale"] = std::to_string(cv->scale());
-        overrides["visual_rpy"] = std::to_string(cv->rotate(0)) + " " +
-            std::to_string(cv->rotate(1)) + " " +
-            std::to_string(cv->rotate(2));
+    // Setup the overrides based on the data in the message
+    std::map<std::string, std::string> overrides;
+    overrides["visual_scale"] = std::to_string(cv->scale());
+    overrides["visual_rpy"] = std::to_string(cv->rotate(0)) + " " + std::to_string(cv->rotate(1)) +
+                              " " + std::to_string(cv->rotate(2));
 
-        find_model_properties(cv->name(), cv_parse, file_search, overrides,
-                              cv, mesh_found, texture_found);
+    find_model_properties(
+        cv->name(), cv_parse, file_search, overrides, cv, mesh_found, texture_found);
 
-        if (actor_contact->contact.type() == sp::MESH) {
-            if (texture_found) {
-                vtkSmartPointer<vtkPNGReader> pngReader =
-                    vtkSmartPointer<vtkPNGReader>::New();
-                pngReader->SetFileName(cv->texture_file().c_str());
-                pngReader->Update();
+    if (actor_contact->contact.type() == sp::MESH) {
+      if (texture_found) {
+        vtkSmartPointer<vtkPNGReader> pngReader = vtkSmartPointer<vtkPNGReader>::New();
+        pngReader->SetFileName(cv->texture_file().c_str());
+        pngReader->Update();
 
-                vtkSmartPointer<vtkTexture> colorTexture =
-                    vtkSmartPointer<vtkTexture>::New();
-                colorTexture->SetInputConnection(pngReader->GetOutputPort());
-                colorTexture->InterpolateOn();
-                actor->SetTexture(colorTexture);
-            }
+        vtkSmartPointer<vtkTexture> colorTexture = vtkSmartPointer<vtkTexture>::New();
+        colorTexture->SetInputConnection(pngReader->GetOutputPort());
+        colorTexture->InterpolateOn();
+        actor->SetTexture(colorTexture);
+      }
 
-            vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+      vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
 
-            // transform->RotateWXYZ(cv->rotate(0), cv->rotate(1),
-            //                      cv->rotate(2), cv->rotate(3));
-            transform->RotateX(cv->rotate(0));
-            transform->RotateY(cv->rotate(1));
-            transform->RotateZ(cv->rotate(2));
+      // transform->RotateWXYZ(cv->rotate(0), cv->rotate(1),
+      //                      cv->rotate(2), cv->rotate(3));
+      transform->RotateX(cv->rotate(0));
+      transform->RotateY(cv->rotate(1));
+      transform->RotateZ(cv->rotate(2));
 
-            vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
-                vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+      vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter =
+          vtkSmartPointer<vtkTransformPolyDataFilter>::New();
 
-            transformFilter->SetTransform(transform);
-            std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(cv->model_file().c_str()));
-            if (extension == ".obj") {
-                vtkSmartPointer<vtkOBJReader> reader =
-                    vtkSmartPointer<vtkOBJReader>::New();
-                reader->SetFileName(cv->model_file().c_str());
-                reader->Update();
-                transformFilter->SetInputConnection(reader->GetOutputPort());
-            } else if (extension == ".stl") {
-                vtkSmartPointer<vtkSTLReader> reader =
-                        vtkSmartPointer<vtkSTLReader>::New();
-                reader->SetFileName(cv->model_file().c_str());
-                reader->Update();
-                transformFilter->SetInputConnection(reader->GetOutputPort());
-            }
-            transformFilter->Update();
+      transformFilter->SetTransform(transform);
+      std::string extension =
+          vtksys::SystemTools::GetFilenameLastExtension(std::string(cv->model_file().c_str()));
+      if (extension == ".obj") {
+        vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
+        reader->SetFileName(cv->model_file().c_str());
+        reader->Update();
+        transformFilter->SetInputConnection(reader->GetOutputPort());
+      } else if (extension == ".stl") {
+        vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader>::New();
+        reader->SetFileName(cv->model_file().c_str());
+        reader->Update();
+        transformFilter->SetInputConnection(reader->GetOutputPort());
+      }
+      transformFilter->Update();
 
-            mapper->SetInputConnection(transformFilter->GetOutputPort());
+      mapper->SetInputConnection(transformFilter->GetOutputPort());
 
-            // Need to scale contact to current GUI scale:
-            double scale_data[3] = {0, 0, 0};
-            for (int i = 0; i < 3; i++) {
-                scale_data[i] = cv->scale() * scale_;
-            }
-            actor->SetScale(scale_data[0], scale_data[1],
-                            scale_data[2]);
-        } else if (actor_contact->contact.type() == sp::AIRCRAFT) {
-            vtkSmartPointer<vtkPoints> points =
-                vtkSmartPointer<vtkPoints>::New();
+      // Need to scale contact to current GUI scale:
+      double scale_data[3] = {0, 0, 0};
+      for (int i = 0; i < 3; i++) {
+        scale_data[i] = cv->scale() * scale_;
+      }
+      actor->SetScale(scale_data[0], scale_data[1], scale_data[2]);
+    } else if (actor_contact->contact.type() == sp::AIRCRAFT) {
+      vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-            float size = 2.0;
-            float offset = -size/2;
-            float p0[3] = {offset, 0, size /4};
-            float p1[3] = {offset, 0, size /4};
-            float p2[3] = {offset, -2 * size / 3, 0.0};
-            float p3[3] = {offset, 2 * size / 3, 0};
-            float p4[3] = {size*2+offset, 0.0, 0.0};
+      float size = 2.0;
+      float offset = -size / 2;
+      float p0[3] = {offset, 0, size / 4};
+      float p1[3] = {offset, 0, size / 4};
+      float p2[3] = {offset, -2 * size / 3, 0.0};
+      float p3[3] = {offset, 2 * size / 3, 0};
+      float p4[3] = {size * 2 + offset, 0.0, 0.0};
 
-            points->InsertNextPoint(p0);
-            points->InsertNextPoint(p1);
-            points->InsertNextPoint(p2);
-            points->InsertNextPoint(p3);
-            points->InsertNextPoint(p4);
+      points->InsertNextPoint(p0);
+      points->InsertNextPoint(p1);
+      points->InsertNextPoint(p2);
+      points->InsertNextPoint(p3);
+      points->InsertNextPoint(p4);
 
-            vtkSmartPointer<vtkPyramid> pyramid =
-                vtkSmartPointer<vtkPyramid>::New();
-            pyramid->GetPointIds()->SetId(0, 0);
-            pyramid->GetPointIds()->SetId(1, 1);
-            pyramid->GetPointIds()->SetId(2, 2);
-            pyramid->GetPointIds()->SetId(3, 3);
-            pyramid->GetPointIds()->SetId(4, 4);
+      vtkSmartPointer<vtkPyramid> pyramid = vtkSmartPointer<vtkPyramid>::New();
+      pyramid->GetPointIds()->SetId(0, 0);
+      pyramid->GetPointIds()->SetId(1, 1);
+      pyramid->GetPointIds()->SetId(2, 2);
+      pyramid->GetPointIds()->SetId(3, 3);
+      pyramid->GetPointIds()->SetId(4, 4);
 
-            vtkSmartPointer<vtkCellArray> cells =
-                vtkSmartPointer<vtkCellArray>::New();
-            cells->InsertNextCell(pyramid);
+      vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
+      cells->InsertNextCell(pyramid);
 
-            vtkSmartPointer<vtkUnstructuredGrid> ug =
-                vtkSmartPointer<vtkUnstructuredGrid>::New();
-            ug->SetPoints(points);
-            ug->InsertNextCell(pyramid->GetCellType(), pyramid->GetPointIds());
+      vtkSmartPointer<vtkUnstructuredGrid> ug = vtkSmartPointer<vtkUnstructuredGrid>::New();
+      ug->SetPoints(points);
+      ug->InsertNextCell(pyramid->GetCellType(), pyramid->GetPointIds());
 #if VTK_MAJOR_VERSION <= 5
-            mapper->SetInput(ug);
+      mapper->SetInput(ug);
 #else
-            mapper->SetInputData(ug);
+      mapper->SetInputData(ug);
 #endif
 
-        } else if (actor_contact->contact.type() == sp::SPHERE) {
-            vtkSmartPointer<vtkSphereSource> sphereSource =
-                vtkSmartPointer<vtkSphereSource>::New();
-            sphereSource->SetCenter(0, 0, 0);
-            sphereSource->SetRadius(1);
+    } else if (actor_contact->contact.type() == sp::SPHERE) {
+      vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
+      sphereSource->SetCenter(0, 0, 0);
+      sphereSource->SetRadius(1);
 
-            mapper->SetInputConnection(sphereSource->GetOutputPort());
+      mapper->SetInputConnection(sphereSource->GetOutputPort());
 
-        } else {
-            vtkSmartPointer<vtkSphereSource> sphereSource =
-                vtkSmartPointer<vtkSphereSource>::New();
-            sphereSource->SetCenter(0, 0, 0);
-            sphereSource->SetRadius(1);
+    } else {
+      vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
+      sphereSource->SetCenter(0, 0, 0);
+      sphereSource->SetRadius(1);
 
-            mapper->SetInputConnection(sphereSource->GetOutputPort());
-        }
-
-        actor->SetMapper(mapper);
-        renderer_->AddActor(actor);
-        actor_contact->actor = actor;
+      mapper->SetInputConnection(sphereSource->GetOutputPort());
     }
 
-    actor_contact->actor->GetProperty()->SetOpacity(cv->opacity());
-    actor_contact->label->GetProperty()->SetOpacity(cv->opacity());
+    actor->SetMapper(mapper);
+    renderer_->AddActor(actor);
+    actor_contact->actor = actor;
+  }
 
-    if (cv->visual_mode() == sp::ContactVisual::COLOR) {
-        actor_contact->actor->GetProperty()->SetColor(cv->color().r()/255.0,
-                                                      cv->color().g()/255.0,
-                                                      cv->color().b()/255.0);
-    }
+  actor_contact->actor->GetProperty()->SetOpacity(cv->opacity());
+  actor_contact->label->GetProperty()->SetOpacity(cv->opacity());
 
-    sc::set(actor_contact->color, cv->color());
+  if (cv->visual_mode() == sp::ContactVisual::COLOR) {
+    actor_contact->actor->GetProperty()->SetColor(
+        cv->color().r() / 255.0, cv->color().g() / 255.0, cv->color().b() / 255.0);
+  }
+
+  sc::set(actor_contact->color, cv->color());
 }
 
 void Updater::update_trail(std::shared_ptr<ActorContact> &actor_contact,
-                           double &x_pos, double &y_pos, double &z_pos) {
-    if (enable_trails_) {
-        /////////////////////
-        // Create the geometry of a point (the coordinate)
-        vtkSmartPointer<vtkPoints> points =
-            vtkSmartPointer<vtkPoints>::New();
-        const float p[3] =
-            {static_cast<float>(x_pos),
-             static_cast<float>(y_pos),
-             static_cast<float>(z_pos)};
+                           double &x_pos,
+                           double &y_pos,
+                           double &z_pos) {
+  if (enable_trails_) {
+    /////////////////////
+    // Create the geometry of a point (the coordinate)
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    const float p[3] = {
+        static_cast<float>(x_pos), static_cast<float>(y_pos), static_cast<float>(z_pos)};
 
-        // Create the topology of the point (a vertex)
-        vtkSmartPointer<vtkCellArray> vertices =
-            vtkSmartPointer<vtkCellArray>::New();
-        vtkIdType pid[1];
-        pid[0] = points->InsertNextPoint(p);
-        vertices->InsertNextCell(1, pid);
+    // Create the topology of the point (a vertex)
+    vtkSmartPointer<vtkCellArray> vertices = vtkSmartPointer<vtkCellArray>::New();
+    vtkIdType pid[1];
+    pid[0] = points->InsertNextPoint(p);
+    vertices->InsertNextCell(1, pid);
 
-        // Create a polydata object
-        vtkSmartPointer<vtkPolyData> point =
-            vtkSmartPointer<vtkPolyData>::New();
+    // Create a polydata object
+    vtkSmartPointer<vtkPolyData> point = vtkSmartPointer<vtkPolyData>::New();
 
-        // Set the points and vertices we created as the geometry and topology of the polydata
-        point->SetPoints(points);
-        point->SetVerts(vertices);
+    // Set the points and vertices we created as the geometry and topology of the polydata
+    point->SetPoints(points);
+    point->SetVerts(vertices);
 
-        // Visualize
-        vtkSmartPointer<vtkPolyDataMapper> points_mapper =
-            vtkSmartPointer<vtkPolyDataMapper>::New();
+    // Visualize
+    vtkSmartPointer<vtkPolyDataMapper> points_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
 
 #if VTK_MAJOR_VERSION < 6
-        points_mapper->SetInput(point);
+    points_mapper->SetInput(point);
 #else
-        points_mapper->SetInputData(point);
+    points_mapper->SetInputData(point);
 #endif
 
-        vtkSmartPointer<vtkActor> points_actor =
-            vtkSmartPointer<vtkActor>::New();
-        points_actor->SetMapper(points_mapper);
-        points_actor->GetProperty()->SetPointSize(5);
+    vtkSmartPointer<vtkActor> points_actor = vtkSmartPointer<vtkActor>::New();
+    points_actor->SetMapper(points_mapper);
+    points_actor->GetProperty()->SetPointSize(5);
 
-        points_actor->GetProperty()->SetColor(actor_contact->color.r()/255.0,
-                                              actor_contact->color.g()/255.0,
-                                              actor_contact->color.b()/255.0);
+    points_actor->GetProperty()->SetColor(actor_contact->color.r() / 255.0,
+                                          actor_contact->color.g() / 255.0,
+                                          actor_contact->color.b() / 255.0);
 
-        renderer_->AddActor(points_actor);
+    renderer_->AddActor(points_actor);
 
-        // Save the points actor, so that it can be removed
-        // later.
-        actor_contact->trail.push_back(points_actor);
-        if (actor_contact->trail.size() > 20) {
-            renderer_->RemoveActor(actor_contact->trail.front());
-            actor_contact->trail.pop_front();
-        }
-    } else {
-        // Remove the trails
-        for (vtkSmartPointer<vtkActor> actor : actor_contact->trail) {
-            renderer_->RemoveActor(actor);
-        }
-        actor_contact->trail.clear();
+    // Save the points actor, so that it can be removed
+    // later.
+    actor_contact->trail.push_back(points_actor);
+    if (actor_contact->trail.size() > 20) {
+      renderer_->RemoveActor(actor_contact->trail.front());
+      actor_contact->trail.pop_front();
     }
+  } else {
+    // Remove the trails
+    for (vtkSmartPointer<vtkActor> actor : actor_contact->trail) {
+      renderer_->RemoveActor(actor);
+    }
+    actor_contact->trail.clear();
+  }
 }
 
 void Updater::process_custom_key(std::string &key) {
-    gui_msg_.set_custom_key(key);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_custom_key("");
+  gui_msg_.set_custom_key(key);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_custom_key("");
 }
 
-void Updater::inc_follow() {
-    inc_follow_ = true;
-}
+void Updater::inc_follow() { inc_follow_ = true; }
 
-void Updater::dec_follow() {
-    dec_follow_ = true;
-}
+void Updater::dec_follow() { dec_follow_ = true; }
 
-void Updater::toggle_trails() {
-    enable_trails_ = !enable_trails_;
-}
+void Updater::toggle_trails() { enable_trails_ = !enable_trails_; }
 
 void Updater::inc_warp() {
-    gui_msg_.set_inc_warp(true);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_inc_warp(false);
+  gui_msg_.set_inc_warp(true);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_inc_warp(false);
 }
 
 void Updater::dec_warp() {
-    gui_msg_.set_dec_warp(true);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_dec_warp(false);
+  gui_msg_.set_dec_warp(true);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_dec_warp(false);
 }
 
 void Updater::toggle_pause() {
-    gui_msg_.set_toggle_pause(true);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_toggle_pause(false);
+  gui_msg_.set_toggle_pause(true);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_toggle_pause(false);
 }
 
 void Updater::single_step() {
-    gui_msg_.set_single_step(true);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_single_step(false);
+  gui_msg_.set_single_step(true);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_single_step(false);
 }
 
 void Updater::request_cached() {
-    gui_msg_.set_request_cached(true);
-    outgoing_interface_->send_gui_msg(gui_msg_);
-    gui_msg_.set_request_cached(false);
+  gui_msg_.set_request_cached(true);
+  outgoing_interface_->send_gui_msg(gui_msg_);
+  gui_msg_.set_request_cached(false);
 }
 
-void Updater::world_point_clicked(const double &x, const double &y,
-                                  const double &z) {
-    scrimmage_proto::WorldPointClicked msg;
-    sc::set(msg.mutable_point(), x, y, z);
-    msg.set_name("WorldPointClicked");
-    outgoing_interface_->send_world_point_clicked_msg(msg);
+void Updater::world_point_clicked(const double &x, const double &y, const double &z) {
+  scrimmage_proto::WorldPointClicked msg;
+  sc::set(msg.mutable_point(), x, y, z);
+  msg.set_name("WorldPointClicked");
+  outgoing_interface_->send_world_point_clicked_msg(msg);
 }
 
 void Updater::toggle_helpmenu() {
-    std::stringstream stream_helpkeys, stream_helpvalues;
-        show_helpmenu_ = !show_helpmenu_;
-    if (show_helpmenu_) {
-        stream_helpkeys
-            << "q\n"
-            << "b\n"
-            << "space\n"
-            << "a\n"
-            << "A\n"
-            << "u\n"
-            << "right/left arrows\n"
-            << "[\n"
-            << "]\n"
-            << "+\n"
-            << "-\n"
-            << "N\n"
-            << "n\n"
-            << "r\n"
-            << "scroll\n"
-            << "z\n"
-            << "SHIFT + z\n"
-            << "w\n"
-            << "s\n"
-            << "CTRL + left click\n"
-            << "SHIFT + left click\n"
-            << ";\n";
-        helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
-        stream_helpvalues
-            << ": quit\n"
-            << ": pause/unpause\n"
-            << ": step sim (paused only)\n"
-            << ": cycle camera views\n"
-            << ": free camera view\n"
-            << ": undo camera angle change\n"
-            << ": change aircraft\n"
-            << ": decrease warp speed\n"
-            << ": increase warp speed\n"
-            << ": increase visual scale\n"
-            << ": decrease visual scale\n"
-            << ": increase entity label scale\n"
-            << ": decrease entity label scale\n"
-            << ": reset scale/camera\n"
-            << ": zoom\n"
-            << ": zoom out\n"
-            << ": zoom in\n"
-            << ": wireframe\n"
-            << ": solid\n"
-            << ": rotate world\n"
-            << ": pan camera\n"
-            << ": enter custom keypress\n";
-        helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
-    } else {
-        stream_helpkeys << " ";
-        stream_helpvalues << " ";
-        helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
-        helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
-    }
+  std::stringstream stream_helpkeys, stream_helpvalues;
+  show_helpmenu_ = !show_helpmenu_;
+  if (show_helpmenu_) {
+    stream_helpkeys << "q\n"
+                    << "b\n"
+                    << "space\n"
+                    << "a\n"
+                    << "A\n"
+                    << "u\n"
+                    << "right/left arrows\n"
+                    << "[\n"
+                    << "]\n"
+                    << "+\n"
+                    << "-\n"
+                    << "N\n"
+                    << "n\n"
+                    << "r\n"
+                    << "scroll\n"
+                    << "z\n"
+                    << "SHIFT + z\n"
+                    << "w\n"
+                    << "s\n"
+                    << "CTRL + left click\n"
+                    << "SHIFT + left click\n"
+                    << ";\n";
+    helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
+    stream_helpvalues << ": quit\n"
+                      << ": pause/unpause\n"
+                      << ": step sim (paused only)\n"
+                      << ": cycle camera views\n"
+                      << ": free camera view\n"
+                      << ": undo camera angle change\n"
+                      << ": change aircraft\n"
+                      << ": decrease warp speed\n"
+                      << ": increase warp speed\n"
+                      << ": increase visual scale\n"
+                      << ": decrease visual scale\n"
+                      << ": increase entity label scale\n"
+                      << ": decrease entity label scale\n"
+                      << ": reset scale/camera\n"
+                      << ": zoom\n"
+                      << ": zoom out\n"
+                      << ": zoom in\n"
+                      << ": wireframe\n"
+                      << ": solid\n"
+                      << ": rotate world\n"
+                      << ": pan camera\n"
+                      << ": enter custom keypress\n";
+    helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
+  } else {
+    stream_helpkeys << " ";
+    stream_helpvalues << " ";
+    helpkeys_actor_->SetInput(stream_helpkeys.str().c_str());
+    helpvalues_actor_->SetInput(stream_helpvalues.str().c_str());
+  }
 }
 
 void Updater::shutting_down() {
-    gui_msg_.set_shutting_down(true);
-    if (send_shutdown_msg_) {
-        outgoing_interface_->send_gui_msg(gui_msg_);
-    }
+  gui_msg_.set_shutting_down(true);
+  if (send_shutdown_msg_) {
+    outgoing_interface_->send_gui_msg(gui_msg_);
+  }
 
-    rwi_->GetRenderWindow()->Finalize();
-    rwi_->TerminateApp();
+  rwi_->GetRenderWindow()->Finalize();
+  rwi_->TerminateApp();
 
-    rwi_ = NULL;
-    renderer_ = NULL;
+  rwi_ = NULL;
+  renderer_ = NULL;
 
-    incoming_interface_ = nullptr;
-    outgoing_interface_ = nullptr;
+  incoming_interface_ = nullptr;
+  outgoing_interface_ = nullptr;
 }
 
 void Updater::inc_scale() {
-    scale_ *= 2.0;
-    scale_required_ = true;
+  scale_ *= 2.0;
+  scale_required_ = true;
 }
 
 void Updater::dec_scale() {
-    scale_ *= 0.5;
-    scale_required_ = true;
+  scale_ *= 0.5;
+  scale_required_ = true;
 }
 
 void Updater::inc_label_scale() {
-    label_scale_ *= 2.0;
-    scale_required_ = true;
+  label_scale_ *= 2.0;
+  scale_required_ = true;
 }
 
 void Updater::dec_label_scale() {
-    label_scale_ *= 0.5;
-    scale_required_ = true;
+  label_scale_ *= 0.5;
+  scale_required_ = true;
 }
 
-void Updater::inc_follow_offset() {follow_offset_ *= 1.1;}
+void Updater::inc_follow_offset() { follow_offset_ *= 1.1; }
 
-void Updater::dec_follow_offset() {follow_offset_ /= 1.1;}
+void Updater::dec_follow_offset() { follow_offset_ /= 1.1; }
 
 void Updater::reset_scale() {
-    scale_ = init_scale_;
-    scale_required_ = true;
+  scale_ = init_scale_;
+  scale_required_ = true;
 }
 
 void Updater::set_reset_camera() {
-    reset_camera_ = true;
-    set_view_mode(ViewMode::FREE);
+  reset_camera_ = true;
+  set_view_mode(ViewMode::FREE);
 }
 
-void Updater::set_follow_id(int follow_id) {
-    follow_id_ = follow_id;
-}
+void Updater::set_follow_id(int follow_id) { follow_id_ = follow_id; }
 
-void Updater::set_show_fps(bool show_fps) {
-    show_fps_ = false;
-}
+void Updater::set_show_fps(bool show_fps) { show_fps_ = false; }
 
-void Updater::set_camera_reset_params(double pos_x, double pos_y, double pos_z,
-                                      double focal_x, double focal_y, double focal_z) {
-    camera_reset_params_.pos_x = pos_x;
-    camera_reset_params_.pos_y = pos_y;
-    camera_reset_params_.pos_z = pos_z;
-    camera_reset_params_.focal_x = focal_x;
-    camera_reset_params_.focal_y = focal_y;
-    camera_reset_params_.focal_z = focal_z;
+void Updater::set_camera_reset_params(
+    double pos_x, double pos_y, double pos_z, double focal_x, double focal_y, double focal_z) {
+  camera_reset_params_.pos_x = pos_x;
+  camera_reset_params_.pos_y = pos_y;
+  camera_reset_params_.pos_z = pos_z;
+  camera_reset_params_.focal_x = focal_x;
+  camera_reset_params_.focal_y = focal_y;
+  camera_reset_params_.focal_z = focal_z;
 }
 
 void Updater::reset_view() {
-    reset_scale();
-    set_view_mode(ViewMode::FREE);
+  reset_scale();
+  set_view_mode(ViewMode::FREE);
 }
 
 void Updater::create_text_display() {
-    int text_y_spacing = 30;
-    int text_y = 10;
-    int text_x = 10;
+  int text_y_spacing = 30;
+  int text_y = 10;
+  int text_x = 10;
 
-    // Add the time (text) display
-    time_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    time_actor_->SetInput("000.000 s");
-    time_actor_->SetPosition(text_x, text_y);
-    time_actor_->GetTextProperty()->SetFontSize(24);
-    time_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(time_actor_);
-    text_y += text_y_spacing;
+  // Add the time (text) display
+  time_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  time_actor_->SetInput("000.000 s");
+  time_actor_->SetPosition(text_x, text_y);
+  time_actor_->GetTextProperty()->SetFontSize(24);
+  time_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(time_actor_);
+  text_y += text_y_spacing;
 
-    // Add the view mode (text) display
-    view_mode_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    view_mode_actor_->SetInput("View: Follow");
-    view_mode_actor_->SetPosition(text_x, text_y);
-    view_mode_actor_->GetTextProperty()->SetFontSize(24);
-    view_mode_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(view_mode_actor_);
-    text_y += text_y_spacing;
+  // Add the view mode (text) display
+  view_mode_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  view_mode_actor_->SetInput("View: Follow");
+  view_mode_actor_->SetPosition(text_x, text_y);
+  view_mode_actor_->GetTextProperty()->SetFontSize(24);
+  view_mode_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(view_mode_actor_);
+  text_y += text_y_spacing;
 
-    // Add the heading (text) display
-    heading_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    heading_actor_->SetInput("H: 360.00");
-    heading_actor_->SetPosition(text_x, text_y);
-    heading_actor_->GetTextProperty()->SetFontSize(24);
-    heading_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(heading_actor_);
-    text_y += text_y_spacing;
+  // Add the heading (text) display
+  heading_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  heading_actor_->SetInput("H: 360.00");
+  heading_actor_->SetPosition(text_x, text_y);
+  heading_actor_->GetTextProperty()->SetFontSize(24);
+  heading_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(heading_actor_);
+  text_y += text_y_spacing;
 
-    // Add the alt (text) display
-    alt_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    alt_actor_->SetInput("Alt: 360.00");
-    alt_actor_->SetPosition(text_x, text_y);
-    alt_actor_->GetTextProperty()->SetFontSize(24);
-    alt_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(alt_actor_);
+  // Add the alt (text) display
+  alt_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  alt_actor_->SetInput("Alt: 360.00");
+  alt_actor_->SetPosition(text_x, text_y);
+  alt_actor_->GetTextProperty()->SetFontSize(24);
+  alt_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(alt_actor_);
 
-    // Add the help menu
-    // NOTE: this requires two vtkTextActor's because you can't
-    // get the text to align by ':' otherwise
-    helpkeys_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    helpkeys_actor_->SetInput(" ");
-    helpkeys_actor_->SetPosition(text_x, 200);
-    helpkeys_actor_->GetTextProperty()->SetFontSize(14);
-    helpkeys_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(helpkeys_actor_);
-    // Add helpmenu values (descriptions)
-    helpvalues_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    helpvalues_actor_->SetInput(" ");
-    helpvalues_actor_->SetPosition(text_x + 120, 200);
-    helpvalues_actor_->GetTextProperty()->SetFontSize(14);
-    helpvalues_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(helpvalues_actor_);
+  // Add the help menu
+  // NOTE: this requires two vtkTextActor's because you can't
+  // get the text to align by ':' otherwise
+  helpkeys_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  helpkeys_actor_->SetInput(" ");
+  helpkeys_actor_->SetPosition(text_x, 200);
+  helpkeys_actor_->GetTextProperty()->SetFontSize(14);
+  helpkeys_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(helpkeys_actor_);
+  // Add helpmenu values (descriptions)
+  helpvalues_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  helpvalues_actor_->SetInput(" ");
+  helpvalues_actor_->SetPosition(text_x + 120, 200);
+  helpvalues_actor_->GetTextProperty()->SetFontSize(14);
+  helpvalues_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(helpvalues_actor_);
 
-    text_x = 300;
+  text_x = 300;
 
-    // Add the warp (text) display
-    warp_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    warp_actor_->SetInput("50.00 X");
-    warp_actor_->SetPosition(text_x, 10);
-    warp_actor_->GetTextProperty()->SetFontSize(24);
-    warp_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(warp_actor_);
+  // Add the warp (text) display
+  warp_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  warp_actor_->SetInput("50.00 X");
+  warp_actor_->SetPosition(text_x, 10);
+  warp_actor_->GetTextProperty()->SetFontSize(24);
+  warp_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(warp_actor_);
 
-    text_x += 100;
+  text_x += 100;
 
-    // Add the fps (text) display
-    fps_actor_ = vtkSmartPointer<vtkTextActor>::New();
-    fps_actor_->SetInput("FPS: 60.0");
-    fps_actor_->SetPosition(text_x, 10);
-    fps_actor_->GetTextProperty()->SetFontSize(24);
-    fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
-    renderer_->AddActor2D(fps_actor_);
+  // Add the fps (text) display
+  fps_actor_ = vtkSmartPointer<vtkTextActor>::New();
+  fps_actor_->SetInput("FPS: 60.0");
+  fps_actor_->SetPosition(text_x, 10);
+  fps_actor_->GetTextProperty()->SetFontSize(24);
+  fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+  renderer_->AddActor2D(fps_actor_);
 }
 
 void Updater::enable_fps() {
-    // Set FPS callback:
-    vtkSmartPointer<vtkCallbackCommand> callback =
-        vtkSmartPointer<vtkCallbackCommand>::New();
+  // Set FPS callback:
+  vtkSmartPointer<vtkCallbackCommand> callback = vtkSmartPointer<vtkCallbackCommand>::New();
 
-    callback->SetCallback(fpsCallbackFunction);
-    renderer_->AddObserver(vtkCommand::EndEvent, callback);
+  callback->SetCallback(fpsCallbackFunction);
+  renderer_->AddObserver(vtkCommand::EndEvent, callback);
 }
 
-void Updater::quat_2_transform(const sc::Quaternion &q,
-                               vtkSmartPointer<vtkTransform> transform) {
-    transform->RotateX(sc::Angles::rad2deg(q.roll()));
-    transform->RotateY(sc::Angles::rad2deg(q.pitch()));
-    transform->RotateZ(sc::Angles::rad2deg(q.yaw()));
+void Updater::quat_2_transform(const sc::Quaternion &q, vtkSmartPointer<vtkTransform> transform) {
+  transform->RotateX(sc::Angles::rad2deg(q.roll()));
+  transform->RotateY(sc::Angles::rad2deg(q.pitch()));
+  transform->RotateZ(sc::Angles::rad2deg(q.yaw()));
 }
 
 bool Updater::draw_arc(const bool &new_shape,
@@ -1717,40 +1683,36 @@ bool Updater::draw_arc(const bool &new_shape,
                        vtkSmartPointer<vtkActor> &actor,
                        vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                        vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkArcSource> arcSource;
-    if (new_shape) {
-        arcSource = vtkSmartPointer<vtkArcSource>::New();
-        source = arcSource;
-        mapper->SetInputConnection(arcSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        arcSource = vtkArcSource::SafeDownCast(source);
-    }
-    arcSource->SetResolution(32);
-    arcSource->NegativeOff();
-    arcSource->UseNormalAndAngleOn();
+  vtkSmartPointer<vtkArcSource> arcSource;
+  if (new_shape) {
+    arcSource = vtkSmartPointer<vtkArcSource>::New();
+    source = arcSource;
+    mapper->SetInputConnection(arcSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    arcSource = vtkArcSource::SafeDownCast(source);
+  }
+  arcSource->SetResolution(32);
+  arcSource->NegativeOff();
+  arcSource->UseNormalAndAngleOn();
 
-    // get polar vector and normal vector
-    Eigen::Vector3d normal = Eigen::Vector3d::UnitZ();
-    Eigen::Vector3d polar = Eigen::Vector3d::UnitX() * a.circle().radius();
-    scrimmage::Quaternion quat(a.circle().quat().w(),
-                               a.circle().quat().x(),
-                               a.circle().quat().y(),
-                               a.circle().quat().z());
-    normal = quat.rotate(normal);
-    polar = quat.rotate(polar);
+  // get polar vector and normal vector
+  Eigen::Vector3d normal = Eigen::Vector3d::UnitZ();
+  Eigen::Vector3d polar = Eigen::Vector3d::UnitX() * a.circle().radius();
+  scrimmage::Quaternion quat(
+      a.circle().quat().w(), a.circle().quat().x(), a.circle().quat().y(), a.circle().quat().z());
+  normal = quat.rotate(normal);
+  polar = quat.rotate(polar);
 
-    // set values for arc
-    // NOTE: do not set rotation and normal for the actor if
-    // they're being set for the ArcSource itself
-    arcSource->SetAngle(sc::Angles::rad2deg(a.angle()));
-    arcSource->SetCenter(a.circle().center().x(),
-                         a.circle().center().y(),
-                         a.circle().center().z());
-    arcSource->SetNormal(normal.data());
-    arcSource->SetPolarVector(polar.data());
+  // set values for arc
+  // NOTE: do not set rotation and normal for the actor if
+  // they're being set for the ArcSource itself
+  arcSource->SetAngle(sc::Angles::rad2deg(a.angle()));
+  arcSource->SetCenter(a.circle().center().x(), a.circle().center().y(), a.circle().center().z());
+  arcSource->SetNormal(normal.data());
+  arcSource->SetPolarVector(polar.data());
 
-    return true;
+  return true;
 }
 
 bool Updater::draw_arrow(const bool &new_shape,
@@ -1758,65 +1720,62 @@ bool Updater::draw_arrow(const bool &new_shape,
                          vtkSmartPointer<vtkActor> &actor,
                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    if (new_shape) {
-        // Create an arrow.
-        vtkSmartPointer<vtkArrowSource> arrowSource =
-            vtkSmartPointer<vtkArrowSource>::New();
+  if (new_shape) {
+    // Create an arrow.
+    vtkSmartPointer<vtkArrowSource> arrowSource = vtkSmartPointer<vtkArrowSource>::New();
 
-        double startPoint[3] = {a.tail().x(), a.tail().y(), a.tail().z()};
-        double endPoint[3] = {a.head().x(), a.head().y(), a.head().z()};
+    double startPoint[3] = {a.tail().x(), a.tail().y(), a.tail().z()};
+    double endPoint[3] = {a.head().x(), a.head().y(), a.head().z()};
 
-        // Compute a basis
-        double normalizedX[3] = {0.0, 0.0, 0.0};
-        double normalizedY[3] = {0.0, 0.0, 0.0};
-        double normalizedZ[3] = {0.0, 0.0, 0.0};
+    // Compute a basis
+    double normalizedX[3] = {0.0, 0.0, 0.0};
+    double normalizedY[3] = {0.0, 0.0, 0.0};
+    double normalizedZ[3] = {0.0, 0.0, 0.0};
 
-        // The X axis is a vector from start to end
-        vtkMath::Subtract(endPoint, startPoint, normalizedX);
-        double length = vtkMath::Norm(normalizedX);
-        vtkMath::Normalize(normalizedX);
+    // The X axis is a vector from start to end
+    vtkMath::Subtract(endPoint, startPoint, normalizedX);
+    double length = vtkMath::Norm(normalizedX);
+    vtkMath::Normalize(normalizedX);
 
-        // The Z axis is an arbitrary vector cross X
-        double arbitrary[3] = {1.0, 2.0, 3.0};
-        vtkMath::Cross(normalizedX, arbitrary, normalizedZ);
-        vtkMath::Normalize(normalizedZ);
+    // The Z axis is an arbitrary vector cross X
+    double arbitrary[3] = {1.0, 2.0, 3.0};
+    vtkMath::Cross(normalizedX, arbitrary, normalizedZ);
+    vtkMath::Normalize(normalizedZ);
 
-        // The Y axis is Z cross X
-        vtkMath::Cross(normalizedZ, normalizedX, normalizedY);
-        vtkSmartPointer<vtkMatrix4x4> matrix =
-            vtkSmartPointer<vtkMatrix4x4>::New();
+    // The Y axis is Z cross X
+    vtkMath::Cross(normalizedZ, normalizedX, normalizedY);
+    vtkSmartPointer<vtkMatrix4x4> matrix = vtkSmartPointer<vtkMatrix4x4>::New();
 
-        // Create the direction cosine matrix
-        matrix->Identity();
-        for (unsigned int i = 0; i < 3; i++) {
-            matrix->SetElement(i, 0, normalizedX[i]);
-            matrix->SetElement(i, 1, normalizedY[i]);
-            matrix->SetElement(i, 2, normalizedZ[i]);
-        }
-
-        // Apply the transforms
-        vtkSmartPointer<vtkTransform> transform =
-            vtkSmartPointer<vtkTransform>::New();
-        transform->Translate(startPoint);
-        transform->Concatenate(matrix);
-        transform->Scale(length, length, length);
-
-        // Transform the polydata
-        vtkSmartPointer<vtkTransformPolyDataFilter> transformPD =
-            vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-        transformPD->SetTransform(transform);
-        transformPD->SetInputConnection(arrowSource->GetOutputPort());
-
-#ifdef USER_MATRIX
-        mapper->SetInputConnection(arrowSource->GetOutputPort());
-        actor->SetUserMatrix(transform->GetMatrix());
-#else
-        mapper->SetInputConnection(transformPD->GetOutputPort());
-#endif
-        actor->SetMapper(mapper);
+    // Create the direction cosine matrix
+    matrix->Identity();
+    for (unsigned int i = 0; i < 3; i++) {
+      matrix->SetElement(i, 0, normalizedX[i]);
+      matrix->SetElement(i, 1, normalizedY[i]);
+      matrix->SetElement(i, 2, normalizedZ[i]);
     }
 
-    return true;
+    // Apply the transforms
+    vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
+    transform->Translate(startPoint);
+    transform->Concatenate(matrix);
+    transform->Scale(length, length, length);
+
+    // Transform the polydata
+    vtkSmartPointer<vtkTransformPolyDataFilter> transformPD =
+        vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    transformPD->SetTransform(transform);
+    transformPD->SetInputConnection(arrowSource->GetOutputPort());
+
+#ifdef USER_MATRIX
+    mapper->SetInputConnection(arrowSource->GetOutputPort());
+    actor->SetUserMatrix(transform->GetMatrix());
+#else
+    mapper->SetInputConnection(transformPD->GetOutputPort());
+#endif
+    actor->SetMapper(mapper);
+  }
+
+  return true;
 }
 
 bool Updater::draw_circle(const bool &new_shape,
@@ -1824,24 +1783,24 @@ bool Updater::draw_circle(const bool &new_shape,
                           vtkSmartPointer<vtkActor> &actor,
                           vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
-    if (new_shape) {
-        polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
-        source = polygonSource;
-        polygonSource->SetNumberOfSides(30);
-        if (!c.solid()) {
-            polygonSource->GeneratePolygonOff();
-        }
-        mapper->SetInputConnection(polygonSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
+  vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
+  if (new_shape) {
+    polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
+    source = polygonSource;
+    polygonSource->SetNumberOfSides(30);
+    if (!c.solid()) {
+      polygonSource->GeneratePolygonOff();
     }
+    mapper->SetInputConnection(polygonSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
+  }
 
-    polygonSource->SetRadius(c.radius());
-    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
-    set_quat(c.quat(), actor);
-    return true;
+  polygonSource->SetRadius(c.radius());
+  actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
+  set_quat(c.quat(), actor);
+  return true;
 }
 
 bool Updater::draw_cone(const bool &new_shape,
@@ -1849,28 +1808,28 @@ bool Updater::draw_cone(const bool &new_shape,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkConeSource> coneSource;
-    if (new_shape) {
-        coneSource = vtkSmartPointer<vtkConeSource>::New();
-        source = coneSource;
-        mapper->SetInputConnection(coneSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        coneSource = vtkConeSource::SafeDownCast(source);
-    }
+  vtkSmartPointer<vtkConeSource> coneSource;
+  if (new_shape) {
+    coneSource = vtkSmartPointer<vtkConeSource>::New();
+    source = coneSource;
+    mapper->SetInputConnection(coneSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    coneSource = vtkConeSource::SafeDownCast(source);
+  }
 
-    coneSource->SetRadius(c.base_radius());
-    coneSource->SetHeight(c.height());
-    coneSource->SetResolution(32);
+  coneSource->SetRadius(c.base_radius());
+  coneSource->SetHeight(c.height());
+  coneSource->SetResolution(32);
 
-    Eigen::Vector3d cone_dir = sc::eigen(c.direction());
-    Eigen::Vector3d apex_shift = sc::eigen(c.apex()) + cone_dir.normalized()*c.height()/2.0;
-    Eigen::Vector3d dir_shift = -cone_dir;
-    coneSource->SetCenter(apex_shift(0), apex_shift(1), apex_shift(2));
-    coneSource->SetDirection(dir_shift(0), dir_shift(1), dir_shift(2));
-    coneSource->Update();
+  Eigen::Vector3d cone_dir = sc::eigen(c.direction());
+  Eigen::Vector3d apex_shift = sc::eigen(c.apex()) + cone_dir.normalized() * c.height() / 2.0;
+  Eigen::Vector3d dir_shift = -cone_dir;
+  coneSource->SetCenter(apex_shift(0), apex_shift(1), apex_shift(2));
+  coneSource->SetDirection(dir_shift(0), dir_shift(1), dir_shift(2));
+  coneSource->Update();
 
-    return true;
+  return true;
 }
 
 bool Updater::draw_cube(const bool &new_shape,
@@ -1878,25 +1837,25 @@ bool Updater::draw_cube(const bool &new_shape,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkCubeSource> cubeSource;
-    if (new_shape) {
-        cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-        source = cubeSource;
-        mapper->SetInputConnection(cubeSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        cubeSource = vtkCubeSource::SafeDownCast(source);
-    }
+  vtkSmartPointer<vtkCubeSource> cubeSource;
+  if (new_shape) {
+    cubeSource = vtkSmartPointer<vtkCubeSource>::New();
+    source = cubeSource;
+    mapper->SetInputConnection(cubeSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    cubeSource = vtkCubeSource::SafeDownCast(source);
+  }
 
-    cubeSource->SetCenter(0, 0, 0); // Place cube at center of actor
-    cubeSource->SetXLength(c.x_length());
-    cubeSource->SetYLength(c.y_length());
-    cubeSource->SetZLength(c.z_length());
+  cubeSource->SetCenter(0, 0, 0);  // Place cube at center of actor
+  cubeSource->SetXLength(c.x_length());
+  cubeSource->SetYLength(c.y_length());
+  cubeSource->SetZLength(c.z_length());
 
-    actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
-    set_quat(c.quat(), actor);
+  actor->SetPosition(c.center().x(), c.center().y(), c.center().z());
+  set_quat(c.quat(), actor);
 
-    return true;
+  return true;
 }
 
 bool Updater::draw_ellipse(const bool &new_shape,
@@ -1904,24 +1863,25 @@ bool Updater::draw_ellipse(const bool &new_shape,
                            vtkSmartPointer<vtkActor> &actor,
                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
-    if (new_shape) {
-        polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
-        source = polygonSource;
-        // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of the ellipse
-        polygonSource->SetNumberOfSides(30);
+  vtkSmartPointer<vtkRegularPolygonSource> polygonSource;
+  if (new_shape) {
+    polygonSource = vtkSmartPointer<vtkRegularPolygonSource>::New();
+    source = polygonSource;
+    // polygonSource->GeneratePolygonOff(); // Uncomment this line to generate only the outline of
+    // the ellipse
+    polygonSource->SetNumberOfSides(30);
 
-        mapper->SetInputConnection(polygonSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
-    }
+    mapper->SetInputConnection(polygonSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    polygonSource = vtkRegularPolygonSource::SafeDownCast(source);
+  }
 
-    actor->SetPosition(elp.center().x(), elp.center().y(), elp.center().z());
-    set_quat(elp.quat(), actor);
-    actor->SetScale(elp.x_radius(), elp.y_radius(), 0);
+  actor->SetPosition(elp.center().x(), elp.center().y(), elp.center().z());
+  set_quat(elp.quat(), actor);
+  actor->SetScale(elp.x_radius(), elp.y_radius(), 0);
 
-    return true;
+  return true;
 }
 
 bool Updater::draw_line(const bool &new_shape,
@@ -1929,23 +1889,21 @@ bool Updater::draw_line(const bool &new_shape,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkLineSource> lineSource;
-    if (new_shape) {
-        lineSource = vtkSmartPointer<vtkLineSource>::New();
-        source = lineSource;
-        mapper->SetInputConnection(lineSource->GetOutputPort());
-        actor->SetMapper(mapper);
-        const double width = l.width() <= 0 ? 2 : l.width();
-        actor->GetProperty()->SetLineWidth(width);
-    } else {
-        lineSource = vtkLineSource::SafeDownCast(source);
-    }
-    lineSource->SetPoint1(l.start().x(), l.start().y(),
-                          l.start().z());
-    lineSource->SetPoint2(l.end().x(), l.end().y(),
-                          l.end().z());
-    lineSource->Update();
-    return true;
+  vtkSmartPointer<vtkLineSource> lineSource;
+  if (new_shape) {
+    lineSource = vtkSmartPointer<vtkLineSource>::New();
+    source = lineSource;
+    mapper->SetInputConnection(lineSource->GetOutputPort());
+    actor->SetMapper(mapper);
+    const double width = l.width() <= 0 ? 2 : l.width();
+    actor->GetProperty()->SetLineWidth(width);
+  } else {
+    lineSource = vtkLineSource::SafeDownCast(source);
+  }
+  lineSource->SetPoint1(l.start().x(), l.start().y(), l.start().z());
+  lineSource->SetPoint2(l.end().x(), l.end().y(), l.end().z());
+  lineSource->Update();
+  return true;
 }
 
 bool Updater::draw_mesh(const bool &new_shape,
@@ -1953,78 +1911,81 @@ bool Updater::draw_mesh(const bool &new_shape,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter;
+  vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter;
 
-    if (new_shape) {
-        // get transformFilter hooked up to texture and model
-        std::string texture_file = "";
-        bool texture_file_found = false;
-        std::string model_file = "";
-        bool model_file_found = false;
+  if (new_shape) {
+    // get transformFilter hooked up to texture and model
+    std::string texture_file = "";
+    bool texture_file_found = false;
+    std::string model_file = "";
+    bool model_file_found = false;
 
-        double base_scale = 1.0;
-        Quaternion base_rot(0.0, 0.0, 0.0);
+    double base_scale = 1.0;
+    Quaternion base_rot(0.0, 0.0, 0.0);
 
-        // get model, texture, and params for a given model name
-        get_model_texture(m.name(),
-                          model_file, model_file_found,
-                          texture_file, texture_file_found,
-                          base_scale, base_rot);
+    // get model, texture, and params for a given model name
+    get_model_texture(m.name(),
+                      model_file,
+                      model_file_found,
+                      texture_file,
+                      texture_file_found,
+                      base_scale,
+                      base_rot);
 
-        if (!model_file_found) {
-            std::cout << "Updater: Couldn't find model for "
-                      << m.name() << std::endl;
-            return false;
-        }
-
-        // use texture if we find it
-        if (texture_file_found) {
-            auto pngReader = vtkSmartPointer<vtkPNGReader>::New();
-            pngReader->SetFileName(texture_file.c_str());
-            pngReader->Update();
-
-            auto colorTexture = vtkSmartPointer<vtkTexture>::New();
-            colorTexture->SetInputConnection(pngReader->GetOutputPort());
-            colorTexture->InterpolateOn();
-            actor->SetTexture(colorTexture);
-        }
-
-        // add transform from model coordinates to normal aircraft rpy and scale
-        // based on the rpy and scale in the model config file
-        transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-        auto transform = vtkSmartPointer<vtkTransform>::New();
-        quat_2_transform(base_rot, transform);
-        transform->Scale(base_scale, base_scale, base_scale);
-        transformFilter->SetTransform(transform);
-
-        // connect transform filter
-        std::string extension = vtksys::SystemTools::GetFilenameLastExtension(std::string(model_file.c_str()));
-        if (extension == ".obj") {
-            auto reader = vtkSmartPointer<vtkOBJReader>::New();
-            reader->SetFileName(model_file.c_str());
-            reader->Update();
-            transformFilter->SetInputConnection(reader->GetOutputPort());
-        } else if (extension == ".stl") {
-            auto reader = vtkSmartPointer<vtkSTLReader>::New();
-            reader->SetFileName(model_file.c_str());
-            reader->Update();
-            transformFilter->SetInputConnection(reader->GetOutputPort());
-        }
-        transformFilter->Update();
-        source = transformFilter;
-
-        mapper->SetInputConnection(transformFilter->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        transformFilter = vtkTransformPolyDataFilter::SafeDownCast(source);
+    if (!model_file_found) {
+      std::cout << "Updater: Couldn't find model for " << m.name() << std::endl;
+      return false;
     }
 
-    actor->SetPosition(m.center().x(), m.center().y(), m.center().z());
-    set_quat(m.quat(), actor);
-    auto scale = m.scale() * scale_;
-    actor->SetScale(scale, scale, scale);
+    // use texture if we find it
+    if (texture_file_found) {
+      auto pngReader = vtkSmartPointer<vtkPNGReader>::New();
+      pngReader->SetFileName(texture_file.c_str());
+      pngReader->Update();
 
-    return true;
+      auto colorTexture = vtkSmartPointer<vtkTexture>::New();
+      colorTexture->SetInputConnection(pngReader->GetOutputPort());
+      colorTexture->InterpolateOn();
+      actor->SetTexture(colorTexture);
+    }
+
+    // add transform from model coordinates to normal aircraft rpy and scale
+    // based on the rpy and scale in the model config file
+    transformFilter = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+    auto transform = vtkSmartPointer<vtkTransform>::New();
+    quat_2_transform(base_rot, transform);
+    transform->Scale(base_scale, base_scale, base_scale);
+    transformFilter->SetTransform(transform);
+
+    // connect transform filter
+    std::string extension =
+        vtksys::SystemTools::GetFilenameLastExtension(std::string(model_file.c_str()));
+    if (extension == ".obj") {
+      auto reader = vtkSmartPointer<vtkOBJReader>::New();
+      reader->SetFileName(model_file.c_str());
+      reader->Update();
+      transformFilter->SetInputConnection(reader->GetOutputPort());
+    } else if (extension == ".stl") {
+      auto reader = vtkSmartPointer<vtkSTLReader>::New();
+      reader->SetFileName(model_file.c_str());
+      reader->Update();
+      transformFilter->SetInputConnection(reader->GetOutputPort());
+    }
+    transformFilter->Update();
+    source = transformFilter;
+
+    mapper->SetInputConnection(transformFilter->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    transformFilter = vtkTransformPolyDataFilter::SafeDownCast(source);
+  }
+
+  actor->SetPosition(m.center().x(), m.center().y(), m.center().z());
+  set_quat(m.quat(), actor);
+  auto scale = m.scale() * scale_;
+  actor->SetScale(scale, scale, scale);
+
+  return true;
 }
 
 bool Updater::draw_plane(const bool &new_shape,
@@ -2033,9 +1994,10 @@ bool Updater::draw_plane(const bool &new_shape,
                          vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                          vtkSmartPointer<vtkPolyDataMapper> &mapper) {
   // sanity checks
-  if (std::abs(p.x_length()) < std::numeric_limits<double>::epsilon()
-      || std::abs(p.y_length()) < std::numeric_limits<double>::epsilon()) {
-    std::cout << "Cannot draw plane: bad dimensions (" << p.x_length() << ", " << p.y_length() << ")\n";
+  if (std::abs(p.x_length()) < std::numeric_limits<double>::epsilon() ||
+      std::abs(p.y_length()) < std::numeric_limits<double>::epsilon()) {
+    std::cout << "Cannot draw plane: bad dimensions (" << p.x_length() << ", " << p.y_length()
+              << ")\n";
     return false;
   }
   // Load texture
@@ -2063,9 +2025,8 @@ bool Updater::draw_plane(const bool &new_shape,
   if (new_shape) {
     planeSource = vtkSmartPointer<vtkPlaneSource>::New();
     source = planeSource;
-    texture_found ?
-      mapper->SetInputConnection(texturePlane->GetOutputPort()) :
-      mapper->SetInputConnection(planeSource->GetOutputPort());
+    texture_found ? mapper->SetInputConnection(texturePlane->GetOutputPort())
+                  : mapper->SetInputConnection(planeSource->GetOutputPort());
     actor->SetMapper(mapper);
   } else {
     planeSource = vtkPlaneSource::SafeDownCast(source);
@@ -2073,8 +2034,7 @@ bool Updater::draw_plane(const bool &new_shape,
 
   // update properties
   Eigen::Vector3d center, point1, point2;
-  scrimmage::Quaternion quat(
-      p.quat().w(), p.quat().x(), p.quat().y(), p.quat().z());
+  scrimmage::Quaternion quat(p.quat().w(), p.quat().x(), p.quat().y(), p.quat().z());
   center << p.center().x(), p.center().y(), p.center().z();
   auto x_hat = quat.rotate(Eigen::Vector3d::UnitX());
   auto y_hat = quat.rotate(Eigen::Vector3d::UnitY());
@@ -2110,77 +2070,73 @@ bool Updater::draw_pointcloud(const bool &new_shape,
                               vtkSmartPointer<vtkActor> &actor,
                               vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                               vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    if (new_shape) {
-        const scrimmage_proto::PointCloud &pc = shape.pointcloud();
+  if (new_shape) {
+    const scrimmage_proto::PointCloud &pc = shape.pointcloud();
 
-        vtkSmartPointer<vtkPoints> points =
-            vtkSmartPointer<vtkPoints>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-        for (int i = 0; i < pc.point_size(); i++) {
-            points->InsertNextPoint(pc.point(i).x(), pc.point(i).y(),
-                                    pc.point(i).z());
-        }
-
-        vtkSmartPointer<vtkUnsignedCharArray> color_array =
-            vtkSmartPointer<vtkUnsignedCharArray>::New();
-        color_array->SetName("Colors");
-        color_array->SetNumberOfComponents(3);
-
-        if (pc.point_size() != pc.color_size()) {
-            // use same color if the colors and points aren't the same size
-            unsigned char c[3] = {(unsigned char)(shape.color().r()),
-                                  (unsigned char)(shape.color().g()),
-                                  (unsigned char)(shape.color().b())};
-            for (int i = 0; i < pc.point_size(); i++) {
-#if VTK_MAJOR_VERSION <= 6
-                color_array->InsertNextTupleValue(c);
-#else
-                color_array->InsertNextTypedTuple(c);
-#endif
-            }
-        } else {
-            // Use the color vector if it's the same size as the points
-            for (int i = 0; i < pc.color_size(); i++) {
-                unsigned char c[3] = {(unsigned char)(pc.color(i).r()),
-                                      (unsigned char)(pc.color(i).g()),
-                                      (unsigned char)(pc.color(i).b())};
-#if VTK_MAJOR_VERSION <= 6
-                color_array->InsertNextTupleValue(c);
-#else
-                color_array->InsertNextTypedTuple(c);
-#endif
-            }
-        }
-
-        vtkSmartPointer<vtkPolyData> pointsPolydata =
-            vtkSmartPointer<vtkPolyData>::New();
-
-        pointsPolydata->SetPoints(points);
-
-        vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
-            vtkSmartPointer<vtkVertexGlyphFilter>::New();
-#if VTK_MAJOR_VERSION < 6
-        vertexFilter->SetInput(pointsPolydata);
-#else
-        vertexFilter->SetInputData(pointsPolydata);
-#endif
-
-        vertexFilter->Update();
-
-        vtkSmartPointer<vtkPolyData> poly_data =
-            vtkSmartPointer<vtkPolyData>::New();
-        poly_data->ShallowCopy(vertexFilter->GetOutput());
-        poly_data->GetPointData()->SetScalars(color_array);
-#if VTK_MAJOR_VERSION < 6
-        mapper->SetInput(poly_data);
-#else
-        mapper->SetInputData(poly_data);
-#endif
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetPointSize(pc.size());
+    for (int i = 0; i < pc.point_size(); i++) {
+      points->InsertNextPoint(pc.point(i).x(), pc.point(i).y(), pc.point(i).z());
     }
 
-    return true;
+    vtkSmartPointer<vtkUnsignedCharArray> color_array =
+        vtkSmartPointer<vtkUnsignedCharArray>::New();
+    color_array->SetName("Colors");
+    color_array->SetNumberOfComponents(3);
+
+    if (pc.point_size() != pc.color_size()) {
+      // use same color if the colors and points aren't the same size
+      unsigned char c[3] = {(unsigned char)(shape.color().r()),
+                            (unsigned char)(shape.color().g()),
+                            (unsigned char)(shape.color().b())};
+      for (int i = 0; i < pc.point_size(); i++) {
+#if VTK_MAJOR_VERSION <= 6
+        color_array->InsertNextTupleValue(c);
+#else
+        color_array->InsertNextTypedTuple(c);
+#endif
+      }
+    } else {
+      // Use the color vector if it's the same size as the points
+      for (int i = 0; i < pc.color_size(); i++) {
+        unsigned char c[3] = {(unsigned char)(pc.color(i).r()),
+                              (unsigned char)(pc.color(i).g()),
+                              (unsigned char)(pc.color(i).b())};
+#if VTK_MAJOR_VERSION <= 6
+        color_array->InsertNextTupleValue(c);
+#else
+        color_array->InsertNextTypedTuple(c);
+#endif
+      }
+    }
+
+    vtkSmartPointer<vtkPolyData> pointsPolydata = vtkSmartPointer<vtkPolyData>::New();
+
+    pointsPolydata->SetPoints(points);
+
+    vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
+        vtkSmartPointer<vtkVertexGlyphFilter>::New();
+#if VTK_MAJOR_VERSION < 6
+    vertexFilter->SetInput(pointsPolydata);
+#else
+    vertexFilter->SetInputData(pointsPolydata);
+#endif
+
+    vertexFilter->Update();
+
+    vtkSmartPointer<vtkPolyData> poly_data = vtkSmartPointer<vtkPolyData>::New();
+    poly_data->ShallowCopy(vertexFilter->GetOutput());
+    poly_data->GetPointData()->SetScalars(color_array);
+#if VTK_MAJOR_VERSION < 6
+    mapper->SetInput(poly_data);
+#else
+    mapper->SetInputData(poly_data);
+#endif
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetPointSize(pc.size());
+  }
+
+  return true;
 }
 
 bool Updater::draw_polydata(const bool &new_shape,
@@ -2188,35 +2144,32 @@ bool Updater::draw_polydata(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    if (new_shape) {
-        vtkSmartPointer<vtkPoints> points =
-            vtkSmartPointer<vtkPoints>::New();
+  if (new_shape) {
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-        for (int i = 0; i < p.point_size(); i++) {
-            points->InsertNextPoint(p.point(i).x(), p.point(i).y(),
-                                    p.point(i).z());
-        }
-
-        vtkSmartPointer<vtkPolyData> polyData =
-            vtkSmartPointer<vtkPolyData>::New();
-        polyData->SetPoints(points);
-
-        vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter =
-            vtkSmartPointer<vtkVertexGlyphFilter>::New();
-
-#if VTK_MAJOR_VERSION < 6
-        glyphFilter->SetInput(polyData);
-#else
-        glyphFilter->SetInputData(polyData);
-#endif
-        glyphFilter->Update();
-
-        mapper->SetInputConnection(glyphFilter->GetOutputPort());
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetLineWidth(1);
+    for (int i = 0; i < p.point_size(); i++) {
+      points->InsertNextPoint(p.point(i).x(), p.point(i).y(), p.point(i).z());
     }
 
-    return true;
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData->SetPoints(points);
+
+    vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter =
+        vtkSmartPointer<vtkVertexGlyphFilter>::New();
+
+#if VTK_MAJOR_VERSION < 6
+    glyphFilter->SetInput(polyData);
+#else
+    glyphFilter->SetInputData(polyData);
+#endif
+    glyphFilter->Update();
+
+    mapper->SetInputConnection(glyphFilter->GetOutputPort());
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetLineWidth(1);
+  }
+
+  return true;
 }
 
 bool Updater::draw_polygon(const bool &new_shape,
@@ -2224,43 +2177,38 @@ bool Updater::draw_polygon(const bool &new_shape,
                            vtkSmartPointer<vtkActor> &actor,
                            vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                            vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    if (new_shape) {
-        // Setup points
-        vtkSmartPointer<vtkPoints> points =
-            vtkSmartPointer<vtkPoints>::New();
+  if (new_shape) {
+    // Setup points
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-        // Create the polygon
-        vtkSmartPointer<vtkPolygon> polygon =
-            vtkSmartPointer<vtkPolygon>::New();
+    // Create the polygon
+    vtkSmartPointer<vtkPolygon> polygon = vtkSmartPointer<vtkPolygon>::New();
 
-        polygon->GetPointIds()->SetNumberOfIds(p.point_size());
+    polygon->GetPointIds()->SetNumberOfIds(p.point_size());
 
-        for (int i = 0; i < p.point_size(); i++) {
-            points->InsertNextPoint(p.point(i).x(), p.point(i).y(),
-                                    p.point(i).z());
-            polygon->GetPointIds()->SetId(i, i);
-        }
+    for (int i = 0; i < p.point_size(); i++) {
+      points->InsertNextPoint(p.point(i).x(), p.point(i).y(), p.point(i).z());
+      polygon->GetPointIds()->SetId(i, i);
+    }
 
-        // Add the polygon to a list of polygons
-        vtkSmartPointer<vtkCellArray> polygons =
-            vtkSmartPointer<vtkCellArray>::New();
-        polygons->InsertNextCell(polygon);
+    // Add the polygon to a list of polygons
+    vtkSmartPointer<vtkCellArray> polygons = vtkSmartPointer<vtkCellArray>::New();
+    polygons->InsertNextCell(polygon);
 
-        // Create a PolyData
-        vtkSmartPointer<vtkPolyData> polygonPolyData =
-            vtkSmartPointer<vtkPolyData>::New();
-        polygonPolyData->SetPoints(points);
-        polygonPolyData->SetPolys(polygons);
+    // Create a PolyData
+    vtkSmartPointer<vtkPolyData> polygonPolyData = vtkSmartPointer<vtkPolyData>::New();
+    polygonPolyData->SetPoints(points);
+    polygonPolyData->SetPolys(polygons);
 #if VTK_MAJOR_VERSION < 6
-        mapper->SetInput(polygonPolyData);
+    mapper->SetInput(polygonPolyData);
 #else
-        mapper->SetInputData(polygonPolyData);
+    mapper->SetInputData(polygonPolyData);
 #endif
 
-        actor->SetMapper(mapper);
-        actor->GetProperty()->SetLineWidth(1);
-    }
-    return true;
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetLineWidth(1);
+  }
+  return true;
 }
 
 bool Updater::draw_polyline(const bool &new_shape,
@@ -2268,42 +2216,37 @@ bool Updater::draw_polyline(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    if (new_shape) {
-        vtkSmartPointer<vtkPoints> points =
-                vtkSmartPointer<vtkPoints>::New();
+  if (new_shape) {
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-        for (int i = 0; i < pl.point_size(); i++) {
-            points->InsertNextPoint(pl.point(i).x(), pl.point(i).y(),
-                                    pl.point(i).z());
-        }
-
-        vtkSmartPointer<vtkPolyLine> polyLine =
-                vtkSmartPointer<vtkPolyLine>::New();
-        polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
-        for (int i = 0; i < pl.point_size(); i++) {
-            polyLine->GetPointIds()->SetId(i, i);
-        }
-
-        // Create a cell array to store the lines in and add the lines to it
-        vtkSmartPointer<vtkCellArray> cells =
-                vtkSmartPointer<vtkCellArray>::New();
-        cells->InsertNextCell(polyLine);
-
-        // Create a polydata to store everything in
-        vtkSmartPointer<vtkPolyData> polyData =
-                vtkSmartPointer<vtkPolyData>::New();
-
-        // Add the points to the dataset
-        polyData->SetPoints(points);
-
-        // Add the lines to the dataset
-        polyData->SetLines(cells);
-
-        // source = polyLine; // Not inherited from source
-        mapper->SetInputData(polyData);
-        actor->SetMapper(mapper);
+    for (int i = 0; i < pl.point_size(); i++) {
+      points->InsertNextPoint(pl.point(i).x(), pl.point(i).y(), pl.point(i).z());
     }
-    return true;
+
+    vtkSmartPointer<vtkPolyLine> polyLine = vtkSmartPointer<vtkPolyLine>::New();
+    polyLine->GetPointIds()->SetNumberOfIds(pl.point_size());
+    for (int i = 0; i < pl.point_size(); i++) {
+      polyLine->GetPointIds()->SetId(i, i);
+    }
+
+    // Create a cell array to store the lines in and add the lines to it
+    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
+    cells->InsertNextCell(polyLine);
+
+    // Create a polydata to store everything in
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+
+    // Add the points to the dataset
+    polyData->SetPoints(points);
+
+    // Add the lines to the dataset
+    polyData->SetLines(cells);
+
+    // source = polyLine; // Not inherited from source
+    mapper->SetInputData(polyData);
+    actor->SetMapper(mapper);
+  }
+  return true;
 }
 
 bool Updater::draw_sphere(const bool &new_shape,
@@ -2311,24 +2254,24 @@ bool Updater::draw_sphere(const bool &new_shape,
                           vtkSmartPointer<vtkActor> &actor,
                           vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkSphereSource> sphereSource;
-    if (new_shape) {
-        sphereSource = vtkSmartPointer<vtkSphereSource>::New();
-        sphereSource->SetCenter(0, 0, 0); // actor is moved later
-        sphereSource->SetThetaResolution(100);
-        sphereSource->SetPhiResolution(100);
-        source = sphereSource;
-        mapper->SetInputConnection(sphereSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        sphereSource = vtkSphereSource::SafeDownCast(source);
-    }
-    if (!sphereSource) {
-        return false;
-    }
-    sphereSource->SetRadius(s.radius());
-    actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
-    return true;
+  vtkSmartPointer<vtkSphereSource> sphereSource;
+  if (new_shape) {
+    sphereSource = vtkSmartPointer<vtkSphereSource>::New();
+    sphereSource->SetCenter(0, 0, 0);  // actor is moved later
+    sphereSource->SetThetaResolution(100);
+    sphereSource->SetPhiResolution(100);
+    source = sphereSource;
+    mapper->SetInputConnection(sphereSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    sphereSource = vtkSphereSource::SafeDownCast(source);
+  }
+  if (!sphereSource) {
+    return false;
+  }
+  sphereSource->SetRadius(s.radius());
+  actor->SetPosition(s.center().x(), s.center().y(), s.center().z());
+  return true;
 }
 
 bool Updater::draw_spline(const bool &new_shape,
@@ -2336,39 +2279,36 @@ bool Updater::draw_spline(const bool &new_shape,
                           vtkSmartPointer<vtkActor> &actor,
                           vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                           vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    // Setup points
-    vtkSmartPointer<vtkPoints> points =
-        vtkSmartPointer<vtkPoints>::New();
+  // Setup points
+  vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-    // FIXME
-    for (int i = 0; i < s.point_size(); i++) {
-        points->InsertNextPoint(s.point(i).x(), s.point(i).y(),
-                                s.point(i).z());
-    }
+  // FIXME
+  for (int i = 0; i < s.point_size(); i++) {
+    points->InsertNextPoint(s.point(i).x(), s.point(i).y(), s.point(i).z());
+  }
 
-    // Create the spline
-    vtkSmartPointer<vtkParametricSpline> spline =
-      vtkSmartPointer<vtkParametricSpline>::New();
-    spline->SetPoints(points);
+  // Create the spline
+  vtkSmartPointer<vtkParametricSpline> spline = vtkSmartPointer<vtkParametricSpline>::New();
+  spline->SetPoints(points);
 
-    // set up source for mapper
-    vtkSmartPointer<vtkParametricFunctionSource> functionSource;
-    if (new_shape) {
-        functionSource = vtkSmartPointer<vtkParametricFunctionSource>::New();
-        /* functionSource->SetParametricFunction(spline); */
-        /* functionSource->Update(); */
-        source = functionSource;
+  // set up source for mapper
+  vtkSmartPointer<vtkParametricFunctionSource> functionSource;
+  if (new_shape) {
+    functionSource = vtkSmartPointer<vtkParametricFunctionSource>::New();
+    /* functionSource->SetParametricFunction(spline); */
+    /* functionSource->Update(); */
+    source = functionSource;
 
-        mapper->SetInputConnection(functionSource->GetOutputPort());
-        actor->SetMapper(mapper);
-    } else {
-        functionSource = vtkParametricFunctionSource::SafeDownCast(source);
-    }
+    mapper->SetInputConnection(functionSource->GetOutputPort());
+    actor->SetMapper(mapper);
+  } else {
+    functionSource = vtkParametricFunctionSource::SafeDownCast(source);
+  }
 
-    functionSource->SetParametricFunction(spline);
-    functionSource->Update();
+  functionSource->SetParametricFunction(spline);
+  functionSource->Update();
 
-    return true;
+  return true;
 }
 
 bool Updater::draw_text(const bool &new_shape,
@@ -2376,36 +2316,35 @@ bool Updater::draw_text(const bool &new_shape,
                         vtkSmartPointer<vtkActor> &actor,
                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                         vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkVectorText> textSource;
-    if (new_shape) {
-        textSource = vtkSmartPointer<vtkVectorText>::New();
-        source = textSource;
-        mapper->SetInputConnection(textSource->GetOutputPort());
+  vtkSmartPointer<vtkVectorText> textSource;
+  if (new_shape) {
+    textSource = vtkSmartPointer<vtkVectorText>::New();
+    source = textSource;
+    mapper->SetInputConnection(textSource->GetOutputPort());
 
-        // Create a subclass of vtkActor: a vtkFollower that remains facing the
-        // camera
-        actor = vtkSmartPointer<vtkFollower>::New();
-        actor->SetMapper(mapper);
-        // We created this actor object in this function, so we can use a
-        // static_cast. Need to extract the raw pointer from vtk's smartpointer
-        // system first.
-        static_cast<vtkFollower*>(&*actor)->SetCamera(renderer_->GetActiveCamera());
-    } else {
-        textSource = vtkVectorText::SafeDownCast(source);
+    // Create a subclass of vtkActor: a vtkFollower that remains facing the
+    // camera
+    actor = vtkSmartPointer<vtkFollower>::New();
+    actor->SetMapper(mapper);
+    // We created this actor object in this function, so we can use a
+    // static_cast. Need to extract the raw pointer from vtk's smartpointer
+    // system first.
+    static_cast<vtkFollower *>(&*actor)->SetCamera(renderer_->GetActiveCamera());
+  } else {
+    textSource = vtkVectorText::SafeDownCast(source);
+  }
+
+  if (textSource) {
+    if (t.scale() > 0) {
+      actor->SetScale(t.scale(), t.scale(), t.scale());
     }
 
-    if (textSource) {
-        if (t.scale() > 0) {
-            actor->SetScale(t.scale(), t.scale(), t.scale());
-        }
-
-        textSource->SetText(t.text().c_str());
-        actor->SetPosition(t.center().x(), t.center().y(),
-                           t.center().z());
-        return true;
-    } else {
-        return false;
-    }
+    textSource->SetText(t.text().c_str());
+    actor->SetPosition(t.center().x(), t.center().y(), t.center().z());
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool Updater::draw_triangle(const bool &new_shape,
@@ -2413,87 +2352,134 @@ bool Updater::draw_triangle(const bool &new_shape,
                             vtkSmartPointer<vtkActor> &actor,
                             vtkSmartPointer<vtkPolyDataAlgorithm> &source,
                             vtkSmartPointer<vtkPolyDataMapper> &mapper) {
-    vtkSmartPointer<vtkPoints> points =
-        vtkSmartPointer<vtkPoints>::New();
+  vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-    points->InsertNextPoint(t.point0().x(),
-                            t.point0().y(),
-                            t.point0().z());
+  points->InsertNextPoint(t.point0().x(), t.point0().y(), t.point0().z());
 
-    points->InsertNextPoint(t.point1().x(),
-                            t.point1().y(),
-                            t.point1().z());
+  points->InsertNextPoint(t.point1().x(), t.point1().y(), t.point1().z());
 
-    points->InsertNextPoint(t.point2().x(),
-                            t.point2().y(),
-                            t.point2().z());
+  points->InsertNextPoint(t.point2().x(), t.point2().y(), t.point2().z());
 
-    vtkSmartPointer<vtkTriangle> triangle =
-        vtkSmartPointer<vtkTriangle>::New();
-    triangle->GetPointIds()->SetId(0, 0);
-    triangle->GetPointIds()->SetId(1, 1);
-    triangle->GetPointIds()->SetId(2, 2);
+  vtkSmartPointer<vtkTriangle> triangle = vtkSmartPointer<vtkTriangle>::New();
+  triangle->GetPointIds()->SetId(0, 0);
+  triangle->GetPointIds()->SetId(1, 1);
+  triangle->GetPointIds()->SetId(2, 2);
 
-    vtkSmartPointer<vtkCellArray> triangles =
-        vtkSmartPointer<vtkCellArray>::New();
-    triangles->InsertNextCell(triangle);
+  vtkSmartPointer<vtkCellArray> triangles = vtkSmartPointer<vtkCellArray>::New();
+  triangles->InsertNextCell(triangle);
 
-    vtkSmartPointer<vtkPolyData> trianglePolyData;
-    if (new_shape) {
-        trianglePolyData = vtkSmartPointer<vtkPolyData>::New();
-        // source = trianglePolyData;
-    } else {
-        trianglePolyData = vtkPolyData::SafeDownCast(source);
-    }
+  vtkSmartPointer<vtkPolyData> trianglePolyData;
+  if (new_shape) {
+    trianglePolyData = vtkSmartPointer<vtkPolyData>::New();
+    // source = trianglePolyData;
+  } else {
+    trianglePolyData = vtkPolyData::SafeDownCast(source);
+  }
 
-    // Add the geometry and topology to the polydata
-    trianglePolyData->SetPoints(points);
-    trianglePolyData->SetPolys(triangles);
+  // Add the geometry and topology to the polydata
+  trianglePolyData->SetPoints(points);
+  trianglePolyData->SetPolys(triangles);
 #if VTK_MAJOR_VERSION < 6
-    mapper->SetInput(trianglePolyData);
+  mapper->SetInput(trianglePolyData);
 #else
-    mapper->SetInputData(trianglePolyData);
+  mapper->SetInputData(trianglePolyData);
 #endif
-    actor->SetMapper(mapper);
+  actor->SetMapper(mapper);
 
-    return true;
+  return true;
 }
 
 void Updater::get_model_texture(std::string name,
-                                std::string& model_file, bool& model_found,
-                                std::string& texture_file, bool& texture_found,
-                                double& base_scale, Quaternion& base_rot) {
-    ConfigParse c_parse;
-    FileSearch file_search;
-    std::map<std::string, std::string> overrides;
+                                std::string &model_file,
+                                bool &model_found,
+                                std::string &texture_file,
+                                bool &texture_found,
+                                double &base_scale,
+                                Quaternion &base_rot) {
+  ConfigParse c_parse;
+  FileSearch file_search;
+  std::map<std::string, std::string> overrides;
 
-    model_found = false;
-    texture_found = false;
+  model_found = false;
+  texture_found = false;
 
-    base_scale = 1.0;
-    base_rot = Quaternion(0.0, 0.0, 0.0);
+  base_scale = 1.0;
+  base_rot = Quaternion(0.0, 0.0, 0.0);
 
-    if (c_parse.parse(overrides, name, "SCRIMMAGE_DATA_PATH", file_search)) {
-        model_file = c_parse.directory() + "/" + c_parse.params()["model"];
-        texture_file = c_parse.directory() + "/" + c_parse.params()["texture"];
+  if (c_parse.parse(overrides, name, "SCRIMMAGE_DATA_PATH", file_search)) {
+    model_file = c_parse.directory() + "/" + c_parse.params()["model"];
+    texture_file = c_parse.directory() + "/" + c_parse.params()["texture"];
 
-        model_found = fs::exists(model_file) && fs::is_regular_file(model_file);
-        texture_found = fs::exists(texture_file) && fs::is_regular_file(texture_file);
+    model_found = fs::exists(model_file) && fs::is_regular_file(model_file);
+    texture_found = fs::exists(texture_file) && fs::is_regular_file(texture_file);
 
-        auto sc_iter = c_parse.params().find("visual_scale");
-        if (sc_iter != c_parse.params().end()) {
-            base_scale = std::stod(sc_iter->second);
-        }
-
-        auto rpy_iter = c_parse.params().find("visual_rpy");
-        if (rpy_iter != c_parse.params().end()) {
-            std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
-            str2container(rpy_iter->second, " ", tf_rpy, 3);
-            for (auto& e : tf_rpy) {
-                e = sc::Angles::deg2rad(e);
-            }
-            base_rot = Quaternion(tf_rpy[0], tf_rpy[1], tf_rpy[2]);
-        }
+    auto sc_iter = c_parse.params().find("visual_scale");
+    if (sc_iter != c_parse.params().end()) {
+      base_scale = std::stod(sc_iter->second);
     }
+
+    auto rpy_iter = c_parse.params().find("visual_rpy");
+    if (rpy_iter != c_parse.params().end()) {
+      std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
+      str2container(rpy_iter->second, " ", tf_rpy, 3);
+      for (auto &e : tf_rpy) {
+        e = sc::Angles::deg2rad(e);
+      }
+      base_rot = Quaternion(tf_rpy[0], tf_rpy[1], tf_rpy[2]);
+    }
+  }
 }
-} // namespace scrimmage
+
+vtkSmartPointer<vtkPolyData> Updater::ElevationToPolyData(
+    std::unique_ptr<std::array<std::vector<double>, 3>> elevation_data) {
+  vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
+  vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+  vtkSmartPointer<vtkCellArray> quads = vtkSmartPointer<vtkCellArray>::New();
+
+  std::vector<double> &x = elevation_data->at(0);
+  std::vector<double> &y = elevation_data->at(1);
+  std::vector<double> &z = elevation_data->at(2);
+
+  // Determine number of colums by finding the point where
+  // the next x value is less than the current one. Can not use
+  // faster std::upper_bound method because there is
+  // no gaurantee that y values are all in ascending order for this type of data
+  std::size_t num_cols;
+  auto it = x.begin();
+  for (; *(it + 1) > *(it) && it != (x.cend() - 1); it++) {}
+  num_cols = it - x.cbegin();
+
+  const std::size_t num_pts = x.size();
+
+  const std::size_t num_rows = num_pts / num_cols;
+  const std::size_t num_quads = (num_rows - 1) * (num_cols - 1);
+
+  points->SetNumberOfPoints(num_pts);
+  quads->Allocate(quads->EstimateSize(num_quads, 4));
+
+  std::array<double, 3> tmp_point;
+  for (std::size_t i = 0; i < num_pts; i++) {
+    tmp_point[0] = x[i];
+    tmp_point[1] = y[i];
+    tmp_point[2] = z[i];
+    points->SetPoint(i, tmp_point.data());
+  }
+  // Specifiy how points are "stiched" together to
+  // form a 2d topology
+  vtkIdType quad[4];
+  for (std::size_t row = 0; row < (num_rows - 1); row++) {
+    for (std::size_t col = 0; col < (num_cols - 1); col++) {
+      quad[0] = col + num_cols * row;
+      quad[1] = (col + 1) + num_cols * row;
+      quad[2] = (col + 1) + num_cols * (row + 1);
+      quad[3] = col + num_cols * (row + 1);
+      quads->InsertNextCell(4, quad);
+    }
+  }
+
+  polydata->SetPoints(points);
+  polydata->SetPolys(quads);
+
+  return polydata;
+}
+}  // namespace scrimmage

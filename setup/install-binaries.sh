@@ -102,6 +102,7 @@ DEPS_DPKG=(
     libtool
     curl
     unzip
+    gdal-bin
 )
 
 if [ "$EXTERNAL" = false ]; then

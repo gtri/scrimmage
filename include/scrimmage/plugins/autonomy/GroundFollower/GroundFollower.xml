@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>GroundFollower_plugin</library>
+  <speed>21</speed>
+  <show_camera_images>false</show_camera_images>
+  <save_camera_images>false</save_camera_images>
+  <show_text_label>false</show_text_label>
+  <enable_boundary_control>false</enable_boundary_control>
+  <target_height>20</target_height>
+  <interpolate_terrain>true</interpolate_terrain>
+</params>

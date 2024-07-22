@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_FWD_DECL_H_
 #define INCLUDE_SCRIMMAGE_FWD_DECL_H_
 
-#include <string>
-#include <memory>
 #include <map>
+#include <memory>
+#include <string>
 #include <unordered_map>
 
 namespace GeographicLib {
 class LocalCartesian;
 using LocalCartesianPtr = std::shared_ptr<LocalCartesian>;
-}
+}  // namespace GeographicLib
 
 namespace scrimmage_proto {
 class Shape;
 using ShapePtr = std::shared_ptr<scrimmage_proto::Shape>;
-}
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -157,6 +157,12 @@ using MetricsPtr = std::shared_ptr<Metrics>;
 using AttributeMap = std::map<std::string, std::map<std::string, std::string>>;
 
 class CameraInterface;
-} // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_FWD_DECL_H_
+namespace terrain {
+class TerrainMap;
+using TerrainMapPtr = std::shared_ptr<TerrainMap>;
+}  // namespace terrain
+
+}  // namespace scrimmage
+
+#endif  // INCLUDE_SCRIMMAGE_FWD_DECL_H_

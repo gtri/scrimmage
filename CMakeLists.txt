@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.8)
 
 option(ADD_HOME_LOCAL_PREFIX "Add ~/.local to cmake prefix" OFF)
 if(ADD_HOME_LOCAL_PREFIX)
@@ -13,8 +13,17 @@ else()
   message("ccache not found, repeated builds will be faster if this program is installed")
 endif()
 
-project (scrimmage)
+if (${SCRIMMAGE_CXX_VERSION})
+    set(CMAKE_CXX_STANDARD ${SCRIMMAGE_CXX_VERSION})
+else()
+    set(CMAKE_CXX_STANDARD 17)
+endif()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+message("CMAKE_CXX_STANDARD ${CMAKE_CXX_STANDARD}")
 
+project (scrimmage)
 set(PROJECT_VERSION "0.2.0-dev")
 
 # give SCRIMMAGE 1 series a few more soversions
@@ -55,13 +64,6 @@ if(NOT CMAKE_BUILD_TYPE)
       RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
-if (${SCRIMMAGE_CXX_VERSION})
-    set(CMAKE_CXX_STANDARD ${SCRIMMAGE_CXX_VERSION})
-else()
-    set(CMAKE_CXX_STANDARD 17)
-endif()
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 # macOS requires additional directories added to the path
 set(APPEND_TO_PATH "")

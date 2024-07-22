@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <polydata>n37_w122_1arc_v3.dt2</polydata>
+  <texture>mt_diablo.jpg</texture>
+  <system>UTM</system>
+  <hemisphere>north</hemisphere>
+  <zone>10</zone>  
+  <enable_grid>false</enable_grid>
+  <terrain_extent> 
+    <xmin>-122.0</xmin>
+    <xmax>-121.7</xmax>
+    <ymin>37.7</ymin>
+    <ymax>38.0</ymax>
+  </terrain_extent>
+</params>

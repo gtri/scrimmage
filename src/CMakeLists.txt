@@ -6,6 +6,18 @@ set(LIB_MAJOR 0)
 set(LIB_MINOR 0)
 set(LIB_RELEASE 1)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
+set(TERRAIN_SRCS 
+      parse/TerrainReaders/DTEDReader.cpp 
+      common/terrain/WGSTerrainMap.cpp
+      common/terrain/UTMTerrainMap.cpp
+      common/terrain/ElevationGrid.cpp
+      common/terrain/TerrainFactory.cpp
+      )
+
 set(SRCS
     autonomy/Autonomy.cpp
     common/ColorMaps.cpp common/FileSearch.cpp common/ID.cpp common/PID.cpp
@@ -22,7 +34,6 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
-    #parse/XMLParser/RapidXMLParser.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -37,17 +48,11 @@ set(SRCS
     common/GlobalService.cpp
     common/Waypoint.cpp
     common/WaypointListProcessor.cpp
+    ${TERRAIN_SRCS}
 )
 
-add_subdirectory(parse/XMLParser)
 
-set(PUBLIC_LIBS
-    scrimmage-protos
-    scrimmage-msgs
-    scrimmage-xml
-    ${GeographicLib_LIBRARIES}
-    ${CMAKE_DL_LIBS}
-)
+find_package(GDAL CONFIG REQUIRED)
 
 set(CORE_LIBS
     Boost::boost
@@ -57,6 +62,38 @@ set(CORE_LIBS
     Boost::graph
     Boost::thread
     Boost::chrono
+    GDAL::GDAL
+)
+
+# Only compile vtk-dependent sources when vtk is installed, 
+# and make sure that those libraries are linked
+if(${VTK_FOUND})
+  set(SRCS ${SRCS} parse/TerrainReaders/VTKTerrainReader.cpp)
+  set(CORE_LIBS ${CORE_LIBS} ${VTK_LIBRARIES})
+endif()
+
+
+add_library(${LIBRARY_NAME} SHARED
+  ${SRCS}
+)
+
+add_dependencies(${LIBRARY_NAME}
+  scrimmage-msgs scrimmage-proto-gen
+)
+
+if (GRPC_FOUND)
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
+else()
+  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
+endif()
+add_subdirectory(parse/XMLParser)
+
+set(PUBLIC_LIBS
+    scrimmage-protos
+    scrimmage-msgs
+    scrimmage-xml
+    ${GeographicLib_LIBRARIES}
+    ${CMAKE_DL_LIBS}
 )
 
 set(INCLUDE_DIRS
@@ -77,10 +114,6 @@ if(LibXml2_FOUND)
 else()
    set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=0)
 endif()
-
-add_library(${LIBRARY_NAME} SHARED
-  ${SRCS}
-)
 
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen

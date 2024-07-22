@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>TerrainCollision_plugin</library>  
+  <terrain_data>elevation</terrain_data>
+  <interpolate_terrain>false</terrain_data>
+</params>

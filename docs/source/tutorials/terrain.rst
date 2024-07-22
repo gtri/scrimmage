@@ -487,3 +487,24 @@ variable for a xml file with a relative path
 "/gui/terrain/<terrain_name>/<terrain_name>.xml", where <terrain_name> matches
 the  attribute value for "terrain". SCRIMMAGE uses this xml to set the aerial
 imagery, elevation data, extrusion data, and CRS for the simulation. Please mimic the mcmillan terrain that is packaged with SCRIMMAGE to make your newly created terrain model accessible to SCRIMMAGE. After which, configure your mission file to load this terrain model and set the latitude and longitude parameters for the mission to be within the bounds of your terrain data.
+
+Step 10: Accessing Digital Terrain Model Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to displaying terrain topolgoy in the Scrimmage GUI, Scrimmage
+Plugins can query elevation from the Digital Terrain Model through 
+the ``terrain_map_`` member variable. Elevation data can be queried either
+``QueryLongLat(double longitude, double latitude)`` or ``QueryUTM(double easting, double northing)``.
+An additional boolean flag *interpolate* may be provided to these functions, i.e.
+``QueryLongLat(double longitude, double latitude, bool interpolate)`` or ``QueryUTM(double easting, double northing, bool interpolate)``.
+to enable bilinear interpolation of elevation data. This is disabled by default.
+
+The underlying data representations of the elevation model utilize the native 
+coordinates of the Digital Terrain Model (e.g. VTKTerrain uses UTM, DTED uses Latitude and Longitude).
+
+A complete example of a plugin utilizing Elevation Data can be found in 
+``GroundFollower.cpp``, which is similar to ``Straight.cpp``, while 
+adjusting its target altitude to maintain a consistent height above the ground.
+
+
+

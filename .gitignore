@@ -41,3 +41,5 @@ env
 .idea*
 python/scrimmage/bindings
 python/dist
+from_append.csv
+from_string.csv
