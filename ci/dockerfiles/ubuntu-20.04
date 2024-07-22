@@ -5,12 +5,13 @@ FROM ubuntu:20.04 as dependencies
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-l", "-c"]
 
 # Install initial dependencies and setup .bashrc
 RUN apt-get update \
  && apt-get install -y \
     gnupg \
+    gnupg2 \
  && apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 \
  && apt-get update \
  && apt-get install -y \
@@ -22,7 +23,6 @@ RUN apt-get update \
     git \
     ninja-build \
     clang \
-    ruby-full \
     build-essential \
     zlib1g-dev \
     libgeographic-dev \
@@ -45,6 +45,7 @@ RUN apt-get update \
     libgrpc-dev \
     libpython3-dev \
     doxygen \
+    graphviz \
     python3-sphinx \
     sphinx-rtd-theme-common \
     ccache \
@@ -58,11 +59,18 @@ RUN apt-get update \
  && /opt/scrimmage/*/setup.sh
 
 # Install jekyll
-RUN echo 'export GEM_HOME="$HOME/gems"' >> ~/.bashrc \
- && echo 'export PATH="$HOME/gems/bin:$PATH"' >> ~/.bashrc \
- && source ~/.bashrc \
- && gem update --system \
- && gem install bundler
+
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+#RUN curl -sSL https://get.rvm.io | bash -s stable
+RUN add-apt-repository -y ppa:rael-gc/rvm \
+    && apt-get update \
+    && apt-get install -y rvm
+
+RUN groupadd rvm && usermod -a -G rvm root
+
+RUN rvm autolibs packages \
+    && rvm install ruby 3.0.0 \
+    && gem install fpm
 
 # Build a python virtual environment
 WORKDIR /root
