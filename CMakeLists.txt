@@ -209,13 +209,31 @@ endif()
 # Find VTK
 ########################################################
 
-find_package(VTK QUIET NO_MODULE)
+find_package(VTK NO_MODULE)
 if (${VTK_FOUND})
+	if (${VTK_MAJOR_VERSION} EQUAL 9)
+      set(OPENGL_MODULE RenderingOpenGL2)
+      # Current binaries of VTK9 do not compile IOGeoJSON
+      #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      set(EXTRUSION_MODULES FiltersModeling)
+			set(VTK_MODULES
+					FiltersSources
+					FiltersTexture
+					InteractionStyle
+					IOGeometry
+					IOImage
+					IOLegacy
+					RenderingAnnotation
+					RenderingCore
+					${OPENGL_MODULE}
+					${EXTRUSION_MODULES})
+			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+	else()
     if (${VTK_MAJOR_VERSION} LESS 7)
-        set(OPENGL_MODULE vtkRenderingOpenGL)
+			set(OPENGL_MODULE vtkRenderingOpenGL)
     else()
         set(OPENGL_MODULE vtkRenderingOpenGL2)
-        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+				set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
     endif()
 
     set(VTK_MODULES
@@ -230,16 +248,23 @@ if (${VTK_FOUND})
         ${OPENGL_MODULE}
         ${EXTRUSION_MODULES})
 
-    find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
+			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+		endif()
 endif()
 
 if (${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
   include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
-  include(${VTK_USE_FILE})
+  if(${VTK_MAJOR_VERSION} LESS 9)
+      ## VTK_USE_FILE is deprecated in vtk9
+      include(${VTK_USE_FILE})
+  endif()
   add_definitions(-DENABLE_VTK=1)
 else()
   add_definitions(-DENABLE_VTK=0)
+  message(--------------------------)
+	message("VTK_NOT_FOUND, Scrimmage will not have a GUI")
+  message(--------------------------)
 endif()
 
 ########################################################

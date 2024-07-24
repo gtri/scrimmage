@@ -116,7 +116,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 
     exec_->LoadScript(SGPath("scripts/"+info["script_name"]));
 
-    JSBSim::FGInitialCondition *ic = exec_->GetIC();
+		std::shared_ptr<JSBSim::FGInitialCondition> ic{ exec_->GetIC() };
     if (info.count("latitude") > 0) {
         ic->SetLatitudeDegIC(std::stod(info["latitude"]));
     }
@@ -161,7 +161,7 @@ bool JSBSimModel::init(std::map<std::string, std::string> &info,
 
     // Get references to each of the nodes that hold properties that we
     // care about
-    JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
+		std::shared_ptr<JSBSim::FGPropertyManager> mgr{ exec_->GetPropertyManager() };
     longitude_node_ = mgr->GetNode("position/long-gc-deg");
     latitude_node_ = mgr->GetNode("position/lat-gc-deg");
     altitude_node_ = mgr->GetNode("position/h-sl-ft");
@@ -276,7 +276,7 @@ void JSBSimModel::teleport(StatePtr &state) {
                                    state->pos()(2),
                                    lat, lon, alt);
 
-    JSBSim::FGInitialCondition *ic = exec_->GetIC();
+		std::shared_ptr<JSBSim::FGInitialCondition> ic{ exec_->GetIC() };
     ic->SetLatitudeDegIC(lat);
     ic->SetLongitudeDegIC(lon);
     ic->SetAltitudeASLFtIC(alt * meters2feet);

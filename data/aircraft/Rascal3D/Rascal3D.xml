@@ -101,6 +101,7 @@
 
     <propulsion>
         <engine file="Zenoah_G-26A">
+            <!-- JSBSIM ignore engine location
             <location unit="IN">
                 <x> 36 </x>
                 <y> 0 </y>
@@ -111,6 +112,7 @@
                 <pitch> 0 </pitch>
                 <yaw> 0 </yaw>
             </orient>
+            -->
             <feed>0</feed>
             <thruster file="18x8">
                 <location unit="IN">

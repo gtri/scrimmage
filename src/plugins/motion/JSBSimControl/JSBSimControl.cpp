@@ -130,7 +130,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     exec_->LoadScript(SGPath("scripts/"+info["script_name"]));
 
-    JSBSim::FGInitialCondition *ic = exec_->GetIC();
+		std::shared_ptr<JSBSim::FGInitialCondition> ic{ exec_->GetIC() };
 
     Quaternion q_ned_enu(M_PI, 0.0, M_PI/2.0);
     Quaternion q_flu_frd(M_PI, 0.0, 0.0);
@@ -196,7 +196,7 @@ bool JSBSimControl::init(std::map<std::string, std::string> &info,
 
     // Get references to each of the nodes that hold properties that we
     // care about
-    JSBSim::FGPropertyManager* mgr = exec_->GetPropertyManager();
+		std::shared_ptr<JSBSim::FGPropertyManager> mgr{ exec_->GetPropertyManager() };
     longitude_node_ = mgr->GetNode("position/long-gc-deg");
     latitude_node_ = mgr->GetNode("position/lat-gc-deg");
     altitude_node_ = mgr->GetNode("position/h-sl-ft");

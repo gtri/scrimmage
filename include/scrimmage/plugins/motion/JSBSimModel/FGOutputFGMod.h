@@ -42,8 +42,22 @@ class FGOutputFGMod : public FGOutputFG {
     virtual void Print(void);
  protected:
  private:
-    FGNetFDM fgSockBufMod;
-    void SocketDataFillMod(FGNetFDM* net);
+	enum FGPacketVersion {
+		v24 = 24, // FlightGear 2020.2 and earlier
+		v25 = 25  // FlightGear 2020.3 and later
+	};
+	// Max packet size
+	static constexpr size_t s = sizeof(FGNetFDM1) + sizeof(FGNetFDM2) + sizeof(FGNetFDM3);
+	char data[s];
+	FGNetFDM1* const net1 = (FGNetFDM1*)data;
+	FGNetFDM2* net2; // Only used for FG Packet version 25
+	FGNetFDM3* net3;
+
+	// Size dependent on Packet Version (24 vs 25)
+	size_t dataLength;
+
+  void SocketDataFillMod(void);
+	void PacketInit(FGPacketVersion version);
 };
 } // namespace JSBSim
 #endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_FGOUTPUTFGMOD_H_
