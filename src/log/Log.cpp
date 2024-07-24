@@ -309,7 +309,7 @@ bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
     google::protobuf::io::CodedOutputStream output(rawOutput.get());
 
     // Write the size.
-    const int size = message.ByteSize();
+    const int size = message.ByteSizeLong();
     output.WriteVarint32(size);
 
     // cout << "Writing message of size: " << size << endl;
