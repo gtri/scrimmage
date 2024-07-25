@@ -51,11 +51,12 @@ RUN apt-get update \
     ccache \
     libbullet-dev \
     libopencv-dev \
-    libvtk7-dev 
+    libvtk7-dev \
+    wget
 
 # Install jekyll
 RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-#RUN curl -sSL https://get.rvm.io | bash -s stable
+
 RUN add-apt-repository -y ppa:rael-gc/rvm \
     && apt-get update \
     && apt-get install -y rvm
@@ -63,16 +64,16 @@ RUN add-apt-repository -y ppa:rael-gc/rvm \
 RUN groupadd rvm && usermod -a -G rvm root
 
 RUN rvm autolibs packages \
-    && rvm install ruby 3.0.0 \
+    && rvm install ruby 3.1.0 \
     && gem install fpm
 
 # Build a python virtual environment
 WORKDIR /root
-COPY ./python/requirements-3.8.txt .
+COPY ./python/requirements-3.10.txt .
 RUN python3 -m venv env \
     && source ./env/bin/activate \
     && pip install wheel \
-    && pip install -r requirements-3.8.txt
+    && pip install -r requirements-3.10.txt
 
 FROM dependencies as builder
 
@@ -82,7 +83,7 @@ COPY ./ /root/scrimmage/scrimmage
 
 # Install anything that we need that we don't already have
 RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \ 
-&& /root/scrimmage/scrimmage/setup/install-jsbsim.sh \ 
+&& /root/scrimmage/scrimmage/setup/install-jsbsim.sh 
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -102,16 +103,15 @@ RUN source /root/env/bin/activate \
  && mkdir -p build \
  && cd build \
  && source ~/.bashrc \
- && source ~/.scrimmage/setup.bash \
  && cmake .. -G Ninja \
-             -DPYTHON_MIN_VERSION=3.6 \
+             -DPYTHON_MIN_VERSION=3.8 \
              -DBUILD_TESTS=ON \
              -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+ && source ~/.scrimmage/setup.bash \
  && ninja \
  && ninja docs website-docs
 
-# Note: gtest produces a deprecated-copy warning. Ignore this.
 
 # install python package and run tests
 WORKDIR /root/scrimmage/scrimmage/python
@@ -135,3 +135,6 @@ RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bas
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
 CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
+
+
+
