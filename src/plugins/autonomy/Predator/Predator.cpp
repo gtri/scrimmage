@@ -31,14 +31,14 @@
  */
 
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/msgs/Capture.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/Predator/Predator.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/plugins/autonomy/Predator/Predator.h>
 
 #include <limits>
 
@@ -64,7 +64,8 @@ void Predator::init(std::map<std::string, std::string> &params) {
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 }
 
@@ -132,5 +133,5 @@ bool Predator::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

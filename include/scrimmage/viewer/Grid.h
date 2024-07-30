@@ -33,13 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
 
-#include <vtkSmartPointer.h>
+#include <vtkActor.h>
 #include <vtkLineSource.h>
 #include <vtkPlaneSource.h>
-#include <vtkRenderer.h>
 #include <vtkPolyDataMapper.h>
-#include <vtkActor.h>
 #include <vtkProperty.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
 
 #include <list>
 
@@ -47,8 +47,7 @@ namespace scrimmage {
 
 class Grid {
  public:
-    void create(int size, double spacing,
-                vtkSmartPointer<vtkRenderer> &renderer);
+    void create(int size, double spacing, vtkSmartPointer<vtkRenderer> &renderer);
 
     void remove();
 
@@ -57,6 +56,6 @@ class Grid {
     std::list<vtkSmartPointer<vtkActor> > actors_;
 };
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_GRID_H_

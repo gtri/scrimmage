@@ -35,9 +35,9 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <vector>
-#include <string>
 #include <map>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
@@ -53,6 +53,6 @@ class GoToWaypoint : public scrimmage::Autonomy {
     std::vector<std::string> waypoint_;
     scrimmage::PublisherPtr waypoint_list_pub_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_

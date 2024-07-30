@@ -36,16 +36,17 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControllerDirect, JSBSimModelControllerDirect_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::JSBSimModelControllerDirect,
+                JSBSimModelControllerDirect_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 void JSBSimModelControllerDirect::init(std::map<std::string, std::string> &params) {
     use_pitch_ = str2bool(params.at("use_pitch"));
-    std::string z_name =  use_pitch_ ?
-        vars_.type_map().at(VariableIO::Type::desired_pitch) :
-        vars_.type_map().at(VariableIO::Type::desired_altitude);
+    std::string z_name = use_pitch_ ? vars_.type_map().at(VariableIO::Type::desired_pitch)
+                                    : vars_.type_map().at(VariableIO::Type::desired_altitude);
 
     input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
     input_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
@@ -62,5 +63,5 @@ bool JSBSimModelControllerDirect::step(double t, double dt) {
     vars_.output(input_alt_or_pitch_idx_, vars_.input(input_alt_or_pitch_idx_));
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

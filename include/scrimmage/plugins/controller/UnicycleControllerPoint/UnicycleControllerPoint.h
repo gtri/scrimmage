@@ -61,6 +61,6 @@ class UnicycleControllerPoint : public Controller {
     uint8_t pitch_rate_idx_out_ = 0;
     uint8_t velocity_z_idx_out_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLECONTROLLERPOINT_UNICYCLECONTROLLERPOINT_H_

@@ -34,7 +34,6 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
-
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <map>
@@ -54,6 +53,6 @@ class AvoidWalls : public scrimmage::Autonomy {
     uint8_t heading_idx_ = 0;
     uint8_t speed_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_

@@ -29,13 +29,13 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
+#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h>
 
 #include <iostream>
 
@@ -52,20 +52,15 @@ namespace scrimmage {
 namespace autonomy {
 
 TrajectoryRecordPlayback::TrajectoryRecordPlayback()
-    : enable_playback_(false), remove_at_end_(true),
-      trajectory_filename_("trajectory.txt") { }
+    : enable_playback_(false),
+      remove_at_end_(true),
+      trajectory_filename_("trajectory.txt") {}
 
-TrajectoryRecordPlayback::~TrajectoryRecordPlayback() {
-    csv_.close_output();
-}
+TrajectoryRecordPlayback::~TrajectoryRecordPlayback() { csv_.close_output(); }
 
-void TrajectoryRecordPlayback::init(std::map<std::string,
-                                    std::string> &params) {
-
-    trajectory_filename_ = sc::get<std::string>("trajectory_filename", params,
-                                                "trajectory.txt");
-    trajectory_filename_ = parent_->mp()->root_log_dir() + "/" +
-        trajectory_filename_;
+void TrajectoryRecordPlayback::init(std::map<std::string, std::string> &params) {
+    trajectory_filename_ = sc::get<std::string>("trajectory_filename", params, "trajectory.txt");
+    trajectory_filename_ = parent_->mp()->root_log_dir() + "/" + trajectory_filename_;
 
     remove_at_end_ = sc::get<bool>("remove_at_end", params, true);
 
@@ -77,32 +72,27 @@ void TrajectoryRecordPlayback::init(std::map<std::string,
             cout << "Unable to open log file" << endl;
             return;
         }
-        csv_.set_column_headers("t, x, y, z, vx, vy, vz,"
-                                "roll, pitch, yaw,"
-                                "x_d, y_d, z_d, vx_d, vy_d, vz_d,"
-                                "roll_d, pitch_d, yaw_d");
+        csv_.set_column_headers(
+            "t, x, y, z, vx, vy, vz,"
+            "roll, pitch, yaw,"
+            "x_d, y_d, z_d, vx_d, vy_d, vz_d,"
+            "roll_d, pitch_d, yaw_d");
 
     } else {
         this->set_is_controlling(true);
 
         if (!csv_.read_csv(trajectory_filename_)) {
-            cout << "Failed to read CSV file: " << trajectory_filename_
-                 << endl;
+            cout << "Failed to read CSV file: " << trajectory_filename_ << endl;
         }
 
         for (size_t r = 0; r < csv_.rows(); r++) {
             scrimmage::State desired_state;
-            desired_state.pos() << csv_.at(r, "x_d"),
-                csv_.at(r, "y_d"),
-                csv_.at(r, "z_d");
+            desired_state.pos() << csv_.at(r, "x_d"), csv_.at(r, "y_d"), csv_.at(r, "z_d");
 
-            desired_state.vel() << csv_.at(r, "vx_d"),
-                csv_.at(r, "vy_d"),
-                csv_.at(r, "vz_d");
+            desired_state.vel() << csv_.at(r, "vx_d"), csv_.at(r, "vy_d"), csv_.at(r, "vz_d");
 
-            scrimmage::Quaternion quat(csv_.at(r, "roll_d"),
-                                       csv_.at(r, "pitch_d"),
-                                       csv_.at(r, "yaw_d"));
+            scrimmage::Quaternion quat(
+                csv_.at(r, "roll_d"), csv_.at(r, "pitch_d"), csv_.at(r, "yaw_d"));
 
             desired_state.quat() = quat;
 
@@ -120,29 +110,29 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
         // Get previous autonomy's desired_state
         auto it = std::find_if(parent_->autonomies().rbegin(),
                                parent_->autonomies().rend(),
-            [&](auto autonomy) {return autonomy->get_is_controlling();});
+                               [&](auto autonomy) { return autonomy->get_is_controlling(); });
 
         csv_.append(sc::CSV::Pairs{
-                {"t", t},
-                {"x", state_->pos()(0)},
-                {"y", state_->pos()(1)},
-                {"z", state_->pos()(2)},
-                {"vx", state_->vel()(0)},
-                {"vy", state_->vel()(1)},
-                {"vz", state_->vel()(2)},
-                {"roll", state_->quat().roll()},
-                {"pitch", state_->quat().pitch()},
-                {"yaw", state_->quat().yaw()},
-                {"x_d", (*(*it)->desired_state()).pos()(0)},
-                {"y_d", (*(*it)->desired_state()).pos()(1)},
-                {"z_d", (*(*it)->desired_state()).pos()(2)},
-                {"vx_d", (*(*it)->desired_state()).vel()(0)},
-                {"vy_d", (*(*it)->desired_state()).vel()(1)},
-                {"vz_d", (*(*it)->desired_state()).vel()(2)},
-                {"roll_d", (*(*it)->desired_state()).quat().roll()},
-                {"pitch_d", (*(*it)->desired_state()).quat().pitch()},
-                {"yaw_d", (*(*it)->desired_state()).quat().yaw()},
-            });
+            {"t", t},
+            {"x", state_->pos()(0)},
+            {"y", state_->pos()(1)},
+            {"z", state_->pos()(2)},
+            {"vx", state_->vel()(0)},
+            {"vy", state_->vel()(1)},
+            {"vz", state_->vel()(2)},
+            {"roll", state_->quat().roll()},
+            {"pitch", state_->quat().pitch()},
+            {"yaw", state_->quat().yaw()},
+            {"x_d", (*(*it)->desired_state()).pos()(0)},
+            {"y_d", (*(*it)->desired_state()).pos()(1)},
+            {"z_d", (*(*it)->desired_state()).pos()(2)},
+            {"vx_d", (*(*it)->desired_state()).vel()(0)},
+            {"vy_d", (*(*it)->desired_state()).vel()(1)},
+            {"vz_d", (*(*it)->desired_state()).vel()(2)},
+            {"roll_d", (*(*it)->desired_state()).quat().roll()},
+            {"pitch_d", (*(*it)->desired_state()).quat().pitch()},
+            {"yaw_d", (*(*it)->desired_state()).quat().yaw()},
+        });
 
         return true;
     }
@@ -165,5 +155,5 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

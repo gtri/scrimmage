@@ -30,24 +30,23 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 #include <scrimmage/msgs/Command.grpc.pb.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
 
 #include <list>
 
 namespace scrimmage {
-ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(
-    std::shared_ptr<Plugin> plugin) :
-    plugin_(std::dynamic_pointer_cast<interaction::GRPCCommandString>(plugin)) {
-}
+ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin)
+    : plugin_(std::dynamic_pointer_cast<interaction::GRPCCommandString>(plugin)) {}
 
 grpc::Status scrimmage::ScrimmageMsgServiceImpl::SendCommandString(
-    grpc::ServerContext* context, const scrimmage_msgs::CommandString* cmd,
+    grpc::ServerContext* context,
+    const scrimmage_msgs::CommandString* cmd,
     scrimmage_msgs::CommandAck* reply) {
     plugin_->push_msg(*cmd);
     reply->set_success(1);
     return grpc::Status::OK;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

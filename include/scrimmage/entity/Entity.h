@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/pubsub/Message.h>
 
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <list>
-#include <vector>
-#include <string>
 #include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include <boost/optional.hpp>
 
@@ -56,7 +56,7 @@ using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 
 namespace scrimmage {
 
-using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
@@ -72,7 +72,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
               ContactMapPtr &contacts,
               MissionParsePtr mp,
               const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
-              int id, int ent_desc_id,
+              int id,
+              int ent_desc_id,
               PluginManagerPtr plugin_manager,
               FileSearchPtr &file_search,
               RTreePtr &rtree,
@@ -82,8 +83,8 @@ class Entity : public std::enable_shared_from_this<Entity> {
               const ParameterServerPtr &param_server,
               const GlobalServicePtr &global_services,
               const std::set<std::string> &plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func,
-              const int& debug_level = 0);
+              std::function<void(std::map<std::string, std::string> &)> param_override_func,
+              const int &debug_level = 0);
 
     void print_plugins(std::ostream &out) const;
 
@@ -179,25 +180,15 @@ class Entity : public std::enable_shared_from_this<Entity> {
     ContactMapPtr &contacts() { return contacts_; }
     RTreePtr &rtree() { return rtree_; }
 
-    PluginManagerPtr & plugin_manager() {
-        return plugin_manager_;
-    }
+    PluginManagerPtr &plugin_manager() { return plugin_manager_; }
 
-    FileSearchPtr & file_search() {
-        return file_search_;
-    }
+    FileSearchPtr &file_search() { return file_search_; }
 
-    PubSubPtr & pubsub() {
-        return pubsub_;
-    }
+    PubSubPtr &pubsub() { return pubsub_; }
 
-    PrintPtr & printer() {
-        return printer_;
-    }
+    PrintPtr &printer() { return printer_; }
 
-    const ParameterServerPtr& param_server() {
-        return param_server_;
-    }
+    const ParameterServerPtr &param_server() { return param_server_; }
 
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);
@@ -208,8 +199,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
  protected:
     ID id_;
 
-    scrimmage_proto::ContactVisualPtr visual_ =
-        std::make_shared<scrimmage_proto::ContactVisual>();
+    scrimmage_proto::ContactVisualPtr visual_ = std::make_shared<scrimmage_proto::ContactVisual>();
 
     std::vector<ControllerPtr> controllers_;
     MotionModelPtr motion_model_;
@@ -251,5 +241,5 @@ class Entity : public std::enable_shared_from_this<Entity> {
 };
 
 using EntityPtr = std::shared_ptr<Entity>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_

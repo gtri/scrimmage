@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/Contact.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace sensor {
@@ -59,8 +59,9 @@ class AltitudeAboveTerrain : public scrimmage::Sensor {
     PublisherPtr pub_true_;
     PublisherPtr pub_noise_;
     std::shared_ptr<scrimmage::interaction::TerrainMap> map_ = nullptr;
+
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_

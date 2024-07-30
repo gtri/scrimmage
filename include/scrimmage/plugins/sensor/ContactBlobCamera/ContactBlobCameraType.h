@@ -35,6 +35,7 @@
 
 #include <map>
 #include <vector>
+
 #include <opencv2/core/core.hpp>
 
 namespace scrimmage {
@@ -58,6 +59,6 @@ class ContactBlobCameraType {
     double pitch;
     double yaw;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_

@@ -30,41 +30,38 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
-#include <scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h>
-
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/msgs/Graph.pb.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h>
+#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
 #include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/msgs/Graph.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
-#include <memory>
-#include <limits>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <limits>
+#include <memory>
 
 #include <GeographicLib/LocalCartesian.hpp>
-
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include <boost/optional.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_utility.hpp>
 #include <boost/graph/graphml.hpp>
+#include <boost/optional.hpp>
 
 using std::cout;
 using std::endl;
 using std::stoi;
-
 
 namespace fs = ::boost::filesystem;
 namespace sc = scrimmage;
@@ -77,12 +74,11 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 namespace scrimmage {
 namespace interaction {
 
-GraphInteraction::GraphInteraction() {
-}
+GraphInteraction::GraphInteraction() {}
 
 // Uses graph file to draw graph
 bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
-        std::map<std::string, std::string> &plugin_params) {
+                            std::map<std::string, std::string> &plugin_params) {
     pub_graph_ = advertise("GlobalNetwork", "Graph");
     std::string default_file_name = "default";
     std::string graph_file_name =
@@ -93,20 +89,17 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
     std::map<std::string, std::string> data_params;
     if (sc::parse_autonomy_data(plugin_params, data_params)) {
         FileSearch file_search;
-        graph_file_name = sc::get<std::string>("graph_file", data_params,
-                default_file_name);
+        graph_file_name = sc::get<std::string>("graph_file", data_params, default_file_name);
         if (graph_file_name != default_file_name) {
-            std::string graph_ext =
-                fs::path(graph_file_name).extension().string();
-            file_search.find_file(graph_file_name, graph_ext,
-                    "SCRIMMAGE_DATA_PATH", graph_file_name);
+            std::string graph_ext = fs::path(graph_file_name).extension().string();
+            file_search.find_file(
+                graph_file_name, graph_ext, "SCRIMMAGE_DATA_PATH", graph_file_name);
         }
     }
 
     vis_graph_ = sc::get<bool>("visualize_graph", plugin_params, true);
     id_ = sc::get<int>("id", plugin_params, 1);
-    if (graph_file_name == default_file_name)
-        return true;
+    if (graph_file_name == default_file_name) return true;
 
     std::ifstream graph_file(graph_file_name);
 
@@ -174,7 +167,8 @@ bool GraphInteraction::init(std::map<std::string, std::string> &mission_params,
 }
 
 bool GraphInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
+                                               double t,
+                                               double dt) {
     if (ents.empty()) {
         return true;
     }

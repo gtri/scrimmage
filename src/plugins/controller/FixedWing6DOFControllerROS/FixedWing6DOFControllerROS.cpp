@@ -32,21 +32,23 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h>
+
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::FixedWing6DOFControllerROS, FixedWing6DOFControllerROS_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::FixedWing6DOFControllerROS,
+                FixedWing6DOFControllerROS_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 namespace sc = scrimmage;
 
-void FixedWing6DOFControllerROS::init(std::map<std::string, std::string> &params) {
-
+void FixedWing6DOFControllerROS::init(std::map<std::string, std::string>& params) {
     aileron_idx_ = vars_.declare(VariableIO::Type::aileron, VariableIO::Direction::Out);
-	elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
-	throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
-	rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
+    elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
+    throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
+    rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -77,5 +79,5 @@ bool FixedWing6DOFControllerROS::step(double t, double dt) {
 void FixedWing6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

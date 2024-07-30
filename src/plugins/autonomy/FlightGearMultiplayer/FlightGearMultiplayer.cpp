@@ -30,29 +30,27 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Time.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h>
 
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <netdb.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <iostream>
 #include <limits>
 
+#include <GeographicLib/LocalCartesian.hpp>
 #include <flightgear/MultiPlayer/mpmessages.hxx>
 #include <flightgear/MultiPlayer/tiny_xdr.hxx>
-
-#include <GeographicLib/LocalCartesian.hpp>
 
 using std::cout;
 using std::endl;
@@ -66,25 +64,22 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-FlightGearMultiplayer::FlightGearMultiplayer() :
-    callsign_("scrimmage"),
-    data_socket_(std::make_shared<netSocket>()),
-    aircraft_model_(std::string("Aircraft/c172p/Models/c172p.xml")),
-    earth_(std::make_shared<GeographicLib::Geocentric>(
-               GeographicLib::Constants::WGS84_a(),
-               GeographicLib::Constants::WGS84_f())),
-    angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
-}
+FlightGearMultiplayer::FlightGearMultiplayer()
+    : callsign_("scrimmage"),
+      data_socket_(std::make_shared<netSocket>()),
+      aircraft_model_(std::string("Aircraft/c172p/Models/c172p.xml")),
+      earth_(std::make_shared<GeographicLib::Geocentric>(GeographicLib::Constants::WGS84_a(),
+                                                         GeographicLib::Constants::WGS84_f())),
+      angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
 
 void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
-
     std::string server_ip = sc::get<std::string>("server_ip", params, "127.0.0.1");
     int server_port = sc::get<int>("server_port", params, 5000);
     callsign_ = sc::get<std::string>("callsign", params, "scrimmage");
     aircraft_model_ = sc::get<std::string>("aircraft_model", params, aircraft_model_);
 
     net_address_.set(server_ip.c_str(), server_port);
-    if (data_socket_->open(false)  == 0) { // Open UDP socket
+    if (data_socket_->open(false) == 0) {  // Open UDP socket
         std::cout << "Failed to open connection to: " << endl;
         cout << "Server IP: " << net_address_.getIP() << endl;
         cout << "Server Port: " << net_address_.getPort() << endl;
@@ -110,9 +105,9 @@ void FlightGearMultiplayer::init(std::map<std::string, std::string> &params) {
     pos_msg_.angularVel[1] = XDR_encode<float>(0);
     pos_msg_.angularVel[2] = XDR_encode<float>(0);
 
-    pos_msg_.linearAccel[0]= XDR_encode<float>(0);
-    pos_msg_.linearAccel[1]= XDR_encode<float>(0);
-    pos_msg_.linearAccel[2]= XDR_encode<float>(0);
+    pos_msg_.linearAccel[0] = XDR_encode<float>(0);
+    pos_msg_.linearAccel[1] = XDR_encode<float>(0);
+    pos_msg_.linearAccel[2] = XDR_encode<float>(0);
 
     pos_msg_.angularAccel[0] = XDR_encode<float>(0);
     pos_msg_.angularAccel[1] = XDR_encode<float>(0);
@@ -129,7 +124,8 @@ scrimmage::Quaternion FlightGearMultiplayer::fromLonLatRad(float lon, float lat)
     // Eigen::Vector3d::UnitX()); Eigen::Quaterniond rot2 = R_a * R_b;
 
     float zd2 = static_cast<float>(0.5) * lon;
-    float yd2 = static_cast<float>(-0.25) * static_cast<float>(M_PI) - static_cast<float>(0.5) * lat;
+    float yd2 =
+        static_cast<float>(-0.25) * static_cast<float>(M_PI) - static_cast<float>(0.5) * lat;
     float Szd2 = sin(zd2);
     float Syd2 = sin(yd2);
     float Czd2 = cos(zd2);
@@ -145,9 +141,8 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
 
     // Compute ECEF coordinates from x/y/z lat/lon/alt
     double lat, lon, alt;
-    parent_->projection()->Reverse(state_->pos()(0), state_->pos()(1),
-                                   state_->pos()(2),
-                                   lat, lon, alt);
+    parent_->projection()->Reverse(
+        state_->pos()(0), state_->pos()(1), state_->pos()(2), lat, lon, alt);
     double ECEF_X, ECEF_Y, ECEF_Z;
     earth_->Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);
 
@@ -157,12 +152,13 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
 
     // Convert local heading to GPS heading
     angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_->quat().yaw()));
-    sc::Quaternion local_quat(state_->quat().roll(), state_->quat().pitch(),
+    sc::Quaternion local_quat(state_->quat().roll(),
+                              state_->quat().pitch(),
                               sc::Angles::deg2rad(angles_to_jsbsim_.angle()));
 
     // Convert local quaternion to ECEF coordinate
-    scrimmage::Quaternion rot = this->fromLonLatRad(sc::Angles::deg2rad(lon),
-                                                    sc::Angles::deg2rad(lat));
+    scrimmage::Quaternion rot =
+        this->fromLonLatRad(sc::Angles::deg2rad(lon), sc::Angles::deg2rad(lat));
 
     // The FlightGear Multiplayer packet expects the orientation to be in
     // angle-axis form, where the axis magnitude is the rotation angle.
@@ -174,14 +170,14 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
     pos_msg_.orientation[2] = XDR_encode<float>(ang_axis_mod(2));
 
     // Copy header and position data structs into memory buffer
-    char * msg = new char[msg_size_];
+    char *msg = new char[msg_size_];
     std::memcpy(msg, &header_msg_, sizeof(T_MsgHdr));
-    std::memcpy(msg+sizeof(T_MsgHdr), &pos_msg_, sizeof(T_PositionMsg));
+    std::memcpy(msg + sizeof(T_MsgHdr), &pos_msg_, sizeof(T_PositionMsg));
 
     data_socket_->sendto(msg, msg_size_, 0, &net_address_);
     delete[] msg;
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

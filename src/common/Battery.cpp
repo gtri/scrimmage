@@ -31,12 +31,14 @@
  */
 #include <scrimmage/common/Battery.h>
 
-#include <limits>
 #include <cmath>
+#include <limits>
 
 namespace scrimmage {
 Battery::Battery(const double &min, const double &max, const double &current)
-    : min_charge_(min), max_charge_(max), current_charge_(current) {
+    : min_charge_(min),
+      max_charge_(max),
+      current_charge_(current) {
     if (current_charge_ > max_charge_) {
         current_charge_ = max_charge_;
     }
@@ -62,19 +64,14 @@ bool Battery::deplete(const double &amount) {
 }
 
 bool Battery::is_full() {
-    return std::abs(current_charge_ - max_charge_) <
-        std::numeric_limits<double>::epsilon();
+    return std::abs(current_charge_ - max_charge_) < std::numeric_limits<double>::epsilon();
 }
 
-bool Battery::has_charge() {
-    return current_charge_ > min_charge_;
-}
+bool Battery::has_charge() { return current_charge_ > min_charge_; }
 
-const double & Battery::current_charge() {
-    return current_charge_;
-}
+const double &Battery::current_charge() { return current_charge_; }
 
 double Battery::charge_percentage() {
     return 100.0 * (current_charge_ - min_charge_) / (max_charge_ - min_charge_);
 }
-} // namespace scrimmage
+}  // namespace scrimmage

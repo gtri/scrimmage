@@ -30,17 +30,19 @@
  *
  */
 
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/State.h>
 
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID, JSBSimControlControllerHeadingPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::JSBSimControlControllerHeadingPID,
+                JSBSimControlControllerHeadingPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -77,7 +79,6 @@ void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> 
 }
 
 bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
-
     // Roll stabilizer
     roll_pid_.set_setpoint(0);
     double u_roll = roll_pid_.step(dt, state_->quat().roll());
@@ -95,5 +96,5 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

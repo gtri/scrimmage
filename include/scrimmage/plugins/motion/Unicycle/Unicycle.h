@@ -43,11 +43,11 @@ namespace motion {
 class Unicycle : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
+              std::map<std::string, std::string> &params) override;
 
     bool step(double t, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
  protected:
     double turn_rate_max_ = 1.0;
@@ -67,6 +67,6 @@ class Unicycle : public scrimmage::MotionModel {
     double pitch_rate_ = 0;
     double velocity_z_ = 0;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_

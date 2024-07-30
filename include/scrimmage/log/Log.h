@@ -35,28 +35,31 @@
 
 #include <scrimmage/log/Frame.h>
 
-#include <list>
-#include <fstream>
-#include <map>
-#include <string>
-#include <memory>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 
+#include <fstream>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
 
-namespace google { namespace protobuf {
+namespace google {
+namespace protobuf {
 class MessageLite;
 namespace io {
 class ZeroCopyInputStream;
 class ZeroCopyOutputStream;
 class FileOutputStreamPtr;
-}}}
+}  // namespace io
+}  // namespace protobuf
+}  // namespace google
 
 namespace scrimmage_proto {
 class Frame;
 class Shapes;
 class UTMTerrain;
 class ContactVisual;
-}
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -78,37 +81,29 @@ class Log {
         MSG = 6
     };
 
-    enum Mode {
-        READ = 0,
-        WRITE = 1,
-        NONE
-    };
+    enum Mode { READ = 0, WRITE = 1, NONE };
 
     bool init(const std::string &dir, Mode mode);
 
     bool parse(std::string dir);
     bool parse(std::string filename, FileType type);
 
-    bool parse_frames(std::string filename,
-                      ZeroCopyInputStreamPtr input);
+    bool parse_frames(std::string filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_shapes(std::string filename,
-                      ZeroCopyInputStreamPtr input);
+    bool parse_shapes(std::string filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_utm_terrain(std::string filename,
-                           ZeroCopyInputStreamPtr input);
+    bool parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_contact_visual(std::string filename,
-                              ZeroCopyInputStreamPtr input);
+    bool parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input);
 
     bool close_log();
 
-    std::list<Frame> & scrimmage_frames();
+    std::list<Frame> &scrimmage_frames();
 
-    std::list<std::shared_ptr<scrimmage_proto::Frame>> & frames();
-    std::list<std::shared_ptr<scrimmage_proto::Shapes>> & shapes();
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> & utm_terrain();
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> & contact_visual();
+    std::list<std::shared_ptr<scrimmage_proto::Frame>> &frames();
+    std::list<std::shared_ptr<scrimmage_proto::Shapes>> &shapes();
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> &utm_terrain();
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> &contact_visual();
 
     std::string log_dir();
 
@@ -168,21 +163,20 @@ class Log {
     ZeroCopyOutputStreamPtr msgs_output_;
 
     std::list<Frame> scrimmage_frames_;
-    std::list<std::shared_ptr<scrimmage_proto::Frame> > frames_;
-    std::list<std::shared_ptr<scrimmage_proto::Shapes> > shapes_;
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > utm_terrain_;
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_;
+    std::list<std::shared_ptr<scrimmage_proto::Frame>> frames_;
+    std::list<std::shared_ptr<scrimmage_proto::Shapes>> shapes_;
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> utm_terrain_;
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_;
 
-    bool writeDelimitedTo(
-        const google::protobuf::MessageLite& message,
-        ZeroCopyOutputStreamPtr rawOutput);
+    bool writeDelimitedTo(const google::protobuf::MessageLite &message,
+                          ZeroCopyOutputStreamPtr rawOutput);
 
     bool readDelimitedFrom(const std::string &filename,
                            ZeroCopyInputStreamPtr rawInput,
                            MessageLitePtr message,
-                           bool& clean_eof);
+                           bool &clean_eof);
 
     bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_LOG_LOG_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_LOG_LOG_H_

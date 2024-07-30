@@ -44,11 +44,11 @@ class Ballistic : public scrimmage::MotionModel {
     bool init(std::map<std::string, std::string> &info,
               std::map<std::string, std::string> &params) override;
     bool step(double time, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
  protected:
  private:
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_BALLISTIC_BALLISTIC_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_BALLISTIC_BALLISTIC_H_

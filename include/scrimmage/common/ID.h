@@ -50,8 +50,8 @@ class ID {
     int sub_swarm_id() const;
     int team_id() const;
 
-    bool operator==(const ID &other) const;
-    bool operator<(const ID &other) const;
+    bool operator==(const ID& other) const;
+    bool operator<(const ID& other) const;
 
     friend std::ostream& operator<<(std::ostream& os, const scrimmage::ID& id);
 
@@ -60,6 +60,6 @@ class ID {
     int sub_swarm_id_;
     int team_id_;
 };
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_ID_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_ID_H_

@@ -35,11 +35,11 @@
 
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 
@@ -60,8 +60,9 @@ class GPS : public scrimmage::Sensor {
     std::vector<int> gps_denied_ids_;
     PublisherPtr pub_;
     std::shared_ptr<scrimmage::interaction::BoundaryBase> boundary_ = NULL;
+
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_GPS_GPS_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_GPS_GPS_H_

@@ -33,29 +33,29 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 
-#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/motion/MotionModel.h>
 
 #if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>
-#include <models/FGAircraft.h>
-#include <input_output/FGPropertyManager.h>
 #include <initialization/FGInitialCondition.h>
+#include <input_output/FGPropertyManager.h>
+#include <models/FGAircraft.h>
 #include <models/FGOutput.h>
 
 typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #endif
 
 #include <map>
+#include <memory>
 #include <string>
 #include <tuple>
-#include <memory>
 
 namespace scrimmage {
 class State;
 using StatePtr = std::shared_ptr<State>;
-}
+}  // namespace scrimmage
 
 namespace scrimmage {
 namespace motion {
@@ -103,7 +103,7 @@ class JSBSimModel : public MotionModel {
     JSBSim::FGPropertyNode *ay_pilot_node_ = nullptr;
     JSBSim::FGPropertyNode *az_pilot_node_ = nullptr;
 
-    JSBSim::FGOutputType* output_fg_ = 0;
+    JSBSim::FGOutputType *output_fg_ = 0;
 
     Angles angles_to_jsbsim_;
     Angles angles_from_jsbsim_;
@@ -122,6 +122,6 @@ class JSBSimModel : public MotionModel {
 
     bool fg_out_enable_ = false;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_

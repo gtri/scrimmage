@@ -44,26 +44,15 @@ namespace motion {
 
 class MultirotorState : public scrimmage::State {
  public:
-    enum InputType {
-        OMEGA = 0,
-        PWM
-    };
+    enum InputType { OMEGA = 0, PWM };
 
-    void set_input_type(InputType input_type) {
-        input_type_ = input_type;
-    }
+    void set_input_type(InputType input_type) { input_type_ = input_type; }
 
-    void set_prop_input(Eigen::VectorXd prop_input) {
-        prop_input_ = prop_input;
-    }
+    void set_prop_input(Eigen::VectorXd prop_input) { prop_input_ = prop_input; }
 
-    InputType &input_type() {
-        return input_type_;
-    }
+    InputType &input_type() { return input_type_; }
 
-    Eigen::VectorXd &prop_input() {
-        return prop_input_;
-    }
+    Eigen::VectorXd &prop_input() { return prop_input_; }
 
  protected:
     Eigen::VectorXd prop_input_;
@@ -72,6 +61,6 @@ class MultirotorState : public scrimmage::State {
 
 using MultirotorStatePtr = std::shared_ptr<MultirotorState>;
 
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_

@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
 
-#include <vtkSmartPointer.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderer.h>
-#include <vtkRenderWindowInteractor.h>
-
 #include <scrimmage/viewer/CameraInterface.h>
 
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
+
 #include <map>
-#include <string>
-#include <thread> // NOLINT
 #include <memory>
+#include <string>
+#include <thread>  // NOLINT
 
 namespace scrimmage {
 
@@ -55,9 +55,9 @@ class Viewer {
  public:
     Viewer();
 
-    void set_incoming_interface(InterfacePtr &incoming_interface);
+    void set_incoming_interface(InterfacePtr& incoming_interface);
 
-    void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    void set_outgoing_interface(InterfacePtr& outgoing_interface);
 
     void set_enable_network(bool enable);
 
@@ -93,5 +93,5 @@ class Viewer {
     bool full_screen_;
 };
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_

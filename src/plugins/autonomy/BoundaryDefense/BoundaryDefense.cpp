@@ -30,20 +30,19 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/BoundaryDefense/BoundaryDefense.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/RTree.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/BoundaryDefense/BoundaryDefense.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/common/Time.h>
-
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <iostream>
 #include <limits>
@@ -56,20 +55,17 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::BoundaryDefense,
-                BoundaryDefense_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::BoundaryDefense, BoundaryDefense_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-BoundaryDefense::BoundaryDefense() {
-}
+BoundaryDefense::BoundaryDefense() {}
 
 void BoundaryDefense::init(std::map<std::string, std::string> &params) {
     boundary_id_ = sc::get<int>("boundary_id", params, boundary_id_);
 
-    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+    auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
         std::shared_ptr<sci::BoundaryBase> boundary = sci::Boundary::make_boundary(msg->data);
         boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
     };
@@ -101,8 +97,7 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
 
         // Is the entity within the boundary?
         if (std::get<1>(it->second)->contains(cnt.state()->pos())) {
-            if (closest == nullptr ||
-                (state_->pos() - closest->pos()).norm() < min_dist) {
+            if (closest == nullptr || (state_->pos() - closest->pos()).norm() < min_dist) {
                 closest = cnt.state();
                 min_dist = (state_->pos() - closest->pos()).norm();
             }
@@ -129,5 +124,5 @@ bool BoundaryDefense::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

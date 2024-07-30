@@ -30,14 +30,14 @@
  *
  */
 
-#include <dlfcn.h>
-
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/entity/EntityPlugin.h>
+
+#include <dlfcn.h>
 
 #include <iostream>
 #include <set>
@@ -60,12 +60,12 @@ int PluginManager::check_library(std::string lib_path) {
         return -1;
     }
 
-    char * error;
+    char *error;
 
     // Extract the plugin type
     plugin_type_t type_func;
     type_func = (plugin_type_t)dlsym(lib_handle, "plugin_type");
-    if ((error = dlerror()) != NULL)  {
+    if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
         std::cout << lib_path << " doesn't contain 'plugin_type'" << std::endl;
         dlclose(lib_handle);
@@ -76,7 +76,7 @@ int PluginManager::check_library(std::string lib_path) {
     // Extract the plugin name
     plugin_name_t name_func;
     name_func = (plugin_name_t)dlsym(lib_handle, "plugin_name");
-    if ((error = dlerror()) != NULL)  {
+    if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
         std::cout << lib_path << " doesn't contain 'plugin_name'" << std::endl;
         dlclose(lib_handle);
@@ -86,7 +86,7 @@ int PluginManager::check_library(std::string lib_path) {
 
     // Ensure the maker function exists, but we don't need to call it
     dlsym(lib_handle, "maker");
-    if ((error = dlerror()) != NULL)  {
+    if ((error = dlerror()) != NULL) {
         fputs(error, stderr);
         std::cout << lib_path << " doesn't contain 'maker'" << std::endl;
         dlclose(lib_handle);
@@ -106,7 +106,8 @@ int PluginManager::check_library(std::string lib_path) {
     return 0;
 }
 
-PluginManager::PluginManager() : reload_(false) {}
+PluginManager::PluginManager()
+    : reload_(false) {}
 
 void PluginManager::print_plugins(const std::string &plugin_type,
                                   const std::string &title,
@@ -161,9 +162,9 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
 
             PluginPtr (*maker_func)(void);
             // cppcheck-suppress cstyleCast
-            maker_func = (PluginPtr (*)(void))dlsym(it2->second.handle, "maker");
-            char * error;
-            if ((error = dlerror()) != NULL)  {
+            maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
+            char *error;
+            if ((error = dlerror()) != NULL) {
                 fputs(error, stderr);
                 return nullptr;
             } else {
@@ -182,8 +183,7 @@ std::map<std::string, std::unordered_set<std::string>> PluginManager::get_commit
             scrimmage::PluginInfo &plugin_info = kv2.second;
             if (!plugin_info.returned) continue;
 
-            std::string path =
-                boost::filesystem::path(plugin_info.path).parent_path().string();
+            std::string path = boost::filesystem::path(plugin_info.path).parent_path().string();
 
             if ((sha = scrimmage::get_sha(path)) != "") {
                 commits[sha].insert(plugin_info.name);
@@ -197,7 +197,6 @@ void PluginManager::find_matching_plugins(
     const std::string &plugin_name_so,
     std::unordered_map<std::string, std::list<std::string>> &so_files,
     std::list<std::string> &plugins) {
-
     auto it = so_files.find(std::string("lib") + plugin_name_so + LIB_EXT);
     if (it != so_files.end()) {
         for (std::string &full_fname : it->second) {
@@ -211,8 +210,8 @@ void PluginManager::find_matching_plugins(
     }
 }
 
-void PluginManager::set_reload(bool reload) {reload_ = reload;}
+void PluginManager::set_reload(bool reload) { reload_ = reload; }
 
-bool PluginManager::get_reload() {return reload_;}
+bool PluginManager::get_reload() { return reload_; }
 
-} // namespace scrimmage
+}  // namespace scrimmage

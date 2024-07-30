@@ -36,31 +36,28 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/network/ScrimmageServiceImpl.h>
 #include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/Visual.pb.h>
 
 #if ENABLE_GRPC == 1
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
+
 #include <grpc++/grpc++.h>
 #endif
 
 #include <list>
-#include <mutex> // NOLINT
-#include <string>
 #include <memory>
+#include <mutex>  // NOLINT
+#include <string>
 
 namespace scrimmage {
 class Interface {
  public:
-    typedef enum Mode {
-        shared = 0,
-        client = 1,
-        server = 2
-    } Mode_t;
+    typedef enum Mode { shared = 0, client = 1, server = 2 } Mode_t;
 
     void set_mode(Mode_t mode) { mode_ = mode; }
-    void set_ip(std::string &ip) { ip_ = ip; }
+    void set_ip(const std::string &ip) { ip_ = ip; }
     void set_port(int port) { port_ = port; }
     bool init_network(Mode_t mode, const std::string &ip, int port);
 
@@ -104,26 +101,25 @@ class Interface {
     std::mutex shapes_mutex;
     std::mutex contact_visual_mutex;
 
-    std::list<std::shared_ptr<scrimmage_proto::Frame> > & frames()
-    { return frames_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::Frame> > &frames() { return frames_list_; }
 
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > & utm_terrain()
-    { return utm_terrain_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() {
+        return utm_terrain_list_;
+    }
 
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > & contact_visual()
-    { return contact_visual_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &contact_visual() {
+        return contact_visual_list_;
+    }
 
-    std::list<scrimmage_proto::GUIMsg> & gui_msg()
-    { return gui_msg_list_; }
+    std::list<scrimmage_proto::GUIMsg> &gui_msg() { return gui_msg_list_; }
 
-    std::list<scrimmage_proto::WorldPointClicked> & world_point_clicked_msg()
-    { return world_point_clicked_msg_list_; }
+    std::list<scrimmage_proto::WorldPointClicked> &world_point_clicked_msg() {
+        return world_point_clicked_msg_list_;
+    }
 
-    std::list<scrimmage_proto::SimInfo> & sim_info()
-    { return sim_info_list_; }
+    std::list<scrimmage_proto::SimInfo> &sim_info() { return sim_info_list_; }
 
-    std::list<scrimmage_proto::Shapes> & shapes()
-    { return shapes_list_; }
+    std::list<scrimmage_proto::Shapes> &shapes() { return shapes_list_; }
 
     void send_cached();
     bool check_ready();
@@ -160,5 +156,5 @@ class Interface {
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_cache_;
 };
 using InterfacePtr = std::shared_ptr<Interface>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_

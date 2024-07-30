@@ -30,12 +30,12 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ConfigParse.h>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
@@ -43,7 +43,6 @@
 #include <boost/filesystem/path.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/algorithm/string.hpp>
-
 #include <rapidxml/rapidxml.hpp>
 
 namespace fs = boost::filesystem;
@@ -56,17 +55,14 @@ namespace scrimmage {
 
 ConfigParse::ConfigParse() {}
 
-void ConfigParse::set_required(std::string node_name) {
-    required_.push_back(node_name);
-}
+void ConfigParse::set_required(std::string node_name) { required_.push_back(node_name); }
 
 void ConfigParse::recursive_params(rx::xml_node<char> *root,
-        const std::map<std::string, std::string> &overrides,
-        std::map<std::string, std::string> &params,
-        const std::string &prev) {
+                                   const std::map<std::string, std::string> &overrides,
+                                   std::map<std::string, std::string> &params,
+                                   const std::string &prev) {
     // End condition
-    if (root == 0 || root->name() == std::string("")
-        || root->name() == std::string(" ")) {
+    if (root == 0 || root->name() == std::string("") || root->name() == std::string(" ")) {
         return;
     }
 
@@ -85,7 +81,7 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
             // It does exist, grab the current size and increment.
             size = std::stoi(params[name_size]) + 1;
         }
-        name = name + "_" + std::to_string(size-1);
+        name = name + "_" + std::to_string(size - 1);
         params[name_size] = std::to_string(size);
     }
 
@@ -103,9 +99,10 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
 }
 
 bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
-        std::string filename, std::string env_var,
-        FileSearch &file_search, bool verbose) {
-
+                        std::string filename,
+                        std::string env_var,
+                        FileSearch &file_search,
+                        bool verbose) {
     std::string result = "";
     bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
@@ -189,10 +186,10 @@ void ConfigParse::print_params() {
     }
 }
 
-std::ostream& operator<<(std::ostream& os, ConfigParse& cp) {
+std::ostream &operator<<(std::ostream &os, ConfigParse &cp) {
     for (auto &kv : cp.params()) {
         os << kv.first << "=" << kv.second << endl;
     }
     return os;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

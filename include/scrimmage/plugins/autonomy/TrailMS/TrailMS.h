@@ -34,8 +34,8 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -54,6 +54,6 @@ class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     scrimmage_proto::ShapePtr sphere_shape_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_

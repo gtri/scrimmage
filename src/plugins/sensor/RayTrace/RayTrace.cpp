@@ -32,16 +32,15 @@
 
 #include <scrimmage/common/Random.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/proto/State.pb.h>
-
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 namespace sc = scrimmage;
 
@@ -59,7 +58,10 @@ std::vector<RayTrace::PCRay> RayTrace::PointCloud::get_rays() {
     return return_rays;
 }
 
-RayTrace::RayTrace() : max_range_(0), min_range_(0), max_sample_rate_(0) {}
+RayTrace::RayTrace()
+    : max_range_(0),
+      min_range_(0),
+      max_sample_rate_(0) {}
 
 void RayTrace::init(std::map<std::string, std::string> &params) {
     // Use the same generator as the parent so that the simulation is

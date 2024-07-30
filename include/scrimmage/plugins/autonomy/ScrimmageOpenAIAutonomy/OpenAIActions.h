@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
 
-#include <pybind11/pybind11.h>
-
 #include <scrimmage/common/Visibility.h>
 
-#include <vector>
+#include <pybind11/pybind11.h>
+
 #include <memory>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
@@ -61,6 +61,6 @@ class DLL_PUBLIC OpenAIActions {
     pybind11::object asarray_;
 };
 
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_

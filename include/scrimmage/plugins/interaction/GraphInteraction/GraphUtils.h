@@ -34,24 +34,24 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHUTILS_H_
 
 #include <memory>
-#include <unordered_map>
-#include <vector>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include <boost/functional/hash.hpp>
 
 namespace scrimmage_msgs {
 class Graph;
-} // namespace scrimmage_msgs
+}  // namespace scrimmage_msgs
 
 namespace scrimmage_proto {
 class Shape;
-} // namespace scrimmage_proto
+}  // namespace scrimmage_proto
 
 namespace scrimmage_proto {
 class Vector3d;
-} // namespace scrimmage_proto
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -60,14 +60,14 @@ using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 
 namespace interaction {
 
-enum class DrawNodeLabels {NO, YES};
+enum class DrawNodeLabels { NO, YES };
 using NodePair = std::pair<uint64_t, uint64_t>;
 using NodePairColorMap = std::unordered_map<NodePair, std::vector<int>, boost::hash<NodePair>>;
-using NodePairShapeMap = std::unordered_map<NodePair, std::shared_ptr<scrimmage_proto::Shape>, boost::hash<NodePair>>;
+using NodePairShapeMap =
+    std::unordered_map<NodePair, std::shared_ptr<scrimmage_proto::Shape>, boost::hash<NodePair>>;
 using NodeShapeMap = std::unordered_map<uint64_t, std::shared_ptr<scrimmage_proto::Shape>>;
 
-std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap>
-draw_graph(
+std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap> draw_graph(
     scrimmage_msgs::Graph &graph,
     const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
     DrawNodeLabels draw_node_labels,
@@ -75,7 +75,7 @@ draw_graph(
 
 std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
     const scrimmage_msgs::Graph &graph);
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHUTILS_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHUTILS_H_

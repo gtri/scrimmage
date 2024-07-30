@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_
 
-#include <Eigen/Dense>
-
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/fwd_decl.h>
+
+#include <Eigen/Dense>
 
 #include <list>
 #include <map>
@@ -46,23 +46,25 @@
 namespace scrimmage {
 
 class EntityInteraction : public EntityPlugin {
-
  public:
-    inline virtual bool init(std::map<std::string, std::string> &/*mission_params*/,
-                      std::map<std::string, std::string> &/*plugin_params*/)
-    { return true;}
+    inline virtual bool init(std::map<std::string, std::string> & /*mission_params*/,
+                             std::map<std::string, std::string> & /*plugin_params*/) {
+        return true;
+    }
 
-    inline virtual bool step_entity_interaction(std::list<EntityPtr> &/*ents*/,
-                                                double /*t*/, double /*dt*/)
-    { return false; }
+    inline virtual bool step_entity_interaction(std::list<EntityPtr> & /*ents*/,
+                                                double /*t*/,
+                                                double /*dt*/) {
+        return false;
+    }
 
-    inline virtual bool collision_exists(std::list<EntityPtr> &/*ents*/,
-                                  Eigen::Vector3d &/*p*/)
-    { return false; }
+    inline virtual bool collision_exists(std::list<EntityPtr> & /*ents*/, Eigen::Vector3d & /*p*/) {
+        return false;
+    }
 
  protected:
 };
 
 typedef std::shared_ptr<EntityInteraction> EntityInteractionPtr;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_

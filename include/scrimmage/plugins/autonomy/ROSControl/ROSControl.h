@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
 
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry.h>
-#include <sensor_msgs/LaserScan.h>
-#include <tf/transform_broadcaster.h>
-
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <map>
-#include <vector>
-#include <string>
+#include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
+#include <ros/ros.h>
+#include <sensor_msgs/LaserScan.h>
+#include <tf/transform_broadcaster.h>
+
 #include <fstream>
+#include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
@@ -55,12 +55,11 @@ class ROSControl : public scrimmage::Autonomy {
     ROSControl();
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
-    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
+    void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg);
 
  protected:
     void zero_ctrls();
-    void ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt,
-                     double t);
+    void ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt, double t);
 
     std::shared_ptr<ros::NodeHandle> nh_;
 
@@ -71,6 +70,6 @@ class ROSControl : public scrimmage::Autonomy {
     std::vector<double> x_;
     // std::ofstream ofs_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSCONTROL_ROSCONTROL_H_

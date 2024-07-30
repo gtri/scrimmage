@@ -33,23 +33,21 @@
 #include <scrimmage/common/CSV.h>
 #include <scrimmage/parse/ParseUtils.h>
 
+#include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <vector>
-#include <fstream>
 #include <sstream>
+#include <vector>
 
-#include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/tokenizer.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace scrimmage {
 
-CSV::~CSV() {
-    this->close_output();
-}
+CSV::~CSV() { this->close_output(); }
 
 void CSV::set_column_headers(const Headers &headers, bool write) {
     column_headers_.clear();
@@ -75,12 +73,10 @@ void CSV::set_column_headers(const std::string &headers, bool write) {
 }
 
 bool CSV::append(const Pairs &pairs, bool write, bool keep_in_memory) {
-
     for (std::pair<std::string, double> pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
-            cout << "Warning: column header doesn't exist: "
-                 << pair.first << endl;
+            cout << "Warning: column header doesn't exist: " << pair.first << endl;
         }
         table_[next_row_][it->second] = pair.second;
     }
@@ -103,9 +99,7 @@ bool CSV::open_output(const std::string &filename, std::ios_base::openmode mode)
     return file_out_.is_open();
 }
 
-bool CSV::output_is_open() {
-    return file_out_.is_open();
-}
+bool CSV::output_is_open() { return file_out_.is_open(); }
 
 bool CSV::close_output() {
     if (file_out_.is_open()) {
@@ -114,11 +108,9 @@ bool CSV::close_output() {
     return !file_out_.is_open();
 }
 
-std::string CSV::to_string() const {
-    return headers_to_string() + "\n" + rows_to_string();
-}
+std::string CSV::to_string() const { return headers_to_string() + "\n" + rows_to_string(); }
 
-std::ostream& operator<<(std::ostream& os, const CSV& csv) {
+std::ostream &operator<<(std::ostream &os, const CSV &csv) {
     os << csv.to_string();
     return os;
 }
@@ -136,7 +128,7 @@ std::string CSV::headers_to_string() const {
     for (std::string header : headers) {
         result += header;
 
-        if (i+1 < headers.size()) {
+        if (i + 1 < headers.size()) {
             result += ",";
         }
         i++;
@@ -156,7 +148,7 @@ std::string CSV::rows_to_string() const {
     return result;
 }
 
-std::string CSV::row_to_string(const int& row) const {
+std::string CSV::row_to_string(const int &row) const {
     std::string result = "";
 
     // Initialize a vector with no value string. Iterate over
@@ -169,8 +161,12 @@ std::string CSV::row_to_string(const int& row) const {
         } else if (static_cast<double>(kv.second) == kv.second) {
             // default precision values for double are not enough in many cases
             std::ostringstream conv;
-            if (double_is_fixed_) { conv << std::fixed; }
-            if (double_is_scientific_) { conv << std::scientific; }
+            if (double_is_fixed_) {
+                conv << std::fixed;
+            }
+            if (double_is_scientific_) {
+                conv << std::scientific;
+            }
             conv << std::setprecision(double_precision_) << kv.second;
             values[kv.first] = conv.str();
         } else {
@@ -183,14 +179,13 @@ std::string CSV::row_to_string(const int& row) const {
     for (std::string str : values) {
         result += str;
 
-        if (i+1 < values.size()) {
+        if (i + 1 < values.size()) {
             result += ",";
         }
         i++;
     }
     return result;
 }
-
 
 bool CSV::to_csv(const std::string &filename) {
     if (not this->open_output(filename)) {
@@ -211,7 +206,7 @@ bool CSV::to_csv(const std::string &filename) {
     return true;
 }
 
-bool CSV::read_csv_from_string(const std::string &csv_str, const bool& contains_header) {
+bool CSV::read_csv_from_string(const std::string &csv_str, const bool &contains_header) {
     table_.clear();
     column_headers_.clear();
 
@@ -222,7 +217,7 @@ bool CSV::read_csv_from_string(const std::string &csv_str, const bool& contains_
         // Strip "whitespace" characters.
         std::string line = remove_whitespace(line_tokens[line_num]);
 
-        if (line == "") continue; // Ignore lines that are empty
+        if (line == "") continue;  // Ignore lines that are empty
 
         if (line_num == 0 && contains_header) {
             std::list<std::string> headers = get_csv_line_elements(line);
@@ -250,10 +245,10 @@ bool CSV::read_csv_from_string(const std::string &csv_str, const bool& contains_
             // Print a warning if the number of comma separated values doesn't
             // match the number of columns
             if (column_headers_.size() != tokens.size()) {
-                cout << "Warning the number of values (" << tokens.size()
-                     << ") on line number " << row_num
-                     << " doesn't match the number of column headers: "
-                     << column_headers_.size() << endl;
+                cout << "Warning the number of values (" << tokens.size() << ") on line number "
+                     << row_num
+                     << " doesn't match the number of column headers: " << column_headers_.size()
+                     << endl;
             }
             row_num++;
         }
@@ -261,7 +256,7 @@ bool CSV::read_csv_from_string(const std::string &csv_str, const bool& contains_
     return true;
 }
 
-bool CSV::read_csv(const std::string &filename, const bool& contains_header) {
+bool CSV::read_csv(const std::string &filename, const bool &contains_header) {
     std::ifstream file(filename);
     if (not file.is_open()) {
         cout << "Unable to open CSV file:" << filename << endl;
@@ -269,8 +264,7 @@ bool CSV::read_csv(const std::string &filename, const bool& contains_header) {
     }
 
     // Read in the CSV file as a string and parse it
-    std::string str((std::istreambuf_iterator<char>(file)),
-                    std::istreambuf_iterator<char>());
+    std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     return read_csv_from_string(str, contains_header);
 }
 
@@ -289,11 +283,10 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
     boost::split(tokens, str, boost::is_any_of(","));
     for (unsigned int i = 0; i < tokens.size(); i++) {
         // Remove whitespace
-        tokens[i].erase(
-            std::remove_if(tokens[i].begin(),
-                           tokens[i].end(),
-                           [](unsigned char x){return std::isspace(x);}),
-            tokens[i].end());
+        tokens[i].erase(std::remove_if(tokens[i].begin(),
+                                       tokens[i].end(),
+                                       [](unsigned char x) { return std::isspace(x); }),
+                        tokens[i].end());
 
         if (tokens[i] != "") {
             elems.push_back(tokens[i]);
@@ -302,29 +295,23 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string &str) {
     return elems;
 }
 
-void CSV::write_headers() {
-    file_out_ << headers_to_string() << endl;
-}
+void CSV::write_headers() { file_out_ << headers_to_string() << endl; }
 
-void CSV::write_row(const int& row) {
-    file_out_ << row_to_string(row) << endl;
-}
+void CSV::write_row(const int &row) { file_out_ << row_to_string(row) << endl; }
 
-bool CSV::equals(const CSV& other) {
-    if (not std::equal(column_headers_.begin(), column_headers_.end(),
+bool CSV::equals(const CSV &other) {
+    if (not std::equal(column_headers_.begin(),
+                       column_headers_.end(),
                        other.column_headers_.begin(),
                        other.column_headers_.end())) {
         return false;
     }
 
-
-    if (not std::equal(table_.begin(), table_.end(),
-                       other.table_.begin(),
-                       other.table_.end())) {
+    if (not std::equal(table_.begin(), table_.end(), other.table_.begin(), other.table_.end())) {
         return false;
     }
 
     return true;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

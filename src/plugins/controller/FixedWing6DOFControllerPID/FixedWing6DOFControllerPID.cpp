@@ -30,19 +30,21 @@
  *
  */
 
-#include <scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/Angles.h>
-#include <vector>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h>
+
 #include <iostream>
+#include <vector>
+
 #include <boost/algorithm/string.hpp>
 
 using std::cout;
 using std::endl;
 
 REGISTER_PLUGIN(scrimmage::Controller,
-        scrimmage::controller::FixedWing6DOFControllerPID,
-        FixedWing6DOFControllerPID_plugin)
+                scrimmage::controller::FixedWing6DOFControllerPID,
+                FixedWing6DOFControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -72,8 +74,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     }
 }
 
-void FixedWing6DOFControllerPID::init(
-        std::map<std::string, std::string> &params) {
+void FixedWing6DOFControllerPID::init(std::map<std::string, std::string> &params) {
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);

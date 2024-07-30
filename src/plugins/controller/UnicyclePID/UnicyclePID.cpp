@@ -30,17 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Time.h>
-
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <iostream>
 #include <limits>
@@ -50,22 +48,20 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UnicyclePID,
-                UnicyclePID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicyclePID, UnicyclePID_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-UnicyclePID::UnicyclePID() {
-}
+UnicyclePID::UnicyclePID() {}
 
 void UnicyclePID::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
 
     desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     // Is the motion model using speed or acceleration input control?
     std::string input_name = vars_.type_map().at(VariableIO::Type::speed);
@@ -100,7 +96,8 @@ bool UnicyclePID::step(double t, double dt) {
     vars_.output(turn_rate_idx_, heading_pid_.step(time_->dt(), state_->quat().yaw()));
 
     // Reconstruct original velocity vector (close, but not exact
-    double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
+    double x_vel =
+        vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
     Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_alt_idx_) - state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
@@ -108,11 +105,11 @@ bool UnicyclePID::step(double t, double dt) {
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), - state_->quat().pitch()));
+    vars_.output(pitch_rate_idx_, -pitch_pid_.step(time_->dt(), -state_->quat().pitch()));
 
     // Track zero roll
     roll_pid_.set_setpoint(0);
-    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), - state_->quat().roll()));
+    vars_.output(roll_rate_idx_, -roll_pid_.step(time_->dt(), -state_->quat().roll()));
 
     if (show_shapes_) {
         line_shape_->set_persistent(true);
@@ -134,5 +131,5 @@ bool UnicyclePID::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

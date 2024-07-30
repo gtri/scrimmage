@@ -30,17 +30,16 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h>
-
+#include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Shape.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h>
 
-#include <memory>
-#include <limits>
 #include <iostream>
+#include <limits>
+#include <memory>
 
 using std::cout;
 using std::endl;
@@ -54,12 +53,10 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 namespace scrimmage {
 namespace interaction {
 
-ROSShapeViz::ROSShapeViz() {
-}
+ROSShapeViz::ROSShapeViz() {}
 
 bool ROSShapeViz::init(std::map<std::string, std::string> &mission_params,
                        std::map<std::string, std::string> &plugin_params) {
-
     // initialize ros
     if (!ros::isInitialized()) {
         int argc = 0;
@@ -71,18 +68,15 @@ bool ROSShapeViz::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr& msg) {
-    if (msg->type == visualization_msgs::Marker::POINTS &&
-        msg->action == 0 /* ADD an object */) {
-
+void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr &msg) {
+    if (msg->type == visualization_msgs::Marker::POINTS && msg->action == 0 /* ADD an object */) {
         std::list<Eigen::Vector3d> points;
-        for (auto& p : msg->points) {
+        for (auto &p : msg->points) {
             points.push_back(Eigen::Vector3d(p.x, p.y, p.z));
         }
 
         std::list<Eigen::Vector3d> point_colors;
-        auto shape = shape::make_pointcloud(points, point_colors, 5,
-                                            Eigen::Vector3d(255, 0, 0));
+        auto shape = shape::make_pointcloud(points, point_colors, 5, Eigen::Vector3d(255, 0, 0));
 
         // Set the ID based on the message namespace and ID
         std::string hash_str = msg->ns + std::to_string(msg->id);
@@ -93,14 +87,9 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr& msg) {
         draw_shape(shape);
     } else if (msg->type == visualization_msgs::Marker::SPHERE &&
                msg->action == 0 /* ADD an object */) {
+        Eigen::Vector3d point(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
 
-        Eigen::Vector3d point(msg->pose.position.x,
-                              msg->pose.position.y,
-                              msg->pose.position.z);
-
-        auto shape = shape::make_sphere(point,
-                                        msg->scale.x,
-                                        Eigen::Vector3d(0, 0, 0));
+        auto shape = shape::make_sphere(point, msg->scale.x, Eigen::Vector3d(0, 0, 0));
         // Set the ID based on the message namespace and ID
         std::string hash_str = msg->ns + std::to_string(msg->id);
         std::size_t hash_id = std::hash<std::string>{}(hash_str);
@@ -111,10 +100,9 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr& msg) {
     }
 }
 
-bool ROSShapeViz::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                          double t, double dt) {
+bool ROSShapeViz::step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) {
     ros::spinOnce();
     return true;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

@@ -61,15 +61,17 @@ class SimpleCollisionScore {
     void increment_entity_count() { entity_count_++; }
 
     int entity_count() { return entity_count_; }
-    void set_entity_count(int entity_count) {entity_count_ = entity_count;}
-    void set_non_team_collisions(int non_team_collisions) {non_team_collisions_ = non_team_collisions;}
-    void set_team_collisions(int team_collisions) {team_collisions_ = team_collisions;}
-    void set_ground_collisions(int ground_collisions) {ground_collisions_ = ground_collisions;}
+    void set_entity_count(int entity_count) { entity_count_ = entity_count; }
+    void set_non_team_collisions(int non_team_collisions) {
+        non_team_collisions_ = non_team_collisions;
+    }
+    void set_team_collisions(int team_collisions) { team_collisions_ = team_collisions; }
+    void set_ground_collisions(int ground_collisions) { ground_collisions_ = ground_collisions; }
 
-    double flight_time() {return (flight_time_end_ - flight_time_start_);}
-    double flight_time_end() {return flight_time_end_;}
-    double flight_time_start() {return flight_time_start_;}
-    double flight_time_norm() {return (flight_time() / max_flight_time_);}
+    double flight_time() { return (flight_time_end_ - flight_time_start_); }
+    double flight_time_end() { return flight_time_end_; }
+    double flight_time_start() { return flight_time_start_; }
+    double flight_time_norm() { return (flight_time() / max_flight_time_); }
 
     double score();
 
@@ -88,6 +90,6 @@ class SimpleCollisionScore {
     double max_flight_time_ = 0;
     int entity_count_ = 0;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_

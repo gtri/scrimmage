@@ -30,12 +30,11 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/RLConsensusSensor/RLConsensusSensor.h>
-
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/RLConsensusSensor/RLConsensusSensor.h>
 
 #include <iostream>
 
@@ -53,7 +52,8 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLConsensusSensor, RLConse
 namespace scrimmage {
 namespace sensor {
 
-RLConsensusSensor::RLConsensusSensor() : ScrimmageOpenAISensor() {}
+RLConsensusSensor::RLConsensusSensor()
+    : ScrimmageOpenAISensor() {}
 
 void RLConsensusSensor::set_observation_space() {
     const int num_veh = parent_->contacts()->size();
@@ -65,15 +65,15 @@ void RLConsensusSensor::get_observation(double *data, uint32_t beg_idx, uint32_t
     auto c = parent_->contacts();
     if (c->size() != end_idx - beg_idx) {
         std::cout << "RLConsensusSensor::get_observation (end_idx - beg_idx) "
-            << "does not match number of vehicles" << std::endl;
+                  << "does not match number of vehicles" << std::endl;
         return;
     }
 
     auto ids_view = *c | ba::map_keys;
     std::set<int> ids(ids_view.begin(), ids_view.end());
 
-    auto get_x = [&](int id) {return c->at(id).state()->pos()(0);};
+    auto get_x = [&](int id) { return c->at(id).state()->pos()(0); };
     br::copy(ids | ba::transformed(get_x), data);
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/fwd_decl.h>
 
 #include <list>
 #include <map>
@@ -90,5 +90,5 @@ class Autonomy : public EntityPlugin {
 
     bool is_controlling_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_

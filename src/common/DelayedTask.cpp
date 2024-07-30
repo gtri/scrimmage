@@ -36,24 +36,23 @@
 
 namespace scrimmage {
 
-DelayedTask::DelayedTask() : DelayedTask(0, -1) {}
+DelayedTask::DelayedTask()
+    : DelayedTask(0, -1) {}
 
-DelayedTask::DelayedTask(double _delay, int repeats) :
-        disable(false),
-        delay(_delay),
-        last_updated_time(-std::numeric_limits<double>::infinity()),
-        end_time(std::numeric_limits<double>::infinity()),
-        eps(0.0),
-        condition(nullptr),
-        task(nullptr),
-        repeat_infinitely_(true),
-        repeats_left_(-1) {
+DelayedTask::DelayedTask(double _delay, int repeats)
+    : disable(false),
+      delay(_delay),
+      last_updated_time(-std::numeric_limits<double>::infinity()),
+      end_time(std::numeric_limits<double>::infinity()),
+      eps(0.0),
+      condition(nullptr),
+      task(nullptr),
+      repeat_infinitely_(true),
+      repeats_left_(-1) {
     set_repeats(repeats);
 }
 
-void DelayedTask::set_delay_from_freq(double freq) {
-    delay = freq > 0 ? 1 / freq : 0;
-}
+void DelayedTask::set_delay_from_freq(double freq) { delay = freq > 0 ? 1 / freq : 0; }
 
 std::pair<bool, bool> DelayedTask::update(double t) {
     bool updated = false, task_success = true;
@@ -74,9 +73,7 @@ std::pair<bool, bool> DelayedTask::update(double t) {
     return std::make_pair(updated, task_success);
 }
 
-bool DelayedTask::done() const {
-    return !repeat_infinitely_ && repeats_left_ < 0;
-}
+bool DelayedTask::done() const { return !repeat_infinitely_ && repeats_left_ < 0; }
 
 void DelayedTask::set_repeats(int repeats_left) {
     repeats_left_ = repeats_left;
@@ -88,4 +85,4 @@ void DelayedTask::set_repeat_infinitely(bool repeat_infinitely) {
     repeats_left_ = -1;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

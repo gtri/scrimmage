@@ -30,14 +30,13 @@
  *
  */
 
-#include <scrimmage/plugins/controller/DirectController/DirectController.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/DirectController/DirectController.h>
 
 #include <iostream>
 #include <limits>
@@ -71,5 +70,5 @@ bool DirectController::step(double t, double dt) {
     }
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

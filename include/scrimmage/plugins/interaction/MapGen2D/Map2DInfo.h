@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAP2DINFO_H_
 
 #include <Eigen/Dense>
+
 #include <opencv2/core/core.hpp>
 
 namespace scrimmage {
@@ -45,6 +46,6 @@ class Map2DInfo {
     double resolution;
     Eigen::Vector3d origin;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAP2DINFO_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAP2DINFO_H_

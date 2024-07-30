@@ -33,9 +33,9 @@
 #define INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
 
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/log/Print.h>
@@ -43,25 +43,24 @@
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <algorithm>
 #include <functional>
+#include <iostream>
 #include <list>
 #include <map>
+#include <memory>
+#include <mutex>  // NOLINT
+#include <queue>
 #include <set>
 #include <string>
-#include <mutex> // NOLINT
-#include <queue>
 #include <unordered_map>
-#include <memory>
 
-#include <iostream>
-
-#include <boost/type_index.hpp>
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
+#include <boost/type_index.hpp>
 
 namespace scrimmage {
 
@@ -76,35 +75,37 @@ using GlobalServicePtr = std::shared_ptr<GlobalService>;
 // c++17 version as the cutoff since c++20 features begin appearing after that
 // but before a finalized c++20 version number has been designated. E.g. gcc9,
 // if compiling with c++20, has a __cplusplus value of 201709L.
-#if __cplusplus <= 201703L // pre-c++20
-    #define __copy_capture_with_this =
-#else // c++20 and beyond
-    #define __copy_capture_with_this =, this
+#if __cplusplus <= 201703L  // pre-c++20
+#define __copy_capture_with_this =
+#else  // c++20 and beyond
+#define __copy_capture_with_this =, this
 #endif
 
 class External {
  public:
     External();
     EntityPtr &entity();
-    bool create_entity(const std::string &mission_file,
-                       const std::string &entity_tag,
-                       const std::string &plugin_tags_str,
-                       int entity_id,
-                       int max_entities,
-                       double init_time,
-                       double init_dt,
-                       const std::string &log_dir,
-                       std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>&){},
-                       const std::string& mission_file_overrides = "",
-                       const int& debug_level = 0);
+    bool create_entity(
+        const std::string &mission_file,
+        const std::string &entity_tag,
+        const std::string &plugin_tags_str,
+        int entity_id,
+        int max_entities,
+        double init_time,
+        double init_dt,
+        const std::string &log_dir,
+        std::function<void(std::map<std::string, std::string> &)> param_override_func =
+            [](std::map<std::string, std::string> &) {},
+        const std::string &mission_file_overrides = "",
+        const int &debug_level = 0);
     void close();
     bool create_interactions();
 
     double motion_dt_ = 1;
 
-    std::size_t& shape_queue_max_size() { return shape_queue_max_size_; }
+    std::size_t &shape_queue_max_size() { return shape_queue_max_size_; }
     using ShapeQueue = std::queue<scrimmage_proto::ShapePtr>;
-    ShapeQueue& shape_queue() { return shape_queue_; }
+    ShapeQueue &shape_queue() { return shape_queue_; }
 
     VariableIO vars;
     std::mutex mutex;
@@ -148,17 +149,16 @@ class External {
 
  public:
     bool step(double t);
-    PubSubPtr pubsub() {
-        return pubsub_;
-    }
+    PubSubPtr pubsub() { return pubsub_; }
 
 #ifdef ROSCPP_ROS_H
 
  public:
     template <class ScType, class Sc2Ros, class CallbackFunc>
-    void pub_cb(std::string network_name, std::string topic_name,
-                Sc2Ros sc2ros, CallbackFunc func) {
-
+    void pub_cb(std::string network_name,
+                std::string topic_name,
+                Sc2Ros sc2ros,
+                CallbackFunc func) {
         boost::optional<std::list<NetworkDevicePtr>> pubs =
             pubsub_->find_pubs(network_name, topic_name);
 
@@ -183,20 +183,19 @@ class External {
     }
 
     template <class ScType, class Sc2Ros>
-    void pub_cb(std::string network_name, std::string topic_name,
-                Sc2Ros sc2ros, ros::Publisher ros_pub) {
-
+    void pub_cb(std::string network_name,
+                std::string topic_name,
+                Sc2Ros sc2ros,
+                ros::Publisher ros_pub) {
         auto ros_pub_ptr = std::make_shared<ros::Publisher>(ros_pub);
-        auto callback = [=](auto foo) {
-            ros_pub_ptr->publish(foo);
-        };
+        auto callback = [=](auto foo) { ros_pub_ptr->publish(foo); };
         pub_cb<ScType, Sc2Ros>(network_name, topic_name, sc2ros, callback);
     }
 
     template <class RosType, class Ros2Sc>
-    boost::function<void(const boost::shared_ptr<RosType const>&)>
-    sub_cb(std::string network_name, std::string topic_name, Ros2Sc ros2sc) {
-
+    boost::function<void(const boost::shared_ptr<RosType const> &)> sub_cb(std::string network_name,
+                                                                           std::string topic_name,
+                                                                           Ros2Sc ros2sc) {
         boost::optional<std::list<NetworkDevicePtr>> subs =
             pubsub_->find_subs(network_name, topic_name);
 
@@ -211,7 +210,6 @@ class External {
             call_update_contacts(time_->t());
             mutex.lock();
 
-
             auto sc_msg = std::make_shared<Message<ScType>>(ros2sc(*ros_msg));
 
             for (auto sub : *curr_subs) {
@@ -219,7 +217,8 @@ class External {
                 if (sub_cast) {
                     sub_cast->accept(sc_msg);
                 } else {
-                    std::cout << "Error: could not cast to Subscriber base in callback" << std::endl;
+                    std::cout << "Error: could not cast to Subscriber base in callback"
+                              << std::endl;
                 }
             }
             send_messages();
@@ -227,29 +226,30 @@ class External {
         };
     }
 
-    template <class RosType, class ScrimmageResponseType,
-              class Sc2RosResFunc>
-    boost::function<bool(typename RosType::Request &, typename RosType::Response &)>
-    srv_cb(const std::string &service_name,
-           scrimmage::Service sc_service_func,
-           Sc2RosResFunc sc2ros_response_func) {
-        auto ros2sc_req_func = [&](typename RosType::Request &/*ros_req*/) {return 0;};
+    template <class RosType, class ScrimmageResponseType, class Sc2RosResFunc>
+    boost::function<bool(typename RosType::Request &, typename RosType::Response &)> srv_cb(
+        const std::string &service_name,
+        scrimmage::Service sc_service_func,
+        Sc2RosResFunc sc2ros_response_func) {
+        auto ros2sc_req_func = [&](typename RosType::Request & /*ros_req*/) { return 0; };
         return srv_cb<RosType, ScrimmageResponseType>(
             service_name, sc_service_func, ros2sc_req_func, sc2ros_response_func);
     }
 
-    template <class RosType, class ScrimmageResponseType,
-              class Ros2ScRequestFunc, class Sc2RosResFunc>
-    boost::function<bool(typename RosType::Request &, typename RosType::Response &)>
-    srv_cb(const std::string &service_name,
-           scrimmage::Service sc_service_func,
-           Ros2ScRequestFunc ros2sc_request_func,
-           Sc2RosResFunc sc2ros_response_func) {
-
-        return [__copy_capture_with_this](typename RosType::Request &ros_req, typename RosType::Response &ros_res) {
+    template <class RosType,
+              class ScrimmageResponseType,
+              class Ros2ScRequestFunc,
+              class Sc2RosResFunc>
+    boost::function<bool(typename RosType::Request &, typename RosType::Response &)> srv_cb(
+        const std::string &service_name,
+        scrimmage::Service sc_service_func,
+        Ros2ScRequestFunc ros2sc_request_func,
+        Sc2RosResFunc sc2ros_response_func) {
+        return [__copy_capture_with_this](typename RosType::Request &ros_req,
+                                          typename RosType::Response &ros_res) {
             auto err_msg = [&](const std::string &preface) {
-                std::cout << preface << " in advertised_service \""
-                    << service_name << "\"" << std::endl;
+                std::cout << preface << " in advertised_service \"" << service_name << "\""
+                          << std::endl;
             };
 
             call_update_contacts(time_->t());
@@ -267,9 +267,8 @@ class External {
             if (!sc_res) {
                 std::stringstream ss;
                 ss << "could not cast to scrimmage::MessagePtr<ScrimmageResponseType> "
-                    << "(aka, scrimmage::MessagePtr<"
-                    << boost::typeindex::type_id<ScrimmageResponseType>().pretty_name()
-                    << ">)";
+                   << "(aka, scrimmage::MessagePtr<"
+                   << boost::typeindex::type_id<ScrimmageResponseType>().pretty_name() << ">)";
                 err_msg(ss.str());
                 return false;
             }
@@ -281,73 +280,69 @@ class External {
 
     template <class RosType, class Ros2ScResFunc>
     void add_srv_client(ros::NodeHandle &nh,
-        const std::string &sc_topic,
-        Ros2ScResFunc ros2sc_response_func,
-        const std::string &ros_topic = "") {
-
-        auto nop = [&](auto msg){};
-        add_srv_client<RosType, void>(
-            nh, sc_topic, nop, ros2sc_response_func, ros_topic);
+                        const std::string &sc_topic,
+                        Ros2ScResFunc ros2sc_response_func,
+                        const std::string &ros_topic = "") {
+        auto nop = [&](auto msg) {};
+        add_srv_client<RosType, void>(nh, sc_topic, nop, ros2sc_response_func, ros_topic);
     }
 
     template <class RosType, class ScReqType, class Sc2RosReqFunc, class Ros2ScResFunc>
     void add_srv_client(ros::NodeHandle &nh,
-        const std::string &sc_topic,
-        Sc2RosReqFunc sc2ros_request_func,
-        Ros2ScResFunc ros2sc_response_func,
-        const std::string &ros_topic = "") {
-
+                        const std::string &sc_topic,
+                        Sc2RosReqFunc sc2ros_request_func,
+                        Ros2ScResFunc ros2sc_response_func,
+                        const std::string &ros_topic = "") {
         std::string topic = ros_topic == "" ? sc_topic : ros_topic;
         auto service_client =
             std::make_shared<ros::ServiceClient>(nh.serviceClient<RosType>(topic));
 
-        auto call_service =
-            [__copy_capture_with_this](scrimmage::MessageBasePtr sc_req, scrimmage::MessageBasePtr &sc_res) {
-                std::string suffix =
-                    std::string("(sc_topic = ") + sc_topic + ", ros_topic = " + topic + ")";
+        auto call_service = [__copy_capture_with_this](scrimmage::MessageBasePtr sc_req,
+                                                       scrimmage::MessageBasePtr &sc_res) {
+            std::string suffix =
+                std::string("(sc_topic = ") + sc_topic + ", ros_topic = " + topic + ")";
 
-                RosType srv;
-                create_ros_req<ScReqType, Sc2RosReqFunc, RosType>(
-                    sc_req, sc2ros_request_func, suffix, srv);
+            RosType srv;
+            create_ros_req<ScReqType, Sc2RosReqFunc, RosType>(
+                sc_req, sc2ros_request_func, suffix, srv);
 
-                if (!service_client->call(srv)) {
-                    std::cout << "service call failed " << suffix << std::endl;
-                    return false;
-                }
+            if (!service_client->call(srv)) {
+                std::cout << "service call failed " << suffix << std::endl;
+                return false;
+            }
 
-                using ScResType = decltype(ros2sc_response_func(srv.response));
-                auto sc_res_cast = std::make_shared<Message<ScResType>>(ros2sc_response_func(srv.response));
-                sc_res = std::dynamic_pointer_cast<MessageBase>(sc_res_cast);
-                return true;
-            };
+            using ScResType = decltype(ros2sc_response_func(srv.response));
+            auto sc_res_cast =
+                std::make_shared<Message<ScResType>>(ros2sc_response_func(srv.response));
+            sc_res = std::dynamic_pointer_cast<MessageBase>(sc_res_cast);
+            return true;
+        };
 
         entity_->services()[sc_topic] = call_service;
     }
 
  protected:
-    template <class ScReqType,
-              class Sc2RosReqFunc,
-              class RosType>
+    template <class ScReqType, class Sc2RosReqFunc, class RosType>
     void
     // cppcheck-suppress passedByValue
-    create_ros_req(typename std::enable_if_t<std::is_void<ScReqType>::value, MessageBasePtr> /*sc_req*/,
-                   Sc2RosReqFunc /*sc2ros_req_func*/,
-                   const std::string &/*err_msg*/, RosType &/*srv*/) {}
+    create_ros_req(
+        typename std::enable_if_t<std::is_void<ScReqType>::value, MessageBasePtr> /*sc_req*/,
+        Sc2RosReqFunc /*sc2ros_req_func*/,
+        const std::string & /*err_msg*/,
+        RosType & /*srv*/) {}
 
-    template <class ScReqType,
-              class Sc2RosReqFunc,
-              class RosType>
-    void
-    create_ros_req(typename std::enable_if_t<!std::is_void<ScReqType>::value, MessageBasePtr> sc_req,
-                   Sc2RosReqFunc sc2ros_req_func,
-                   const std::string &err_msg, RosType &srv) {
-        auto sc_req_cast =
-            std::dynamic_pointer_cast<Message<ScReqType>>(sc_req);
+    template <class ScReqType, class Sc2RosReqFunc, class RosType>
+    void create_ros_req(
+        typename std::enable_if_t<!std::is_void<ScReqType>::value, MessageBasePtr> sc_req,
+        Sc2RosReqFunc sc2ros_req_func,
+        const std::string &err_msg,
+        RosType &srv) {
+        auto sc_req_cast = std::dynamic_pointer_cast<Message<ScReqType>>(sc_req);
         if (!sc_req_cast) {
             std::cout << "could not cast scrimmage::MessageBase request "
-                << " to scrimmage::MessagePtr<"
-                << boost::typeindex::type_id<ScReqType>().pretty_name()
-                << "> " << err_msg << std::endl;
+                      << " to scrimmage::MessagePtr<"
+                      << boost::typeindex::type_id<ScReqType>().pretty_name() << "> " << err_msg
+                      << std::endl;
         }
         srv.request = sc2ros_req_func(sc_req_cast->data);
     }
@@ -355,14 +350,14 @@ class External {
 #endif
 
  protected:
-    bool call_update_contacts(double t); // false on error
+    bool call_update_contacts(double t);  // false on error
     void update_time(double t);
 
     std::list<InterfacePtr> outgoing_interfaces_;
 };
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
 #undef __copy_capture_with_this
 
-#endif // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_EXTERNAL_H_

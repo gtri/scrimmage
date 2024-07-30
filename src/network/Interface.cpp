@@ -31,9 +31,10 @@
  */
 
 #if ENABLE_GRPC
-#include <grpc++/grpc++.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
 #include <scrimmage/network/ScrimmageServiceImpl.h>
+#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+
+#include <grpc++/grpc++.h>
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
@@ -41,12 +42,12 @@ using grpc::Status;
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/network/Interface.h>
 
 #include <iostream>
-#include <thread> // NOLINT
+#include <thread>  // NOLINT
 
 using std::cout;
 using std::endl;
@@ -54,9 +55,7 @@ using std::endl;
 namespace scrimmage {
 
 #if ENABLE_GRPC == 1
-void Interface::start_server() {
-    server_->Wait();
-}
+void Interface::start_server() { server_->Wait(); }
 #endif
 
 bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int port) {
@@ -88,9 +87,9 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
 #if ENABLE_GRPC
         std::string result = ip_ + ":" + std::to_string(port_);
         std::shared_ptr<Channel> channel(
-            grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
-        );
-        std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(scrimmage_proto::ScrimmageService::NewStub(channel));
+            grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+        std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(
+            scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
         cout << "Client connecting to " << result << endl;
 #else
@@ -113,9 +112,9 @@ bool Interface::check_ready() {
     // the non-connection
     std::string result = ip_ + ":" + std::to_string(port_);
     std::shared_ptr<Channel> channel(
-        grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
-    );
-    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(scrimmage_proto::ScrimmageService::NewStub(channel));
+        grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(
+        scrimmage_proto::ScrimmageService::NewStub(channel));
 
     google::protobuf::Empty req;
     scrimmage_proto::BlankReply reply;
@@ -159,10 +158,8 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::send_frame(double time,
-                           std::shared_ptr<ContactMap> &contacts) {
-    std::shared_ptr<scrimmage_proto::Frame> frame =
-        create_frame(time, contacts);
+bool Interface::send_frame(double time, std::shared_ptr<ContactMap> &contacts) {
+    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(time, contacts);
 
     return send_frame(frame);
 }
@@ -306,7 +303,6 @@ bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked 
     }
     return true;
 }
-
 
 bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
     if (mode_ == shared) {
@@ -499,4 +495,4 @@ bool Interface::shapes_update() {
     return status;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

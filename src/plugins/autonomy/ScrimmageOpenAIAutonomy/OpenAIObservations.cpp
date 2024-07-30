@@ -30,16 +30,16 @@
  *
  */
 
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
-
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
 #include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 
-#include <boost/range/algorithm/transform.hpp>
+#include <pybind11/numpy.h>
+#include <pybind11/pybind11.h>
+
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/adaptor/map.hpp>
+#include <boost/range/algorithm/transform.hpp>
 
 namespace py = pybind11;
 namespace br = boost::range;
@@ -51,13 +51,12 @@ using std::endl;
 namespace scrimmage {
 namespace autonomy {
 
-OpenAIObservations::OpenAIObservations() :
-    tuple_space_(get_gym_space("Tuple")),
-    box_space_(get_gym_space("Box")) {}
+OpenAIObservations::OpenAIObservations()
+    : tuple_space_(get_gym_space("Tuple")),
+      box_space_(get_gym_space("Box")) {}
 
 pybind11::object OpenAIObservations::update_observation(size_t num_entities,
                                                         bool static_obs_space) {
-
     auto call_get_obs = [&](auto *data, uint32_t &beg_idx, auto sensor, int obs_size) {
         if (sensor->parent() == nullptr) {
             return;
@@ -91,8 +90,8 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
         std::tie(disc_obs, cont_obs) = init_arrays(observation_space, observation);
         uint32_t disc_beg_idx = 0;
         uint32_t cont_beg_idx = 0;
-        int* r_disc = static_cast<int *>(disc_obs.request().ptr);
-        double* r_cont = static_cast<double *>(cont_obs.request().ptr);
+        int *r_disc = static_cast<int *>(disc_obs.request().ptr);
+        double *r_cont = static_cast<double *>(cont_obs.request().ptr);
 
         bool done = false;
         for (auto &v : ext_sensor_vec_) {
@@ -110,8 +109,7 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
         }
 
     } else {
-        py::list observation_space_list =
-                observation_space.attr("spaces").cast<py::list>();
+        py::list observation_space_list = observation_space.attr("spaces").cast<py::list>();
         py::list observation_list = observation.cast<py::list>();
 
         // Number of entities has shrunk
@@ -128,8 +126,8 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
             std::tie(disc_obs, cont_obs) = init_arrays(indiv_space, indiv_obs);
             uint32_t disc_beg_idx = 0;
             uint32_t cont_beg_idx = 0;
-            int* r_disc = static_cast<int *>(disc_obs.request().ptr);
-            double* r_cont = static_cast<double *>(cont_obs.request().ptr);
+            int *r_disc = static_cast<int *>(disc_obs.request().ptr);
+            double *r_cont = static_cast<double *>(cont_obs.request().ptr);
 
             for (auto &s : ext_sensor_vec_[i]) {
                 auto obs_space = s->observation_space;
@@ -141,11 +139,8 @@ pybind11::object OpenAIObservations::update_observation(size_t num_entities,
     return observation;
 }
 
-void OpenAIObservations::create_observation_space(size_t num_entities,
-                                                  bool static_obs_space) {
-    auto create_obs = [&](py::list &discrete_count,
-                          py::list &continuous_maxima) -> py::object {
-
+void OpenAIObservations::create_observation_space(size_t num_entities, bool static_obs_space) {
+    auto create_obs = [&](py::list &discrete_count, py::list &continuous_maxima) -> py::object {
         int len_discrete = py::len(discrete_count);
         int len_continuous = py::len(continuous_maxima);
 
@@ -178,7 +173,8 @@ void OpenAIObservations::create_observation_space(size_t num_entities,
             for (auto &s : v) {
                 s->set_observation_space();
                 to_discrete(s->observation_space.discrete_count, discrete_count);
-                to_continuous(s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
+                to_continuous(
+                    s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
 
                 if (num_entities > 1 && global_sensor_) {
                     done = true;
@@ -187,8 +183,7 @@ void OpenAIObservations::create_observation_space(size_t num_entities,
             }
         }
 
-        observation_space =
-            create_space(discrete_count, continuous_minima, continuous_maxima);
+        observation_space = create_space(discrete_count, continuous_minima, continuous_maxima);
 
         observation = create_obs(discrete_count, continuous_maxima);
 
@@ -204,10 +199,10 @@ void OpenAIObservations::create_observation_space(size_t num_entities,
 
                 s->set_observation_space();
                 to_discrete(s->observation_space.discrete_count, discrete_count);
-                to_continuous(s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
+                to_continuous(
+                    s->observation_space.continuous_extrema, continuous_minima, continuous_maxima);
 
-                auto space = create_space(discrete_count, continuous_minima,
-                                          continuous_maxima);
+                auto space = create_space(discrete_count, continuous_minima, continuous_maxima);
                 observation_spaces.append(space);
                 obs.append(create_obs(discrete_count, continuous_maxima));
             }
@@ -217,17 +212,18 @@ void OpenAIObservations::create_observation_space(size_t num_entities,
         observation_space = tuple_space(observation_spaces);
         observation = obs;
 
-        py::list observation_space_list =
-                observation_space.attr("spaces").cast<py::list>();
+        py::list observation_space_list = observation_space.attr("spaces").cast<py::list>();
     }
 }
 
 void OpenAIObservations::add_sensors(const std::unordered_map<std::string, SensorPtr> &sensors) {
     std::vector<std::shared_ptr<sensor::ScrimmageOpenAISensor>> vec;
-    auto cast = [&](auto &p) {return std::dynamic_pointer_cast<sensor::ScrimmageOpenAISensor>(p);};
-    auto good_ptr = [&](auto &p) {return cast(p) != nullptr;};
+    auto cast = [&](auto &p) {
+        return std::dynamic_pointer_cast<sensor::ScrimmageOpenAISensor>(p);
+    };
+    auto good_ptr = [&](auto &p) { return cast(p) != nullptr; };
     br::transform(sensors | ba::map_values | ba::filtered(good_ptr), std::back_inserter(vec), cast);
     ext_sensor_vec_.push_back(vec);
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

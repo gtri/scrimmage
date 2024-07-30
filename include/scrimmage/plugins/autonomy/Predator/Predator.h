@@ -60,6 +60,6 @@ class Predator : public scrimmage::Autonomy {
     int desired_heading_idx_ = 0;
     int desired_speed_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PREDATOR_PREDATOR_H_

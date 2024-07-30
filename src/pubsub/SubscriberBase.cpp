@@ -34,19 +34,17 @@
 #include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/pubsub/SubscriberBase.h>
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 namespace scrimmage {
 
 void SubscriberBase::print_err(const std::string &type, MessageBasePtr msg) const {
     std::cout << "WARNING: could not cast on topic " << std::quoted(topic_) << std::endl;
-    std::cout << "  subscriber: type (" << type
-        << "), plugin (" << plugin_->name()
-        << "), id (" << plugin_->parent()->id().id() << ")"
-        << std::endl;
+    std::cout << "  subscriber: type (" << type << "), plugin (" << plugin_->name() << "), id ("
+              << plugin_->parent()->id().id() << ")" << std::endl;
     if (msg->debug_info != "") {
         std::cout << msg->debug_info << std::endl;
     }
 }
-} // namespace scrimmage
+}  // namespace scrimmage

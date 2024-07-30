@@ -32,16 +32,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/math/Angles.h>
 #include <scrimmage/common/CSV.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/sensor/Sensor.h>
 
-#include <random>
 #include <list>
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/mat.hpp>
@@ -49,12 +49,11 @@
 // Eigen libraries
 #include "Eigen/Core"
 #include "Eigen/Geometry"
-
 #include "common/common_utils/StrictMode.hpp"
 STRICT_MODE_OFF
 #ifndef RPCLIB_MSGPACK
 #define RPCLIB_MSGPACK clmdep_msgpack
-#endif // !RPCLIB_MSGPACK
+#endif  // !RPCLIB_MSGPACK
 STRICT_MODE_ON
 
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
@@ -67,28 +66,27 @@ namespace scrimmage {
 namespace sensor {
 class CameraConfig {
  public:
-        msr::airlib::ImageCaptureBase::ImageType img_type =
-            msr::airlib::ImageCaptureBase::ImageType::Scene;
+    msr::airlib::ImageCaptureBase::ImageType img_type =
+        msr::airlib::ImageCaptureBase::ImageType::Scene;
 
-        std::string vehicle_name = "none";
-        std::string cam_name = "none";
-        std::string img_type_name = "none";
-        int img_type_number = 0;
-        int height = 144; // 288
-        int width = 256;  // 512
-        int fov = 60;
-        bool pixels_as_float = false;
+    std::string vehicle_name = "none";
+    std::string cam_name = "none";
+    std::string img_type_name = "none";
+    int img_type_number = 0;
+    int height = 144;  // 288
+    int width = 256;   // 512
+    int fov = 60;
+    bool pixels_as_float = false;
 
-        friend std::ostream& operator<<(std::ostream& os,
-                                        const CameraConfig& c) {
-            os << "Camera_Name=" << c.cam_name;
-            os << ", Image_Type_Num=" << c.img_type_number;
-            os << ", Image_Type_Name=" << c.img_type_name;
-            os << ", Height=" << c.height;
-            os << ", Width=" << c.width;
-            os << ", FOV=" << c.fov;
-            return os;
-        }
+    friend std::ostream& operator<<(std::ostream& os, const CameraConfig& c) {
+        os << "Camera_Name=" << c.cam_name;
+        os << ", Image_Type_Num=" << c.img_type_number;
+        os << ", Image_Type_Name=" << c.img_type_name;
+        os << ", Height=" << c.height;
+        os << ", Width=" << c.width;
+        os << ", FOV=" << c.fov;
+        return os;
+    }
 };
 
 class AirSimImageType {
@@ -100,9 +98,7 @@ class AirSimImageType {
     Eigen::Isometry3f camera_pose_world_NED;
     ~AirSimImageType();
 };
-AirSimImageType::~AirSimImageType(void) {
-    this->img.release();
-}
+AirSimImageType::~AirSimImageType(void) { this->img.release(); }
 
 class AirSimLidarType {
  public:
@@ -126,18 +122,20 @@ class AirSimImuType {
 class AirSimSensor : public scrimmage::Sensor {
  public:
     AirSimSensor();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
     void close(double t) override;
 
  protected:
     std::string vehicle_name_ = "none";
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state, int frame_num);
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg,
+                   StatePtr& state,
+                   int frame_num);
     scrimmage::CSV csv;
     int airsim_frame_num_ = 0;
 
     // Images
-    void parse_camera_configs(std::map<std::string, std::string> &params);
+    void parse_camera_configs(std::map<std::string, std::string>& params);
     std::list<CameraConfig> cam_configs_;
     std::thread request_images_thread_;
     void request_images();
@@ -149,7 +147,7 @@ class AirSimSensor : public scrimmage::Sensor {
     std::mutex new_image_mutex_;
 
     // LIDAR
-    void parse_lidar_configs(std::map<std::string, std::string> &params);
+    void parse_lidar_configs(std::map<std::string, std::string>& params);
     std::vector<std::string> lidar_names_;
     std::thread request_lidar_thread_;
     void request_lidar();
@@ -161,7 +159,7 @@ class AirSimSensor : public scrimmage::Sensor {
     std::mutex new_lidar_mutex_;
 
     // IMU
-    void parse_imu_configs(std::map<std::string, std::string> &params);
+    void parse_imu_configs(std::map<std::string, std::string>& params);
     std::vector<std::string> imu_names_;
     std::thread request_imu_thread_;
     void request_imu();
@@ -197,6 +195,6 @@ class AirSimSensor : public scrimmage::Sensor {
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_

@@ -30,25 +30,25 @@
  *
  */
 
-#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/common/FileSearch.h>
+#include <scrimmage/parse/MissionParse.h>
 
-#include <iostream>
-#include <string>
-#include <iomanip>
-#include <chrono> // NOLINT
+#include <chrono>  // NOLINT
+#include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
-#include <cstdlib>
+#include <string>
 
-#include <boost/filesystem.hpp>
-#include <boost/tokenizer.hpp>
-#include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
 
 namespace fs = boost::filesystem;
 namespace sc = scrimmage;
@@ -57,12 +57,10 @@ using std::cout;
 using std::endl;
 
 void usage(char *argv[]) {
-    cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs"
-         << endl << endl;
+    cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl;
 }
 
 int main(int argc, char *argv[]) {
-
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
@@ -131,7 +129,7 @@ int main(int argc, char *argv[]) {
         std::ifstream csv_file(filename);
 
         std::string line;
-        std::getline(csv_file, line); // skip header comment
+        std::getline(csv_file, line);  // skip header comment
 
         std::map<int, double> team_scores;
         while (std::getline(csv_file, line)) {
@@ -148,7 +146,7 @@ int main(int argc, char *argv[]) {
         double max_score = -std::numeric_limits<double>::infinity();
         std::vector<int> winning_team;
         for (auto &kv : team_scores) {
-            if (std::abs(kv.second-max_score) < 0.000001) {
+            if (std::abs(kv.second - max_score) < 0.000001) {
                 // A possible draw
                 winning_team.push_back(kv.first);
             } else if (kv.second > max_score) {

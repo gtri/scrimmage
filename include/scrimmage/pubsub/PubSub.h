@@ -35,13 +35,14 @@
 
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace boost {
-template <class T> class optional;
+template <class T>
+class optional;
 }
 
 namespace scrimmage {
@@ -81,22 +82,24 @@ class PubSub {
                                 const std::string &topic,
                                 CallbackFunc callback,
                                 unsigned int max_queue_size,
-                                bool enable_queue_size, EntityPluginPtr plugin) {
+                                bool enable_queue_size,
+                                EntityPluginPtr plugin) {
         if (sub_map_.count(network_name) == 0) {
-            print_str(std::string("WARNING: Subscriber unable to connect to network (")
-                + network_name + ") on topic (" + topic + ")");
+            print_str(std::string("WARNING: Subscriber unable to connect to network (") +
+                      network_name + ") on topic (" + topic + ")");
         }
 
-        SubscriberBasePtr sub =
-            std::make_shared<Subscriber<T, CallbackFunc>>(
-                topic, max_queue_size, enable_queue_size, plugin, callback);
+        SubscriberBasePtr sub = std::make_shared<Subscriber<T, CallbackFunc>>(
+            topic, max_queue_size, enable_queue_size, plugin, callback);
         sub_map_[network_name][topic].push_back(sub);
         return sub;
     }
 
-    PublisherPtr advertise(const std::string &network_name, const std::string &topic,
-                           const unsigned int& max_queue_size,
-                           const bool& enable_queue_size, EntityPluginPtr plugin);
+    PublisherPtr advertise(const std::string &network_name,
+                           const std::string &topic,
+                           const unsigned int &max_queue_size,
+                           const bool &enable_queue_size,
+                           EntityPluginPtr plugin);
 
  protected:
     TopicMap pub_map_;
@@ -104,6 +107,6 @@ class PubSub {
     void print_str(const std::string &s);
 };
 using PubSubPtr = std::shared_ptr<PubSub>;
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_PUBSUB_H_
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_PUBSUB_H_

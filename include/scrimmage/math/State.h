@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_MATH_STATE_H_
 #define INCLUDE_SCRIMMAGE_MATH_STATE_H_
 
-#include <Eigen/Dense>
-
 #include <scrimmage/math/Quaternion.h>
 
-#include <memory>
+#include <Eigen/Dense>
+
 #include <iosfwd>
+#include <memory>
 #include <typeinfo>
 
 namespace scrimmage {
@@ -46,8 +46,7 @@ namespace scrimmage {
 class State {
  public:
     State();
-    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
-          Eigen::Vector3d _ang_vel, Quaternion _quat);
+    State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Eigen::Vector3d _ang_vel, Quaternion _quat);
 
     virtual ~State();
 
@@ -94,16 +93,15 @@ class State {
     Eigen::Matrix4d tf_matrix(bool enable_translate = true);
 
     uint8_t output_precision = 2;
-    friend std::ostream& operator<<(std::ostream& os, const State& s);
+    friend std::ostream &operator<<(std::ostream &os, const State &s);
 
     /*! \brief Downcast a scrimmage::State to a subclassed type, returing nullptr if not successful
      */
     template <class T,
-              class = std::enable_if_t<
-                !std::is_same<T, scrimmage::State>::value &&
-                std::is_base_of<scrimmage::State, T>::value, void>>
+              class = std::enable_if_t<!std::is_same<T, scrimmage::State>::value &&
+                                           std::is_base_of<scrimmage::State, T>::value,
+                                       void>>
     static std::shared_ptr<T> cast(std::shared_ptr<scrimmage::State> state) {
-
         std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(state);
         try {
             if (typeid(*result).name()) {
@@ -129,6 +127,6 @@ class State {
 
 using StatePtr = std::shared_ptr<State>;
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_MATH_STATE_H_

@@ -33,17 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_FLAGCAPTUREINTERACTION_FLAGCAPTUREINTERACTION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_FLAGCAPTUREINTERACTION_FLAGCAPTUREINTERACTION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/ID.h>
-
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
@@ -56,8 +55,7 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
     FlagCaptureInteraction();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
  protected:
     int flag_boundary_id_ = 0;
@@ -78,6 +76,6 @@ class FlagCaptureInteraction : public scrimmage::EntityInteraction {
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_FLAGCAPTUREINTERACTION_FLAGCAPTUREINTERACTION_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_FLAGCAPTUREINTERACTION_FLAGCAPTUREINTERACTION_H_

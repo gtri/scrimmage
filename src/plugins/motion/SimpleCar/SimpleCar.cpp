@@ -45,20 +45,9 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleCar, SimpleCar_
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    Z_dot,
-    THETA,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, Z_dot, THETA, MODEL_NUM_ITEMS };
 
-enum ControlParams {
-    FORWARD_VELOCITY = 0,
-    TURN_RATE,
-    CONTROL_NUM_ITEMS
-};
+enum ControlParams { FORWARD_VELOCITY = 0, TURN_RATE, CONTROL_NUM_ITEMS };
 
 bool SimpleCar::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
@@ -97,15 +86,14 @@ bool SimpleCar::step(double time, double dt) {
     /////////////////////
     // Save state
     // Simple velocity
-    state_->vel() << (x_[X] - prev_x) / dt, (x_[Y] - prev_y) / dt,
-        (x_[Z] - prev_z) / dt;
+    state_->vel() << (x_[X] - prev_x) / dt, (x_[Y] - prev_y) / dt, (x_[Z] - prev_z) / dt;
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(0, 0, x_[THETA]);
     return true;
 }
 
-void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
+void SimpleCar::model(const vector_t &x, vector_t &dxdt, double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : theta
@@ -114,9 +102,9 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
     const double theta_lim = M_PI / 4 - 0.0001;
     const double u_theta = clamp(vars_.input(input_turn_rate_idx_), -theta_lim, theta_lim);
 
-    dxdt[X] = u_vel*cos(x[THETA]);
-    dxdt[Y] = u_vel*sin(x[THETA]);
-    dxdt[THETA] = u_vel/length_*tan(u_theta);
+    dxdt[X] = u_vel * cos(x[THETA]);
+    dxdt[Y] = u_vel * sin(x[THETA]);
+    dxdt[THETA] = u_vel / length_ * tan(u_theta);
 
     if (enable_gravity_) {
         dxdt[Z] = x[Z_dot];
@@ -139,5 +127,5 @@ void SimpleCar::model(const vector_t &x , vector_t &dxdt , double t) {
         dxdt[Z] = 0;
     }
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

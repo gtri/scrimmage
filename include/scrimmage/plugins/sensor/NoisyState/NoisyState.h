@@ -36,9 +36,9 @@
 #include <scrimmage/sensor/Sensor.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace scrimmage {
 namespace sensor {
@@ -54,6 +54,6 @@ class NoisyState : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_

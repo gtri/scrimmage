@@ -33,14 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
 
+#include <limits>
 #include <map>
 #include <string>
-#include <limits>
 
 namespace scrimmage {
 namespace motion {
@@ -49,11 +49,11 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     DoubleIntegrator();
 
     bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
+              std::map<std::string, std::string> &params) override;
 
     bool step(double t, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
     void teleport(scrimmage::StatePtr &state) override;
 
@@ -76,6 +76,6 @@ class DoubleIntegrator : public scrimmage::MotionModel {
     Eigen::Vector3d acc_vec_;
     double turn_rate_ = 0;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

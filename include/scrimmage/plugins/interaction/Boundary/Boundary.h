@@ -33,15 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
-#include <string>
 #include <list>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace sc = scrimmage;
 
@@ -53,8 +53,7 @@ class Boundary : public scrimmage::EntityInteraction {
     Boundary();
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
     static std::shared_ptr<BoundaryBase> make_boundary(const scrimmage_proto::Shape &shape);
 
@@ -63,6 +62,6 @@ class Boundary : public scrimmage::EntityInteraction {
     bool boundary_published_ = false;
     std::shared_ptr<scrimmage_proto::Shape> boundary_shape_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_

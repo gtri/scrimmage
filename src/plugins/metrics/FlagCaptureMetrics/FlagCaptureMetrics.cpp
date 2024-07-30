@@ -30,20 +30,18 @@
  *
  */
 
-#include <scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/msgs/Capture.pb.h>
-
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/msgs/Event.pb.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <iostream>
 #include <limits>
@@ -61,26 +59,23 @@ REGISTER_PLUGIN(scrimmage::Metrics,
 namespace scrimmage {
 namespace metrics {
 
-FlagCaptureMetrics::FlagCaptureMetrics() {
-}
+FlagCaptureMetrics::FlagCaptureMetrics() {}
 
 void FlagCaptureMetrics::init(std::map<std::string, std::string> &params) {
     params_ = params;
 
-    auto flag_taken_cb = [&] (scrimmage::MessagePtr<sm::FlagTaken> msg) {
+    auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
         scores_[msg->data.entity_id()].increment_flags_taken();
     };
     subscribe<sm::FlagTaken>("GlobalNetwork", "FlagTaken", flag_taken_cb);
 
-    auto flag_captured_cb = [&] (scrimmage::MessagePtr<sm::FlagCaptured> msg) {
+    auto flag_captured_cb = [&](scrimmage::MessagePtr<sm::FlagCaptured> msg) {
         scores_[msg->data.entity_id()].increment_flags_captured();
     };
     subscribe<sm::FlagCaptured>("GlobalNetwork", "FlagCaptured", flag_captured_cb);
 }
 
-bool FlagCaptureMetrics::step_metrics(double t, double dt) {
-    return true;
-}
+bool FlagCaptureMetrics::step_metrics(double t, double dt) { return true; }
 
 void FlagCaptureMetrics::calc_team_scores() {
     for (auto &kv : scores_) {
@@ -113,8 +108,8 @@ void FlagCaptureMetrics::calc_team_scores() {
 
 void FlagCaptureMetrics::print_team_summaries() {
     for (std::map<int, Score>::iterator it = team_flag_scores_.begin();
-         it != team_flag_scores_.end(); ++it) {
-
+         it != team_flag_scores_.end();
+         ++it) {
         cout << "Team ID: " << it->first << endl;
         cout << "Score: " << it->second.score() << endl;
         cout << "Flags Taken: " << it->second.flags_taken() << endl;
@@ -122,5 +117,5 @@ void FlagCaptureMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
-} // namespace metrics
-} // namespace scrimmage
+}  // namespace metrics
+}  // namespace scrimmage

@@ -30,32 +30,31 @@
  *
  */
 
-#include <vtkCamera.h>
-
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/network/Interface.h>
-#include <scrimmage/viewer/Viewer.h>
-#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/viewer/CameraInterface.h>
+#include <scrimmage/viewer/Updater.h>
+#include <scrimmage/viewer/Viewer.h>
+
+#include <vtkCamera.h>
 
 #include <boost/algorithm/string.hpp>
 
 namespace scrimmage {
 
-Viewer::Viewer() : enable_network_(false) { }
+Viewer::Viewer()
+    : enable_network_(false) {}
 
-void Viewer::set_incoming_interface(InterfacePtr &incoming_interface) {
+void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
 }
 
-void Viewer::set_outgoing_interface(InterfacePtr &outgoing_interface) {
+void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
     outgoing_interface_ = outgoing_interface;
 }
 
-void Viewer::set_enable_network(bool enable) {
-    enable_network_ = enable;
-}
+void Viewer::set_enable_network(bool enable) { enable_network_ = enable; }
 
 bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
                   const std::map<std::string, std::string>& camera_params) {
@@ -70,8 +69,7 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
     renderer_->SetBackground(0, 0, 0);
 
     // Setup camera
-    vtkSmartPointer<vtkCamera> camera =
-        vtkSmartPointer<vtkCamera>::New();
+    vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();
     camera->SetViewUp(0, 0, 1);
     camera->SetPosition(40, 40, 1000);
     camera->SetFocalPoint(0, 0, 0);
@@ -106,12 +104,15 @@ bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
 }
 
 bool Viewer::run() {
-    double update_rate = 50; // Hz
+    double update_rate = 50;  // Hz
 
     if (enable_network_) {
         outgoing_interface_->init_network(Interface::client, remote_ip_, remote_port_);
-        network_thread_ = std::thread(&Interface::init_network, &(*incoming_interface_),
-                                      Interface::server, local_ip_, local_port_);
+        network_thread_ = std::thread(&Interface::init_network,
+                                      &(*incoming_interface_),
+                                      Interface::server,
+                                      local_ip_,
+                                      local_port_);
         network_thread_.detach();
     } else {
         incoming_interface_->set_mode(Interface::shared);
@@ -129,11 +130,10 @@ bool Viewer::run() {
         // This uses the entire screen, prevents displaying the window name
         // and makes it difficult to resize the window later.
         renderWindow_->SetSize(renderWindow_->GetScreenSize());
-    } 
+    }
 
     // Sign up to receive TimerEvent
-    vtkSmartPointer<scrimmage::Updater> updater =
-        vtkSmartPointer<scrimmage::Updater>::New();
+    vtkSmartPointer<scrimmage::Updater> updater = vtkSmartPointer<scrimmage::Updater>::New();
     renderWindowInteractor_->AddObserver(vtkCommand::TimerEvent, updater);
     updater->set_renderer(renderer_);
     updater->set_rwi(renderWindowInteractor_);
@@ -143,8 +143,7 @@ bool Viewer::run() {
     updater->set_init_scale(init_scale_);
     updater->reset_scale();
 
-    std::string camera_pos_str =
-        get<std::string>("pos", camera_params_, "0, 1, 200");
+    std::string camera_pos_str = get<std::string>("pos", camera_params_, "0, 1, 200");
 
     std::vector<double> camera_pos;
     if (!str2container(camera_pos_str, ",", camera_pos, 3)) {
@@ -152,8 +151,7 @@ bool Viewer::run() {
         return false;
     }
 
-    std::string camera_focal_pos_str =
-        get<std::string>("focal_point", camera_params_, "0, 0, 0");
+    std::string camera_focal_pos_str = get<std::string>("focal_point", camera_params_, "0, 0, 0");
 
     std::vector<double> camera_focal_pos;
     if (!str2container(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
@@ -161,8 +159,12 @@ bool Viewer::run() {
         return false;
     }
 
-    updater->set_camera_reset_params(camera_pos[0], camera_pos[1], camera_pos[2],
-        camera_focal_pos[0], camera_focal_pos[1], camera_focal_pos[2]);
+    updater->set_camera_reset_params(camera_pos[0],
+                                     camera_pos[1],
+                                     camera_pos[2],
+                                     camera_focal_pos[0],
+                                     camera_focal_pos[1],
+                                     camera_focal_pos[2]);
     updater->set_show_fps(get("show_fps", camera_params_, false));
 
     updater->set_follow_id(get("follow_id", camera_params_, 1) - 1);
@@ -178,8 +180,8 @@ bool Viewer::run() {
     } else if (view_mode == "OFFSET") {
         updater->set_view_mode(Updater::ViewMode::OFFSET);
     } else {
-        std::cout << "Unrecognized attribute \"" << view_mode
-            << "\" for camera_view_mode" << std::endl;
+        std::cout << "Unrecognized attribute \"" << view_mode << "\" for camera_view_mode"
+                  << std::endl;
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
     }
 
@@ -187,7 +189,7 @@ bool Viewer::run() {
 
     cam_int_->set_updater(updater);
 
-    renderWindowInteractor_->CreateRepeatingTimer(1.0 / update_rate * 1e3); // ms
+    renderWindowInteractor_->CreateRepeatingTimer(1.0 / update_rate * 1e3);  // ms
 
     // Start the interaction and timer
     renderWindowInteractor_->Start();
@@ -197,4 +199,4 @@ bool Viewer::run() {
 
     return true;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

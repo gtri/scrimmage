@@ -139,6 +139,7 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             if (in_interface->gui_msg_update()) {
                 in_interface->gui_msg_mutex.lock();
                 auto &control = in_interface->gui_msg();
+                // cppcheck-suppress shadowVariable
                 auto it = control.begin();
                 while (it != control.end()) {
                     if (it->inc_warp()) {

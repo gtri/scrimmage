@@ -38,8 +38,8 @@
 #include <Eigen/Dense>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 
@@ -48,7 +48,7 @@ class BoundaryBase;
 }
 
 namespace autonomy {
-class Straight : public scrimmage::Autonomy{
+class Straight : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
@@ -83,6 +83,6 @@ class Straight : public scrimmage::Autonomy{
     bool gen_ents_ = false;
     double prev_gen_time_ = -1.0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_

@@ -30,30 +30,28 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/PyAutonomy/PyAutonomy.h>
-
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/plugins/autonomy/PyAutonomy/PyAutonomy.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
 #include <pybind11/eigen.h>
+#include <pybind11/embed.h>
+#include <pybind11/pybind11.h>
+
 #include <cstddef>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::PyAutonomy,
-                PyAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy, PyAutonomy_plugin)
 
 namespace py = pybind11;
 namespace sc = scrimmage;
@@ -64,9 +62,7 @@ namespace py = pybind11;
 namespace scrimmage {
 namespace autonomy {
 
-PyAutonomy::PyAutonomy() {
-    need_reset_ = true;
-}
+PyAutonomy::PyAutonomy() { need_reset_ = true; }
 
 void PyAutonomy::init(std::map<std::string, std::string> &params) {
     py_obj_ = get_py_obj(params);
@@ -145,7 +141,7 @@ py::object PyAutonomy::contact2py(scrimmage::Contact contact) {
     return py_contact;
 }
 
-std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(const pybind11::handle& py_handle) {
+std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(const pybind11::handle &py_handle) {
     // Convert python shape to c++ shape.
     py::object shape_obj = py_handle.cast<py::object>();
     py::function serialize_func = shape_obj.attr("SerializeToString").cast<py::function>();
@@ -247,7 +243,7 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
     *desired_state_ = state;
 
     py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
-    std::list< std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
+    std::list<std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
     std::transform(py_shapes.begin(), py_shapes.end(), std::back_inserter(cpp_shapes), py2shape);
     // shapes_ = cpp_shapes; // SHAPES TODO
 
@@ -255,5 +251,5 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
 
     return out;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

@@ -30,15 +30,15 @@
  *
  */
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ActorFunc.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <iostream>
 
@@ -53,14 +53,12 @@ namespace br = boost::range;
 namespace scrimmage {
 namespace autonomy {
 
-std::tuple<OpenAIActions, OpenAIObservations, pybind11::object>
-init_actor_func(
-        std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
-        const std::map<std::string, std::string> &params,
-        CombineActors combine_actors,
-        UseGlobalSensor global_sensor,
-        bool grpc_mode) {
-
+std::tuple<OpenAIActions, OpenAIObservations, pybind11::object> init_actor_func(
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> autonomies,
+    const std::map<std::string, std::string> &params,
+    CombineActors combine_actors,
+    UseGlobalSensor global_sensor,
+    bool grpc_mode) {
     if (autonomies.empty()) {
         return std::make_tuple(OpenAIActions(), OpenAIObservations(), pybind11::none());
     }
@@ -97,10 +95,9 @@ init_actor_func(
         py::object m = py::module::import(module_str.c_str());
         actor_init_func = m.attr(actor_init_func_str.c_str());
 
-        actor_func = actor_init_func(
-            actions.action_space, observations.observation, params);
+        actor_func = actor_init_func(actions.action_space, observations.observation, params);
     }
     return std::make_tuple(actions, observations, actor_func);
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

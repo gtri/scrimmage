@@ -35,9 +35,9 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 
+#include <limits>
 #include <map>
 #include <string>
-#include <limits>
 
 namespace scrimmage {
 namespace autonomy {
@@ -65,6 +65,6 @@ class AuctionAssign : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_

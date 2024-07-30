@@ -41,8 +41,7 @@ void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer) {
     axes_->SetTotalLength(length, length, length);
 
     // The axes are positioned with a user transform
-    vtkSmartPointer<vtkTransform> transform =
-            vtkSmartPointer<vtkTransform>::New();
+    vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
     transform->Translate(0, 0.0, 0);
 
     axes_->SetUserTransform(transform);
@@ -54,8 +53,6 @@ void OriginAxes::create(int length, vtkSmartPointer<vtkRenderer> &renderer) {
     renderer_->AddActor(axes_);
 }
 
-void OriginAxes::remove() {
-    renderer_->RemoveActor(axes_);
-}
+void OriginAxes::remove() { renderer_->RemoveActor(axes_); }
 
-} // namespace scrimmage
+}  // namespace scrimmage

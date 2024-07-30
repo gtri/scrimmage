@@ -29,20 +29,19 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/ROSCompass/ROSCompass.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/ROSCompass/ROSCompass.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/math/Angles.h>
 
 using std::cout;
 using std::endl;
@@ -84,19 +83,21 @@ bool ROSCompass::step() {
     // Scrimmage is in ENU so all outputs are in ENU (East North Up).
 
     // Get rotation vector
-    // Rotate Reverse: Get rotation between orientation of the body and ENU orientation of the north pole (0, 1, 0)
+    // Rotate Reverse: Get rotation between orientation of the body and ENU orientation of the north
+    // pole (0, 1, 0)
     Eigen::Vector3d rotation = state->quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));
 
-    // Fill Compass Message. We're using the magnetic field message, but the info is the rotation vector.
+    // Fill Compass Message. We're using the magnetic field message, but the info is the rotation
+    // vector.
     sensor_msgs::MagneticField compass_msg;
     compass_msg.magnetic_field.x = rotation.x();
     compass_msg.magnetic_field.y = rotation.y();
     compass_msg.magnetic_field.z = rotation.z();
 
     // Header
-    std_msgs::Header header; // empty header
+    std_msgs::Header header;  // empty header
     // TODO: header.frame = ? // No system for ROS Frame ID's yet
-    header.stamp = ros::Time::now(); // time
+    header.stamp = ros::Time::now();  // time
     compass_msg.header = header;
 
     // Publish Compass information
@@ -104,5 +105,5 @@ bool ROSCompass::step() {
 
     return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

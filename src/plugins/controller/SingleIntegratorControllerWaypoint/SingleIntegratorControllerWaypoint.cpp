@@ -31,11 +31,13 @@
  */
 
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h>
-#include <scrimmage/math/State.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerWaypoint, SingleIntegratorControllerWaypoint_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SingleIntegratorControllerWaypoint,
+                SingleIntegratorControllerWaypoint_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -66,5 +68,5 @@ bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
     return true;
 }
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

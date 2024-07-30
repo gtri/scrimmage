@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace interaction {
@@ -53,13 +53,15 @@ class ROSShapeViz : public scrimmage::EntityInteraction {
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+                                 double t,
+                                 double dt) override;
+
  protected:
  private:
-    void shapes_cb(const visualization_msgs::Marker::ConstPtr& msg);
+    void shapes_cb(const visualization_msgs::Marker::ConstPtr &msg);
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber sub_shapes_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_

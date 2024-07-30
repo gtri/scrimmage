@@ -38,7 +38,9 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerPID, RigidBody6DOFControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::RigidBody6DOFControllerPID,
+                RigidBody6DOFControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -92,5 +94,5 @@ bool RigidBody6DOFControllerPID::step(double t, double dt) {
     (*u_) << u_thrust, roll_error, pitch_error, 0;
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

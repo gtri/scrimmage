@@ -30,15 +30,15 @@
  *
  */
 
-#include <scrimmage/common/ID.h>
 #include <scrimmage/common/ColorMaps.h>
+#include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/log/Frame.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/Frame.pb.h>
 
 #include <cmath>
 
@@ -83,7 +83,7 @@ void set(scrimmage_proto::Color &dst, const scrimmage_proto::Color &src) {
 }
 
 void set(scrimmage_proto::Color *dst, const Eigen::Vector3d &color) {
-     set(dst, color(0), color(1), color(2));
+    set(dst, color(0), color(1), color(2));
 }
 
 void set(scrimmage_proto::Color &dst, scrimmage_proto::Color &src) {
@@ -100,9 +100,7 @@ void set(scrimmage_proto::Color &dst, int r, int g, int b) {
     set(dst, src);
 }
 
-void set(scrimmage_proto::Color *dst, scrimmage_proto::Color *src) {
-    *dst = *src;
-}
+void set(scrimmage_proto::Color *dst, scrimmage_proto::Color *src) { *dst = *src; }
 
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src) {
     dst->set_r(src.r());
@@ -137,8 +135,11 @@ void set(scrimmage_proto::Quaternion *dst, const Quaternion &src) {
     dst->set_w(src.w());
 }
 
-void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
-         const double &y, const double &z) {
+void set(scrimmage_proto::Quaternion *dst,
+         const double &w,
+         const double &x,
+         const double &y,
+         const double &z) {
     dst->set_x(x);
     dst->set_y(y);
     dst->set_z(z);
@@ -185,20 +186,20 @@ Eigen::Vector3d eigen(const scrimmage_proto::Vector3d &src) {
     return dst;
 }
 
-void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
-                     const scrimmage::Color_t &c) {
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s, const scrimmage::Color_t &c) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, c);
 }
 
 void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
-                     const int &r, const int &g, const int &b) {
+                     const int &r,
+                     const int &g,
+                     const int &b) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, r, g, b);
 }
 
-void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s,
-                     const int &grayscale) {
+void add_point_color(std::shared_ptr<scrimmage_proto::PointCloud> s, const int &grayscale) {
     scrimmage_proto::Color *color = s->add_color();
     set(color, grayscale);
 }
@@ -243,9 +244,7 @@ void path_to_lines(std::vector<Eigen::Vector3d> &path,
     }
 }
 
-std::list<scrimmage_proto::Line> points_to_lines(
-    const std::list<Eigen::Vector3d> &points) {
-
+std::list<scrimmage_proto::Line> points_to_lines(const std::list<Eigen::Vector3d> &points) {
     // Stop one item before the end of the points list
     auto stop = std::prev(points.end());
 
@@ -259,7 +258,6 @@ std::list<scrimmage_proto::Line> points_to_lines(
     return lines;
 }
 
-
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     Frame frame;
 
@@ -268,13 +266,13 @@ Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
     ContactMap &contacts = *(frame.contacts_);
 
     for (int i = 0; i < proto_frame.contact_size(); i++) {
-        contacts[proto_frame.contact(i).id().id()] =
-                proto_2_contact(proto_frame.contact(i));
+        contacts[proto_frame.contact(i).id().id()] = proto_2_contact(proto_frame.contact(i));
     }
     return frame;
 }
 
-std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_ptr<ContactMap> &contacts) {
+std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
+                                                     std::shared_ptr<ContactMap> &contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame(new scrimmage_proto::Frame());
     frame->set_time(time);
 
@@ -289,21 +287,21 @@ std::shared_ptr<scrimmage_proto::Frame> create_frame(double time, std::shared_pt
         set(contact->mutable_state(), state);
 
         switch (type) {
-        case Contact::Type::AIRCRAFT:
-            contact->set_type(scrimmage_proto::AIRCRAFT);
-            break;
-        case Contact::Type::QUADROTOR:
-            contact->set_type(scrimmage_proto::QUADROTOR);
-            break;
-        case Contact::Type::SPHERE:
-            contact->set_type(scrimmage_proto::SPHERE);
-            break;
-        case Contact::Type::MESH:
-            contact->set_type(scrimmage_proto::MESH);
-            break;
-        default:
-            contact->set_type(scrimmage_proto::UNKNOWN);
-            break;
+            case Contact::Type::AIRCRAFT:
+                contact->set_type(scrimmage_proto::AIRCRAFT);
+                break;
+            case Contact::Type::QUADROTOR:
+                contact->set_type(scrimmage_proto::QUADROTOR);
+                break;
+            case Contact::Type::SPHERE:
+                contact->set_type(scrimmage_proto::SPHERE);
+                break;
+            case Contact::Type::MESH:
+                contact->set_type(scrimmage_proto::MESH);
+                break;
+            default:
+                contact->set_type(scrimmage_proto::UNKNOWN);
+                break;
         }
 
         contact->set_active(kv.second.active());
@@ -338,4 +336,4 @@ Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact) {
     return contact;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

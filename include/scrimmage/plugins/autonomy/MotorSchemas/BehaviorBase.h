@@ -37,8 +37,8 @@
 #include <scrimmage/entity/Contact.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -64,8 +64,8 @@ class BehaviorBase : public scrimmage::Autonomy {
     ContactMap noisy_contacts_;
 };
 using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_

@@ -34,11 +34,11 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
 #include <scrimmage/metrics/Metrics.h>
 
-#include "SimpleCollisionScore.h"
-
 #include <map>
 #include <set>
 #include <string>
+
+#include "SimpleCollisionScore.h"
 
 namespace scrimmage {
 namespace metrics {

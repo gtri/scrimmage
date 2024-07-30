@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <Eigen/Dense>
 
@@ -75,6 +75,6 @@ class AircraftPIDController : public scrimmage::Controller {
 
     bool use_roll_control_ = false;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_

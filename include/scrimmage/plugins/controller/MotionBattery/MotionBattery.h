@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MOTIONBATTERY_MOTIONBATTERY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MOTIONBATTERY_MOTIONBATTERY_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/Battery.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace controller {
@@ -51,18 +51,23 @@ class MotionBattery : public scrimmage::Controller {
     bool step(double t, double dt) override;
 
  protected:
-    bool get_battery_charge(scrimmage::MessageBasePtr request,
-                            scrimmage::MessageBasePtr &response);
+    bool get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response);
     double calculate_charge_usage(const double &throttle, const double &dt);
 
     Battery battery_;
 
     class VarLimit {
      public:
-        VarLimit(const int &input, const int &output, const double &rate,
-                 const double &value, const bool &lim) :
-            input_idx(input), output_idx(output), depletion_rate(rate),
-            value_when_depleted(value), limit_when_depleted(lim) {}
+        VarLimit(const int &input,
+                 const int &output,
+                 const double &rate,
+                 const double &value,
+                 const bool &lim)
+            : input_idx(input),
+              output_idx(output),
+              depletion_rate(rate),
+              value_when_depleted(value),
+              limit_when_depleted(lim) {}
         int input_idx = 0;
         int output_idx = 0;
         double depletion_rate = 0;
@@ -80,6 +85,6 @@ class MotionBattery : public scrimmage::Controller {
     bool publish_charge_ = false;
     PublisherPtr pub_charge_percentage_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MOTIONBATTERY_MOTIONBATTERY_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MOTIONBATTERY_MOTIONBATTERY_H_

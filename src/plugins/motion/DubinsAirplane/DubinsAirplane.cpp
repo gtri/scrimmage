@@ -30,14 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h>
+
 #include <boost/algorithm/clamp.hpp>
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane, DubinsAirplane_plugin)
@@ -49,19 +50,10 @@ namespace sc = scrimmage;
 
 namespace pl = std::placeholders;
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    ROLL,
-    PITCH,
-    YAW,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, MODEL_NUM_ITEMS };
 
 bool DubinsAirplane::init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) {
-
+                          std::map<std::string, std::string> &params) {
     // Model limits
     speed_max_ = sc::get<double>("speed_max", params, speed_max_);
     speed_min_ = sc::get<double>("speed_min", params, speed_min_);
@@ -88,14 +80,11 @@ bool DubinsAirplane::init(std::map<std::string, std::string> &info,
     x_[YAW] = state_->quat().yaw();
 
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/"
-                         + std::to_string(parent_->id().id())
-                         + "-dubinsairplane-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
+                         "-dubinsairplane-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{"t",
-                        "x", "y", "z",
-                        "roll", "pitch", "yaw",
-                        "speed"});
+        csv_.set_column_headers(
+            sc::CSV::Headers{"t", "x", "y", "z", "roll", "pitch", "yaw", "speed"});
     }
     return true;
 }
@@ -136,20 +125,19 @@ bool DubinsAirplane::step(double t, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-                {"t", t},
-                {"x", state_->pos()(0)},
-                {"y", state_->pos()(1)},
-                {"z", state_->pos()(2)},
-                {"roll", state_->quat().roll()},
-                {"pitch", state_->quat().pitch()},
-                {"yaw", state_->quat().yaw()},
-                {"speed", speed_}});
+        csv_.append(sc::CSV::Pairs{{"t", t},
+                                   {"x", state_->pos()(0)},
+                                   {"y", state_->pos()(1)},
+                                   {"z", state_->pos()(2)},
+                                   {"roll", state_->quat().roll()},
+                                   {"pitch", state_->quat().pitch()},
+                                   {"yaw", state_->quat().yaw()},
+                                   {"speed", speed_}});
     }
     return true;
 }
 
-void DubinsAirplane::model(const vector_t &x , vector_t &dxdt , double t) {
+void DubinsAirplane::model(const vector_t &x, vector_t &dxdt, double t) {
     // The DubinsAirplane equations of motion are from the following paper:
     // Owen, Mark, Randal W. Beard, and Timothy W. McLain. "Implementing dubins
     // airplane paths on fixed-wing uavs." Handbook of unmanned aerial
@@ -169,5 +157,5 @@ void DubinsAirplane::model(const vector_t &x , vector_t &dxdt , double t) {
         dxdt[YAW] = -g_ / speed_ * tan(roll_);
     }
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

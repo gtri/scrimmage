@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_
 
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/sensor/Sensor.h>
+
 #include <Eigen/Dense>
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Contact.h>
-
-#include <random>
+#include <fstream>
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <memory>
 
 #include <opencv2/core/core.hpp>
 
@@ -70,17 +70,20 @@ class ContactBlobCamera : public scrimmage::Sensor {
         scrimmage::ContactMap &contacts,
         std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg);
 
-    void add_false_positives(
-        std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg);
+    void add_false_positives(std::shared_ptr<scrimmage::Message<ContactBlobCameraType>> &msg);
 
     Eigen::Vector2d project_rel_3d_to_2d(Eigen::Vector3d rel_pos);
     bool in_field_of_view(Eigen::Vector3d rel_pos);
-    void draw_object_with_bounding_box(cv::Mat &frame, const int &id,
+    void draw_object_with_bounding_box(cv::Mat &frame,
+                                       const int &id,
                                        const cv::Rect &rect,
                                        const Eigen::Vector2d &center,
                                        const double &radius);
     void set_plugin_params(std::map<std::string, double> params);
-    void draw_frustum(const std::vector<scrimmage_proto::ShapePtr>& frustum, double x_rot, double y_rot, double z_rot);
+    void draw_frustum(const std::vector<scrimmage_proto::ShapePtr> &frustum,
+                      double x_rot,
+                      double y_rot,
+                      double z_rot);
 
     // plugin parameters
     std::map<std::string, double> plugin_params_;
@@ -112,7 +115,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
     bool show_sim_contacts_ = false;
 
     double last_contact_send_time_ = 0.0;
-    double contact_send_dt_ = 1.0; // seconds
+    double contact_send_dt_ = 1.0;  // seconds
 
     std::string window_name_ = "ContactBlobCamera";
     std::vector<scrimmage_proto::ShapePtr> frustum_shapes_;
@@ -120,6 +123,6 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     scrimmage::ContactMap sim_contacts_;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_

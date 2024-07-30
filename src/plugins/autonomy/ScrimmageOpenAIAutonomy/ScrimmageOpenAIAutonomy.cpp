@@ -30,19 +30,19 @@
  *
  */
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ActorFunc.h>
-#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ActorFunc.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+#include <scrimmage/plugins/sensor/ScrimmageOpenAISensor/ScrimmageOpenAISensor.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/parse/MissionParse.h>
+
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <limits>
 
@@ -51,8 +51,8 @@
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
-#include <chrono> //NOLINT
-#include <thread> //NOLINT
+#include <chrono>  //NOLINT
+#include <thread>  //NOLINT
 #endif
 
 namespace sp = scrimmage_proto;
@@ -61,17 +61,19 @@ namespace py = pybind11;
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ScrimmageOpenAIAutonomy, ScrimmageOpenAIAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy,
+                scrimmage::autonomy::ScrimmageOpenAIAutonomy,
+                ScrimmageOpenAIAutonomy_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy() :
-        reward_range(-std::numeric_limits<double>::infinity(),
-                     std::numeric_limits<double>::infinity()),
-        tuple_space_(get_gym_space("Tuple")),
-        box_space_(get_gym_space("Box")),
-        nonlearning_mode_(false) {}
+ScrimmageOpenAIAutonomy::ScrimmageOpenAIAutonomy()
+    : reward_range(-std::numeric_limits<double>::infinity(),
+                   std::numeric_limits<double>::infinity()),
+      tuple_space_(get_gym_space("Tuple")),
+      box_space_(get_gym_space("Box")),
+      nonlearning_mode_(false) {}
 
 void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
     init_helper(params);
@@ -93,9 +95,8 @@ void ScrimmageOpenAIAutonomy::init(std::map<std::string, std::string> &params) {
         const std::string port_str = std::to_string(port + parent_->id().id());
         const std::string address = grpc_address_ + ":" + port_str;
 
-        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str
-                + " --actor " + module + ":" + actor_func_str
-                + " --ip " + grpc_address_;
+        python_cmd_ = std::string("openai_grpc_link.py") + " --port " + port_str + " --actor " +
+                      module + ":" + actor_func_str + " --ip " + grpc_address_;
         auto channel = grpc::CreateChannel(address, grpc::InsecureChannelCredentials());
         openai_stub_ = sp::OpenAI::NewStub(channel);
     }
@@ -111,26 +112,24 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
             // need contacts size to be set before calling init
             auto p = std::dynamic_pointer_cast<ScrimmageOpenAIAutonomy>(shared_from_this());
             std::tie(actions_, observations_, actor_func_) =
-                    init_actor_func({p}, params_, CombineActors::NO,
-                                    UseGlobalSensor::NO,
-                                    grpc_mode_);
+                init_actor_func({p}, params_, CombineActors::NO, UseGlobalSensor::NO, grpc_mode_);
 
 #if ENABLE_GRPC
             if (grpc_mode_) {
                 int attempts = 0;
                 bool done = false;
                 while (attempts++ < 10 && !done) {
-                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10" << std::endl;
+                    std::cout << "Connecting to gRPC Server attempt: " << attempts << "/10"
+                              << std::endl;
                     done = send_env();
                 }
                 // Return an exception saying we could not connect to grpc
                 if (!done) {
                     const std::string err_msg =
-                            std::string("Didn't connect to the grpc server. Make sure")
-                            + " the grpc client is running and your python"
-                            + " bindings are up to date."
-                            + "You can start a grpc server with the followning command: "
-                            + python_cmd_;
+                        std::string("Didn't connect to the grpc server. Make sure") +
+                        " the grpc client is running and your python" +
+                        " bindings are up to date." +
+                        "You can start a grpc server with the followning command: " + python_cmd_;
                     throw std::runtime_error(err_msg);
                 }
             }
@@ -158,8 +157,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 
         temp_action = actor_func_(observations_.observation);
 
-        actions_.distribute_action(temp_action,
-                                   observations_.get_combine_actors());
+        actions_.distribute_action(temp_action, observations_.get_combine_actors());
 
         if (first_step_) {
             // there is no reward on the first step
@@ -183,8 +181,7 @@ boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observa
 
     sp::Action action;
     grpc::ClientContext context;
-    auto deadline = std::chrono::system_clock::now() +
-            std::chrono::milliseconds(500);
+    auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(500);
     context.set_deadline(deadline);
     grpc::Status status = openai_stub_->GetAction(&context, observation, &action);
     if (!(status.error_code() == grpc::StatusCode::OK ||
@@ -203,7 +200,7 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     auto discrete_space = env.mutable_action_spaces()->mutable_discrete();
     *(discrete_space) = {action_space.discrete_count.begin(), action_space.discrete_count.end()};
     for (std::pair<double, double> cont_extrema : action_space.continuous_extrema) {
-        sp::ContExtrema * proto_extrema = env.mutable_action_spaces()->add_continuous();
+        sp::ContExtrema *proto_extrema = env.mutable_action_spaces()->add_continuous();
         proto_extrema->set_min(cont_extrema.first);
         proto_extrema->set_max(cont_extrema.second);
     }
@@ -219,7 +216,7 @@ bool ScrimmageOpenAIAutonomy::send_env() {
             }
             // Add continuous/ observation spaces to the protobuf environment
             for (std::pair<double, double> cont_extrema : obs_space.continuous_extrema) {
-                sp::ContExtrema * proto_extrema = env.mutable_observation_spaces()->add_continuous();
+                sp::ContExtrema *proto_extrema = env.mutable_observation_spaces()->add_continuous();
                 proto_extrema->set_min(cont_extrema.first);
                 proto_extrema->set_max(cont_extrema.second);
             }
@@ -243,8 +240,8 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     context.set_deadline(deadline);
     grpc::Status status = openai_stub_->SendEnvironment(&context, env, &reply);
     if (!status.ok()) {
-        std::cout << "Can't Connect: message " << status.error_code()
-                  << ", " << status.error_message() << std::endl;
+        std::cout << "Can't Connect: message " << status.error_code() << ", "
+                  << status.error_message() << std::endl;
     }
     return status.ok();
 }
@@ -316,5 +313,5 @@ std::tuple<bool, double, pybind11::dict> ScrimmageOpenAIAutonomy::calc_reward() 
     return std::make_tuple(false, 0.0, pybind11::dict());
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

@@ -30,17 +30,15 @@
  *
  */
 
-
-#include <rosgraph_msgs/Clock.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
-
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/ROSAutonomy/ROSAutonomy.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
+
+#include <rosgraph_msgs/Clock.h>
 
 #include <iostream>
 
@@ -76,7 +74,8 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     cmd_vel_sub_ = nh_->subscribe(ros_namespace_ + "/cmd_vel", 1, &ROSAutonomy::cmd_vel_cb, this);
     odom_pub_ = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/odom", 1);
     base_scan_pub_ = nh_->advertise<sensor_msgs::LaserScan>(ros_namespace_ + "/base_scan", 1);
-    base_pose_truth_pub = nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/base_pose_ground_truth", 1);
+    base_pose_truth_pub =
+        nh_->advertise<nav_msgs::Odometry>(ros_namespace_ + "/base_pose_ground_truth", 1);
 
     odom_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
     laser_broadcaster_ = std::make_shared<tf::TransformBroadcaster>();
@@ -89,10 +88,11 @@ void ROSAutonomy::init(std::map<std::string, std::string> &params) {
     laser_trans_.transform.translation.x = parent_->sensors()["RayTrace0"]->transform()->pos()(0);
     laser_trans_.transform.translation.y = parent_->sensors()["RayTrace0"]->transform()->pos()(1);
     laser_trans_.transform.translation.z = parent_->sensors()["RayTrace0"]->transform()->pos()(2);
-    geometry_msgs::Quaternion laser_quat = tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
+    geometry_msgs::Quaternion laser_quat =
+        tf::createQuaternionMsgFromYaw(parent_->sensors()["RayTrace0"]->transform()->quat().yaw());
     laser_trans_.transform.rotation = laser_quat;
 
-    auto pc_cb = [&] (scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
+    auto pc_cb = [&](scrimmage::MessagePtr<sc::sensor::RayTrace::PointCloud> msg) {
         pcl_ = msg->data;
     };
     subscribe<sc::sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
@@ -107,7 +107,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     // Update ROS time
     ros::Time ros_time = ros::Time::now();
 
-    ros::spinOnce(); // check for new ROS messages
+    ros::spinOnce();  // check for new ROS messages
 
     // Convert scrimmage point cloud into ROS laser scan message
     // double fov_half = pcl_.num_rays_horiz * pcl_.angle_res_horiz / 2.0;
@@ -159,7 +159,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     odom.twist.twist.linear.x = state_->vel()(0);
     odom.twist.twist.linear.y = state_->vel()(1);
     odom.twist.twist.linear.z = state_->vel()(2);
-    odom.twist.twist.angular.z = 0; // TODO
+    odom.twist.twist.angular.z = 0;  // TODO
 
     odom_pub_.publish(odom);
 
@@ -177,9 +177,7 @@ bool ROSAutonomy::step_autonomy(double t, double dt) {
     return true;
 }
 
-void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
-    cmd_vel_ = *msg;
-}
+void ROSAutonomy::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) { cmd_vel_ = *msg; }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

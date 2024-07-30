@@ -33,34 +33,33 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 
-#include <Eigen/Dense>
-
-#include <scrimmage/fwd_decl.h>
-
-#include <scrimmage/common/Timer.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Timer.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <future> // NOLINT
-#include <memory>
+#include <Eigen/Dense>
+
+#include <condition_variable>  // NOLINT
 #include <deque>
-#include <vector>
+#include <future>  // NOLINT
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>  // NOLINT
 #include <set>
 #include <string>
-#include <thread> // NOLINT
-#include <map>
-#include <list>
-#include <mutex> // NOLINT
-#include <condition_variable> // NOLINT
+#include <thread>  // NOLINT
 #include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
 typedef std::shared_ptr<scrimmage_proto::ContactVisual> ContactVisualPtr;
 
-enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
+enum class EndConditionFlags { TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4 };
 
 class SimControl {
  public:
@@ -85,7 +84,7 @@ class SimControl {
      * controlling program can step the simulation manually (e.g., using the
      * run_single_step() function).
      */
-    bool init(const std::string& mission_file, const bool& init_python = true);
+    bool init(const std::string &mission_file, const bool &init_python = true);
 
     /**
      * @brief Starts the mission by generating entities and setting up logging.
@@ -143,7 +142,7 @@ class SimControl {
      *  simcontrol.shutdown();
      *  \endcode
      */
-    bool run_single_step(const int& loop_number);
+    bool run_single_step(const int &loop_number);
 
     /**
      * @brief Finalizes the simulation, closes logs, closes plugins.
@@ -155,7 +154,7 @@ class SimControl {
      * The shutdown() function should be called after the simulation is
      * complete.
      */
-    bool shutdown(const bool& shutdown_python = true);
+    bool shutdown(const bool &shutdown_python = true);
 
     /**
      * @brief Force a threaded simulation to exit.
@@ -169,14 +168,14 @@ class SimControl {
     void join();
 
     /*
-    * @brief Provides access to the SimControl's entity plugin.
-    *
-    * After SimControl has been initialized with the init() function, this
-    * function provides access to the entity plugin owned by SimControl. This
-    * entity plugin can be used to access the publish/subscribe bus used during
-    * the simulation. For example, when used during a test, the test can
-    * publish and subscribe to messages used by plugins under test.
-    */
+     * @brief Provides access to the SimControl's entity plugin.
+     *
+     * After SimControl has been initialized with the init() function, this
+     * function provides access to the entity plugin owned by SimControl. This
+     * entity plugin can be used to access the publish/subscribe bus used during
+     * the simulation. For example, when used during a test, the test can
+     * publish and subscribe to messages used by plugins under test.
+     */
     EntityPluginPtr plugin();
 
     /**
@@ -202,7 +201,7 @@ class SimControl {
      * Determines the entities that should be generated at the given time and
      * generates the entities.
      */
-    bool generate_entities(const double& t);
+    bool generate_entities(const double &t);
 
     /// @brief Generate an entity given the entity description ID.
     bool generate_entity(const int &ent_desc_id);
@@ -213,7 +212,8 @@ class SimControl {
      * GenerateEntity publishers.
      */
     bool generate_entity(const int &ent_desc_id,
-                         std::map<std::string, std::string> &params, AttributeMap &plugin_attr_map);
+                         std::map<std::string, std::string> &params,
+                         AttributeMap &plugin_attr_map);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
@@ -229,7 +229,7 @@ class SimControl {
     double t();
 
     /// @brief Pause (true) or unpause (false) the simulation.
-    void pause(const bool& pause);
+    void pause(const bool &pause);
 
     /**
      * @brief Get the paused (true) or unpaused (false) state of the
@@ -259,7 +259,7 @@ class SimControl {
     Timer &timer();
 
     /// @brief Access the metrics plugins.
-    std::list<MetricsPtr> & metrics();
+    std::list<MetricsPtr> &metrics();
 
     /// @brief Access the PluginManager instance.
     PluginManagerPtr &plugin_manager();
@@ -272,7 +272,7 @@ class SimControl {
         // step function in Plugin.h
         // In particular, we can get rid of Task::Type and
         // more easily do entity_interaction/network plugins in multiple threads.
-        enum class Type {AUTONOMY, CONTROLLER, MOTION, SENSOR};
+        enum class Type { AUTONOMY, CONTROLLER, MOTION, SENSOR };
 
         Type type;
         double t;
@@ -309,7 +309,7 @@ class SimControl {
     void run_send_shapes();
 
     /// @brief Enables/disable displaying the current progress in the terminal.
-    void display_progress(const bool& enable);
+    void display_progress(const bool &enable);
 
     /*
      * @brief Provides access to the simulated entities.
@@ -414,7 +414,7 @@ class SimControl {
     RTreePtr rtree_;
 
     void request_screenshot();
-    void create_rtree(const unsigned int& additional_size);
+    void create_rtree(const unsigned int &additional_size);
     void run_autonomy();
     void set_autonomy_contacts();
     void run_dynamics();
@@ -448,7 +448,7 @@ class SimControl {
 
  private:
     bool take_step();
-    void single_step(const bool& value);
+    void single_step(const bool &value);
     bool single_step();
     void set_finished(bool finished);
     bool output_summary();
@@ -463,20 +463,19 @@ class SimControl {
     void dec_warp();
 
     bool wait_for_ready();
-    bool check_output(const std::string& output_type,
-                      const std::string& desired_output);
+    bool check_output(const std::string &output_type, const std::string &desired_output);
     bool setup_logging();
     bool logging_logic(const std::string &s);
     void end_of_simulation();
     void cleanup();
     bool finalize();
     bool reset_pointers();
-    int find_available_id(const std::map<std::string, std::string>& params);
+    int find_available_id(const std::map<std::string, std::string> &params);
 
     bool finalized_called_ = false;
     bool running_in_thread_ = false;
 
     bool python_enabled_ = false;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

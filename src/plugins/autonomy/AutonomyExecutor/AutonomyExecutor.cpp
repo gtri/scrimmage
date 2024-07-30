@@ -30,31 +30,28 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/AutonomyExecutor/AutonomyExecutor.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/AutonomyExecutor/AutonomyExecutor.h>
 #include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/common/Time.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <iostream>
 #include <limits>
 
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::AutonomyExecutor,
-                AutonomyExecutor_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AutonomyExecutor, AutonomyExecutor_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -74,7 +71,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
     std::string state_topic_name = sc::get<std::string>("state_topic_name", params, "State");
     std::string network_name = sc::get<std::string>("network_name", params, "LocalNetwork");
 
-    auto state_callback = [&] (scrimmage::MessagePtr<std::string> msg) {
+    auto state_callback = [&](scrimmage::MessagePtr<std::string> msg) {
         // If the state didn't change, return immediately.
         if (current_state_ == msg->data) {
             return;
@@ -94,8 +91,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
         // running.
         for (sc::AutonomyPtr autonomy : running_autonomies_) {
             if (!call_init(autonomy->name(), autonomy)) {
-                cout << "AutonomyExecutor: Failed to reload init for "
-                     << autonomy->name() << endl;
+                cout << "AutonomyExecutor: Failed to reload init for " << autonomy->name() << endl;
             }
         }
     };
@@ -127,9 +123,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
                     tokens[1].erase(
                         std::remove_if(tokens[1].begin(),
                                        tokens[1].end(),
-                                       [](unsigned char x){
-                                           return (x == '\"') || (x == '\'');
-                                       }),
+                                       [](unsigned char x) { return (x == '\"') || (x == '\''); }),
                         tokens[1].end());
                     autonomy_params[tokens[0]] = tokens[1];
                 }
@@ -146,8 +140,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
                                                              autonomy_params,
                                                              std::set<std::string>{});
         if (status.status == PluginStatus<Autonomy>::cast_failed) {
-            cout << "AutonomyExecutor Failed to open autonomy plugin: "
-                 << autonomy_name << endl;
+            cout << "AutonomyExecutor Failed to open autonomy plugin: " << autonomy_name << endl;
         } else if (status.status == PluginStatus<Autonomy>::loaded) {
             // connect the initialized autonomy plugin's variable output with
             // the variable input to the controller. This is similar to
@@ -210,10 +203,9 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
         }
 
         if (show_shapes_) {
-            std::for_each(autonomy->shapes().begin(),
-                          autonomy->shapes().end(), [&](auto &s) {
-                              this->draw_shape(s);
-                          });
+            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(), [&](auto &s) {
+                this->draw_shape(s);
+            });
         }
     }
     return true;
@@ -238,5 +230,5 @@ bool AutonomyExecutor::call_init(std::string autonomy_name, sc::AutonomyPtr auto
     autonomy->init(config_parse.params());
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

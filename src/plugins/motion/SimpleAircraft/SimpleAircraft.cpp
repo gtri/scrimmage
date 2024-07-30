@@ -32,8 +32,8 @@
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h>
@@ -47,27 +47,11 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, Simpl
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    ROLL,
-    PITCH,
-    YAW,
-    SPEED,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, SPEED, MODEL_NUM_ITEMS };
 
-enum ControlParams {
-    THRUST = 0,
-    TURN_RATE,
-    PITCH_RATE,
-    CONTROL_NUM_ITEMS
-};
+enum ControlParams { THRUST = 0, TURN_RATE, PITCH_RATE, CONTROL_NUM_ITEMS };
 
-std::tuple<int, int, int> SimpleAircraft::version() {
-    return std::tuple<int, int, int>(0, 0, 1);
-}
+std::tuple<int, int, int> SimpleAircraft::version() { return std::tuple<int, int, int>(0, 0, 1); }
 
 bool SimpleAircraft::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
@@ -82,7 +66,6 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     max_pitch_rate_ = Angles::deg2rad(get("max_pitch_rate", params, 57.3));
     max_roll_rate_ = Angles::deg2rad(get("max_roll_rate", params, 57.3));
 
-
     x_[X] = pos(0);
     x_[Y] = pos(1);
     x_[Z] = pos(2);
@@ -92,8 +75,11 @@ bool SimpleAircraft::init(std::map<std::string, std::string> &info,
     x_[SPEED] = clamp(state_->vel().norm(), min_velocity_, max_velocity_);
 
     length_ = get("turning_radius", params, 50.0);
-    speedTarget_ = get("speed_target", params, 50.0);  // The "0" speed for adjusting the turning radius
-    lengthSlopePerSpeed_ = get("radius_slope_per_speed", params, 0.0);  // Enables adjusting the turning radius based on speed
+    speedTarget_ =
+        get("speed_target", params, 50.0);  // The "0" speed for adjusting the turning radius
+    lengthSlopePerSpeed_ = get("radius_slope_per_speed",
+                               params,
+                               0.0);  // Enables adjusting the turning radius based on speed
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
@@ -116,12 +102,13 @@ bool SimpleAircraft::step(double time, double dt) {
 
     state_->pos() << x_[X], x_[Y], x_[Z];
     state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
-    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
+    state_->vel() << x_[SPEED] * cos(x_[YAW]) * cos(x_[PITCH]),
+        x_[SPEED] * sin(x_[YAW]) * cos(x_[PITCH]), x_[SPEED] * sin(x_[PITCH]);
 
     return true;
 }
 
-void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
+void SimpleAircraft::model(const vector_t &x, vector_t &dxdt, double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : z-position
@@ -139,16 +126,16 @@ void SimpleAircraft::model(const vector_t &x , vector_t &dxdt , double t) {
     pitch_rate = clamp(pitch_rate, -max_pitch_rate_, max_pitch_rate_);
 
     double xy_speed = x[SPEED] * cos(x[PITCH]);
-    dxdt[X] = xy_speed*cos(x[YAW]);
-    dxdt[Y] = xy_speed*sin(x[YAW]);
-    dxdt[Z] = -sin(x[PITCH])*x[SPEED];
+    dxdt[X] = xy_speed * cos(x[YAW]);
+    dxdt[Y] = xy_speed * sin(x[YAW]);
+    dxdt[Z] = -sin(x[PITCH]) * x[SPEED];
     dxdt[ROLL] = roll_rate;
     dxdt[PITCH] = pitch_rate;
     // Adjust the length based on the speed
     double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
-    dxdt[YAW] = x[SPEED]/currentLength*tan(x[ROLL]);
+    dxdt[YAW] = x[SPEED] / currentLength * tan(x[ROLL]);
 
-    dxdt[SPEED] = throttle/5;
+    dxdt[SPEED] = throttle / 5;
 }
 
 void SimpleAircraft::teleport(StatePtr &state) {

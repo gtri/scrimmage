@@ -30,12 +30,11 @@
  *
  */
 
-
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
-#include <NodeRecord.h>
-
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugins/autonomy/MOOSAutonomy/MOOSNode.h>
+
+#include <NodeRecord.h>
 
 #include <string>
 
@@ -44,9 +43,11 @@ namespace sc = scrimmage;
 namespace scrimmage {
 namespace autonomy {
 
-MOOSNode::MOOSNode() : appTick_(1), commsTick_(1), time_warp_(1),
-                       deployed_(false) {
-}
+MOOSNode::MOOSNode()
+    : appTick_(1),
+      commsTick_(1),
+      time_warp_(1),
+      deployed_(false) {}
 
 MOOSNode::~MOOSNode() {}
 
@@ -64,9 +65,7 @@ sc::State MOOSNode::desired_state() {
     return s;
 }
 
-void MOOSNode::set_time_warp(double warp) {
-    time_warp_ = warp;
-}
+void MOOSNode::set_time_warp(double warp) { time_warp_ = warp; }
 
 bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
     MOOSMSG_LIST::iterator q;
@@ -81,13 +80,13 @@ bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
             desired_mutex_.unlock();
         } else if (key == "DESIRED_SPEED") {
             desired_mutex_.lock();
-            desired_.vel() = Eigen::Vector3d::UnitX()*dval;
+            desired_.vel() = Eigen::Vector3d::UnitX() * dval;
             desired_mutex_.unlock();
         } else if (key == "DESIRED_DEPTH") {
             desired_mutex_.lock();
-            desired_.pos() = -Eigen::Vector3d::UnitZ()*dval;
+            desired_.pos() = -Eigen::Vector3d::UnitZ() * dval;
             desired_mutex_.unlock();
-        }  else if (key == "IVPHELM_STATE") {
+        } else if (key == "IVPHELM_STATE") {
             if (!deployed_) {
                 Notify("DEPLOY", "true");
                 Notify("RETURN", "false");
@@ -98,7 +97,7 @@ bool MOOSNode::OnNewMail(MOOSMSG_LIST &Mail) {
             }
         }
     }
-    return(true);
+    return (true);
 }
 
 /*
@@ -116,9 +115,7 @@ bool MOOSNode::OnConnectToServer() {
   Called by the base class periodically. This is where you place code
   which does the work of the application
 */
-bool MOOSNode::Iterate() {
-    return true;
-}
+bool MOOSNode::Iterate() { return true; }
 
 /*
   called by the base class before the first :: Iterate is called . Place
@@ -152,12 +149,18 @@ void MOOSNode::DoRegistrations() {
     Register("IVPHELM_STATE", 0.0);
 }
 
-bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
+bool MOOSNode::PublishNodeReport(NodeReportType_t report_type,
+                                 std::string id,
                                  std::string sensor_id,
-                                 double nav_x, double nav_y, double speed,
-                                 double heading, double depth,
-                                 std::string type, std::string mode,
-                                 double time, std::string frame_number) {
+                                 double nav_x,
+                                 double nav_y,
+                                 double speed,
+                                 double heading,
+                                 double depth,
+                                 std::string type,
+                                 std::string mode,
+                                 double time,
+                                 std::string frame_number) {
     NodeRecord record;
     record.setName(id);
     record.setX(nav_x);
@@ -171,31 +174,31 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type, std::string id,
 
     std::string moos_var;
     switch (report_type) {
-    case OWNSHIP:
-        moos_var = "NODE_REPORT_LOCAL";
-        Notify("NAV_X", nav_x);
-        Notify("NAV_Y", nav_y);
-        Notify("NAV_HEADING", heading);
-        Notify("NAV_SPEED", speed);
-        Notify("NAV_DEPTH", depth);
-        break;
+        case OWNSHIP:
+            moos_var = "NODE_REPORT_LOCAL";
+            Notify("NAV_X", nav_x);
+            Notify("NAV_Y", nav_y);
+            Notify("NAV_HEADING", heading);
+            Notify("NAV_SPEED", speed);
+            Notify("NAV_DEPTH", depth);
+            break;
 
-    case TRUTH_CONTACT:
-        moos_var = "NODE_REPORT";
-        Notify(moos_var, record.getSpec());
-        break;
+        case TRUTH_CONTACT:
+            moos_var = "NODE_REPORT";
+            Notify(moos_var, record.getSpec());
+            break;
 
-    case SENSOR_CONTACT:
-        record.setProperty("SENSOR_ID", sensor_id);
-        moos_var = "SENSOR_CONTACT";
-        Notify(moos_var, record.getSpec());
-        break;
+        case SENSOR_CONTACT:
+            record.setProperty("SENSOR_ID", sensor_id);
+            moos_var = "SENSOR_CONTACT";
+            Notify(moos_var, record.getSpec());
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

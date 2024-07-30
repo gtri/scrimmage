@@ -35,9 +35,9 @@
 
 #include <scrimmage/motion/Controller.h>
 
+#include <cmath>
 #include <map>
 #include <string>
-#include <cmath>
 
 namespace scrimmage {
 namespace controller {
@@ -59,6 +59,6 @@ class SingleIntegratorControllerWaypoint : public Controller {
     double gain_ = NAN;
 };
 
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERWAYPOINT_SINGLEINTEGRATORCONTROLLERWAYPOINT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERWAYPOINT_SINGLEINTEGRATORCONTROLLERWAYPOINT_H_

@@ -33,19 +33,20 @@
 #define INCLUDE_SCRIMMAGE_COMMON_GLOBALSERVICE_H_
 
 #include <scrimmage/pubsub/Message.h>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <list>
-#include <vector>
-#include <string>
+
 #include <functional>
-#include <memory>
 #include <iostream>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
-using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
 
 class GlobalService {
  public:
@@ -69,7 +70,8 @@ class GlobalService {
         if (call_service(req, res_base, service_name)) {
             res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
             if (res == nullptr) {
-                std::cout << "could not cast for global service " << service_name.c_str() << std::endl;
+                std::cout << "could not cast for global service " << service_name.c_str()
+                          << std::endl;
                 return false;
             } else {
                 return true;

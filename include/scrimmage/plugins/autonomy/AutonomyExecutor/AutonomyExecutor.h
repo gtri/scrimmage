@@ -35,9 +35,9 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/parse/ConfigParse.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
+#include <string>
 
 namespace sc = scrimmage;
 
@@ -64,6 +64,6 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     // Value: Input variable index
     std::map<int, int> io_map_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_

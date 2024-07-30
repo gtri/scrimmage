@@ -30,17 +30,15 @@
  *
  */
 
-
-#include <rosgraph_msgs/Clock.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
-
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/ROSControl/ROSControl.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
+
+#include <rosgraph_msgs/Clock.h>
 
 #include <boost/numeric/odeint.hpp>
 
@@ -74,7 +72,7 @@ void ROSControl::init(std::map<std::string, std::string> &params) {
 
     desired_state_->vel() = Eigen::Vector3d::UnitX() * 0;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    desired_state_->pos() = Eigen::Vector3d::UnitZ() * state_->pos()(2);
 
     //  ofs_.open("/home/syllogismrxs/tmp/data.csv",
     //            std::ofstream::out | std::ofstream::trunc);
@@ -90,15 +88,14 @@ void ROSControl::zero_ctrls() {
     cmd_vel_.angular.z = 0;
 }
 
-void ROSControl::ctrl_filter(const std::vector<double> &x ,
-                             std::vector<double> &dxdt , double t) {
+void ROSControl::ctrl_filter(const std::vector<double> &x, std::vector<double> &dxdt, double t) {
     dxdt[0] = x[1];
     dxdt[1] = -x[2];
     dxdt[2] = 0;
 }
 
 bool ROSControl::step_autonomy(double t, double dt) {
-    ros::spinOnce(); // check for new ROS messages
+    ros::spinOnce();  // check for new ROS messages
 
     // auto sys = std::bind(&ROSControl::ctrl_filter, this, pl::_1, pl::_2, pl::_3);
     // boost::numeric::odeint::runge_kutta4<std::vector<double>> stepper;
@@ -115,16 +112,14 @@ bool ROSControl::step_autonomy(double t, double dt) {
     // Need to saturate state variables before model runs
 
     desired_state_->vel()(0) = 30;
-    desired_state_->vel()(1) = 10*cmd_vel_.angular.z;
-    desired_state_->vel()(2) = 10*cmd_vel_.linear.x;
+    desired_state_->vel()(1) = 10 * cmd_vel_.angular.z;
+    desired_state_->vel()(2) = 10 * cmd_vel_.linear.x;
 
     zero_ctrls();
 
     return true;
 }
 
-void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
-    cmd_vel_ = *msg;
-}
-} // namespace autonomy
-} // namespace scrimmage
+void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) { cmd_vel_ = *msg; }
+}  // namespace autonomy
+}  // namespace scrimmage

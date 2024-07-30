@@ -30,39 +30,26 @@
  *
  */
 
-#include <scrimmage/plugins/motion/Ballistic/Ballistic.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/Ballistic/Ballistic.h>
 
 #include <boost/algorithm/clamp.hpp>
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::MotionModel,
-                scrimmage::motion::Ballistic,
-                Ballistic_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Ballistic, Ballistic_plugin)
 
 using boost::algorithm::clamp;
 
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    X_vel,
-    Y_vel,
-    Z_vel,
-    X_acc,
-    Y_acc,
-    Z_acc,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, X_vel, Y_vel, Z_vel, X_acc, Y_acc, Z_acc, MODEL_NUM_ITEMS };
 
 bool Ballistic::init(std::map<std::string, std::string> &info,
                      std::map<std::string, std::string> &params) {
@@ -105,8 +92,7 @@ bool Ballistic::step(double time, double dt) {
     return true;
 }
 
-void Ballistic::model(const vector_t &x , vector_t &dxdt ,
-                                double t) {
+void Ballistic::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[X] = x[X_vel];
     dxdt[Y] = x[Y_vel];
     dxdt[Z] = x[Z_vel];
@@ -119,5 +105,5 @@ void Ballistic::model(const vector_t &x , vector_t &dxdt ,
     dxdt[Y_acc] = 0;
     dxdt[Z_acc] = -mass_ * g_;
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

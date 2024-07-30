@@ -36,10 +36,10 @@
 #include <scrimmage/common/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -69,6 +69,6 @@ class WaypointDispatcher : public scrimmage::Autonomy {
 
     bool tolerance_in_2d_ = false;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_

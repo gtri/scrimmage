@@ -38,8 +38,8 @@
 #include <map>
 #include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace scrimmage {
 
@@ -49,7 +49,7 @@ class Sensor : public EntityPlugin {
 
     std::string type() override;
 
-    virtual bool step() {return true;}
+    virtual bool step() { return true; }
 
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
@@ -67,8 +67,7 @@ class Sensor : public EntityPlugin {
         auto msg = sensor_msg(t);
         if (msg) {
             auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
-            return msg_cast ?
-                std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
+            return msg_cast ? std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
         } else {
             return nullptr;
         }
@@ -78,4 +77,4 @@ class Sensor : public EntityPlugin {
 using SensorPtr = std::shared_ptr<Sensor>;
 }  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
+#endif  // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_

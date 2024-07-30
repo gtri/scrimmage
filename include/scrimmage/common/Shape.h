@@ -33,15 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_SHAPE_H_
 #define INCLUDE_SCRIMMAGE_COMMON_SHAPE_H_
 
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <Eigen/Dense>
 
+#include <list>
 #include <memory>
 #include <string>
-#include <list>
 
 namespace scrimmage {
 namespace shape {
@@ -155,7 +155,7 @@ ShapePtr make_triangle(const Eigen::Vector3d &point0 = Eigen::Vector3d(1, 0, 0),
                        const Eigen::Vector3d &color = Eigen::Vector3d(0, 0, 255),
                        const double &opacity = 1.0);
 
-} // namespace shape
-} // namespace scrimmage
+}  // namespace shape
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_SHAPE_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_SHAPE_H_

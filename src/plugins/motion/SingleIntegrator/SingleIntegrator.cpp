@@ -30,23 +30,23 @@
  *
  */
 
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h>
 
 #include <cmath>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SingleIntegrator, SingleIntegrator_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel,
+                scrimmage::motion::SingleIntegrator,
+                SingleIntegrator_plugin)
 
 namespace scrimmage {
 namespace motion {
 
 bool SingleIntegrator::init(std::map<std::string, std::string> &info,
                             std::map<std::string, std::string> &params) {
-
     override_heading_ = scrimmage::get<bool>("override_heading", params, false);
     max_speed_ = scrimmage::get<double>("max_speed", params, max_speed_);
 
@@ -55,10 +55,11 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
     vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
 
     if (override_heading_) {
-        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+        desired_heading_idx_ =
+            vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
     }
 
-    auto get = [&](auto s) {return std::stod(info.at(s));};
+    auto get = [&](auto s) { return std::stod(info.at(s)); };
     state_->pos() << get("x"), get("y"), get("z");
 
     state_->vel() << Eigen::Vector3d::Zero();
@@ -68,9 +69,8 @@ bool SingleIntegrator::init(std::map<std::string, std::string> &info,
 }
 
 bool SingleIntegrator::step(double /*t*/, double dt) {
-    Eigen::Vector3d desired_vel(vars_.input(vel_x_idx_),
-                                vars_.input(vel_y_idx_),
-                                vars_.input(vel_z_idx_));
+    Eigen::Vector3d desired_vel(
+        vars_.input(vel_x_idx_), vars_.input(vel_y_idx_), vars_.input(vel_z_idx_));
 
     Eigen::Vector3d &vel = state_->vel();
 
@@ -96,5 +96,5 @@ bool SingleIntegrator::step(double /*t*/, double dt) {
     return true;
 }
 
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

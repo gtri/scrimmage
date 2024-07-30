@@ -33,14 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
 #include <scrimmage/autonomy/Autonomy.h>
-
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/Shape.pb.h>
 
-#include <string>
 #include <map>
-#include <utility>
 #include <memory>
+#include <string>
+#include <utility>
 
 namespace scrimmage {
 
@@ -59,8 +58,8 @@ class TakeFlag : public scrimmage::Autonomy {
     int flag_boundary_id_ = -1;
     int capture_boundary_id_ = -1;
 
-    std::map<int, std::pair<scrimmage_proto::Shape,
-        std::shared_ptr<interaction::BoundaryBase>>> boundaries_;
+    std::map<int, std::pair<scrimmage_proto::Shape, std::shared_ptr<interaction::BoundaryBase>>>
+        boundaries_;
 
     bool has_flag_ = false;
 
@@ -68,6 +67,6 @@ class TakeFlag : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_

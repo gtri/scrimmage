@@ -34,10 +34,10 @@
 #define INCLUDE_SCRIMMAGE_METRICS_METRICS_H_
 #include <scrimmage/entity/EntityPlugin.h>
 
-#include <map>
 #include <list>
-#include <string>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 
@@ -61,9 +61,9 @@ class Metrics : public EntityPlugin {
 
     virtual std::list<std::string> &headers();
 
-    virtual std::map<int, double> & team_scores();
+    virtual std::map<int, double> &team_scores();
 
-    bool get_print_team_summary() {return print_team_summary_;}
+    bool get_print_team_summary() { return print_team_summary_; }
 
  protected:
     std::string weights_file_;
@@ -75,5 +75,5 @@ class Metrics : public EntityPlugin {
 
 using MetricsPtr = std::shared_ptr<Metrics>;
 
-} // namespace scrimmage
+}  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_METRICS_METRICS_H_

@@ -35,8 +35,8 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/CSV.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -59,6 +59,6 @@ class APITester : public scrimmage::Autonomy {
 
     void write_my_test_values();
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_

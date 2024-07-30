@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <list>
 #include <map>
@@ -47,13 +47,13 @@ class GroundCollision : public scrimmage::EntityInteraction {
     GroundCollision();
 
     bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
+              std::map<std::string, std::string> &plugin_params) override;
 
-    bool step_entity_interaction(
-        std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
+                                 double t,
+                                 double dt) override;
 
-    bool collision_exists(
-        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
  protected:
     double ground_collision_z_;
@@ -62,6 +62,6 @@ class GroundCollision : public scrimmage::EntityInteraction {
     bool enable_startup_collisions_;
     std::string team_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_

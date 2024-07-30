@@ -29,21 +29,20 @@
  * A Long description goes here.
  *
  */
-#include <grpc++/grpc++.h>
-
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
 #include <scrimmage/pubsub/Publisher.h>
 
-#include <memory>
-#include <limits>
+#include <grpc++/grpc++.h>
+
 #include <iostream>
+#include <limits>
+#include <memory>
 
 using std::cout;
 using std::endl;
@@ -57,8 +56,7 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 namespace scrimmage {
 namespace interaction {
 
-GRPCCommandString::GRPCCommandString() {
-}
+GRPCCommandString::GRPCCommandString() {}
 
 bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
                              std::map<std::string, std::string> &plugin_params) {
@@ -70,9 +68,9 @@ bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-
 bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
+                                                double t,
+                                                double dt) {
     // Check for new messages:
     msgs_mutex_.lock();
     while (msgs_.size() > 0) {
@@ -110,7 +108,7 @@ void GRPCCommandString::run_server() {
     builder.RegisterService(&service);
     std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
     std::cout << "GRPCCommandString listening on " << result << std::endl;
-    server->Wait(); // this function blocks (should be in thread now)
+    server->Wait();  // this function blocks (should be in thread now)
 }
 
 void GRPCCommandString::push_msg(const scrimmage_msgs::CommandString &msg) {
@@ -119,5 +117,5 @@ void GRPCCommandString::push_msg(const scrimmage_msgs::CommandString &msg) {
     msgs_mutex_.unlock();
 }
 
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

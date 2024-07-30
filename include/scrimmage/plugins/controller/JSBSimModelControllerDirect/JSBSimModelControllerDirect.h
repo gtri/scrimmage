@@ -57,6 +57,6 @@ class JSBSimModelControllerDirect : public Controller {
     int output_roll_idx_ = 0;
     int output_alt_or_pitch_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMMODELCONTROLLERDIRECT_JSBSIMMODELCONTROLLERDIRECT_H_

@@ -35,10 +35,10 @@
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
-#include <unordered_set>
-#include <string>
 #include <list>
+#include <map>
+#include <string>
+#include <unordered_set>
 
 namespace scrimmage {
 namespace interaction {
@@ -48,7 +48,9 @@ class SimpleCapture : public scrimmage::EntityInteraction {
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+                                 double t,
+                                 double dt) override;
+
  protected:
     double capture_range_;
     bool enable_team_captures_;

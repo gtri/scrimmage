@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <btBulletDynamicsCommon.h>
 
-#include <vector>
 #include <list>
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 #include <utility>
+#include <vector>
 
 namespace sc = scrimmage;
 class Interface;
@@ -59,17 +59,14 @@ class BulletCollision : public scrimmage::EntityInteraction {
     BulletCollision();
     ~BulletCollision();
     bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
+              std::map<std::string, std::string> &plugin_params) override;
 
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                         double t, double dt) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr> &ents, double t, double dt) override;
 
-    bool collision_exists(std::list<sc::EntityPtr> &ents,
-                                  Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<sc::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
     /** For the service call */
-    bool get_ray_tracing(scrimmage::MessageBasePtr request,
-                         scrimmage::MessageBasePtr &response);
+    bool get_ray_tracing(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response);
 
  protected:
     std::pair<bool, scrimmage::EntityPtr> get_entity(const int &id);
@@ -77,16 +74,16 @@ class BulletCollision : public scrimmage::EntityInteraction {
     void entity_collision(const int &id);
     void remove_object(const int &id);
 
-    btCollisionConfiguration* bt_collision_configuration;
-    btCollisionDispatcher* bt_dispatcher;
-    btBroadphaseInterface* bt_broadphase;
-    btCollisionWorld* bt_collision_world;
+    btCollisionConfiguration *bt_collision_configuration;
+    btCollisionDispatcher *bt_dispatcher;
+    btBroadphaseInterface *bt_broadphase;
+    btCollisionWorld *bt_collision_world;
 
     double scene_size_;
     unsigned int max_objects_;
 
     struct SceneObject {
-        btCollisionObject* object = nullptr;
+        btCollisionObject *object = nullptr;
         scrimmage::ShapePtr shape = nullptr;
     };
     std::map<int, SceneObject> objects_;

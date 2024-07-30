@@ -37,10 +37,10 @@
 #include <Eigen/Dense>
 
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <random>
-#include <memory>
 
 namespace scrimmage {
 namespace sensor {

@@ -30,21 +30,19 @@
  *
  */
 
-#include <scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h>
-
 #include <scrimmage/common/CSV.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/metrics/Metrics.h>
-
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/msgs/Event.pb.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
 #include <iostream>
 #include <limits>
@@ -55,18 +53,17 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::Metrics,
-                scrimmage::metrics::OpenAIRewards,
-                OpenAIRewards_plugin)
+REGISTER_PLUGIN(scrimmage::Metrics, scrimmage::metrics::OpenAIRewards, OpenAIRewards_plugin)
 
 namespace scrimmage {
 namespace metrics {
 
-OpenAIRewards::OpenAIRewards() : Metrics() {
+OpenAIRewards::OpenAIRewards()
+    : Metrics() {
     print_team_summary_ = false;
 }
 
-void OpenAIRewards::init(std::map<std::string, std::string> &/*params*/) {
+void OpenAIRewards::init(std::map<std::string, std::string> & /*params*/) {
     auto cb = [&](auto msg) {
         size_t id;
         double reward;
@@ -93,7 +90,7 @@ void OpenAIRewards::calc_team_scores() {
     std::string filename = parent_->mp()->log_dir() + "/rewards.csv";
 
     if (!csv.open_output(filename)) {
-       std::cout << "Couldn't create output file" << endl;
+        std::cout << "Couldn't create output file" << endl;
     }
 
     csv.set_column_headers("id, reward");
@@ -102,5 +99,5 @@ void OpenAIRewards::calc_team_scores() {
     }
     csv.close_output();
 }
-} // namespace metrics
-} // namespace scrimmage
+}  // namespace metrics
+}  // namespace scrimmage

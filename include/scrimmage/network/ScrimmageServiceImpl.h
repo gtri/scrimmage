@@ -36,15 +36,14 @@
 #if ENABLE_GRPC == 1
 
 #include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include <scrimmage/proto/Visual.pb.h>
 
 #include <google/protobuf/empty.pb.h>
 
+#include <future>  // NOLINT
 #include <list>
-#include <mutex> // NOLINT
-#include <future> // NOLINT
-
+#include <mutex>  // NOLINT
 
 namespace scrimmage {
 
@@ -52,18 +51,22 @@ class Interface;
 
 class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Service {
  public:
-    explicit ScrimmageServiceImpl(Interface *interface);
+    explicit ScrimmageServiceImpl(Interface* interface);
 
-    grpc::Status SendFrame(grpc::ServerContext* context, const scrimmage_proto::Frame* frame,
+    grpc::Status SendFrame(grpc::ServerContext* context,
+                           const scrimmage_proto::Frame* frame,
                            scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendUTMTerrain(grpc::ServerContext* context, const scrimmage_proto::UTMTerrain* terrain,
+    grpc::Status SendUTMTerrain(grpc::ServerContext* context,
+                                const scrimmage_proto::UTMTerrain* terrain,
                                 scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendSimInfo(grpc::ServerContext* context, const scrimmage_proto::SimInfo* sim_info,
+    grpc::Status SendSimInfo(grpc::ServerContext* context,
+                             const scrimmage_proto::SimInfo* sim_info,
                              scrimmage_proto::BlankReply* reply) override;
 
-    grpc::Status SendGUIMsg(grpc::ServerContext* context, const scrimmage_proto::GUIMsg* gui_msg,
+    grpc::Status SendGUIMsg(grpc::ServerContext* context,
+                            const scrimmage_proto::GUIMsg* gui_msg,
                             scrimmage_proto::BlankReply* reply) override;
 
     grpc::Status SendContactVisual(grpc::ServerContext* context,
@@ -81,10 +84,10 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
     std::promise<void> exit_requested;
 
  protected:
-    Interface * interface_;
+    Interface* interface_;
 };
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // ENABLE_GRPC == 1
+#endif  // ENABLE_GRPC == 1
 
-#endif // INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_
+#endif  // INCLUDE_SCRIMMAGE_NETWORK_SCRIMMAGESERVICEIMPL_H_

@@ -29,14 +29,13 @@
  *
  */
 
-#include <scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/VariableIO.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h>
 
 #include <iostream>
 #include <limits>
@@ -55,12 +54,13 @@ namespace controller {
 
 void HarmonicOscillatorConstController::init(std::map<std::string, std::string> &params) {
     acceleration_z_ = sc::get<double>("acceleration_z", params, 0);
-    acceleration_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
+    acceleration_z_idx_ =
+        vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);
 }
 
 bool HarmonicOscillatorConstController::step(double t, double dt) {
     vars_.output(acceleration_z_idx_, acceleration_z_);
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

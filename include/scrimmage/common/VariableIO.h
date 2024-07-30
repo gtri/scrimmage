@@ -35,10 +35,10 @@
 
 #include <Eigen/Dense>
 
-#include <set>
 #include <map>
-#include <string>
 #include <memory>
+#include <set>
+#include <string>
 
 namespace scrimmage {
 /*! \brief abstracts the connection between motion models, controllers, and autonomies
@@ -46,7 +46,7 @@ namespace scrimmage {
 class VariableIO;
 class VariableIO {
  public:
-    enum class Direction {In = 0, Out};
+    enum class Direction { In = 0, Out };
     enum class Type {
         desired_altitude,
         desired_speed,
@@ -122,6 +122,6 @@ class VariableIO {
 void print_io_error(const std::string &in_name, VariableIO &v);
 bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_

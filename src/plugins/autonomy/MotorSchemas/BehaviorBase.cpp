@@ -30,29 +30,23 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
 
-BehaviorBase::BehaviorBase() : desired_vector_(Eigen::Vector3d(0, 0, 0)), gain_(1.0),
-                               max_vector_length_(1.0) {
-}
+BehaviorBase::BehaviorBase()
+    : desired_vector_(Eigen::Vector3d(0, 0, 0)),
+      gain_(1.0),
+      max_vector_length_(1.0) {}
 
-Eigen::Vector3d &BehaviorBase::desired_vector() {
-    return desired_vector_;
-}
+Eigen::Vector3d &BehaviorBase::desired_vector() { return desired_vector_; }
 
-void BehaviorBase::set_gain(const double &gain) {
-    gain_ = gain;
-}
+void BehaviorBase::set_gain(const double &gain) { gain_ = gain; }
 
-const double &BehaviorBase::gain() {
-    return gain_;
-}
+const double &BehaviorBase::gain() { return gain_; }
 
 void BehaviorBase::set_max_vector_length(const double &max_vector_length) {
     max_vector_length_ = max_vector_length;
@@ -73,13 +67,11 @@ void BehaviorBase::configure_contacts(std::map<std::string, std::string> &params
     }
 
     if (use_noisy_contacts_) {
-        auto cnt_cb = [&] (scrimmage::MessagePtr<ContactMap> &msg) {
-                          noisy_contacts_ = msg->data;
-                      };
+        auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap> &msg) { noisy_contacts_ = msg->data; };
         subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
     }
 }
 
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage

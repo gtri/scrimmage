@@ -30,23 +30,23 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h>
-
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/MotionModel.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
+
 #include <math.h>
 
-#include <memory>
-#include <limits>
 #include <iostream>
+#include <limits>
+#include <memory>
 
 using std::cout;
 using std::endl;
@@ -60,12 +60,10 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction,
 namespace scrimmage {
 namespace interaction {
 
-ExternalForceField::ExternalForceField() {
-}
+ExternalForceField::ExternalForceField() {}
 
 bool ExternalForceField::init(std::map<std::string, std::string> &mission_params,
                               std::map<std::string, std::string> &plugin_params) {
-
     pub_ = advertise("GlobalNetwork", "Force_Field");
     // Parse the force type
     std::string force_type_str = sc::get("force_type", plugin_params, "constant");
@@ -75,8 +73,8 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
         // Parse the constant force
         std::vector<double> force_vec;
 
-        if (str2container(sc::get("constant_force", plugin_params, "0, 0, 0"),
-                          ", ", force_vec, 3)) {
+        if (str2container(
+                sc::get("constant_force", plugin_params, "0, 0, 0"), ", ", force_vec, 3)) {
             if (force_vec[0] == 99) {
                 mag_ = sc::get("constant_mag", plugin_params, mag_);
                 ang_ = sc::get("constant_dir", plugin_params, ang_);
@@ -86,7 +84,8 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
                 force_vec[1] = mag_ * sin(ang_);
                 force_vec[2] = 0;
             }
-            // std::cout << "Force is [0]: " << force_vec[0] << ", [1]: " << force_vec[1] << std::endl;
+            // std::cout << "Force is [0]: " << force_vec[0] << ", [1]: " << force_vec[1] <<
+            // std::endl;
             force_ << force_vec[0], force_vec[1], force_vec[2];
         }
     } else if (force_type_str == "variable") {
@@ -95,10 +94,11 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
         // Parse the force change period
         std::vector<double> force_change_period_vec;
         if (str2container(sc::get("force_change_period", plugin_params, "0.0, 1.0"),
-                          ", ", force_change_period_vec, 2)) {
-            force_change_period_noise_ =
-                parent_->random()->make_rng_normal(force_change_period_vec[0],
-                                                   force_change_period_vec[1]);
+                          ", ",
+                          force_change_period_vec,
+                          2)) {
+            force_change_period_noise_ = parent_->random()->make_rng_normal(
+                force_change_period_vec[0], force_change_period_vec[1]);
         } else {
             cout << "Failed to parse force_change_period" << endl;
             return false;
@@ -107,12 +107,13 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
         // Parse the variable force magnitudes
         for (int i = 0; i < 3; i++) {
             std::vector<double> var_force_vec;
-            if (str2container(sc::get("variable_force_" + std::to_string(i),
-                                      plugin_params, "0.0, 1.0"),
-                              ", ", var_force_vec, 2)) {
+            if (str2container(
+                    sc::get("variable_force_" + std::to_string(i), plugin_params, "0.0, 1.0"),
+                    ", ",
+                    var_force_vec,
+                    2)) {
                 auto force_noise =
-                    parent_->random()->make_rng_normal(var_force_vec[0],
-                                                       var_force_vec[1]);
+                    parent_->random()->make_rng_normal(var_force_vec[0], var_force_vec[1]);
                 force_noise_.push_back(force_noise);
             } else {
                 cout << "Failed to parse variable_force_" << i << endl;
@@ -142,7 +143,8 @@ bool ExternalForceField::init(std::map<std::string, std::string> &mission_params
 }
 
 bool ExternalForceField::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
+                                                 double t,
+                                                 double dt) {
     if (force_type_ == Variable) {
         if (time_->t() >= next_sample_time_) {
             sample_force();
@@ -164,7 +166,7 @@ bool ExternalForceField::step_entity_interaction(std::list<sc::EntityPtr> &ents,
         if (ent->state_truth()->pos()(2) >= moment_enable_min_z_ &&
             ent->state_truth()->pos()(2) <= moment_enable_max_z_) {
             double scale = (ent->state_truth()->pos()(2) - moment_enable_min_z_) /
-                (moment_enable_max_z_ - moment_enable_min_z_);
+                           (moment_enable_max_z_ - moment_enable_min_z_);
             ent->motion()->set_external_moment(moment_ * scale);
         }
     }
@@ -182,5 +184,5 @@ void ExternalForceField::sample_force() {
     // Determine when the next sample time will take place
     next_sample_time_ = time_->t() + (*force_change_period_noise_)(*gener);
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

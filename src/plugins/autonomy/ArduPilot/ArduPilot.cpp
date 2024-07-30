@@ -29,52 +29,44 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/ArduPilot/ArduPilot.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/ArduPilot/ArduPilot.h>
 #include <scrimmage/sensor/Sensor.h>
 
-#include <iomanip>
+#include <chrono> // NOLINT
 #include <iostream>
-#include <limits>
-#include <fstream>
-#include <chrono>
 
 #include <GeographicLib/LocalCartesian.hpp>
-
-#include <boost/bind.hpp>
-#include <boost/asio/placeholders.hpp>
-#include <boost/asio/buffer.hpp>
 #include <boost/asio/basic_datagram_socket.hpp>
+#include <boost/asio/buffer.hpp>
+#include <boost/asio/placeholders.hpp>
+#include <boost/bind.hpp>
 
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 
 namespace ba = boost::asio;
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::ArduPilot,
-                ArduPilot_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ArduPilot, ArduPilot_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-ArduPilot::ArduPilot() :
-    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
-
+ArduPilot::ArduPilot()
+    : angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {
     for (int i = 0; i < MAX_NUM_SERVOS; i++) {
         servo_pkt_.servos[i] = 0;
     }
 }
 
-void ArduPilot::init(std::map<std::string, std::string> &params) {
+void ArduPilot::init(std::map<std::string, std::string>& params) {
     std::string servo_map = sc::get<std::string>("servo_map", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (!sc::get_vec_of_vecs(servo_map, vecs)) {
@@ -91,13 +83,16 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
 
             int servo = std::stod(vec[1]);
             if (servo >= MAX_NUM_SERVOS) {
-                cout << "Warning: servo_map contains out-of-range servo index"
-                     << endl;
+                cout << "Warning: servo_map contains out-of-range servo index" << endl;
             } else {
-                scrimmage::controller::AxisScale at(servo, std::stod(vec[2]),
-                             std::stod(vec[3]), std::stod(vec[4]),
-                             std::stod(vec[5]), std::stod(vec[6]),
-                             vars_.declare(vec[0], VariableIO::Direction::Out));
+                scrimmage::controller::AxisScale at(
+                    servo,
+                    std::stod(vec[2]),
+                    std::stod(vec[3]),
+                    std::stod(vec[4]),
+                    std::stod(vec[5]),
+                    std::stod(vec[6]),
+                    vars_.declare(vec[0], VariableIO::Direction::Out));
                 servo_tfs_.push_back(at);
 
                 // cout << "Mapping servo " << at.axis_index() << " to channel " <<
@@ -110,8 +105,7 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
     asynchonous_mode_ = sc::get<bool>("asynchronous_mode", params, true);
 
     // Get parameters for transmit socket (to ardupilot)
-    std::string to_ardupilot_ip = sc::get<std::string>("to_ardupilot_ip",
-                                                       params, "127.0.0.1");
+    std::string to_ardupilot_ip = sc::get<std::string>("to_ardupilot_ip", params, "127.0.0.1");
 
     int to_ardupilot_port = sc::get<int>("to_ardupilot_port", params, 5003);
     int from_ardupilot_port = sc::get<int>("from_ardupilot_port", params, 5002);
@@ -123,32 +117,27 @@ void ArduPilot::init(std::map<std::string, std::string> &params) {
         int multiplier = sc::get<int>("port_instance_multiplier", params, 10);
 
         int base_port = convert<int>(it_base_port->second);
-        from_ardupilot_port = base_port + multiplier*parent_->id().id();
+        from_ardupilot_port = base_port + multiplier * parent_->id().id();
         to_ardupilot_port = from_ardupilot_port + 1;
     }
 
-    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip << ":"
-         << to_ardupilot_port << endl;
-    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":"
-         << from_ardupilot_port << endl;
+    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip << ":" << to_ardupilot_port << endl;
+    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":" << from_ardupilot_port
+         << endl;
 
     // Setup transmit socket
     tx_socket_ = std::make_shared<ba::ip::udp::socket>(tx_io_service_,
-                                                       ba::ip::udp::endpoint(
-                                                           ba::ip::udp::v4(),
-                                                           0));
+                                                       ba::ip::udp::endpoint(ba::ip::udp::v4(), 0));
     tx_resolver_ = std::make_shared<ba::ip::udp::resolver>(tx_io_service_);
-    tx_endpoint_ = *(tx_resolver_->resolve({ba::ip::udp::v4(),
-                        to_ardupilot_ip, std::to_string(to_ardupilot_port)}));
+    tx_endpoint_ = *(tx_resolver_->resolve(
+        {ba::ip::udp::v4(), to_ardupilot_ip, std::to_string(to_ardupilot_port)}));
 
-    recv_socket_ = std::make_shared<ba::ip::udp::socket>(recv_io_service_,
-                                                         ba::ip::udp::endpoint(
-                                                             ba::ip::udp::v4(),
-                                                             from_ardupilot_port));
+    recv_socket_ = std::make_shared<ba::ip::udp::socket>(
+        recv_io_service_, ba::ip::udp::endpoint(ba::ip::udp::v4(), from_ardupilot_port));
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
-    auto cb = [&](auto &msg){*state_6dof_ = msg->data;};
+    auto cb = [&](auto& msg) { *state_6dof_ = msg->data; };
     subscribe<motion::RigidBody6DOFState>("LocalNetwork", "RigidBody6DOFState", cb);
 }
 
@@ -159,11 +148,12 @@ static double last_print_t = 0;
 static std::chrono::time_point<std::chrono::system_clock> last_print_wall_t;
 void ArduPilot::start_receive() {
     // Enable the receive async callback
-    recv_socket_->async_receive_from(
-        ba::buffer(recv_buffer_), recv_remote_endpoint_,
-        boost::bind(&ArduPilot::handle_receive, this,
-                    ba::placeholders::error,
-                    ba::placeholders::bytes_transferred));
+    recv_socket_->async_receive_from(ba::buffer(recv_buffer_),
+                                     recv_remote_endpoint_,
+                                     boost::bind(&ArduPilot::handle_receive,
+                                                 this,
+                                                 ba::placeholders::error,
+                                                 ba::placeholders::bytes_transferred));
 }
 
 void ArduPilot::close(double t) {
@@ -172,13 +162,11 @@ void ArduPilot::close(double t) {
 }
 
 bool ArduPilot::step_autonomy(double t, double dt) {
-
     // Convert state6dof into ArduPilot fdm_packet and transmit
     fdm_packet fdm_pkt = state6dof_to_fdm_packet(t, *state_6dof_);
     try {
         // TODO: Michael, endian handling?
-        tx_socket_->send_to(ba::buffer(&fdm_pkt, sizeof(fdm_packet)),
-                            tx_endpoint_);
+        tx_socket_->send_to(ba::buffer(&fdm_pkt, sizeof(fdm_packet)), tx_endpoint_);
         ntx++;
         last_ntx++;
     } catch (std::exception& e) {
@@ -192,8 +180,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         boost::system::error_code error;
         ba::ip::udp::socket::message_flags flags;
         std::size_t nbytes = recv_socket_->receive_from(
-            ba::buffer(recv_buffer_), recv_remote_endpoint_,
-            flags, error);
+            ba::buffer(recv_buffer_), recv_remote_endpoint_, flags, error);
 
         parse_receive(error, nbytes);
     }
@@ -201,22 +188,20 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     // Copy the received servo commands into the desired state
     servo_pkt_mutex_.lock();
     for (auto servo_tf : servo_tfs_) {
-        vars_.output(servo_tf.vector_index(), servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
+        vars_.output(servo_tf.vector_index(),
+                     servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]));
         // int prec = 9;
-        // cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " << servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
+        // cout << std::setprecision(prec) << "servo_out"<< servo_tf.axis_index() << ": " <<
+        // servo_tf.scale(servo_pkt_.servos[servo_tf.axis_index()]) << endl;
     }
     servo_pkt_mutex_.unlock();
 
-
     if (t - last_print_t > 5) {
         const auto t0 = std::chrono::system_clock::now();
-        auto d = std::chrono::duration_cast<std::chrono::microseconds>(t0-last_print_wall_t);
-        cout <<
-        "walltime: " << t0.time_since_epoch().count() <<
-        ", simtime: " << t <<
-        ", packets tx: " << ntx << ", rx: " << nrx <<
-        ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" <<
-        endl;
+        auto d = std::chrono::duration_cast<std::chrono::microseconds>(t0 - last_print_wall_t);
+        cout << "walltime: " << t0.time_since_epoch().count() << ", simtime: " << t
+             << ", packets tx: " << ntx << ", rx: " << nrx
+             << ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" << endl;
         last_print_t = t;
         last_print_wall_t = t0;
         last_ntx = 0;
@@ -225,8 +210,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     return true;
 }
 
-void ArduPilot::parse_receive(const boost::system::error_code& error,
-                               std::size_t num_bytes) {
+void ArduPilot::parse_receive(const boost::system::error_code& error, std::size_t num_bytes) {
 #if 0
     cout << "--------------------------------------------------------" << endl;
     cout << "  Servo packets received from ArduPilot (ID: "
@@ -242,7 +226,7 @@ void ArduPilot::parse_receive(const boost::system::error_code& error,
     } else {
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
-            servo_pkt_.servos[i] = (recv_buffer_[i*2+1] << 8) + recv_buffer_[i*2];
+            servo_pkt_.servos[i] = (recv_buffer_[i * 2 + 1] << 8) + recv_buffer_[i * 2];
 #if 0
             int prec = 9;
             cout << std::setprecision(prec) << "servo"<< i << ": " << servo_pkt_.servos[i] << endl;
@@ -253,22 +237,22 @@ void ArduPilot::parse_receive(const boost::system::error_code& error,
     nrx++;
 }
 
-void ArduPilot::handle_receive(const boost::system::error_code& error,
-                               std::size_t num_bytes) {
+void ArduPilot::handle_receive(const boost::system::error_code& error, std::size_t num_bytes) {
     parse_receive(error, num_bytes);
-    start_receive(); // enable async receive for next message
+    start_receive();  // enable async receive for next message
 }
 
-ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
-    double t, sc::motion::RigidBody6DOFState &state) {
-
+ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(double t,
+                                                         sc::motion::RigidBody6DOFState& state) {
     fdm_packet fdm_pkt = {0};
 
     fdm_pkt.timestamp_us = t * 1e6;
 
     // x/y/z to lat/lon/alt conversion
-    parent_->projection()->Reverse(state.pos()(0), state.pos()(1),
-                                   state.pos()(2), fdm_pkt.latitude,
+    parent_->projection()->Reverse(state.pos()(0),
+                                   state.pos()(1),
+                                   state.pos()(2),
+                                   fdm_pkt.latitude,
                                    fdm_pkt.longitude,
                                    fdm_pkt.altitude);
 
@@ -284,8 +268,8 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Body frame linear acceleration FRU
     if (mavproxy_mode_) {
-        Eigen::Vector3d specific_force_body = state.linear_accel_body()
-                    - state.quat().rotate_reverse(Eigen::Vector3d(0, 0, -9.81));
+        Eigen::Vector3d specific_force_body =
+            state.linear_accel_body() - state.quat().rotate_reverse(Eigen::Vector3d(0, 0, -9.81));
         fdm_pkt.xAccel = specific_force_body(0);
         fdm_pkt.yAccel = -specific_force_body(1);
         fdm_pkt.zAccel = -specific_force_body(2);
@@ -302,24 +286,22 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     if (mavproxy_mode_) {
         // world frame rotational velocities
-        double p =  state.ang_vel_body()(0);
+        double p = state.ang_vel_body()(0);
         double q = -state.ang_vel_body()(1);
         double r = -state.ang_vel_body()(2);
         double sphi = sin(fdm_pkt.roll);
         double cphi = cos(fdm_pkt.roll);
         double tth = tan(fdm_pkt.pitch);
         double cth = std::max(.00001, cos(fdm_pkt.pitch));
-        fdm_pkt.rollRate  = p +  tth*sphi*q + tth*cphi*r;
-        fdm_pkt.pitchRate =          cphi*q -     sphi*r;
-        fdm_pkt.yawRate   =     sphi/cth *q + cphi/cth*r;
+        fdm_pkt.rollRate = p + tth * sphi * q + tth * cphi * r;
+        fdm_pkt.pitchRate = cphi * q - sphi * r;
+        fdm_pkt.yawRate = sphi / cth * q + cphi / cth * r;
     } else {
         // Body frame rotational velocities FRU
-        fdm_pkt.rollRate  = state.ang_vel_body()(0);
+        fdm_pkt.rollRate = state.ang_vel_body()(0);
         fdm_pkt.pitchRate = -state.ang_vel_body()(1);
-        fdm_pkt.yawRate   = -state.ang_vel_body()(2);
+        fdm_pkt.yawRate = -state.ang_vel_body()(2);
     }
-
-
 
     // Airspeed is magnitude of velocity vector for now
     fdm_pkt.airspeed = (state.vel() + state.wind()).norm();
@@ -362,5 +344,5 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
     return fdm_pkt;
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

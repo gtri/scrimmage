@@ -34,11 +34,12 @@
 #define INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
 
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace rapidxml {
-template <class T> class xml_node;
+template <class T>
+class xml_node;
 }
 
 namespace scrimmage {
@@ -50,16 +51,18 @@ class ConfigParse {
     ConfigParse();
     void set_required(std::string node_name);
     bool parse(const std::map<std::string, std::string> &overrides,
-        std::string filename, std::string env_var, FileSearch &file_search,
-        bool verbose = false);
-    std::map<std::string, std::string> & params();
+               std::string filename,
+               std::string env_var,
+               FileSearch &file_search,
+               bool verbose = false);
+    std::map<std::string, std::string> &params();
     std::string filename();
     std::string directory();
     std::string extension();
     std::string stem();
     void print_params();
 
-    friend std::ostream& operator<<(std::ostream& os, ConfigParse& cp);
+    friend std::ostream &operator<<(std::ostream &os, ConfigParse &cp);
 
  protected:
     std::map<std::string, std::string> params_;
@@ -67,9 +70,9 @@ class ConfigParse {
     std::string filename_;
 
     void recursive_params(rapidxml::xml_node<char> *root,
-        const std::map<std::string, std::string> &overrides,
-        std::map<std::string, std::string> &params,
-        const std::string &prev);
+                          const std::map<std::string, std::string> &overrides,
+                          std::map<std::string, std::string> &params,
+                          const std::string &prev);
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

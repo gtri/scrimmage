@@ -32,13 +32,13 @@
 
 #include <scrimmage/common/Utilities.h>
 
-#include <iostream>
+#include <cassert>
 #include <iomanip>
+#include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
-#include <cassert>
 #include <vector>
-#include <memory>
 
 #include <boost/algorithm/string.hpp>
 
@@ -94,9 +94,7 @@ std::string get_sha(std::string &path) {
     FILE *status_file = popen(status_cmd.c_str(), "r");
 
     char sha[41], status[3];
-    bool success =
-        fgets(sha, 40, sha_file) != NULL &&
-        fgets(status, 2, status_file) != NULL;
+    bool success = fgets(sha, 40, sha_file) != NULL && fgets(status, 2, status_file) != NULL;
 
     pclose(sha_file);
     pclose(status_file);
@@ -121,14 +119,13 @@ std::string get_version() {
 }
 
 void filter_line(int downsampling_factor,
-    int num_points,
-    std::vector<Eigen::Vector3d> &path,
-    std::vector<Eigen::Vector3d> &filtered_path) {
-
+                 int num_points,
+                 std::vector<Eigen::Vector3d> &path,
+                 std::vector<Eigen::Vector3d> &filtered_path) {
     int curvature_sz = path.size() / downsampling_factor;
     std::list<std::pair<int, double>> curvature;
 
-    auto idx = [=](int i) {return downsampling_factor * i;};
+    auto idx = [=](int i) { return downsampling_factor * i; };
     for (int i = 1; i < curvature_sz - 1; i++) {
         Eigen::Vector3d &pt_prev = path[idx(i - 1)];
         Eigen::Vector3d &pt = path[idx(i)];
@@ -139,9 +136,9 @@ void filter_line(int downsampling_factor,
     }
 
     using Pair = std::pair<int, double>;
-    curvature.sort([](Pair &a, Pair &b) {return a.second > b.second;});
+    curvature.sort([](Pair &a, Pair &b) { return a.second > b.second; });
     curvature.erase(std::next(curvature.begin(), num_points), curvature.end());
-    curvature.sort([](Pair &a, Pair &b) {return a.first < b.first;});
+    curvature.sort([](Pair &a, Pair &b) { return a.first < b.first; });
 
     filtered_path.clear();
     filtered_path.reserve(curvature.size() + 2);
@@ -191,4 +188,4 @@ std::vector<double> linspace(double low, double high, uint32_t n) {
     return out;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

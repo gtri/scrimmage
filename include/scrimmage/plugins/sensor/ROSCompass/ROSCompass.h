@@ -32,15 +32,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
 
-#include <ros/ros.h>
-#include <sensor_msgs/MagneticField.h>
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
+#include <ros/ros.h>
+#include <sensor_msgs/MagneticField.h>
+
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace sensor {
@@ -59,6 +60,6 @@ class ROSCompass : public scrimmage::Sensor {
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_

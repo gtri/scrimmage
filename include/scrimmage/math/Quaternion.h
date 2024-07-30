@@ -53,11 +53,9 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
     Quaternion &operator=(const Quaternion &other);
     Quaternion &operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other);
 
-    Quaternion(const double &w, const double &x,
-               const double &y, const double &z);
+    Quaternion(const double &w, const double &x, const double &y, const double &z);
 
-    Quaternion(double &w, double &x,
-               double &y, double &z);
+    Quaternion(double &w, double &x, double &y, double &z);
 
     Quaternion(const Eigen::Vector3d &vector, double angle_radians);
 
@@ -109,10 +107,10 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
     ///@}
 
     uint8_t output_precision = 2;
-    friend std::ostream& operator<<(std::ostream& os, const Quaternion& q);
+    friend std::ostream &operator<<(std::ostream &os, const Quaternion &q);
 };
 
 scrimmage::Quaternion operator*(const scrimmage::Quaternion &q1, const scrimmage::Quaternion &q2);
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_

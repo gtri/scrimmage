@@ -33,14 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
 
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <map>
-#include <string>
 #include <list>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -73,6 +72,6 @@ class MotorSchemas : public scrimmage::Autonomy {
 
     scrimmage_proto::ShapePtr line_shape_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_

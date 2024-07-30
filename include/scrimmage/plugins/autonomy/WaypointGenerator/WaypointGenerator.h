@@ -1,4 +1,4 @@
- /*!
+/*!
  * @file
  *
  * @section LICENSE
@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTGENERATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTGENERATOR_H_
 
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 #include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
 #include <map>
 #include <string>
@@ -60,6 +60,6 @@ class WaypointGenerator : public scrimmage::Autonomy {
     uint8_t position_y_idx_ = 0;
     uint8_t position_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTGENERATOR_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTGENERATOR_H_

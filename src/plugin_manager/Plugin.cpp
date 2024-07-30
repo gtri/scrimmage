@@ -32,11 +32,12 @@
 
 #include <scrimmage/entity/EntityPlugin.h>
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
-Plugin::Plugin() : name_("Plugin") {}
+Plugin::Plugin()
+    : name_("Plugin") {}
 Plugin::~Plugin() {}
 std::string Plugin::name() { return name_; }
 std::string Plugin::type() { return std::string("Plugin"); }
@@ -50,4 +51,4 @@ void Plugin::set_name(std::string name) {
     name_set_ = true;  // Set only once before warning.
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

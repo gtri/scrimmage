@@ -30,12 +30,11 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/RLSimpleSensor/RLSimpleSensor.h>
-
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/RLSimpleSensor/RLSimpleSensor.h>
 
 REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RLSimpleSensor, RLSimpleSensor_plugin)
 
@@ -53,5 +52,5 @@ void RLSimpleSensor::set_observation_space() {
     observation_space.continuous_extrema.push_back(std::make_pair(-inf, inf));
 }
 
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

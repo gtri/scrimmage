@@ -64,9 +64,7 @@ void Timer::start_loop_timer() {
     sim_time_ += sim_time_period_;
 }
 
-void Timer::pause_loop_timer() {
-    loop_timer_running_ = false;
-}
+void Timer::pause_loop_timer() { loop_timer_running_ = false; }
 
 boost::posix_time::time_duration Timer::loop_wait() {
     boost::posix_time::ptime time = boost::posix_time::microsec_clock::local_time();
@@ -81,13 +79,9 @@ boost::posix_time::time_duration Timer::loop_wait() {
     return remainder;
 }
 
-void Timer::set_iterate_rate(double iterate_rate) {
-    iterate_rate_ = iterate_rate;
-}
+void Timer::set_iterate_rate(double iterate_rate) { iterate_rate_ = iterate_rate; }
 
-void Timer::set_time_warp(double time_warp) {
-    time_warp_ = time_warp;
-}
+void Timer::set_time_warp(double time_warp) { time_warp_ = time_warp; }
 
 void Timer::update_time_config() {
     if (iterate_rate_ > 0 && time_warp_ > 0) {
@@ -104,7 +98,7 @@ uint64_t Timer::getnanotime() {
     uint64_t nano = 0;
     timespec ts;
     // clock_gettime(CLOCK_MONOTONIC, &ts); // Works on FreeBSD
-    clock_gettime(CLOCK_REALTIME, &ts); // Works on Linux
+    clock_gettime(CLOCK_REALTIME, &ts);  // Works on Linux
 
     nano = ts.tv_sec * 1e9 + ts.tv_nsec;
     return nano;
@@ -132,8 +126,6 @@ void Timer::dec_warp() {
     update_time_config();
 }
 
-double Timer::time_warp() {
-    return time_warp_;
-}
+double Timer::time_warp() { return time_warp_; }
 
-} // namespace scrimmage
+}  // namespace scrimmage

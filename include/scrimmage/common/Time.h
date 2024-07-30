@@ -39,28 +39,18 @@ namespace scrimmage {
 
 class Time {
  public:
-    Time() : t_(-1), dt_(-1), time_warp_(-1) {
-    }
+    Time()
+        : t_(-1),
+          dt_(-1),
+          time_warp_(-1) {}
 
-    double t() const {
-        return t_;
-    }
-    double dt() const {
-        return dt_;
-    }
-    double time_warp() const {
-        return time_warp_;
-    }
+    double t() const { return t_; }
+    double dt() const { return dt_; }
+    double time_warp() const { return time_warp_; }
 
-    void set_t(double t) {
-        t_ = t;
-    }
-    void set_dt(double dt) {
-        dt_ = dt;
-    }
-    void set_time_warp(double time_warp) {
-        time_warp_ = time_warp;
-    }
+    void set_t(double t) { t_ = t; }
+    void set_dt(double dt) { dt_ = dt; }
+    void set_time_warp(double time_warp) { time_warp_ = time_warp; }
 
  protected:
     double t_;
@@ -68,5 +58,5 @@ class Time {
     double time_warp_;
 };
 using TimePtr = std::shared_ptr<Time>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_TIME_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_TIME_H_

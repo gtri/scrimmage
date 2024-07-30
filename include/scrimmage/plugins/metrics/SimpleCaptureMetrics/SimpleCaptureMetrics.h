@@ -36,8 +36,8 @@
 #include <scrimmage/metrics/Metrics.h>
 
 #include <iostream>
-#include <set>
 #include <map>
+#include <set>
 #include <string>
 
 using std::cout;
@@ -78,9 +78,7 @@ class Score {
         }
     }
 
-    void set_count(std::string type, int c) {
-        counts_[type] = c;
-    }
+    void set_count(std::string type, int c) { counts_[type] = c; }
 
     int count(std::string type) {
         auto it = counts_.find(type);
@@ -125,6 +123,6 @@ class SimpleCaptureMetrics : public scrimmage::Metrics {
 
     std::map<std::string, std::string> params_;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_

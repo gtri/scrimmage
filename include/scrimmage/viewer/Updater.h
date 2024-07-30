@@ -34,33 +34,31 @@
 #define INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
 
 #include <scrimmage/math/Quaternion.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/Color.pb.h>
 #include <scrimmage/proto/Contact.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Color.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/proto/GUIControl.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/Visual.pb.h>
 
 #include <time.h>
-
-#include <vtkCommand.h>
-#include <vtkSmartPointer.h>
-#include <vtkRenderer.h>
 #include <vtkActor.h>
+#include <vtkCommand.h>
 #include <vtkFollower.h>
-#include <vtkTextActor.h>
 #include <vtkPolyDataAlgorithm.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkRenderWindowInteractor.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
+#include <vtkTextActor.h>
 
-#include <tuple>
-#include <memory>
-#include <limits>
 #include <list>
 #include <map>
-#include <unordered_map>
-#include <utility>
+#include <memory>
 #include <string>
+#include <tuple>
+#include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
@@ -73,7 +71,7 @@ class ActorContact {
  public:
     vtkSmartPointer<vtkActor> actor;
     vtkSmartPointer<vtkFollower> label;
-    std::list<vtkSmartPointer<vtkActor> > trail;
+    std::list<vtkSmartPointer<vtkActor>> trail;
     scrimmage_proto::Color color;
     scrimmage_proto::Contact contact;
     std::string model_name = "";
@@ -96,21 +94,18 @@ class Updater : public vtkCommand {
     // codechecker_intentional [cplusplus.NewDeleteLeaks]
     vtkTypeMacro(Updater, vtkCommand);
 
-    enum class ViewMode {FOLLOW = 0, FREE, OFFSET, FPV};
+    enum class ViewMode { FOLLOW = 0, FREE, OFFSET, FPV };
 
-    static Updater *New() {
-        return new Updater;
-    }
+    static Updater *New() { return new Updater; }
 
     Updater();
 
-    static void set_quat(const scrimmage_proto::Quaternion &quat,
-                         vtkSmartPointer<vtkActor> &actor);
-    static void set_quat(const scrimmage::Quaternion &quat,
-                         vtkSmartPointer<vtkActor> &actor);
+    static void set_quat(const scrimmage_proto::Quaternion &quat, vtkSmartPointer<vtkActor> &actor);
+    static void set_quat(const scrimmage::Quaternion &quat, vtkSmartPointer<vtkActor> &actor);
 
-    void Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // NOLINT
-                 void * vtkNotUsed(callData));
+    void Execute(vtkObject *caller,
+                 unsigned long vtkNotUsed(eventId),  // NOLINT
+                 void *vtkNotUsed(callData));
 
     void enable_fps();
 
@@ -139,7 +134,7 @@ class Updater : public vtkCommand {
     void next_mode();
 
     void undo_camera();
-    
+
     void track_camera_pos();
 
     void process_custom_key(std::string &key);
@@ -171,15 +166,14 @@ class Updater : public vtkCommand {
     void inc_follow_offset();
     void dec_follow_offset();
 
-    void world_point_clicked(const double &x, const double &y,
-                             const double &z);
+    void world_point_clicked(const double &x, const double &y, const double &z);
 
     void reset_scale();
-    void set_init_scale(double init_scale) {init_scale_ = init_scale;}
+    void set_init_scale(double init_scale) { init_scale_ = init_scale; }
 
     void set_reset_camera();
-    void set_camera_reset_params(double pos_x, double pos_y, double pos_z,
-                                 double focal_x, double focal_y, double focal_z);
+    void set_camera_reset_params(
+        double pos_x, double pos_y, double pos_z, double focal_x, double focal_y, double focal_z);
 
     void set_view_mode(ViewMode view_mode);
     void set_show_fps(bool show_fps);
@@ -190,13 +184,14 @@ class Updater : public vtkCommand {
     void create_text_display();
 
     void update_trail(std::shared_ptr<ActorContact> &actor_contact,
-                      double &x_pos, double &y_pos, double &z_pos);
+                      double &x_pos,
+                      double &y_pos,
+                      double &z_pos);
 
     void update_contact_visual(std::shared_ptr<ActorContact> &actor_contact,
                                std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
 
-    void quat_2_transform(const Quaternion &quat,
-                          vtkSmartPointer<vtkTransform> transform);
+    void quat_2_transform(const Quaternion &quat, vtkSmartPointer<vtkTransform> transform);
 
     bool draw_arc(const bool &new_shape,
                   const scrimmage_proto::Arc &a,
@@ -286,9 +281,12 @@ class Updater : public vtkCommand {
 
  protected:
     void get_model_texture(std::string name,
-                           std::string& model_file, bool& model_found,
-                           std::string& texture_file, bool& texture_found,
-                           double& base_scale, Quaternion& base_rot);
+                           std::string &model_file,
+                           bool &model_found,
+                           std::string &texture_file,
+                           bool &texture_found,
+                           double &base_scale,
+                           Quaternion &base_rot);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;
@@ -305,7 +303,7 @@ class Updater : public vtkCommand {
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
 
-    std::map<int, std::shared_ptr<ActorContact> > actor_contacts_;
+    std::map<int, std::shared_ptr<ActorContact>> actor_contacts_;
 
     int follow_id_;
     bool inc_follow_;
@@ -331,13 +329,16 @@ class Updater : public vtkCommand {
     vtkSmartPointer<vtkTextActor> helpkeys_actor_;
     vtkSmartPointer<vtkTextActor> helpvalues_actor_;
 
-    std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visuals_;
+    std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visuals_;
 
-    std::unordered_map<uint64_t, std::tuple<scrimmage_proto::Shape,
-        vtkSmartPointer<vtkActor>, vtkSmartPointer<vtkPolyDataAlgorithm>,
-        double>> shapes_;
+    std::unordered_map<uint64_t,
+                       std::tuple<scrimmage_proto::Shape,
+                                  vtkSmartPointer<vtkActor>,
+                                  vtkSmartPointer<vtkPolyDataAlgorithm>,
+                                  double>>
+        shapes_;
 
-    std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain> > terrain_map_;
+    std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain>> terrain_map_;
     std::map<std::string, std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visual_map_;
 
     bool send_shutdown_msg_;
@@ -358,8 +359,8 @@ class Updater : public vtkCommand {
     double label_scale_ = 0.3;
     double init_scale_ = 1.0;
 
-    std::vector<std::vector<double>> prev_camera_pos; 
+    std::vector<std::vector<double>> prev_camera_pos;
 };
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_

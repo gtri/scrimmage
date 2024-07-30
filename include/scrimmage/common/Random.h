@@ -52,15 +52,13 @@ class Random {
     double rng_uniform(double low, double high);
     double rng_normal();
     double rng_normal(double mean, double sigma);
-    int rng_uniform_int(int low, int high); // inclusive of low and high
+    int rng_uniform_int(int low, int high);  // inclusive of low and high
 
-    std::shared_ptr<std::normal_distribution<double>>
-        make_rng_normal(double mean, double sigma);
+    std::shared_ptr<std::normal_distribution<double>> make_rng_normal(double mean, double sigma);
 
     int rng_discrete_int(std::vector<double> &weights);
 
-    std::shared_ptr<std::default_random_engine> gener()
-    { return gener_; }
+    std::shared_ptr<std::default_random_engine> gener() { return gener_; }
 
  protected:
     uint32_t seed_;
@@ -70,6 +68,6 @@ class Random {
 };
 
 typedef std::shared_ptr<Random> RandomPtr;
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_

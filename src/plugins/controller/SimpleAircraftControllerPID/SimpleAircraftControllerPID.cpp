@@ -39,7 +39,9 @@
 
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SimpleAircraftControllerPID, SimpleAircraftControllerPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::SimpleAircraftControllerPID,
+                SimpleAircraftControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -60,13 +62,12 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
     use_glide_slope_ = sc::str2bool(params.at("use_glide_slope"));
 
     // Set up to use either roll or heading
-    std::string ctrl_name = use_roll_ ?
-        vars_.type_map().at(VariableIO::Type::desired_roll) :
-        vars_.type_map().at(VariableIO::Type::desired_heading);
+    std::string ctrl_name = use_roll_ ? vars_.type_map().at(VariableIO::Type::desired_roll)
+                                      : vars_.type_map().at(VariableIO::Type::desired_heading);
     // Set up to use either altitude or glide slope (z_vel / sqrt(x_vel^2 + y_vel^2))
-    std::string alt_ctrl_name = use_glide_slope_ ?
-        vars_.type_map().at(VariableIO::Type::desired_glide_slope) :
-        vars_.type_map().at(VariableIO::Type::desired_altitude);
+    std::string alt_ctrl_name = use_glide_slope_
+                                    ? vars_.type_map().at(VariableIO::Type::desired_glide_slope)
+                                    : vars_.type_map().at(VariableIO::Type::desired_altitude);
 
     input_roll_or_heading_idx_ = vars_.declare(ctrl_name, VariableIO::Direction::In);
     input_altitude_or_glide_slope_idx_ = vars_.declare(alt_ctrl_name, VariableIO::Direction::In);
@@ -74,19 +75,22 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string> &param
 
     output_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
     output_roll_rate_idx_ = vars_.declare(VariableIO::Type::roll_rate, VariableIO::Direction::Out);
-    output_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
+    output_pitch_rate_idx_ =
+        vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 }
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
-    double u_roll_rate = use_roll_ ?
-        -heading_pid_.step(dt, state_->quat().roll()) :
-        heading_pid_.step(dt, state_->quat().yaw());
+    double u_roll_rate = use_roll_ ? -heading_pid_.step(dt, state_->quat().roll())
+                                   : heading_pid_.step(dt, state_->quat().yaw());
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
-    double u_pitch_rate = use_glide_slope_ ?
-        alt_pid_.step(dt, atan(state_->vel()(2) / sqrt(state_->vel()(0) * state_->vel()(0) + state_->vel()(1) * state_->vel()(1)))) :
-        -alt_pid_.step(dt, state_->pos()(2));
+    double u_pitch_rate =
+        use_glide_slope_
+            ? alt_pid_.step(dt,
+                            atan(state_->vel()(2) / sqrt(state_->vel()(0) * state_->vel()(0) +
+                                                         state_->vel()(1) * state_->vel()(1))))
+            : -alt_pid_.step(dt, state_->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_throttle = vel_pid_.step(dt, state_->vel().norm());

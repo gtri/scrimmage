@@ -37,21 +37,17 @@
 
 namespace scrimmage {
 
-ExponentialFilter::ExponentialFilter() :
-    ExponentialFilter(1.0) {}
+ExponentialFilter::ExponentialFilter()
+    : ExponentialFilter(1.0) {}
 
-ExponentialFilter::ExponentialFilter(double time_constant) :
-    estimate_(0),
-    time_last_estimate_(-std::numeric_limits<double>::infinity()),
-    time_constant_(time_constant) {}
+ExponentialFilter::ExponentialFilter(double time_constant)
+    : estimate_(0),
+      time_last_estimate_(-std::numeric_limits<double>::infinity()),
+      time_constant_(time_constant) {}
 
-double ExponentialFilter::get_estimate() const {
-    return estimate_;
-}
+double ExponentialFilter::get_estimate() const { return estimate_; }
 
-void ExponentialFilter::set_time_constant(double tau) {
-    time_constant_ = tau;
-}
+void ExponentialFilter::set_time_constant(double tau) { time_constant_ = tau; }
 
 double ExponentialFilter::add_estimate(double estimate, double t) {
     if (time_last_estimate_ < t) {
@@ -63,4 +59,4 @@ double ExponentialFilter::add_estimate(double estimate, double t) {
     return estimate_;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

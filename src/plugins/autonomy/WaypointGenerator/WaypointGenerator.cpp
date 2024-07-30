@@ -30,20 +30,19 @@
  *
  */
 
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/Waypoint.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/common/VariableIO.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <iostream>
 #include <limits>
@@ -63,8 +62,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy,
 namespace scrimmage {
 namespace autonomy {
 
-WaypointGenerator::WaypointGenerator() {
-}
+WaypointGenerator::WaypointGenerator() {}
 
 void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     waypoint_color_ = sc::str2container<std::vector<int>>(
@@ -94,8 +92,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
                 cout << "Invalid waypoint type: " << type << endl;
             } else if (type == "XYZ") {
                 // Convert to XYZ point to GPS
-                parent_->projection()->Reverse(lat, lon, alt,
-                                               lat, lon, alt);
+                parent_->projection()->Reverse(lat, lon, alt, lat, lon, alt);
             }
 
             Waypoint wp(lat, lon, alt);
@@ -165,8 +162,7 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
 void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
     for (Waypoint wp : wp_list.waypoints()) {
         double x, y, z;
-        parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
-                                       x, y, z);
+        parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(), x, y, z);
         vars_.output(position_x_idx_, x);
         vars_.output(position_y_idx_, y);
         vars_.output(position_z_idx_, z);
@@ -174,13 +170,13 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         auto sphere = std::make_shared<scrimmage_proto::Shape>();
         sphere->set_opacity(0.25);
         sphere->set_persistent(true);
-        sc::set(sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1],
-                waypoint_color_[2]);
+        sc::set(
+            sphere->mutable_color(), waypoint_color_[0], waypoint_color_[1], waypoint_color_[2]);
 
         sphere->mutable_sphere()->set_radius(wp.position_tolerance());
         sc::set(sphere->mutable_sphere()->mutable_center(), x, y, z);
         draw_shape(sphere);
     }
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

@@ -36,9 +36,9 @@
 #include <Eigen/Dense>
 
 #include <list>
-#include <vector>
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 
 namespace scrimmage_proto {
 class Contact;
@@ -53,7 +53,7 @@ class Color;
 class State;
 class Frame;
 class Line;
-} // namespace scrimmage_proto
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -86,8 +86,11 @@ void set(scrimmage_proto::Color *dst, const scrimmage::Color_t &src);
 void set(scrimmage_proto::Color *color, int r, int g, int b);
 void set(scrimmage_proto::Color *color, int grayscale);
 void set(scrimmage_proto::Quaternion *dst, const Quaternion &src);
-void set(scrimmage_proto::Quaternion *dst, const double &w, const double &x,
-         const double &y, const double &z);
+void set(scrimmage_proto::Quaternion *dst,
+         const double &w,
+         const double &x,
+         const double &y,
+         const double &z);
 void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
 void set(scrimmage_proto::State *dst, const scrimmage::State &state);
 void set(scrimmage::State &dst, const scrimmage_proto::State &state);
@@ -101,7 +104,7 @@ void add_point_color(scrimmage_proto::ShapePtr s, const int &grayscale);
 
 void set(scrimmage::ID &id, const scrimmage_proto::ID &proto_id);
 
-Quaternion proto_2_quat(const scrimmage_proto::Quaternion & proto_quat);
+Quaternion proto_2_quat(const scrimmage_proto::Quaternion &proto_quat);
 
 void set(Eigen::Vector3d &dst, const scrimmage_proto::Vector3d &proto_vector3d);
 
@@ -113,15 +116,14 @@ void path_to_lines(std::vector<Eigen::Vector3d> &path,
                    std::shared_ptr<scrimmage_proto::Shape> sample_line,
                    std::shared_ptr<EntityPlugin> p);
 
-std::list<scrimmage_proto::Line> points_to_lines(
-    const std::list<Eigen::Vector3d> &points);
+std::list<scrimmage_proto::Line> points_to_lines(const std::list<Eigen::Vector3d> &points);
 
 Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame);
 
-std::shared_ptr<scrimmage_proto::Frame>
-create_frame(double time, std::shared_ptr<ContactMap> &contacts);
+std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
+                                                     std::shared_ptr<ContactMap> &contacts);
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_

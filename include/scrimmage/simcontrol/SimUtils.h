@@ -35,17 +35,17 @@
 
 #include <scrimmage/fwd_decl.h>
 
-
 #include <functional>
-#include <memory>
-#include <unordered_map>
 #include <list>
-#include <set>
 #include <map>
+#include <memory>
+#include <set>
 #include <string>
+#include <unordered_map>
 
 namespace boost {
-template <class T> class optional;
+template <class T>
+class optional;
 }
 
 namespace scrimmage {
@@ -64,34 +64,39 @@ struct SimUtilsInfo {
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
 };
 
-bool create_ent_inters(const SimUtilsInfo &info,
-                       ContactMapPtr contacts,
-                       std::list<scrimmage_proto::ShapePtr> &shapes,
-                       std::list<EntityInteractionPtr> &ent_inters,
-                       const GlobalServicePtr global_services,
-                       const std::set<std::string> &plugin_tags = {},
-                       std::function<void(std::map<std::string, std::string>&)>
-                       param_override_func = [](std::map<std::string, std::string>&){},
-                       const int& debug_level = 0);
+bool create_ent_inters(
+    const SimUtilsInfo &info,
+    ContactMapPtr contacts,
+    std::list<scrimmage_proto::ShapePtr> &shapes,
+    std::list<EntityInteractionPtr> &ent_inters,
+    const GlobalServicePtr global_services,
+    const std::set<std::string> &plugin_tags = {},
+    std::function<void(std::map<std::string, std::string> &)> param_override_func =
+        [](std::map<std::string, std::string> &) {},
+    const int &debug_level = 0);
 
-bool create_metrics(const SimUtilsInfo &info, ContactMapPtr contacts,
-                    std::list<MetricsPtr> &metrics_list,
-                    const std::set<std::string> &plugin_tags = {},
-                    std::function<void(std::map<std::string, std::string>&)>
-                    param_override_func = [](std::map<std::string, std::string>&){},
-                    const int& debug_level = 0);
+bool create_metrics(
+    const SimUtilsInfo &info,
+    ContactMapPtr contacts,
+    std::list<MetricsPtr> &metrics_list,
+    const std::set<std::string> &plugin_tags = {},
+    std::function<void(std::map<std::string, std::string> &)> param_override_func =
+        [](std::map<std::string, std::string> &) {},
+    const int &debug_level = 0);
 
-bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
-                     const std::set<std::string> &plugin_tags = {},
-                     std::function<void(std::map<std::string, std::string>&)>
-                     param_override_func = [](std::map<std::string, std::string>&){},
-                     const int& debug_level = 0);
+bool create_networks(
+    const SimUtilsInfo &info,
+    NetworkMap &networks,
+    const std::set<std::string> &plugin_tags = {},
+    std::function<void(std::map<std::string, std::string> &)> param_override_func =
+        [](std::map<std::string, std::string> &) {},
+    const int &debug_level = 0);
 
 void run_callbacks(EntityPluginPtr plugin);
 
-boost::optional<std::string> run_test(const std::string& mission,
-                                      const bool& init_python = true,
-                                      const bool& shutdown_python = true);
+boost::optional<std::string> run_test(const std::string &mission,
+                                      const bool &init_python = true,
+                                      const bool &shutdown_python = true);
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_

@@ -33,25 +33,25 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGIN_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGIN_H_
 
-#include <Eigen/Dense>
-
-#include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/ParameterServer.h>
+#include <scrimmage/common/VariableIO.h>
+#include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <unordered_set>
-#include <unordered_map>
-#include <memory>
-#include <map>
+#include <Eigen/Dense>
+
 #include <list>
+#include <map>
+#include <memory>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace scrimmage_proto {
 class Shape;
 using ShapePtr = std::shared_ptr<Shape>;
-}
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -86,11 +86,13 @@ class EntityPlugin : public Plugin {
     /* Homogeneous transform from parent link */
     StatePtr transform() { return transform_; }
 
-    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int>> lookup)
-    { id_to_team_map_ = lookup; }
+    virtual void set_id_to_team_map(std::shared_ptr<std::unordered_map<int, int>> lookup) {
+        id_to_team_map_ = lookup;
+    }
 
-    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> lookup)
-    { id_to_ent_map_ = lookup; }
+    virtual void set_id_to_ent_map(std::shared_ptr<std::unordered_map<int, EntityPtr>> lookup) {
+        id_to_ent_map_ = lookup;
+    }
 
     std::list<scrimmage_proto::ShapePtr> &shapes();
 
@@ -101,8 +103,12 @@ class EntityPlugin : public Plugin {
                                 const std::string &topic,
                                 CallbackFunc callback) {
         SubscriberBasePtr sub =
-            pubsub_->subscribe<T>(network_name, topic, callback,
-                                  0, false, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+            pubsub_->subscribe<T>(network_name,
+                                  topic,
+                                  callback,
+                                  0,
+                                  false,
+                                  std::static_pointer_cast<EntityPlugin>(shared_from_this()));
         subs_.push_back(sub);
         return sub;
     }
@@ -112,15 +118,20 @@ class EntityPlugin : public Plugin {
                                 const std::string &topic,
                                 CallbackFunc callback,
                                 unsigned int max_queue_size) {
-        SubscriberBasePtr sub  =
-            pubsub_->subscribe<T>(network_name, topic, callback,
-                                  max_queue_size, true, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+        SubscriberBasePtr sub =
+            pubsub_->subscribe<T>(network_name,
+                                  topic,
+                                  callback,
+                                  max_queue_size,
+                                  true,
+                                  std::static_pointer_cast<EntityPlugin>(shared_from_this()));
         subs_.push_back(sub);
         return sub;
     }
 
     PublisherPtr advertise(std::string network_name, std::string topic);
-    PublisherPtr advertise(std::string network_name, std::string topic,
+    PublisherPtr advertise(std::string network_name,
+                           std::string topic,
                            unsigned int max_queue_size);
 
     void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
@@ -139,12 +150,12 @@ class EntityPlugin : public Plugin {
     void set_param_server(const ParameterServerPtr &param_server);
 
     template <class T>
-    bool register_param(const std::string &name, T &variable,
-                        std::function<void(const T &value)> callback =
-                        [](const T &value){}) {
+    bool register_param(
+        const std::string &name,
+        T &variable,
+        std::function<void(const T &value)> callback = [](const T &value) {}) {
         return param_server_->register_param<T>(
-            name, variable, callback,
-            std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+            name, variable, callback, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
     }
 
     template <class T>
@@ -191,5 +202,5 @@ class EntityPlugin : public Plugin {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
-} // namespace scrimmage
+}  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGIN_H_

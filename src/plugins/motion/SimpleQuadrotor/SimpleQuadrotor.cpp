@@ -30,12 +30,12 @@
  *
  */
 
-#include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h>
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleQuadrotor, SimpleQuadrotor_plugin)
 
@@ -46,25 +46,9 @@ namespace pl = std::placeholders;
 namespace sc = scrimmage;
 using ang = sc::Angles;
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    XDOT,
-    YDOT,
-    ZDOT,
-    YAW,
-    YAWDOT,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, XDOT, YDOT, ZDOT, YAW, YAWDOT, MODEL_NUM_ITEMS };
 
-enum ControlParams {
-    X_THRUST = 0,
-    Y_THRUST,
-    Z_THRUST,
-    TURN_RATE,
-    CONTROL_NUM_ITEMS
-};
+enum ControlParams { X_THRUST = 0, Y_THRUST, Z_THRUST, TURN_RATE, CONTROL_NUM_ITEMS };
 
 bool SimpleQuadrotor::init(std::map<std::string, std::string> &info,
                            std::map<std::string, std::string> &params) {
@@ -101,7 +85,7 @@ bool SimpleQuadrotor::step(double time, double dt) {
     return true;
 }
 
-void SimpleQuadrotor::model(const vector_t &x , vector_t &dxdt , double t) {
+void SimpleQuadrotor::model(const vector_t &x, vector_t &dxdt, double t) {
     /// 0 : x-position
     /// 1 : y-position
     /// 2 : z-position
@@ -130,14 +114,14 @@ void SimpleQuadrotor::model(const vector_t &x , vector_t &dxdt , double t) {
         z_velocity = max_z_velocity;
     }
 
-    dxdt[X]      = x_velocity * cos(x[YAW]);
-    dxdt[Y]      = x_velocity * sin(x[YAW]);
-    dxdt[Z]      = z_velocity;
-    dxdt[XDOT]   = x_thrust;
-    dxdt[YDOT]   = y_thrust;
-    dxdt[ZDOT]   = z_thrust;
-    dxdt[YAW]    = x[YAWDOT];
+    dxdt[X] = x_velocity * cos(x[YAW]);
+    dxdt[Y] = x_velocity * sin(x[YAW]);
+    dxdt[Z] = z_velocity;
+    dxdt[XDOT] = x_thrust;
+    dxdt[YDOT] = y_thrust;
+    dxdt[ZDOT] = z_thrust;
+    dxdt[YAW] = x[YAWDOT];
     dxdt[YAWDOT] = turn_force;
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

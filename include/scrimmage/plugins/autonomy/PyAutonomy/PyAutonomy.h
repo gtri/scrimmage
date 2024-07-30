@@ -31,13 +31,14 @@
  */
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_
-#include <pybind11/pybind11.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/entity/Contact.h>
 
-#include <string>
+#include <pybind11/pybind11.h>
+
 #include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -47,27 +48,23 @@ class PyAutonomy : public scrimmage::Autonomy {
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 
-    std::string type() override {return std::string("PyAutonomy");}
+    std::string type() override { return std::string("PyAutonomy"); }
 
     void set_contacts(scrimmage::ContactMapPtr &contacts) override {
         contacts_ = contacts;
         py_contacts_.clear();
         for (auto &kv : *contacts) {
-            py_contacts_[pybind11::int_(kv.second.id().id())] =
-                contact2py(kv.second);
+            py_contacts_[pybind11::int_(kv.second.id().id())] = contact2py(kv.second);
         }
     }
 
     void set_contacts_from_plugin(scrimmage::AutonomyPtr &ptr) override {
-        std::shared_ptr<PyAutonomy> py_ptr =
-            std::static_pointer_cast<PyAutonomy>(ptr);
+        std::shared_ptr<PyAutonomy> py_ptr = std::static_pointer_cast<PyAutonomy>(ptr);
         contacts_ = py_ptr->contacts_;
         py_contacts_ = py_ptr->py_contacts_;
     }
 
-    void set_state(scrimmage::StatePtr &state) override {
-        state_ = state;
-    }
+    void set_state(scrimmage::StatePtr &state) override { state_ = state; }
 
  protected:
     void cache_python_vars();
@@ -84,7 +81,7 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     pybind11::object state2py(scrimmage::StatePtr &state);
     pybind11::object contact2py(scrimmage::Contact contact);
-    static std::shared_ptr<scrimmage_proto::Shape> py2shape(const pybind11::handle& py_handle);
+    static std::shared_ptr<scrimmage_proto::Shape> py2shape(const pybind11::handle &py_handle);
 
     pybind11::object py_obj_;
     pybind11::dict py_contacts_;
@@ -101,6 +98,6 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     std::map<scrimmage::Contact::Type, pybind11::object> py_contact_types_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_PYAUTONOMY_PYAUTONOMY_H_

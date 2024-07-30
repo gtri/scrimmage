@@ -32,20 +32,21 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_ROSIMUSENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_ROSIMUSENSOR_H_
 
-#include <ros/ros.h>
-#include <sensor_msgs/Imu.h>
-#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/common/CSV.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/common/CSV.h>
 #include <scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h>
 #include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h>
+#include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
+#include <ros/ros.h>
+#include <sensor_msgs/Imu.h>
+
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 #include <GeographicLib/Geocentric.hpp>
 
@@ -55,7 +56,7 @@ namespace sensor {
 class ROSIMUSensor : public scrimmage::Sensor {
  public:
     ROSIMUSensor();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
     void close(double t) override;
 
@@ -85,7 +86,7 @@ class ROSIMUSensor : public scrimmage::Sensor {
     const double a2 = earth_radius * earth_radius;
     const double b2 = earth_semiminor_axis * earth_semiminor_axis;
     const double e2 = a2 - b2;
-    const double e = sqrt(e2); // linear eccentricity
+    const double e = sqrt(e2);  // linear eccentricity
 
     // storage variables for previous frame data
     Eigen::Vector3d vel_t1;
@@ -98,19 +99,27 @@ class ROSIMUSensor : public scrimmage::Sensor {
     bool first_sample_collected = false;
     Eigen::Vector3d lla_to_ecef(double lat, double lon, double alt);
     Eigen::Matrix3d enu_to_ecef_rotation(double lat, double lon);
-    Eigen::Vector3d get_deltaV(Eigen::Vector3d pos, Eigen::Vector3d vel, Eigen::Quaterniond bodyToEcef, double deltaT);
+    Eigen::Vector3d get_deltaV(Eigen::Vector3d pos,
+                               Eigen::Vector3d vel,
+                               Eigen::Quaterniond bodyToEcef,
+                               double deltaT);
     Eigen::Vector3d ecef_to_lla(Eigen::Vector3d ecef);
     Eigen::Matrix3d ecef_to_ned_rotation(double lat, double lon);
     Eigen::Vector3d gravity_ned_from_lla(Eigen::Vector3d lla);
     Eigen::Matrix3d skew_sym(Eigen::Vector3d vector);
-    Eigen::Vector3d get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Quaterniond qBodyToECEFt2, double inertialDeltaT);
+    Eigen::Vector3d get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat,
+                                    Eigen::Quaterniond qBodyToECEFt2,
+                                    double inertialDeltaT);
     Eigen::Vector3d inv_skew_sym(Eigen::Matrix3d inputMatrix);
-    Eigen::Quaterniond propagate_quaternion(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Vector3d deltaThetaBodyWRTInertialInBody, double inertialDeltaT);
-    Eigen::Quaterniond integrate_quaternion(Eigen::Quaterniond qBToA, Eigen::Vector3d deltaThetasBFrame);
+    Eigen::Quaterniond propagate_quaternion(Eigen::Quaterniond qBodyToECEFt1Hat,
+                                            Eigen::Vector3d deltaThetaBodyWRTInertialInBody,
+                                            double inertialDeltaT);
+    Eigen::Quaterniond integrate_quaternion(Eigen::Quaterniond qBToA,
+                                            Eigen::Vector3d deltaThetasBFrame);
     Eigen::Quaterniond omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen::Vector3d omegaABInB);
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_ROSIMUSENSOR_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_ROSIMUSENSOR_H_

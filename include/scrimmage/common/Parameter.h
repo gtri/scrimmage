@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
 #define INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
 
-#include <string>
-#include <memory>
 #include <functional>
+#include <memory>
+#include <string>
 
 namespace scrimmage {
 
@@ -44,9 +44,11 @@ using PluginPtr = std::shared_ptr<Plugin>;
 
 class ParameterBase {
  public:
-    explicit ParameterBase(PluginPtr &owner) : owner_(owner) {}
+    explicit ParameterBase(PluginPtr &owner)
+        : owner_(owner) {}
     virtual ~ParameterBase() {}
     const PluginPtr &owner() { return owner_; }
+
  protected:
     PluginPtr owner_ = nullptr;
 };
@@ -54,13 +56,15 @@ class ParameterBase {
 template <class T>
 class Parameter : public ParameterBase {
  public:
-    Parameter(T &variable, std::function<void(const T &value)> callback,
-              PluginPtr &owner) : ParameterBase(owner), value_(variable),
-        callback_(callback) {}
+    Parameter(T &variable, std::function<void(const T &value)> callback, PluginPtr &owner)
+        : ParameterBase(owner),
+          value_(variable),
+          callback_(callback) {}
     void set_value(const T &value) {
         value_ = value;
         callback_(value_);
     }
+
  protected:
     T &value_;
     std::function<void(const T &value)> callback_;
@@ -68,5 +72,5 @@ class Parameter : public ParameterBase {
 
 typedef std::shared_ptr<ParameterBase> ParameterBasePtr;
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_PARAMETER_H_

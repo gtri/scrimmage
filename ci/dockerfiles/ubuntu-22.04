@@ -17,7 +17,6 @@ RUN apt-get update \
  && apt-get install -y \
     cmake \
     software-properties-common \
-    cppcheck \
     python3-pip \
     python3-venv \
     git \
@@ -54,7 +53,16 @@ RUN apt-get update \
     libvtk7-dev \
     wget
 
+# Install a newer version of cppcheck than comes with 22.04
+RUN wget https://github.com/danmar/cppcheck/archive/2.14.1.tar.gz \
+&& tar -xzf 2.14.1.tar.gz
+WORKDIR /cppcheck-2.14.1
+RUN  make install MATCHCOMPILER=yes FILESDIR=/usr/share/cppcheck
+RUN cppcheck --version
+
+
 # Install jekyll
+WORKDIR /
 RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 
 RUN add-apt-repository -y ppa:rael-gc/rvm \
@@ -75,15 +83,16 @@ RUN python3 -m venv env \
     && pip install wheel \
     && pip install -r requirements-3.10.txt
 
+# Install anything that we need that we don't already have
+COPY ./setup .
+RUN /root/install-binaries.sh \ 
+&& /root/install-jsbsim.sh 
+
 FROM dependencies as builder
 
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
-
-# Install anything that we need that we don't already have
-RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \ 
-&& /root/scrimmage/scrimmage/setup/install-jsbsim.sh 
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -97,6 +106,7 @@ RUN source /root/env/bin/activate \
  && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
  && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
+
 # Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/env/bin/activate \
@@ -109,8 +119,8 @@ RUN source /root/env/bin/activate \
              -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
  && source ~/.scrimmage/setup.bash \
- && ninja \
- && ninja docs website-docs
+ && ninja
+ # && ninja docs website-docs
 
 
 # install python package and run tests
@@ -131,6 +141,12 @@ RUN source /root/env/bin/activate && \
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
+
+# Run lint and cpp_check tests
+WORKDIR /root/scrimmage/scrimmage
+RUN source /root/env/bin/activate \
+    && py.test test/test_cpplint.py \
+    && py.test test/test_cppcheck.py
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]

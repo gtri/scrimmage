@@ -30,19 +30,19 @@
  *
  */
 
-#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
+#include <scrimmage/parse/MissionParse.h>
 
-#include <iostream>
-#include <iomanip>
-#include <chrono> // NOLINT
+#include <chrono>  // NOLINT
+#include <cstdlib>
 #include <ctime>
 #include <fstream>
-#include <string>
+#include <iomanip>
+#include <iostream>
 #include <sstream>
-#include <cstdlib>
+#include <string>
 
 #include <boost/filesystem.hpp>
 
@@ -85,9 +85,7 @@ int main(int argc, char *argv[]) {
     std::map<std::string, std::list<std::string> > scenarios;
 
     // Open each .txt file and extract a metric
-    for (std::vector<std::string>::iterator it = paths.begin();
-         it != paths.end(); ++it) {
-
+    for (std::vector<std::string>::iterator it = paths.begin(); it != paths.end(); ++it) {
         std::string filename = *it;
 
         if (!fs::exists(fs::path(filename))) {
@@ -131,7 +129,8 @@ int main(int argc, char *argv[]) {
         cout << "----------------------------------------------------" << endl;
         int i = 0;
         for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin();
-             it != scenarios.end(); ++it) {
+             it != scenarios.end();
+             ++it) {
             name_2_index[i] = it->first;
             std::string select_str = "[" + std::to_string(i) + "]";
             cout << std::left << std::setw(col_wid) << select_str;
@@ -147,8 +146,8 @@ int main(int argc, char *argv[]) {
     cout << "Playing back: " << name_2_index[choose_num] << endl;
 
     for (std::list<std::string>::iterator it = scenarios[name_2_index[choose_num]].begin();
-         it != scenarios[name_2_index[choose_num]].end(); /* no inc */) {
-
+         it != scenarios[name_2_index[choose_num]].end();
+         /* no inc */) {
         cout << "Mission: " << *it << endl;
 
         // Show the run in the visualizer

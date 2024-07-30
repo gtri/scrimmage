@@ -32,9 +32,10 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.h>
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::AircraftToSingleIntegratorController, AircraftToSingleIntegratorController_plugin)
+REGISTER_PLUGIN(scrimmage::Controller,
+                scrimmage::controller::AircraftToSingleIntegratorController,
+                AircraftToSingleIntegratorController_plugin)
 
 namespace scrimmage {
-namespace controller {
-} // namespace controller
-} // namespace scrimmage
+namespace controller {}  // namespace controller
+}  // namespace scrimmage

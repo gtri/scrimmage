@@ -36,13 +36,12 @@
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-
 #include <scrimmage/plugins/autonomy/RLConsensus/RLConsensus.h>
 
 #include <iostream>
 
-#include <boost/range/algorithm/count_if.hpp>
 #include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/algorithm/count_if.hpp>
 
 namespace sp = scrimmage_proto;
 namespace br = boost::range;
@@ -61,8 +60,8 @@ void RLConsensus::set_environment() {
 std::tuple<bool, double, pybind11::dict> RLConsensus::calc_reward() {
     const bool done = false;
     const double x = state_->pos()(0);
-    auto dist = [&](auto &kv) {return std::abs(kv.second.state()->pos()(0) - x);};
-    auto close = [&](double d) {return std::abs(d) < radius_;};
+    auto dist = [&](auto &kv) { return std::abs(kv.second.state()->pos()(0) - x); };
+    auto close = [&](double d) { return std::abs(d) < radius_; };
 
     const int num_veh = contacts_->size();
     const int num_close = br::count_if(*contacts_ | ba::transformed(dist), close) - 1;
@@ -71,5 +70,5 @@ std::tuple<bool, double, pybind11::dict> RLConsensus::calc_reward() {
     return std::make_tuple(done, reward, pybind11::dict());
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

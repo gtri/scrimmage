@@ -30,16 +30,19 @@
  *
  */
 
-#include <scrimmage/plugins/motion/DubinsAirplane3D/DubinsAirplane3D.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/DubinsAirplane3D/DubinsAirplane3D.h>
+
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane3D, DubinsAirplane3D_plugin)
+REGISTER_PLUGIN(scrimmage::MotionModel,
+                scrimmage::motion::DubinsAirplane3D,
+                DubinsAirplane3D_plugin)
 
 namespace scrimmage {
 namespace motion {
@@ -52,9 +55,9 @@ enum ModelParams {
     U = 0,
     V,
     W,
-    P, // roll rate
-    Q, // pitch rate
-    R, // yaw rate
+    P,  // roll rate
+    Q,  // pitch rate
+    R,  // yaw rate
     Uw,
     Vw,
     Ww,
@@ -117,17 +120,26 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     x_[q3] = quat_local_.z();
 
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/"
-                         + std::to_string(parent_->id().id())
-                         + "-dubins-airplane3d-states.csv");
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) +
+                         "-dubins-airplane3d-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",
-                        "x", "y", "z",
-                        "U", "V", "W",
-                        "P", "Q", "R",
-                        "roll", "pitch", "yaw",
-                        "speed",
-                        "Uw", "Vw", "Ww"});
+                                                 "x",
+                                                 "y",
+                                                 "z",
+                                                 "U",
+                                                 "V",
+                                                 "W",
+                                                 "P",
+                                                 "Q",
+                                                 "R",
+                                                 "roll",
+                                                 "pitch",
+                                                 "yaw",
+                                                 "speed",
+                                                 "Uw",
+                                                 "Vw",
+                                                 "Ww"});
     }
     return true;
 }
@@ -199,30 +211,29 @@ bool DubinsAirplane3D::step(double t, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-                {"t", t},
-                {"x", x_[Xw]},
-                {"y", x_[Yw]},
-                {"z", x_[Zw]},
-                {"U", x_[U]},
-                {"V", x_[V]},
-                {"W", x_[W]},
-                {"P", x_[P]},
-                {"Q", x_[Q]},
-                {"R", x_[R]},
-                {"roll", state_->quat().roll()},
-                {"pitch", state_->quat().pitch()},
-                {"yaw", state_->quat().yaw()},
-                {"speed", speed_},
-                {"Uw", state_->vel()(0)},
-                {"Vw", state_->vel()(1)},
-                {"Ww", state_->vel()(2)}});
+        csv_.append(sc::CSV::Pairs{{"t", t},
+                                   {"x", x_[Xw]},
+                                   {"y", x_[Yw]},
+                                   {"z", x_[Zw]},
+                                   {"U", x_[U]},
+                                   {"V", x_[V]},
+                                   {"W", x_[W]},
+                                   {"P", x_[P]},
+                                   {"Q", x_[Q]},
+                                   {"R", x_[R]},
+                                   {"roll", state_->quat().roll()},
+                                   {"pitch", state_->quat().pitch()},
+                                   {"yaw", state_->quat().yaw()},
+                                   {"speed", speed_},
+                                   {"Uw", state_->vel()(0)},
+                                   {"Vw", state_->vel()(1)},
+                                   {"Ww", state_->vel()(2)}});
     }
 
     return true;
 }
 
-void DubinsAirplane3D::model(const vector_t &x , vector_t &dxdt , double t) {
+void DubinsAirplane3D::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[U] = 0;
     dxdt[V] = 0;
     dxdt[W] = 0;
@@ -232,10 +243,10 @@ void DubinsAirplane3D::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[R] = 0;
 
     double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] = -0.5 * (x[q1]*x[P] + x[q2]*x[Q] + x[q3]*x[R]) + lambda * x[q0];
-    dxdt[q1] = +0.5 * (x[q0]*x[P] + x[q2]*x[R] - x[q3]*x[Q]) + lambda * x[q1];
-    dxdt[q2] = +0.5 * (x[q0]*x[Q] + x[q3]*x[P] - x[q1]*x[R]) + lambda * x[q2];
-    dxdt[q3] = +0.5 * (x[q0]*x[R] + x[q1]*x[Q] - x[q2]*x[P]) + lambda * x[q3];
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
     // Normalize quaternion
@@ -254,5 +265,5 @@ void DubinsAirplane3D::model(const vector_t &x , vector_t &dxdt , double t) {
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

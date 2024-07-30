@@ -30,16 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/WaypointDispatcher/WaypointDispatcher.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/WaypointDispatcher/WaypointDispatcher.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
 
 #include <iostream>
 #include <limits>
@@ -71,15 +70,14 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
     show_shapes_ = sc::get<bool>("show_shapes", params, show_shapes_);
     tolerance_in_2d_ = sc::get<bool>("tolerance_in_2d", params, tolerance_in_2d_);
 
-    std::string waypointlist_network = get<std::string>(
-        "waypointlist_network", params, "GlobalNetwork");
-    std::string waypoint_network = sc::get<std::string>(
-        "waypoint_network", params, "LocalNetwork");
+    std::string waypointlist_network =
+        get<std::string>("waypointlist_network", params, "GlobalNetwork");
+    std::string waypoint_network = sc::get<std::string>("waypoint_network", params, "LocalNetwork");
 
     wp_pub_ = advertise(waypoint_network, "Waypoint");
     wp_pub_status_ = advertise(waypoint_network, "WaypointStatus");
 
-    auto wp_list_cb = [&] (scrimmage::MessagePtr<WaypointList> msg) {
+    auto wp_list_cb = [&](scrimmage::MessagePtr<WaypointList> msg) {
         // Received a new waypoint list, reset
         wp_list_ = msg->data;
         wp_it_ = wp_list_.waypoints().begin();
@@ -107,16 +105,22 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
     Eigen::Vector3d wp;
     parent_->projection()->Forward(curr_wp_lla.latitude(),
                                    curr_wp_lla.longitude(),
-                                   curr_wp_lla.altitude(), wp(0), wp(1), wp(2));
+                                   curr_wp_lla.altitude(),
+                                   wp(0),
+                                   wp(1),
+                                   wp(2));
 
     Eigen::Vector3d prev_wp;
     if (prev_wp_it_ == wp_it_) {
         prev_wp = state_->pos();
     } else {
         Waypoint prev_wp_lla = *prev_wp_it_;
-        parent_->projection()->Forward(prev_wp_lla.latitude(), prev_wp_lla.longitude(),
-                                       prev_wp_lla.altitude(), prev_wp(0),
-                                       prev_wp(1), prev_wp(2));
+        parent_->projection()->Forward(prev_wp_lla.latitude(),
+                                       prev_wp_lla.longitude(),
+                                       prev_wp_lla.altitude(),
+                                       prev_wp(0),
+                                       prev_wp(1),
+                                       prev_wp(2));
     }
 
     Eigen::Vector3d wp_line = wp - prev_wp;
@@ -124,8 +128,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     // Project wp_to_own_line onto line between waypoints (wp_line)
     double dot_prod = wp_line.dot(wp_to_own_line);
-    Eigen::Vector3d proj =  dot_prod / pow(wp_line.norm(), 1) *
-        wp_line.normalized();
+    Eigen::Vector3d proj = dot_prod / pow(wp_line.norm(), 1) * wp_line.normalized();
 
     Eigen::Vector3d track_point = prev_wp + proj + wp_line.normalized() * lead_distance_;
 
@@ -154,8 +157,7 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     // convert track_point to lat/lon and Publish track_point!
     double lat, lon, alt;
-    parent_->projection()->Reverse(track_point(0), track_point(1),
-                                   track_point(2), lat, lon, alt);
+    parent_->projection()->Reverse(track_point(0), track_point(1), track_point(2), lat, lon, alt);
 
     auto wp_msg = std::make_shared<sc::Message<Waypoint>>();
     wp_msg->data = Waypoint(lat, lon, alt);
@@ -163,52 +165,50 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
     wp_pub_->publish(wp_msg);
 
     // check if within waypoint tolerance
-    double dist = tolerance_in_2d_ ?
-            (state_->pos().head<2>() - wp.head<2>()).norm() :
-            (state_->pos() - wp).norm();
+    double dist = tolerance_in_2d_ ? (state_->pos().head<2>() - wp.head<2>()).norm()
+                                   : (state_->pos() - wp).norm();
     if (dist <= curr_wp_lla.position_tolerance()) {
-
         bool done = false;
         switch (wp_list_.mode()) {
-        case WaypointList::WaypointMode::follow_once :
-            prev_wp_it_ = wp_it_;
-            ++wp_it_;
+            case WaypointList::WaypointMode::follow_once:
+                prev_wp_it_ = wp_it_;
+                ++wp_it_;
 
-            if (wp_it_ == wp_list_.waypoints().end()) {
-                wp_it_ = prev_wp_it_;
-                done = true;
-            }
-            break;
+                if (wp_it_ == wp_list_.waypoints().end()) {
+                    wp_it_ = prev_wp_it_;
+                    done = true;
+                }
+                break;
 
-        case WaypointList::WaypointMode::back_and_forth :
-            prev_wp_it_ = wp_it_;
-            wp_it_ = returning_stage_ ? --wp_it_ : ++wp_it_;
+            case WaypointList::WaypointMode::back_and_forth:
+                prev_wp_it_ = wp_it_;
+                wp_it_ = returning_stage_ ? --wp_it_ : ++wp_it_;
 
-            if (wp_it_ == wp_list_.waypoints().begin()) {
-                returning_stage_ = false;
-            } else if (wp_it_ == wp_list_.waypoints().end()) {
-                wp_it_ = prev_wp_it_;
-                returning_stage_ = true;
-            }
-            break;
+                if (wp_it_ == wp_list_.waypoints().begin()) {
+                    returning_stage_ = false;
+                } else if (wp_it_ == wp_list_.waypoints().end()) {
+                    wp_it_ = prev_wp_it_;
+                    returning_stage_ = true;
+                }
+                break;
 
-        case WaypointList::WaypointMode::loiter :
-            // TODO : Not implemented yet
-            break;
+            case WaypointList::WaypointMode::loiter:
+                // TODO : Not implemented yet
+                break;
 
-        case WaypointList::WaypointMode::racetrack :
-            // Continuous repeat of waypoints
-            prev_wp_it_ = wp_it_;
-            ++wp_it_;
+            case WaypointList::WaypointMode::racetrack:
+                // Continuous repeat of waypoints
+                prev_wp_it_ = wp_it_;
+                ++wp_it_;
 
-            if (wp_it_ == wp_list_.waypoints().end()) {
-                wp_it_ = wp_list_.waypoints().begin();
-            }
-            break;
+                if (wp_it_ == wp_list_.waypoints().end()) {
+                    wp_it_ = wp_list_.waypoints().begin();
+                }
+                break;
 
-        default :
-            std::string msg = "Waypoint mode not defined yet.";
-            throw std::runtime_error(msg);
+            default:
+                std::string msg = "Waypoint mode not defined yet.";
+                throw std::runtime_error(msg);
         }
 
         auto msg = std::make_shared<sc::Message<std::tuple<size_t, size_t, bool>>>();
@@ -219,5 +219,5 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

@@ -51,6 +51,6 @@ class HarmonicOscillatorConstController : public scrimmage::Controller {
     // input to motion model
     double acceleration_z_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_H_

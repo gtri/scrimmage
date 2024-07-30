@@ -33,13 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/common/Waypoint.h>
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
@@ -56,7 +56,7 @@ class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     PID speed_pid_;
 };
-} // namespace motor_schemas
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
+}  // namespace motor_schemas
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_

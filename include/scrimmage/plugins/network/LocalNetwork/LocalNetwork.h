@@ -48,16 +48,18 @@ class LocalNetwork : public scrimmage::Network {
     LocalNetwork();
 
     bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
+              std::map<std::string, std::string> &plugin_params) override;
+
  protected:
     bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                              const scrimmage::EntityPluginPtr &sub_plugin) override;
+                      const scrimmage::EntityPluginPtr &sub_plugin) override;
 
     bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                            const scrimmage::EntityPluginPtr &sub_plugin) override;
+                                    const scrimmage::EntityPluginPtr &sub_plugin) override;
+
  protected:
  private:
 };
-} // namespace network
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_
+}  // namespace network
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_

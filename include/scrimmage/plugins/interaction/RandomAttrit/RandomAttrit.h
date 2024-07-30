@@ -32,14 +32,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_RANDOMATTRIT_RANDOMATTRIT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_RANDOMATTRIT_RANDOMATTRIT_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Random.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -52,7 +52,9 @@ class RandomAttrit : public scrimmage::EntityInteraction {
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
     bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+                                 double t,
+                                 double dt) override;
+
  protected:
     bool started_ = false;
     int team_id_ = -1;
@@ -66,8 +68,9 @@ class RandomAttrit : public scrimmage::EntityInteraction {
     Random random_;
 
     PublisherPtr attrit_pub_;
+
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_RANDOMATTRIT_RANDOMATTRIT_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_RANDOMATTRIT_RANDOMATTRIT_H_

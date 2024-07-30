@@ -34,11 +34,11 @@
 #define INCLUDE_SCRIMMAGE_COMMON_CSV_H_
 
 #include <fstream>
-#include <map>
 #include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <utility>
-#include <memory>
 
 namespace scrimmage {
 
@@ -56,8 +56,7 @@ class CSV {
     bool append(const Pairs &pairs, bool write = true, bool keep_in_memory = false);
 
     bool open_output(const std::string &filename,
-                     std::ios_base::openmode mode = (std::ios_base::out |
-                                                     std::ios_base::trunc));
+                     std::ios_base::openmode mode = (std::ios_base::out | std::ios_base::trunc));
 
     bool output_is_open();
 
@@ -65,9 +64,9 @@ class CSV {
 
     bool to_csv(const std::string &filename);
 
-    bool read_csv(const std::string &filename, const bool& contains_header = true);
+    bool read_csv(const std::string &filename, const bool &contains_header = true);
 
-    bool read_csv_from_string(const std::string &str, const bool& contains_header = true);
+    bool read_csv_from_string(const std::string &str, const bool &contains_header = true);
 
     void set_no_value_string(const std::string &str);
 
@@ -77,9 +76,9 @@ class CSV {
 
     double at(int row, const std::string &header);
 
-    friend std::ostream& operator<<(std::ostream& os, const CSV& csv);
+    friend std::ostream &operator<<(std::ostream &os, const CSV &csv);
 
-    bool equals(const CSV& other);
+    bool equals(const CSV &other);
 
     // double parameters
     void set_double_precision(int precision) { double_precision_ = precision; }
@@ -91,7 +90,7 @@ class CSV {
 
     void write_headers();
 
-    void write_row(const int& row);
+    void write_row(const int &row);
 
     // Key   : column header (name)
     // Value : column index
@@ -113,8 +112,8 @@ class CSV {
 
     std::string headers_to_string() const;
     std::string rows_to_string() const;
-    std::string row_to_string(const int& i) const;
+    std::string row_to_string(const int &i) const;
 };
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_CSV_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_CSV_H_

@@ -31,8 +31,8 @@
  */
 
 #include <scrimmage/common/Shape.h>
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <iostream>
 #include <vector>
@@ -43,8 +43,7 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace shape {
 
-ShapePtr make_shape(const Eigen::Vector3d &color,
-                    const double &opacity) {
+ShapePtr make_shape(const Eigen::Vector3d &color, const double &opacity) {
     auto shape = std::make_shared<scrimmage_proto::Shape>();
     sc::set(shape->mutable_color(), color);
     shape->set_opacity(opacity);
@@ -280,5 +279,5 @@ ShapePtr make_triangle(const Eigen::Vector3d &point0,
     return shape;
 }
 
-} // namespace shape
-} // namespace scrimmage
+}  // namespace shape
+}  // namespace scrimmage

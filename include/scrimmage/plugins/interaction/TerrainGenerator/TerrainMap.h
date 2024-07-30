@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/msgs/Terrain.pb.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <vector>
-#include <string>
 #include <limits>
-#include <random>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 #include <boost/optional.hpp>
 
@@ -58,9 +58,12 @@ class TerrainMap {
                std::shared_ptr<std::default_random_engine> gener,
                const Technique &technique,
                const Eigen::Vector3d &center,
-               const double &x_length, const double &y_length,
-               const double &x_resolution, const double &y_resolution,
-               const double &z_min, const double &z_max,
+               const double &x_length,
+               const double &y_length,
+               const double &x_resolution,
+               const double &y_resolution,
+               const double &z_min,
+               const double &z_max,
                const Eigen::Vector3d &color);
     explicit TerrainMap(const scrimmage_msgs::Terrain &terrain);
     scrimmage::ShapePtr shape();
@@ -102,6 +105,6 @@ class TerrainMap {
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
