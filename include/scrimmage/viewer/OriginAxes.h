@@ -45,7 +45,7 @@ namespace scrimmage {
 
 class OriginAxes {
  public:
-    void create(int length, vtkSmartPointer<vtkRenderer> &renderer);
+    void create(int length, vtkSmartPointer<vtkRenderer> renderer);
 
     void remove();
 

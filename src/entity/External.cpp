@@ -252,7 +252,6 @@ bool External::create_entity(
             auto it = br::find_if(var_idx, matches_idx);
             while (it != var_idx.end()) {
                 vars.add_input_variable(it->first);
-                // cppcheck-suppress unreadVariable
                 idx++;
                 it = br::find_if(var_idx, matches_idx);
             }

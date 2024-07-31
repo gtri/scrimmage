@@ -55,13 +55,13 @@ class Viewer {
  public:
     Viewer();
 
-    void set_incoming_interface(InterfacePtr& incoming_interface);
+    void set_incoming_interface(InterfacePtr incoming_interface);
 
-    void set_outgoing_interface(InterfacePtr& outgoing_interface);
+    void set_outgoing_interface(InterfacePtr outgoing_interface);
 
     void set_enable_network(bool enable);
 
-    bool init(const std::shared_ptr<MissionParse>& mp,
+    bool init(const std::shared_ptr<MissionParse> mp,
               const std::map<std::string, std::string>& camera_params);
     bool run();
 
@@ -90,7 +90,7 @@ class Viewer {
 
     double init_scale_ = 1.0;
 
-    bool full_screen_;
+    bool full_screen_ = false;
 };
 
 }  // namespace scrimmage

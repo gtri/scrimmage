@@ -50,7 +50,7 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     std::string type() override { return std::string("PyAutonomy"); }
 
-    void set_contacts(scrimmage::ContactMapPtr &contacts) override {
+    void set_contacts(scrimmage::ContactMapPtr contacts) override {
         contacts_ = contacts;
         py_contacts_.clear();
         for (auto &kv : *contacts) {
@@ -58,13 +58,13 @@ class PyAutonomy : public scrimmage::Autonomy {
         }
     }
 
-    void set_contacts_from_plugin(scrimmage::AutonomyPtr &ptr) override {
+    void set_contacts_from_plugin(scrimmage::AutonomyPtr ptr) override {
         std::shared_ptr<PyAutonomy> py_ptr = std::static_pointer_cast<PyAutonomy>(ptr);
         contacts_ = py_ptr->contacts_;
         py_contacts_ = py_ptr->py_contacts_;
     }
 
-    void set_state(scrimmage::StatePtr &state) override { state_ = state; }
+    void set_state(scrimmage::StatePtr state) override { state_ = state; }
 
  protected:
     void cache_python_vars();
@@ -79,7 +79,7 @@ class PyAutonomy : public scrimmage::Autonomy {
 
     bool step_autonomy_called_ = false;
 
-    pybind11::object state2py(scrimmage::StatePtr &state);
+    pybind11::object state2py(scrimmage::StatePtr state);
     pybind11::object contact2py(scrimmage::Contact contact);
     static std::shared_ptr<scrimmage_proto::Shape> py2shape(const pybind11::handle &py_handle);
 

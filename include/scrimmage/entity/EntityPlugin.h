@@ -70,7 +70,7 @@ using TimePtr = std::shared_ptr<Time>;
 class EntityPlugin : public Plugin {
  public:
     EntityPlugin();
-    virtual ~EntityPlugin();
+    ~EntityPlugin() override;
 
     virtual bool ready() { return true; }
 
@@ -80,7 +80,7 @@ class EntityPlugin : public Plugin {
     virtual void set_parent(EntityPtr parent);
     virtual EntityPtr parent();
 
-    void set_scoped_property(const std::string &property_name, const MessageBasePtr &property);
+    void set_scoped_property(const std::string &property_name, const MessageBasePtr property);
     MessageBasePtr get_scoped_property_helper(const std::string &property_name);
 
     /* Homogeneous transform from parent link */
@@ -147,7 +147,7 @@ class EntityPlugin : public Plugin {
     void draw_shape(scrimmage_proto::ShapePtr s);
     bool print_err_on_exit = true;
 
-    void set_param_server(const ParameterServerPtr &param_server);
+    void set_param_server(const ParameterServerPtr param_server);
 
     template <class T>
     bool register_param(

@@ -66,7 +66,7 @@ class BulletCollision : public scrimmage::EntityInteraction {
     bool collision_exists(std::list<sc::EntityPtr> &ents, Eigen::Vector3d &p) override;
 
     /** For the service call */
-    bool get_ray_tracing(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response);
+    bool get_ray_tracing(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr response);
 
  protected:
     std::pair<bool, scrimmage::EntityPtr> get_entity(const int &id);

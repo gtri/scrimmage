@@ -56,11 +56,11 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-void usage(char *argv[]) {
+void usage(const char *argv[]) {
     cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
@@ -168,10 +168,11 @@ int main(int argc, char *argv[]) {
             } else {
                 team_wins[winning_team[0]] = 1;
             }
+            // cppcheck-suppress knownConditionTrueFalse
         } else if (winning_team.size() > 1) {
             // Draw for multiple winners
             result_filename = "draw";
-            for (auto &team : winning_team) {
+            for (const auto &team : winning_team) {
                 result_filename += "_" + std::to_string(team);
 
                 if (team_draws.count(team) > 0) {
@@ -205,10 +206,10 @@ int main(int argc, char *argv[]) {
     // Make a map of the available team ids, so we can loop over it while
     // printing out their records.
     std::map<int, int> team_ids;
-    for (auto &kv : team_wins) {
+    for (const auto &kv : team_wins) {
         team_ids[kv.first] = kv.first;
     }
-    for (auto &kv : team_draws) {
+    for (const auto &kv : team_draws) {
         team_ids[kv.first] = kv.first;
     }
 
@@ -220,12 +221,12 @@ int main(int argc, char *argv[]) {
     headings.push_back("Total");
 
     cout << "-----------------------------------------------------" << endl;
-    for (auto &i : headings) {
+    for (const auto &i : headings) {
         cout << std::left << std::setw(col_wid) << i;
     }
     cout << endl;
 
-    for (auto &kv : team_ids) {
+    for (const auto &kv : team_ids) {
         int wins = 0;
         int draws = 0;
 

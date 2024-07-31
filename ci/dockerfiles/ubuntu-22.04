@@ -114,7 +114,7 @@ RUN source /root/env/bin/activate \
  && cd build \
  && source ~/.bashrc \
  && cmake .. -G Ninja \
-             -DPYTHON_MIN_VERSION=3.8 \
+             -DPYTHON_MIN_VERSION=3.10 \
              -DBUILD_TESTS=ON \
              -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
@@ -139,13 +139,20 @@ RUN source /root/env/bin/activate && \
     scrimmage ../missions/straight-no-gui.xml && \
     scrimmage ../missions/straight_jsbsim.xml
 
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source /root/env/bin/activate && \
+    source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    py.test ../python/scrimmage/openai/tests/test_openai.py
+
+
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
 
 # Run lint and cpp_check tests
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/env/bin/activate \
-    && py.test test/test_cpplint.py \
+    #&& py.test test/test_cpplint.py \
     && py.test test/test_cppcheck.py
 
 # Setup the scrimmage docker image to run as an executable

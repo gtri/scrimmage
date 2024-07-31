@@ -161,7 +161,6 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
             }
 
             PluginPtr (*maker_func)(void);
-            // cppcheck-suppress cstyleCast
             maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
             char *error;
             if ((error = dlerror()) != NULL) {

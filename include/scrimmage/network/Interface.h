@@ -70,16 +70,16 @@ class Interface {
     bool shapes_update();
 
     // SimControl to GUI
-    bool send_frame(double time, ContactMapPtr &contacts);
+    bool send_frame(double time, ContactMapPtr contacts);
 
-    bool send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
+    bool send_frame(std::shared_ptr<scrimmage_proto::Frame> frame);
 
-    bool send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
-    bool send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
+    bool send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain);
+    bool send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> cv);
 
-    bool push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame);
-    bool push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
-    bool push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
+    bool push_frame(std::shared_ptr<scrimmage_proto::Frame> frame);
+    bool push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain);
+    bool push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> cv);
 
     // GUI to SimControl
     bool send_gui_msg(scrimmage_proto::GUIMsg &gui_msg);
@@ -101,13 +101,13 @@ class Interface {
     std::mutex shapes_mutex;
     std::mutex contact_visual_mutex;
 
-    std::list<std::shared_ptr<scrimmage_proto::Frame> > &frames() { return frames_list_; }
+    std::list<std::shared_ptr<scrimmage_proto::Frame>>& frames() { return frames_list_; }
 
-    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &utm_terrain() {
+    std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& utm_terrain() {
         return utm_terrain_list_;
     }
 
-    std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &contact_visual() {
+    std::list<std::shared_ptr<scrimmage_proto::ContactVisual>>& contact_visual() {
         return contact_visual_list_;
     }
 

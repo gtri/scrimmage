@@ -56,7 +56,7 @@ using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 
 namespace scrimmage {
 
-using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr )>;
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
@@ -67,21 +67,21 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool init(AttributeMap &overrides,
               std::map<std::string, std::string> &info,
-              std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-              std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-              ContactMapPtr &contacts,
+              std::shared_ptr<std::unordered_map<int, int>> id_to_team_map,
+              std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map,
+              ContactMapPtr contacts,
               MissionParsePtr mp,
-              const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
+              const std::shared_ptr<GeographicLib::LocalCartesian> proj,
               int id,
               int ent_desc_id,
               PluginManagerPtr plugin_manager,
-              FileSearchPtr &file_search,
-              RTreePtr &rtree,
-              PubSubPtr &pubsub,
-              PrintPtr &printer,
-              TimePtr &time,
-              const ParameterServerPtr &param_server,
-              const GlobalServicePtr &global_services,
+              FileSearchPtr file_search,
+              RTreePtr rtree,
+              PubSubPtr pubsub,
+              PrintPtr printer,
+              TimePtr time,
+              const ParameterServerPtr param_server,
+              const GlobalServicePtr global_services,
               const std::set<std::string> &plugin_tags,
               std::function<void(std::map<std::string, std::string> &)> param_override_func,
               const int &debug_level = 0);
@@ -101,9 +101,9 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void setup_desired_state();
     bool ready();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr res, const std::string &service_name);
 
-    bool call_service(MessageBasePtr &res, const std::string &service_name) {
+    bool call_service(MessageBasePtr res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
 
@@ -133,10 +133,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     /*! \name getters/setters */
     ///@{
-    StatePtr &state();
-    StatePtr &state_truth();
+    StatePtr state();
+    StatePtr state_truth();
     std::vector<AutonomyPtr> &autonomies();
-    MotionModelPtr &motion();
+    MotionModelPtr motion();
     std::vector<ControllerPtr> &controllers();
 
     void set_id(ID &id);
@@ -146,7 +146,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     int health_points();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
-    void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> proj);
 
     void set_mp(MissionParsePtr mp);
     MissionParsePtr mp();
@@ -159,7 +159,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void set_visual_changed(bool visual_changed);
     bool visual_changed();
 
-    scrimmage_proto::ContactVisualPtr &contact_visual();
+    scrimmage_proto::ContactVisualPtr contact_visual();
 
     std::unordered_map<std::string, SensorPtr> &sensors();
     std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
@@ -170,25 +170,25 @@ class Entity : public std::enable_shared_from_this<Entity> {
     // Enables creating services at the global level (especially for entity interactions, etc.)
     std::unordered_map<std::string, Service> &global_services();
     // Enables setting these for entity interactions
-    void set_global_services(const GlobalServicePtr &global_services);
+    void set_global_services(const GlobalServicePtr global_services);
 
     std::unordered_map<std::string, MessageBasePtr> &properties();
 
     void set_active(bool active);
     bool active();
 
-    ContactMapPtr &contacts() { return contacts_; }
-    RTreePtr &rtree() { return rtree_; }
+    ContactMapPtr contacts() { return contacts_; }
+    RTreePtr rtree() { return rtree_; }
 
-    PluginManagerPtr &plugin_manager() { return plugin_manager_; }
+    PluginManagerPtr plugin_manager() { return plugin_manager_; }
 
-    FileSearchPtr &file_search() { return file_search_; }
+    FileSearchPtr file_search() { return file_search_; }
 
-    PubSubPtr &pubsub() { return pubsub_; }
+    PubSubPtr pubsub() { return pubsub_; }
 
-    PrintPtr &printer() { return printer_; }
+    PrintPtr printer() { return printer_; }
 
-    const ParameterServerPtr &param_server() { return param_server_; }
+    const ParameterServerPtr param_server() { return param_server_; }
 
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);

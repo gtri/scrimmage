@@ -146,7 +146,7 @@ void set(scrimmage_proto::Quaternion *dst,
     dst->set_w(w);
 }
 
-void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state) {
+void set(scrimmage_proto::State *dst, const scrimmage::StatePtr state) {
     set(dst->mutable_position(), state->pos());
     set(dst->mutable_linear_velocity(), state->vel());
     set(dst->mutable_angular_velocity(), state->ang_vel());
@@ -272,12 +272,12 @@ Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame) {
 }
 
 std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
-                                                     std::shared_ptr<ContactMap> &contacts) {
+                                                     std::shared_ptr<ContactMap> contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame(new scrimmage_proto::Frame());
     frame->set_time(time);
 
     for (auto &kv : *contacts) {
-        StatePtr &state = kv.second.state();
+        StatePtr state = kv.second.state();
         Contact::Type type = kv.second.type();
         const ID &id = kv.second.id();
 

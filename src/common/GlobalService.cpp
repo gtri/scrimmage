@@ -48,7 +48,7 @@ GlobalService::~GlobalService() {
 std::unordered_map<std::string, Service> &GlobalService::services() { return services_; }
 
 bool GlobalService::call_service(scrimmage::MessageBasePtr req,
-                                 scrimmage::MessageBasePtr &res,
+                                 scrimmage::MessageBasePtr res,
                                  const std::string &service_name) {
     auto it = services_.find(service_name);
     if (it == services_.end()) {

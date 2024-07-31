@@ -52,7 +52,7 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
         cout << "====================================================" << endl;
         cout << "Choose an outcome number: " << endl;
         cout << "----------------------------------------------------" << endl;
-        for (auto &i : headings) {
+        for (const auto &i : headings) {
             cout << std::left << std::setw(col_wid) << i;
         }
         cout << endl;

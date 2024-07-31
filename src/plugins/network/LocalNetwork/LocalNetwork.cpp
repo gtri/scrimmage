@@ -47,11 +47,6 @@
 #include <limits>
 #include <memory>
 
-using std::cout;
-using std::endl;
-
-namespace sc = scrimmage;
-
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::LocalNetwork, LocalNetwork_plugin)
 
 namespace scrimmage {
@@ -65,16 +60,16 @@ bool LocalNetwork::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool LocalNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                                const scrimmage::EntityPluginPtr &sub_plugin) {
+bool LocalNetwork::is_reachable(const scrimmage::EntityPluginPtr pub_plugin,
+                                const scrimmage::EntityPluginPtr sub_plugin) {
     // Never reachable if plugin's entity was destroyed
     if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr) return false;
     // If the publisher and subscriber have the same parent, it is reachable
     return (pub_plugin->parent() == sub_plugin->parent());
 }
 
-bool LocalNetwork::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                              const scrimmage::EntityPluginPtr &sub_plugin) {
+bool LocalNetwork::is_successful_transmission(const scrimmage::EntityPluginPtr pub_plugin,
+                                              const scrimmage::EntityPluginPtr sub_plugin) {
     return true;
 }
 

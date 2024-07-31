@@ -57,10 +57,10 @@ class Contact {
 
     Contact();
 
-    Contact(const ID &id, const StatePtr &state);
+    Contact(const ID &id, const StatePtr state);
     Contact(ID &id,
             double radius,
-            StatePtr &state,
+            StatePtr state,
             Type type,
             scrimmage_proto::ContactVisualPtr cv,
             const std::unordered_map<std::string, MessageBasePtr> &properties);
@@ -83,14 +83,14 @@ class Contact {
     void set_id(const ID &id);
     ID &id();
 
-    void set_state(StatePtr &state);
-    StatePtr &state();
+    void set_state(StatePtr state);
+    StatePtr state();
     std::shared_ptr<const State> state_const() const;
 
     void set_type(Type type);
     Type type();
 
-    scrimmage_proto::ContactVisualPtr &contact_visual();
+    scrimmage_proto::ContactVisualPtr contact_visual();
 
     void set_active(bool active);
     bool active();

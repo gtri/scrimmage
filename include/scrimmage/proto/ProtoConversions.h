@@ -91,7 +91,7 @@ void set(scrimmage_proto::Quaternion *dst,
          const double &x,
          const double &y,
          const double &z);
-void set(scrimmage_proto::State *dst, const scrimmage::StatePtr &state);
+void set(scrimmage_proto::State *dst, const scrimmage::StatePtr state);
 void set(scrimmage_proto::State *dst, const scrimmage::State &state);
 void set(scrimmage::State &dst, const scrimmage_proto::State &state);
 void set(scrimmage::Quaternion &dst, const scrimmage_proto::Quaternion &quat);
@@ -123,7 +123,7 @@ Contact proto_2_contact(const scrimmage_proto::Contact &proto_contact);
 Frame proto_2_frame(const scrimmage_proto::Frame &proto_frame);
 
 std::shared_ptr<scrimmage_proto::Frame> create_frame(double time,
-                                                     std::shared_ptr<ContactMap> &contacts);
+                                                     std::shared_ptr<ContactMap> contacts);
 
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PROTO_PROTOCONVERSIONS_H_

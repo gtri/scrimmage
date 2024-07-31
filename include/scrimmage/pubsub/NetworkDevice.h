@@ -60,7 +60,7 @@ class NetworkDevice {
                   const bool& enable_queue_size,
                   EntityPluginPtr plugin);
 
-    std::string get_topic() const;
+    const std::string& get_topic() const;
     void set_topic(const std::string& topic);
 
     void set_msg_list(const std::list<MessageBasePtr>& msg_list);

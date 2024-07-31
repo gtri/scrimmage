@@ -285,7 +285,7 @@ class SimControl {
      * @brief Set the incoming interface for communication from external
      * visualizers.
      */
-    void set_incoming_interface(InterfacePtr &incoming_interface);
+    void set_incoming_interface(InterfacePtr incoming_interface);
 
     /// @brief Get the incoming interface.
     InterfacePtr incoming_interface();
@@ -294,7 +294,7 @@ class SimControl {
      * @brief Set the outgoing interface for communication to external
      * visualizers.
      */
-    void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    void set_outgoing_interface(InterfacePtr outgoing_interface);
 
     /// @brief Get the outgoing interface.
     InterfacePtr outgoing_interface();

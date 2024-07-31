@@ -135,7 +135,7 @@ bool MotionBattery::step(double t, double dt) {
 }
 
 bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request,
-                                       scrimmage::MessageBasePtr &response) {
+                                       scrimmage::MessageBasePtr response) {
     response = std::make_shared<sc::Message<double>>(battery_.current_charge());
     return true;
 }

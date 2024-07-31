@@ -51,26 +51,27 @@ class Autonomy : public EntityPlugin {
     virtual bool step_autonomy(double t, double dt);
     virtual bool posthumous(double t);
     virtual void init();
+    // cppcheck-suppress uselessOverride
     bool ready() override { return true; }
     virtual void init(std::map<std::string, std::string> &params);
     void close(double t) override;
     bool need_reset();
 
     // getters/setters
-    StatePtr &desired_state();
+    StatePtr desired_state();
     void set_desired_state(StatePtr desired_state);
 
-    ContactMapPtr &get_contacts();
+    ContactMapPtr get_contacts();
     ContactMap &get_contacts_raw();
-    virtual void set_contacts(ContactMapPtr &contacts);
-    virtual void set_contacts_from_plugin(AutonomyPtr &ptr);
+    virtual void set_contacts(ContactMapPtr contacts);
+    virtual void set_contacts_from_plugin(AutonomyPtr ptr);
     virtual void set_projection(std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
-    scrimmage::RTreePtr &rtree();
-    void set_rtree(scrimmage::RTreePtr &rtree);
+    scrimmage::RTreePtr rtree();
+    void set_rtree(scrimmage::RTreePtr rtree);
 
-    StatePtr &state();
-    virtual void set_state(StatePtr &state);
+    StatePtr state();
+    virtual void set_state(StatePtr state);
 
     std::string &logging_msg();
 

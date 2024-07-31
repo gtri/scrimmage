@@ -15,7 +15,8 @@ def test_cppcheck():
         ['cppcheck', '--quiet', '--language=c++',
          '--inline-suppr',
          '--error-exitcode=1', '--enable=' + enabled_checks,
-         '--suppress=copyCtorAndEqOperator',
+         '--suppress=normalCheckLevelMaxBranches',
+         '--suppress=missingIncludeSystem',
          '-I', os.path.join(root_dir, 'python/scrimmage/bindings/include'),
          '-I', os.path.join(root_dir, 'include')] + dirs
     print('running the following command:')

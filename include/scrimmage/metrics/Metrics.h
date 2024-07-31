@@ -44,7 +44,7 @@ namespace scrimmage {
 class Metrics : public EntityPlugin {
  public:
     Metrics();
-    virtual ~Metrics();
+    ~Metrics() override;
 
     virtual void init();
     virtual void init(std::map<std::string, std::string> &params);

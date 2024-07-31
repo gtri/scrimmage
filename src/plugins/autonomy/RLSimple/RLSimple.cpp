@@ -94,9 +94,7 @@ std::tuple<bool, double, pybind11::dict> RLSimple::calc_reward() {
 }
 
 bool RLSimple::step_helper() {
-    // cppcheck-suppress variableScope
     int disc_idx = 0;
-    // cppcheck-suppress variableScope
     int cont_idx = 0;
     auto getter = [&](auto discrete) -> double {
         if (discrete) {

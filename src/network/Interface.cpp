@@ -125,7 +125,7 @@ bool Interface::check_ready() {
 #endif
 }
 
-bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> frame) {
     if (mode_ == shared) {
         push_frame(frame);
     } else if (mode_ == client) {
@@ -158,13 +158,13 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::send_frame(double time, std::shared_ptr<ContactMap> &contacts) {
+bool Interface::send_frame(double time, std::shared_ptr<ContactMap> contacts) {
     std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(time, contacts);
 
     return send_frame(frame);
 }
 
-bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain) {
     if (caching_enabled_) {
         utm_terrain_cache_ = utm_terrain;
     }
@@ -201,7 +201,7 @@ bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
     return true;
 }
 
-bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> cv) {
     if (caching_enabled_) {
         contact_visual_cache_.push_back(cv);
     }
@@ -387,14 +387,14 @@ void Interface::send_cached() {
     caching_enabled_ = true;
 }
 
-bool Interface::push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> cv) {
     contact_visual_mutex.lock();
     contact_visual_list_.push_back(cv);
     contact_visual_mutex.unlock();
     return true;
 }
 
-bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> frame) {
     frames_mutex.lock();
     frames_list_.push_back(frame);
     if (frames_list_.size() > max_queue_size_) {
@@ -404,7 +404,7 @@ bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain) {
     utm_terrain_mutex.lock();
     utm_terrain_list_.push_back(utm_terrain);
     utm_terrain_mutex.unlock();

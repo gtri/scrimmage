@@ -63,7 +63,7 @@ void EntityPlugin::set_parent(EntityPtr parent) { parent_ = parent; }
 EntityPtr EntityPlugin::parent() { return parent_; }
 
 void EntityPlugin::set_scoped_property(const std::string &property_name,
-                                       const MessageBasePtr &property) {
+                                       const MessageBasePtr property) {
     parent_->properties()[name() + "/" + property_name] = property;
 }
 
@@ -104,7 +104,7 @@ void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
     shapes_.push_back(s);
 }
 
-void EntityPlugin::set_param_server(const ParameterServerPtr &param_server) {
+void EntityPlugin::set_param_server(const ParameterServerPtr param_server) {
     param_server_ = param_server;
 }
 

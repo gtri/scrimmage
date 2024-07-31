@@ -46,17 +46,17 @@ namespace scrimmage {
 Viewer::Viewer()
     : enable_network_(false) {}
 
-void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) {
+void Viewer::set_incoming_interface(InterfacePtr incoming_interface) {
     incoming_interface_ = incoming_interface;
 }
 
-void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
+void Viewer::set_outgoing_interface(InterfacePtr outgoing_interface) {
     outgoing_interface_ = outgoing_interface;
 }
 
 void Viewer::set_enable_network(bool enable) { enable_network_ = enable; }
 
-bool Viewer::init(const std::shared_ptr<MissionParse>& mp,
+bool Viewer::init(const std::shared_ptr<MissionParse> mp,
                   const std::map<std::string, std::string>& camera_params) {
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();

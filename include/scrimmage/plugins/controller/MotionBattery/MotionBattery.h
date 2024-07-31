@@ -51,7 +51,7 @@ class MotionBattery : public scrimmage::Controller {
     bool step(double t, double dt) override;
 
  protected:
-    bool get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &response);
+    bool get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr response);
     double calculate_charge_usage(const double &throttle, const double &dt);
 
     Battery battery_;

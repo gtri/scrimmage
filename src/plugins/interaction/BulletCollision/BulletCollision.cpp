@@ -151,7 +151,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
 
         int id = msg->data.entity_id();
 
-        sc::EntityPtr &ent = (*id_to_ent_map_)[id];
+        sc::EntityPtr ent = (*id_to_ent_map_)[id];
 
         btCollisionObject *coll_object = new btCollisionObject();
         coll_object->setUserIndex(id);
@@ -382,7 +382,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
     for (auto &kv : *id_to_ent_map_) {
         auto it_object = objects_.find(kv.first);
         if (it_object != objects_.end()) {
-            sc::EntityPtr &ent = kv.second;
+            sc::EntityPtr ent = kv.second;
             it_object->second.object->getWorldTransform().setOrigin(
                 btVector3((btScalar)ent->state_truth()->pos()(0),
                           (btScalar)ent->state_truth()->pos()(1),
@@ -407,7 +407,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
 
     // For each entity's ray-based sensors, compute point clouds
     for (auto &kv : pc_descs_) {
-        sc::EntityPtr &own_ent = (*id_to_ent_map_)[kv.first];
+        sc::EntityPtr own_ent = (*id_to_ent_map_)[kv.first];
         Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
 
         // For each ray sensor on a single entity
@@ -424,7 +424,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
 
                 // Compute transformation matrix from entity's frame to sensor's
                 // frame.
-                sc::SensorPtr &sensor = own_ent->sensors()[kv2.first];
+                sc::SensorPtr sensor = own_ent->sensors()[kv2.first];
                 Eigen::Matrix4d tf_m =
                     own_ent->state_truth()->tf_matrix(false) * sensor->transform()->tf_matrix();
 
@@ -588,7 +588,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
 }
 
 bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
-                                      scrimmage::MessageBasePtr &response) {
+                                      scrimmage::MessageBasePtr response) {
     auto request_cast = std::dynamic_pointer_cast<sc::Message<RayTrace::PointCloudWithId>>(request);
 
     if (request_cast == nullptr) {
@@ -598,11 +598,11 @@ bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
 
     int entity_id = request_cast->data.entity_id;
     std::string sensor_name = request_cast->data.sensor_name;
-    sc::EntityPtr &own_ent = (*id_to_ent_map_)[entity_id];
+    sc::EntityPtr own_ent = (*id_to_ent_map_)[entity_id];
     Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
     // Compute transformation matrix from entity's frame to sensor's
     // frame.
-    sc::SensorPtr &sensor = own_ent->sensors()[sensor_name];
+    sc::SensorPtr sensor = own_ent->sensors()[sensor_name];
     Eigen::Matrix4d tf_m =
         own_ent->state_truth()->tf_matrix(false) * sensor->transform()->tf_matrix();
     auto response_cast = std::make_shared<sc::Message<RayTrace::PointCloud>>();

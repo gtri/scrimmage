@@ -56,7 +56,7 @@ class Network : public EntityPlugin {
                       std::map<std::string, std::list<NetworkDevicePtr>> &subs);
     std::string type() override;
 
-    void set_rtree(const RTreePtr &rtree);
+    void set_rtree(const RTreePtr rtree);
 
     void set_random(RandomPtr random);
 
@@ -82,11 +82,11 @@ class Network : public EntityPlugin {
     // Value : Whether the publisher can reach the subscriber with a message
     std::unordered_map<int, std::unordered_map<int, bool>> reachable_map_;
 
-    virtual bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                              const scrimmage::EntityPluginPtr &sub_plugin);
+    virtual bool is_reachable(const scrimmage::EntityPluginPtr pub_plugin,
+                              const scrimmage::EntityPluginPtr sub_plugin);
 
-    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                            const scrimmage::EntityPluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr pub_plugin,
+                                            const scrimmage::EntityPluginPtr sub_plugin);
 
     virtual double get_transmission_delay();
 

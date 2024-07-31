@@ -137,7 +137,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
         bool valid_sub_topic = (it_sub_topic != sub_counts_.end());
 
         // For all publisher devices with topic name
-        for (NetworkDevicePtr &pub : pub_kv.second) {
+        for (NetworkDevicePtr pub : pub_kv.second) {
             pub->enforce_queue_size();
 
             auto msgs = pub->pop_msgs<MessageBase>();
@@ -156,7 +156,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
             }
 
             // For all subscribers on this topic
-            for (NetworkDevicePtr &sub : subs[topic]) {
+            for (NetworkDevicePtr sub : subs[topic]) {
                 if (sub->undelivered_msg_list_size() > 0) {
                     // deliver undelivered messages if delay time has passed
                     n_delivered = sub->deliver_undelivered_msg(time_->t(), is_stochastic_delay_);
@@ -203,7 +203,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     // Enforce queue sizes, if necessary
     for (auto &sub_kv : subs) {
         // For all publisher devices with topic name
-        for (NetworkDevicePtr &sub : sub_kv.second) {
+        for (NetworkDevicePtr sub : sub_kv.second) {
             sub->enforce_queue_size();
         }
     }
@@ -227,13 +227,13 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     return true;
 }
 
-bool Network::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                           const scrimmage::EntityPluginPtr &sub_plugin) {
+bool Network::is_reachable(const scrimmage::EntityPluginPtr pub_plugin,
+                           const scrimmage::EntityPluginPtr sub_plugin) {
     return false;
 }
 
-bool Network::is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                         const scrimmage::EntityPluginPtr &sub_plugin) {
+bool Network::is_successful_transmission(const scrimmage::EntityPluginPtr pub_plugin,
+                                         const scrimmage::EntityPluginPtr sub_plugin) {
     return false;
 }
 
@@ -241,9 +241,8 @@ double Network::get_transmission_delay() { return comm_delay_; }
 
 std::string Network::type() { return std::string("Network"); }
 
-void Network::set_rtree(const RTreePtr &rtree) { rtree_ = rtree; }
+void Network::set_rtree(const RTreePtr rtree) { rtree_ = rtree; }
 
-// cppcheck-suppress passedByValue
 void Network::set_random(RandomPtr random) { random_ = random; }
 
 void Network::close(double t) {

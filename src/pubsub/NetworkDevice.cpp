@@ -61,7 +61,7 @@ NetworkDevice::NetworkDevice(NetworkDevice&& rhs)
       max_queue_size_(rhs.max_queue_size_),
       msg_list_(rhs.msg_list_) {}
 
-std::string NetworkDevice::get_topic() const { return topic_; }
+const std::string& NetworkDevice::get_topic() const { return topic_; }
 
 void NetworkDevice::set_topic(const std::string& topic) { topic_ = topic; }
 

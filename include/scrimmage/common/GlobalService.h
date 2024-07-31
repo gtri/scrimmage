@@ -46,7 +46,7 @@
 
 namespace scrimmage {
 
-using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr )>;
 
 class GlobalService {
  public:
@@ -57,9 +57,9 @@ class GlobalService {
     // All service call functions
     std::unordered_map<std::string, Service> &services();
 
-    bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
+    bool call_service(MessageBasePtr req, MessageBasePtr res, const std::string &service_name);
 
-    bool call_service(MessageBasePtr &res, const std::string &service_name) {
+    bool call_service(MessageBasePtr res, const std::string &service_name) {
         return call_service(std::make_shared<MessageBase>(), res, service_name);
     }
 

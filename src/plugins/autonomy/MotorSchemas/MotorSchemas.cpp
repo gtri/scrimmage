@@ -164,14 +164,14 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     double vec_w_gain_sum = 0;
     Eigen::Vector3d vec_w_gain(0, 0, 0);
 
-    for (motor_schemas::BehaviorBasePtr &behavior : current_behaviors_) {
+    for (motor_schemas::BehaviorBasePtr behavior : current_behaviors_) {
         behavior->shapes().clear();
 
         // cout << "Behavior: " << behavior->name() << endl;
 
         // Execute callbacks for received messages before calling
         // step_autonomy
-        for (SubscriberBasePtr &sub : behavior->subs()) {
+        for (SubscriberBasePtr sub : behavior->subs()) {
             for (auto msg : sub->pop_msgs<sc::MessageBase>()) {
                 sub->accept(msg);
             }

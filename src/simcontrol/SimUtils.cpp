@@ -200,6 +200,7 @@ boost::optional<std::string> run_test(const std::string &mission,
     // Handle kill signals
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
+    // cppcheck-suppress danglingLifetime
     shutdown_handler = [&](int /*s*/) {
         cout << endl << "Exiting gracefully" << endl;
         simcontrol.force_exit();

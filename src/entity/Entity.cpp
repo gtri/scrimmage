@@ -69,21 +69,21 @@ namespace scrimmage {
 
 bool Entity::init(AttributeMap &overrides,
                   std::map<std::string, std::string> &info,
-                  std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-                  std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-                  ContactMapPtr &contacts,
+                  std::shared_ptr<std::unordered_map<int, int>> id_to_team_map,
+                  std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map,
+                  ContactMapPtr contacts,
                   MissionParsePtr mp,
-                  const std::shared_ptr<GeographicLib::LocalCartesian> &proj,
+                  const std::shared_ptr<GeographicLib::LocalCartesian> proj,
                   int id,
                   int ent_desc_id,
                   PluginManagerPtr plugin_manager,
-                  FileSearchPtr &file_search,
-                  RTreePtr &rtree,
-                  PubSubPtr &pubsub,
-                  PrintPtr &printer,
-                  TimePtr &time,
-                  const ParameterServerPtr &param_server,
-                  const GlobalServicePtr &global_services,
+                  FileSearchPtr file_search,
+                  RTreePtr rtree,
+                  PubSubPtr pubsub,
+                  PrintPtr printer,
+                  TimePtr time,
+                  const ParameterServerPtr param_server,
+                  const GlobalServicePtr global_services,
                   const std::set<std::string> &plugin_tags,
                   std::function<void(std::map<std::string, std::string> &)> param_override_func,
                   const int &debug_level) {
@@ -530,12 +530,12 @@ bool Entity::ready() {
            all_ready(sensors_, values_single_ready) && motion_model_->ready();
 }
 
-StatePtr &Entity::state() { return state_; }
-StatePtr &Entity::state_truth() { return state_truth_; }
+StatePtr Entity::state() { return state_; }
+StatePtr Entity::state_truth() { return state_truth_; }
 
 std::vector<AutonomyPtr> &Entity::autonomies() { return autonomies_; }
 
-MotionModelPtr &Entity::motion() { return motion_model_; }
+MotionModelPtr Entity::motion() { return motion_model_; }
 
 std::vector<ControllerPtr> &Entity::controllers() { return controllers_; }
 
@@ -555,7 +555,7 @@ bool Entity::is_alive() { return (health_points_ > 0); }
 
 bool Entity::posthumous(double t) {
     bool any_autonomies = std::any_of(
-        autonomies_.begin(), autonomies_.end(), [t](AutonomyPtr &a) { return a->posthumous(t); });
+        autonomies_.begin(), autonomies_.end(), [t](AutonomyPtr a) { return a->posthumous(t); });
     return any_autonomies && motion_model_->posthumous(t);
 }
 
@@ -574,7 +574,7 @@ void Entity::set_visual_changed(bool visual_changed) { visual_changed_ = visual_
 
 bool Entity::visual_changed() { return visual_changed_; }
 
-scrimmage_proto::ContactVisualPtr &Entity::contact_visual() { return visual_; }
+scrimmage_proto::ContactVisualPtr Entity::contact_visual() { return visual_; }
 
 std::unordered_map<std::string, SensorPtr> &Entity::sensors() { return sensors_; }
 
@@ -614,12 +614,12 @@ std::unordered_map<std::string, Service> &Entity::global_services() {
     return global_services_->services();
 }
 
-void Entity::set_global_services(const GlobalServicePtr &global_services) {
+void Entity::set_global_services(const GlobalServicePtr global_services) {
     global_services_ = global_services;
 }
 
 bool Entity::call_service(scrimmage::MessageBasePtr req,
-                          scrimmage::MessageBasePtr &res,
+                          scrimmage::MessageBasePtr res,
                           const std::string &service_name) {
     auto it = services_.find(service_name);
     if (it == services_.end()) {
@@ -695,8 +695,7 @@ std::unordered_map<std::string, MessageBasePtr> &Entity::properties() { return p
 void Entity::set_time_ptr(TimePtr t) { time_ = t; }
 void Entity::set_printer(PrintPtr printer) { printer_ = printer; }
 
-// cppcheck-suppress passedByValue
-void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> proj) {
     proj_ = proj;
 }
 

@@ -112,7 +112,7 @@ void PyAutonomy::cache_python_vars() {
     }
 }
 
-py::object PyAutonomy::state2py(sc::StatePtr &state) {
+py::object PyAutonomy::state2py(sc::StatePtr state) {
     cache_python_vars();
 
     sc::Quaternion quat = state->quat();
@@ -158,7 +158,7 @@ std::shared_ptr<scrimmage_proto::Shape> PyAutonomy::py2shape(const pybind11::han
 //
 //     for (auto &kv : subs_) {
 //         const char* topic = kv.first.c_str();
-//         sc::SubscriberPtr &sub  = kv.second;
+//         sc::SubscriberPtr sub  = kv.second;
 //         py::object py_sub = py_subs[topic];
 //
 //         py::list py_msg_list;
