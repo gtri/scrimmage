@@ -54,7 +54,7 @@ class RigidBody6DOF : public scrimmage::MotionModel {
 
     void model(const vector_t &x, vector_t &dxdt, double t) override;
 
-    void teleport(scrimmage::StatePtr &state) override;
+    void teleport(const scrimmage::StatePtr &state) override;
 
     class Controller : public scrimmage::Controller {
      public:

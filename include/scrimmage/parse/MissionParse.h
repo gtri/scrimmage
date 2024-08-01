@@ -103,8 +103,8 @@ class MissionParse {
     scrimmage_proto::Color& background_color();
 
     void set_log_dir(const std::string& log_dir);
-    std::string log_dir();
-    std::string root_log_dir();
+    const std::string& log_dir() const;
+    const std::string& root_log_dir() const;
 
     std::map<int, AttributeMap>& entity_attributes();
 
@@ -136,10 +136,12 @@ class MissionParse {
     void set_task_number(int task_num);
     void set_job_number(int job_num);
 
-    std::list<std::string> entity_interactions();
-    std::list<std::string>& network_names();
+    const std::list<std::string> & entity_interactions() const;
+    const std::list<std::string> & network_names() const;
 
-    std::list<std::string> metrics();
+    void add_network(const std::string& network_name);
+
+    const std::list<std::string>& metrics() const;
 
     std::map<int, GenerateInfo>& gen_info();
 
@@ -147,11 +149,11 @@ class MissionParse {
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
 
-    std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain();
+    std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain();
 
-    std::string get_mission_filename();
+    const std::string& get_mission_filename() const;
 
-    bool get_no_bin_logging();
+    bool get_no_bin_logging() const;
 
     bool output_required();
     bool output_type_required(const std::string& output_type);

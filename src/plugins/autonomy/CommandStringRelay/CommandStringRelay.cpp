@@ -62,7 +62,7 @@ void CommandStringRelay::init(std::map<std::string, std::string> &params) {
     std::string relays_str = sc::get<std::string>("relays", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
     sc::get_vec_of_vecs(relays_str, vecs_of_vecs, " ");
-    for (std::vector<std::string> vecs : vecs_of_vecs) {
+    for (const std::vector<std::string>& vecs : vecs_of_vecs) {
         if (vecs.size() < 3) {
             std::cout << "Invalid relay found." << std::endl;
             continue;

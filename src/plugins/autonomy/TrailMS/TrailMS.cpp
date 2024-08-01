@@ -79,6 +79,11 @@ bool TrailMS::step_autonomy(double t, double dt) {
         }
     }
 
+    if (trail_state == nullptr) {
+        std::cerr << "Warning. State of vehicle is null" << std::endl;
+        return false;
+    }
+
     // Compute the direction of the trail point relative to the other entity's
     // center. Rotate a unit vector pointing towards the x-axis around the
     // z-axis by the trail angle. Then rotate that vector by the other entity's

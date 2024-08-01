@@ -104,7 +104,7 @@ bool find_terrain_files(std::string terrain_name,
 bool find_model_properties(std::string model_name,
                            ConfigParse &cv_parse,
                            FileSearch &file_search,
-                           std::map<std::string, std::string> &overrides,
+                           const std::map<std::string, std::string> &overrides,
                            std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
                            bool &mesh_found,
                            bool &texture_found) {
@@ -235,7 +235,7 @@ bool get_vec(const std::string &str,
     return true;
 }
 
-Eigen::Vector3d vec2eigen(std::vector<double> &vec) {
+Eigen::Vector3d vec2eigen(const std::vector<double> &vec) {
     Eigen::Vector3d v(0, 0, 0);
     if (vec.size() <= 3) {
         for (unsigned int i = 0; i < vec.size(); i++) {
@@ -362,16 +362,17 @@ bool set_pid_gains(sc::PID &pid, std::string str, bool is_angle) {
 }
 
 unsigned int parse_plugin_vector(const std::string &key,
-                                 std::map<std::string, std::string> &params,
+                                 const std::map<std::string, std::string> &params,
                                  std::list<PluginOverrides> &plugin_overrides_list) {
     // Parse the behavior plugins
     std::string plugins_str = sc::get<std::string>(key, params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
+    // cppcheck-suppress knownConditionTrueFalse
     if (not sc::get_vec_of_vecs(plugins_str, vecs_of_vecs, " ")) {
         cout << "Failed to parse vector of vectors" << endl;
         return 0;
     }
-    for (std::vector<std::string> vecs : vecs_of_vecs) {
+    for (const std::vector<std::string>& vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
             std::cout << "Plugin name missing." << std::endl;
             continue;

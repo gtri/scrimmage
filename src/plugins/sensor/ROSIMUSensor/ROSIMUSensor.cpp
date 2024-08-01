@@ -309,6 +309,7 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF,
                                          Eigen::Vector3d velECEF,
                                          Eigen::Quaterniond qBodyToECEF,
                                          double InertialDeltaT) {
+    // cppcheck-suppress shadowVariable
     double k1 = -1, k2 = -1.25;
 
     Eigen::Vector3d Acct1 = (velECEF - vel_t1) / InertialDeltaT;
@@ -353,7 +354,7 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF,
 
 bool ROSIMUSensor::step() {
     // Obtain current state information
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
     double time_now = time_->t();
     double dt = time_now - prev_time_;
     prev_time_ = time_now;

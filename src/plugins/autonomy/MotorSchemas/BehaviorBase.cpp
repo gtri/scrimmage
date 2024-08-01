@@ -52,12 +52,12 @@ void BehaviorBase::set_max_vector_length(const double &max_vector_length) {
     max_vector_length_ = max_vector_length;
 }
 
-void BehaviorBase::configure_contacts(std::map<std::string, std::string> &params) {
+void BehaviorBase::configure_contacts(const std::map<std::string, std::string> &params) {
     std::vector<std::string> use_contacts;
     if (get_vec("contacts", params, ", ", use_contacts)) {
         use_truth_contacts_ = false;
         use_noisy_contacts_ = false;
-        for (auto &str : use_contacts) {
+        for (const auto &str : use_contacts) {
             if (str == "truth") {
                 use_truth_contacts_ = true;
             } else if (str == "noisy") {
@@ -67,7 +67,7 @@ void BehaviorBase::configure_contacts(std::map<std::string, std::string> &params
     }
 
     if (use_noisy_contacts_) {
-        auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap> &msg) { noisy_contacts_ = msg->data; };
+        auto cnt_cb = [&](const scrimmage::MessagePtr<ContactMap> &msg) { noisy_contacts_ = msg->data; };
         subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
     }
 }

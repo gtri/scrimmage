@@ -58,7 +58,7 @@ std::tuple<int, int, int> RigidBody6DOF::version() { return std::tuple<int, int,
 bool RigidBody6DOF::init(std::map<std::string, std::string> &info,
                          std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
 
     min_velocity_ = sc::get("min_velocity", params, 15.0);
@@ -209,7 +209,7 @@ void RigidBody6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[Ww] = acc_world(2);
 }
 
-void RigidBody6DOF::teleport(sc::StatePtr &state) {
+void RigidBody6DOF::teleport(const sc::StatePtr &state) {
     // x_[X] = state->pos()[0];
     // x_[Y] = state->pos()[1];
     // x_[Z] = state->pos()[2];

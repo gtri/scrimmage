@@ -70,6 +70,7 @@ void set(scrimmage_proto::Color *dst, const std::vector<int> &src) {
     dst->set_b(src[2]);
 }
 
+// cppcheck-suppress constParameterReference
 void set(Eigen::Vector3d &dst, scrimmage_proto::Vector3d *src) {
     dst(0) = src->x();
     dst(1) = src->y();
@@ -100,7 +101,7 @@ void set(scrimmage_proto::Color &dst, int r, int g, int b) {
     set(dst, src);
 }
 
-void set(scrimmage_proto::Color *dst, scrimmage_proto::Color *src) { *dst = *src; }
+void set(scrimmage_proto::Color *dst, const scrimmage_proto::Color *src) { *dst = *src; }
 
 void set(scrimmage_proto::Color *dst, scrimmage_proto::Color src) {
     dst->set_r(src.r());

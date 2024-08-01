@@ -85,7 +85,7 @@ bool SimpleCaptureMetrics::step_metrics(double t, double dt) {
 
 void SimpleCaptureMetrics::calc_team_scores() {
     // Create the score if there isn't one yet
-    for (auto &team_id : teams_) {
+    for (const auto &team_id : teams_) {
         if (team_scores_map_.count(team_id) == 0) {
             Score score;
             score.set_weights(params_);
@@ -93,8 +93,8 @@ void SimpleCaptureMetrics::calc_team_scores() {
         }
     }
 
-    for (auto &kv : scores_) {
-        Score &score = kv.second;
+    for (const auto &kv : scores_) {
+        const Score &score = kv.second;
 
         int team_id = (*id_to_team_map_)[kv.first];
 

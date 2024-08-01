@@ -175,6 +175,7 @@ bool Entity::init(AttributeMap &overrides,
         } else if (status.status == PluginStatus<Sensor>::parse_failed) {
             return false;
         } else if (status.status == PluginStatus<Sensor>::loaded) {
+            // cppcheck-suppress shadowFunction
             SensorPtr sensor = status.plugin;
 
             // Get sensor's offset from entity origin
@@ -300,6 +301,7 @@ bool Entity::init(AttributeMap &overrides,
     for (std::list<std::string>::reverse_iterator rit = controller_names.rbegin();
          rit != controller_names.rend();
          ++rit) {
+        // cppcheck-suppress shadowVariable
         std::string controller_name = *rit;
 
         ConfigParse config_parse;
@@ -363,7 +365,7 @@ bool Entity::init(AttributeMap &overrides,
                     print_io_error(motion_model_->name(), motion_model_->vars());
                     return false;
                 }
-            } else if (not connect_to_motion_model) {
+            } else {
                 if (!verify_io_connection(controller->vars(), controllers_.back()->vars())) {
                     std::cout << "VariableIO Error: " << std::quoted(controller->name())
                               << " does not provide inputs required by next controller "
@@ -409,6 +411,7 @@ bool Entity::init(AttributeMap &overrides,
     }
 
     // Create the autonomy plugins from the autonomy_names list.
+    // cppcheck-suppress shadowVariable
     for (auto autonomy_name : autonomy_names) {
         auto autonomy = make_autonomy<Autonomy>(info[autonomy_name],
                                                 plugin_manager,
@@ -539,7 +542,7 @@ MotionModelPtr Entity::motion() { return motion_model_; }
 
 std::vector<ControllerPtr> &Entity::controllers() { return controllers_; }
 
-void Entity::set_id(ID &id) { id_ = id; }
+void Entity::set_id(const ID &id) { id_ = id; }
 
 ID &Entity::id() { return id_; }
 
@@ -629,7 +632,7 @@ bool Entity::call_service(scrimmage::MessageBasePtr req,
             std::cout << "request for service (" << service_name << ") that does not exist"
                       << std::endl;
             std::cout << "services are: ";
-            for (auto &kv : services_) {
+            for (const auto &kv : services_) {
                 std::cout << kv.first << ", ";
             }
             std::cout << std::endl;
@@ -639,7 +642,7 @@ bool Entity::call_service(scrimmage::MessageBasePtr req,
         }
     }
 
-    Service &service = it->second;
+    const Service &service = it->second;
     bool success = service(req, res);
 
     if (!success) {

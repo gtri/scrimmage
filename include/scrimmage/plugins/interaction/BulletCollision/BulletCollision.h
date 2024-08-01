@@ -57,7 +57,7 @@ namespace interaction {
 class BulletCollision : public scrimmage::EntityInteraction {
  public:
     BulletCollision();
-    ~BulletCollision();
+    ~BulletCollision() override;
     bool init(std::map<std::string, std::string> &mission_params,
               std::map<std::string, std::string> &plugin_params) override;
 

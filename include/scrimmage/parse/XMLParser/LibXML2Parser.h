@@ -118,7 +118,7 @@ class LibXML2ParserDocument : public XMLParserDocument<LibXML2ParserDocument> {
  public:
     ~LibXML2ParserDocument();
     bool parse_document(std::filesystem::path path);
-    bool parse_document(std::vector<char>& filecontent);
+    bool parse_document(const std::vector<char>& filecontent);
     LibXML2ParserNode find_first_node(const std::string& name) const;
     LibXML2ParserNode find_first_node() const;
 

@@ -129,7 +129,7 @@ void Waypoint::set_quat_tolerance(const double &quat_tol) {
     quat_tolerance_ = quat_tol >= 0 ? quat_tol : std::numeric_limits<double>::max();
 }
 
-std::ostream &operator<<(std::ostream &os, Waypoint &wp) {
+std::ostream &operator<<(std::ostream &os, const Waypoint &wp) {
     os << std::setprecision(10) << wp.time() << ", " << wp.latitude() << ", " << wp.longitude()
        << ", " << wp.altitude() << wp.quat() << ", " << wp.position_tolerance() << ", "
        << wp.quat_tolerance();

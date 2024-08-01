@@ -67,8 +67,8 @@ class Print {
           log_dir_(""),
           output_flag_(PrintEnums::WRITE_TO::BOTH) {}
 
-    void init(TimePtr &time, std::string log_dir);
-    void init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag);
+    void init(TimePtr time, const std::string& log_dir);
+    void init(TimePtr time, const std::string& log_dir, PrintEnums::WRITE_TO flag);
     void close();
     void flush();
 
@@ -86,16 +86,16 @@ class Print {
     static const char *getWarningLevel(PrintEnums::WARN_LEVEL e);
 
     static std::string formatTime(double time);
-    static std::string formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std::string msg);
+    static std::string formatMsg(PrintEnums::WARN_LEVEL level, const PrintData &data, std::string msg);
 
     void print(std::ostream &stream,
                PrintEnums::WARN_LEVEL level,
                EntityPlugin &caller,
-               std::string msg);
+               const std::string& msg);
     void print(std::ostream &stream,
                PrintEnums::WARN_LEVEL level,
-               PrintData &data,
-               std::string msg);
+               const PrintData &data,
+               const std::string& msg);
 
  private:
     TimePtr time_;

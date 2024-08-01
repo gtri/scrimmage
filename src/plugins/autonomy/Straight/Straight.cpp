@@ -138,16 +138,16 @@ void Straight::init(std::map<std::string, std::string> &params) {
 
     enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
 
-    auto bd_cb = [&](auto &msg) { boundary_ = sci::Boundary::make_boundary(msg->data); };
+    auto bd_cb = [&](const auto &msg) { boundary_ = sci::Boundary::make_boundary(msg->data); };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
 
-    auto state_cb = [&](auto &msg) {
+    auto state_cb = [&](const auto &msg) {
         noisy_state_set_ = true;
         noisy_state_ = msg->data;
     };
     subscribe<StateWithCovariance>("LocalNetwork", "StateWithCovariance", state_cb);
 
-    auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap> &msg) {
+    auto cnt_cb = [&](const scrimmage::MessagePtr<ContactMap> &msg) {
         noisy_contacts_ = msg->data;  // Save map of noisy contacts
     };
     subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);

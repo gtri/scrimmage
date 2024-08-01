@@ -78,7 +78,7 @@ void ROSCompass::init(std::map<std::string, std::string> &params) {
 
 bool ROSCompass::step() {
     // Obtain current state information
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
 
     // Scrimmage is in ENU so all outputs are in ENU (East North Up).
 

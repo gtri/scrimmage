@@ -155,8 +155,8 @@ class External {
 
  public:
     template <class ScType, class Sc2Ros, class CallbackFunc>
-    void pub_cb(std::string network_name,
-                std::string topic_name,
+    void pub_cb(const std::string& network_name,
+                const std::string& topic_name,
                 Sc2Ros sc2ros,
                 CallbackFunc func) {
         boost::optional<std::list<NetworkDevicePtr>> pubs =
@@ -193,8 +193,8 @@ class External {
     }
 
     template <class RosType, class Ros2Sc>
-    boost::function<void(const boost::shared_ptr<RosType const> &)> sub_cb(std::string network_name,
-                                                                           std::string topic_name,
+    boost::function<void(const boost::shared_ptr<RosType const> &)> sub_cb(const std::string& network_name,
+                                                                           const std::string& topic_name,
                                                                            Ros2Sc ros2sc) {
         boost::optional<std::list<NetworkDevicePtr>> subs =
             pubsub_->find_subs(network_name, topic_name);

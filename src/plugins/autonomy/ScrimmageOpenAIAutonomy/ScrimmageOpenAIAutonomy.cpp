@@ -155,6 +155,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 #endif
         }
 
+        // cppcheck-suppress redundantAssignment
         temp_action = actor_func_(observations_.observation);
 
         actions_.distribute_action(temp_action, observations_.get_combine_actors());
@@ -179,6 +180,7 @@ bool ScrimmageOpenAIAutonomy::step_autonomy(double t, double /*dt*/) {
 boost::optional<sp::Action> ScrimmageOpenAIAutonomy::get_action(sp::Obs &observation) {
     if (!openai_stub_) return boost::none;
 
+    // cppcheck-suppress shadowVariable
     sp::Action action;
     grpc::ClientContext context;
     auto deadline = std::chrono::system_clock::now() + std::chrono::milliseconds(500);
@@ -206,7 +208,7 @@ bool ScrimmageOpenAIAutonomy::send_env() {
     }
     // Setup observation space parameters
     // This for loop should only occur once as the agent should only know about its own sensors
-    for (auto agent : observations_.ext_sensor_vec()) {
+    for (const auto& agent : observations_.ext_sensor_vec()) {
         // For every sensor the agent has
         for (auto sensor : agent) {
             auto obs_space = sensor->observation_space;

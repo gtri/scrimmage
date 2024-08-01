@@ -75,7 +75,7 @@ Log::Log()
     msgs_fd_ = -1;
 }
 
-bool Log::open_file(std::string filename, int &fd) {
+bool Log::open_file(const std::string& filename, int &fd) {
     fd = open(filename.c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
     if (fd == -1) {
         cout << "Failed to open file for writing: " << filename << endl;
@@ -151,15 +151,15 @@ bool Log::save_contact_visual(
     return writeDelimitedTo(*contact_visual, contact_visual_output_);
 }
 
-std::string Log::frames_filename() { return frames_name_; }
+const std::string& Log::frames_filename() { return frames_name_; }
 
-std::string Log::shapes_filename() { return shapes_name_; }
+const std::string& Log::shapes_filename() { return shapes_name_; }
 
-std::string Log::utm_terrain_filename() { return utm_terrain_name_; }
+const std::string& Log::utm_terrain_filename() { return utm_terrain_name_; }
 
-std::string Log::contact_visual_filename() { return contact_visual_name_; }
+const std::string& Log::contact_visual_filename() { return contact_visual_name_; }
 
-std::string Log::msgs_filename() { return msgs_name_; }
+const std::string& Log::msgs_filename() { return msgs_name_; }
 
 void Log::set_enable_log(bool enable) { enable_log_ = enable; }
 
@@ -198,7 +198,7 @@ bool Log::parse(std::string dir) {
     return true;
 }
 
-bool Log::parse(std::string filename, Log::FileType type) {
+bool Log::parse(const std::string& filename, Log::FileType type) {
     int input_fd = open(filename.c_str(), O_RDONLY);
     if (input_fd == -1) {
         cout << "Failed to open file: " << filename.c_str() << endl;
@@ -208,6 +208,7 @@ bool Log::parse(std::string filename, Log::FileType type) {
     ZeroCopyInputStreamPtr input =
         std::make_shared<google::protobuf::io::FileInputStream>(input_fd);
 
+    // cppcheck-suppress knownConditionTrueFalse
     if (!input) {
         cout << "Failed to open FileInputStream. Filename: " << filename.c_str() << endl;
     }
@@ -231,7 +232,7 @@ bool Log::parse(std::string filename, Log::FileType type) {
     return true;
 }
 
-bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
+bool Log::parse_frames(const std::string& filename, ZeroCopyInputStreamPtr input) {
     frames_.clear();
     scrimmage_frames_.clear();
     bool success = false, clean_eof = false;
@@ -241,6 +242,7 @@ bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
         if (clean_eof || !success) break;
         frames_.push_back(frame);
         scrimmage_frames_.push_back(proto_2_frame(*frame));
+        // cppcheck-suppress knownConditionTrueFalse
     } while (success);
 
     if (!clean_eof) {
@@ -249,15 +251,17 @@ bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
     return true;
 }
 
-bool Log::parse_shapes(std::string filename, ZeroCopyInputStreamPtr input) {
+bool Log::parse_shapes(const std::string& filename, ZeroCopyInputStreamPtr input) {
     shapes_.clear();
     bool success = false, clean_eof = false;
     do {
+        // cppcheck-suppress shadowFunction
         std::shared_ptr<scrimmage_proto::Shapes> shapes =
             std::make_shared<scrimmage_proto::Shapes>();
         success = this->readDelimitedFrom(filename, input, shapes, clean_eof);
         if (clean_eof || !success) break;
         shapes_.push_back(shapes);
+        // cppcheck-suppress knownConditionTrueFalse
     } while (success);
 
     if (!clean_eof) {
@@ -266,15 +270,17 @@ bool Log::parse_shapes(std::string filename, ZeroCopyInputStreamPtr input) {
     return true;
 }
 
-bool Log::parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input) {
+bool Log::parse_utm_terrain(const std::string& filename, ZeroCopyInputStreamPtr input) {
     utm_terrain_.clear();
     bool success = false, clean_eof = false;
     do {
+        // cppcheck-suppress shadowFunction
         std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain =
             std::make_shared<scrimmage_proto::UTMTerrain>();
         success = this->readDelimitedFrom(filename, input, utm_terrain, clean_eof);
         if (clean_eof || !success) break;
         utm_terrain_.push_back(utm_terrain);
+        // cppcheck-suppress knownConditionTrueFalse
     } while (success);
 
     if (!clean_eof) {
@@ -283,15 +289,17 @@ bool Log::parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input) 
     return true;
 }
 
-bool Log::parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input) {
+bool Log::parse_contact_visual(const std::string& filename, ZeroCopyInputStreamPtr input) {
     contact_visual_.clear();
     bool success = false, clean_eof = false;
     do {
+        // cppcheck-suppress shadowFunction
         std::shared_ptr<scrimmage_proto::ContactVisual> contact_visual =
             std::make_shared<scrimmage_proto::ContactVisual>();
         success = this->readDelimitedFrom(filename, input, contact_visual, clean_eof);
         if (clean_eof || !success) break;
         contact_visual_.push_back(contact_visual);
+        // cppcheck-suppress knownConditionTrueFalse
     } while (success);
 
     if (!clean_eof) {
@@ -413,6 +421,6 @@ std::list<std::shared_ptr<scrimmage_proto::ContactVisual>>& Log::contact_visual(
     return contact_visual_;
 }
 
-std::string Log::log_dir() { return log_dir_; }
+const std::string& Log::log_dir() const { return log_dir_; }
 
 }  // namespace scrimmage

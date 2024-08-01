@@ -80,7 +80,7 @@ void OpenAIRewards::init(std::map<std::string, std::string> & /*params*/) {
 }
 
 void OpenAIRewards::print_team_summaries() {
-    for (auto &kv : rewards_) {
+    for (const auto &kv : rewards_) {
         std::cout << "Reward for id " << kv.first << " = " << kv.second << std::endl;
     }
 }

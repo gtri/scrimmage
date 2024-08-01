@@ -55,14 +55,14 @@ bool GlobalService::call_service(scrimmage::MessageBasePtr req,
         std::cout << "request for global service (" << service_name << ") that does not exist"
                   << std::endl;
         std::cout << "Global services are: ";
-        for (auto &kv : services_) {
+        for (const auto &kv : services_) {
             std::cout << kv.first << ", ";
         }
         std::cout << std::endl;
         return false;
     }
 
-    Service &service = it->second;
+    const Service &service = it->second;
     bool success = service(req, res);
 
     if (!success) {

@@ -72,10 +72,10 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
     if (!sc::get_vec_of_vecs(servo_map, vecs)) {
         cout << "Failed to parse servo map:" << servo_map << endl;
     } else {
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 7) {
                 cout << "Invalid servo mapping: " << endl;
-                for (std::string s : vec) {
+                for (const std::string& s : vec) {
                     cout << s << " ";
                 }
                 continue;
@@ -137,7 +137,7 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
     start_receive();
 
     state_6dof_ = std::make_shared<motion::RigidBody6DOFState>();
-    auto cb = [&](auto& msg) { *state_6dof_ = msg->data; };
+    auto cb = [&](const auto& msg) { *state_6dof_ = msg->data; };
     subscribe<motion::RigidBody6DOFState>("LocalNetwork", "RigidBody6DOFState", cb);
 }
 
@@ -178,7 +178,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         recv_io_service_.poll();
     } else {
         boost::system::error_code error;
-        ba::ip::udp::socket::message_flags flags;
+        ba::ip::udp::socket::message_flags flags = 0;
         std::size_t nbytes = recv_socket_->receive_from(
             ba::buffer(recv_buffer_), recv_remote_endpoint_, flags, error);
 

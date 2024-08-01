@@ -155,7 +155,7 @@ void DoubleIntegrator::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[YAW_DOT] = 0;
 }
 
-void DoubleIntegrator::teleport(sc::StatePtr &state) {
+void DoubleIntegrator::teleport(const sc::StatePtr &state) {
     x_[X] = state->pos()[0];
     x_[Y] = state->pos()[1];
     x_[Z] = state->pos()[2];

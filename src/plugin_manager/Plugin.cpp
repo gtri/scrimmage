@@ -39,10 +39,10 @@ namespace scrimmage {
 Plugin::Plugin()
     : name_("Plugin") {}
 Plugin::~Plugin() {}
-std::string Plugin::name() { return name_; }
+const std::string& Plugin::name() const { return name_; }
 std::string Plugin::type() { return std::string("Plugin"); }
 
-void Plugin::set_name(std::string name) {
+void Plugin::set_name(const std::string& name) {
     if (name_set_ == true) {
         std::cout << "WARNING: Plugin name, " << name << ", being reset. "
                   << "Should only be set once." << std::endl;

@@ -47,7 +47,7 @@ namespace autonomy {
 class TrajectoryRecordPlayback : public scrimmage::Autonomy {
  public:
     TrajectoryRecordPlayback();
-    ~TrajectoryRecordPlayback();
+    ~TrajectoryRecordPlayback() override;
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
 

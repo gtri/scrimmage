@@ -768,7 +768,7 @@ bool SimControl::start() {
     auto it_global_network =
         std::find(mp_->network_names().begin(), mp_->network_names().end(), "GlobalNetwork");
     if (it_global_network == mp_->network_names().end()) {
-        mp_->network_names().push_back("GlobalNetwork");
+        mp_->add_network("GlobalNetwork");
     }
 
     // setup sim_plugin

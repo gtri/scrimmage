@@ -51,8 +51,9 @@ namespace sensor {
 
 std::vector<RayTrace::PCRay> RayTrace::PointCloud::get_rays() {
     std::vector<RayTrace::PCRay> return_rays;
-    for (auto &ray : rays) {
+    for (const auto &ray : rays) {
         // Make a copy so can be used cleanly
+        // cppcheck-suppress useStlAlgorithm
         return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
     }
     return return_rays;
@@ -120,8 +121,9 @@ bool RayTrace::step() {
 
 std::vector<RayTrace::PCRay> RayTrace::rays() {
     std::vector<RayTrace::PCRay> return_rays;
-    for (auto &ray : rays_) {
+    for (const auto &ray : rays_) {
         // Make a copy so can be used cleanly
+        // cppcheck-suppress useStlAlgorithm
         return_rays.push_back(RayTrace::PCRay(ray.azimuth_rad, ray.elevation_rad));
     }
     return return_rays;

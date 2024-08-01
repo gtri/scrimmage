@@ -65,7 +65,7 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);
 
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
 
     // Need to rotate axes by 180 degrees around X-axis SCRIMMAGE's global
     // frame uses Z-axis pointing up. Many aircraft equations of motion are
@@ -118,7 +118,7 @@ bool UUV6DOF::init(std::map<std::string, std::string> &info,
             cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
         } else {
             int row = 0;
-            for (std::vector<std::string> vec : vecs) {
+            for (const std::vector<std::string>& vec : vecs) {
                 if (vec.size() != 3) {
                     cout << "Invalid vector size in: " << inertia_matrix << endl;
                     break;

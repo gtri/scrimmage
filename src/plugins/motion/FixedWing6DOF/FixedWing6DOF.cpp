@@ -151,7 +151,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
         cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
     } else {
         int row = 0;
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 3) {
                 cout << "Invalid vector size in: " << inertia_matrix << endl;
                 break;
@@ -568,7 +568,7 @@ void FixedWing6DOF::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[Ww] = -acc_world(2);  // Due to rotated frame
 }
 
-void FixedWing6DOF::teleport(StatePtr &state) {
+void FixedWing6DOF::teleport(const StatePtr &state) {
     state_->pos() = state->pos();
     state_->vel() = state->vel();
     state_->ang_vel() = state->ang_vel();

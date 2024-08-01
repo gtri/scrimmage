@@ -158,7 +158,7 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type,
                                  double heading,
                                  double depth,
                                  std::string type,
-                                 std::string mode,
+                                 const std::string& mode,
                                  double time,
                                  std::string frame_number) {
     NodeRecord record;
@@ -175,6 +175,7 @@ bool MOOSNode::PublishNodeReport(NodeReportType_t report_type,
     std::string moos_var;
     switch (report_type) {
         case OWNSHIP:
+            // cppcheck-suppress unreadVariable
             moos_var = "NODE_REPORT_LOCAL";
             Notify("NAV_X", nav_x);
             Notify("NAV_Y", nav_y);

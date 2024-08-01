@@ -83,7 +83,7 @@ AirSimSensor::AirSimSensor()
     enu_to_ned_yaw_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 }
 
-void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &params) {
+void AirSimSensor::parse_camera_configs(const std::map<std::string, std::string> &params) {
     // Parse the camera config string.
     // The string is a list of camera configs from AirSimSensor.xml of the form:
     // [VehicleName=robot1 CameraName=front_center ImageTypeName=Scene Width=256 Height=144]
@@ -159,7 +159,7 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string> &para
     }  // end for loop: tokens_2 in token_1
 }  // end parse_camera_configs
 
-void AirSimSensor::parse_lidar_configs(std::map<std::string, std::string> &params) {
+void AirSimSensor::parse_lidar_configs(const std::map<std::string, std::string> &params) {
     // Parse the lidar config string.
     // The string is a list of lidar configs from AirSimSensor.xml of the form:
     // [VehicleName LidarName]
@@ -184,7 +184,7 @@ void AirSimSensor::parse_lidar_configs(std::map<std::string, std::string> &param
     }
 }
 
-void AirSimSensor::parse_imu_configs(std::map<std::string, std::string> &params) {
+void AirSimSensor::parse_imu_configs(const std::map<std::string, std::string> &params) {
     // Parse the imu config string.
     // The string is a list of imu configs from AirSimSensor.xml of the form:
     // [VehicleName ImuName]
@@ -218,15 +218,15 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     // Mission File params
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
     cout << "[AirSimSensor] Vehicle Name: " << vehicle_name_ << endl;
-    save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
+    save_airsim_data_ = sc::get<bool>("save_airsim_data", params, true);
     if (save_airsim_data_) {
         cout << "[AirSimSensor] Saving camera images and airsim_data.csv of pose to SCRIMMAGE Logs "
                 "Directory."
              << endl;
     }
-    get_image_data_ = sc::get<bool>("get_image_data", params, "true");
-    get_lidar_data_ = sc::get<bool>("get_lidar_data", params, "true");
-    get_imu_data_ = sc::get<bool>("get_imu_data", params, "true");
+    get_image_data_ = sc::get<bool>("get_image_data", params, true);
+    get_lidar_data_ = sc::get<bool>("get_lidar_data", params, true);
+    get_imu_data_ = sc::get<bool>("get_imu_data", params, true);
     // data_acquisition_period_ = sc::get<double>("data_acquisition_period", params, 0.1);
     image_acquisition_period_ = sc::get<double>("image_acquisition_period", params, 0.1);
     lidar_acquisition_period_ = sc::get<double>("lidar_acquisition_period", params, 0.1);
@@ -248,6 +248,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
         // Get camera configurations
         AirSimSensor::parse_camera_configs(params);
         img_pub_ = advertise("LocalNetwork", "AirSimImages");
+        // cppcheck-suppress [unreadVariable, shadowVariable]
         auto img_msg_ = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
         // Start the image request thread
         request_images_thread_ = std::thread(&AirSimSensor::request_images, this);
@@ -260,6 +261,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
         cout << "[AirSimSensor] LIDAR Acquisition Period = " << lidar_acquisition_period_ << endl;
         AirSimSensor::parse_lidar_configs(params);
         lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
+        // cppcheck-suppress [unreadVariable, shadowVariable]
         auto lidar_msg_ = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
         // Start the lidar request thread
         request_lidar_thread_ = std::thread(&AirSimSensor::request_lidar, this);
@@ -272,6 +274,7 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
         cout << "[AirSimSensor] IMU Acquisition Period = " << imu_acquisition_period_ << endl;
         AirSimSensor::parse_imu_configs(params);
         imu_pub_ = advertise("LocalNetwork", "AirSimImu");
+        // cppcheck-suppress [unreadVariable, shadowVariable]
         auto imu_msg_ = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
         // Start the image request thread
         request_imu_thread_ = std::thread(&AirSimSensor::request_imu, this);
@@ -295,6 +298,7 @@ void AirSimSensor::request_images() {
                      << endl;
                 return;
             }
+            // cppcheck-suppress shadowVariable
             std::shared_ptr<ma::RpcLibClientBase> img_client =
                 std::make_shared<ma::MultirotorRpcLibClient>(
                     airsim_ip_, airsim_port_, airsim_timeout_s_);
@@ -342,12 +346,14 @@ void AirSimSensor::request_images() {
         // If response vector contains new data, create img_msg, transfer data into message and
         // publish cout << response_vector.size() << endl;
         if (response_vector.size() > 0) {
+            // cppcheck-suppress shadowVariable
             auto im_msg = std::make_shared<sc::Message<std::vector<AirSimImageType>>>();
             // sc::MessagePtr<std::vector<AirSimImageType>> im_msg;
 
             for (ImageResponse response : response_vector) {
                 CameraConfig response_cam_config;
                 for (CameraConfig c : cam_configs_) {
+                    // cppcheck-suppress useStlAlgorithm
                     if (c.img_type == response.image_type && c.cam_name == response.camera_name) {
                         response_cam_config = c;
                         break;
@@ -449,6 +455,7 @@ void AirSimSensor::request_lidar() {
                      << endl;
                 return;
             }
+            // cppcheck-suppress shadowVariable
             std::shared_ptr<ma::RpcLibClientBase> lidar_client =
                 std::make_shared<ma::MultirotorRpcLibClient>(
                     airsim_ip_, airsim_port_, airsim_timeout_s_);
@@ -465,6 +472,7 @@ void AirSimSensor::request_lidar() {
     std::chrono::high_resolution_clock::time_point t_start, t_end;
     while (running) {
         t_start = std::chrono::high_resolution_clock::now();
+        // cppcheck-suppress shadowVariable
         auto lidar_msg = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
         bool new_lidar = false;
 
@@ -534,6 +542,7 @@ void AirSimSensor::request_imu() {
                      << endl;
                 return;
             }
+        // cppcheck-suppress shadowVariable
             std::shared_ptr<ma::RpcLibClientBase> imu_client =
                 std::make_shared<ma::MultirotorRpcLibClient>(
                     airsim_ip_, airsim_port_, airsim_timeout_s_);
@@ -550,6 +559,7 @@ void AirSimSensor::request_imu() {
     std::chrono::high_resolution_clock::time_point t_start, t_end;
     while (running) {
         t_start = std::chrono::high_resolution_clock::now();
+        // cppcheck-suppress shadowVariable
         auto imu_msg = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
 
         bool new_imu = false;
@@ -626,6 +636,7 @@ bool AirSimSensor::step() {
                          << endl;
                     return false;
                 }
+                // cppcheck-suppress unreadVariable
                 std::shared_ptr<ma::RpcLibClientBase> imu_client =
                     std::make_shared<ma::MultirotorRpcLibClient>(
                         airsim_ip_, airsim_port_, airsim_timeout_s_);
@@ -646,7 +657,7 @@ bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
 
     // Setup state information for AirSim
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
     // convert from ENU to NED frame
     ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
 
@@ -733,8 +744,8 @@ bool AirSimSensor::step() {
     return true;
 }
 
-bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>> &im_msg,
-                             sc::StatePtr &state,
+bool AirSimSensor::save_data(const MessagePtr<std::vector<AirSimImageType>> &im_msg,
+                             const sc::StatePtr &state,
                              int frame_num) {
     // Get timestamp
     double time_now = time_->t();

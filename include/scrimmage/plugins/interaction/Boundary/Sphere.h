@@ -67,6 +67,7 @@ class Sphere : public BoundaryBase {
     void set_center(const Eigen::Vector3d &center) { center_ = center; }
 
     double radius() { return radius_; }
+    // cppcheck-suppress uselessOverride
     Eigen::Vector3d center() override { return center_; }
 
     bool contains(Eigen::Vector3d p) override { return (p - center_).norm() < radius_; }

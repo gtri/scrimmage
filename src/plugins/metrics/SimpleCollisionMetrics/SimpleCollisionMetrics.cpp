@@ -132,7 +132,7 @@ void SimpleCollisionMetrics::calc_team_scores() {
     double max_flight_time = end_time - beg_time;
 
     // Create the score, if necessary
-    for (auto &team_id : teams_) {
+    for (const auto &team_id : teams_) {
         if (team_coll_scores_.count(team_id) == 0) {
             SimpleCollisionScore score;
             score.set_weights(params_);

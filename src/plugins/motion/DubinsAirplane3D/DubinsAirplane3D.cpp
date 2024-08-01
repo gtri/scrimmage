@@ -85,7 +85,7 @@ bool DubinsAirplane3D::init(std::map<std::string, std::string> &info,
     desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
     quat_world_.normalize();
 

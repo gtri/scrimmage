@@ -85,6 +85,7 @@ void FlagCaptureMetrics::calc_team_scores() {
 
         // Create the score, if necessary
         if (team_flag_scores_.count(team_id) == 0) {
+            // cppcheck-suppress shadowVariable
             Score score;
             score.set_weights(params_);
             team_flag_scores_[team_id] = score;

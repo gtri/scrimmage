@@ -101,6 +101,7 @@ class PluginManager {
                                 const std::set<std::string> &plugin_tags,
                                 const std::string &env_var_name = "SCRIMMAGE_PLUGIN_PATH") {
         PluginStatus<T> status;
+        // cppcheck-suppress shadowFunction
         std::string plugin_name = plugin_name_xml;
         auto it_orig_plugin_name = overrides.find("ORIGINAL_PLUGIN_NAME");
         if (it_orig_plugin_name != overrides.end()) {
@@ -203,7 +204,7 @@ class PluginManager {
     std::unordered_map<std::string, std::list<std::string>> so_files_;
     bool files_checked_ = false;
 
-    int check_library(std::string lib_path);
+    int check_library(const std::string& lib_path);
     PluginPtr make_plugin_helper(std::string &plugin_type, std::string &plugin_name);
     bool reload_;
 

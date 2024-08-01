@@ -51,7 +51,7 @@ class WaypointList {
     WaypointMode mode() { return mode_; }
 
     friend std::ostream& operator<<(std::ostream& os, WaypointList& wp_list) {
-        for (Waypoint wp : wp_list.waypoints()) {
+        for (const Waypoint& wp : wp_list.waypoints()) {
             os << wp << std::endl;
         }
         return os;

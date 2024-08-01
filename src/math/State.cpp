@@ -71,7 +71,7 @@ void State::set_vel(const Eigen::Vector3d &vel) { vel_ = vel; }
 void State::set_ang_vel(const Eigen::Vector3d &ang_vel) { ang_vel_ = ang_vel; }
 void State::set_quat(const Quaternion &quat) { quat_ = quat; }
 
-bool State::InFieldOfView(State &other, double fov_width, double fov_height) const {
+bool State::InFieldOfView(const State &other, double fov_width, double fov_height) const {
     Eigen::Vector3d rel_pos = this->rel_pos_local_frame(other.pos());
     double az = atan2(rel_pos(1), rel_pos(0));
     double norm_xy = sqrt(pow(rel_pos(0), 2) + pow(rel_pos(1), 2));
@@ -79,7 +79,7 @@ bool State::InFieldOfView(State &other, double fov_width, double fov_height) con
     return std::abs(az) < fov_width / 2 && std::abs(el) < fov_height / 2;
 }
 
-Eigen::Vector3d State::rel_pos_local_frame(Eigen::Vector3d &other) const {
+Eigen::Vector3d State::rel_pos_local_frame(const Eigen::Vector3d &other) const {
     return quat_.rotate_reverse(other - pos_);
 }
 

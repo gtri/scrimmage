@@ -78,6 +78,7 @@ int main(int argc, char *argv[]) {
     // Handle kill signals
     struct sigaction sa;
     memset( &sa, 0, sizeof(sa) );
+    // cppcheck-suppress danglingLifetime
     shutdown_handler = [&](int /*s*/){
         cout << endl << "Exiting gracefully" << endl;
         simcontrol.force_exit();

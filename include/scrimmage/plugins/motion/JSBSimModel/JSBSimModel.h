@@ -64,11 +64,11 @@ class JSBSimModel : public MotionModel {
  public:
     virtual std::tuple<int, int, int> version();
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
-    virtual bool step(double time, double dt);
+    bool init(std::map<std::string, std::string> &info,
+                      std::map<std::string, std::string> &params) override;
+    bool step(double time, double dt) override;
 
-    virtual void teleport(StatePtr &state);
+    void teleport(const StatePtr &state) override;
 
     bool use_pitch() { return use_pitch_; }
 

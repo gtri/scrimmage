@@ -43,11 +43,11 @@ namespace scrimmage {
 
 void display_progress(float progress);
 
-int next_available_id(std::string name,
+int next_available_id(const std::string& name,
                       std::map<std::string, std::string> &info,
                       std::map<int, int> &id_map);
 
-std::string get_sha(std::string &path);
+std::string get_sha(const std::string &path);
 
 std::string get_version();
 

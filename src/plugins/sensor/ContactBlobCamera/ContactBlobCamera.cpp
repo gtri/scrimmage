@@ -87,7 +87,7 @@ void ContactBlobCamera::init(std::map<std::string, std::string> &params) {
     std::vector<std::vector<std::string>> vecs;
     if (get_vec_of_vecs(sim_det_str, vecs, ", ")) {
         int i = 0;
-        for (auto &vec : vecs) {
+        for (const auto &vec : vecs) {
             // First, assume the description is in XYZ
             int id = std::stoi(vec[1]);
             double radius = std::stod(vec[2]);

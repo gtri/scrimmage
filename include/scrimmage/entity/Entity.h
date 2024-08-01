@@ -139,7 +139,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
     MotionModelPtr motion();
     std::vector<ControllerPtr> &controllers();
 
-    void set_id(ID &id);
+    void set_id(const ID &id);
     ID &id();
 
     void set_health_points(int health_points);

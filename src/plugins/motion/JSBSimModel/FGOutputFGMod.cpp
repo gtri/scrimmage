@@ -59,6 +59,7 @@ namespace JSBSim {
 
 // TODO: Replace JSBSim's methods for network byte ordering
 static void htond(double &x) {
+    // cppcheck-suppress cstyleCast
     if (isLittleEndian) {
         int *Double_Overlay;
         int Holding_Buffer;
@@ -78,6 +79,7 @@ static void htond(double &x) {
 // TODO: Replace JSBSim's methods for network byte ordering
 // Float version
 static void htonf(float &x) {
+    // cppcheck-suppress cstyleCast
     if (isLittleEndian) {
         int *Float_Overlay;
         int Holding_Buffer;
@@ -147,6 +149,7 @@ void FGOutputFGMod::Print(void) {
     if (!socket->GetConnectStatus()) return;
 
     SocketDataFillMod();
+    // cppcheck-suppress cstyleCast
     socket->Send((char *)net1, dataLength);  // NOLINT
 }
 
@@ -285,6 +288,7 @@ void FGOutputFGMod::SocketDataFillMod(void) {
     net3->spoilers = static_cast<float>(FCS->GetDspPos(ofNorm));    // Norm Spoiler Pos, --
 
     // Convert the net buffer to network format
+    // cppcheck-suppress cstyleCast
     if (isLittleEndian) {
         htond(net1->longitude);
         htond(net1->latitude);

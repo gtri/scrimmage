@@ -268,7 +268,7 @@ bool JSBSimModel::step(double time, double dt) {
     return true;
 }
 
-void JSBSimModel::teleport(StatePtr &state) {
+void JSBSimModel::teleport(const StatePtr &state) {
     double lat, lon, alt;
     parent_->projection()->Reverse(
         state->pos()(0), state->pos()(1), state->pos()(2), lat, lon, alt);

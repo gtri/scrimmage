@@ -103,7 +103,7 @@ bool Unicycle3D::init(std::map<std::string, std::string> &info,
 
     // Setup model size and quaternions
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
     quat_world_ = state_->quat();
     quat_world_.normalize();
 

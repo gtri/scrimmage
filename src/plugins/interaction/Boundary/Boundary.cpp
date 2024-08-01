@@ -115,7 +115,7 @@ bool Boundary::init(std::map<std::string, std::string> &mission_params,
         }
 
         // Convert string representation of points into Eigen::Vector3d
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 3) {
                 cout << "Invalid vector size in: " << polyhedron_points << endl;
                 return false;

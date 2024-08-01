@@ -88,6 +88,7 @@ void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
     // py_obj_.attr("pubs") = py::dict();
     py_obj_.attr("shapes") = py::list();
 
+    // cppcheck-suppress shadowFunction
     py::object init = py_obj_.attr("init");
     init(py_params);
 }

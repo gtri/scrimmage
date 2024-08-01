@@ -90,7 +90,7 @@ class Network : public EntityPlugin {
 
     virtual double get_transmission_delay();
 
-    bool network_init(std::map<std::string, std::string> & /*mission_params*/,
+    bool network_init(const std::map<std::string, std::string> & /*mission_params*/,
                       std::map<std::string, std::string> & /*plugin_params*/);
 
  private:

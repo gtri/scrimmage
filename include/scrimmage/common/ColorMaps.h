@@ -44,12 +44,12 @@ struct Color_t {
 // Matlab's versions of JET to GRAYSCALE
 // Matlab uses the same JET version as BlueView sonar JET
 Color_t GetColor_matlab(double v, double vmin, double vmax);
-double GetGray_matlab(Color_t c, double vmin, double vmax);
+double GetGray_matlab(const Color_t& c, double vmin, double vmax);
 
 // "Traditional" JET conversions
 Color_t GetColor(double v, double vmin, double vmax);
 
-int GetGray(Color_t c, double vmin, double vmax);
+int GetGray(const Color_t& c, double vmin, double vmax);
 
 }  // namespace scrimmage
 

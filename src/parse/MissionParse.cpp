@@ -70,7 +70,7 @@ void MissionParse::set_overrides(const std::string &overrides) {
     // Iterate over comma-separated overrides.
     std::vector<std::string> overrides_tokens;
     split(overrides_tokens, overrides_no_space, ", ");
-    for (auto &overrides_str : overrides_tokens) {
+    for (const auto &overrides_str : overrides_tokens) {
         // Parse each key=value pair
         std::vector<std::string> kv_tokens;
         split(kv_tokens, overrides_str, ":= ");
@@ -152,9 +152,9 @@ bool MissionParse::parse_mission() {
     //  Parse the xml tree.
 
     // Helpers to avoid passing bad strings into stoi and stod
-    auto parse_int = [&](std::string str) { return std::stoi(replace_overrides(str)); };
+    auto parse_int = [&](const std::string& str) { return std::stoi(replace_overrides(str)); };
 
-    auto parse_double = [&](std::string str) { return std::stod(replace_overrides(str)); };
+    auto parse_double = [&](const std::string& str) { return std::stod(replace_overrides(str)); };
 
     Parser doc;
     doc.set_filename(mission_filename_);
@@ -255,10 +255,11 @@ bool MissionParse::parse_mission() {
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node.value();
 
             // Loop through each node's attributes:
+            // cppcheck-suppress shadowVariable
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (const auto &kv : param_common[attr.value()]) {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
                         attributes_[nm4][kv.first] = kv.second;
@@ -319,7 +320,7 @@ bool MissionParse::parse_mission() {
     // Create a directory to hold the log data
     // Use the current time for the directory's name
     time_t rawtime;
-    struct tm *timeinfo;
+    const struct tm *timeinfo;
     char time_buffer[80];
     time(&rawtime);
     timeinfo = localtime(&rawtime);
@@ -375,7 +376,7 @@ bool MissionParse::parse_mission() {
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (const auto &kv : param_common[attr.value()]) {
                         entity_common_attributes[nm][node_name][kv.first] = kv.second;
                     }
                 } else {
@@ -528,7 +529,7 @@ bool MissionParse::parse_mission() {
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (const auto &kv : param_common[attr.value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
                     }
                 } else {
@@ -586,6 +587,7 @@ bool MissionParse::parse_mission() {
         }
 
         bool color_status = false;
+        // cppcheck-suppress shadowVariable
         std::vector<int> temp_color;
         if (script_info.count("color") > 0) {
             color_status = str2container(script_info["color"], " ", temp_color, 3);
@@ -598,6 +600,7 @@ bool MissionParse::parse_mission() {
         }
 
         // Save the count
+        // cppcheck-suppress shadowFunction
         GenerateInfo gen_info;
         gen_info.total_count = 1;
         gen_info.gen_count = 1;
@@ -863,7 +866,7 @@ bool MissionParse::parse_terrain() {
             utm_terrain_->set_zone(zone);
             utm_terrain_->set_hemisphere(terrain_parse.params()["hemisphere"]);
             utm_terrain_->set_enable_grid(
-                get<bool>("enable_grid", terrain_parse.params(), "false"));
+                get<bool>("enable_grid", terrain_parse.params(), false));
             utm_terrain_->set_enable_terrain(true);
             return true;
 
@@ -885,8 +888,8 @@ bool MissionParse::parse_terrain() {
 
 scrimmage_proto::Color &MissionParse::background_color() { return background_color_; }
 
-std::string MissionParse::log_dir() { return log_dir_; }
-std::string MissionParse::root_log_dir() { return root_log_dir_; }
+const std::string &MissionParse::log_dir() const { return log_dir_; }
+const std::string &MissionParse::root_log_dir() const { return root_log_dir_; }
 
 void MissionParse::set_log_dir(const std::string &log_dir) { log_dir_ = log_dir; }
 
@@ -933,11 +936,17 @@ void MissionParse::set_task_number(int task_num) { task_number_ = task_num; }
 
 void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
 
-std::list<std::string> MissionParse::entity_interactions() { return entity_interactions_; }
+const std::list<std::string> &MissionParse::entity_interactions() const {
+    return entity_interactions_;
+}
 
-std::list<std::string> &MissionParse::network_names() { return network_names_; }
+const std::list<std::string> &MissionParse::network_names() const { return network_names_; }
 
-std::list<std::string> MissionParse::metrics() { return metrics_; }
+void MissionParse::add_network(const std::string &network_name) {
+    network_names_.push_back(network_name);
+}
+
+const std::list<std::string> &MissionParse::metrics() const { return metrics_; }
 
 std::map<int, GenerateInfo> &MissionParse::gen_info() { return gen_info_; }
 
@@ -945,11 +954,11 @@ std::map<int, std::vector<double>> &MissionParse::next_gen_times() { return next
 
 std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() { return proj_; }
 
-std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain() { return utm_terrain_; }
+std::shared_ptr<scrimmage_proto::UTMTerrain> MissionParse::utm_terrain() { return utm_terrain_; }
 
-std::string MissionParse::get_mission_filename() { return mission_filename_; }
+const std::string& MissionParse::get_mission_filename() const { return mission_filename_; }
 
-bool MissionParse::get_no_bin_logging() { return no_bin_logging_; }
+bool MissionParse::get_no_bin_logging() const { return no_bin_logging_; }
 
 void MissionParse::set_enable_gui(bool enable) { enable_gui_ = enable; }
 

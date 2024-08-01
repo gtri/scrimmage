@@ -322,7 +322,7 @@ class XMLParserDocument {
 
     void set_filename(const std::string &filename) { filename_ = filename; }
 
-    std::string filename() const { return filename_; }
+    const std::string& filename() const { return filename_; }
 
  protected:
     std::string filename_;

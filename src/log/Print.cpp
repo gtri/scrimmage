@@ -78,10 +78,10 @@
 
 namespace scrimmage {
 
-void Print::init(TimePtr &time, std::string log_dir) {
+void Print::init(TimePtr time, const std::string& log_dir) {
     init(time, log_dir, PrintEnums::WRITE_TO::BOTH);
 }
-void Print::init(TimePtr &time, std::string log_dir, PrintEnums::WRITE_TO flag) {
+void Print::init(TimePtr time, const std::string& log_dir, PrintEnums::WRITE_TO flag) {
     time_ = time;
     log_dir_ = log_dir;
     output_flag_ = flag;
@@ -159,7 +159,7 @@ std::string Print::formatTime(double time) {
     }
 }
 
-std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std::string msg) {
+std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, const PrintData &data, std::string msg) {
     std::ostringstream pre;
     std::ostringstream formattedmsg;
     std::string entitySection = "";
@@ -194,7 +194,7 @@ std::string Print::formatMsg(PrintEnums::WARN_LEVEL level, PrintData &data, std:
 void Print::print(std::ostream &stream,
                   PrintEnums::WARN_LEVEL level,
                   EntityPlugin &caller,
-                  std::string msg) {
+                  const std::string& msg) {
     PrintData pd;
     pd.time_ = caller.getTime()->t();
     pd.name_ = caller.name();
@@ -204,8 +204,8 @@ void Print::print(std::ostream &stream,
 }
 void Print::print(std::ostream &stream,
                   PrintEnums::WARN_LEVEL level,
-                  PrintData &data,
-                  std::string msg) {
+                  const PrintData &data,
+                  const std::string& msg) {
     std::ostringstream o;
 
     o << formatMsg(level, data, msg) << std::endl;

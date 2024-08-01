@@ -91,16 +91,21 @@ void ROSAltimeter::init(std::map<std::string, std::string> &params) {
     // be reset and is consistent within a flight. The recommended value for this field is the
     // uncorrected barometric altitude at boot time. This altitude will also drift and vary between
     // flights.
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
     double lat_init, lon_init, alt_init;
     parent_->projection()->Reverse(
-        state->pos()(0), state->pos()(1), state->pos()(2), lat_init, lon_init, alt_init);
+        state->pos()(0),
+        state->pos()(1),
+        state->pos()(2),
+        lat_init,
+        lon_init,
+        alt_init);
     monotonic_ = static_cast<float>(alt_init);
 }
 
 bool ROSAltimeter::step() {
     // Obtain current state information
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
 
     // Scrimmage is in East North Up (ENU)
     // For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside
@@ -132,6 +137,7 @@ bool ROSAltimeter::step() {
     ////// MavROS website on Local: //////
     // This is the local altitude in the local coordinate frame. It is not the altitude above home,
     // but in reference to the coordinate origin (0, 0, 0). It is up-positive.
+
     alt_msg.local = state->pos()(2);
 
     // local - monotonic = relative

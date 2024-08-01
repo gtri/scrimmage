@@ -71,10 +71,10 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
 
     std::vector<std::vector<std::string>> vecs;
     if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""), vecs)) {
-        for (auto &vec : vecs) {
+        for (const auto &vec : vecs) {
             if (vec.size() != 5) {
                 cout << "Invalid depletion mapping: " << endl;
-                for (std::string s : vec) {
+                for (const std::string& s : vec) {
                     cout << s << " ";
                 }
                 continue;

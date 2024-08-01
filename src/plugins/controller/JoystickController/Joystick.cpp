@@ -52,7 +52,7 @@ Joystick::~Joystick() {
     free(button_);
 }
 
-void Joystick::init(std::map<std::string, std::string> &params,
+void Joystick::init(const std::map<std::string, std::string> &params,
                     VariableIO &vars,
                     EntityPluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
@@ -86,10 +86,10 @@ void Joystick::init(std::map<std::string, std::string> &params,
     if (!sc::get_vec_of_vecs(axis_map, vecs)) {
         cout << "Failed to parse axis map:" << axis_map << endl;
     } else {
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 7) {
                 cout << "Invalid joystick axis mapping: " << endl;
-                for (std::string s : vec) {
+                for (const std::string& s : vec) {
                     cout << s << " ";
                 }
                 continue;

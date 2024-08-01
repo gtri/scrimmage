@@ -52,8 +52,8 @@ class TrajectoryPoint {
     scrimmage::State &desired_state() { return desired_state_; }
 
     void set_t(double t) { t_ = t; }
-    void set_state(scrimmage::State &state) { state_ = state; }
-    void set_desired_state(scrimmage::State &state) { desired_state_ = state; }
+    void set_state(const scrimmage::State &state) { state_ = state; }
+    void set_desired_state(const scrimmage::State &state) { desired_state_ = state; }
 
  protected:
     double t_;

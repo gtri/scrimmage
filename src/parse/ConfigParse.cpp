@@ -100,7 +100,7 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
 
 bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
                         std::string filename,
-                        std::string env_var,
+                        const std::string &env_var,
                         FileSearch &file_search,
                         bool verbose) {
     std::string result = "";
@@ -140,13 +140,15 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
     // Determine if there were any overrides (XML attributes) specified in the
     // mission file that weren't declared in the Plugin's XML
     // file. Automatically add these overrides to the params block.
-    for (auto &kv : overrides) {
+    for (const auto &kv : overrides) {
         if (params_.count(kv.first) == 0) {
+            // cppcheck-suppress stlFindInsert
             params_[kv.first] = kv.second;
         }
     }
 
-    for (std::string &node_name : required_) {
+    for (const std::string &node_name : required_) {
+        // cppcheck-suppress useStlAlgorithm
         if (params_.count(node_name) == 0) {
             cout << "Config file is missing XML tag: " << node_name << endl;
             return false;
@@ -157,37 +159,37 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
 
 std::map<std::string, std::string> &ConfigParse::params() { return params_; }
 
-std::string ConfigParse::filename() { return filename_; }
+const std::string &ConfigParse::filename() const { return filename_; }
 
-std::string ConfigParse::directory() {
+std::string ConfigParse::directory() const {
     if (fs::exists(filename_)) {
         return fs::path(filename_).parent_path().string();
     }
     return "";
 }
 
-std::string ConfigParse::extension() {
+std::string ConfigParse::extension() const {
     if (fs::exists(filename_)) {
         return fs::path(filename_).extension().string();
     }
     return "";
 }
 
-std::string ConfigParse::stem() {
+std::string ConfigParse::stem() const {
     if (fs::exists(filename_)) {
         return fs::path(filename_).stem().string();
     }
     return "";
 }
 
-void ConfigParse::print_params() {
-    for (auto &kv : params_) {
+void ConfigParse::print_params() const {
+    for (const auto &kv : params_) {
         cout << kv.first << "=" << kv.second << endl;
     }
 }
 
 std::ostream &operator<<(std::ostream &os, ConfigParse &cp) {
-    for (auto &kv : cp.params()) {
+    for (const auto &kv : cp.params()) {
         os << kv.first << "=" << kv.second << endl;
     }
     return os;

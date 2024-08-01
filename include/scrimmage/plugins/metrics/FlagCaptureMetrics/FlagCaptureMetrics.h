@@ -46,7 +46,7 @@ namespace metrics {
 
 class Score {
  public:
-    bool set_weights(std::map<std::string, std::string> &params) {
+    bool set_weights(const std::map<std::string, std::string> &params) {
         flags_taken_w_ = sc::get<double>("flags_taken_w", params, 0.0);
         flags_captured_w_ = sc::get<double>("flags_captured_w", params, 0.0);
         return true;

@@ -75,7 +75,7 @@ bool CPA::step_metrics(double t, double dt) {
         (((min_time_s_ >= 0.0) && (t < min_time_s_)) || ((max_time_s_ > 0.0) && (t > max_time_s_)));
     if (!outside_time) {
         if (!initialized_) {
-            for (auto &kv : *id_to_ent_map_) {
+            for (const auto &kv : *id_to_ent_map_) {
                 cpa_map_[kv.first] = CPAData();
             }
             std::string log_dir = ((*id_to_ent_map_)[1])->mp()->log_dir();

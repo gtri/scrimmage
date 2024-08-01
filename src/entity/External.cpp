@@ -89,7 +89,7 @@ External::External()
 void External::print_plugins(std::ostream &out) const {
     out << "====== SCRIMMAGE Plugins Loaded =======" << endl;
     out << "----------- Network ------------" << endl;
-    for (auto &kv : *networks_) {
+    for (const auto &kv : *networks_) {
         out << kv.first << endl;
     }
     out << "------ Entity Interaction ------" << endl;
@@ -144,7 +144,7 @@ bool External::create_entity(
     // If there aren't any networks defined, define the GlobalNetwork by
     // default.
     if (mp_->network_names().size() == 0) {
-        mp_->network_names().push_back("GlobalNetwork");
+        mp_->add_network("GlobalNetwork");
     }
 
     set_time(init_time, init_dt);
@@ -248,7 +248,8 @@ bool External::create_entity(
         auto &var_idx = ctrl->vars().output_variable_index();
         if (vars.input_variable_index().empty()) {
             int idx = 0;
-            auto matches_idx = [&](auto &kv) { return kv.second == idx; };
+            auto matches_idx = [&](const auto &kv) { return kv.second == idx; };
+            // cppcheck-suppress shadowVariable
             auto it = br::find_if(var_idx, matches_idx);
             while (it != var_idx.end()) {
                 vars.add_input_variable(it->first);
@@ -383,10 +384,10 @@ bool External::send_messages() {
     auto to_publisher = [&](auto &network_device) {
         return std::dynamic_pointer_cast<Publisher>(network_device);
     };
-    auto has_callback = [&](auto &pub) { return pub && pub->callback; };
+    auto has_callback = [&](const auto &pub) { return pub && pub->callback; };
 
-    for (auto &topic_device_kv : pubsub_->pubs() | ba::map_values) {
-        for (auto &dev_list : topic_device_kv | ba::map_values) {
+    for (const auto &topic_device_kv : pubsub_->pubs() | ba::map_values) {
+        for (const auto &dev_list : topic_device_kv | ba::map_values) {
             for (auto pub : dev_list | ba::transformed(to_publisher) | ba::filtered(has_callback)) {
                 for (auto msg : pub->pop_msgs()) {
                     pub->callback(msg);
@@ -444,7 +445,7 @@ void External::update_ents() {
     id_to_ent_map_->clear();
     ents_.clear();
     for (auto &kv : contacts) {
-        ID &id = kv.second.id();
+        const ID &id = kv.second.id();
         (*id_to_team_map_)[id.id()] = id.team_id();
 
         auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();

@@ -39,6 +39,7 @@ IMUErrorSimulator::IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget) {
 }
 
 // generate a 3d vector with the passed in random distribution and generator
+// cppcheck-suppress constParameterReference
 Eigen::Vector3d IMUErrorSimulator::RandomVector(std::normal_distribution<double>& distribution,
                                                 std::mt19937& generator) {
     Eigen::Vector3d newVec;
@@ -46,6 +47,7 @@ Eigen::Vector3d IMUErrorSimulator::RandomVector(std::normal_distribution<double>
     return newVec;
 }
 
+// cppcheck-suppress constParameterReference
 void IMUErrorSimulator::PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget) {
     // Accel Error Terms
     // Get random draws for accel scale factor errors:
@@ -145,6 +147,7 @@ void IMUErrorSimulator::CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate
                                               errorBudget.ZGyroARWRadPerSecPerRtHzStdDev);
 }
 
+// cppcheck-suppress constParameterReference
 NoisyIMUData IMUErrorSimulator::EachCycle(IMUErrorBudgetTemplate& errorBudget,
                                           Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
                                           Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody) {

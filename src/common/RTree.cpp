@@ -82,6 +82,7 @@ void results_to_neighbors(std::list<point_id_t> &results, std::vector<ID> &neigh
         }
     } else {
         for (point_id_t &pt_id : results) {
+            // cppcheck-suppress useStlAlgorithm
             neighbors.push_back(pt_id.second);
         }
     }

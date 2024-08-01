@@ -90,6 +90,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
         // Call each autonomy's init method to let it know that it is now
         // running.
         for (sc::AutonomyPtr autonomy : running_autonomies_) {
+            // cppcheck-suppress knownConditionTrueFalse
             if (!call_init(autonomy->name(), autonomy)) {
                 cout << "AutonomyExecutor: Failed to reload init for " << autonomy->name() << endl;
             }
@@ -101,7 +102,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
     std::string autonomies_str = sc::get<std::string>("autonomies", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
     sc::get_vec_of_vecs(autonomies_str, vecs_of_vecs, " ");
-    for (std::vector<std::string> vecs : vecs_of_vecs) {
+    for (const std::vector<std::string>& vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
             std::cout << "Autonomy name missing." << std::endl;
             continue;
@@ -168,7 +169,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string> &params) {
             std::vector<std::string> states;
             if (sc::get_vec("states", config_parse.params(), " ,", states)) {
                 // This is a autonomy that only runs in these states
-                for (std::string state : states) {
+                for (const std::string& state : states) {
                     autonomies_[state].push_back(autonomy);
                 }
             } else {
@@ -203,7 +204,7 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
         }
 
         if (show_shapes_) {
-            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(), [&](auto &s) {
+            std::for_each(autonomy->shapes().begin(), autonomy->shapes().end(), [&](const auto &s) {
                 this->draw_shape(s);
             });
         }
@@ -211,7 +212,7 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
     return true;
 }
 
-bool AutonomyExecutor::call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s) {
+bool AutonomyExecutor::call_init(const std::string& autonomy_name, sc::AutonomyPtr autonomy_s) {
     sc::ConfigParse config_parse = autonomies_config_[autonomy_name];
     AutonomyPtr autonomy = autonomy_s;
     autonomy->vars().output_variable_index() = vars_.output_variable_index();

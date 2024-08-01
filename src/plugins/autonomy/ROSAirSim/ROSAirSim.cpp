@@ -118,12 +118,12 @@ Eigen::Isometry3f ROSAirSim::get_sensor_pose_from_worldNED_to_vehicleENU(
 
 void ROSAirSim::init(std::map<std::string, std::string> &params) {
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
-    show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, "false");
-    pub_image_data_ = sc::get<bool>("pub_image_data", params, "true");
-    pub_lidar_data_ = sc::get<bool>("pub_lidar_data", params, "true");
-    pub_imu_data_ = sc::get<bool>("pub_imu_data", params, "true");
-    ros_python_ = sc::get<bool>("ros_python", params, "false");
-    ros_cartographer_ = sc::get<bool>("ros_cartographer", params, "false");
+    show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
+    pub_image_data_ = sc::get<bool>("pub_image_data", params, true);
+    pub_lidar_data_ = sc::get<bool>("pub_lidar_data", params, true);
+    pub_imu_data_ = sc::get<bool>("pub_imu_data", params, true);
+    ros_python_ = sc::get<bool>("ros_python", params, false);
+    ros_cartographer_ = sc::get<bool>("ros_cartographer", params, false);
     cout << " " << endl;
     cout << "[ROSAirSim] Vehicle Name: " << vehicle_name_ << endl;
     if (pub_image_data_) {
@@ -172,7 +172,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     tf_msg_vec_.clear();
 
     // Create World Transform to Robot
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr state = parent_->state_truth();
     world_trans_.header.frame_id = "world";
     if (ros_cartographer_) {
         world_trans_.child_frame_id = ros_namespace_;
@@ -207,7 +207,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     tf_msg_vec_.clear();
 
     // airsim image callback
-    auto airsim_image_cb = [&](auto &msg) {
+    auto airsim_image_cb = [&](const auto &msg) {
         image_data_ = msg->data;
         if (image_data_.empty()) {  // return if empty message
             return;
@@ -281,7 +281,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
                 // Note down camera names since each camera will need its own image transform
                 // old_cam_name=true if camera_name already exists
                 bool old_cam_name = std::any_of(
-                    camera_names_.begin(), camera_names_.end(), [camera_name](std::string str) {
+                    camera_names_.begin(), camera_names_.end(), [camera_name](const std::string& str) {
                         return str == camera_name;
                     });
                 // If false, this is a new camera name, save and publish transform
@@ -368,7 +368,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     };
 
     //// airsim lidar callback
-    auto airsim_lidar_cb = [&](auto &msg) {
+    auto airsim_lidar_cb = [&](const auto &msg) {
         lidar_data_ = msg->data;
         if (lidar_data_.empty()) {  // return if empty message
             return;
@@ -505,7 +505,7 @@ void ROSAirSim::init(std::map<std::string, std::string> &params) {
     };
 
     //// airsim imu callback
-    auto airsim_imu_cb = [&](auto &msg) {
+    auto airsim_imu_cb = [&](const auto &msg) {
         imu_data_ = msg->data;
         if (imu_data_.empty()) {  // return if empty message
             return;
@@ -951,8 +951,9 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
         // for each camera_name publish a transform
         // cout << "camera_names length: " << camera_names_.size() << endl;
-        for (std::string cam_name : camera_names_) {
+        for (const std::string& cam_name : camera_names_) {
             for (sc::sensor::AirSimImageType a : image_data_) {
+                // cppcheck-suppress useStlAlgorithm
                 if (a.camera_config.cam_name == cam_name) {
                     // cout << "publishing transform for: " << cam_name << endl;
                     // create string to match using topic name
@@ -1040,7 +1041,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
     // If none of the sensor msgs are being published use parent_->state_truth() vehicle pose
     if (!pub_image_data_ && !pub_lidar_data_ && !pub_imu_data_) {
-        sc::StatePtr &state = parent_->state_truth();
+        sc::StatePtr state = parent_->state_truth();
 
         world_trans_.header.stamp = ros::Time::now();
         world_trans_.header.frame_id = "world";

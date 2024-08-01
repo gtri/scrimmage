@@ -43,8 +43,8 @@ namespace scrimmage {
 namespace controller {
 class FixedWing6DOFControllerPID : public FixedWing6DOF::Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
-    virtual bool step(double t, double dt);
+    void init(std::map<std::string, std::string> &params) override;
+    bool step(double t, double dt) override;
     virtual std::shared_ptr<Eigen::Vector4d> u() { return u_; }
 
  protected:

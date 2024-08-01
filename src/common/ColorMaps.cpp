@@ -74,7 +74,7 @@ Color_t GetColor_matlab(double v, double vmin, double vmax) {
     return (c);
 }
 
-double GetGray_matlab(Color_t c, double vmin, double vmax) {
+double GetGray_matlab(const Color_t& c, double vmin, double vmax) {
     double v = 0;
     // double slope = 0.5*vmax / (0.125*vmax - vmin);
     // double slope = (vmax - 0.5*(vmax-vmin)) / (0.125*(vmax-vmin)-vmin);
@@ -136,7 +136,7 @@ Color_t GetColor(double v, double vmin, double vmax) {
     return (c);
 }
 
-int GetGray(Color_t c, double vmin, double vmax) {
+int GetGray(const Color_t& c, double vmin, double vmax) {
     int v = 0;
 
     if (c.r == vmin && c.b == vmax) {

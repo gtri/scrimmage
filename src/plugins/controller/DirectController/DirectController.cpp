@@ -65,7 +65,7 @@ void DirectController::init(std::map<std::string, std::string> &params) {
 
 bool DirectController::step(double t, double dt) {
     // Copy over variableIO data
-    for (auto &kv : io_map_) {
+    for (const auto &kv : io_map_) {
         vars_.output(kv.first, vars_.input(kv.second));
     }
     return true;

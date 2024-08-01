@@ -114,6 +114,7 @@ RUN source /root/env/bin/activate \
  && cd build \
  && source ~/.bashrc \
  && cmake .. -G Ninja \
+             -DCMAKE_BUILD_TYPE=Debug \
              -DPYTHON_MIN_VERSION=3.10 \
              -DBUILD_TESTS=ON \
              -DBUILD_DOCS=ON \
@@ -152,12 +153,9 @@ RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bas
 # Run lint and cpp_check tests
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/env/bin/activate \
-    #&& py.test test/test_cpplint.py \
+    && py.test test/test_cpplint.py \
     && py.test test/test_cppcheck.py
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
 CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
-
-
-

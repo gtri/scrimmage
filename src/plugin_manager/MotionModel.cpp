@@ -59,9 +59,9 @@ bool MotionModel::posthumous(double t) { return true; }
 
 StatePtr &MotionModel::state() { return state_; }
 
-void MotionModel::set_state(StatePtr &state) { state_ = state; }
+void MotionModel::set_state(const StatePtr &state) { state_ = state; }
 
-void MotionModel::teleport(StatePtr &state) { state_ = state; }
+void MotionModel::teleport(const StatePtr &state) { state_ = state; }
 
 void MotionModel::ode_step(double dt) {
     auto sys = std::bind(&MotionModel::model, this, pl::_1, pl::_2, pl::_3);

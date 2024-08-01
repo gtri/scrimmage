@@ -41,8 +41,8 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
  public:
     Plugin();
     virtual ~Plugin();
-    void set_name(std::string name);
-    std::string name();
+    void set_name(const std::string& name);
+    const std::string& name() const;
     virtual std::string type();
 
  protected:

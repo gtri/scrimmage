@@ -58,8 +58,8 @@ class MotionModel : public EntityPlugin {
     virtual bool step(double time, double dt);
     virtual bool posthumous(double t);
     virtual StatePtr &state();
-    virtual void set_state(StatePtr &state);
-    virtual void teleport(StatePtr &state);
+    virtual void set_state(const StatePtr &state);
+    virtual void teleport(const StatePtr &state);
     virtual void set_external_force(const Eigen::Vector3d &force);
     virtual void set_external_moment(const Eigen::Vector3d &moment);
     virtual void set_mass(double mass) { mass_ = mass; }

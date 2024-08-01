@@ -129,15 +129,17 @@ class EntityPlugin : public Plugin {
         return sub;
     }
 
-    PublisherPtr advertise(std::string network_name, std::string topic);
-    PublisherPtr advertise(std::string network_name,
-                           std::string topic,
+    PublisherPtr advertise(const std::string& network_name, const std::string& topic);
+    PublisherPtr advertise(const std::string& network_name,
+                           const std::string& topic,
                            unsigned int max_queue_size);
 
     void set_pubsub(PubSubPtr pubsub) { pubsub_ = pubsub; }
     PubSubPtr pubsub() { return pubsub_; }
 
-    std::list<SubscriberBasePtr> subs() { return subs_; }
+    std::list<SubscriberBasePtr>& subs() { return subs_; }
+
+    const std::list<SubscriberBasePtr>& subs() const { return subs_; }
 
     void set_time(const std::shared_ptr<Time> &time) { time_ = time; }
     // cppcheck-suppress passedByValue

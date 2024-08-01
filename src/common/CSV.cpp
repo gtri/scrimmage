@@ -77,6 +77,7 @@ bool CSV::append(const Pairs &pairs, bool write, bool keep_in_memory) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
             cout << "Warning: column header doesn't exist: " << pair.first << endl;
+            continue;
         }
         table_[next_row_][it->second] = pair.second;
     }
@@ -120,12 +121,12 @@ std::string CSV::headers_to_string() const {
 
     // Get an ordered vector of headers
     std::vector<std::string> headers(column_headers_.size());
-    for (auto &kv : column_headers_) {
+    for (const auto &kv : column_headers_) {
         headers[kv.second] = kv.first;
     }
 
     unsigned int i = 0;
-    for (std::string header : headers) {
+    for (const std::string& header : headers) {
         result += header;
 
         if (i + 1 < headers.size()) {
@@ -155,7 +156,7 @@ std::string CSV::row_to_string(const int &row) const {
     // column_headers, use column index to fill in column for values.
     std::vector<std::string> values(column_headers_.size(), no_value_str_);
     auto it_row = table_.find(row);
-    for (auto &kv : it_row->second) {
+    for (const auto &kv : it_row->second) {
         if (static_cast<int64_t>(kv.second) == kv.second) {
             values[kv.first] = std::to_string(static_cast<int64_t>(kv.second));
         } else if (static_cast<double>(kv.second) == kv.second) {
@@ -176,7 +177,7 @@ std::string CSV::row_to_string(const int &row) const {
 
     // Append the rows to the resultant string
     unsigned int i = 0;
-    for (std::string str : values) {
+    for (const std::string& str : values) {
         result += str;
 
         if (i + 1 < values.size()) {
@@ -222,7 +223,7 @@ bool CSV::read_csv_from_string(const std::string &csv_str, const bool &contains_
         if (line_num == 0 && contains_header) {
             std::list<std::string> headers = get_csv_line_elements(line);
             int i = 0;
-            for (auto &str : headers) {
+            for (const auto &str : headers) {
                 column_headers_[str] = i;
                 i++;
             }

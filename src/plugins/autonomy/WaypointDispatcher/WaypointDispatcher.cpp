@@ -87,7 +87,7 @@ void WaypointDispatcher::init(std::map<std::string, std::string> &params) {
 
         // Filter the waypoint list to ensure that two waypoints in succession
         // are not equal, otherwise, the line following will produce NaN
-        auto is_close = [&](auto &wpt1, auto &wpt2) {
+        auto is_close = [&](const auto &wpt1, const auto &wpt2) {
             return (this->lla_to_xyz(wpt1) - this->lla_to_xyz(wpt2)).norm() < filter_dist_;
         };
         wp_list_.waypoints().unique(is_close);

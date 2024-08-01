@@ -74,8 +74,8 @@ MessageBasePtr EntityPlugin::get_scoped_property_helper(const std::string &prope
 
 std::list<scrimmage_proto::ShapePtr> &EntityPlugin::shapes() { return shapes_; }
 
-PublisherPtr EntityPlugin::advertise(std::string network_name,
-                                     std::string topic,
+PublisherPtr EntityPlugin::advertise(const std::string& network_name,
+                                     const std::string& topic,
                                      unsigned int max_queue_size) {
     return pubsub_->advertise(network_name,
                               topic,
@@ -84,7 +84,7 @@ PublisherPtr EntityPlugin::advertise(std::string network_name,
                               std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
-PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic) {
+PublisherPtr EntityPlugin::advertise(const std::string& network_name, const std::string& topic) {
     return pubsub_->advertise(
         network_name, topic, 0, false, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }

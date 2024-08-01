@@ -79,7 +79,7 @@ class Waypoint {
     const double& position_tolerance() const { return position_tolerance_; }
     const double& quat_tolerance() const { return quat_tolerance_; }
 
-    friend std::ostream& operator<<(std::ostream& os, Waypoint& wp);
+    friend std::ostream& operator<<(std::ostream& os, const Waypoint& wp);
 
     friend bool operator==(const Waypoint& lhs, const Waypoint& rhs);
 

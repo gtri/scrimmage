@@ -51,7 +51,7 @@ class Score {
  public:
     Score() {}
 
-    bool set_weights(std::map<std::string, std::string> &params) {
+    bool set_weights(const std::map<std::string, std::string> &params) {
         double w = sc::get<double>("TeamCapture_weight", params, 0.0);
         weights_["TeamCapture"] = w;
 
@@ -60,7 +60,7 @@ class Score {
         return true;
     }
 
-    void increment_count(std::string type) {
+    void increment_count(const std::string& type) {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             counts_[type] = 1;
@@ -69,7 +69,7 @@ class Score {
         }
     }
 
-    void add_count(std::string type, int c) {
+    void add_count(const std::string& type, int c) {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             counts_[type] = c;
@@ -78,9 +78,9 @@ class Score {
         }
     }
 
-    void set_count(std::string type, int c) { counts_[type] = c; }
+    void set_count(const std::string& type, int c) { counts_[type] = c; }
 
-    int count(std::string type) {
+    int count(const std::string& type) const {
         auto it = counts_.find(type);
         if (it == counts_.end()) {
             return 0;

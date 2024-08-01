@@ -113,6 +113,7 @@ class RayTrace : public scrimmage::Sensor {
 
     std::string type() override { return "Ray"; }
     void init(std::map<std::string, std::string> &params) override;
+    // cppcheck-suppress uselessOverride
     bool step() override;
 
     /** Whether to have the bullet collision plugin automatically run ray tracing for this sensor

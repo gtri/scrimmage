@@ -61,7 +61,7 @@ class Plane : public BoundaryBase {
           double x_length,
           double y_width,
           scrimmage::Quaternion quat,
-          std::string texture,
+          const std::string& texture,
           bool diffuse_lighting) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
@@ -81,6 +81,7 @@ class Plane : public BoundaryBase {
         // TODO: Handle rotation
 
         for (Eigen::Vector3d &p : points) {
+            // cppcheck-suppress useStlAlgorithm
             p += center;
         }
         set_points(points);
@@ -156,6 +157,7 @@ class Plane : public BoundaryBase {
         extents_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
+    // cppcheck-suppress virtualCallInConstructor
     void set_visual(int R, int G, int B, double opacity) override {
         // Generate the shape
         if (points_.size() != 4) {
@@ -176,6 +178,7 @@ class Plane : public BoundaryBase {
             polygon->set_persistent(true);
             sc::set(polygon->mutable_color(), R, G, B);
 
+            // cppcheck-suppress shadowVariable
             for (int r = 0; r < vert_per_face; r++) {
                 sp::Vector3d *p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);

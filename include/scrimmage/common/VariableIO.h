@@ -83,18 +83,18 @@ class VariableIO {
 
     int add_input_variable(const std::string &var);
     int add_output_variable(const std::string &var);
-    int declare(std::string var, Direction dir);
+    int declare(const std::string &var, Direction dir);
     int declare(Type type, Direction dir);
 
     double input(int i);
     void output(int i, double x);
     double output(int i);
 
-    bool exists(std::string var, Direction dir);
+    bool exists(const std::string &var, Direction dir);
     bool exists(Type type, Direction dir);
 
-    std::set<std::string> declared_input_variables();
-    std::set<std::string> declared_output_variables();
+    const std::set<std::string> &declared_input_variables() const;
+    const std::set<std::string> &declared_output_variables() const;
 
     const std::map<Type, std::string> &type_map() const { return type_map_; }
 
@@ -120,7 +120,7 @@ class VariableIO {
 };
 
 void print_io_error(const std::string &in_name, VariableIO &v);
-bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
+bool verify_io_connection(const VariableIO &output_plugin, const VariableIO &input_plugin);
 
 }  // namespace scrimmage
 

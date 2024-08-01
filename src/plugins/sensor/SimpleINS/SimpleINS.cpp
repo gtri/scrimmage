@@ -55,7 +55,7 @@ namespace sensor {
 
 void SimpleINS::init(std::map<std::string, std::string> &params) {
     // Noise params information
-    auto add_noise = [&](std::string prefix, auto &noise_vec) {
+    auto add_noise = [&](const std::string& prefix, auto &noise_vec) {
         for (int i = 0; i < 3; i++) {
             std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
@@ -79,7 +79,7 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
     sea_state_gps_ = sc::get<double>("sea_state_gps", params, 99);
 
     // GPS information
-    auto gps_cb = [&](auto &msg) { gps_fix_ = msg->data.fixed(); };
+    auto gps_cb = [&](const auto &msg) { gps_fix_ = msg->data.fixed(); };
     subscribe<sm::GPSStatus>("GlobalNetwork", "GPSStatus", gps_cb);
 
     surface_timer_ = sc::get<double>("surface_timer", params, 10);

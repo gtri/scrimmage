@@ -115,7 +115,7 @@ int VariableIO::add_output_variable(const std::string &var) {
     return idx;
 }
 
-int VariableIO::declare(std::string var, Direction dir) {
+int VariableIO::declare(const std::string& var, Direction dir) {
     if (dir == VariableIO::Direction::In) {
         return add_input_variable(var);
     } else {
@@ -151,7 +151,7 @@ void connect(VariableIO &output, VariableIO &input) {
     output.output_ = input.input_;
 }
 
-bool VariableIO::exists(std::string var, Direction dir) {
+bool VariableIO::exists(const std::string& var, Direction dir) {
     if (dir == VariableIO::Direction::In) {
         return (input_variable_index_.count(var) > 0);
     } else {
@@ -167,14 +167,14 @@ bool VariableIO::exists(Type type, Direction dir) {
     return exists(it->second, dir);
 }
 
-std::set<std::string> VariableIO::declared_input_variables() { return declared_input_variables_; }
+const std::set<std::string>& VariableIO::declared_input_variables() const { return declared_input_variables_; }
 
-std::set<std::string> VariableIO::declared_output_variables() { return declared_output_variables_; }
+const std::set<std::string>& VariableIO::declared_output_variables() const { return declared_output_variables_; }
 
 void VariableIO::set_input(const std::shared_ptr<Eigen::VectorXd> &input) { input_ = input; }
 void VariableIO::set_output(const std::shared_ptr<Eigen::VectorXd> &output) { output_ = output; }
 
-bool verify_io_connection(VariableIO &output, VariableIO &input) {
+bool verify_io_connection(const VariableIO &output, const VariableIO &input) {
     std::vector<std::string> mismatched_keys;
     br::set_difference(input.declared_input_variables(),
                        output.declared_output_variables(),

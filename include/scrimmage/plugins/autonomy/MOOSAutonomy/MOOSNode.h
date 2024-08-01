@@ -66,7 +66,7 @@ class MOOSNode : public CMOOSApp {
                            double heading,
                            double depth,
                            std::string type,
-                           std::string mode,
+                           const std::string& mode,
                            double time,
                            std::string frame_number);
 

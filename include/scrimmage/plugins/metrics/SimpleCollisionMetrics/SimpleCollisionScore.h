@@ -40,7 +40,7 @@ namespace scrimmage {
 namespace metrics {
 class SimpleCollisionScore {
  public:
-    bool set_weights(std::map<std::string, std::string> &params);
+    bool set_weights(const std::map<std::string, std::string> &params);
 
     void set_flight_time_start(double t) { flight_time_start_ = t; }
     void set_flight_time_end(double t) { flight_time_end_ = t; }

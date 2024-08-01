@@ -64,7 +64,7 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
     show_shapes_ = sc::get<bool>("show_shapes", params, false);
 
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
 
     x_[U] = 0;
     x_[V] = 0;
@@ -100,7 +100,7 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
         cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
     } else {
         int row = 0;
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 3) {
                 cout << "Invalid vector size in: " << inertia_matrix << endl;
                 break;
@@ -134,7 +134,7 @@ bool Multirotor::init(std::map<std::string, std::string> &info,
         return false;
     }
 
-    for (std::vector<std::string> vec : vecs_r) {
+    for (const std::vector<std::string>& vec : vecs_r) {
         if (vec.size() != 7) {
             cout << "Invalid rotor_config: " << rotor_config << endl;
             return false;

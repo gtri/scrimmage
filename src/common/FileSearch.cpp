@@ -92,7 +92,7 @@ bool FileSearch::find_file(const std::string &search,
         search_filename = search + ext;
     }
 
-    auto dbg = [&](std::string msg) {
+    auto dbg = [&](const std::string& msg) {
         if (verbose) std::cout << "find_file: " << msg << std::endl;
     };
     dbg(std::string("looking for ") + search_filename);
@@ -124,7 +124,7 @@ bool FileSearch::find_file(const std::string &search,
     if (filenames.size() > 1) {
         std::cout << "===============================================" << std::endl;
         std::cout << "WARNING: Multiple XML files with same name found" << std::endl;
-        for (std::string &full_path : filenames) {
+        for (const std::string &full_path : filenames) {
             std::cout << full_path << std::endl;
         }
         std::cout << "Using XML file at: " << result << std::endl;
@@ -139,7 +139,7 @@ void FileSearch::find_files(std::string env_var,
                             const std::string &ext,
                             std::unordered_map<std::string, std::list<std::string>> &out,
                             bool verbose) {
-    auto dbg = [&](std::string msg) {
+    auto dbg = [&](const std::string& msg) {
         if (verbose) std::cout << "find_files: " << msg << std::endl;
     };
 
@@ -189,6 +189,7 @@ void FileSearch::find_files(std::string env_var,
 
     char native_path_sep = fs::path("/").make_preferred().native().at(0);
 
+    // cppcheck-suppress invalidContainer
     while (it != tok.end()) {
         auto starts_with = [&](std::string &s) {
             return (*it == s) || (boost::starts_with(s, *it) && s.size() > it->size() &&
@@ -207,6 +208,7 @@ void FileSearch::find_files(std::string env_var,
         if (fs::exists(root) && fs::is_directory(root)) {
             dbg(t);
 
+            // cppcheck-suppress shadowVariable
             fs::recursive_directory_iterator it(root);
             fs::recursive_directory_iterator endit;
 

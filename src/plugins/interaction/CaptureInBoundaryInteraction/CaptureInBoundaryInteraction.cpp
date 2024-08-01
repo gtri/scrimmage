@@ -120,7 +120,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
 
             // Only copy IDs whose team ID isn't the same as the boundary's
             // team ID.
-            for (ID &id : rtree_neighbors) {
+            for (const ID &id : rtree_neighbors) {
                 if (id.team_id() != boundary_shape_.id().team_id()) {
                     possible_captures[id.id()] = ent->id().id();
                 }

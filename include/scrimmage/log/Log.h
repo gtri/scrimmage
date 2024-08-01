@@ -86,15 +86,15 @@ class Log {
     bool init(const std::string &dir, Mode mode);
 
     bool parse(std::string dir);
-    bool parse(std::string filename, FileType type);
+    bool parse(const std::string& filename, FileType type);
 
-    bool parse_frames(std::string filename, ZeroCopyInputStreamPtr input);
+    bool parse_frames(const std::string& filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_shapes(std::string filename, ZeroCopyInputStreamPtr input);
+    bool parse_shapes(const std::string& filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input);
+    bool parse_utm_terrain(const std::string& filename, ZeroCopyInputStreamPtr input);
 
-    bool parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input);
+    bool parse_contact_visual(const std::string& filename, ZeroCopyInputStreamPtr input);
 
     bool close_log();
 
@@ -105,7 +105,7 @@ class Log {
     std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>> &utm_terrain();
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual>> &contact_visual();
 
-    std::string log_dir();
+    const std::string& log_dir() const;
 
     bool write_ascii(const std::string &str);
 
@@ -119,11 +119,11 @@ class Log {
 
     // bool save_messages();
 
-    std::string frames_filename();
-    std::string shapes_filename();
-    std::string utm_terrain_filename();
-    std::string contact_visual_filename();
-    std::string msgs_filename();
+    const std::string& frames_filename();
+    const std::string& shapes_filename();
+    const std::string& utm_terrain_filename();
+    const std::string& contact_visual_filename();
+    const std::string& msgs_filename();
 
     void set_enable_log(bool enable);
     void set_drop_bin_logging(bool enable);
@@ -137,7 +137,7 @@ class Log {
     bool drop_bin_logging_ = false;
     Mode mode_ = Mode::READ;
 
-    bool open_file(std::string name, int &fd);
+    bool open_file(const std::string& name, int &fd);
 
     std::string frames_name_ = "frames.bin";
     std::string shapes_name_ = "shapes.bin";

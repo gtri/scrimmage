@@ -128,14 +128,14 @@ class AirSimSensor : public scrimmage::Sensor {
 
  protected:
     std::string vehicle_name_ = "none";
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg,
-                   StatePtr& state,
+    bool save_data(const MessagePtr<std::vector<AirSimImageType>>& im_msg,
+                   const StatePtr& state,
                    int frame_num);
     scrimmage::CSV csv;
     int airsim_frame_num_ = 0;
 
     // Images
-    void parse_camera_configs(std::map<std::string, std::string>& params);
+    void parse_camera_configs(const std::map<std::string, std::string>& params);
     std::list<CameraConfig> cam_configs_;
     std::thread request_images_thread_;
     void request_images();
@@ -147,7 +147,7 @@ class AirSimSensor : public scrimmage::Sensor {
     std::mutex new_image_mutex_;
 
     // LIDAR
-    void parse_lidar_configs(std::map<std::string, std::string>& params);
+    void parse_lidar_configs(const std::map<std::string, std::string>& params);
     std::vector<std::string> lidar_names_;
     std::thread request_lidar_thread_;
     void request_lidar();
@@ -159,7 +159,7 @@ class AirSimSensor : public scrimmage::Sensor {
     std::mutex new_lidar_mutex_;
 
     // IMU
-    void parse_imu_configs(std::map<std::string, std::string>& params);
+    void parse_imu_configs(const std::map<std::string, std::string>& params);
     std::vector<std::string> imu_names_;
     std::thread request_imu_thread_;
     void request_imu();

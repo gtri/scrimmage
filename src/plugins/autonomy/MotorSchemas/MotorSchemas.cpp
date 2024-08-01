@@ -130,7 +130,7 @@ void MotorSchemas::init(std::map<std::string, std::string> &params) {
             // Determine which states in which this behavior is active
             std::vector<std::string> states;
             if (sc::get_vec("states", plugin_override.overrides, " ,", states)) {
-                for (std::string state : states) {
+                for (const std::string& state : states) {
                     behaviors_[state].push_back(*behavior);
                 }
             } else {
@@ -205,7 +205,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
 
         if (show_shapes_) {
-            std::for_each(behavior->shapes().begin(), behavior->shapes().end(), [&](auto &s) {
+            std::for_each(behavior->shapes().begin(), behavior->shapes().end(), [&](const auto &s) {
                 this->draw_shape(s);
             });
         }

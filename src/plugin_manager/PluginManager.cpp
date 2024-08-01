@@ -46,7 +46,7 @@
 
 namespace scrimmage {
 
-int PluginManager::check_library(std::string lib_path) {
+int PluginManager::check_library(const std::string& lib_path) {
     void *lib_handle;
 #ifdef __APPLE__
     lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
@@ -60,10 +60,11 @@ int PluginManager::check_library(std::string lib_path) {
         return -1;
     }
 
-    char *error;
+    const char *error;
 
     // Extract the plugin type
     plugin_type_t type_func;
+    // cppcheck-suppress cstyleCast
     type_func = (plugin_type_t)dlsym(lib_handle, "plugin_type");
     if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
@@ -75,6 +76,7 @@ int PluginManager::check_library(std::string lib_path) {
 
     // Extract the plugin name
     plugin_name_t name_func;
+    // cppcheck-suppress cstyleCast
     name_func = (plugin_name_t)dlsym(lib_handle, "plugin_name");
     if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
@@ -119,8 +121,8 @@ void PluginManager::print_plugins(const std::string &plugin_type,
         files_checked_ = true;
     }
 
-    for (auto &kv : so_files_) {
-        for (std::string &full_path : kv.second) {
+    for (const auto &kv : so_files_) {
+        for (const std::string &full_path : kv.second) {
             check_library(full_path);
         }
     }
@@ -129,7 +131,7 @@ void PluginManager::print_plugins(const std::string &plugin_type,
     std::cout << title << ": " << std::endl;
     std::cout << "------------------------------" << std::endl;
     if (plugins_info_.count(plugin_type) > 0) {
-        for (auto &kv : plugins_info_[plugin_type]) {
+        for (const auto &kv : plugins_info_[plugin_type]) {
             std::cout << kv.first << std::endl;
         }
     } else {
@@ -140,8 +142,8 @@ void PluginManager::print_plugins(const std::string &plugin_type,
 
 void PluginManager::print_returned_plugins() {
     std::cout << "using the following plugins:" << std::endl;
-    for (auto &kv : plugins_info_) {
-        for (auto &kv2 : kv.second) {
+    for (const auto &kv : plugins_info_) {
+        for (const auto &kv2 : kv.second) {
             if (kv2.second.returned) {
                 std::cout << kv.first << "::" << kv2.first << std::endl;
             }
@@ -162,7 +164,7 @@ PluginPtr PluginManager::make_plugin_helper(std::string &plugin_type, std::strin
 
             PluginPtr (*maker_func)(void);
             maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
-            char *error;
+            const char *error;
             if ((error = dlerror()) != NULL) {
                 fputs(error, stderr);
                 return nullptr;
@@ -200,6 +202,7 @@ void PluginManager::find_matching_plugins(
     if (it != so_files.end()) {
         for (std::string &full_fname : it->second) {
             if (check_library(full_fname) == 0) {
+                // cppcheck-suppress useStlAlgorithm
                 plugins.push_back(full_fname);
             }
         }

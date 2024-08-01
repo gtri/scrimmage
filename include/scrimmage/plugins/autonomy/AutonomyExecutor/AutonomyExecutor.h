@@ -47,7 +47,7 @@ class AutonomyExecutor : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
-    bool call_init(std::string autonomy_name, sc::AutonomyPtr autonomy_s);
+    bool call_init(const std::string& autonomy_name, sc::AutonomyPtr autonomy_s);
 
  protected:
     bool show_shapes_ = false;

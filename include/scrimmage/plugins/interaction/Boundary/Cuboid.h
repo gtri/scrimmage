@@ -78,6 +78,7 @@ class Cuboid : public BoundaryBase {
         // TODO: Handle rotation
 
         for (Eigen::Vector3d &p : points) {
+            // cppcheck-suppress useStlAlgorithm
             p += center;
         }
         set_points(points);
@@ -148,6 +149,7 @@ class Cuboid : public BoundaryBase {
         extents_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
+    // cppcheck-suppress virtualCallInConstructor
     void set_visual(int R, int G, int B, double opacity) override {
         // Generate the shape
         if (points_.size() != 8) {

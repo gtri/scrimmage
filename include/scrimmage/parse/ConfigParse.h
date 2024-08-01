@@ -52,22 +52,22 @@ class ConfigParse {
     void set_required(std::string node_name);
     bool parse(const std::map<std::string, std::string> &overrides,
                std::string filename,
-               std::string env_var,
+               const std::string &env_var,
                FileSearch &file_search,
                bool verbose = false);
     std::map<std::string, std::string> &params();
-    std::string filename();
-    std::string directory();
-    std::string extension();
-    std::string stem();
-    void print_params();
+    const std::string &filename() const;
+    std::string directory() const;
+    std::string extension() const;
+    std::string stem() const;
+    void print_params() const;
 
     friend std::ostream &operator<<(std::ostream &os, ConfigParse &cp);
 
  protected:
     std::map<std::string, std::string> params_;
     std::vector<std::string> required_;
-    std::string filename_;
+    std::string filename_ = "";
 
     void recursive_params(rapidxml::xml_node<char> *root,
                           const std::map<std::string, std::string> &overrides,

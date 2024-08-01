@@ -49,7 +49,7 @@ namespace fs = boost::filesystem;
 
 namespace scrimmage {
 
-int next_available_id(std::string name,
+int next_available_id(const std::string& name,
                       std::map<std::string, std::string> &info,
                       std::map<int, int> &id_map) {
     int id;
@@ -85,7 +85,7 @@ void display_progress(float progress) {
     std::cout.flush();
 }
 
-std::string get_sha(std::string &path) {
+std::string get_sha(const std::string &path) {
     std::string cd_cmd = "cd " + path + " && ";
     std::string sha_cmd = cd_cmd + "git rev-parse HEAD | tr -d '\n'";
     std::string status_cmd = cd_cmd + "git status --porcelain | wc -l";
@@ -127,24 +127,25 @@ void filter_line(int downsampling_factor,
 
     auto idx = [=](int i) { return downsampling_factor * i; };
     for (int i = 1; i < curvature_sz - 1; i++) {
-        Eigen::Vector3d &pt_prev = path[idx(i - 1)];
-        Eigen::Vector3d &pt = path[idx(i)];
-        Eigen::Vector3d &pt_next = path[idx(i + 1)];
+        const Eigen::Vector3d &pt_prev = path[idx(i - 1)];
+        const Eigen::Vector3d &pt = path[idx(i)];
+        const Eigen::Vector3d &pt_next = path[idx(i + 1)];
 
         double curv = (pt_next - 2 * pt + pt_prev).squaredNorm();
         curvature.push_back(std::make_pair(idx(i), curv));
     }
 
     using Pair = std::pair<int, double>;
-    curvature.sort([](Pair &a, Pair &b) { return a.second > b.second; });
+    curvature.sort([](const Pair &a, const Pair &b) { return a.second > b.second; });
     curvature.erase(std::next(curvature.begin(), num_points), curvature.end());
-    curvature.sort([](Pair &a, Pair &b) { return a.first < b.first; });
+    curvature.sort([](const Pair &a, const Pair &b) { return a.first < b.first; });
 
     filtered_path.clear();
     filtered_path.reserve(curvature.size() + 2);
     filtered_path.push_back(path[0]);
 
-    for (Pair &p : curvature) {
+    for (const Pair &p : curvature) {
+        // cppcheck-suppress useStlAlgorithm
         filtered_path.push_back(path[p.first]);
     }
 

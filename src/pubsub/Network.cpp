@@ -55,10 +55,10 @@ bool Network::init(std::map<std::string, std::string> &mission_params,
     return network_init(mission_params, plugin_params);
 }
 
-bool Network::network_init(std::map<std::string, std::string> &mission_params,
+bool Network::network_init(const std::map<std::string, std::string> &mission_params,
                            std::map<std::string, std::string> &plugin_params) {
-    auto setup_counts = [](std::string str,
-                           std::map<std::string, std::string> &plugin_params,
+    auto setup_counts = [](const std::string& str,
+                           const std::map<std::string, std::string> &plugin_params,
                            std::map<std::string, unsigned int> &counts,
                            bool &monitor_all) {
         std::string topics_str = get<std::string>(str, plugin_params, "");
@@ -91,10 +91,10 @@ bool Network::network_init(std::map<std::string, std::string> &mission_params,
         csv_.open_output(mp_->log_dir() + "/" + filename);
 
         std::string headers = "t,";
-        for (auto &kv : pub_counts_) {
+        for (const auto &kv : pub_counts_) {
             headers += kv.first + "_Pub_Count,";
         }
-        for (auto &kv : sub_counts_) {
+        for (const auto &kv : sub_counts_) {
             headers += kv.first + "_Sub_Count,";
         }
 
@@ -123,7 +123,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     int n_delivered = 0;
 
     // For all publisher topic names
-    for (auto &pub_kv : pubs) {
+    for (const auto &pub_kv : pubs) {
         std::string topic = pub_kv.first;
 
         // Get reference to this specific topic in the pub_counts_ map for
@@ -201,7 +201,7 @@ bool Network::step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
     }
 
     // Enforce queue sizes, if necessary
-    for (auto &sub_kv : subs) {
+    for (const auto &sub_kv : subs) {
         // For all publisher devices with topic name
         for (NetworkDevicePtr sub : sub_kv.second) {
             sub->enforce_queue_size();

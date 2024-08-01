@@ -171,7 +171,7 @@ bool LibXML2ParserDocument::parse_document(std::filesystem::path path) {
     return parse_document(filecontents_);
 }
 
-bool LibXML2ParserDocument::parse_document(std::vector<char> &filecontent) {
+bool LibXML2ParserDocument::parse_document(const std::vector<char> &filecontent) {
     LIBXML_TEST_VERSION;
     doc_ = xmlReadFile(filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
     if (doc_ != nullptr) {

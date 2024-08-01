@@ -34,6 +34,7 @@
 HG4930IMUBudget::HG4930IMUBudget() {
     InRunBiasOption = localInRunBiasOption;
     CalculateParameters();
+    SampleFrequency = 1;
 }
 
 void HG4930IMUBudget::CalculateParameters() {

@@ -76,7 +76,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
     if (!sc::get_vec_of_vecs(waypoints, vecs)) {
         cout << "Failed to parse waypoints:" << waypoints << endl;
     } else {
-        for (std::vector<std::string> vec : vecs) {
+        for (const std::vector<std::string>& vec : vecs) {
             if (vec.size() != 10) {
                 cout << "Invalid waypoint: " << waypoints << endl;
                 continue;
@@ -160,7 +160,7 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
 }
 
 void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
-    for (Waypoint wp : wp_list.waypoints()) {
+    for (const Waypoint& wp : wp_list.waypoints()) {
         double x, y, z;
         parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(), x, y, z);
         vars_.output(position_x_idx_, x);

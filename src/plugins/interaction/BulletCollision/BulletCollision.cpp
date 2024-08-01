@@ -198,6 +198,7 @@ bool BulletCollision::init(std::map<std::string, std::string> &mission_params,
                             pc_desc->pub = advertise(pcl_network_name_, topic, 10);
                         }
 
+                        // cppcheck-suppress shadowVariable
                         std::shared_ptr<RayTrace> rs =
                             std::dynamic_pointer_cast<RayTrace>(kv.second);
                         if (rs) {
@@ -430,7 +431,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
 
                 // For each ray in the sensor
                 unsigned int i = 0;
-                for (RayTrace::PCPoint &pcpoint : pc.points) {
+                for (const RayTrace::PCPoint &pcpoint : pc.points) {
                     Eigen::Vector3d original_ray = pcpoint.point;
                     // Transform sensor's origin to world coordinates
                     Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
@@ -473,7 +474,7 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents, do
                     }
 
                     if (show_rays_) {
-                        std::unique_ptr<PointCloudDescription> &pc_desc = kv2.second;
+                        const std::unique_ptr<PointCloudDescription> &pc_desc = kv2.second;
                         if (res.hasHit()) {
                             sc::set(pc_desc->shapes[i]->mutable_color(), 255, 0, 0);
                             pc_desc->shapes[i]->set_opacity(1.0);
@@ -602,7 +603,7 @@ bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
     Eigen::Vector3d own_pos = own_ent->state_truth()->pos();
     // Compute transformation matrix from entity's frame to sensor's
     // frame.
-    sc::SensorPtr sensor = own_ent->sensors()[sensor_name];
+    sc ::SensorPtr sensor = own_ent->sensors()[sensor_name];
     Eigen::Matrix4d tf_m =
         own_ent->state_truth()->tf_matrix(false) * sensor->transform()->tf_matrix();
     auto response_cast = std::make_shared<sc::Message<RayTrace::PointCloud>>();
@@ -623,7 +624,7 @@ bool BulletCollision::get_ray_tracing(scrimmage::MessageBasePtr request,
     }
 
     // For each ray in the sensor
-    for (RayTrace::PCPoint &pcpoint : request_cast->data.points) {
+    for (const RayTrace::PCPoint &pcpoint : request_cast->data.points) {
         Eigen::Vector3d original_ray = pcpoint.point;
         // Transform sensor's origin to world coordinates
         Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);

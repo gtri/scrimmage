@@ -56,7 +56,7 @@ std::tuple<int, int, int> SimpleAircraft::version() { return std::tuple<int, int
 bool SimpleAircraft::init(std::map<std::string, std::string> &info,
                           std::map<std::string, std::string> &params) {
     x_.resize(MODEL_NUM_ITEMS);
-    Eigen::Vector3d &pos = state_->pos();
+    const Eigen::Vector3d &pos = state_->pos();
     Quaternion &quat = state_->quat();
 
     min_velocity_ = get("min_velocity", params, 15.0);
@@ -138,7 +138,7 @@ void SimpleAircraft::model(const vector_t &x, vector_t &dxdt, double t) {
     dxdt[SPEED] = throttle / 5;
 }
 
-void SimpleAircraft::teleport(StatePtr &state) {
+void SimpleAircraft::teleport(const StatePtr &state) {
     x_[X] = state->pos()[0];
     x_[Y] = state->pos()[1];
     x_[Z] = state->pos()[2];

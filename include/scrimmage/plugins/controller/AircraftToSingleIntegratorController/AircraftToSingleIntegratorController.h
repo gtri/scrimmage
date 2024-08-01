@@ -43,8 +43,8 @@ namespace controller {
 
 class AircraftToSingleIntegratorController : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params) {}
-    virtual bool step(double t, double dt) {
+    void init(std::map<std::string, std::string> &params) override {}
+    bool step(double t, double dt) override {
         double desired_heading = desired_state_->quat().yaw();
         double desired_alt = desired_state_->pos()(2);
         double desired_speed = desired_state_->vel()(0);

@@ -72,6 +72,7 @@ void ROSShapeViz::shapes_cb(const visualization_msgs::Marker::ConstPtr &msg) {
     if (msg->type == visualization_msgs::Marker::POINTS && msg->action == 0 /* ADD an object */) {
         std::list<Eigen::Vector3d> points;
         for (auto &p : msg->points) {
+            // cppcheck-suppress useStlAlgorithm
             points.push_back(Eigen::Vector3d(p.x, p.y, p.z));
         }
 

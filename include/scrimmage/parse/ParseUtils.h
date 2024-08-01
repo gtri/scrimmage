@@ -100,7 +100,7 @@ T str2container(const std::string &str, const std::string &delims) {
     std::vector<std::string> tokens;
     split(tokens, str, delims);
 
-    for (std::string &t : tokens) {
+    for (const std::string &t : tokens) {
         if (t.length() > 0) {
             out.insert(out.end(), convert<typename T::value_type>(t));
         }
@@ -174,7 +174,7 @@ bool get_vec(const std::string &str,
              std::map<std::string, std::string> &params,
              std::vector<std::string> &vec);
 
-Eigen::Vector3d vec2eigen(std::vector<double> &vec);
+Eigen::Vector3d vec2eigen(const std::vector<double> &vec);
 
 bool find_terrain_files(std::string terrain_name,
                         ConfigParse &terrain_parse,
@@ -183,7 +183,7 @@ bool find_terrain_files(std::string terrain_name,
 bool find_model_properties(std::string model_name,
                            ConfigParse &cv_parse,
                            FileSearch &file_search,
-                           std::map<std::string, std::string> &overrides,
+                           const std::map<std::string, std::string> &overrides,
                            std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
                            bool &mesh_found,
                            bool &texture_found);
@@ -206,7 +206,7 @@ struct PluginOverrides {
 };
 
 unsigned int parse_plugin_vector(const std::string &key,
-                                 std::map<std::string, std::string> &params,
+                                 const std::map<std::string, std::string> &params,
                                  std::list<PluginOverrides> &plugin_overrides_list);
 
 void remove_leading_spaces(std::string &s);

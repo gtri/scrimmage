@@ -73,7 +73,7 @@ void GPS::init(std::map<std::string, std::string> &params) {
 
     pub_ = advertise("GlobalNetwork", "GPSStatus");
 
-    auto bd_cb = [&](auto &msg) {
+    auto bd_cb = [&](const auto &msg) {
         boundary_id_ = msg->data.id().id();
         boundary_ = sci::Boundary::make_boundary(msg->data);
     };
