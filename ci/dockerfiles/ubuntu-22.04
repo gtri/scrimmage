@@ -93,6 +93,12 @@ FROM dependencies as builder
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage/scrimmage
 COPY ./ /root/scrimmage/scrimmage
+#
+# Run lint and cpp_check tests
+WORKDIR /root/scrimmage/scrimmage
+RUN source /root/env/bin/activate \
+    && py.test test/test_cpplint.py \
+    && py.test test/test_cppcheck.py
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -120,8 +126,8 @@ RUN source /root/env/bin/activate \
              -DBUILD_DOCS=ON \
              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
  && source ~/.scrimmage/setup.bash \
- && ninja
- # && ninja docs website-docs
+ && ninja \
+ && ninja docs website-docs
 
 
 # install python package and run tests
@@ -149,12 +155,6 @@ RUN source /root/env/bin/activate && \
 
 WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash && py.test python/tests"
-
-# Run lint and cpp_check tests
-WORKDIR /root/scrimmage/scrimmage
-RUN source /root/env/bin/activate \
-    && py.test test/test_cpplint.py \
-    && py.test test/test_cppcheck.py
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]

@@ -1,0 +1,22 @@
+name: "Scrimmage Build"
+
+on: 
+  pull_request:
+    branches:
+      22.04-support
+  workflow_dispatch:
+
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    name: Build Scrimmage for Ubuntu 22.04
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      # Use the output from the `hello` step
+      - name: Repo Checkout
+        uses: actions/checkout@v4
+      - name: Dir
+        run: echo "Directory $(ls)"
+      - name: Build
+        run: docker build -t test_build/ubuntu_2204 -f ci/dockerfiles/ubuntu-22.04 .
