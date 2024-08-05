@@ -1689,7 +1689,7 @@ bool SimControl::run_entities() {
 
         temp_t += motion_dt;
     }
-
+    
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
         if (ent->state()->pos().hasNaN()) {

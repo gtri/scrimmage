@@ -76,7 +76,7 @@ if (ENABLE_GPU_ACCELERATION)
     gpu/OpenCLUtils.cpp
   )
   target_link_libraries(${LIBRARY_NAME} 
-    PUBLIC
+      PRIVATE
     OpenCL::OpenCL
     )
   target_compile_definitions(${LIBRARY_NAME} 

@@ -46,11 +46,15 @@ foreach(test_file ${test_files})
   AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
   add_dependencies(${test_name} scrimmage-core)
   target_link_libraries(${test_name}
-    gtest_main
-    scrimmage-core
+      PUBLIC
+        gtest_main
+        scrimmage-core
+      PRIVATE
+      OpenCL::OpenCL
     )
+
   if (ENABLE_PYTHON_BINDINGS)
-    target_link_libraries(${test_name} scrimmage-python)
+      target_link_libraries(${test_name} PRIVATE scrimmage-python)
   endif()
 
   add_test(NAME ${test_name} COMMAND ${test_name})
