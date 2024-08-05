@@ -254,7 +254,7 @@ bool MissionParse::parse_mission() {
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node.value();
-            attributes_[nm5]["ORIGINAL_PLUGIN_NAME"] = node->value();
+            attributes_[nm5]["ORIGINAL_PLUGIN_NAME"] = node.value();
 
             // Loop through each node's attributes:
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
@@ -270,7 +270,7 @@ bool MissionParse::parse_mission() {
                     attributes_[nm2][attr.name()] = attr.value();
                     attributes_[nm3][attr.name()] = attr.value();
                     attributes_[nm4][attr.name()] = attr.value();
-                    attributes_[nm5][kv.first] = kv.second;
+                    attributes_[nm5][attr.name()] = attr.value();
                 }
             }
         }

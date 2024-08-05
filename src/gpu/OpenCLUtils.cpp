@@ -67,12 +67,12 @@ namespace scrimmage {
   }
 
   bool check_error(cl_int err, const std::string&& file, const unsigned int linenumber, const std::string&& msg) {
-    return OpenCLUtils::check_error(err, file + ":" + std::to_string(linenumber) + ":" + msg);
+    return OpenCLUtils::check_error(err, "at " + file + "(" + std::to_string(linenumber) + "): " + msg);
   }
 
   bool check_error(cl_int err, const std::string&& msg) {
     if (err != 0) {
-      fprintf(stderr, "OpenCL Error: %s (CODE: %d)\n%s\n",
+      fprintf(stderr, "OpenCL Error: %s (CODE: %d): %s\n",
           CL_ERROR_MESSAGES.at(err).c_str(), err, msg.c_str());
       return true;
     }

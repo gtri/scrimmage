@@ -19,13 +19,13 @@ set(test_files
   test_state.cpp
   test_utilities.cpp
   test_xml_parsers.cpp
-  )
+)
 
-  if(ENABLE_GPU_ACCELERATION)
+if(ENABLE_GPU_ACCELERATION)
   set(test_files ${test_files} 
     test_gpu_mapbuffer.cpp
     test_compare_gpu_cpu_motion_models.cpp
-    )
+  )
 endif()
 
 if (NOT ENABLE_PYTHON_BINDINGS)
@@ -34,7 +34,7 @@ else()
   execute_process(
     COMMAND python -c "import gym"
     RESULT_VARIABLE GYM_INSTALLED
-    )
+  )
   if (NOT GYM_INSTALLED EQUAL 0)
     message("openai gym not found. Not building test_openai.cpp")
     LIST(REMOVE_ITEM test_files "test_openai.cpp")
@@ -46,13 +46,26 @@ foreach(test_file ${test_files})
   add_executable(${test_name} ${test_file})
   #AddExternalTarget(${test_name} EXTERNAL_PROJECT_GTEST )
   add_dependencies(${test_name} scrimmage-core)
-  target_link_libraries(${test_name}
-    gtest_main
-    gmock
-    scrimmage-core
-    )
+  if (ENABLE_GPU_ACCELERATION)
+    target_link_libraries(${test_name}
+      PUBLIC
+      gtest_main
+      gmock
+      scrimmage-core
+      PRIVATE
+      OpenCL::OpenCL
+    ) 
+  else()
+    target_link_libraries(${test_name}
+      PUBLIC
+      gtest_main
+      scrimmage-core
+      gmock
+    ) 
+  endif()
+
   if (ENABLE_PYTHON_BINDINGS)
-    target_link_libraries(${test_name} scrimmage-python)
+    target_link_libraries(${test_name} PRIVATE scrimmage-python)
   endif()
 
   add_test(NAME ${test_name} COMMAND ${test_name} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
