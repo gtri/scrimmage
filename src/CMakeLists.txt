@@ -64,11 +64,11 @@ endif()
 
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
-)
+  )
 
 add_dependencies(${LIBRARY_NAME}
   scrimmage-msgs scrimmage-proto-gen
-)
+  )
 
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
@@ -115,7 +115,7 @@ set_target_properties(
   PROPERTIES
   SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
-)
+  )
 
 
 target_include_directories(${LIBRARY_NAME}
@@ -131,7 +131,7 @@ install(TARGETS ${LIBRARY_NAME}
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
-)
+  )
 
 ##################################################
 # Recurse into protos and plugins

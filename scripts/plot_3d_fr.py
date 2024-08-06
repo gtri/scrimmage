@@ -164,9 +164,8 @@ def main():
     # Preparing 3D trajectory plot
     trajFig = plt.figure(figsize=(18,12))
     if args.two_d:
-        ax = trajFig.gca()
+        ax = trajFig.add_subplot()
     else:
-        #ax = trajFig.add_subplot(projection='3d')
         ax = trajFig.gca(projection='3d')
         ax.set_zlabel('z position (m)', fontsize=20)
 
@@ -218,7 +217,7 @@ def main():
     if numLegCols < 1:
         numLegCols = 1
     leg = ax.legend(loc='center left',fontsize=9,markerscale=0.8,ncol=numLegCols,bbox_to_anchor=(1,0.5))
-    leg.draggable(True)
+    leg.set_draggable(True)
 
     try:
         ## Show and save figure ##
