@@ -77,6 +77,7 @@ target_link_libraries(${LIBRARY_NAME}
   scrimmage-xml
   ${GeographicLib_LIBRARIES}
   ${CMAKE_DL_LIBS}
+  PRIVATE
   ${BOOST_LIBS}
 )
 
