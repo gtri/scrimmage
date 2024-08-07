@@ -1,13 +1,15 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.11)
 
 option(ADD_HOME_LOCAL_PREFIX "Add ~/.local to cmake prefix" ON)
 if(ADD_HOME_LOCAL_PREFIX)
   set(CMAKE_PREFIX_PATH $ENV{HOME}/.local/ ${CMAKE_PREFIX_PATH})
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+include(FetchContent)
 
 # macOS requires additional compiler flags
 if(APPLE)
@@ -109,35 +111,30 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   enable_testing()
 
   ############################################################
+  # copied from
   # https://github.com/google/googletest/tree/master/googletest#incorporating-into-an-existing-cmake-project
   ############################################################
 
   # Download and unpack googletest at configure time
-  if(NOT TARGET gtest_main)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
-      googletest-download/CMakeLists.txt)
-    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-      RESULT_VARIABLE result
-      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-    if(result)
-      message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-    endif()
-    execute_process(COMMAND ${CMAKE_COMMAND} --build .
-      RESULT_VARIABLE result
-      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-    if(result)
-      message(FATAL_ERROR "Build step for googletest failed: ${result}")
-    endif()
+  FetchContent_Declare(
+      googletest
+      GIT_REPOSITORY  https://github.com/google/googletest.git      
+      GIT_TAG         origin/main
+      GIT_SHALLOW     true
+      GIT_PROGRESS    true
+      )
 
     # Prevent overriding the parent project's compiler/linker
     # settings on Windows
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+
+  add_subdirectory(test)
 
     # Add googletest directly to our build. This defines
     # the gtest and gtest_main targets.
-    add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
-                     ${PROJECT_BINARY_DIR}/googletest-build)
-  endif()
+    #  add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
+    #                   ${PROJECT_BINARY_DIR}/googletest-build)
 
   add_subdirectory(test)
 endif()
