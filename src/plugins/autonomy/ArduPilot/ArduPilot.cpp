@@ -297,7 +297,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Global frame, roll, pitch, yaw from NED to FRU
     fdm_pkt.roll = state.quat().roll();
-    fdm_pkt.pitch = -state.quat().pitch();
+    fdm_pkt.pitch = -state.quat().pitch_safe();
     fdm_pkt.yaw = fdm_pkt.heading;
 
     if (mavproxy_mode_) {
