@@ -43,6 +43,7 @@ foreach(test_file ${test_files})
     gtest_main
     gmock
     scrimmage-core
+    Boost::filesystem # Can remove after switch to use std::filesystem
     )
   if (ENABLE_PYTHON_BINDINGS)
     target_link_libraries(${test_name} scrimmage-python)

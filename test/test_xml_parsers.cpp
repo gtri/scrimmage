@@ -36,7 +36,6 @@
 #include <cstring>
 
 #include <algorithm>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <regex>
@@ -45,13 +44,17 @@
 #include <scrimmage/parse/XMLParser/LibXML2Parser.h>
 #include <scrimmage/parse/XMLParser/RapidXMLParser.h>
 
+#define BOOST_NO_CXX11_SCOPED_ENUMS
+#include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
+
 // Enum hack to get around being unable to type parameterize with CRTP
 enum ParserType {
   RAPIDXML,
   LIB2XML
 };
 
-namespace fs = std::filesystem;
+namespace fs = boost::filesystem;
 
 class XMLParserTest : public testing::TestWithParam<ParserType> {
   protected:
@@ -107,7 +110,7 @@ inline void test_sibling_iterator(fs::path xml_file) {
   };
 
   Parser parser;
-  parser.parse(xml_file);
+  parser.parse(xml_file.string());
 
   // Test ROOT NODE
   auto root_node = parser.first_node();
@@ -135,7 +138,7 @@ inline void test_sibling_iterator(fs::path xml_file) {
 template<class Parser>
 inline void test_recursive_iterator(const fs::path xml_file) {
   Parser parser;
-  parser.parse(xml_file);
+  parser.parse(xml_file.string());
 
   std::vector<std::string> expected_names = {
     "root",
@@ -189,16 +192,16 @@ inline void test_xml_out(const fs::path& original_file, const fs::path& test_fil
 
   ParserA parserA;
   ParserB parserB;
-  parserA.parse(original_file);
+  parserA.parse(original_file.string());
 
 
   std::ofstream out;
-  out.open(test_file);
+  out.open(test_file.string());
   ASSERT_TRUE(fs::exists(test_file));
   out << parserA;  
   out.close();
 
-  parserB.parse(test_file);
+  parserB.parse(test_file.string());
 
   auto recur_itA = parserA.recur_begin();
   auto recur_itB = parserB.recur_begin();
