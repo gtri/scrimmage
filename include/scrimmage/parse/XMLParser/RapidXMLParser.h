@@ -43,87 +43,87 @@ namespace scrimmage {
 
 class RapidXMLParserAttribute : public XMLParserAttribute<RapidXMLParserAttribute> {
  public:
-    explicit RapidXMLParserAttribute(rapidxml::xml_attribute<> *attribute);
+  explicit RapidXMLParserAttribute(rapidxml::xml_attribute<> *attribute);
 
-    RapidXMLParserAttribute next_attribute(const std::string &name) const;
-    RapidXMLParserAttribute next_attribute() const;
+  RapidXMLParserAttribute next_attribute(const std::string &name) const;
+  RapidXMLParserAttribute next_attribute() const;
 
-    RapidXMLParserAttribute prev_attribute(const std::string &name) const;
-    RapidXMLParserAttribute prev_attribute() const;
+  RapidXMLParserAttribute prev_attribute(const std::string &name) const;
+  RapidXMLParserAttribute prev_attribute() const;
 
-    std::string attribute_name() const;
-    std::string attribute_value() const;
+  std::string attribute_name() const;
+  std::string attribute_value() const;
 
-    bool is_valid_attribute() const;
+  bool is_valid_attribute() const;
 
-    friend bool inline operator==(const RapidXMLParserAttribute &lhs,
-                                  const RapidXMLParserAttribute &rhs) {
-        return lhs.attribute_ == rhs.attribute_;
-    }
+  friend bool inline operator==(const RapidXMLParserAttribute &lhs,
+                                const RapidXMLParserAttribute &rhs) {
+    return lhs.attribute_ == rhs.attribute_;
+  }
 
-    friend bool inline operator!=(const RapidXMLParserAttribute &lhs,
-                                  const RapidXMLParserAttribute &rhs) {
-        return !(lhs == rhs);
-    }
+  friend bool inline operator!=(const RapidXMLParserAttribute &lhs,
+                                const RapidXMLParserAttribute &rhs) {
+    return !(lhs == rhs);
+  }
 
  protected:
-    rapidxml::xml_attribute<> *attribute_;
+  rapidxml::xml_attribute<> *attribute_;
 };
 
 template <>
 struct XMLParserTraits<class RapidXMLParserNode> {
-    using child = RapidXMLParserAttribute;
+  using child = RapidXMLParserAttribute;
 };
 
 class RapidXMLParserNode : public XMLParserNode<RapidXMLParserNode> {
  public:
-    explicit RapidXMLParserNode(rapidxml::xml_node<> *node);
+  explicit RapidXMLParserNode(rapidxml::xml_node<> *node);
 
-    RapidXMLParserNode get_first_node(const std::string &name) const;
-    RapidXMLParserNode get_first_node() const;
+  RapidXMLParserNode get_first_node(const std::string &name) const;
+  RapidXMLParserNode get_first_node() const;
 
-    RapidXMLParserNode get_next_sibling(const std::string &name) const;
-    RapidXMLParserNode get_next_sibling() const;
+  RapidXMLParserNode get_next_sibling(const std::string &name) const;
+  RapidXMLParserNode get_next_sibling() const;
 
-    RapidXMLParserNode get_prev_sibling(const std::string &name) const;
-    RapidXMLParserNode get_prev_sibling() const;
+  RapidXMLParserNode get_prev_sibling(const std::string &name) const;
+  RapidXMLParserNode get_prev_sibling() const;
 
-    RapidXMLParserAttribute get_first_attribute(const std::string &name) const;
-    RapidXMLParserAttribute get_first_attribute() const;
+  RapidXMLParserAttribute get_first_attribute(const std::string &name) const;
+  RapidXMLParserAttribute get_first_attribute() const;
 
-    std::string node_name() const;
-    std::string node_value() const;
+  std::string node_name() const;
+  std::string node_value() const;
 
-    bool is_valid_node() const;
+  bool is_valid_node() const;
 
-    friend bool inline operator==(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
-        return lhs.node_ == rhs.node_;
-    }
+  friend bool inline operator==(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
+    return lhs.node_ == rhs.node_;
+  }
 
-    friend bool inline operator!=(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
-        return !(lhs == rhs);
-    }
+  friend bool inline operator!=(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
+    return !(lhs == rhs);
+  }
 
  protected:
-    rapidxml::xml_node<> *node_;
+  rapidxml::xml_node<> *node_;
 };
 
 template <>
 struct XMLParserTraits<class RapidXMLParserDocument> {
-    using child = RapidXMLParserNode;
+  using child = RapidXMLParserNode;
 };
 
 class RapidXMLParserDocument : public XMLParserDocument<RapidXMLParserDocument> {
  public:
-    bool parse_document(const std::string &filename);
-    bool parse_document(const std::vector<char> &filecontent);
+  bool parse_document(const std::string &filename);
+  bool parse_document(const std::vector<char> &filecontent);
 
-    RapidXMLParserNode find_first_node(const std::string &name) const;
-    RapidXMLParserNode find_first_node() const;
+  RapidXMLParserNode find_first_node(const std::string &name) const;
+  RapidXMLParserNode find_first_node() const;
 
  protected:
-    std::vector<char> filecontent_;
-    rapidxml::xml_document<> doc_;
+  std::vector<char> filecontent_;
+  rapidxml::xml_document<> doc_;
 };
 
 using RapidXMLParser = RapidXMLParserDocument;
