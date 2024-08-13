@@ -33,6 +33,7 @@
 #include <scrimmage/common/RTree.h>
 
 #include <algorithm>
+#include <list>
 
 #include <boost/geometry.hpp>
 #include <boost/geometry/index/rtree.hpp>

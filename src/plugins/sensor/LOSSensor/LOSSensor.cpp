@@ -42,6 +42,8 @@
 #include <scrimmage/msgs/LOSSensor.pb.h>
 
 #include <cstdlib>
+
+#include <algorithm>
 #include <vector>
 
 namespace sc = scrimmage;
@@ -173,7 +175,7 @@ bool LOSSensor::step() {
         } else {  // In-range
             // Limit to the range boundaries (in case an error caused an in-range
             //  measurement when it was actually out of range)
-            range = MIN(MAX(range, min_range()), max_range());
+            range = std::min(std::max(range, min_range()), max_range());
         }
     }
 
@@ -187,14 +189,14 @@ bool LOSSensor::step() {
             // Add additional error
             std::normal_distribution<double> error_dist(0.0, error_sd_);
             double error = error_dist(generator_);
-            range = MIN(MAX(range + error, min_range()), max_range());
+            range = std::min(std::max(range + error, min_range()), max_range());
         }
 
         // Finally, add the actual noise
         double total_sd = range_sd_min_ + (range_sd_per_unit_ * range);
         if (total_sd > 0.0) {
             std::normal_distribution<double> noise_dist(0.0, total_sd);
-            range = MIN(MAX(range + noise_dist(generator_), min_range()), max_range());
+            range = std::min(std::max(range + noise_dist(generator_), min_range()), max_range());
         }
         // Set the values to the message
         msg->data.set_range(range);
