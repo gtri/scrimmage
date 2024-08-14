@@ -449,6 +449,7 @@ class SimControl {
     GPUControllerPtr gpu_;
 
     std::map<std::string, GPUMotionModelPtr> gpu_motion_models_;
+    std::map<std::string, GPUNetworkPtr> gpu_networks_;
 
     std::set<int> ids_used_ = {0};
     FileSearchPtr file_search_;

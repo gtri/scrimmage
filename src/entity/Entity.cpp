@@ -79,6 +79,7 @@ namespace scrimmage {
     rtree_ = sim_info.rtree;
     proj_ = sim_info.proj;
     param_server_ = sim_info.param_server;
+    gpu_controller_ = init_params.gpu_controller;
     gpu_motion_model_ = init_params.gpu_motion_model;
 
     auto mp = sim_info.mp;

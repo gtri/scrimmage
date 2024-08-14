@@ -33,223 +33,216 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
+#include <functional>
 #include <map>
+#include <memory>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <vector>
-#include <string>
-#include <functional>
-#include <memory>
 
 #include <boost/optional.hpp>
 
 namespace scrimmage_proto {
-  using ContactVisualPtr = std::shared_ptr<ContactVisual>;
+using ContactVisualPtr = std::shared_ptr<ContactVisual>;
 }
 
 namespace scrimmage {
 
-  using Service = std::function<bool (scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
+using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &)>;
 
-  typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
+typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
-  struct EntityInitParams {
-    EntityInitParams() {};
-    AttributeMap overrides;
-    GPUMotionModelPtr gpu_motion_model;
-    std::map<std::string, std::string> info;
-    int id;
-    int ent_desc_id;
-    std::set<std::string> plugin_tags;
-    std::function<void(std::map<std::string, std::string>&)> param_override_func;
-    int debug_level = 0;
-  };
+struct EntityInitParams {
+  EntityInitParams(){};
+  AttributeMap overrides;
+  GPUControllerPtr gpu_controller;
+  GPUMotionModelPtr gpu_motion_model;
+  std::map<std::string, std::string> info;
+  int id;
+  int ent_desc_id;
+  std::set<std::string> plugin_tags;
+  std::function<void(std::map<std::string, std::string> &)> param_override_func;
+  int debug_level = 0;
+};
 
-  class Entity : public std::enable_shared_from_this<Entity> {
-    public:
-      /*! \name utilities */
-      ///@{
+class Entity : public std::enable_shared_from_this<Entity> {
+ public:
+  /*! \name utilities */
+  ///@{
 
-      bool init(const SimUtilsInfo& sim_info, EntityInitParams init_params);
+  bool init(const SimUtilsInfo &sim_info, EntityInitParams init_params);
 
-      void print_plugins(std::ostream &out) const;
+  void print_plugins(std::ostream &out) const;
 
-      bool parse_visual(std::map<std::string, std::string> &info,
-          MissionParsePtr mp,
-          std::map<std::string, std::string> &overrides);
+  bool parse_visual(std::map<std::string, std::string> &info,
+                    MissionParsePtr mp,
+                    std::map<std::string, std::string> &overrides);
 
-      void close(double t);
-      void collision();
-      void hit();
-      bool is_alive();
+  void close(double t);
+  void collision();
+  void hit();
+  bool is_alive();
 
-      bool posthumous(double t);
-      void setup_desired_state();
-      bool ready();
+  bool posthumous(double t);
+  void setup_desired_state();
+  bool ready();
 
-      bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
+  bool call_service(MessageBasePtr req, MessageBasePtr &res, const std::string &service_name);
 
-      bool call_service(MessageBasePtr &res, const std::string &service_name) {
-        return call_service(std::make_shared<MessageBase>(), res, service_name);
+  bool call_service(MessageBasePtr &res, const std::string &service_name) {
+    return call_service(std::make_shared<MessageBase>(), res, service_name);
+  }
+
+  template <class T = MessageBasePtr,
+            class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+  bool call_service(MessageBasePtr req, T &res, const std::string &service_name) {
+    MessageBasePtr res_base;
+    if (call_service(req, res_base, service_name)) {
+      res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
+      if (res == nullptr) {
+        print(std::string("could not cast for service ") + service_name);
+        return false;
+      } else {
+        return true;
       }
+    } else {
+      return false;
+    }
+  }
 
-      template <class T = MessageBasePtr,
-               class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
-                 bool call_service(MessageBasePtr req, T &res, const std::string &service_name) {
-                   MessageBasePtr res_base;
-                   if (call_service(req, res_base, service_name)) {
-                     res = std::dynamic_pointer_cast<typename T::element_type>(res_base);
-                     if (res == nullptr) {
-                       print(std::string("could not cast for service ") + service_name);
-                       return false;
-                     } else {
-                       return true;
-                     }
-                   } else {
-                     return false;
-                   }
-                 }
+  template <class T = MessageBasePtr,
+            class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
+  bool call_service(T &res, const std::string &service_name) {
+    return call_service(std::make_shared<MessageBase>(), res, service_name);
+  }
+  ///@}
 
-      template <class T = MessageBasePtr,
-               class = typename std::enable_if<!std::is_same<T, MessageBasePtr>::value, void>::type>
-                 bool call_service(T &res, const std::string &service_name) {
-                   return call_service(std::make_shared<MessageBase>(), res, service_name);
-                 }
-      ///@}
+  /*! \name getters/setters */
+  ///@{
+  StatePtr &state();
+  StatePtr &state_truth();
+  std::vector<AutonomyPtr> &autonomies();
+  MotionModelPtr &motion();
+  std::vector<ControllerPtr> &controllers();
+  GPUMotionModelPtr gpu_motion_model();
+  bool using_gpu_motion_model();  // Avoid ptr copy if we only want to know if the entity is using a
+                                  // gpu motion model.
 
-      /*! \name getters/setters */
-      ///@{
-      StatePtr &state();
-      StatePtr &state_truth();
-      std::vector<AutonomyPtr> &autonomies();
-      MotionModelPtr &motion();
-      std::vector<ControllerPtr> &controllers();
-      GPUMotionModelPtr gpu_motion_model();
-      bool using_gpu_motion_model(); // Avoid ptr copy if we only want to know if the entity is using a gpu motion model.
+  void set_id(ID &id);
+  ID &id();
 
+  void set_health_points(int health_points);
+  int health_points();
 
-      void set_id(ID &id);
-      ID &id();
+  std::shared_ptr<GeographicLib::LocalCartesian> projection();
+  void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
 
-      void set_health_points(int health_points);
-      int health_points();
+  void set_mp(MissionParsePtr mp);
+  MissionParsePtr mp();
 
-      std::shared_ptr<GeographicLib::LocalCartesian> projection();
-      void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+  void set_random(RandomPtr random);
+  RandomPtr random();
 
-      void set_mp(MissionParsePtr mp);
-      MissionParsePtr mp();
+  Contact::Type type();
 
-      void set_random(RandomPtr random);
-      RandomPtr random();
+  void set_visual_changed(bool visual_changed);
+  bool visual_changed();
 
-      Contact::Type type();
+  scrimmage_proto::ContactVisualPtr &contact_visual();
 
-      void set_visual_changed(bool visual_changed);
-      bool visual_changed();
+  std::unordered_map<std::string, SensorPtr> &sensors();
+  std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
+  SensorPtr sensor(const std::string &sensor_name);
 
+  // Enables creating services at the entity level
+  std::unordered_map<std::string, Service> &services();
+  // Enables creating services at the global level (especially for entity interactions, etc.)
+  std::unordered_map<std::string, Service> &global_services();
+  // Enables setting these for entity interactions
+  void set_global_services(const GlobalServicePtr &global_services);
 
-      scrimmage_proto::ContactVisualPtr &contact_visual();
+  std::unordered_map<std::string, MessageBasePtr> &properties();
 
+  void set_active(bool active);
+  bool active();
 
-      std::unordered_map<std::string, SensorPtr> &sensors();
-      std::unordered_map<std::string, SensorPtr> sensors(const std::string &sensor_name);
-      SensorPtr sensor(const std::string &sensor_name);
+  ContactMapPtr &contacts() { return contacts_; }
+  RTreePtr &rtree() { return rtree_; }
 
-      // Enables creating services at the entity level
-      std::unordered_map<std::string, Service> &services();
-      // Enables creating services at the global level (especially for entity interactions, etc.)
-      std::unordered_map<std::string, Service> &global_services();
-      // Enables setting these for entity interactions
-      void set_global_services(const GlobalServicePtr &global_services);
+  PluginManagerPtr &plugin_manager() { return plugin_manager_; }
 
-      std::unordered_map<std::string, MessageBasePtr> &properties();
+  FileSearchPtr &file_search() { return file_search_; }
 
-      void set_active(bool active);
-      bool active();
+  PubSubPtr &pubsub() { return pubsub_; }
 
-      ContactMapPtr &contacts() { return contacts_; }
-      RTreePtr &rtree() { return rtree_; }
+  PrintPtr &printer() { return printer_; }
 
-      PluginManagerPtr & plugin_manager() {
-        return plugin_manager_;
-      }
+  GPUControllerPtr gpu_controller() { return gpu_controller_; }
 
-      FileSearchPtr & file_search() {
-        return file_search_;
-      }
+  const ParameterServerPtr &param_server() { return param_server_; }
 
-      PubSubPtr & pubsub() {
-        return pubsub_;
-      }
+  double radius() { return radius_; }
+  void set_time_ptr(TimePtr t);
+  void set_printer(PrintPtr printer);
+  void set_gpu_controller(GPUControllerPtr gpu_controller) { gpu_controller_ = gpu_controller; }
 
-      PrintPtr & printer() {
-        return printer_;
-      }
+  ///@}
 
-      const ParameterServerPtr& param_server() {
-        return param_server_;
-      }
+ protected:
+  ID id_;
 
-      double radius() { return radius_; }
-      void set_time_ptr(TimePtr t);
-      void set_printer(PrintPtr printer);
+  scrimmage_proto::ContactVisualPtr visual_ = std::make_shared<scrimmage_proto::ContactVisual>();
 
-      ///@}
+  std::vector<ControllerPtr> controllers_;
+  MotionModelPtr motion_model_;
+  GPUMotionModelPtr gpu_motion_model_;
+  std::vector<AutonomyPtr> autonomies_;
+  MissionParsePtr mp_;
 
-    protected:
-      ID id_;
+  int health_points_ = 1;
 
-      scrimmage_proto::ContactVisualPtr visual_ =
-        std::make_shared<scrimmage_proto::ContactVisual>();
+  int max_hits_ = -1;
 
-      std::vector<ControllerPtr> controllers_;
-      MotionModelPtr motion_model_;
-      GPUMotionModelPtr gpu_motion_model_;
-      std::vector<AutonomyPtr> autonomies_;
-      MissionParsePtr mp_;
+  Contact::Type type_ = Contact::Type::AIRCRAFT;
 
-      int health_points_ = 1;
+  std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-      int max_hits_ = -1;
+  RandomPtr random_;
 
-      Contact::Type type_ = Contact::Type::AIRCRAFT;
+  StatePtr state_;
+  StatePtr state_truth_;
+  std::unordered_map<std::string, MessageBasePtr> properties_;
+  std::unordered_map<std::string, SensorPtr> sensors_;
 
-      std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+  bool active_ = true;
+  bool visual_changed_ = false;
+  std::unordered_map<std::string, Service> services_;
 
-      RandomPtr random_;
+  ContactMapPtr contacts_;
+  RTreePtr rtree_;
 
-      StatePtr state_;
-      StatePtr state_truth_;
-      std::unordered_map<std::string, MessageBasePtr> properties_;
-      std::unordered_map<std::string, SensorPtr> sensors_;
+  double radius_ = 1;
 
-      bool active_ = true;
-      bool visual_changed_ = false;
-      std::unordered_map<std::string, Service> services_;
+  void print(const std::string &msg);
+  PluginManagerPtr plugin_manager_;
+  FileSearchPtr file_search_;
+  GPUControllerPtr gpu_controller_;
+  PubSubPtr pubsub_;
+  PrintPtr printer_;
+  GPUControllerPtr gpu_;
+  GlobalServicePtr global_services_;
+  ParameterServerPtr param_server_;
+  TimePtr time_;
+};
 
-      ContactMapPtr contacts_;
-      RTreePtr rtree_;
-
-      double radius_ = 1;
-
-      void print(const std::string &msg);
-      PluginManagerPtr plugin_manager_;
-      FileSearchPtr file_search_;
-      PubSubPtr pubsub_;
-      PrintPtr printer_;
-      GlobalServicePtr global_services_;
-      ParameterServerPtr param_server_;
-      TimePtr time_;
-  };
-
-  using EntityPtr = std::shared_ptr<Entity>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_
+using EntityPtr = std::shared_ptr<Entity>;
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_

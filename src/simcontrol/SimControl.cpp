@@ -196,7 +196,7 @@ bool SimControl::init(const std::string &mission_file, const bool &init_python) 
   init_gpu();
 #endif
 
-  // Start with the simulation paused? Can be overriden by
+  // Start with the simulation paused? Can be overridden by
   // SimControl::pause()
   if (mp_->start_paused()) {
     pause(true);
@@ -392,6 +392,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
   info.proj = proj_;
   info.global_services = global_services_;
   info.contacts = contacts_;
+  info.gpu = gpu_;
 
   EntityInitParams init_params;
   init_params.overrides = plugin_attr_map;
@@ -600,7 +601,7 @@ bool SimControl::run_single_step(const int &loop_number) {
 
   run_callbacks(sim_plugin_);
 
-  // Sync the motion model with sim execution so all values are properly initalized
+  // Sync the motion model with sim execution so all values are properly initialized
   // prior to stepping
 #if ENABLE_GPU_ACCELERATION == 1
   for (auto gpu_motion_model_pair : gpu_motion_models_) {

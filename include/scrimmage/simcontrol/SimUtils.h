@@ -64,6 +64,7 @@ struct SimUtilsInfo {
     TimePtr time;
     ParameterServerPtr param_server;
     RandomPtr random;
+    GPUControllerPtr gpu;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
 };
