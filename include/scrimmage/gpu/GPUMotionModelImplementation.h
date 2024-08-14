@@ -72,7 +72,7 @@ namespace scrimmage {
       };
 
       public: 
-      GPUMotionModelImplementation(cl::Kernel kernel, cl::CommandQueue queue, const KernelBuildOpts& opts):
+      GPUMotionModelImplementation(cl::Kernel kernel, cl::CommandQueue queue):
         queue_{queue},
         kernel_{kernel},
         preferred_work_group_size_multiple_{0},
@@ -295,10 +295,6 @@ namespace scrimmage {
       std::mutex state_mutex_;
     };
 
-  std::shared_ptr<GPUMotionModel> make_gpu_motion_model(
-      const cl::Kernel& kernel, 
-      cl::CommandQueue& queue, 
-      const KernelBuildOpts& opts);
 
 } // namespace motion
 #endif // INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_

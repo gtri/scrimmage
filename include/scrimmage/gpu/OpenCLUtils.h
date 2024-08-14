@@ -14,10 +14,10 @@ namespace scrimmage {
 namespace OpenCLUtils {
 
 #if ENABLE_GPU_ACCELERATION == 1
-  std::shared_ptr<GPUMotionModel> make_gpu_motion_model(
-      const cl::Kernel& kernel, 
-      cl::CommandQueue& queue, 
-      const KernelBuildOpts& opts);
+//  std::shared_ptr<GPUMotionModel> make_gpu_motion_model(
+//      const cl::Kernel& kernel, 
+//      cl::CommandQueue& queue, 
+//      const KernelBuildOpts& opts);
 
   bool supports_fp64(const cl::Device& device);
 

@@ -85,19 +85,20 @@ target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
 #message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
 if (ENABLE_GPU_ACCELERATION) 
-  target_sources(${LIBRARY_NAME} 
-    PRIVATE
-    gpu/GPUController.cpp
-    gpu/OpenCLUtils.cpp
-  )
-  target_link_libraries(${LIBRARY_NAME} 
-    PRIVATE
-    OpenCL::OpenCL
-  )
-  target_compile_definitions(${LIBRARY_NAME} 
-    PUBLIC # These defs should be consistent across the project 
-    CL_HPP_MINIMUM_OPENCL_VERSION=120
-    CL_HPP_TARGET_OPENCL_VERSION=120)
+    target_sources(${LIBRARY_NAME} 
+      PRIVATE
+      gpu/GPUController.cpp
+      gpu/OpenCLUtils.cpp
+      gpu/GPUMotionModel.cpp
+    )
+    target_link_libraries(${LIBRARY_NAME} 
+      PRIVATE
+      OpenCL::OpenCL
+    )
+    target_compile_definitions(${LIBRARY_NAME} 
+      PUBLIC # These defs should be consistent across the project 
+      CL_HPP_MINIMUM_OPENCL_VERSION=120
+      CL_HPP_TARGET_OPENCL_VERSION=120)
 endif()
 
 if(ENABLE_PYTHON_BINDINGS)

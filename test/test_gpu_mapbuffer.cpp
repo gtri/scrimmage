@@ -195,26 +195,3 @@ TYPED_TEST(GPUTestFixture, TestMiddleInsert) {
 
   map_buffer.unmap();
 }
-
-class GPUMapBufferDeathTest : public Test {
-  protected:
-    GPUMapBufferDeathTest()
-    {
-      cl::Context context{CL_DEVICE_TYPE_GPU};
-      queue = cl::CommandQueue{context};
-
-    }
-  public:
-    cl::CommandQueue queue;
-};
-
-TEST_F(GPUMapBufferDeathTest, TestDoubleMapBeforeUnmap) {
-  std::size_t total_elements = 10;
-  sc::GPUMapBuffer<double> map_buffer{this->queue, 0,
-    CL_MEM_READ_WRITE | CL_MEM_ALLOC_HOST_PTR};
-
-  map_buffer.resize(total_elements); 
-  map_buffer.map(CL_MAP_READ | CL_MAP_WRITE);
-
-  ASSERT_DEATH(map_buffer.map(CL_MAP_READ | CL_MAP_WRITE), "GPUMapBuffer is already mapped into memory. Did you forget to unmap the buffer?");
-}

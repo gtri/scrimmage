@@ -2,7 +2,6 @@
  * @file
  *
  * @section LICENSE
- *
  * Copyright (C) 2017 by the Georgia Tech Research Institute (GTRI)
  *
  * This file is part of SCRIMMAGE.
@@ -30,37 +29,28 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODEL_H_
-#define INCLUDE_SCRIMMAGE_MOTION_GPUMOTIONMODEL_H_
+#include <scrimmage/gpu/GPUMotionModel.h>
+#include <scrimmage/gpu/GPUMotionModelImplementation.h>
 
-#include <Eigen/Dense>
-
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-
-#if ENABLE_GPU_ACCELERATION == 1
-#include <CL/opencl.hpp>
-#endif
-
+#include <memory>
 
 namespace scrimmage {
-  class GPUPluginBuildParams;
+GPUMotionModelPtr GPUMotionModel::build_motion_model(const GPUPluginBuildParams& build_params) {
+  const auto& kernel = build_params.kernel;
+  const auto& queue = build_params.queue;
+  if (build_params.single_precision) {
+    return std::make_shared<GPUMotionModelImplementation<float>>(kernel, queue);
+  } else {
+    return std::make_shared<GPUMotionModelImplementation<double>>(kernel, queue);
+  }
+}
 
-  class GPUMotionModel {
-    public:
-      virtual void add_entity(EntityPtr entity) = 0; 
-      virtual VariableIO& get_entity_input(EntityPtr entity) = 0; 
-      virtual void init_new_entities(double time) = 0;
-      virtual bool step(double time, double dt, std::size_t iterations) = 0; // Enqueue and execute kernel
-
-#if ENABLE_GPU_ACCELERATION == 1
-      static GPUMotionModelPtr build_motion_model(const GPUPluginBuildParams& build_params);
-
-      static std::map<std::string, GPUMotionModelPtr> build_motion_models(
-          const std::map<std::string, GPUPluginBuildParams>& build_params);
-#endif
-  };
-} // namespace motion
-#endif // INCLUDE_SCRIMMAGE_GPU_GPUMOTIONMODEL_H_
+std::map<std::string, GPUMotionModelPtr> GPUMotionModel::build_motion_models(
+    const std::map<std::string, GPUPluginBuildParams>& build_params) {
+  std::map<std::string, GPUMotionModelPtr> motion_models;
+  for (const auto& kv : build_params) {
+    motion_models.insert({kv.first, build_motion_model(kv.second)});
+  }
+  return motion_models;
+}
+}  // namespace scrimmage

@@ -321,15 +321,19 @@ endif()
 # Find OpenCL
 ########################################################
 find_package(OpenCL)
-if(OpenCL_FOUND)
+## Enable GPU Acceleration only if OpenCL is installed and it is not explicitly turned off
+if(OpenCL_FOUND AND (NOT DEFINED ENABLE_GPU_ACCELERATION OR ENABLE_GPU_ACCELERATION))
   set(ENABLE_GPU_ACCELERATION true)
   add_compile_options(-DENABLE_GPU_ACCELERATION=1)
   message("-- OpenCL found. Enabling GPU Support")
 else()
-  message("-- No OpenCL installation found. Disabeling GPU Acceleration")
+  if (NOT OpenCL_FOUND)
+  message("-- No OpenCL installation found. Disabling GPU Acceleration")
+else()
+  message("-- Disabling GPU Acceleration")
+endif()
   add_compile_options(-DENABLE_GPU_ACCELERATION=0)
 endif()
-#add_compile_options(-DENABLE_GPU_ACCELERATION=0)
 
 ########################################################
 # Recurse into src, share, and plugins
