@@ -62,180 +62,180 @@ typedef std::map<int, std::map<std::string, std::string>> EntityDesc_t;
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
 struct TeamInfo {
-  int team_id = 0;
-  scrimmage_proto::Color color;
-  std::list<Eigen::Vector3d> bases;
-  std::vector<double> radii;
-  std::vector<double> opacities;
+    int team_id = 0;
+    scrimmage_proto::Color color;
+    std::list<Eigen::Vector3d> bases;
+    std::vector<double> radii;
+    std::vector<double> opacities;
 };
 
 struct GenerateInfo {
-  double start_time;
-  int total_count;
-  int gen_count;
-  double rate;
-  bool first_in_group;
-  double time_variance;
+    double start_time;
+    int total_count;
+    int gen_count;
+    double rate;
+    bool first_in_group;
+    double time_variance;
 };
 
 class MissionParse {
  public:
-  bool create_log_dir();
-  void set_overrides(const std::string& overrides);
-  bool parse(const std::string& filename);
-  bool write(const std::string& filename);
+    bool create_log_dir();
+    void set_overrides(const std::string &overrides);
+    bool parse(const std::string &filename);
+    bool write(const std::string &filename);
 
-  double t0();
-  double tend();
-  double dt();
-  double motion_multiplier();
-  double time_warp();
-  void set_time_warp(double warp);
-  bool start_paused();
-  const bool& full_screen();
-  const unsigned& window_width();
-  const unsigned& window_height();
+    double t0();
+    double tend();
+    double dt();
+    double motion_multiplier();
+    double time_warp();
+    void set_time_warp(double warp);
+    bool start_paused();
+    const bool &full_screen();
+    const unsigned &window_width();
+    const unsigned &window_height();
 
-  void set_dt(const double& dt);
+    void set_dt(const double &dt);
 
-  bool parse_terrain();
+    bool parse_terrain();
 
-  scrimmage_proto::Color& background_color();
+    scrimmage_proto::Color &background_color();
 
-  void set_log_dir(const std::string& log_dir);
-  std::string log_dir();
-  std::string root_log_dir();
+    void set_log_dir(const std::string &log_dir);
+    std::string log_dir();
+    std::string root_log_dir();
 
-  std::map<int, AttributeMap>& entity_attributes();
+    std::map<int, AttributeMap> &entity_attributes();
 
-  std::map<int, std::map<std::string, std::string>>& entity_params();
+    std::map<int, std::map<std::string, std::string>> &entity_params();
 
-  std::map<int, int>& ent_id_to_block_id();
+    std::map<int, int> &ent_id_to_block_id();
 
-  EntityDesc_t& entity_descriptions();
+    EntityDesc_t &entity_descriptions();
 
-  std::map<std::string, int>& entity_tag_to_id();
+    std::map<std::string, int> &entity_tag_to_id();
 
-  bool enable_gui();
-  void set_enable_gui(bool enable);
-  bool network_gui();
-  void set_network_gui(bool enable);
-  void set_start_paused(bool paused);
+    bool enable_gui();
+    void set_enable_gui(bool enable);
+    bool network_gui();
+    void set_network_gui(bool enable);
+    void set_start_paused(bool paused);
 
-  AttributeMap& attributes();
-  std::map<std::string, std::string>& params();
+    AttributeMap &attributes();
+    std::map<std::string, std::string> &params();
 
-  double longitude_origin();
-  double latitude_origin();
-  double altitude_origin();
+    double longitude_origin();
+    double latitude_origin();
+    double altitude_origin();
 
-  void set_lat_lon_alt_origin(const double& lat, const double& lon, const double& alt);
+    void set_lat_lon_alt_origin(const double &lat, const double &lon, const double &alt);
 
-  std::map<int, TeamInfo>& team_info();
+    std::map<int, TeamInfo> &team_info();
 
-  void set_task_number(int task_num);
-  void set_job_number(int job_num);
+    void set_task_number(int task_num);
+    void set_job_number(int job_num);
 
-  std::list<std::string> entity_interactions();
-  std::list<std::string>& network_names();
+    std::list<std::string> entity_interactions();
+    std::list<std::string> &network_names();
 
-  std::list<std::string> metrics();
+    std::list<std::string> metrics();
 
-  std::map<int, GenerateInfo>& gen_info();
+    std::map<int, GenerateInfo> &gen_info();
 
-  std::map<int, std::vector<double>>& next_gen_times();
+    std::map<int, std::vector<double>> &next_gen_times();
 
-  std::shared_ptr<GeographicLib::LocalCartesian> projection();
+    std::shared_ptr<GeographicLib::LocalCartesian> projection();
 
-  std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain();
+    std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain();
 
-  std::string get_mission_filename();
+    std::string get_mission_filename();
 
-  bool get_no_bin_logging();
+    bool get_no_bin_logging();
 
-  bool output_required();
-  bool output_type_required(const std::string& output_type);
+    bool output_required();
+    bool output_type_required(const std::string &output_type);
 
  protected:
-  std::string mission_filename_ = "";
-  std::string mission_file_content_ = "";
+    std::string mission_filename_ = "";
+    std::string mission_file_content_ = "";
 
-  double t0_ = 0;
-  double tend_ = 50;
-  double dt_ = 0.00833333;
-  int motion_multiplier_ = 1;
-  double time_warp_ = 0;
+    double t0_ = 0;
+    double tend_ = 50;
+    double dt_ = 0.00833333;
+    int motion_multiplier_ = 1;
+    double time_warp_ = 0;
 
-  bool enable_gui_ = true;
-  bool network_gui_ = false;
-  bool start_paused_ = false;
-  bool full_screen_ = false;
-  unsigned window_width_ = 800;
-  unsigned window_height_ = 600;
+    bool enable_gui_ = true;
+    bool network_gui_ = false;
+    bool start_paused_ = false;
+    bool full_screen_ = false;
+    unsigned window_width_ = 800;
+    unsigned window_height_ = 600;
 
-  bool no_bin_logging_ = false;
+    bool no_bin_logging_ = false;
 
-  bool read_file_content(const std::string& filename);
-  std::string replace_overrides(std::string str);
+    bool read_file_content(const std::string &filename);
+    std::string replace_overrides(std::string str);
 
-  template <class T>
-  bool parse_mission();
+    template <class T>
+    bool parse_mission();
 
-  AttributeMap attributes_;
-  std::map<std::string, std::string> params_;
+    AttributeMap attributes_;
+    std::map<std::string, std::string> params_;
 
-  std::map<int, TeamInfo> team_info_;
+    std::map<int, TeamInfo> team_info_;
 
-  std::map<int, AttributeMap> entity_attributes_;
-  std::map<int, std::map<std::string, std::string>> entity_params_;
+    std::map<int, AttributeMap> entity_attributes_;
+    std::map<int, std::map<std::string, std::string>> entity_params_;
 
-  // Key: Entity ID
-  // Value: XML "entity" block used to create entity
-  // This can be used to find the key for which entity_attributes_ maps to
-  // the entity XML block.
-  std::map<int, int> ent_id_to_block_id_;
+    // Key: Entity ID
+    // Value: XML "entity" block used to create entity
+    // This can be used to find the key for which entity_attributes_ maps to
+    // the entity XML block.
+    std::map<int, int> ent_id_to_block_id_;
 
-  EntityDesc_t entity_descs_;
+    EntityDesc_t entity_descs_;
 
-  std::string root_log_dir_;
-  std::string log_dir_;
-  std::string output_dir_trailer_;
+    std::string root_log_dir_;
+    std::string log_dir_;
+    std::string output_dir_trailer_;
 
-  double longitude_origin_ = 29.0;
-  double latitude_origin_ = -95.0;
-  double altitude_origin_ = 0;
+    double longitude_origin_ = 29.0;
+    double latitude_origin_ = -95.0;
+    double altitude_origin_ = 0;
 
-  scrimmage_proto::Color background_color_;
+    scrimmage_proto::Color background_color_;
 
-  int task_number_ = -1;
-  int job_number_ = -1;
+    int task_number_ = -1;
+    int job_number_ = -1;
 
-  std::list<std::string> entity_interactions_;
-  std::list<std::string> metrics_;
-  std::list<std::string> network_names_;
+    std::list<std::string> entity_interactions_;
+    std::list<std::string> metrics_;
+    std::list<std::string> network_names_;
 
-  // Key: entity_description ID in EntityDesc_t map
-  // Value: generation
-  std::map<int, GenerateInfo> gen_info_;
+    // Key: entity_description ID in EntityDesc_t map
+    // Value: generation
+    std::map<int, GenerateInfo> gen_info_;
 
-  // Key: entity_description ID in EntityDesc_t vector
-  std::map<int, std::vector<double>> next_gen_times_;
+    // Key: entity_description ID in EntityDesc_t vector
+    std::map<int, std::vector<double>> next_gen_times_;
 
-  std::map<std::string, int> entity_tag_to_id_;
+    std::map<std::string, int> entity_tag_to_id_;
 
-  std::shared_ptr<GeographicLib::LocalCartesian> proj_;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
-  std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_;
+    std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain_;
 
-  std::map<std::string, std::string> overrides_map_;
+    std::map<std::string, std::string> overrides_map_;
 
  private:
-  // Holds output types specified in mission file
-  std::set<std::string> output_types_;
+    // Holds output types specified in mission file
+    std::set<std::string> output_types_;
 
-  // Set of all possible output types
-  const std::set<std::string> possible_output_types_ = {
-      "frames", "summary", "git_commits", "mission", "seed", "runtime"};
+    // Set of all possible output types
+    const std::set<std::string> possible_output_types_ = {
+        "frames", "summary", "git_commits", "mission", "seed", "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 }  // namespace scrimmage
