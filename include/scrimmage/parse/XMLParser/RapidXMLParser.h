@@ -34,7 +34,6 @@
 #include <scrimmage/parse/XMLParser/XMLParser.h>
 
 #include <cassert>
-#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -42,8 +41,7 @@
 
 namespace scrimmage {
 
-class RapidXMLParserAttribute
-    : public XMLParserAttribute<RapidXMLParserAttribute> {
+class RapidXMLParserAttribute : public XMLParserAttribute<RapidXMLParserAttribute> {
  public:
   explicit RapidXMLParserAttribute(rapidxml::xml_attribute<> *attribute);
 
@@ -98,13 +96,11 @@ class RapidXMLParserNode : public XMLParserNode<RapidXMLParserNode> {
 
   bool is_valid_node() const;
 
-  friend bool inline operator==(const RapidXMLParserNode &lhs,
-                                const RapidXMLParserNode &rhs) {
+  friend bool inline operator==(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
     return lhs.node_ == rhs.node_;
   }
 
-  friend bool inline operator!=(const RapidXMLParserNode &lhs,
-                                const RapidXMLParserNode &rhs) {
+  friend bool inline operator!=(const RapidXMLParserNode &lhs, const RapidXMLParserNode &rhs) {
     return !(lhs == rhs);
   }
 
@@ -117,10 +113,9 @@ struct XMLParserTraits<class RapidXMLParserDocument> {
   using child = RapidXMLParserNode;
 };
 
-class RapidXMLParserDocument
-    : public XMLParserDocument<RapidXMLParserDocument> {
+class RapidXMLParserDocument : public XMLParserDocument<RapidXMLParserDocument> {
  public:
-  bool parse_document(std::filesystem::path path);
+  bool parse_document(const std::string &filename);
   bool parse_document(const std::vector<char> &filecontent);
 
   RapidXMLParserNode find_first_node(const std::string &name) const;

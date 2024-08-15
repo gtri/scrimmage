@@ -35,12 +35,16 @@
 
 #include <cassert>
 #include <cctype>
-#include <filesystem>
 #include <iostream>
 #include <iterator>
 #include <ostream>
+#include <sstream>
 #include <string>
 #include <vector>
+
+#define BOOST_NO_CXX11_SCOPED_ENUMS
+#include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 namespace scrimmage {
 template <typename child>
@@ -57,8 +61,10 @@ class XMLParserAttribute {
     using reference = T &;
 
    public:
-    explicit Iterator(T attr) : attribute_{attr} {}
-    Iterator(const Iterator &other) : attribute_{other.attribute_} {}
+    explicit Iterator(T attr)
+        : attribute_{attr} {}
+    Iterator(const Iterator &other)
+        : attribute_{other.attribute_} {}
 
     reference operator*() { return attribute_; }
     pointer operator->() { return &attribute_; }
@@ -84,9 +90,7 @@ class XMLParserAttribute {
              (!lhs.attribute_.is_valid() && !rhs.attribute_.is_valid());
     }
 
-    friend bool operator!=(const Iterator &rhs, const Iterator &lhs) {
-      return !(lhs == rhs);
-    }
+    friend bool operator!=(const Iterator &rhs, const Iterator &lhs) { return !(lhs == rhs); }
 
    private:
     T attribute_;
@@ -104,17 +108,11 @@ class XMLParserAttribute {
 
   T prev() const { return static_cast<const T *>(this)->prev_attribute(); }
 
-  std::string name() const {
-    return static_cast<const T *>(this)->attribute_name();
-  }
+  std::string name() const { return static_cast<const T *>(this)->attribute_name(); }
 
-  std::string value() const {
-    return static_cast<const T *>(this)->attribute_value();
-  }
+  std::string value() const { return static_cast<const T *>(this)->attribute_value(); }
 
-  bool is_valid() const {
-    return static_cast<const T *>(this)->is_valid_attribute();
-  }
+  bool is_valid() const { return static_cast<const T *>(this)->is_valid_attribute(); }
 };
 
 template <class T>
@@ -132,8 +130,10 @@ class XMLParserNode {
     using pointer = T *;
     using reference = T &;
 
-    explicit ChildIterator(T node) : node_{node} {}
-    ChildIterator(const ChildIterator &other) : node_{other.node_} {}
+    explicit ChildIterator(T node)
+        : node_{node} {}
+    ChildIterator(const ChildIterator &other)
+        : node_{other.node_} {}
     ~ChildIterator() {}
 
     reference operator*() { return node_; }
@@ -156,13 +156,11 @@ class XMLParserNode {
     }
 
     friend bool operator==(const ChildIterator &lhs, const ChildIterator &rhs) {
-      return (lhs.node_ == rhs.node_) ||
-             (!lhs.node_.is_valid() && !rhs.node_.is_valid());
+      return (lhs.node_ == rhs.node_) || (!lhs.node_.is_valid() && !rhs.node_.is_valid());
     }
 
     friend bool operator!=(const ChildIterator &lhs, const ChildIterator &rhs) {
-      return (lhs.node_ != rhs.node_) &&
-             (lhs.node_.is_valid() || rhs.node_.is_valid());
+      return (lhs.node_ != rhs.node_) && (lhs.node_.is_valid() || rhs.node_.is_valid());
     }
 
    private:
@@ -181,10 +179,12 @@ class XMLParserNode {
     using pointer = T *;
     using reference = T &;
 
-    explicit RecursiveIterator(T node) : node_{node} {}
+    explicit RecursiveIterator(T node)
+        : node_{node} {}
 
     RecursiveIterator(const RecursiveIterator &other)
-        : node_{other.node_}, ancestors_{other.ancestors_} {}
+        : node_{other.node_},
+          ancestors_{other.ancestors_} {}
     ~RecursiveIterator() {}
 
     reference operator*() { return node_; }
@@ -221,14 +221,11 @@ class XMLParserNode {
       return old;
     }
 
-    friend bool operator==(const RecursiveIterator &lhs,
-                           const RecursiveIterator &rhs) {
-      return (lhs.node_ == rhs.node_) ||
-             (!lhs.node_.is_valid() && !rhs.node_.is_valid());
+    friend bool operator==(const RecursiveIterator &lhs, const RecursiveIterator &rhs) {
+      return (lhs.node_ == rhs.node_) || (!lhs.node_.is_valid() && !rhs.node_.is_valid());
     }
 
-    friend bool operator!=(const RecursiveIterator &lhs,
-                           const RecursiveIterator &rhs) {
+    friend bool operator!=(const RecursiveIterator &lhs, const RecursiveIterator &rhs) {
       return !(lhs == rhs);
     }
 
@@ -243,25 +240,19 @@ class XMLParserNode {
     return static_cast<const T *>(this)->get_first_node(name);
   }
 
-  T first_node() const {
-    return static_cast<const T *>(this)->get_first_node();
-  }
+  T first_node() const { return static_cast<const T *>(this)->get_first_node(); }
 
   T next_sibling(const std::string &name) const {
     return static_cast<const T *>(this)->get_next_sibling(name);
   }
 
-  T next_sibling() const {
-    return static_cast<const T *>(this)->get_next_sibling();
-  }
+  T next_sibling() const { return static_cast<const T *>(this)->get_next_sibling(); }
 
   T prev_sibling(const std::string &name) const {
     return static_cast<const T *>(this)->get_prev_sibling(name);
   }
 
-  T prev_sibling() const {
-    return static_cast<const T *>(this)->get_prev_sibling();
-  }
+  T prev_sibling() const { return static_cast<const T *>(this)->get_prev_sibling(); }
 
   XMLAttribute first_attribute(const std::string &name) const {
     return static_cast<const T *>(this)->get_first_attribute(name);
@@ -273,34 +264,24 @@ class XMLParserNode {
 
   std::string name() const { return static_cast<const T *>(this)->node_name(); }
 
-  std::string value() const {
-    return static_cast<const T *>(this)->node_value();
-  }
+  std::string value() const { return static_cast<const T *>(this)->node_value(); }
 
   ChildIterator child_begin() const { return ChildIterator{first_node()}; }
 
   ChildIterator child_end() const { return ChildIterator{T{nullptr}}; }
 
-  RecursiveIterator recur_begin() const {
-    return RecursiveIterator{first_node()};
-  }
+  RecursiveIterator recur_begin() const { return RecursiveIterator{first_node()}; }
 
   RecursiveIterator recur_end() const { return RecursiveIterator{T{nullptr}}; }
 
   using Attribute = typename XMLParserTraits<T>::child;
   using AttributeIterator = typename Attribute::Iterator;
 
-  AttributeIterator attr_begin() const {
-    return AttributeIterator{first_attribute()};
-  }
+  AttributeIterator attr_begin() const { return AttributeIterator{first_attribute()}; }
 
-  AttributeIterator attr_end() const {
-    return AttributeIterator{Attribute{nullptr}};
-  }
+  AttributeIterator attr_end() const { return AttributeIterator{Attribute{nullptr}}; }
 
-  bool is_valid() const {
-    return static_cast<const T *>(this)->is_valid_node();
-  }
+  bool is_valid() const { return static_cast<const T *>(this)->is_valid_node(); }
 
   friend bool operator==(const XMLParserNode &lhs, const XMLParserNode &rhs) {
     const T *lhs_ptr = static_cast<const T *>(&lhs);
@@ -321,8 +302,8 @@ class XMLParserDocument {
   using NodeChildIterator = typename XMLNode::ChildIterator;
   using NodeRecursiveIterator = typename XMLNode::RecursiveIterator;
 
-  bool parse(const std::filesystem::path &path) {
-    return static_cast<T *>(this)->parse_document(path);
+  bool parse(const std::string &filename) {
+    return static_cast<T *>(this)->parse_document(filename);
   }
 
   bool parse(std::vector<char> &filecontent) {
@@ -333,21 +314,15 @@ class XMLParserDocument {
     return static_cast<const T *>(this)->find_first_node(name);
   }
 
-  XMLNode first_node() const {
-    return static_cast<const T *>(this)->find_first_node();
-  }
+  XMLNode first_node() const { return static_cast<const T *>(this)->find_first_node(); }
 
   NodeChildIterator begin() const { return NodeChildIterator{first_node()}; }
 
   NodeChildIterator end() const { return NodeChildIterator{XMLNode{nullptr}}; }
 
-  NodeRecursiveIterator recur_begin() const {
-    return NodeRecursiveIterator{first_node()};
-  }
+  NodeRecursiveIterator recur_begin() const { return NodeRecursiveIterator{first_node()}; }
 
-  NodeRecursiveIterator recur_end() const {
-    return NodeRecursiveIterator{XMLNode{nullptr}};
-  }
+  NodeRecursiveIterator recur_end() const { return NodeRecursiveIterator{XMLNode{nullptr}}; }
 
   void set_filename(const std::string &filename) { filename_ = filename; }
 
@@ -358,8 +333,7 @@ class XMLParserDocument {
 };
 
 template <class T>
-std::ostream &operator<<(std::ostream &out,
-                         const XMLParserAttribute<T> &xml_attr) {
+std::ostream &operator<<(std::ostream &out, const XMLParserAttribute<T> &xml_attr) {
   if (xml_attr.is_valid()) {
     std::string name = xml_attr.name();
     std::string value = xml_attr.value();
@@ -379,8 +353,7 @@ std::ostream &operator<<(std::ostream &out, const XMLParserNode<T> &xml_node) {
     std::ostringstream ss;
 
     ss << "<" << name << " ";
-    for (auto attr_it = xml_node.attr_begin(); attr_it != xml_node.attr_end();
-         ++attr_it) {
+    for (auto attr_it = xml_node.attr_begin(); attr_it != xml_node.attr_end(); ++attr_it) {
       ss << *attr_it << " ";
     }
     cur_pos = ss.tellp();
@@ -402,8 +375,7 @@ std::ostream &operator<<(std::ostream &out, const XMLParserNode<T> &xml_node) {
 }
 
 template <class T>
-std::ostream &operator<<(std::ostream &out,
-                         const XMLParserDocument<T> &xml_doc) {
+std::ostream &operator<<(std::ostream &out, const XMLParserDocument<T> &xml_doc) {
   out << xml_doc.first_node();
   return out;
 }

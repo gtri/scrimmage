@@ -40,14 +40,18 @@
 
 #include <rapidxml/rapidxml.hpp>
 
+#define BOOST_NO_CXX11_SCOPED_ENUMS
+#include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
+
+namespace fs = boost::filesystem;
+
 namespace scrimmage {
 
-RapidXMLParserAttribute::RapidXMLParserAttribute(
-    rapidxml::xml_attribute<> *attribute)
+RapidXMLParserAttribute::RapidXMLParserAttribute(rapidxml::xml_attribute<> *attribute)
     : attribute_(attribute) {}
 
-RapidXMLParserAttribute RapidXMLParserAttribute::next_attribute(
-    const std::string &name) const {
+RapidXMLParserAttribute RapidXMLParserAttribute::next_attribute(const std::string &name) const {
   return RapidXMLParserAttribute{attribute_->next_attribute(name.c_str())};
 }
 
@@ -70,15 +74,12 @@ std::string RapidXMLParserAttribute::attribute_value() const {
   return std::string{attribute_->value(), attribute_->value_size()};
 }
 
-bool RapidXMLParserAttribute::is_valid_attribute() const {
-  return attribute_ != nullptr;
-}
+bool RapidXMLParserAttribute::is_valid_attribute() const { return attribute_ != nullptr; }
 
 RapidXMLParserNode::RapidXMLParserNode(rapidxml::xml_node<> *node)
     : node_(node) {}
 
-RapidXMLParserNode RapidXMLParserNode::get_first_node(
-    const std::string &name) const {
+RapidXMLParserNode RapidXMLParserNode::get_first_node(const std::string &name) const {
   return RapidXMLParserNode{node_->first_node(name.c_str())};
 }
 
@@ -86,8 +87,7 @@ RapidXMLParserNode RapidXMLParserNode::get_first_node() const {
   return RapidXMLParserNode{node_->first_node()};
 }
 
-RapidXMLParserNode RapidXMLParserNode::get_next_sibling(
-    const std::string &name) const {
+RapidXMLParserNode RapidXMLParserNode::get_next_sibling(const std::string &name) const {
   return RapidXMLParserNode{node_->next_sibling(name.c_str())};
 }
 
@@ -95,8 +95,7 @@ RapidXMLParserNode RapidXMLParserNode::get_next_sibling() const {
   return RapidXMLParserNode{node_->next_sibling()};
 }
 
-RapidXMLParserAttribute RapidXMLParserNode::get_first_attribute(
-    const std::string &name) const {
+RapidXMLParserAttribute RapidXMLParserNode::get_first_attribute(const std::string &name) const {
   return RapidXMLParserAttribute{node_->first_attribute(name.c_str())};
 }
 
@@ -120,25 +119,23 @@ std::string RapidXMLParserNode::node_value() const {
 
 bool RapidXMLParserNode::is_valid_node() const { return node_ != nullptr; }
 
-bool RapidXMLParserDocument::parse_document(std::filesystem::path path) {
-  namespace fs = std::filesystem;
+bool RapidXMLParserDocument::parse_document(const std::string &filename) {
+  fs::path path{filename};
   if (fs::is_symlink(path)) {
     path = fs::read_symlink(path);
   }
   assert(fs::exists(path) && fs::is_regular_file(path));
-  std::ifstream file(path);
+  std::ifstream file(path.string());
   std::stringstream buffer;
   buffer << file.rdbuf();
   file.close();
   std::string filecontent_str = buffer.str();
-  std::vector<char> filecontent(filecontent_str.cbegin(),
-                                filecontent_str.cend());
+  std::vector<char> filecontent(filecontent_str.cbegin(), filecontent_str.cend());
   filename_ = path.string();
   return parse_document(filecontent);
 }
 
-bool RapidXMLParserDocument::parse_document(
-    const std::vector<char> &filecontent) {
+bool RapidXMLParserDocument::parse_document(const std::vector<char> &filecontent) {
   filecontent_ = filecontent;
   try {
     // Note: This parse function can hard fail (seg fault, no exception) on
@@ -153,8 +150,7 @@ bool RapidXMLParserDocument::parse_document(
   return true;
 }
 
-RapidXMLParserNode RapidXMLParserDocument::find_first_node(
-    const std::string &name) const {
+RapidXMLParserNode RapidXMLParserDocument::find_first_node(const std::string &name) const {
   return RapidXMLParserNode{doc_.first_node(name.c_str())};
 }
 
