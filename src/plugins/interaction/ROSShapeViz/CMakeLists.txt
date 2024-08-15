@@ -19,7 +19,7 @@ add_library(${LIBRARY_NAME} SHARED
 target_compile_options(${LIBRARY_NAME}
   PRIVATE
     -Wall
-    -std=c++14
+    -std=c++17
     $<$<CXX_COMPILER_ID:Clang>:"-Wno-return-type-c-linkage">
 )
 

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.11)
 
 option(ADD_HOME_LOCAL_PREFIX "Add ~/.local to cmake prefix" OFF)
 if(ADD_HOME_LOCAL_PREFIX)
