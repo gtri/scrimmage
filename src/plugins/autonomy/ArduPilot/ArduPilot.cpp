@@ -47,7 +47,7 @@
 
 #include <GeographicLib/LocalCartesian.hpp>
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/asio/placeholders.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/basic_datagram_socket.hpp>
