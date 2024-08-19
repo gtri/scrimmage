@@ -71,7 +71,7 @@ class GPUSphereNetwork : public scrimmage::Network {
 
   cl::CommandQueue queue_;
   cl::Kernel kernel_;
-  GPUMapBuffer<double> entity_positions_;
+  std::unique_ptr<GPUMapBuffer<double>> entity_positions_;
 };
 }  // namespace network
 }  // namespace scrimmage

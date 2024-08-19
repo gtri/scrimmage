@@ -849,6 +849,7 @@ bool SimControl::start() {
   info.random = random_;
   info.id_to_team_map = id_to_team_map_;
   info.id_to_ent_map = id_to_ent_map_;
+  info.gpu = gpu_;
 
   networks_ = std::make_shared<NetworkMap>();
   if (!create_networks(info, *networks_)) return false;

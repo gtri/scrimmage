@@ -70,6 +70,7 @@
               to_ardupilot_port="${to_ardupilot_port=5501}"
               from_ardupilot_port="${from_ardupilot_port=5502}"
               to_ardupilot_ip="${to_ardupilot_ip=127.0.0.1}"
+              asynchronous_mode="false"
         >ArduPilot</autonomy>
 
     <motion_model write_csv="true">${motion_model=Multirotor}</motion_model>
