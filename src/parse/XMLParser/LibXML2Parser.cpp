@@ -179,7 +179,12 @@ bool LibXML2ParserDocument::parse_document(const std::string &filename) {
 
 bool LibXML2ParserDocument::parse_document(std::vector<char> &filecontent) {
   LIBXML_TEST_VERSION;
-  doc_ = xmlReadFile(filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
+  //doc_ = xmlReadFile(filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
+  // Filecontents can not be null terminated
+  if(filecontent.back() == '\0') {
+    filecontent.pop_back();
+  }
+  doc_ = xmlReadMemory(filecontent.data(), filecontent.size(), filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
   if (doc_ != nullptr) {
     int ret = xmlXIncludeProcess(doc_);
     return ret == 0;
