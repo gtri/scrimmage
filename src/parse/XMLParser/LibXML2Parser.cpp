@@ -184,7 +184,8 @@ bool LibXML2ParserDocument::parse_document(std::vector<char> &filecontent) {
   if(filecontent.back() == '\0') {
     filecontent.pop_back();
   }
-  doc_ = xmlReadMemory(filecontent.data(), filecontent.size(), filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
+  filecontents_ = filecontent;
+  doc_ = xmlReadMemory(filecontents_.data(), filecontents_.size(), filename_.c_str(), NULL, LibXML2ParserDocument::PARSING_OPTIONS);
   if (doc_ != nullptr) {
     int ret = xmlXIncludeProcess(doc_);
     return ret == 0;
@@ -192,6 +193,24 @@ bool LibXML2ParserDocument::parse_document(std::vector<char> &filecontent) {
     return false;
   }
 }
+
+const std::vector<char>& LibXML2ParserDocument::get_filecontents() {
+    if (doc_ != nullptr) {
+        xmlChar* buffer;
+        int size;
+        xmlDocDumpMemoryEnc(doc_,
+                &buffer,
+                &size,
+                "UTF-8");
+
+        filecontents_.assign(&buffer[0], &buffer[size]);
+        xmlFree(buffer);
+    }
+    
+    return filecontents_;
+}
+
+
 
 LibXML2ParserNode LibXML2ParserDocument::find_first_node(const std::string &name) const {
   xmlNodePtr cur_node = nullptr;

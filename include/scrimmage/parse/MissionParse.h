@@ -178,7 +178,10 @@ class MissionParse {
     bool read_file_content(const std::string &filename);
     std::string replace_overrides(std::string str);
 
-    template <class T>
+    template <class Parser>
+    bool parse_filecontents(Parser& doc);
+
+    template <class Parser>
     bool parse_mission();
 
     AttributeMap attributes_;
