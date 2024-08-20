@@ -309,7 +309,12 @@ bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
     google::protobuf::io::CodedOutputStream output(rawOutput.get());
 
     // Write the size.
-    const int size = int(message.ByteSizeLong());
+    const size_t raw_size = message.ByteSizeLong();
+    if(raw_size > std::numeric_limits<int>::max()) {
+        std::cerr << __FILE__ << "(" << __LINE__ << "): Message size larger than max integer value" << std::endl;
+        return false;
+    }
+    const int size = static_cast<int>(raw_size);
     output.WriteVarint32(size);
 
     // cout << "Writing message of size: " << size << endl;
