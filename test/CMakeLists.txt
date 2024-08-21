@@ -49,8 +49,9 @@ foreach(test_file ${test_files})
   if (ENABLE_GPU_ACCELERATION)
     target_link_libraries(${test_name}
       PUBLIC
-      gtest_main
+      Boost::filesystem # Can remove after switch to use std::filesystem
       gmock
+      gtest_main
       scrimmage-core
       PRIVATE
       OpenCL::OpenCL
@@ -58,12 +59,12 @@ foreach(test_file ${test_files})
   else()
     target_link_libraries(${test_name}
       PUBLIC
+      Boost::filesystem # Can remove after switch to use std::filesystem
+      gmock
       gtest_main
       scrimmage-core
-      gmock
     ) 
   endif()
-
   if (ENABLE_PYTHON_BINDINGS)
     target_link_libraries(${test_name} PRIVATE scrimmage-python)
   endif()

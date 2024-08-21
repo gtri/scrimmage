@@ -132,13 +132,33 @@ KernelBuildOpts GPUController::get_kernel_build_opts(
     return opts;
 }
 
-std::map<std::string, GPUPluginBuildParams> GPUController::get_plugin_params(MissionParsePtr mp,
-                                                                             GPU_PLUGIN_TYPE type) {
-    const char* plugin_declaration = PLUGIN_DECLARATIONS.at(type);
+std::map<std::string, GPUPluginBuildParams> GPUController::get_plugin_params(MissionParsePtr mp) {
+    // Ugh this is tough.. got to think of how to "find" kernels. Maybe this is something I solve in the mission parser
+    //const char* plugin_declaration = PLUGIN_DECLARATIONS.at(type);
     std::map<std::string, GPUPluginBuildParams> named_plugins;
-    for (auto ent_descs : mp->entity_descriptions()) {
-        std::map<std::string, std::string>& descriptor = ent_descs.second;
-        std::string plugin_name = descriptor[plugin_declaration];
+
+    auto build_plugin = [this, &named_plugins](
+                             const std::string& plugin_name,
+                             const std::map<std::string, std::string>& attributes) {
+        KernelBuildOpts opts = get_kernel_build_opts(attributes);
+        std::string kernel_name = scrimmage::get<std::string>("kernel_name", attributes, "");
+
+        if (named_plugins.count(kernel_name) == 0) {
+            std::optional<std::pair<cl::Kernel, cl::CommandQueue>> kernel_queue_opt =
+                build_kernel(kernel_name, opts);
+            if (kernel_queue_opt.has_value()) {
+                auto kernel_queue = kernel_queue_opt.value();
+                named_plugins.emplace(
+                    plugin_name,
+                    GPUPluginBuildParams{
+                        opts.single_precision, kernel_queue.first, kernel_queue.second});
+            }
+        }
+    };
+
+    for (const auto& ent_descs : mp->entity_descriptions()) {
+        const std::map<std::string, std::string>& descriptor = ent_descs.second;
+        std::string plugin_name = descriptor.at(plugin_declaration);
         if (plugin_name == "") {
             continue;
         }
@@ -148,19 +168,14 @@ std::map<std::string, GPUPluginBuildParams> GPUController::get_plugin_params(Mis
             continue;
         }
         std::map<std::string, std::string> plugin_attributes = mp->attributes()[plugin_name];
-        KernelBuildOpts opts = get_kernel_build_opts(plugin_attributes);
-        std::string kernel_name = scrimmage::get<std::string>("kernel_name", plugin_attributes, "");
-
-        std::optional<std::pair<cl::Kernel, cl::CommandQueue>> kernel_queue_opt =
-            build_kernel(kernel_name, opts);
-        if (kernel_queue_opt.has_value()) {
-            auto kernel_queue = kernel_queue_opt.value();
-            named_plugins.emplace(
-                plugin_name,
-                GPUPluginBuildParams{
-                    opts.single_precision, kernel_queue.first, kernel_queue.second});
-        }
+        build_plugin(plugin_name, plugin_attributes);
     }
+
+    // All tags that match the plugin plugin_declaration
+    //for(const auto& kv : mp->params().at(plugin_declaration)) {
+    //}
+
+    
     return named_plugins;
 }
 

@@ -57,8 +57,7 @@ class GPUController {
 
   KernelBuildOpts get_opts(const std::map<std::string, std::string>& overrides);
 
-  std::map<std::string, GPUPluginBuildParams> get_plugin_params(MissionParsePtr mp,
-                                                                GPU_PLUGIN_TYPE type);
+  std::map<std::string, GPUPluginBuildParams> get_plugin_params(MissionParsePtr mp);
 
   //  std::map<std::string, GPUMotionModelPtr> build_motion_models(MissionParsePtr mp) {
   //    std::map<std::string, GPUMotionModelPtr> motion_models;

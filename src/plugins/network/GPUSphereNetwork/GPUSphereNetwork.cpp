@@ -117,7 +117,7 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
     std::size_t n_ents = states.size();
     GPUMapBuffer<double> positions{queue_, 3 * n_ents, CL_MEM_READ_ONLY};
     GPUMapBuffer<uint8_t> reachable_map{
-        queue_, (n_ents * n_ents / sizeof(uint8_t)) + 1, CL_MEM_WRITE_ONLY};
+        queue_, (n_ents * n_ents * sizeof(uint8_t)), CL_MEM_WRITE_ONLY};
 
     positions.map(CL_MAP_WRITE_INVALIDATE_REGION);
     std::size_t i = 0;
@@ -135,8 +135,6 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
 
     err = kernel_.setArg(1, reachable_map.device_buffer());
     CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Reachable Map");
-
-
 
     return true;
 }
