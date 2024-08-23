@@ -147,7 +147,7 @@ std::string MissionParse::replace_overrides(std::string str) {
 }
 
 template <class Parser>
-bool MissionParse::parse_filecontents(Parser& doc) {
+bool MissionParse::parse_filecontents(Parser &doc) {
     doc.set_filename(mission_filename_);
     // doc.parse requires a null terminated string that it can modify.
     std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
@@ -158,22 +158,22 @@ bool MissionParse::parse_filecontents(Parser& doc) {
 }
 
 template <>
-bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
-    // LibXMLParser is used when other xml files are included via xinclude to create a composite 
-    // xml mission file. We need to parse this contents twice to ensure that proper override substitution
-    // occurs
+bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser &doc) {
+    // LibXMLParser is used when other xml files are included via xinclude to create a composite
+    // xml mission file. We need to parse this contents twice to ensure that proper override
+    // substitution occurs
     doc.set_filename(mission_filename_);
     std::vector<char> mission_file_content_vec(mission_file_content_.size());
     mission_file_content_vec.assign(mission_file_content_.begin(),
                                     mission_file_content_.end());  // copy
-    doc.parse(mission_file_content_vec); 
+    doc.parse(mission_file_content_vec);
     mission_file_content_vec = doc.get_filecontents();
 
-    mission_file_content_.assign(mission_file_content_vec.cbegin(), mission_file_content_vec.cend());
+    mission_file_content_.assign(mission_file_content_vec.cbegin(),
+                                 mission_file_content_vec.cend());
     mission_file_content_ = replace_overrides(mission_file_content_);
-    mission_file_content_vec.assign(mission_file_content_.begin(),
-                                    mission_file_content_.end());
-    
+    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end());
+
     return doc.parse(mission_file_content_vec);
 }
 
@@ -249,6 +249,7 @@ bool MissionParse::parse_mission() {
     parse_tags("entity_interaction", entity_interactions_);
     parse_tags("network", network_names_);
     parse_tags("metrics", metrics_);
+    parse_tags("gpu_kernel", kernel_names_);
 
     // param_common name: tag: value
     std::map<std::string, std::map<std::string, std::string>> param_common;
@@ -980,6 +981,8 @@ void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
 std::list<std::string> MissionParse::entity_interactions() { return entity_interactions_; }
 
 std::list<std::string> &MissionParse::network_names() { return network_names_; }
+
+const std::list<std::string> &MissionParse::kernel_names() const { return kernel_names_; }
 
 std::list<std::string> MissionParse::metrics() { return metrics_; }
 

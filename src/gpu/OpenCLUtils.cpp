@@ -42,15 +42,6 @@
 
 namespace scrimmage {
 namespace OpenCLUtils {
-//std::shared_ptr<GPUMotionModel> make_gpu_motion_model(const cl::Kernel& kernel,
-//                                                      cl::CommandQueue& queue,
-//                                                      const KernelBuildOpts& opts) {
-//  if (opts.single_precision) {
-//    return std::make_shared<GPUMotionModelImplementation<float>>(kernel, queue, opts);
-//  } else {
-//    return std::make_shared<GPUMotionModelImplementation<double>>(kernel, queue, opts);
-//  }
-//}
 
 bool supports_fp64(const cl::Device& device) {
   cl_int err;
@@ -69,6 +60,11 @@ bool check_error(cl_int err,
                  const std::string&& msg) {
   return OpenCLUtils::check_error(err,
                                   "at " + file + "(" + std::to_string(linenumber) + "): " + msg);
+}
+
+std::size_t prefered_workgroup_size_multiples(const cl::Device& device) {
+    cl_int err;
+    std::size_t workgroup_size_mul = device.getInfo<CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_AMD>(&err);
 }
 
 bool check_error(cl_int err, const std::string&& msg) {

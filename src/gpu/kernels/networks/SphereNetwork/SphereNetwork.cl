@@ -1,6 +1,6 @@
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 
-__kernel void SphereNetwork(__global double* positions, __global bool reachable_map[], double range) {
+__kernel void SphereNetwork(__global double* positions, __global bool* reachable_map, double range) {
     // Get worker info
     size_t n_rows = get_global_size(0);
     size_t n_cols = get_global_size(1);

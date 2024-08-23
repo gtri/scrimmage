@@ -217,9 +217,27 @@ bool SimControl::init(const std::string &mission_file, const bool &init_python) 
 void SimControl::init_gpu() {
 #if ENABLE_GPU_ACCELERATION == 1
   gpu_ = std::make_shared<scrimmage::GPUController>();
-  std::map<std::string, scrimmage::GPUPluginBuildParams> motion_model_params =
-      gpu_->get_plugin_params(mp_, GPU_PLUGIN_TYPE::MOTION_MODEL);
-  gpu_motion_models_ = GPUMotionModel::build_motion_models(motion_model_params);
+  gpu_->init(mp_);
+
+  // Build Motion Models for our Entities
+  const std::map<std::string, GPUPluginBuildParams>& plugin_params = gpu_->get_plugin_params();
+  for(const auto& kv : mp_->entity_descriptions()) {
+    const std::map<std::string, std::string>& ent_desc = kv.second;
+    const bool uses_gpu_motion_model = ent_desc.count("gpu_motion_model") > 0;
+
+    if(uses_gpu_motion_model) {
+        const std::string& motion_model_kernel_name = ent_desc.at("gpu_motion_model");
+        const bool motion_model_built = gpu_motion_models_.count(motion_model_kernel_name) > 0;
+        const bool kernel_exists = plugin_params.count(motion_model_kernel_name) > 0;
+
+        if(!kernel_exists) {
+            std::cerr << "GPU Motion Model Kernel \'" << motion_model_kernel_name << "\' is not defined in mission!" << std::endl;
+        } else if(!motion_model_built) {
+            const GPUPluginBuildParams& plugin_param = plugin_params.at(motion_model_kernel_name);
+            gpu_motion_models_[motion_model_kernel_name] = GPUMotionModel::build_motion_model(plugin_param); 
+        }
+    }
+  }
 #else
   std::cout << "GPU Acceleration Disabled. Using CPU for motion updates.\n"
                "Enable GPU Motion Updates by compiling with -DENABLE_GPU_ACCELERATION \n";

@@ -138,6 +138,7 @@ class MissionParse {
 
     std::list<std::string> entity_interactions();
     std::list<std::string> &network_names();
+    const std::list<std::string>& kernel_names() const;
 
     std::list<std::string> metrics();
 
@@ -220,6 +221,7 @@ class MissionParse {
     std::list<std::string> entity_interactions_;
     std::list<std::string> metrics_;
     std::list<std::string> network_names_;
+    std::list<std::string> kernel_names_;
 
     // Key: entity_description ID in EntityDesc_t map
     // Value: generation

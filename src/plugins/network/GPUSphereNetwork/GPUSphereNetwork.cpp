@@ -73,21 +73,24 @@ bool GPUSphereNetwork::init(std::map<std::string, std::string>& mission_params,
             sc::get<double>("comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
     }
 
-    std::string kernel_name = sc::get<std::string>("network_kernel", plugin_params, "SphereNetwork");
+    std::string kernel_name =
+        sc::get<std::string>("network_kernel", plugin_params, "GPUSphereNetwork");
 
     GPUControllerPtr gpu = parent()->gpu_controller();
     if (gpu == nullptr) {
         std::cerr << "Unable to find Scrimmage's gpu" << std::endl;
         return false;
     }
-    std::map<std::string, GPUPluginBuildParams> gpu_plugin_params =
-        gpu->get_plugin_params(mp_, GPU_PLUGIN_TYPE::NETWORK);
+    const std::map<std::string, GPUPluginBuildParams>& gpu_plugin_params = gpu->get_plugin_params();
     assert(gpu_plugin_params.count(kernel_name) > 0);
-    GPUPluginBuildParams& network_kernel_params = gpu_plugin_params.at(kernel_name);
+    const GPUPluginBuildParams& network_kernel_params = gpu_plugin_params.at(kernel_name);
 
     queue_ = network_kernel_params.queue;
     kernel_ = network_kernel_params.kernel;
     entity_positions_ = std::make_unique<GPUMapBuffer<double>>(queue_, CL_MEM_READ_ONLY);
+
+    prefered_workgroup_size_multiples_ = 
+    
     return true;
 }
 
@@ -114,10 +117,13 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
         }
     }
 
-    std::size_t n_ents = states.size();
-    GPUMapBuffer<double> positions{queue_, 3 * n_ents, CL_MEM_READ_ONLY};
-    GPUMapBuffer<uint8_t> reachable_map{
-        queue_, (n_ents * n_ents * sizeof(uint8_t)), CL_MEM_WRITE_ONLY};
+    std::size_t num_entities = states.size();
+    if (num_entities == 0) {
+        return true;
+    }
+    GPUMapBuffer<double> positions{queue_, 3 * num_entities, CL_MEM_READ_ONLY};
+    GPUMapBuffer<bool> reachable_map{
+        queue_, (num_entities * num_entities * sizeof(bool)), CL_MEM_WRITE_ONLY};
 
     positions.map(CL_MAP_WRITE_INVALIDATE_REGION);
     std::size_t i = 0;
@@ -135,6 +141,27 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
 
     err = kernel_.setArg(1, reachable_map.device_buffer());
     CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Reachable Map");
+
+    err = kernel_.setArg(2, range_);
+    CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Range");
+
+    bool num_entities_even = num_entities % 2 == 0;
+    std::size_t rows = (num_entities_even) ? num_entities - 1 : num_entities;
+    std::size_t cols = (num_entities_even) ? num_entities / 2 : (num_entities - 1) / 2;
+
+    cl::NDRange global_work_size{rows, cols};
+    cl::NDRange local_work_size{rows };
+
+    err = queue_.enqueueNDRangeKernel(kernel_,
+            cl::NullRange,
+            global_work_size,
+            cl::NDRange{});
+    CL_CHECK_ERROR(err, "Error Executing Kernels");
+
+    queue_.finish();
+    reachable_map.map(CL_MAP_READ);
+    
+    std::vector<bool> values(reachable_map.cbegin(), reachable_map.cend());
 
     return true;
 }

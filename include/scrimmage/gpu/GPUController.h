@@ -25,87 +25,90 @@ const std::map<GPU_PLUGIN_TYPE, const char*> PLUGIN_DECLARATIONS{
 };
 
 struct KernelBuildOpts {
-  bool single_precision;
-  std::vector<std::filesystem::path> include_dirs;
-  std::vector<std::filesystem::path> src_dirs;
-  std::vector<std::string> preferred_platforms;
+    bool single_precision;
+    std::vector<std::filesystem::path> include_dirs;
+    std::vector<std::filesystem::path> src_dirs;
+    std::vector<std::string> preferred_platforms;
 };
 
 struct GPUPluginBuildParams {
-  GPUPluginBuildParams(bool single_precision,
-                       const cl::Kernel& kernel,
-                       const cl::CommandQueue& queue)
-      : single_precision{single_precision},
-        kernel{kernel},
-        queue{queue}
-        {}
+    GPUPluginBuildParams(bool single_precision,
+                         const cl::Kernel& kernel,
+                         const cl::CommandQueue& queue)
+        : single_precision{single_precision},
+          kernel{kernel},
+          queue{queue} {}
 
-  bool single_precision;
-  cl::Kernel kernel;
-  cl::CommandQueue queue;
+    bool single_precision;
+    cl::Kernel kernel;
+    cl::CommandQueue queue;
 };
 
 class GPUController {
  public:
-  GPUController();
+    GPUController();
 #if ENABLE_GPU_ACCELERATION == 1
-  using Kernel_Queue = std::pair<cl::Kernel, cl::CommandQueue>;
+    using Kernel_Queue = std::pair<cl::Kernel, cl::CommandQueue>;
 
-  std::optional<Kernel_Queue> build_kernel(const std::string& kernel_name,
-                                           const std::vector<std::filesystem::path>& kernel_srcs,
-                                           const KernelBuildOpts& opts);
+    void init(MissionParsePtr mp);
 
-  KernelBuildOpts get_opts(const std::map<std::string, std::string>& overrides);
+    std::optional<Kernel_Queue> build_kernel(const std::string& kernel_name,
+                                             const std::vector<std::filesystem::path>& kernel_srcs,
+                                             const KernelBuildOpts& opts);
 
-  std::map<std::string, GPUPluginBuildParams> get_plugin_params(MissionParsePtr mp);
+    KernelBuildOpts get_opts(const std::map<std::string, std::string>& overrides);
 
-  //  std::map<std::string, GPUMotionModelPtr> build_motion_models(MissionParsePtr mp) {
-  //    std::map<std::string, GPUMotionModelPtr> motion_models;
-  //    // 1) Get attributes from mission file
-  //    // 2) Use attributes to build KernelBuildOpts
-  //    // 3) Use KernelBuildOpts to actually build kernel
-  //    // 4) Use built kernel to instantiate a gpu motion model
-  //
-  //    return motion_models;
-  //  }
+    const std::map<std::string, GPUPluginBuildParams>& get_plugin_params() const;
 
-  std::optional<std::pair<cl::Kernel, cl::CommandQueue>> build_kernel(
-      const std::string& kernel_name, const KernelBuildOpts& opts);
+    //  std::map<std::string, GPUMotionModelPtr> build_motion_models(MissionParsePtr mp) {
+    //    std::map<std::string, GPUMotionModelPtr> motion_models;
+    //    // 1) Get attributes from mission file
+    //    // 2) Use attributes to build KernelBuildOpts
+    //    // 3) Use KernelBuildOpts to actually build kernel
+    //    // 4) Use built kernel to instantiate a gpu motion model
+    //
+    //    return motion_models;
+    //  }
+
+    std::optional<std::pair<cl::Kernel, cl::CommandQueue>> build_kernel(
+        const std::string& kernel_name, const KernelBuildOpts& opts);
 
  private:
-  struct KernelSource {
-    KernelSource();
-    KernelSource(const std::string& name, const std::string& src);
-    std::string name_;
-    std::string src_;
+    struct KernelSource {
+        KernelSource();
+        KernelSource(const std::string& name, const std::string& src);
+        std::string name_;
+        std::string src_;
 
-    std::size_t size() { return src_.size(); }
+        std::size_t size() { return src_.size(); }
 
-    struct Hash {
-      std::size_t operator()(const KernelSource& ks) const;
+        struct Hash {
+            std::size_t operator()(const KernelSource& ks) const;
+        };
+
+        struct EqualTo {
+            bool operator()(const KernelSource& lhs, const KernelSource& rhs) const;
+        };
     };
 
-    struct EqualTo {
-      bool operator()(const KernelSource& lhs, const KernelSource& rhs) const;
-    };
-  };
+    static std::string get_device_name(cl::Device& device);
+    bool build_kernels();
+    void set_kernel_sources();
+    void set_compiler_options();
 
-  // Kernel Name -> Kernel
-  static std::string get_device_name(cl::Device& device);
-  bool build_kernels();
-  void set_kernel_sources();
-  void set_compiler_options();
+    std::map<std::string, GPUPluginBuildParams> plugin_params_;
 
-  KernelBuildOpts get_kernel_build_opts(const std::map<std::string, std::string>& attributes) const;
+    KernelBuildOpts get_kernel_build_opts(
+        const std::map<std::string, std::string>& attributes) const;
 
-  cl::Program::Sources read_kernels(const std::vector<std::filesystem::path>& kernel_src_dirs);
+    cl::Program::Sources read_kernels(const std::vector<std::filesystem::path>& kernel_src_dirs);
 
-  std::optional<cl::Device> pick_device(const KernelBuildOpts& opts);
+    std::optional<cl::Device> pick_device(const KernelBuildOpts& opts);
 
-  bool build_kernel(std::vector<KernelSource>, KernelBuildOpts opts);
+    bool build_kernel(std::vector<KernelSource>, KernelBuildOpts opts);
 
-  std::vector<std::filesystem::path> kernel_dirs_;
-  static constexpr char KERNEL_PATH_ENV_VAR[] = "SCRIMMAGE_KERNEL_PATH";
+    std::vector<std::filesystem::path> kernel_dirs_;
+    static constexpr char KERNEL_PATH_ENV_VAR[] = "SCRIMMAGE_KERNEL_PATH";
 #endif
 };
 }  // namespace scrimmage
