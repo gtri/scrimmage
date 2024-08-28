@@ -120,7 +120,11 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
 
     cl::NDRange global_work_size{upper_bound_row_size, upper_bound_col_size};
 
-    err = queue_.enqueueNDRangeKernel(kernel_, cl::NullRange, global_work_size, cl::NullRange);
+    std::size_t max_dim_size = std::sqrt(max_workgroup_size_);
+    cl::NDRange local_work_size{std::min(max_dim_size, upper_bound_row_size),
+                                std::min(max_dim_size, upper_bound_col_size)};
+
+    err = queue_.enqueueNDRangeKernel(kernel_, cl::NullRange, global_work_size, local_work_size);
     CL_CHECK_ERROR(err, "Error Executing Kernels");
 
     queue_.finish();
@@ -140,7 +144,6 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
         std::ldiv_t pos = std::ldiv(i, rows);
         std::size_t row = pos.rem;
         std::size_t col = pos.quot;
-
 
         std::size_t first_ind = col;
         std::size_t second_ind = row;

@@ -76,7 +76,7 @@ class GPUTestFixture : public Test {
 
 TEST_F(GPUTestFixture, TestAllInRange) {
     using EntityIdPair = std::pair<int, int>;
-    std::vector<int> num_ents{10};
+    std::vector<int> num_ents{17};
 
     for (int num_ent : num_ents) {
         std::map<int, sc::StatePtr> states;

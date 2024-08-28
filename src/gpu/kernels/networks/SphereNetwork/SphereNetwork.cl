@@ -19,7 +19,6 @@ return;
 
 // TODO: There is something weird here
 if(row >= n_rows || col >= n_cols) {
-    distances[col*n_rows + row] = -((double) col*n_rows + row);
     return;
 }
 
@@ -54,5 +53,5 @@ bool within_range = distance_between <= range;
 
 size_t index = col*n_rows + row;
 reachable_map[index] = within_range;
-distances[index] = index;
+distances[index] = group_id;
 }
