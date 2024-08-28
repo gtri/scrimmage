@@ -44,55 +44,70 @@ namespace scrimmage {
 namespace OpenCLUtils {
 
 bool supports_fp64(const cl::Device& device) {
-  cl_int err;
-  constexpr cl_device_fp_config MIN_FP_CAPABILITIES =
-      (CL_FP_FMA | CL_FP_ROUND_TO_NEAREST | CL_FP_ROUND_TO_ZERO | CL_FP_ROUND_TO_INF);
-  cl_device_fp_config fp_config = device.getInfo<CL_DEVICE_DOUBLE_FP_CONFIG>(&err);
-  if (check_error(err, "Error Querying Device for Floating Point Information.")) {
-    return false;
-  }
-  return (fp_config & MIN_FP_CAPABILITIES) == MIN_FP_CAPABILITIES;
+    cl_int err;
+    constexpr cl_device_fp_config MIN_FP_CAPABILITIES =
+        (CL_FP_FMA | CL_FP_ROUND_TO_NEAREST | CL_FP_ROUND_TO_ZERO | CL_FP_ROUND_TO_INF);
+    cl_device_fp_config fp_config = device.getInfo<CL_DEVICE_DOUBLE_FP_CONFIG>(&err);
+    if (check_error(err, "Error Querying Device for Floating Point Information.")) {
+        return false;
+    }
+    return (fp_config & MIN_FP_CAPABILITIES) == MIN_FP_CAPABILITIES;
 }
 
 bool check_error(cl_int err,
                  const std::string&& file,
                  const unsigned int linenumber,
                  const std::string&& msg) {
-  return OpenCLUtils::check_error(err,
-                                  "at " + file + "(" + std::to_string(linenumber) + "): " + msg);
+    return OpenCLUtils::check_error(err,
+                                    "at " + file + "(" + std::to_string(linenumber) + "): " + msg);
 }
 
-std::size_t prefered_workgroup_size_multiples(const cl::Device& device) {
+std::size_t prefered_workgroup_size_multiples(const cl::Kernel& kernel, const cl::Device& device) {
     cl_int err;
-    std::size_t workgroup_size_mul = device.getInfo<CL_DEVICE_PREFERRED_WORK_GROUP_SIZE_AMD>(&err);
+    std::size_t workgroup_size_mul =
+        kernel.getWorkGroupInfo<CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE>(device, &err);
+
+    if (check_error(err, "Error Querying Device for Kernel Preferred Work Group Size.")) {
+        return 0;
+    }
+    return workgroup_size_mul;
+}
+
+std::size_t max_workgroup_size(const cl::Device& device) {
+    cl_int err;
+    std::size_t max_workgroup_size = device.getInfo<CL_DEVICE_MAX_WORK_GROUP_SIZE>(&err);
+    if (check_error(err, "Error Querying Device for Device Max Workgroup Size")) {
+        return 0;
+    }
+    return max_workgroup_size;
 }
 
 bool check_error(cl_int err, const std::string&& msg) {
-  if (err != 0) {
-    fprintf(stderr,
-            "OpenCL Error: %s (CODE: %d): %s\n",
-            CL_ERROR_MESSAGES.at(err).c_str(),
-            err,
-            msg.c_str());
-    return true;
-  }
-  return false;
+    if (err != 0) {
+        fprintf(stderr,
+                "OpenCL Error: %s (CODE: %d): %s\n",
+                CL_ERROR_MESSAGES.at(err).c_str(),
+                err,
+                msg.c_str());
+        return true;
+    }
+    return false;
 };
 
 std::optional<std::size_t> cacheline_size(const cl::Device& device) {
-  // Check if device has cache
-  cl_int err;
-  if (device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHE_TYPE>(&err) == CL_NONE) {
-    check_error(err, "Error Querying Device Cache Type");
-    return std::nullopt;
-  }
+    // Check if device has cache
+    cl_int err;
+    if (device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHE_TYPE>(&err) == CL_NONE) {
+        check_error(err, "Error Querying Device Cache Type");
+        return std::nullopt;
+    }
 
-  std::size_t cacheline_size = device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE>(&err);
+    std::size_t cacheline_size = device.getInfo<CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE>(&err);
 
-  if (check_error(err, "Error Querying Device Cacheline Size")) {
-    return std::nullopt;
-  }
-  return std::make_optional(cacheline_size);
+    if (check_error(err, "Error Querying Device Cacheline Size")) {
+        return std::nullopt;
+    }
+    return std::make_optional(cacheline_size);
 }
 
 const std::map<cl_int, std::string> CL_ERROR_MESSAGES = {

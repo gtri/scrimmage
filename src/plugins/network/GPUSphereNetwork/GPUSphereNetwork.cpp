@@ -41,17 +41,17 @@
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h>
+#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
 #include <CL/cl.h>
-
-#include <iostream>
-#include <vector>
+#include <memory>
 
 #include <CL/opencl.hpp>
 #include <boost/range/adaptor/map.hpp>
+
 
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GPUSphereNetwork, GPUSphereNetwork_plugin)
 
@@ -72,33 +72,21 @@ bool GPUSphereNetwork::init(std::map<std::string, std::string>& mission_params,
         comms_boundary_epsilon_ =
             sc::get<double>("comms_boundary_epsilon", plugin_params, comms_boundary_epsilon_);
     }
-
     std::string kernel_name =
         sc::get<std::string>("network_kernel", plugin_params, "GPUSphereNetwork");
 
     GPUControllerPtr gpu = parent()->gpu_controller();
-    if (gpu == nullptr) {
-        std::cerr << "Unable to find Scrimmage's gpu" << std::endl;
-        return false;
-    }
     const std::map<std::string, GPUPluginBuildParams>& gpu_plugin_params = gpu->get_plugin_params();
     assert(gpu_plugin_params.count(kernel_name) > 0);
     const GPUPluginBuildParams& network_kernel_params = gpu_plugin_params.at(kernel_name);
 
-    queue_ = network_kernel_params.queue;
-    kernel_ = network_kernel_params.kernel;
-    entity_positions_ = std::make_unique<GPUMapBuffer<double>>(queue_, CL_MEM_READ_ONLY);
-
-    prefered_workgroup_size_multiples_ = 
-    
+    utils_ = std::make_unique<GPUSphereNetworkUtils>(range_, network_kernel_params);
     return true;
 }
 
 bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
                             std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
-    cl_int err;
     std::map<sc::ID, StatePtr> states;
-    std::map<sc::ID, std::size_t> id_map;
     for (const auto& kv : pubs) {
         for (const auto& device : kv.second) {
             const auto& entity = device->plugin()->parent();
@@ -121,47 +109,9 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
     if (num_entities == 0) {
         return true;
     }
-    GPUMapBuffer<double> positions{queue_, 3 * num_entities, CL_MEM_READ_ONLY};
-    GPUMapBuffer<bool> reachable_map{
-        queue_, (num_entities * num_entities * sizeof(bool)), CL_MEM_WRITE_ONLY};
-
-    positions.map(CL_MAP_WRITE_INVALIDATE_REGION);
-    std::size_t i = 0;
-    for (const auto& kv : states) {
-        id_map[kv.first] = i++;
-        const auto& position = kv.second->pos();
-        positions.push_back(position(0));
-        positions.push_back(position(1));
-        positions.push_back(position(2));
-    }
-    positions.unmap();
-
-    err = kernel_.setArg(0, positions.device_buffer());
-    CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Position Inputs");
-
-    err = kernel_.setArg(1, reachable_map.device_buffer());
-    CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Reachable Map");
-
-    err = kernel_.setArg(2, range_);
-    CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Range");
-
-    bool num_entities_even = num_entities % 2 == 0;
-    std::size_t rows = (num_entities_even) ? num_entities - 1 : num_entities;
-    std::size_t cols = (num_entities_even) ? num_entities / 2 : (num_entities - 1) / 2;
-
-    cl::NDRange global_work_size{rows, cols};
-    cl::NDRange local_work_size{rows };
-
-    err = queue_.enqueueNDRangeKernel(kernel_,
-            cl::NullRange,
-            global_work_size,
-            cl::NDRange{});
-    CL_CHECK_ERROR(err, "Error Executing Kernels");
-
-    queue_.finish();
-    reachable_map.map(CL_MAP_READ);
     
-    std::vector<bool> values(reachable_map.cbegin(), reachable_map.cend());
+
+
 
     return true;
 }

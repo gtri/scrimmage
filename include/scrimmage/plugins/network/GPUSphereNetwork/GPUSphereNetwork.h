@@ -35,6 +35,7 @@
 
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/gpu/GPUMapBuffer.h>
+#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
 
 #include <map>
 #include <string>
@@ -56,6 +57,9 @@ class GPUSphereNetwork : public scrimmage::Network {
 
   bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
                                   const scrimmage::EntityPluginPtr &sub_plugin) override;
+
+  
+
   double range_;
   double prob_transmit_;
 
@@ -69,10 +73,8 @@ class GPUSphereNetwork : public scrimmage::Network {
   bool filter_comms_plane_ = false;
   bool within_planar_boundary(double z1, double z2);
 
-  cl::CommandQueue queue_;
-  cl::Kernel kernel_;
-  std::unique_ptr<GPUMapBuffer<double>> entity_positions_;
-  std::size_t prefered_workgroup_size_multiples_;
+  std::unique_ptr<GPUSphereNetworkUtils> utils_;
+
 };
 }  // namespace network
 }  // namespace scrimmage

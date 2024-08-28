@@ -53,7 +53,7 @@ GPUController::GPUController() {
     // const char* kernel_dir_str = std::getenv(KERNEL_PATH_ENV_VAR);
     const char* kernel_dir_str = std::getenv(KERNEL_PATH_ENV_VAR);
     if (kernel_dir_str == nullptr) {
-        std::cerr << "SCRIMMAGE_KERNEL_DIR is not defined. Did you source your environment"
+        std::cerr << "SCRIMMAGE_KERNEL_PATH is not defined. Did you source your environment"
                   << std::endl;
     } else {
         std::vector<std::string> kernel_dirs =

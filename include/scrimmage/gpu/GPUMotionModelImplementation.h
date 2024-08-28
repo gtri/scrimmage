@@ -146,7 +146,7 @@ namespace scrimmage {
         inputs.resize(input_num_items_ * entities.size());
 
         // Map our device buffers into host memory to write to them;
-        // We dont care about any possible data in our buffers rn. Invalidate
+        // We don't care about any possible data in our buffers. Invalidate
         // the region we are writing to.
         states.map(CL_MAP_WRITE_INVALIDATE_REGION);
         inputs.map(CL_MAP_WRITE_INVALIDATE_REGION);
@@ -156,7 +156,7 @@ namespace scrimmage {
 
           // For now, assume that controllers have already been run. 
           // Eventually I think we want to include the controller with the kernel.
-          // This also assumes that all entites are homogenous in their state
+          // This also assumes that all entities are homogeneous in their state
           // and controller output
           EntityPtr entity = *entityptr_it;
           VariableIO& model_input = vars_[entity];
@@ -229,7 +229,7 @@ namespace scrimmage {
         err = queue_.enqueueNDRangeKernel(kernel_,
             cl::NullRange, 
             cl::NDRange{num_entities},
-            cl::NDRange{num_entities});
+            cl::NullRange);
         CL_CHECK_ERROR(err, "Error Executing Kernel");
         
         queue_.finish();
