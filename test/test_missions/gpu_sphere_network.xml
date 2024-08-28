@@ -12,7 +12,8 @@
        window_width="800"
        window_height="600"/>
 
-<gpu_kernel single_precision="false" 
+<gpu_kernel single_precision="true" 
+  platforms = "Intel Gen OCL Driver"
   src_dirs = "SphereNetwork" 
   include_dirs = "kernels"
   kernel_name = "SphereNetwork">GPUSphereNetwork</gpu_kernel>

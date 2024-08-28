@@ -47,11 +47,11 @@
 #include <scrimmage/pubsub/Subscriber.h>
 
 #include <CL/cl.h>
+
 #include <memory>
 
 #include <CL/opencl.hpp>
 #include <boost/range/adaptor/map.hpp>
-
 
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GPUSphereNetwork, GPUSphereNetwork_plugin)
 
@@ -66,6 +66,7 @@ bool GPUSphereNetwork::init(std::map<std::string, std::string>& mission_params,
     range_ = std::stod(plugin_params.at("range"));
     prob_transmit_ = std::stod(plugin_params.at("prob_transmit"));
     filter_comms_plane_ = sc::get<bool>("filter_comms_plane", plugin_params, filter_comms_plane_);
+    network_name_ = sc::get<std::string>("name", plugin_params, "SphereNetwork");
     if (filter_comms_plane_) {
         comms_boundary_altitude_ =
             sc::get<double>("comms_boundary_altitude", plugin_params, comms_boundary_altitude_);
@@ -86,22 +87,26 @@ bool GPUSphereNetwork::init(std::map<std::string, std::string>& mission_params,
 
 bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
                             std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
-    std::map<sc::ID, StatePtr> states;
+    using EntityIdPair = std::pair<int, int>;
+    std::map<int, StatePtr> states;
+    std::map<int, EntityPtr> ents;
     for (const auto& kv : pubs) {
         for (const auto& device : kv.second) {
-            const auto& entity = device->plugin()->parent();
+            EntityPtr entity = device->plugin()->parent();
             StatePtr state = entity->state_truth();
-            sc::ID id = entity->id();
+            int id = entity->id().id();
             states[id] = state;
+            ents[id] = entity;
         }
     }
 
     for (const auto& kv : subs) {
         for (const auto& device : kv.second) {
-            const auto& entity = device->plugin()->parent();
+            EntityPtr entity = device->plugin()->parent();
             StatePtr state = entity->state_truth();
-            sc::ID id = entity->id();
+            int id = entity->id().id();
             states[id] = state;
+            ents[id] = entity;
         }
     }
 
@@ -109,12 +114,76 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
     if (num_entities == 0) {
         return true;
     }
-    
 
+    std::set<EntityIdPair> proximity_pairs = utils_->proximity_pairs(states);
+    for (const EntityIdPair& prox_pair : proximity_pairs) {
+        EntityPtr ent1 = ents.at(prox_pair.first);
+        EntityPtr ent2 = ents.at(prox_pair.second);
 
+        PubSubPtr ps1 = ent1->pubsub();
+        PubSubPtr ps2 = ent2->pubsub();
 
+        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs1 =
+            ps1->pubs()[network_name_];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& subs1 =
+            ps1->subs()[network_name_];
+
+        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs2 =
+            ps2->pubs()[network_name_];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 =
+            ps2->subs()[network_name_];
+
+        deliver_messages(pubs1, subs2);
+        deliver_messages(pubs2, subs1);
+    }
     return true;
 }
+
+bool GPUSphereNetwork::deliver_messages(
+    const std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
+    const std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
+    for (const auto& kv : pubs) {
+        const std::string& topic_name = kv.first;
+        const std::list<NetworkDevicePtr>& topic_pubs = kv.second;
+        const std::list<NetworkDevicePtr>& topic_subs = subs.at(topic_name);
+
+        for (NetworkDevicePtr topic_pub : topic_pubs) {
+            deliver_topic_messages(topic_pub, topic_subs);
+        }
+    }
+    return true;
+}
+
+bool GPUSphereNetwork::deliver_topic_messages(NetworkDevicePtr pub,
+                                              const std::list<NetworkDevicePtr>& subs) {
+    pub->enforce_queue_size();
+    const std::list<MessageBasePtr> msgs = pub->pop_msgs<MessageBase>();
+    if (msgs.empty()) {
+        return true;
+    }
+    for (NetworkDevicePtr sub : subs) {
+        if (sub->undelivered_msg_list_size() > 0) {
+            // deliver undelivered messages if delay time has passed
+            sub->deliver_undelivered_msg(time_->t(), is_stochastic_delay_);
+        }
+        for (auto& msg : msgs) {
+            if (is_successful_transmission(pub->plugin(), sub->plugin())) {
+                double msg_delay = get_transmission_delay();
+
+                if (msg_delay < 0) {
+                    msg->time = time_->t();
+                    sub->add_msg(msg);
+                } else {
+                    // put msg in subs undelivered msg queue
+                    msg->time = time_->t() + msg_delay;
+                    sub->add_undelivered_msg(msg, is_stochastic_delay_);
+                }
+            }
+        }
+    }
+    return true;
+}
+
 
 bool GPUSphereNetwork::is_reachable(const scrimmage::EntityPluginPtr& pub_plugin,
                                     const scrimmage::EntityPluginPtr& sub_plugin) {

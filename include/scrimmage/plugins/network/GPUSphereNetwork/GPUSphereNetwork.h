@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_GPUSPHERENETWORK_GPUSPHERENETWORK_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_GPUSPHERENETWORK_GPUSPHERENETWORK_H_
 
-#include <scrimmage/pubsub/Network.h>
 #include <scrimmage/gpu/GPUMapBuffer.h>
 #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
+#include <scrimmage/pubsub/Network.h>
 
 #include <map>
 #include <string>
@@ -45,36 +45,42 @@ namespace network {
 
 class GPUSphereNetwork : public scrimmage::Network {
  public:
-  bool init(std::map<std::string, std::string> &mission_params,
-            std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string> &mission_params,
+              std::map<std::string, std::string> &plugin_params) override;
 
-  bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
-            std::map<std::string, std::list<NetworkDevicePtr>> &subs) override;
+    bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
+              std::map<std::string, std::list<NetworkDevicePtr>> &subs) override;
+
+    std::string type() override { return network_name_; }
+
  protected:
+    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
+                      const scrimmage::EntityPluginPtr &sub_plugin) override;
 
-  bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                    const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
+                                    const scrimmage::EntityPluginPtr &sub_plugin) override;
 
-  bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                  const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool deliver_messages(const std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
+                          const std::map<std::string, std::list<NetworkDevicePtr>> &subs);
 
-  
+    bool deliver_topic_messages(NetworkDevicePtr pub, const std::list<NetworkDevicePtr> &subs);
 
-  double range_;
-  double prob_transmit_;
+    double range_;
+    double prob_transmit_;
 
-  // Attributes of a boundary plane that blocks communication. Example use
-  // would be putting a boundary at a water/air intersection such that
-  // communications wouldn't go between water and the surface.
-  double comms_boundary_altitude_ = 0;
-  // The buffer zone around the boundary plane that doesn't directly block
-  // comms
-  double comms_boundary_epsilon_ = 0;
-  bool filter_comms_plane_ = false;
-  bool within_planar_boundary(double z1, double z2);
+    std::string network_name_;
 
-  std::unique_ptr<GPUSphereNetworkUtils> utils_;
+    // Attributes of a boundary plane that blocks communication. Example use
+    // would be putting a boundary at a water/air intersection such that
+    // communications wouldn't go between water and the surface.
+    double comms_boundary_altitude_ = 0;
+    // The buffer zone around the boundary plane that doesn't directly block
+    // comms
+    double comms_boundary_epsilon_ = 0;
+    bool filter_comms_plane_ = false;
+    bool within_planar_boundary(double z1, double z2);
 
+    std::unique_ptr<GPUSphereNetworkUtils> utils_;
 };
 }  // namespace network
 }  // namespace scrimmage

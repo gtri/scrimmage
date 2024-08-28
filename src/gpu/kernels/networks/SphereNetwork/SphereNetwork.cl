@@ -1,19 +1,22 @@
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 
-__kernel void SphereNetwork(__global double* positions, 
+#include <math_utils.h>
+
+__kernel void SphereNetwork(__global fp_t* positions, 
                              __global bool* reachable_map, 
-                             __global double* distances,
-                             double range,
+                             __global fp_t* distances,
+                             fp_t range,
                              int n_rows,
                              int n_cols) {
 // Get worker info
 size_t row = get_global_id(0);
 size_t col = get_global_id(1);
 
-if (n_rows == 1 && n_cols == 1) {
-reachable_map[0] = true;
-return;
-}
+//if (n_rows == 1 && n_cols == 1) {
+//reachable_map[0] = true;
+//distances[0] = 0;
+//return;
+//}
 
 // Return if worker has nothing to do.
 
@@ -44,14 +47,16 @@ if (reverse_indexing) {
     second_ind += 1;
 }
 
-double3 first_pos = vload3(first_ind, positions);
-double3 second_pos = vload3(second_ind, positions);
+fp3_t first_pos = vload3(first_ind, positions);
+fp3_t second_pos = vload3(second_ind, positions);
 
-double distance_between = distance(first_pos, second_pos);
+fp3_t diff = first_pos - second_pos;
 
-bool within_range = distance_between <= range;
+fp_t distance_between_sqrd = diff.x*diff.x + diff.y*diff.y + diff.z*diff.z;
+bool within_range = distance_between_sqrd <= range*range;
 
 size_t index = col*n_rows + row;
 reachable_map[index] = within_range;
-distances[index] = group_id;
+distances[index] = sqrt(distance_between_sqrd);
+//distances[index] = 10000*get_local_id(0) + get_local_id(1);
 }

@@ -34,6 +34,7 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
+#include <numeric>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -76,10 +77,14 @@ class GPUTestFixture : public Test {
 
 TEST_F(GPUTestFixture, TestAllInRange) {
     using EntityIdPair = std::pair<int, int>;
-    std::vector<int> num_ents{17};
+    std::vector<int> num_ents(254, 0);
+    std::iota(num_ents.begin(), num_ents.end(), 2);
+
+    //std::vector<int> num_ents{23};
 
     for (int num_ent : num_ents) {
         std::map<int, sc::StatePtr> states;
+        //std::cout << "Testing " << num_ent << " number of entities" << std::endl;
 
         std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
         double theta = 0;
@@ -108,15 +113,17 @@ TEST_F(GPUTestFixture, TestAllInRange) {
 
 TEST_F(GPUTestFixture, TestNoneInRange) {
     using EntityIdPair = std::pair<int, int>;
-    std::vector<int> num_ents{5,6,7,8,9,10,50,100};
+    std::vector<int> num_ents(254, 0);
+    std::iota(num_ents.begin(), num_ents.end(), 2);
 
     for (int num_ent : num_ents) {
         std::map<int, sc::StatePtr> states;
+        //std::cout << "Testing " << num_ent << " number of entities" << std::endl;
 
         std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
         double theta = 0;
         double dTheta = M_PI_2 / static_cast<double>(num_ent);
-        double radius = 1000;
+        double radius = std::numeric_limits<float>::max();
         for (int i = 0; i < num_ent; ++i) {
             sc::StatePtr state = std::make_shared<sc::State>();
             Eigen::Vector3d pos{std::cos(theta), std::sin(theta), 0};
@@ -130,40 +137,40 @@ TEST_F(GPUTestFixture, TestNoneInRange) {
     }
 }
 
-//TEST_F(GPUTestFixture, TestOneOutOfRange) {
-//    using EntityIdPair = std::pair<int, int>;
-//    //std::vector<int> num_ents{5, 6, 100};
-//    std::vector<int> num_ents{60};
-//
-//
-//    for (int num_ent : num_ents) {
-//        for (int out_of_range_ent = 0; out_of_range_ent < num_ent; ++out_of_range_ent) {
-//            std::map<int, sc::StatePtr> states;
-//
-//            std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
-//            double theta = 0;
-//            double dTheta = M_PI_2 / static_cast<double>(num_ent);
-//            double radius = 4.5;
-//            for (int i = 0; i < num_ent; ++i) {
-//                sc::StatePtr state = std::make_shared<sc::State>();
-//                Eigen::Vector3d pos{std::cos(theta), std::sin(theta), 0};
-//                if (i == out_of_range_ent) {
-//                    state->set_pos(10000 * pos);
-//                } else {
-//                    state->set_pos(radius * pos);
-//                }
-//                states[i] = state;
-//                theta += dTheta;
-//            }
-//            std::set<EntityIdPair> within_range_pairs = utils->proximity_pairs(states);
-//
-//            std::size_t expected_size = ((num_ent - 1) * (num_ent - 2)) / 2;
-//            ASSERT_EQ(within_range_pairs.size(), expected_size);
-//
-//            for(EntityIdPair within_range_pair: within_range_pairs) {
-//                ASSERT_NE(within_range_pair.first, out_of_range_ent);
-//                ASSERT_NE(within_range_pair.second, out_of_range_ent);
-//            }
-//        }
-//    }
-//}
+TEST_F(GPUTestFixture, TestOneOutOfRange) {
+    using EntityIdPair = std::pair<int, int>;
+    std::vector<int> num_ents{5, 6, 100, 101, 256};
+
+
+    for (int num_ent : num_ents) {
+        for (int out_of_range_ent = 0; out_of_range_ent < num_ent; ++out_of_range_ent) {
+            std::map<int, sc::StatePtr> states;
+
+            std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
+            double theta = 0;
+            double dTheta = M_PI_2 / static_cast<double>(num_ent);
+            double in_range_radius = 4.5;
+            double not_in_range_radius = std::numeric_limits<float>::max();
+            for (int i = 0; i < num_ent; ++i) {
+                sc::StatePtr state = std::make_shared<sc::State>();
+                Eigen::Vector3d pos{std::cos(theta), std::sin(theta), 0};
+                if (i == out_of_range_ent) {
+                    state->set_pos(not_in_range_radius * pos);
+                } else {
+                    state->set_pos(in_range_radius * pos);
+                }
+                states[i] = state;
+                theta += dTheta;
+            }
+            std::set<EntityIdPair> within_range_pairs = utils->proximity_pairs(states);
+
+            std::size_t expected_size = ((num_ent - 1) * (num_ent - 2)) / 2;
+            ASSERT_EQ(within_range_pairs.size(), expected_size);
+
+            for(EntityIdPair within_range_pair: within_range_pairs) {
+                ASSERT_NE(within_range_pair.first, out_of_range_ent);
+                ASSERT_NE(within_range_pair.second, out_of_range_ent);
+            }
+        }
+    }
+}

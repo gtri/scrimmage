@@ -35,8 +35,6 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
 
-namespace sc = scrimmage;
-
 namespace scrimmage {
 namespace network {  // namespace network
 
@@ -60,23 +58,22 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
 
     cl_int err;
     // Used to associate an index in our state buffer to a specific entity
-    std::map<int, std::size_t> id_map;
+    std::map<int, int> id_map;
 
     std::size_t num_entities = states.size();
-    GPUMapBuffer<double> positions{queue_, 3 * num_entities, CL_MEM_READ_WRITE};
+    GPUMapBuffer<float> positions{queue_, 3 * num_entities, CL_MEM_READ_WRITE};
     GPUMapBuffer<bool> reachable_map{
         queue_, num_entities * (num_entities - 1) / 2, CL_MEM_READ_WRITE};
-    GPUMapBuffer<double> distances{
-        queue_, num_entities * (num_entities - 1) / 2, CL_MEM_READ_WRITE};
+    GPUMapBuffer<float> distances{queue_, num_entities * (num_entities - 1) / 2, CL_MEM_READ_WRITE};
 
     positions.map(CL_MAP_WRITE_INVALIDATE_REGION);
-    std::size_t i = 0;
+    int i = 0;
     for (const auto& kv : states) {
         const auto& position = kv.second->pos();
-        positions.at(3 * i) = position(0);
-        positions.at(3 * i + 1) = position(1);
-        positions.at(3 * i + 2) = position(2);
-        id_map[kv.first] = i++;
+        positions.at(3 * i) = static_cast<float>(position(0));
+        positions.at(3 * i + 1) = static_cast<float>(position(1));
+        positions.at(3 * i + 2) = static_cast<float>(position(2));
+        id_map[i++] = kv.first;
     }
     positions.unmap();
 
@@ -101,7 +98,7 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
     err = kernel_.setArg(2, distances.device_buffer());
     CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Distances");
 
-    err = kernel_.setArg(3, range_);
+    err = kernel_.setArg(3, static_cast<float>(range_));
     CL_CHECK_ERROR(err, "Error setting GPU Sphere Network Range");
 
     err = kernel_.setArg(4, rows);
@@ -119,10 +116,7 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
         (col_div.quot + ((col_div.rem > 0) ? 1 : 0)) * prefered_workgroup_size_multiple_;
 
     cl::NDRange global_work_size{upper_bound_row_size, upper_bound_col_size};
-
-    std::size_t max_dim_size = std::sqrt(max_workgroup_size_);
-    cl::NDRange local_work_size{std::min(max_dim_size, upper_bound_row_size),
-                                std::min(max_dim_size, upper_bound_col_size)};
+    cl::NDRange local_work_size{16, 16, 1};
 
     err = queue_.enqueueNDRangeKernel(kernel_, cl::NullRange, global_work_size, local_work_size);
     CL_CHECK_ERROR(err, "Error Executing Kernels");
@@ -130,16 +124,16 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
     queue_.finish();
 
     reachable_map.map(CL_MAP_READ);
-    std::vector<bool> values(reachable_map.cbegin(), reachable_map.cend());
+    std::vector<bool> ents_within_range(reachable_map.cbegin(), reachable_map.cend());
     reachable_map.unmap();
 
     distances.map(CL_MAP_READ);
-    std::vector<double> ent_distances(distances.cbegin(), distances.cend());
+    std::vector<float> ent_distances(distances.cbegin(), distances.cend());
     distances.unmap();
 
     std::size_t n = num_entities - 1;
-    for (std::size_t i = 0; i < values.size(); i++) {
-        bool within_range = values[i];
+    for (std::size_t i = 0; i < ents_within_range.size(); i++) {
+        bool within_range = ents_within_range[i];
 
         std::ldiv_t pos = std::ldiv(i, rows);
         std::size_t row = pos.rem;
@@ -165,10 +159,11 @@ std::set<std::pair<int, int>> GPUSphereNetworkUtils::proximity_pairs(
         }
 
         if (within_range) {
-            proximity_pairs.emplace(first_ind, second_ind);
+            int first_ent_id = id_map[first_ind];
+            int second_ent_id = id_map[second_ind];
+            proximity_pairs.emplace(first_ent_id, second_ent_id);
         }
     }
-
     return proximity_pairs;
 }
 
