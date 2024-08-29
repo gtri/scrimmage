@@ -173,7 +173,7 @@ bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser &doc) {
                                  mission_file_content_vec.cend());
     mission_file_content_ = replace_overrides(mission_file_content_);
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end());
-
+    
     return doc.parse(mission_file_content_vec);
 }
 
@@ -188,14 +188,15 @@ bool MissionParse::parse_mission() {
     auto parse_double = [&](std::string str) { return std::stod(replace_overrides(str)); };
 
     Parser doc;
-    doc.set_filename(mission_filename_);
-    // doc.parse requires a null terminated string that it can modify.
-    std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
-    mission_file_content_vec.assign(mission_file_content_.begin(),
-                                    mission_file_content_.end());  // copy
-    mission_file_content_vec.push_back('\0');                      // shouldn't reallocate
-    doc.parse(mission_file_content_vec);
+    // doc.set_filename(mission_filename_);
+    //// doc.parse requires a null terminated string that it can modify.
+    // std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
+    // mission_file_content_vec.assign(mission_file_content_.begin(),
+    //                                 mission_file_content_.end());  // copy
+    // mission_file_content_vec.push_back('\0');                      // shouldn't reallocate
+    // doc.parse(mission_file_content_vec);
 
+    parse_filecontents(doc);
     auto runscript_node = doc.first_node("runscript");
     if (!runscript_node.is_valid()) {
         cout << "Missing runscript tag." << endl;

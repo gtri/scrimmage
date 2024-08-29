@@ -88,30 +88,40 @@ bool GPUSphereNetwork::init(std::map<std::string, std::string>& mission_params,
 bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
                             std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
     using EntityIdPair = std::pair<int, int>;
+
+
     std::map<int, StatePtr> states;
     std::map<int, EntityPtr> ents;
+
+    std::map<int, std::map<std::string, std::list<NetworkDevicePtr>>> ent_pubs;
+    std::map<int, std::map<std::string, std::list<NetworkDevicePtr>>> ent_subs;
+
     for (const auto& kv : pubs) {
-        for (const auto& device : kv.second) {
+        const std::string& topic = kv.first;
+        for (NetworkDevicePtr device : kv.second) {
             EntityPtr entity = device->plugin()->parent();
             StatePtr state = entity->state_truth();
             int id = entity->id().id();
             states[id] = state;
             ents[id] = entity;
+            ent_pubs[id][topic].push_back(device);
         }
     }
 
     for (const auto& kv : subs) {
-        for (const auto& device : kv.second) {
+        const std::string& topic = kv.first;
+        for (NetworkDevicePtr device : kv.second) {
             EntityPtr entity = device->plugin()->parent();
             StatePtr state = entity->state_truth();
             int id = entity->id().id();
             states[id] = state;
             ents[id] = entity;
+            ent_subs[id][topic].push_back(device);
         }
     }
 
     std::size_t num_entities = states.size();
-    if (num_entities == 0) {
+    if (num_entities <= 1) {
         return true;
     }
 
@@ -120,18 +130,14 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
         EntityPtr ent1 = ents.at(prox_pair.first);
         EntityPtr ent2 = ents.at(prox_pair.second);
 
-        PubSubPtr ps1 = ent1->pubsub();
-        PubSubPtr ps2 = ent2->pubsub();
+        Eigen::Vector3d pos1 = states.at(prox_pair.first)->pos();
+        Eigen::Vector3d pos2 = states.at(prox_pair.second)->pos();
 
-        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs1 =
-            ps1->pubs()[network_name_];
-        const std::map<std::string, std::list<NetworkDevicePtr>>& subs1 =
-            ps1->subs()[network_name_];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs1 = ent_pubs[prox_pair.first];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& subs1 = ent_subs[prox_pair.first];
 
-        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs2 =
-            ps2->pubs()[network_name_];
-        const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 =
-            ps2->subs()[network_name_];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs2 = ent_pubs[prox_pair.second];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 = ent_subs[prox_pair.second];
 
         deliver_messages(pubs1, subs2);
         deliver_messages(pubs2, subs1);
