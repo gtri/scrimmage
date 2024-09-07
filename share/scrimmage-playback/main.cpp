@@ -32,6 +32,7 @@
 #include <signal.h>
 
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/network/Interface.h>
 #if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
@@ -67,7 +68,8 @@ void HandleSignal(int s) {
 
 void playback_loop(std::shared_ptr<sc::Log> log,
                    sc::InterfacePtr in_interface,
-                   sc::InterfacePtr out_interface) {
+                   sc::InterfacePtr out_interface,
+                   bool save_screenshots) {
     // Get dt from first two frames
     double dt = 0.1;
     if (log->frames().size() >= 2) {
@@ -96,8 +98,20 @@ void playback_loop(std::shared_ptr<sc::Log> log,
     auto it_utm_terrain = log->utm_terrain().begin();
     auto it_contact_visual = log->contact_visual().begin();
 
+    if (save_screenshots) {
+        std::cout << "to save screenshots, press space in the gui" << std::endl;
+    }
+
     timer.start_overall_timer();
     for (auto it = log->frames().begin(); it != log->frames().end(); it++) {
+
+        if (save_screenshots) {
+            sp::GUIMsg gui_msg;
+            gui_msg.set_time((*it)->time() + dt);
+            gui_msg.set_single_step(true);
+            out_interface->push_gui_msg(gui_msg);
+        }
+
         timer.start_loop_timer();
         // Send all other messages up to current frame time before sending
         // current frame
@@ -182,14 +196,17 @@ int main(int argc, char *argv[]) {
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
 
-    if (optind >= argc || argc < 2) {
-        cout << "usage: " << argv[0] << " /path/to/log-dir" << endl;
+    if (optind >= argc || argc < 3) {
+        cout << "usage: " << argv[0] << " /path/to/log-dir save_screenshots" << endl;
         return -1;
     }
 
+    std::string source_dir(argv[1]);
+    bool save_screenshots = sc::str2bool(argv[2]);
+
     // Setup Logger
     std::shared_ptr<sc::Log> log(new sc::Log);
-    log->init(std::string(argv[1]), sc::Log::READ);
+    log->init(std::string(source_dir), sc::Log::READ);
 
     sc::InterfacePtr to_gui_interface(new sc::Interface);
     sc::InterfacePtr from_gui_interface(new sc::Interface);
@@ -201,14 +218,28 @@ int main(int argc, char *argv[]) {
     // std::thread server_thread(&Interface::init_network, &(*incoming_interface_),
     //                           Interface::server, "localhost", 50051);
 
-    cout << "Frames parsed: " << log->frames().size() << endl;
+    if (log->frames().size() == 0) {
+        throw std::runtime_error("no frames found");
+    } else {
+      cout << "Frames parsed: " << log->frames().size() << endl;
+      cout << "Shapes parsed: " << log->shapes().size() << endl;
+    }
+
 
     std::thread playback(playback_loop, log, from_gui_interface,
-                         to_gui_interface);
+                         to_gui_interface, save_screenshots);
     playback.detach(); // todo
 
     auto mp = std::make_shared<sc::MissionParse>();
-    mp->set_log_dir("");
+
+    std::string output_dir = source_dir + "/screenshots";
+    if (!fs::exists(output_dir)) {
+        if (!fs::create_directories(output_dir)) {
+            cout << "Failed to create output directory: " << output_dir << endl;
+            return -1;
+        }
+    }
+    mp->set_log_dir(output_dir);
 
     sc::Viewer viewer;
     viewer.set_enable_network(false);
