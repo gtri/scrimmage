@@ -388,6 +388,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     if (!ent->ready()) {
         not_ready_.push_back(ent);
     }
+  rtree_->add(ent->state_truth()->pos(), ent->id());
 
     ents_.push_back(ent);
     rtree_->add(ent->state()->pos(), ent->id());
@@ -423,6 +424,7 @@ void SimControl::create_rtree(const unsigned int& additional_size) {
     for (EntityPtr &ent: ents_) {
         rtree_->add(ent->state()->pos(), ent->id());
     }
+    rtree_->add(ent->state_truth()->pos(), ent->id());
 }
 
 void SimControl::set_autonomy_contacts() {
