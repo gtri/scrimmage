@@ -388,10 +388,9 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     if (!ent->ready()) {
         not_ready_.push_back(ent);
     }
-  rtree_->add(ent->state_truth()->pos(), ent->id());
 
     ents_.push_back(ent);
-    rtree_->add(ent->state()->pos(), ent->id());
+    rtree_->add(ent->state_truth()->pos(), ent->id());
     contacts_mutex_.lock();
     (*contacts_)[ent->id().id()] =
             Contact(ent->id(), ent->radius(), ent->state_truth(),
@@ -422,9 +421,8 @@ void SimControl::join() {
 void SimControl::create_rtree(const unsigned int& additional_size) {
     rtree_->init(ents_.size() + additional_size);
     for (EntityPtr &ent: ents_) {
-        rtree_->add(ent->state()->pos(), ent->id());
+        rtree_->add(ent->state_truth()->pos(), ent->id());
     }
-    rtree_->add(ent->state_truth()->pos(), ent->id());
 }
 
 void SimControl::set_autonomy_contacts() {
