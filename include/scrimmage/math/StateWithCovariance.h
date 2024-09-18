@@ -43,7 +43,8 @@ class StateWithCovariance : public scrimmage::State {
     StateWithCovariance();
     explicit StateWithCovariance(const scrimmage::State &state);
     StateWithCovariance(const scrimmage::State &state,
-                        const int &cov_num_rows, const int &cov_num_cols,
+                        const int &cov_num_rows,
+                        const int &cov_num_cols,
                         const double &cov_diag);
 
     void set_covariance(const Eigen::MatrixXd &covariance);
@@ -51,7 +52,10 @@ class StateWithCovariance : public scrimmage::State {
 
  protected:
     Eigen::MatrixXd covariance_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 using StateWithCovariancePtr = std::shared_ptr<StateWithCovariance>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_

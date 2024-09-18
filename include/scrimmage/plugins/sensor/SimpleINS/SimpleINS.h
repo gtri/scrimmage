@@ -36,9 +36,9 @@
 #include <scrimmage/sensor/Sensor.h>
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace scrimmage {
 
@@ -70,7 +70,10 @@ class SimpleINS : public scrimmage::Sensor {
     double prev_time_ = 0;
     double sea_state_gps_;
     double SeaState_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_

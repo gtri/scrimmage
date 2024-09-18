@@ -43,7 +43,7 @@ namespace controller {
 
 class AircraftToSingleIntegratorController : public Controller {
  public:
-    virtual void init(std::map<std::string,  std::string> &params) {}
+    virtual void init(std::map<std::string, std::string> &params) {}
     virtual bool step(double t, double dt) {
         double desired_heading = desired_state_->quat().yaw();
         double desired_alt = desired_state_->pos()(2);
@@ -57,11 +57,14 @@ class AircraftToSingleIntegratorController : public Controller {
         return true;
     }
 
-    virtual Eigen::Vector3d &u() {return u_;}
+    virtual Eigen::Vector3d &u() { return u_; }
 
  protected:
     Eigen::Vector3d u_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_

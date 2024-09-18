@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_PLANE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_PLANE_H_
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
 
 #include <iostream>
-#include <vector>
 #include <limits>
-#include <tuple>
 #include <string>
+#include <tuple>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -55,12 +55,14 @@ namespace interaction {
 
 class Plane : public BoundaryBase {
  public:
-    Plane() {
-    }
+    Plane() {}
 
-    Plane(Eigen::Vector3d center, double x_length, double y_width,
-           scrimmage::Quaternion quat, std::string texture,
-           bool diffuse_lighting) {
+    Plane(Eigen::Vector3d center,
+          double x_length,
+          double y_width,
+          scrimmage::Quaternion quat,
+          std::string texture,
+          bool diffuse_lighting) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = center(2);
@@ -84,21 +86,22 @@ class Plane : public BoundaryBase {
         set_points(points);
     }
 
-    explicit Plane(const scrimmage_proto::Shape &shape) :
-    Plane(proto_2_vector3d(shape.plane().center()),
-           shape.plane().x_length(), shape.plane().y_length(),
-            proto_2_quat(shape.plane().quat()), shape.plane().texture(),
-            shape.plane().diffuse_lighting()) {
-        set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
-                   shape.opacity());
+    explicit Plane(const scrimmage_proto::Shape &shape)
+        : Plane(proto_2_vector3d(shape.plane().center()),
+                shape.plane().x_length(),
+                shape.plane().y_length(),
+                proto_2_quat(shape.plane().quat()),
+                shape.plane().texture(),
+                shape.plane().diffuse_lighting()) {
+        set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 
     void compute_dots() {
         u = normZ;
-        v = -1*normX;
+        v = -1 * normX;
         w = normX;
         s = normY;
-        r = -1*normY;
+        r = -1 * normY;
 
         // up or down
         u_dot_P0 = u.dot(center_ - points_[0]);
@@ -117,17 +120,14 @@ class Plane : public BoundaryBase {
         double r_dot_p = r.dot(p - center_);
         double s_dot_p = s.dot(p - center_);
 
-        if ((u_dot_p > u_dot_P0) && (w_dot_p > w_dot_P0) &&
-            (v_dot_p > v_dot_P2) && (s_dot_p > s_dot_P1) &&
-            (r_dot_p > r_dot_P3)) {
+        if ((u_dot_p > u_dot_P0) && (w_dot_p > w_dot_P0) && (v_dot_p > v_dot_P2) &&
+            (s_dot_p > s_dot_P1) && (r_dot_p > r_dot_P3)) {
             return true;
         }
         return false;
     }
 
-    const std::vector<Eigen::Vector3d> & points() {
-        return points_;
-    }
+    const std::vector<Eigen::Vector3d> &points() { return points_; }
 
     void set_points(std::vector<Eigen::Vector3d> &points) {
         points_ = points;
@@ -151,9 +151,9 @@ class Plane : public BoundaryBase {
             }
         }
         extents_.clear();
-        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
-        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
-        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
+        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
+        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
+        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -177,7 +177,7 @@ class Plane : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d * p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             // shapes_.push_back(polygon);
@@ -199,8 +199,11 @@ class Plane : public BoundaryBase {
     double r_dot_P3 = 0;
     double v_dot_P2 = 0;
     double s_dot_P1 = 0;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_PLANE_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_PLANE_H_

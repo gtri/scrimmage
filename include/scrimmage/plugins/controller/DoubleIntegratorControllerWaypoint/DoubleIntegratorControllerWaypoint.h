@@ -56,7 +56,10 @@ class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
     int acc_y_idx_ = 0;
     int acc_z_idx_ = 0;
     int turn_rate_idx_ = 0;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_

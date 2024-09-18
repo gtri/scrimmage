@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
 
 #include <iostream>
-#include <vector>
 #include <limits>
 #include <tuple>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -54,11 +54,13 @@ namespace interaction {
 
 class Cuboid : public BoundaryBase {
  public:
-    Cuboid() {
-    }
+    Cuboid() {}
 
-    Cuboid(Eigen::Vector3d center, double x_length, double y_width,
-           double z_height, scrimmage::Quaternion quat) {
+    Cuboid(Eigen::Vector3d center,
+           double x_length,
+           double y_width,
+           double z_height,
+           scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -81,17 +83,18 @@ class Cuboid : public BoundaryBase {
         set_points(points);
     }
 
-    explicit Cuboid(const scrimmage_proto::Shape &shape) :
-    Cuboid(proto_2_vector3d(shape.cuboid().center()),
-           shape.cuboid().x_length(), shape.cuboid().y_length(),
-           shape.cuboid().z_length(),
-           sc::proto_2_quat(shape.cuboid().quat())) {
-        set_visual(shape.color().r(), shape.color().g(), shape.color().b(),
-                   shape.opacity());
+    explicit Cuboid(const scrimmage_proto::Shape &shape)
+        : Cuboid(proto_2_vector3d(shape.cuboid().center()),
+                 shape.cuboid().x_length(),
+                 shape.cuboid().y_length(),
+                 shape.cuboid().z_length(),
+                 sc::proto_2_quat(shape.cuboid().quat())) {
+        set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 
     void compute_dots() {
-        // Source: http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
+        // Source:
+        // http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
         u = points_[0] - points_[1];
         v = points_[0] - points_[3];
         w = points_[0] - points_[4];
@@ -109,17 +112,14 @@ class Cuboid : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ( (u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) &&
-             (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
-             (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
+            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
     }
 
-    const std::vector<Eigen::Vector3d> & points() {
-        return points_;
-    }
+    const std::vector<Eigen::Vector3d> &points() { return points_; }
 
     void set_points(std::vector<Eigen::Vector3d> &points) {
         points_ = points;
@@ -143,9 +143,9 @@ class Cuboid : public BoundaryBase {
             }
         }
         extents_.clear();
-        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
-        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
-        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
+        extents_.push_back(std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
+        extents_.push_back(std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
+        extents_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -173,7 +173,7 @@ class Cuboid : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d * p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             // shapes_.push_back(polygon);
@@ -191,8 +191,11 @@ class Cuboid : public BoundaryBase {
     double v_dot_P3 = 0;
     double w_dot_P0 = 0;
     double w_dot_P4 = 0;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_

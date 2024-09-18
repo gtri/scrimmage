@@ -37,8 +37,8 @@
 #include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace controller {
@@ -48,14 +48,17 @@ class MultirotorControllerOmega : public motion::Multirotor::Controller {
     MultirotorControllerOmega();
     void init(std::map<std::string, std::string> &params) override;
     bool step(double t, double dt) override;
-    Eigen::VectorXd &u() override {return u_;}
+    Eigen::VectorXd &u() override { return u_; }
 
  protected:
     Eigen::VectorXd u_;
     std::shared_ptr<sc::motion::Multirotor> multirotor_;
     double pwm_max_;
     double pwm_min_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_

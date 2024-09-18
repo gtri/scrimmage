@@ -32,11 +32,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UUV6DOF_UUV6DOF_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UUV6DOF_UUV6DOF_H_
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/CSV.h>
-
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
 
 #include <map>
@@ -75,11 +74,11 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
     UUV6DOF();
 
     bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params) override;
+              std::map<std::string, std::string> &params) override;
 
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t &x, vector_t &dxdt, double t) override;
 
     class Controller : public scrimmage::Controller {
      public:
@@ -93,8 +92,8 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
 
     double thrust_ = 0;
     double throttle_ = 0;
-    double delta_elevator_ = 0; // horizontal fins (stern fins)
-    double delta_rudder_ = 0; // vertical fins
+    double delta_elevator_ = 0;  // horizontal fins (stern fins)
+    double delta_rudder_ = 0;    // vertical fins
 
     Eigen::Quaterniond rot_180_x_axis_;
 
@@ -178,13 +177,15 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
     double delta_rudder_min_ = -0.2373648;
     double delta_rudder_max_ = +0.2373648;
 
-    double Kprop_ = -0.543; // TODO: Proportion of thrust
+    double Kprop_ = -0.543;  // TODO: Proportion of thrust
     double Kprop_max_mag_ = 0.543;
 
     double surface_height_ = 0;
 
  private:
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UUV6DOF_UUV6DOF_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UUV6DOF_UUV6DOF_H_

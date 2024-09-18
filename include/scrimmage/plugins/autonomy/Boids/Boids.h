@@ -40,7 +40,7 @@
 
 namespace scrimmage {
 namespace autonomy {
-class Boids : public scrimmage::Autonomy{
+class Boids : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string> &params) override;
     bool step_autonomy(double t, double dt) override;
@@ -75,10 +75,13 @@ class Boids : public scrimmage::Autonomy{
     int io_turn_rate_idx_ = 0;
     int io_pitch_rate_idx_ = 0;
 
-    int io_heading_idx_  = 0;
-    int io_altitude_idx_  = 0;
+    int io_heading_idx_ = 0;
+    int io_altitude_idx_ = 0;
     int io_desired_speed_idx_ = 0;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
