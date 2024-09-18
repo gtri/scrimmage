@@ -43,7 +43,7 @@ namespace scrimmage {
 namespace sensor {
 
 void RLSimpleSensor::get_observation(double *data, uint32_t beg_idx, uint32_t /*end_idx*/) {
-    data[beg_idx] = parent_->state()->pos()(0);
+    data[beg_idx] = parent_->state_belief()->pos()(0);
     data[beg_idx + 1] = time_->t();
 }
 

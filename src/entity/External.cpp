@@ -196,7 +196,7 @@ bool External::create_entity(const std::string &mission_file,
     entity_->set_random(random);
     entity_->contacts() = contacts;
     entity_->rtree() = rtree;
-    entity_->state() = std::make_shared<State>();
+    entity_->state_truth() = std::make_shared<State>();
 
     call_update_contacts(time_->t());
     auto it = entity_->contacts()->find(entity_id);
@@ -434,10 +434,10 @@ void External::update_ents() {
 
         auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
         ent->id() = id;
-        if (ent->state()) {
-            *ent->state() = *kv.second.state();
+        if (ent->state_truth()) {
+            *ent->state_truth() = *kv.second.state();
         } else {
-            ent->state() = kv.second.state();
+            ent->state_truth() = kv.second.state();
         }
         ents_.push_back(ent);
 
