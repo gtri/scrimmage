@@ -23,9 +23,10 @@
  * @author David Burke <david.burke@gtri.gatech.edu>
  * @date 28 May 2020
  * @version 0.1.0
- * @brief Class for simulating randomized IMU error 
+ * @brief Class for simulating randomized IMU error
  * @section DESCRIPTION
- * Class for adding realistic error/noise to 'perfect' IMU data generated from position, velocity, orientation data
+ * Class for adding realistic error/noise to 'perfect' IMU data generated from position, velocity,
+ * orientation data
  *
  */
 
@@ -33,7 +34,9 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
 
 #include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
+
 #include <unsupported/Eigen/MatrixFunctions>
+
 #include <random>
 
 struct NoisyIMUData {
@@ -41,11 +44,12 @@ struct NoisyIMUData {
     Eigen::Vector3d noisyDeltaTheta;
     Eigen::Vector3d deltaVErrors;
     Eigen::Vector3d deltaThetaErrors;
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 class IMUErrorSimulator {
  public:
-    bool InRunBiasOption; // false = 1st order Gauss-Markov process, true = Barnes-Jarvis model
+    bool InRunBiasOption;  // false = 1st order Gauss-Markov process, true = Barnes-Jarvis model
     double InitRandomNumberSeed = 1;
     int RandomNumberSeedsPerInstance = 20;
     double NominalDeltaT;
@@ -71,29 +75,42 @@ class IMUErrorSimulator {
     Eigen::Vector3d GyroARWRadDraws;
     Eigen::Vector3d GyroQuantizationResiduals;
 
-    // I did some testing with these, it seems that generation is only repeatable with separate generator/distribution pairs. If you use multiple distributions on the same generator or the same distribution on multiple generators the results are not the same as a unique pair.
-    std::mt19937 InitRNG = std::mt19937(1); // pass the seed
+    // I did some testing with these, it seems that generation is only repeatable with separate
+    // generator/distribution pairs. If you use multiple distributions on the same generator or the
+    // same distribution on multiple generators the results are not the same as a unique pair.
+    std::mt19937 InitRNG = std::mt19937(1);  // pass the seed
     std::mt19937 AccelBiasRNG = std::mt19937(2);
     std::mt19937 AccelVRWRNG = std::mt19937(3);
     std::mt19937 GyroBiasRNG = std::mt19937(4);
     std::mt19937 GyroARWRNG = std::mt19937(5);
 
-    std::normal_distribution<double> InitDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
-    std::normal_distribution<double> AccelBiasDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
-    std::normal_distribution<double> AccelVRWDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
-    std::normal_distribution<double> GyroBiasDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
-    std::normal_distribution<double> GyroARWDist = std::normal_distribution<double>(0, 1); // mean 0, std deviation 1
+    std::normal_distribution<double> InitDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> AccelBiasDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> AccelVRWDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> GyroBiasDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
+    std::normal_distribution<double> GyroARWDist =
+        std::normal_distribution<double>(0, 1);  // mean 0, std deviation 1
 
     explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
 
     // generate a 3d vector with the passed in random distribution and generator
-    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution, std::mt19937& generator);
+    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution,
+                                 std::mt19937& generator);
 
     void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
 
     void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
 
-    NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget, Eigen::Vector3d InputDeltaVBodyWRTInertialInBody, Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+    NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget,
+                           Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
+                           Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
