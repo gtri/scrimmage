@@ -64,7 +64,7 @@ void GoToWaypoint::init(std::map<std::string, std::string> &params) {
 bool GoToWaypoint::step_autonomy(double t, double dt) {
     if (waypoint_status_) {
 
-        sc::State ns = *(parent_->state());
+        sc::State ns = *(parent_->state_belief());
 
         double lat = (waypoint_[2] == "X") ? ns.pos()(0): stod(waypoint_[2]);
         double lon = (waypoint_[3] == "Y") ? ns.pos()(1): stod(waypoint_[3]);
