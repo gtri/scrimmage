@@ -74,9 +74,13 @@ class GPUMapBuffer {
                 "Tried to add more elements to MapBuffer than MapBuffer has capacity for."};
         }
 
+        std::size_t num_to_copy = cend() - pos;
+        for(std::size_t i = 0; i < num_to_copy; ++i) {
+            host_buffer_[offset + num_to_copy + i] = host_buffer_[offset + i];
+        }
+
         for (auto it = start; it != end; ++it) {
             std::size_t index = offset + std::distance(start, it);
-            host_buffer_[index + num_additional] = host_buffer_[index];
             host_buffer_[index] = static_cast<T>(*it);
         }
         size_ += num_additional;

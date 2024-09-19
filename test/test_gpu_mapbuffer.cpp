@@ -178,9 +178,10 @@ TYPED_TEST(GPUTestFixture, TestMiddleInsert) {
   ASSERT_EQ(map_buffer.size(), 0);
   ASSERT_GE(map_buffer.capacity(), elements.size()*sizeof(TypeParam));
   
-  // Insert half elements at the beginning 
+  //Insert first third and last third
   auto middle_insert = map_buffer.insert(map_buffer.end(), elements.begin(), elements.end());
   map_buffer.insert(map_buffer.end(), elements.begin(), elements.end());
+  //Insert middle third
   map_buffer.insert(middle_insert, elements.begin(), elements.end());
 
   ASSERT_EQ(map_buffer.size(), total_elements);
