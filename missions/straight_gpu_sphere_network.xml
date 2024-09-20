@@ -83,6 +83,7 @@
                       enable_team_collisions="true"
                       enable_non_team_collisions="true"
                       show_collision_shapes="false"
+
                       enable_terrain="true"
                       enable_ground_plane="false"
                       ground_plane_height="0"

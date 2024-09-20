@@ -34,12 +34,12 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
-#include <numeric>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <filesystem>
+#include <numeric>
 #include <set>
 
 #include <CL/opencl.hpp>
@@ -49,7 +49,7 @@ namespace sn = sc::network;
 namespace fs = std::filesystem;
 using namespace testing;
 
-constexpr double tau = 2*M_PI;
+constexpr double tau = 2 * M_PI;
 
 class GPUTestFixture : public Test {
  protected:
@@ -80,11 +80,11 @@ TEST_F(GPUTestFixture, TestAllInRange) {
     std::vector<int> num_ents(254, 0);
     std::iota(num_ents.begin(), num_ents.end(), 2);
 
-    //std::vector<int> num_ents{23};
+    // std::vector<int> num_ents{23};
 
     for (int num_ent : num_ents) {
         std::map<int, sc::StatePtr> states;
-        //std::cout << "Testing " << num_ent << " number of entities" << std::endl;
+        // std::cout << "Testing " << num_ent << " number of entities" << std::endl;
 
         std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
         double theta = 0;
@@ -118,7 +118,7 @@ TEST_F(GPUTestFixture, TestNoneInRange) {
 
     for (int num_ent : num_ents) {
         std::map<int, sc::StatePtr> states;
-        //std::cout << "Testing " << num_ent << " number of entities" << std::endl;
+        // std::cout << "Testing " << num_ent << " number of entities" << std::endl;
 
         std::shared_ptr<sn::GPUSphereNetworkUtils> utils = this->utils_;
         double theta = 0;
@@ -140,7 +140,6 @@ TEST_F(GPUTestFixture, TestNoneInRange) {
 TEST_F(GPUTestFixture, TestOneOutOfRange) {
     using EntityIdPair = std::pair<int, int>;
     std::vector<int> num_ents{5, 6, 100, 101, 256};
-
 
     for (int num_ent : num_ents) {
         for (int out_of_range_ent = 0; out_of_range_ent < num_ent; ++out_of_range_ent) {
@@ -167,9 +166,17 @@ TEST_F(GPUTestFixture, TestOneOutOfRange) {
             std::size_t expected_size = ((num_ent - 1) * (num_ent - 2)) / 2;
             ASSERT_EQ(within_range_pairs.size(), expected_size);
 
-            for(EntityIdPair within_range_pair: within_range_pairs) {
+            for (EntityIdPair within_range_pair : within_range_pairs) {
                 ASSERT_NE(within_range_pair.first, out_of_range_ent);
                 ASSERT_NE(within_range_pair.second, out_of_range_ent);
+            }
+
+            for (int ent_id_1 = 0; ent_id_1 < (num_ent - 1); ++ent_id_1) {
+                for (int ent_id_2 = ent_id_1 + 1; ent_id_2 < num_ent; ++ent_id_2) {
+                    if (ent_id_1 != out_of_range_ent && ent_id_2 != out_of_range_ent) {
+                        ASSERT_TRUE(within_range_pairs.count({ent_id_1, ent_id_2}) == 1);
+                    }
+                }
             }
         }
     }

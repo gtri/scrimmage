@@ -18,4 +18,14 @@
   include_dirs = "kernels"
   kernel_name = "SphereNetwork">GPUSphereNetwork</gpu_kernel>
 
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+  <network>GPUSphereNetwork</network>
+
+  <entity>
+    <x>-49</x>
+    <y>0</y>
+    <z>0</z>
+  </entity>
+
 </runscript>
