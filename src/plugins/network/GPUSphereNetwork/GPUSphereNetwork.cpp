@@ -89,7 +89,6 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
                             std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
     using EntityIdPair = std::pair<int, int>;
 
-
     std::map<int, StatePtr> states;
     std::map<int, EntityPtr> ents;
 
@@ -136,8 +135,10 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
         const std::map<std::string, std::list<NetworkDevicePtr>>& pubs1 = ent_pubs[prox_pair.first];
         const std::map<std::string, std::list<NetworkDevicePtr>>& subs1 = ent_subs[prox_pair.first];
 
-        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs2 = ent_pubs[prox_pair.second];
-        const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 = ent_subs[prox_pair.second];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& pubs2 =
+            ent_pubs[prox_pair.second];
+        const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 =
+            ent_subs[prox_pair.second];
 
         deliver_messages(pubs1, subs2);
         deliver_messages(pubs2, subs1);
@@ -156,6 +157,9 @@ bool GPUSphereNetwork::deliver_messages(
         for (NetworkDevicePtr topic_pub : topic_pubs) {
             deliver_topic_messages(topic_pub, topic_subs);
         }
+    }
+    for (auto& sub_lists : subs) {
+        enforce_queue_size(sub_lists.second);
     }
     return true;
 }
@@ -190,6 +194,12 @@ bool GPUSphereNetwork::deliver_topic_messages(NetworkDevicePtr pub,
     return true;
 }
 
+bool GPUSphereNetwork::enforce_queue_size(const std::list<NetworkDevicePtr>& subs) {
+    for (auto sub : subs) {
+        sub->enforce_queue_size();
+    }
+    return true;
+}
 
 bool GPUSphereNetwork::is_reachable(const scrimmage::EntityPluginPtr& pub_plugin,
                                     const scrimmage::EntityPluginPtr& sub_plugin) {

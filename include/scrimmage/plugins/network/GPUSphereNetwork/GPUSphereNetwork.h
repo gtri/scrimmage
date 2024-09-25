@@ -64,6 +64,7 @@ class GPUSphereNetwork : public scrimmage::Network {
                           const std::map<std::string, std::list<NetworkDevicePtr>> &subs);
 
     bool deliver_topic_messages(NetworkDevicePtr pub, const std::list<NetworkDevicePtr> &subs);
+    bool enforce_queue_size(const std::list<NetworkDevicePtr>& subs);
 
     double range_;
     double prob_transmit_;
