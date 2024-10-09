@@ -125,12 +125,28 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
     }
 
     std::set<EntityIdPair> proximity_pairs = utils_->proximity_pairs(states);
+
+    // Mapping of an individual pub to all the subs it needs to send messages to
+    std::map<NetworkDevicePtr, std::vector<NetworkDevicePtr>> pub_to_subs;
+    using TopicNetworkDevices = std::map<std::string, std::list<NetworkDevicePtr>>;
+
+    const auto add_pub_subs = [&pub_to_subs](const TopicNetworkDevices& pubs,
+                                             const TopicNetworkDevices& subs) -> void {
+        for (const auto& kv : pubs) {
+            const std::string& topic_name = kv.first;
+            const std::list<NetworkDevicePtr>& topic_pubs = kv.second;
+            const std::list<NetworkDevicePtr>& topic_subs = subs.at(topic_name);
+
+            for (NetworkDevicePtr topic_pub : topic_pubs) {
+                std::vector<NetworkDevicePtr>& subs = pub_to_subs[topic_pub];
+                subs.insert(subs.end(), topic_subs.cbegin(), topic_subs.cend());
+            }
+        }
+    };
+
     for (const EntityIdPair& prox_pair : proximity_pairs) {
         EntityPtr ent1 = ents.at(prox_pair.first);
         EntityPtr ent2 = ents.at(prox_pair.second);
-
-        Eigen::Vector3d pos1 = states.at(prox_pair.first)->pos();
-        Eigen::Vector3d pos2 = states.at(prox_pair.second)->pos();
 
         const std::map<std::string, std::list<NetworkDevicePtr>>& pubs1 = ent_pubs[prox_pair.first];
         const std::map<std::string, std::list<NetworkDevicePtr>>& subs1 = ent_subs[prox_pair.first];
@@ -140,12 +156,51 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
         const std::map<std::string, std::list<NetworkDevicePtr>>& subs2 =
             ent_subs[prox_pair.second];
 
-        deliver_messages(pubs1, subs2);
-        deliver_messages(pubs2, subs1);
+        add_pub_subs(pubs1, subs2);
+        add_pub_subs(pubs2, subs1);
     }
+
+    for (auto& kv : pub_to_subs) {
+        NetworkDevicePtr pub = kv.first;
+        std::vector<NetworkDevicePtr>& subs = kv.second;
+        pub->enforce_queue_size();
+        const std::list<MessageBasePtr> msgs = pub->pop_msgs<MessageBase>();
+        if (msgs.empty()) {
+            continue;
+        }
+
+        for (NetworkDevicePtr sub : subs) {
+            if (sub->undelivered_msg_list_size() > 0) {
+                // deliver undelivered messages if delay time has passed
+                sub->deliver_undelivered_msg(time_->t(), is_stochastic_delay_);
+            }
+            for (auto& msg : msgs) {
+                if (is_successful_transmission(pub->plugin(), sub->plugin())) {
+                    double msg_delay = get_transmission_delay();
+
+                    if (msg_delay < 0) {
+                        msg->time = time_->t();
+                        sub->add_msg(msg);
+                    } else {
+                        // put msg in subs undelivered msg queue
+                        msg->time = time_->t() + msg_delay;
+                        sub->add_undelivered_msg(msg, is_stochastic_delay_);
+                    }
+                }
+            }
+            sub->enforce_queue_size();
+        }
+    }
+
+    // I kind of hate this. Clear all messages that were not processed.
+    for (auto& kv : pubs) {
+        for (auto pub : kv.second) {
+            pub->clear_msg_list();
+        }
+    }
+
     return true;
 }
-
 bool GPUSphereNetwork::deliver_messages(
     const std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
     const std::map<std::string, std::list<NetworkDevicePtr>>& subs) {
@@ -167,7 +222,8 @@ bool GPUSphereNetwork::deliver_messages(
 bool GPUSphereNetwork::deliver_topic_messages(NetworkDevicePtr pub,
                                               const std::list<NetworkDevicePtr>& subs) {
     pub->enforce_queue_size();
-    const std::list<MessageBasePtr> msgs = pub->pop_msgs<MessageBase>();
+    const std::list<MessageBasePtr> msgs_t = pub->pop_msgs<MessageBase>();
+    auto msgs = pub->pop_msgs<MessageBase>();
     if (msgs.empty()) {
         return true;
     }

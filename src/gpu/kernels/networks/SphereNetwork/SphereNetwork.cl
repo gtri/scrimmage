@@ -52,11 +52,10 @@ fp3_t second_pos = vload3(second_ind, positions);
 
 fp3_t diff = first_pos - second_pos;
 
-fp_t distance_between_sqrd = diff.x*diff.x + diff.y*diff.y + diff.z*diff.z;
-bool within_range = distance_between_sqrd <= range*range;
+fp_t distance_between = sqrt(diff.x*diff.x + diff.y*diff.y + diff.z*diff.z);
+bool within_range = distance_between < range;
 
 size_t index = col*n_rows + row;
 reachable_map[index] = within_range;
-distances[index] = sqrt(distance_between_sqrd);
-//distances[index] = 10000*get_local_id(0) + get_local_id(1);
+distances[index] = distance_between;
 }
