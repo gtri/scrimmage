@@ -157,6 +157,7 @@ bool MissionParse::parse_filecontents(Parser& doc) {
     return doc.parse(mission_file_content_vec);
 }
 
+#if ENABLE_LIBXML2_PARSER
 template <>
 bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
     // LibXMLParser is used when other xml files are included via xinclude to create a composite 
@@ -176,6 +177,7 @@ bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
     
     return doc.parse(mission_file_content_vec);
 }
+#endif
 
 template <class Parser>
 bool MissionParse::parse_mission() {
