@@ -33,15 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 #include <Eigen/Dense>
 
 #include <iostream>
-#include <vector>
 #include <limits>
 #include <tuple>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -51,11 +51,13 @@ namespace interaction {
 
 class Polyhedron : public BoundaryBase {
  public:
-    Polyhedron() {
-    }
+    Polyhedron() {}
 
-    Polyhedron(Eigen::Vector3d center, double x_length, double y_width,
-               double z_height, scrimmage::Quaternion quat) {
+    Polyhedron(Eigen::Vector3d center,
+               double x_length,
+               double y_width,
+               double z_height,
+               scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -79,7 +81,8 @@ class Polyhedron : public BoundaryBase {
     }
 
     void compute_dots() {
-        // Source: http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
+        // Source:
+        // http://math.stackexchange.com/questions/1472049/check-if-a-point-is-inside-a-rectangular-shaped-area-3d
         u = points_[0] - points_[1];
         v = points_[0] - points_[3];
         w = points_[0] - points_[4];
@@ -97,9 +100,8 @@ class Polyhedron : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ( (u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) &&
-             (v_dot_P0 > v_dot_p) && (v_dot_p > v_dot_P3) &&
-             (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
+            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
@@ -127,9 +129,9 @@ class Polyhedron : public BoundaryBase {
             }
         }
         bounds_.clear();
-        bounds_.push_back(std::tuple<double, double>(mins(0), maxs(0))); // x bounds
-        bounds_.push_back(std::tuple<double, double>(mins(1), maxs(1))); // y bounds
-        bounds_.push_back(std::tuple<double, double>(mins(2), maxs(2))); // z bounds
+        bounds_.push_back(std::tuple<double, double>(mins(0), maxs(0)));  // x bounds
+        bounds_.push_back(std::tuple<double, double>(mins(1), maxs(1)));  // y bounds
+        bounds_.push_back(std::tuple<double, double>(mins(2), maxs(2)));  // z bounds
     }
 
     void set_visual(int R, int G, int B, double opacity) override {
@@ -157,16 +159,14 @@ class Polyhedron : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d * p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             shapes_.push_back(polygon);
         }
     }
 
-    const std::vector<std::tuple<double, double>> & get_bounds() const {
-        return bounds_;
-    }
+    const std::vector<std::tuple<double, double>> &get_bounds() const { return bounds_; }
 
  protected:
     std::vector<Eigen::Vector3d> points_;
@@ -180,7 +180,10 @@ class Polyhedron : public BoundaryBase {
     double w_dot_P0 = 0;
     double w_dot_P4 = 0;
     std::vector<std::tuple<double, double>> bounds_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
