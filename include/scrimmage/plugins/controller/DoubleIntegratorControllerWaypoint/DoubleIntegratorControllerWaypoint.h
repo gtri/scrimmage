@@ -42,7 +42,7 @@ namespace scrimmage {
 namespace controller {
 class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:

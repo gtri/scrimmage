@@ -36,20 +36,20 @@
 #include <scrimmage/common/Waypoint.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
 
-#include <string>
-#include <map>
 #include <list>
+#include <map>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class WaypointDispatcher : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    Eigen::Vector3d lla_to_xyz(const Waypoint &wpt);
+    Eigen::Vector3d lla_to_xyz(const Waypoint& wpt);
 
     WaypointList wp_list_;
     std::list<Waypoint>::iterator wp_it_;
@@ -69,6 +69,6 @@ class WaypointDispatcher : public scrimmage::Autonomy {
 
     bool tolerance_in_2d_ = false;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_

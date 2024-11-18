@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/common/CSV.h>
+#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/fwd_decl.h>
 
-#include <map>
 #include <list>
+#include <map>
 #include <memory>
-#include <vector>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
@@ -50,24 +50,29 @@ class Network : public EntityPlugin {
  public:
     Network();
 
-    virtual bool init(std::map<std::string, std::string> &/*mission_params*/,
-                      std::map<std::string, std::string> &/*plugin_params*/);
-    virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
-                      std::map<std::string, std::list<NetworkDevicePtr>> &subs);
+    virtual bool init(std::map<std::string, std::string>& /*mission_params*/,
+                      std::map<std::string, std::string>& /*plugin_params*/);
+    virtual bool step(std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
+                      std::map<std::string, std::list<NetworkDevicePtr>>& subs);
     std::string type() override;
 
-    void set_rtree(const RTreePtr &rtree);
+    void set_rtree(const RTreePtr& rtree);
 
     void set_random(RandomPtr random);
 
     void close(double t) override;
 
-    inline virtual void set_mission_parse(MissionParsePtr mp)
-    { mp_ = mp; }
+    inline virtual void set_mission_parse(MissionParsePtr mp) {
+        mp_ = mp;
+    }
 
     // Get/set delay values
-    double comm_delay() {return comm_delay_;}
-    void set_comm_delay(double del) {comm_delay_ = del;}
+    double comm_delay() {
+        return comm_delay_;
+    }
+    void set_comm_delay(double del) {
+        comm_delay_ = del;
+    }
 
  protected:
     RTreePtr rtree_;
@@ -83,16 +88,16 @@ class Network : public EntityPlugin {
     // Value : Whether the publisher can reach the subscriber with a message
     std::unordered_map<int, std::unordered_map<int, bool>> reachable_map_;
 
-    virtual bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                              const scrimmage::EntityPluginPtr &sub_plugin);
+    virtual bool is_reachable(const scrimmage::EntityPluginPtr& pub_plugin,
+                              const scrimmage::EntityPluginPtr& sub_plugin);
 
-    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                            const scrimmage::EntityPluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(const scrimmage::EntityPluginPtr& pub_plugin,
+                                            const scrimmage::EntityPluginPtr& sub_plugin);
 
     virtual double get_transmission_delay();
 
-    bool network_init(std::map<std::string, std::string> &/*mission_params*/,
-                      std::map<std::string, std::string> &/*plugin_params*/);
+    bool network_init(std::map<std::string, std::string>& /*mission_params*/,
+                      std::map<std::string, std::string>& /*plugin_params*/);
 
  private:
     // Key: Topic String
@@ -110,6 +115,6 @@ typedef std::shared_ptr<Network> NetworkPtr;
 using NetworkMap = std::map<std::string, NetworkPtr>;
 using NetworkMapPtr = std::shared_ptr<NetworkMap>;
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_

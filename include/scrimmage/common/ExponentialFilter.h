@@ -37,17 +37,17 @@ namespace scrimmage {
 
 class ExponentialFilter {
  public:
-     ExponentialFilter();
-     explicit ExponentialFilter(double time_constant);
-     void set_time_constant(double time_constant);
-     double add_estimate(double estimate, double t);
-     double get_estimate() const;
+    ExponentialFilter();
+    explicit ExponentialFilter(double time_constant);
+    void set_time_constant(double time_constant);
+    double add_estimate(double estimate, double t);
+    double get_estimate() const;
 
  protected:
-     double estimate_;
-     double time_last_estimate_;
-     double time_constant_;
+    double estimate_;
+    double time_last_estimate_;
+    double time_constant_;
 };
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_EXPONENTIALFILTER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_EXPONENTIALFILTER_H_

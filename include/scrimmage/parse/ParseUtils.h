@@ -33,18 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #define INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
 #include <Eigen/Dense>
-
+#include <list>
 #include <map>
-#include <set>
-#include <vector>
-#include <string>
 #include <memory>
-#include<list>
+#include <set>
+#include <string>
+#include <vector>
 
 namespace scrimmage_proto {
 class UTMTerrain;
 class ContactVisual;
-}
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -57,8 +56,7 @@ std::string expand_user(std::string path);
 bool str2bool(std::string str);
 
 template <class T>
-std::enable_if_t<!std::is_pointer<T>::value, T>
-convert(const std::string &str) {
+std::enable_if_t<!std::is_pointer<T>::value, T> convert(const std::string& str) {
     T num;
     if (!(std::istringstream(str) >> num)) {
         num = 0;
@@ -67,34 +65,41 @@ convert(const std::string &str) {
 }
 
 template <class T>
-std::enable_if_t<std::is_pointer<T>::value, T>
-convert(const std::string &str) {
+std::enable_if_t<std::is_pointer<T>::value, T> convert(const std::string& str) {
     return nullptr;
 }
 
-template <> inline bool convert<bool>(const std::string &str) {return str2bool(str);}
-template <> inline const char* convert<const char *>(const std::string &str) {return str.c_str();}
-template <> inline std::string convert<std::string>(const std::string &str) {return str;}
+template <>
+inline bool convert<bool>(const std::string& str) {
+    return str2bool(str);
+}
+template <>
+inline const char* convert<const char*>(const std::string& str) {
+    return str.c_str();
+}
+template <>
+inline std::string convert<std::string>(const std::string& str) {
+    return str;
+}
 
 template <class T1, class T2 = T1>
-    T2 get(const std::string &key, const std::map<std::string, std::string> &map, T1 default_val) {
+T2 get(const std::string& key, const std::map<std::string, std::string>& map, T1 default_val) {
     auto it = map.find(key);
     return it == map.end() ? default_val : convert<T2>(it->second);
 }
 
 // a wrapper around boost so that boost does not have to be included
-void split(std::vector<std::string> &tokens, const std::string &str,
-           const std::string &delims);
+void split(std::vector<std::string>& tokens, const std::string& str, const std::string& delims);
 
-std::string remove_whitespace(const std::string &str);
+std::string remove_whitespace(const std::string& str);
 
 template <typename T>
-T str2container(const std::string &str, const std::string &delims) {
+T str2container(const std::string& str, const std::string& delims) {
     T out;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
 
-    for (std::string &t : tokens) {
+    for (std::string& t : tokens) {
         if (t.length() > 0) {
             out.insert(out.end(), convert<typename T::value_type>(t));
         }
@@ -103,8 +108,7 @@ T str2container(const std::string &str, const std::string &delims) {
 }
 
 template <typename T>
-bool str2container(const std::string &str, const std::string &delims,
-                   T &result, int size = -1) {
+bool str2container(const std::string& str, const std::string& delims, T& result, int size = -1) {
     T tmp = str2container<T>(str, delims);
     if (size >= 0 && (unsigned int)size != tmp.size()) {
         return false;
@@ -117,12 +121,12 @@ bool str2container(const std::string &str, const std::string &delims,
 
 template <typename T>
 // [[deprecated("str2vec is deprecated, use str2container instead")]]
-std::vector<T> str2vec(const std::string &str, const std::string &delims) {
+std::vector<T> str2vec(const std::string& str, const std::string& delims) {
     std::vector<T> out;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
 
-    for (std::string &t : tokens) {
+    for (std::string& t : tokens) {
         if (t.length() > 0) {
             out.push_back(convert<T>(t));
         }
@@ -132,13 +136,13 @@ std::vector<T> str2vec(const std::string &str, const std::string &delims) {
 
 template <typename T>
 // [[deprecated("str2vec is deprecated, use str2container instead")]]
-bool str2vec(const std::string &str, const std::string &delims,
-             std::vector<T> &vec, int size = -1) {
+bool str2vec(const std::string& str, const std::string& delims, std::vector<T>& vec,
+             int size = -1) {
     std::vector<T> tmp_vec;
     std::vector<std::string> tokens;
     split(tokens, str, delims);
 
-    for (std::string &t : tokens) {
+    for (std::string& t : tokens) {
         if (t.length() > 0) {
             tmp_vec.push_back(convert<T>(t));
         }
@@ -154,56 +158,46 @@ bool str2vec(const std::string &str, const std::string &delims,
 }
 
 template <typename T>
-bool get_vec(const std::string &str,
-             const std::map<std::string, std::string> &params,
-             const std::string &delims,
-             std::vector<T> &vec,
-             int size = -1) {
+bool get_vec(const std::string& str, const std::map<std::string, std::string>& params,
+             const std::string& delims, std::vector<T>& vec, int size = -1) {
     auto it = params.find(str);
     return it == params.end() ? false : str2container(it->second, delims, vec, size);
 }
 
-bool get_vec(const std::string &str,
-             std::map<std::string, std::string> & params,
-             std::vector<std::string> &vec);
+bool get_vec(const std::string& str, std::map<std::string, std::string>& params,
+             std::vector<std::string>& vec);
 
-Eigen::Vector3d vec2eigen(std::vector<double> &vec);
+Eigen::Vector3d vec2eigen(std::vector<double>& vec);
 
+bool find_terrain_files(std::string terrain_name, ConfigParse& terrain_parse,
+                        std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain);
 
-bool find_terrain_files(std::string terrain_name,
-                        ConfigParse &terrain_parse,
-                        std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain);
+bool find_model_properties(std::string model_name, ConfigParse& cv_parse, FileSearch& file_search,
+                           std::map<std::string, std::string>& overrides,
+                           std::shared_ptr<scrimmage_proto::ContactVisual>& cv, bool& mesh_found,
+                           bool& texture_found);
 
-bool find_model_properties(std::string model_name, ConfigParse &cv_parse,
-                           FileSearch &file_search,
-                           std::map<std::string, std::string> &overrides,
-                           std::shared_ptr<scrimmage_proto::ContactVisual> &cv,
-                           bool &mesh_found, bool &texture_found);
+bool parse_autonomy_data(std::map<std::string, std::string>& params,
+                         std::map<std::string, std::string>& data_params);
 
-bool parse_autonomy_data(std::map<std::string, std::string> &params,
-                         std::map<std::string, std::string> &data_params);
+bool get_vec_of_vecs(const std::string& str, std::vector<std::vector<std::string>>& out,
+                     const std::string& delims = " ,");
 
-bool get_vec_of_vecs(const std::string &str,
-                     std::vector<std::vector<std::string>> &out,
-                     const std::string &delims = " ,");
-
-bool set_pid_gains(PID &pid, std::string str,
-                   bool is_angle = false);
+bool set_pid_gains(PID& pid, std::string str, bool is_angle = false);
 
 struct PluginOverrides {
     std::string name;
     std::map<std::string, std::string> overrides;
-    PluginOverrides(const std::string& n,
-                    std::map<std::string, std::string> &o)
-            : name(n), overrides(o) { }
+    PluginOverrides(const std::string& n, std::map<std::string, std::string>& o)
+        : name(n), overrides(o) {
+    }
 };
 
-unsigned int parse_plugin_vector(const std::string& key,
-                                 std::map<std::string, std::string> &params,
-                                 std::list<PluginOverrides> &plugin_overrides_list);
+unsigned int parse_plugin_vector(const std::string& key, std::map<std::string, std::string>& params,
+                                 std::list<PluginOverrides>& plugin_overrides_list);
 
-void remove_leading_spaces(std::string &s);
-void remove_trailing_spaces(std::string &s);
+void remove_leading_spaces(std::string& s);
+void remove_trailing_spaces(std::string& s);
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PARSE_PARSEUTILS_H_

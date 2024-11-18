@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SCRIMMAGEOPENAISENSOR_SCRIMMAGEOPENAISENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SCRIMMAGEOPENAISENSOR_SCRIMMAGEOPENAISENSOR_H_
 
-#include <scrimmage/sensor/Sensor.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
+#include <scrimmage/sensor/Sensor.h>
 
 namespace scrimmage {
 namespace sensor {
@@ -42,10 +42,13 @@ class ScrimmageOpenAISensor : public scrimmage::Sensor {
  public:
     EnvParams observation_space;
     ScrimmageOpenAISensor();
-    virtual void set_observation_space() {}
-    virtual void get_observation(int* /*data*/, uint32_t /*beg_idx*/, uint32_t /*end_idx*/) {}
-    virtual void get_observation(double* /*data*/, uint32_t /*beg_idx*/, uint32_t /*end_idx*/) {}
+    virtual void set_observation_space() {
+    }
+    virtual void get_observation(int* /*data*/, uint32_t /*beg_idx*/, uint32_t /*end_idx*/) {
+    }
+    virtual void get_observation(double* /*data*/, uint32_t /*beg_idx*/, uint32_t /*end_idx*/) {
+    }
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SCRIMMAGEOPENAISENSOR_SCRIMMAGEOPENAISENSOR_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SCRIMMAGEOPENAISENSOR_SCRIMMAGEOPENAISENSOR_H_

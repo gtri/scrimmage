@@ -30,9 +30,8 @@
  *
  */
 
-#include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-
+#include <pybind11/pybind11.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/ScrimmageOpenAIAutonomy.h>
@@ -47,12 +46,13 @@ using std::endl;
 namespace scrimmage {
 namespace autonomy {
 
-OpenAIActions::OpenAIActions() :
-    tuple_space_(get_gym_space("Tuple")),
-    box_space_(get_gym_space("Box")),
-    asarray_(py::module::import("numpy").attr("asarray")) {}
+OpenAIActions::OpenAIActions()
+    : tuple_space_(get_gym_space("Tuple")),
+      box_space_(get_gym_space("Box")),
+      asarray_(py::module::import("numpy").attr("asarray")) {
+}
 
-std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &OpenAIActions::ext_ctrl_vec() {
+std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>>& OpenAIActions::ext_ctrl_vec() {
     return ext_ctrl_vec_;
 }
 
@@ -65,20 +65,18 @@ void OpenAIActions::create_action_space(bool combine_actors) {
         py::list continuous_minima;
         py::list continuous_maxima;
 
-        for (auto &a : ext_ctrl_vec_) {
+        for (auto& a : ext_ctrl_vec_) {
             a->set_environment();
             to_discrete(a->action_space.discrete_count, discrete_count);
             to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
         }
 
-        action_space =
-            create_space(discrete_count, continuous_minima, continuous_maxima);
+        action_space = create_space(discrete_count, continuous_minima, continuous_maxima);
 
     } else {
-
         py::list action_spaces;
 
-        for (auto &a : ext_ctrl_vec_) {
+        for (auto& a : ext_ctrl_vec_) {
             py::list discrete_count;
             py::list continuous_minima;
             py::list continuous_maxima;
@@ -87,8 +85,7 @@ void OpenAIActions::create_action_space(bool combine_actors) {
             to_discrete(a->action_space.discrete_count, discrete_count);
             to_continuous(a->action_space.continuous_extrema, continuous_minima, continuous_maxima);
 
-            auto space =
-                create_space(discrete_count, continuous_minima, continuous_maxima);
+            auto space = create_space(discrete_count, continuous_minima, continuous_maxima);
             action_spaces.append(space);
         }
 
@@ -97,8 +94,7 @@ void OpenAIActions::create_action_space(bool combine_actors) {
     }
 }
 
-void OpenAIActions::distribute_action(pybind11::object action,
-                                      bool combine_actors) {
+void OpenAIActions::distribute_action(pybind11::object action, bool combine_actors) {
     py::array_t<int> disc_actions;
     py::array_t<double> cont_actions;
     int* disc_action_data = nullptr;
@@ -124,7 +120,7 @@ void OpenAIActions::distribute_action(pybind11::object action,
         }
     };
 
-    auto put_action = [&](int &idx, size_t from_sz, auto *from_data, auto &to_vec) {
+    auto put_action = [&](int& idx, size_t from_sz, auto* from_data, auto& to_vec) {
         if (to_vec.size() != from_sz) {
             to_vec.resize(from_sz);
         }
@@ -138,18 +134,18 @@ void OpenAIActions::distribute_action(pybind11::object action,
         }
     };
 
-    auto put_actions = [&](auto a, int &disc_action_idx, int &cont_action_idx) {
-        put_action(disc_action_idx, a->action_space.discrete_count.size(),
-                   disc_action_data, a->action.discrete);
-        put_action(cont_action_idx, a->action_space.continuous_extrema.size(),
-                   cont_action_data, a->action.continuous);
+    auto put_actions = [&](auto a, int& disc_action_idx, int& cont_action_idx) {
+        put_action(disc_action_idx, a->action_space.discrete_count.size(), disc_action_data,
+                   a->action.discrete);
+        put_action(cont_action_idx, a->action_space.continuous_extrema.size(), cont_action_data,
+                   a->action.continuous);
     };
 
     if ((ext_ctrl_vec_.size() == 1 || combine_actors)) {
         update_action_lists(action_space, action);
         int disc_action_idx = 0;
         int cont_action_idx = 0;
-        for (auto &a : ext_ctrl_vec_) {
+        for (auto& a : ext_ctrl_vec_) {
             put_actions(a, disc_action_idx, cont_action_idx);
         }
 
@@ -167,6 +163,5 @@ void OpenAIActions::distribute_action(pybind11::object action,
     }
 }
 
-
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

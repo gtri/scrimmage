@@ -35,20 +35,18 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/Angles.h>
-
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
 #include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
 
-#include <thread> // NOLINT
-#include <mutex> // NOLINT
-#include <map>
-#include <string>
-#include <list>
-#include <memory>
-
+#include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
-#include <boost/array.hpp>
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>  // NOLINT
+#include <string>
+#include <thread>  // NOLINT
 
 namespace scrimmage {
 
@@ -67,7 +65,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
     // State packet sent from Scrimmage to ArduPilot
     struct fdm_packet {
-        uint64_t timestamp_us; // simulation time in microseconds
+        uint64_t timestamp_us;  // simulation time in microseconds
         double latitude, longitude;
         double altitude;
         double heading;
@@ -80,7 +78,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
  public:
     ArduPilot();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
     void close(double t) override;
 
@@ -100,8 +98,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
     scrimmage::Angles angles_to_gps_;
 
-    fdm_packet state6dof_to_fdm_packet(double t,
-                                       scrimmage::motion::RigidBody6DOFState &state);
+    fdm_packet state6dof_to_fdm_packet(double t, scrimmage::motion::RigidBody6DOFState& state);
 
     boost::asio::io_service recv_io_service_;
     std::shared_ptr<boost::asio::ip::udp::socket> recv_socket_;
@@ -109,13 +106,11 @@ class ArduPilot : public scrimmage::Autonomy {
     boost::array<unsigned char, 100> recv_buffer_;
 
     void start_receive();
-    void parse_receive(const boost::system::error_code& error,
-                        std::size_t num_bytes);
-    void handle_receive(const boost::system::error_code& error,
-                        std::size_t num_bytes);
+    void parse_receive(const boost::system::error_code& error, std::size_t num_bytes);
+    void handle_receive(const boost::system::error_code& error, std::size_t num_bytes);
 
     std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_ARDUPILOT_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_ARDUPILOT_H_

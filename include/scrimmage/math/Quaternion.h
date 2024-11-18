@@ -47,19 +47,17 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
      */
     Quaternion();
 
-    Quaternion(const Quaternion &other);
-    explicit Quaternion(const Eigen::Quaternion<double, Eigen::DontAlign> &other);
+    Quaternion(const Quaternion& other);
+    explicit Quaternion(const Eigen::Quaternion<double, Eigen::DontAlign>& other);
 
-    Quaternion &operator=(const Quaternion &other);
-    Quaternion &operator=(const Eigen::Quaternion<double, Eigen::DontAlign> &other);
+    Quaternion& operator=(const Quaternion& other);
+    Quaternion& operator=(const Eigen::Quaternion<double, Eigen::DontAlign>& other);
 
-    Quaternion(const double &w, const double &x,
-               const double &y, const double &z);
+    Quaternion(const double& w, const double& x, const double& y, const double& z);
 
-    Quaternion(double &w, double &x,
-               double &y, double &z);
+    Quaternion(double& w, double& x, double& y, double& z);
 
-    Quaternion(const Eigen::Vector3d &vector, double angle_radians);
+    Quaternion(const Eigen::Vector3d& vector, double angle_radians);
 
     /*! \brief set quaternion from euler angles */
     Quaternion(double roll, double pitch, double yaw);
@@ -73,7 +71,7 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
     /*! \brief set the quaternion to rotate an object around the given vector
      * at given angle
      */
-    void set(const Eigen::Vector3d &vector, double angle_radians);
+    void set(const Eigen::Vector3d& vector, double angle_radians);
 
     /*! \brief set quaternion from euler angles */
     void set(double roll, double pitch, double yaw);
@@ -102,20 +100,20 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
      * given by RotationAngle(). This can also be used to convert a vector in
      * the local frame to a vector in the global frame.
      */
-    Eigen::Vector3d rotate(const Eigen::Vector3d &vec) const;
+    Eigen::Vector3d rotate(const Eigen::Vector3d& vec) const;
 
     /*! \brief rotate the input vector around the vec axis by an angle
      * given by RotationAngle(). This can also be used to convert a vector in
      * the local frame to a vector in the global frame.
      */
-    Eigen::Vector3d rotate_reverse(const Eigen::Vector3d &vec) const;
+    Eigen::Vector3d rotate_reverse(const Eigen::Vector3d& vec) const;
     ///@}
 
     uint8_t output_precision = 2;
     friend std::ostream& operator<<(std::ostream& os, const Quaternion& q);
 };
 
-scrimmage::Quaternion operator*(const scrimmage::Quaternion &q1, const scrimmage::Quaternion &q2);
+scrimmage::Quaternion operator*(const scrimmage::Quaternion& q1, const scrimmage::Quaternion& q2);
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_MATH_QUATERNION_H_

@@ -51,6 +51,6 @@ Color_t GetColor(double v, double vmin, double vmax);
 
 int GetGray(Color_t c, double vmin, double vmax);
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_COLORMAPS_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_COLORMAPS_H_

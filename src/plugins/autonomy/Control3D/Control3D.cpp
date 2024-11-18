@@ -30,10 +30,9 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/Control3D/Control3D.h>
 
 namespace sc = scrimmage;
@@ -43,16 +42,17 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Control3D, Control3D_p
 namespace scrimmage {
 namespace autonomy {
 
-Control3D::Control3D() {}
+Control3D::Control3D() {
+}
 
-void Control3D::init(std::map<std::string, std::string> &params) {
-    desired_state_->vel() = Eigen::Vector3d::UnitX()*21;
+void Control3D::init(std::map<std::string, std::string>& params) {
+    desired_state_->vel() = Eigen::Vector3d::UnitX() * 21;
     desired_state_->quat().set(0, 0, state_->quat().yaw());
-    desired_state_->pos() = Eigen::Vector3d::UnitZ()*state_->pos()(2);
+    desired_state_->pos() = Eigen::Vector3d::UnitZ() * state_->pos()(2);
 }
 
 bool Control3D::step_autonomy(double t, double dt) {
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

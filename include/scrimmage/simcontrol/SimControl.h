@@ -33,34 +33,32 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 
-#include <Eigen/Dense>
-
-#include <scrimmage/fwd_decl.h>
-
-#include <scrimmage/common/Timer.h>
 #include <scrimmage/common/DelayedTask.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Timer.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
 
-#include <future> // NOLINT
-#include <memory>
+#include <Eigen/Dense>
+#include <condition_variable>  // NOLINT
 #include <deque>
-#include <vector>
+#include <future>  // NOLINT
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>  // NOLINT
 #include <set>
 #include <string>
-#include <thread> // NOLINT
-#include <map>
-#include <list>
-#include <mutex> // NOLINT
-#include <condition_variable> // NOLINT
+#include <thread>  // NOLINT
 #include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
 typedef std::shared_ptr<scrimmage_proto::ContactVisual> ContactVisualPtr;
 
-enum class EndConditionFlags {TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4};
+enum class EndConditionFlags { TIME = 1, ONE_TEAM = 2, NONE = 3, ALL_DEAD = 4 };
 
 class SimControl {
  public:
@@ -169,14 +167,14 @@ class SimControl {
     void join();
 
     /*
-    * @brief Provides access to the SimControl's entity plugin.
-    *
-    * After SimControl has been initialized with the init() function, this
-    * function provides access to the entity plugin owned by SimControl. This
-    * entity plugin can be used to access the publish/subscribe bus used during
-    * the simulation. For example, when used during a test, the test can
-    * publish and subscribe to messages used by plugins under test.
-    */
+     * @brief Provides access to the SimControl's entity plugin.
+     *
+     * After SimControl has been initialized with the init() function, this
+     * function provides access to the entity plugin owned by SimControl. This
+     * entity plugin can be used to access the publish/subscribe bus used during
+     * the simulation. For example, when used during a test, the test can
+     * publish and subscribe to messages used by plugins under test.
+     */
     EntityPluginPtr plugin();
 
     /**
@@ -184,7 +182,7 @@ class SimControl {
      *
      * The contact map is indexed by contact ID.
      */
-    void get_contacts(std::unordered_map<int, Contact> &contacts);
+    void get_contacts(std::unordered_map<int, Contact>& contacts);
 
     /**
      * @brief Provides access to the simulated contacts visualization
@@ -192,7 +190,7 @@ class SimControl {
      *
      * The contact visuals map is indexed by contact ID.
      */
-    void get_contact_visuals(std::map<int, ContactVisualPtr> &contact_visuals);
+    void get_contact_visuals(std::map<int, ContactVisualPtr>& contact_visuals);
 
     /**
      * @brief Generate entities based on the current time.
@@ -205,15 +203,15 @@ class SimControl {
     bool generate_entities(const double& t);
 
     /// @brief Generate an entity given the entity description ID.
-    bool generate_entity(const int &ent_desc_id);
+    bool generate_entity(const int& ent_desc_id);
 
     /**
      * @brief Generate an entity given the entity description ID,
      * parameters, and plugin specific params. This is utilized for
      * GenerateEntity publishers.
      */
-    bool generate_entity(const int &ent_desc_id,
-                         std::map<std::string, std::string> &params, AttributeMap &plugin_attr_map);
+    bool generate_entity(const int& ent_desc_id, std::map<std::string, std::string>& params,
+                         AttributeMap& plugin_attr_map);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
@@ -223,7 +221,7 @@ class SimControl {
      *
      * @param [in] t The simulation time
      */
-    void set_time(const double &t);
+    void set_time(const double& t);
 
     /// @brief Get the current simulation time.
     double t();
@@ -256,23 +254,23 @@ class SimControl {
     bool end_condition_reached();
 
     /// @brief Access the simulation timer instance.
-    Timer &timer();
+    Timer& timer();
 
     /// @brief Access the metrics plugins.
-    std::list<MetricsPtr> & metrics();
+    std::list<MetricsPtr>& metrics();
 
     /// @brief Access the PluginManager instance.
-    PluginManagerPtr &plugin_manager();
+    PluginManagerPtr& plugin_manager();
 
     /// @brief Access the FileSearch instance.
-    FileSearchPtr &file_search();
+    FileSearchPtr& file_search();
 
     struct Task {
         // FIXME: this will be much simpler once there is a
         // step function in Plugin.h
         // In particular, we can get rid of Task::Type and
         // more easily do entity_interaction/network plugins in multiple threads.
-        enum class Type {AUTONOMY, CONTROLLER, MOTION, SENSOR};
+        enum class Type { AUTONOMY, CONTROLLER, MOTION, SENSOR };
 
         Type type;
         double t;
@@ -285,7 +283,7 @@ class SimControl {
      * @brief Set the incoming interface for communication from external
      * visualizers.
      */
-    void set_incoming_interface(InterfacePtr &incoming_interface);
+    void set_incoming_interface(InterfacePtr& incoming_interface);
 
     /// @brief Get the incoming interface.
     InterfacePtr incoming_interface();
@@ -294,13 +292,13 @@ class SimControl {
      * @brief Set the outgoing interface for communication to external
      * visualizers.
      */
-    void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    void set_outgoing_interface(InterfacePtr& outgoing_interface);
 
     /// @brief Get the outgoing interface.
     InterfacePtr outgoing_interface();
 
     /// @brief Access the entities in the simulation.
-    std::list<EntityPtr> &ents();
+    std::list<EntityPtr>& ents();
 
     /// @brief Sends terrain to visualizers and log files.
     void send_terrain();
@@ -388,7 +386,7 @@ class SimControl {
     bool add_tasks(Task::Type type, double t, double dt);
 
     bool run_sensors();
-    bool run_motion(EntityPtr &ent, double t, double dt);
+    bool run_motion(EntityPtr& ent, double t, double dt);
     bool reset_autonomies();
 
     std::shared_ptr<Log> log_;
@@ -400,7 +398,7 @@ class SimControl {
 
     PluginManagerPtr plugin_manager_;
 
-    bool collision_exists(Eigen::Vector3d &p);
+    bool collision_exists(Eigen::Vector3d& p);
 
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
 
@@ -463,10 +461,9 @@ class SimControl {
     void dec_warp();
 
     bool wait_for_ready();
-    bool check_output(const std::string& output_type,
-                      const std::string& desired_output);
+    bool check_output(const std::string& output_type, const std::string& desired_output);
     bool setup_logging();
-    bool logging_logic(const std::string &s);
+    bool logging_logic(const std::string& s);
     void end_of_simulation();
     void cleanup();
     bool finalize();
@@ -478,5 +475,5 @@ class SimControl {
 
     bool python_enabled_ = false;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

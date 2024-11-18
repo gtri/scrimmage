@@ -46,9 +46,11 @@ namespace controller {
 class MultirotorControllerOmega : public motion::Multirotor::Controller {
  public:
     MultirotorControllerOmega();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    Eigen::VectorXd &u() override { return u_; }
+    Eigen::VectorXd& u() override {
+        return u_;
+    }
 
  protected:
     Eigen::VectorXd u_;

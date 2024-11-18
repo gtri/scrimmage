@@ -77,13 +77,13 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase {
 
     virtual std::tuple<int, int, int> version();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
     bool step(double time, double dt) override;
 
-    void teleport(StatePtr &state) override;
+    void teleport(StatePtr& state) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
     enum LaunchState { PRELAUNCH = 0, LAUNCH, POSTLAUNCH };
 

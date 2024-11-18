@@ -30,18 +30,16 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
-
 #include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/msgs/Graph.pb.h>
-
-#include <iomanip>
-#include <sstream>
+#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/transform.hpp>
+#include <iomanip>
+#include <sstream>
 
 namespace ba = boost::adaptors;
 namespace br = boost::range;
@@ -50,28 +48,25 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace interaction {
 
-std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap>
-draw_graph(
-        scrimmage_msgs::Graph &graph,
-        const std::unordered_map<uint64_t, scrimmage_proto::Vector3d> &node_idx_to_pos,
-        DrawNodeLabels draw_node_labels,
-        EntityPluginPtr plugin) {
-
-    const std::vector<int> black {0, 0, 0};
-    const std::vector<int> white {255, 255, 255};
-    const std::vector<int> blue {0, 0, 255};
+std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeMap> draw_graph(
+    scrimmage_msgs::Graph& graph,
+    const std::unordered_map<uint64_t, scrimmage_proto::Vector3d>& node_idx_to_pos,
+    DrawNodeLabels draw_node_labels, EntityPluginPtr plugin) {
+    const std::vector<int> black{0, 0, 0};
+    const std::vector<int> white{255, 255, 255};
+    const std::vector<int> blue{0, 0, 255};
 
     NodePairShapeMap edge_shapes;
 
-    for (auto &e : graph.edges()) {
+    for (auto& e : graph.edges()) {
         auto edge_shape = std::make_shared<sp::Shape>();
 
         set(edge_shape->mutable_color(), black);
         edge_shape->set_opacity(1.0);
         edge_shape->set_persistent(true);
 
-        auto &p1 = node_idx_to_pos.at(e.start_node_id());
-        auto &p2 = node_idx_to_pos.at(e.end_node_id());
+        auto& p1 = node_idx_to_pos.at(e.start_node_id());
+        auto& p2 = node_idx_to_pos.at(e.end_node_id());
 
         set(edge_shape->mutable_line()->mutable_start(), p1.x(), p1.y(), p1.z());
         set(edge_shape->mutable_line()->mutable_end(), p2.x(), p2.y(), p2.z());
@@ -82,8 +77,8 @@ draw_graph(
 
     auto node_shape = std::make_shared<sp::Shape>();
     node_shape->set_persistent(true);
-    auto to_pt = [&](auto &n) {return n.point();};
-    for (const auto &pt : graph.nodes() | ba::transformed(to_pt)) {
+    auto to_pt = [&](auto& n) { return n.point(); };
+    for (const auto& pt : graph.nodes() | ba::transformed(to_pt)) {
         set(node_shape->mutable_pointcloud()->add_point(), pt.x(), pt.y(), pt.z());
         set(node_shape->mutable_pointcloud()->add_color(), blue);
     }
@@ -92,7 +87,7 @@ draw_graph(
 
     NodeShapeMap text_shapes;
 
-    for (const auto &node : graph.nodes()) {
+    for (const auto& node : graph.nodes()) {
         auto text_shape = std::make_shared<sp::Shape>();
         text_shape->set_persistent(true);
         text_shape->set_opacity(1.0);
@@ -113,12 +108,11 @@ draw_graph(
 }
 
 std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
-        const scrimmage_msgs::Graph &graph) {
-
-    auto to_pos = [&](auto &node) {return std::make_pair(node.id(), node.point());};
+    const scrimmage_msgs::Graph& graph) {
+    auto to_pos = [&](auto& node) { return std::make_pair(node.id(), node.point()); };
     std::unordered_map<uint64_t, scrimmage_proto::Vector3d> out;
     br::transform(graph.nodes(), std::inserter(out, out.begin()), to_pos);
     return out;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

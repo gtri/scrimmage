@@ -38,29 +38,31 @@ namespace scrimmage {
 namespace motion {
 class RigidBody6DOFBase : public scrimmage::MotionModel {
  public:
-    RigidBody6DOFBase() : linear_vel_body_(0, 0, 0), ang_vel_body_(0, 0, 0),
-                          linear_accel_body_(0, 0, 0),
-                          ang_accel_body_(0, 0, 0),
-                          wind_(0, 0, 0) {
+    RigidBody6DOFBase()
+        : linear_vel_body_(0, 0, 0),
+          ang_vel_body_(0, 0, 0),
+          linear_accel_body_(0, 0, 0),
+          ang_accel_body_(0, 0, 0),
+          wind_(0, 0, 0) {
     }
 
-    Eigen::Vector3d &linear_vel_body() {
+    Eigen::Vector3d& linear_vel_body() {
         return linear_vel_body_;
     }
 
-    Eigen::Vector3d &ang_vel_body() {
+    Eigen::Vector3d& ang_vel_body() {
         return ang_vel_body_;
     }
 
-    Eigen::Vector3d &linear_accel_body() {
+    Eigen::Vector3d& linear_accel_body() {
         return linear_accel_body_;
     }
 
-    Eigen::Vector3d &ang_accel_body() {
+    Eigen::Vector3d& ang_accel_body() {
         return ang_accel_body_;
     }
 
-    Eigen::Vector3d &wind() {
+    Eigen::Vector3d& wind() {
         return wind_;
     }
 
@@ -75,6 +77,6 @@ class RigidBody6DOFBase : public scrimmage::MotionModel {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_

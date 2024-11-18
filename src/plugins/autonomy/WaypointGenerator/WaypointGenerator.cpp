@@ -30,25 +30,23 @@
  *
  */
 
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/Waypoint.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h>
 #include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/common/VariableIO.h>
-
-#include <iostream>
-#include <limits>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <GeographicLib/LocalCartesian.hpp>
+#include <iostream>
+#include <limits>
 
 using std::cout;
 using std::endl;
@@ -56,8 +54,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::WaypointGenerator,
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::WaypointGenerator,
                 WaypointGenerator_plugin)
 
 namespace scrimmage {
@@ -66,7 +63,7 @@ namespace autonomy {
 WaypointGenerator::WaypointGenerator() {
 }
 
-void WaypointGenerator::init(std::map<std::string, std::string> &params) {
+void WaypointGenerator::init(std::map<std::string, std::string>& params) {
     waypoint_color_ = sc::str2container<std::vector<int>>(
         sc::get<std::string>("waypoint_color", params, "255,0,0"), ",");
 
@@ -94,8 +91,7 @@ void WaypointGenerator::init(std::map<std::string, std::string> &params) {
                 cout << "Invalid waypoint type: " << type << endl;
             } else if (type == "XYZ") {
                 // Convert to XYZ point to GPS
-                parent_->projection()->Reverse(lat, lon, alt,
-                                               lat, lon, alt);
+                parent_->projection()->Reverse(lat, lon, alt, lat, lon, alt);
             }
 
             Waypoint wp(lat, lon, alt);
@@ -162,11 +158,10 @@ bool WaypointGenerator::step_autonomy(double t, double dt) {
     return true;
 }
 
-void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
+void WaypointGenerator::draw_waypoints(WaypointList& wp_list) {
     for (Waypoint wp : wp_list.waypoints()) {
         double x, y, z;
-        parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(),
-                                       x, y, z);
+        parent_->projection()->Forward(wp.latitude(), wp.longitude(), wp.altitude(), x, y, z);
         vars_.output(position_x_idx_, x);
         vars_.output(position_y_idx_, y);
         vars_.output(position_z_idx_, z);
@@ -182,5 +177,5 @@ void WaypointGenerator::draw_waypoints(WaypointList &wp_list) {
         draw_shape(sphere);
     }
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

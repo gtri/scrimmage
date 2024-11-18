@@ -30,28 +30,25 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/msgs/Command.pb.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h>
 #include <scrimmage/pubsub/Publisher.h>
 
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include <iostream>
 #include <limits>
-
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::CommandStringRelay,
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::CommandStringRelay,
                 CommandStringRelay_plugin)
 
 namespace scrimmage {
@@ -60,7 +57,7 @@ namespace autonomy {
 CommandStringRelay::CommandStringRelay() {
 }
 
-void CommandStringRelay::init(std::map<std::string, std::string> &params) {
+void CommandStringRelay::init(std::map<std::string, std::string>& params) {
     std::string relays_str = sc::get<std::string>("relays", params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
     sc::get_vec_of_vecs(relays_str, vecs_of_vecs, " ");
@@ -76,7 +73,7 @@ void CommandStringRelay::init(std::map<std::string, std::string> &params) {
         std::string original_topic_str = "/" + std::to_string(parent_->id().id()) + "/" + topic;
         pubs_[topic] = advertise(relay_to_network, topic);
 
-        auto cb = [&] (scrimmage::MessagePtr<scrimmage_msgs::CommandString> msg) {
+        auto cb = [&](scrimmage::MessagePtr<scrimmage_msgs::CommandString> msg) {
             std::vector<std::string> tokens;
             boost::split(tokens, msg->data.topic(), boost::is_any_of("/"));
 
@@ -101,5 +98,5 @@ void CommandStringRelay::init(std::map<std::string, std::string> &params) {
 bool CommandStringRelay::step_autonomy(double t, double dt) {
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

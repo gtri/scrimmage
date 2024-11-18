@@ -34,20 +34,17 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICKCONTROLLER_H_
 
 #include <fcntl.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
 #include <linux/joystick.h>
-
-#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
-
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 #include <Eigen/Dense>
-
+#include <list>
 #include <map>
 #include <string>
-#include <list>
 
 namespace sc = scrimmage;
 
@@ -55,12 +52,12 @@ namespace scrimmage {
 namespace controller {
 class JoystickController : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
     Joystick joystick_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICKCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JOYSTICKCONTROLLER_JOYSTICKCONTROLLER_H_

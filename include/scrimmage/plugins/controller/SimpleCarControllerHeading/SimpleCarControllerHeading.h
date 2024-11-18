@@ -43,7 +43,7 @@ namespace scrimmage {
 namespace controller {
 class SimpleCarControllerHeading : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
     virtual bool step(double t, double dt);
 
  protected:
@@ -55,6 +55,6 @@ class SimpleCarControllerHeading : public Controller {
     uint8_t output_vel_idx_ = 0;
     uint8_t output_turn_rate_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLECARCONTROLLERHEADING_SIMPLECARCONTROLLERHEADING_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLECARCONTROLLERHEADING_SIMPLECARCONTROLLERHEADING_H_

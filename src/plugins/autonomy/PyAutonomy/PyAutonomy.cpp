@@ -30,30 +30,27 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/PyAutonomy/PyAutonomy.h>
-
+#include <pybind11/eigen.h>
+#include <pybind11/embed.h>
+#include <pybind11/pybind11.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/plugins/autonomy/PyAutonomy/PyAutonomy.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
 
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-#include <pybind11/eigen.h>
 #include <cstddef>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::PyAutonomy,
-                PyAutonomy_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::PyAutonomy, PyAutonomy_plugin)
 
 namespace py = pybind11;
 namespace sc = scrimmage;
@@ -68,22 +65,22 @@ PyAutonomy::PyAutonomy() {
     need_reset_ = true;
 }
 
-void PyAutonomy::init(std::map<std::string, std::string> &params) {
+void PyAutonomy::init(std::map<std::string, std::string>& params) {
     py_obj_ = get_py_obj(params);
     py_obj_.attr("id") = py::cast(parent_->id());
     init_py_obj(params);
 }
 
-py::object PyAutonomy::get_py_obj(std::map<std::string, std::string> &params) {
+py::object PyAutonomy::get_py_obj(std::map<std::string, std::string>& params) {
     py::module module = py::module::import(params["module"].c_str());
     py::object py_obj_class = module.attr(params["class"].c_str());
     py_obj_ = py_obj_class();
     return py_obj_;
 }
 
-void PyAutonomy::init_py_obj(std::map<std::string, std::string> &params) {
+void PyAutonomy::init_py_obj(std::map<std::string, std::string>& params) {
     py::dict py_params;
-    for (auto &kv : params) {
+    for (auto& kv : params) {
         if (kv.first != "module" && kv.first != "class" && kv.first != "library") {
             py_params[kv.first.c_str()] = py::str(kv.second);
         }
@@ -116,7 +113,7 @@ void PyAutonomy::cache_python_vars() {
     }
 }
 
-py::object PyAutonomy::state2py(sc::StatePtr &state) {
+py::object PyAutonomy::state2py(sc::StatePtr& state) {
     cache_python_vars();
 
     sc::Quaternion quat = state->quat();
@@ -247,7 +244,7 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
     *desired_state_ = state;
 
     py::list py_shapes = py_obj_.attr("shapes").cast<py::list>();
-    std::list< std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
+    std::list<std::shared_ptr<scrimmage_proto::Shape> > cpp_shapes;
     std::transform(py_shapes.begin(), py_shapes.end(), std::back_inserter(cpp_shapes), py2shape);
     // shapes_ = cpp_shapes; // SHAPES TODO
 
@@ -255,5 +252,5 @@ bool PyAutonomy::step_autonomy(double t, double dt) {
 
     return out;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

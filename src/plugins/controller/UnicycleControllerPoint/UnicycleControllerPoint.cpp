@@ -34,12 +34,13 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerPoint, UnicycleControllerPoint_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerPoint,
+                UnicycleControllerPoint_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
+void UnicycleControllerPoint::init(std::map<std::string, std::string>& params) {
     l_ = std::stod(params.at("l"));
     gain_ = std::stod(params.at("gain"));
 
@@ -76,5 +77,5 @@ bool UnicycleControllerPoint::step(double t, double dt) {
     vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

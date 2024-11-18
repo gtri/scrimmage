@@ -46,13 +46,14 @@ namespace controller {
  * Designed to control the simple aircraft model.
  * Horizontal channel controlled through roll rate or heading rate
  * Vertical channel controll through altitude or glide slope (tan(z_vel / sqrt(x_vel^2 + y_vel^2)))
- * Note that pitch for the simple aircraft model is actually in the direction of the velocity vector in the vertical plane (angle of attack assumed to be zero)
- * Speed controlled through a separate channel.
- * A glider can be controlled through here if the speed is always set to match the glide speed based on the roll and pitch angles.
+ * Note that pitch for the simple aircraft model is actually in the direction of the velocity vector
+ * in the vertical plane (angle of attack assumed to be zero) Speed controlled through a separate
+ * channel. A glider can be controlled through here if the speed is always set to match the glide
+ * speed based on the roll and pitch angles.
  */
 class SimpleAircraftControllerPID : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
     virtual bool step(double t, double dt);
 
  protected:

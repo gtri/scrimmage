@@ -35,11 +35,11 @@
 
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace motion {
@@ -50,7 +50,7 @@ namespace sensor {
 class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  public:
     RigidBody6DOFStateSensor();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:
@@ -62,6 +62,6 @@ class RigidBody6DOFStateSensor : public scrimmage::Sensor {
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_

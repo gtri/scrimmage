@@ -36,8 +36,8 @@
 #include <scrimmage/metrics/Metrics.h>
 
 #include <iostream>
-#include <set>
 #include <map>
+#include <set>
 #include <string>
 
 using std::cout;
@@ -49,9 +49,10 @@ namespace scrimmage {
 namespace metrics {
 class Score {
  public:
-    Score() {}
+    Score() {
+    }
 
-    bool set_weights(std::map<std::string, std::string> &params) {
+    bool set_weights(std::map<std::string, std::string>& params) {
         double w = sc::get<double>("TeamCapture_weight", params, 0.0);
         weights_["TeamCapture"] = w;
 
@@ -93,7 +94,7 @@ class Score {
     double score() {
         // Apply weights to all scores
         double s = 0;
-        for (auto &kv : counts_) {
+        for (auto& kv : counts_) {
             auto it = weights_.find(kv.first);
             if (it != weights_.end()) {
                 s += kv.second * it->second;
@@ -112,7 +113,7 @@ class Score {
 
 class SimpleCaptureMetrics : public scrimmage::Metrics {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;
     void print_team_summaries() override;
@@ -125,6 +126,6 @@ class SimpleCaptureMetrics : public scrimmage::Metrics {
 
     std::map<std::string, std::string> params_;
 };
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECAPTUREMETRICS_SIMPLECAPTUREMETRICS_H_

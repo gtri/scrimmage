@@ -45,7 +45,7 @@ class RLConsensus : public scrimmage::autonomy::RLSimple {
     void set_environment() override;
     std::tuple<bool, double, pybind11::dict> calc_reward() override;
 };
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_RLCONSENSUS_RLCONSENSUS_H_

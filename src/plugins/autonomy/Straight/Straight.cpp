@@ -30,26 +30,27 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Shape.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/math/StateWithCovariance.h>
-#include <scrimmage/math/Angles.h>
+#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/plugins/interaction/Boundary/Boundary.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/proto/State.pb.h>
-#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/pubsub/Subscriber.h>
 #include <scrimmage/sensor/Sensor.h>
 
 #if ENABLE_OPENCV == 1
 #include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -72,21 +73,19 @@ namespace sci = scrimmage::interaction;
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 namespace fs = boost::filesystem;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::Straight,
-                Straight_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Straight, Straight_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-void Straight::init(std::map<std::string, std::string> &params) {
+void Straight::init(std::map<std::string, std::string>& params) {
     speed_ = scrimmage::get("speed", params, 0.0);
     show_camera_images_ = scrimmage::get<bool>("show_camera_images", params, false);
     save_camera_images_ = scrimmage::get<bool>("save_camera_images", params, false);
     show_text_label_ = scrimmage::get<bool>("show_text_label", params, false);
 
     // Project goal in front...
-    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX()*1e6;
+    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1e6;
     Eigen::Vector3d unit_vector = rel_pos.normalized();
     unit_vector = state_->quat().rotate(unit_vector);
     goal_ = state_->pos() + unit_vector * rel_pos.norm();
@@ -96,9 +95,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
     // desired_z_ = state_->pos()(2);
 
     // Register the desired_z parameter with the parameter server
-    auto param_cb = [&](const double &desired_z) {
-        std::cout << "desired_z param changed at: " << time_->t()
-        << ", with value: " << desired_z << endl;
+    auto param_cb = [&](const double& desired_z) {
+        std::cout << "desired_z param changed at: " << time_->t() << ", with value: " << desired_z
+                  << endl;
     };
     register_param<double>("desired_z", goal_(2), param_cb);
 
@@ -130,8 +129,8 @@ void Straight::init(std::map<std::string, std::string> &params) {
     if (show_text_label_) {
         // Draw a text label (white text) 30 meters in front of vehicle:
         Eigen::Vector3d in_front = state_->pos() + unit_vector * 30;
-        text_shape_ = sc::shape::make_text("Hello, SCRIMMAGE!", in_front,
-                                           Eigen::Vector3d(255, 255, 255));
+        text_shape_ =
+            sc::shape::make_text("Hello, SCRIMMAGE!", in_front, Eigen::Vector3d(255, 255, 255));
 
         // Draw the shape in the 3D viewer
         draw_shape(text_shape_);
@@ -139,31 +138,33 @@ void Straight::init(std::map<std::string, std::string> &params) {
 
     enable_boundary_control_ = get<bool>("enable_boundary_control", params, false);
 
-    auto bd_cb = [&](auto &msg) {boundary_ = sci::Boundary::make_boundary(msg->data);};
+    auto bd_cb = [&](auto& msg) { boundary_ = sci::Boundary::make_boundary(msg->data); };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", bd_cb);
 
-    auto state_cb = [&](auto &msg) {
+    auto state_cb = [&](auto& msg) {
         noisy_state_set_ = true;
         noisy_state_ = msg->data;
     };
     subscribe<StateWithCovariance>("LocalNetwork", "StateWithCovariance", state_cb);
 
-    auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap> &msg) {
-        noisy_contacts_ = msg->data; // Save map of noisy contacts
+    auto cnt_cb = [&](scrimmage::MessagePtr<ContactMap>& msg) {
+        noisy_contacts_ = msg->data;  // Save map of noisy contacts
     };
     subscribe<ContactMap>("LocalNetwork", "ContactsWithCovariances", cnt_cb);
 
 #if (ENABLE_OPENCV == 1 && ENABLE_AIRSIM == 1)
-    auto airsim_cb = [&](auto &msg) {
+    auto airsim_cb = [&](auto& msg) {
         for (sc::sensor::AirSimImageType a : msg->data) {
             if (show_camera_images_) {
                 // Get Camera Name
-                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_" + a.camera_config.img_type_name;
+                std::string window_name = a.vehicle_name + "_" + a.camera_config.cam_name + "_"
+                                          + a.camera_config.img_type_name;
                 // for depth images CV imshow expects grayscale image values to be between 0 and 1.
-                if (a.camera_config.img_type_name == "DepthPerspective" || a.camera_config.img_type_name == "DepthPlanner") {
+                if (a.camera_config.img_type_name == "DepthPerspective"
+                    || a.camera_config.img_type_name == "DepthPlanner") {
                     // Worked before building with ROS
                     cv::Mat tempImage;
-                    a.img.convertTo(tempImage, CV_32FC1, 1.f/255);
+                    a.img.convertTo(tempImage, CV_32FC1, 1.f / 255);
                     // cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);
                     // cout << tempImage << endl;
                     cv::imshow(window_name, tempImage);
@@ -171,10 +172,12 @@ void Straight::init(std::map<std::string, std::string> &params) {
                     // other image types are int 0-255.
                     if (a.img.channels() == 4) {
                         cout << "image channels: " << a.img.channels() << endl;
-                        cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly." << endl;
+                        cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. "
+                                "Color images will not display correctly."
+                             << endl;
                         cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;
                         cv::Mat tempImage;
-                        cv::cvtColor(a.img , tempImage, CV_RGBA2RGB);
+                        cv::cvtColor(a.img, tempImage, CV_RGBA2RGB);
                         cv::imshow(window_name, tempImage);
                     } else {
                         cv::imshow(window_name, a.img);
@@ -188,10 +191,9 @@ void Straight::init(std::map<std::string, std::string> &params) {
 #endif
 
 #if ENABLE_OPENCV == 1
-    auto blob_cb = [&](auto &msg) {
+    auto blob_cb = [&](auto& msg) {
         if (save_camera_images_) {
-            std::string img_name = "./imgs/camera_" +
-                std::to_string(frame_number_++) + ".png";
+            std::string img_name = "./imgs/camera_" + std::to_string(frame_number_++) + ".png";
             cv::imwrite(img_name, msg->data.frame);
         }
 
@@ -208,9 +210,11 @@ void Straight::init(std::map<std::string, std::string> &params) {
         pub_gen_ents_ = advertise("GlobalNetwork", "GenerateEntity");
     }
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_alt_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
 bool Straight::step_autonomy(double t, double dt) {
@@ -224,13 +228,13 @@ bool Straight::step_autonomy(double t, double dt) {
             // Rotate the heading of the new entity by 90 degrees and offset
             // the initial position to the left of our current position to
             // avoid collisions.
-            Eigen::AngleAxisd rot_90_z(M_PI/2.0, Eigen::Vector3d::UnitZ());
+            Eigen::AngleAxisd rot_90_z(M_PI / 2.0, Eigen::Vector3d::UnitZ());
             s.pos() = s.pos() + s.quat() * rot_90_z * (Eigen::Vector3d::UnitX() * 10);
             s.quat() = rot_90_z * s.quat();
 
             // Create the GenerateEntity message
             auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
-            sc::set(msg->data.mutable_state(), s); // Copy the new state
+            sc::set(msg->data.mutable_state(), s);  // Copy the new state
 
             // The entity_tag must match the "tag" XML attribute of the entity
             // to be generated in the mission file.
@@ -246,7 +250,7 @@ bool Straight::step_autonomy(double t, double dt) {
             kv_visual->set_key("visual_model");
             kv_visual->set_value("sphere");
 
-            pub_gen_ents_->publish(msg); // Publish the GenerateEntity message
+            pub_gen_ents_->publish(msg);  // Publish the GenerateEntity message
         }
     }
 
@@ -274,7 +278,7 @@ bool Straight::step_autonomy(double t, double dt) {
         if (!boundary_->contains(noisy_state_.pos())) {
             // Project goal through center of boundary
             Eigen::Vector3d center = boundary_->center();
-            center(2) = noisy_state_.pos()(2); // maintain altitude
+            center(2) = noisy_state_.pos()(2);  // maintain altitude
             Eigen::Vector3d diff = center - noisy_state_.pos();
             goal_ = noisy_state_.pos() + diff.normalized() * 1e6;
         }
@@ -294,5 +298,5 @@ bool Straight::step_autonomy(double t, double dt) {
     noisy_state_set_ = false;
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

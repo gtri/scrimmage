@@ -30,12 +30,12 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ConfigParse.h>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
@@ -43,7 +43,6 @@
 #include <boost/filesystem/path.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/algorithm/string.hpp>
-
 #include <rapidxml/rapidxml.hpp>
 
 namespace fs = boost::filesystem;
@@ -54,19 +53,19 @@ using std::endl;
 
 namespace scrimmage {
 
-ConfigParse::ConfigParse() {}
+ConfigParse::ConfigParse() {
+}
 
 void ConfigParse::set_required(std::string node_name) {
     required_.push_back(node_name);
 }
 
-void ConfigParse::recursive_params(rx::xml_node<char> *root,
-        const std::map<std::string, std::string> &overrides,
-        std::map<std::string, std::string> &params,
-        const std::string &prev) {
+void ConfigParse::recursive_params(rx::xml_node<char>* root,
+                                   const std::map<std::string, std::string>& overrides,
+                                   std::map<std::string, std::string>& params,
+                                   const std::string& prev) {
     // End condition
-    if (root == 0 || root->name() == std::string("")
-        || root->name() == std::string(" ")) {
+    if (root == 0 || root->name() == std::string("") || root->name() == std::string(" ")) {
         return;
     }
 
@@ -85,7 +84,7 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
             // It does exist, grab the current size and increment.
             size = std::stoi(params[name_size]) + 1;
         }
-        name = name + "_" + std::to_string(size-1);
+        name = name + "_" + std::to_string(size - 1);
         params[name_size] = std::to_string(size);
     }
 
@@ -102,10 +101,8 @@ void ConfigParse::recursive_params(rx::xml_node<char> *root,
     recursive_params(root->next_sibling(), overrides, params, prev);
 }
 
-bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
-        std::string filename, std::string env_var,
-        FileSearch &file_search, bool verbose) {
-
+bool ConfigParse::parse(const std::map<std::string, std::string>& overrides, std::string filename,
+                        std::string env_var, FileSearch& file_search, bool verbose) {
     std::string result = "";
     bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
@@ -128,7 +125,7 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
     std::string content(buffer.str());
     doc.parse<0>(&content[0]);
 
-    rx::xml_node<> *config_node = doc.first_node("params");
+    rx::xml_node<>* config_node = doc.first_node("params");
     if (config_node == 0) {
         cout << "Missing tag: params" << endl;
         return false;
@@ -143,13 +140,13 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
     // Determine if there were any overrides (XML attributes) specified in the
     // mission file that weren't declared in the Plugin's XML
     // file. Automatically add these overrides to the params block.
-    for (auto &kv : overrides) {
+    for (auto& kv : overrides) {
         if (params_.count(kv.first) == 0) {
             params_[kv.first] = kv.second;
         }
     }
 
-    for (std::string &node_name : required_) {
+    for (std::string& node_name : required_) {
         if (params_.count(node_name) == 0) {
             cout << "Config file is missing XML tag: " << node_name << endl;
             return false;
@@ -158,9 +155,13 @@ bool ConfigParse::parse(const std::map<std::string, std::string> &overrides,
     return true;
 }
 
-std::map<std::string, std::string> &ConfigParse::params() { return params_; }
+std::map<std::string, std::string>& ConfigParse::params() {
+    return params_;
+}
 
-std::string ConfigParse::filename() { return filename_; }
+std::string ConfigParse::filename() {
+    return filename_;
+}
 
 std::string ConfigParse::directory() {
     if (fs::exists(filename_)) {
@@ -184,15 +185,15 @@ std::string ConfigParse::stem() {
 }
 
 void ConfigParse::print_params() {
-    for (auto &kv : params_) {
+    for (auto& kv : params_) {
         cout << kv.first << "=" << kv.second << endl;
     }
 }
 
 std::ostream& operator<<(std::ostream& os, ConfigParse& cp) {
-    for (auto &kv : cp.params()) {
+    for (auto& kv : cp.params()) {
         os << kv.first << "=" << kv.second << endl;
     }
     return os;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

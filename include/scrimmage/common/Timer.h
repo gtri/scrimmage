@@ -79,5 +79,5 @@ class Timer {
     boost::posix_time::time_duration sim_time_period_;
     double iterate_rate_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_TIMER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_TIMER_H_

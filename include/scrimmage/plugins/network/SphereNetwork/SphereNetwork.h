@@ -43,14 +43,15 @@ namespace network {
 
 class SphereNetwork : public scrimmage::Network {
  public:
-    bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
- protected:
-    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                              const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
 
-    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                            const scrimmage::EntityPluginPtr &sub_plugin) override;
+ protected:
+    bool is_reachable(const scrimmage::EntityPluginPtr& pub_plugin,
+                      const scrimmage::EntityPluginPtr& sub_plugin) override;
+
+    bool is_successful_transmission(const scrimmage::EntityPluginPtr& pub_plugin,
+                                    const scrimmage::EntityPluginPtr& sub_plugin) override;
     double range_;
     double prob_transmit_;
 
@@ -64,6 +65,6 @@ class SphereNetwork : public scrimmage::Network {
     bool filter_comms_plane_ = false;
     bool within_planar_boundary(double z1, double z2);
 };
-} // namespace network
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_
+}  // namespace network
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_

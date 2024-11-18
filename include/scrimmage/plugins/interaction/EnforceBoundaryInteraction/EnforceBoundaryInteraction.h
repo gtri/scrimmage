@@ -33,17 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
-#include <string>
-#include <set>
+#include <map>
 #include <memory>
+#include <set>
+#include <string>
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
@@ -54,15 +53,16 @@ namespace interaction {
 class EnforceBoundaryInteraction : public scrimmage::EntityInteraction {
  public:
     EnforceBoundaryInteraction();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) override;
+
  protected:
     std::list<std::shared_ptr<sci::BoundaryBase>> boundaries_;
     std::set<int> active_boundary_ids_;
+
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ENFORCEBOUNDARYINTERACTION_ENFORCEBOUNDARYINTERACTION_H_

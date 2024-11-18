@@ -42,7 +42,7 @@ namespace controller {
 
 class HarmonicOscillatorConstController : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -51,6 +51,6 @@ class HarmonicOscillatorConstController : public scrimmage::Controller {
     // input to motion model
     double acceleration_z_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_HARMONICOSCILLATORCONSTCONTROLLER_H_

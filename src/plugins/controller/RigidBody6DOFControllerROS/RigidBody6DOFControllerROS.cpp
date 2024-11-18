@@ -32,16 +32,18 @@
 
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/RigidBody6DOFControllerROS/RigidBody6DOFControllerROS.h>
+
 #include <boost/algorithm/string.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerROS, RigidBody6DOFControllerROS_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerROS,
+                RigidBody6DOFControllerROS_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 namespace sc = scrimmage;
 
-void RigidBody6DOFControllerROS::init(std::map<std::string, std::string> &params) {
+void RigidBody6DOFControllerROS::init(std::map<std::string, std::string>& params) {
     u_ = std::make_shared<Eigen::Vector4d>();
 
     if (!ros::isInitialized()) {
@@ -72,5 +74,5 @@ bool RigidBody6DOFControllerROS::step(double t, double dt) {
 void RigidBody6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

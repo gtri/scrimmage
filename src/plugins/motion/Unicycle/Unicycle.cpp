@@ -30,12 +30,12 @@
  *
  */
 
-#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
 
 #include <boost/algorithm/clamp.hpp>
 
@@ -43,21 +43,13 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_pl
 
 using boost::algorithm::clamp;
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    YAW,
-    PITCH,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, YAW, PITCH, MODEL_NUM_ITEMS };
 
 namespace scrimmage {
 namespace motion {
 
-bool Unicycle::init(std::map<std::string, std::string> &info,
-                    std::map<std::string, std::string> &params) {
-
+bool Unicycle::init(std::map<std::string, std::string>& info,
+                    std::map<std::string, std::string>& params) {
     // Declare variables for controllers
     use_pitch_ = get<bool>("use_pitch", params, use_pitch_);
 
@@ -118,7 +110,7 @@ bool Unicycle::step(double t, double dt) {
     state_->pos()(1) = x_[Y];
     state_->pos()(2) = x_[Z];
 
-    double roll = 0; // TODO: simulate roll if enabled
+    double roll = 0;  // TODO: simulate roll if enabled
     if (enable_roll_ && turn_rate_ != 0) {
         // see https://en.wikipedia.org/wiki/Standard_rate_turn
         const double radius = velocity_ / turn_rate_;
@@ -129,7 +121,7 @@ bool Unicycle::step(double t, double dt) {
     return true;
 }
 
-void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
+void Unicycle::model(const vector_t& x, vector_t& dxdt, double t) {
     double xy_speed = velocity_ * cos(x[PITCH]);
     dxdt[X] = xy_speed * cos(x[YAW]);
     dxdt[Y] = xy_speed * sin(x[YAW]);
@@ -141,5 +133,5 @@ void Unicycle::model(const vector_t &x , vector_t &dxdt , double t) {
         dxdt[Z] = velocity_z_;
     }
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

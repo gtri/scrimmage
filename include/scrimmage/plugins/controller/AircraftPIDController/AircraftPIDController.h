@@ -33,11 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <Eigen/Dense>
-
 #include <map>
 #include <string>
 
@@ -47,7 +46,7 @@ namespace controller {
 class AircraftPIDController : public scrimmage::Controller {
  public:
     AircraftPIDController();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -75,6 +74,6 @@ class AircraftPIDController : public scrimmage::Controller {
 
     bool use_roll_control_ = false;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_

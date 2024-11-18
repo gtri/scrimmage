@@ -68,5 +68,5 @@ class Time {
     double time_warp_;
 };
 using TimePtr = std::shared_ptr<Time>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_TIME_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_TIME_H_

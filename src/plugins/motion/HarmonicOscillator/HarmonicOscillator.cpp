@@ -29,40 +29,36 @@
  *
  */
 
-#include <scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h>
 #include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h>
 
 #include <cmath>
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::MotionModel,
-                scrimmage::motion::HarmonicOscillator,
+REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::HarmonicOscillator,
                 HarmonicOscillator_plugin)
 
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    Z = 0,
-    VZ,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { Z = 0, VZ, MODEL_NUM_ITEMS };
 
-bool HarmonicOscillator::init(std::map<std::string, std::string> &info,
-                     std::map<std::string, std::string> &params) {
+bool HarmonicOscillator::init(std::map<std::string, std::string>& info,
+                              std::map<std::string, std::string>& params) {
     // params
     damping_ratio = sc::get<double>("damping_ratio", params, 0.707);
     natural_frequency = sc::get<double>("natural_frequency", params, 1);
 
     // Declare variables for controllers
-    acceleration_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::In);
+    acceleration_z_idx_ =
+        vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::In);
 
     x_.resize(MODEL_NUM_ITEMS);
     x_[Z] = state_->pos()(2);
@@ -72,7 +68,6 @@ bool HarmonicOscillator::init(std::map<std::string, std::string> &info,
 }
 
 bool HarmonicOscillator::step(double time, double dt) {
-
     ode_step(dt);
     state_->pos()(2) = x_[Z];
     state_->vel()(2) = x_[VZ];
@@ -80,12 +75,12 @@ bool HarmonicOscillator::step(double time, double dt) {
     return true;
 }
 
-void HarmonicOscillator::model(const vector_t &x , vector_t &dxdt ,
-                                double t) {
+void HarmonicOscillator::model(const vector_t& x, vector_t& dxdt, double t) {
     const double acc = vars_.input(acceleration_z_idx_);
 
     dxdt[Z] = x[VZ];
-    dxdt[VZ] = -std::pow(natural_frequency, 2) * x[Z] - 2 * damping_ratio * natural_frequency * x[VZ] + acc;
+    dxdt[VZ] = -std::pow(natural_frequency, 2) * x[Z]
+               - 2 * damping_ratio * natural_frequency * x[VZ] + acc;
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

@@ -36,30 +36,42 @@
 
 namespace scrimmage {
 
-ID::ID() : id_(0), sub_swarm_id_(0), team_id_(0) {}
-
-ID::ID(int id, int sub_swarm_id, int team_id) :
-    id_(id), sub_swarm_id_(sub_swarm_id), team_id_(team_id) {}
-
-void ID::set_id(int id) { id_ = id; }
-
-void ID::set_sub_swarm_id(int sub_swarm_id) {sub_swarm_id_ = sub_swarm_id; }
-
-void ID::set_team_id(int team_id) { team_id_ = team_id; }
-
-int ID::id() const { return id_; }
-
-int ID::sub_swarm_id() const { return sub_swarm_id_; }
-
-int ID::team_id() const { return team_id_; }
-
-bool ID::operator==(const ID &other) const {
-    return id_ == other.id_ &&
-        sub_swarm_id_ == other.sub_swarm_id_ &&
-        team_id_ == other.team_id_;
+ID::ID() : id_(0), sub_swarm_id_(0), team_id_(0) {
 }
 
-bool ID::operator<(const ID &other) const {
+ID::ID(int id, int sub_swarm_id, int team_id)
+    : id_(id), sub_swarm_id_(sub_swarm_id), team_id_(team_id) {
+}
+
+void ID::set_id(int id) {
+    id_ = id;
+}
+
+void ID::set_sub_swarm_id(int sub_swarm_id) {
+    sub_swarm_id_ = sub_swarm_id;
+}
+
+void ID::set_team_id(int team_id) {
+    team_id_ = team_id;
+}
+
+int ID::id() const {
+    return id_;
+}
+
+int ID::sub_swarm_id() const {
+    return sub_swarm_id_;
+}
+
+int ID::team_id() const {
+    return team_id_;
+}
+
+bool ID::operator==(const ID& other) const {
+    return id_ == other.id_ && sub_swarm_id_ == other.sub_swarm_id_ && team_id_ == other.team_id_;
+}
+
+bool ID::operator<(const ID& other) const {
     if (id_ < other.id_) {
         return true;
     } else if (sub_swarm_id_ < other.sub_swarm_id_) {
@@ -71,10 +83,9 @@ bool ID::operator<(const ID &other) const {
     }
 }
 
-std::ostream &operator<<(std::ostream &os, const ID &id) {
+std::ostream& operator<<(std::ostream& os, const ID& id) {
     os << id.id_ << ", " << id.sub_swarm_id_ << ", " << id.team_id_;
     return os;
 }
 
-} // namespace scrimmage
-
+}  // namespace scrimmage

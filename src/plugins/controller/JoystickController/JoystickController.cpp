@@ -30,13 +30,12 @@
  *
  */
 
-#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/JoystickController/JoystickController.h>
 #include <scrimmage/pubsub/PubSub.h>
 
 #include <iostream>
@@ -47,20 +46,18 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::JoystickController,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JoystickController,
                 JoystickController_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void JoystickController::init(std::map<std::string, std::string> &params) {
-    joystick_.init(params, vars_,
-                   std::static_pointer_cast<EntityPlugin>(shared_from_this()));
+void JoystickController::init(std::map<std::string, std::string>& params) {
+    joystick_.init(params, vars_, std::static_pointer_cast<EntityPlugin>(shared_from_this()));
 }
 
 bool JoystickController::step(double t, double dt) {
     return joystick_.step(t, dt, vars_);
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

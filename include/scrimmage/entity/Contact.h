@@ -36,15 +36,15 @@
 #include <scrimmage/common/ID.h>
 #include <scrimmage/pubsub/Message.h>
 
-#include <memory>
-#include <unordered_map>
-#include <string>
 #include <iosfwd>
+#include <memory>
+#include <string>
+#include <unordered_map>
 
 namespace scrimmage_proto {
 class ContactVisual;
 using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
-}
+}  // namespace scrimmage_proto
 
 namespace scrimmage {
 
@@ -53,22 +53,20 @@ using StatePtr = std::shared_ptr<State>;
 
 class Contact {
  public:
-    enum class Type {AIRCRAFT = 0, QUADROTOR, SPHERE, MESH, UNKNOWN};
+    enum class Type { AIRCRAFT = 0, QUADROTOR, SPHERE, MESH, UNKNOWN };
 
     Contact();
 
-    Contact(const ID &id, const StatePtr &state);
-    Contact(ID &id, double radius, StatePtr &state, Type type,
-        scrimmage_proto::ContactVisualPtr cv,
-        const std::unordered_map<std::string, MessageBasePtr> &properties);
+    Contact(const ID& id, const StatePtr& state);
+    Contact(ID& id, double radius, StatePtr& state, Type type, scrimmage_proto::ContactVisualPtr cv,
+            const std::unordered_map<std::string, MessageBasePtr>& properties);
 
     template <class T>
     std::unordered_map<std::string, MessagePtr<T>> get_properties(std::string name = "") {
         std::unordered_map<std::string, MessagePtr<T>> out;
-        for (auto &kv : properties_) {
+        for (auto& kv : properties_) {
             if (name == "" || kv.first.find(name) != std::string::npos) {
-                auto property_cast =
-                    std::dynamic_pointer_cast<Message<T>>(kv.second);
+                auto property_cast = std::dynamic_pointer_cast<Message<T>>(kv.second);
                 if (property_cast) {
                     out[kv.first] = property_cast;
                 }
@@ -77,24 +75,28 @@ class Contact {
         return out;
     }
 
-    std::unordered_map<std::string, MessageBasePtr> &properties() {return properties_;}
-    void set_id(const ID &id);
-    ID &id();
+    std::unordered_map<std::string, MessageBasePtr>& properties() {
+        return properties_;
+    }
+    void set_id(const ID& id);
+    ID& id();
 
-    void set_state(StatePtr &state);
-    StatePtr &state();
+    void set_state(StatePtr& state);
+    StatePtr& state();
     std::shared_ptr<const State> state_const() const;
 
     void set_type(Type type);
     Type type();
 
-    scrimmage_proto::ContactVisualPtr & contact_visual();
+    scrimmage_proto::ContactVisualPtr& contact_visual();
 
     void set_active(bool active);
     bool active();
 
     void set_radius(double radius);
-    double radius() { return radius_; }
+    double radius() {
+        return radius_;
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const Contact& c);
 
@@ -110,5 +112,5 @@ class Contact {
 
 using ContactMap = std::unordered_map<int, Contact>;
 using ContactMapPtr = std::shared_ptr<ContactMap>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_

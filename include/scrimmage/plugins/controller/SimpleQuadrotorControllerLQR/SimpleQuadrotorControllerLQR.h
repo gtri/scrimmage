@@ -42,9 +42,11 @@ namespace scrimmage {
 namespace controller {
 class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    Eigen::Vector4d &u() override { return u_; }
+    Eigen::Vector4d& u() override {
+        return u_;
+    }
 
  protected:
     Eigen::Vector4d u_;

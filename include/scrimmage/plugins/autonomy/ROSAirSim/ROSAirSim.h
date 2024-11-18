@@ -31,32 +31,29 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAIRSIM_ROSAIRSIM_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAIRSIM_ROSAIRSIM_H_
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/PointCloud2.h>
+#include <geometry_msgs/Twist.h>
+#include <image_transport/image_transport.h>
+#include <ros/ros.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <tf2_ros/transform_broadcaster.h>
-#include <tf2_ros/static_transform_broadcaster.h>
-
+#include <sensor_msgs/PointCloud2.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include <geometry_msgs/Twist.h>
-#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/static_transform_broadcaster.h>
+#include <tf2_ros/transform_broadcaster.h>
 
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
 // Eigen libraries
 #include "Eigen/Core"
 #include "Eigen/Geometry"
-
 #include "common/AirSimSettings.hpp"
 typedef msr::airlib::AirSimSettings::LidarSetting LidarSetting;
 
@@ -66,10 +63,11 @@ namespace autonomy {
 class ROSAirSim : public scrimmage::Autonomy {
  public:
     ROSAirSim();
-    Eigen::Isometry3f get_vehicle_world_pose_from_NED_to_ENU(Eigen::Isometry3f vehicle_pose_world_NED);
-    Eigen::Isometry3f get_sensor_pose_from_worldNED_to_vehicleENU(Eigen::Isometry3f vehicle_position_NED,
-                                                                  Eigen::Isometry3f sensor_position_NED);
-    void init(std::map<std::string, std::string> &params) override;
+    Eigen::Isometry3f get_vehicle_world_pose_from_NED_to_ENU(
+        Eigen::Isometry3f vehicle_pose_world_NED);
+    Eigen::Isometry3f get_sensor_pose_from_worldNED_to_vehicleENU(
+        Eigen::Isometry3f vehicle_position_NED, Eigen::Isometry3f sensor_position_NED);
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -117,6 +115,6 @@ class ROSAirSim : public scrimmage::Autonomy {
     std::string ros_name_;
     std::string ros_namespace_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAIRSIM_ROSAIRSIM_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAIRSIM_ROSAIRSIM_H_

@@ -30,35 +30,35 @@
  *
  */
 #include <scrimmage/viewer/CameraInterface.h>
-
-#include <vtkWorldPointPicker.h>
 #include <vtkRendererCollection.h>
+#include <vtkWorldPointPicker.h>
 
 namespace scrimmage {
 
-CameraInterface::CameraInterface() {}
+CameraInterface::CameraInterface() {
+}
 
-CameraInterface *CameraInterface::New() {
-    CameraInterface *cb = new CameraInterface;
+CameraInterface* CameraInterface::New() {
+    CameraInterface* cb = new CameraInterface;
     return cb;
 }
 
 void CameraInterface::OnKeyPress() {
     // Get the keypress
-    vtkRenderWindowInteractor *rwi = this->Interactor;
+    vtkRenderWindowInteractor* rwi = this->Interactor;
     std::string key = rwi->GetKeySym();
 
     if (last_key_ == "semicolon") {
-      updater_->process_custom_key(key);
-      last_key_ = "";
+        updater_->process_custom_key(key);
+        last_key_ = "";
     } else if (key == "Right") {
         updater_->inc_follow();
     } else if (key == "Left") {
         updater_->dec_follow();
     } else if (key == "a") {
         updater_->next_mode();
-    } else if (key == "u") { 
-        updater_->undo_camera(); 
+    } else if (key == "u") {
+        updater_->undo_camera();
     } else if (key == "c") {
         updater_->request_cached();
     } else if (key == "t") {
@@ -94,7 +94,7 @@ void CameraInterface::OnKeyPress() {
     } else if (key == "h") {
         updater_->toggle_helpmenu();
     } else if (key == "semicolon") {
-      last_key_ = key;
+        last_key_ = key;
     } else {
         // cout << "key: " << key << endl;
     }
@@ -110,10 +110,10 @@ void CameraInterface::Rotate() {
 
 void CameraInterface::OnLeftButtonDown() {
     if (enable_object_draw_) {
-        this->Interactor->GetPicker()->Pick(this->Interactor->GetEventPosition()[0],
-                                            this->Interactor->GetEventPosition()[1],
-                                            0,  // always zero.
-                                            this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer());
+        this->Interactor->GetPicker()->Pick(
+            this->Interactor->GetEventPosition()[0], this->Interactor->GetEventPosition()[1],
+            0,  // always zero.
+            this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer());
         double picked[3];
         this->Interactor->GetPicker()->GetPickPosition(picked);
         updater_->world_point_clicked(picked[0], picked[1], picked[2]);
@@ -141,4 +141,4 @@ void CameraInterface::Dolly() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Dolly();
 }
-} // namespace scrimmage
+}  // namespace scrimmage

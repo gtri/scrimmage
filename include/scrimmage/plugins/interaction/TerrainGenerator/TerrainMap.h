@@ -33,18 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/msgs/Terrain.pb.h>
-
-#include <vector>
-#include <string>
-#include <limits>
-#include <random>
-#include <memory>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <boost/optional.hpp>
+#include <limits>
+#include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace interaction {
@@ -55,17 +54,14 @@ class TerrainMap {
 
     TerrainMap();
     TerrainMap(std::shared_ptr<std::normal_distribution<double>> rng,
-               std::shared_ptr<std::default_random_engine> gener,
-               const Technique &technique,
-               const Eigen::Vector3d &center,
-               const double &x_length, const double &y_length,
-               const double &x_resolution, const double &y_resolution,
-               const double &z_min, const double &z_max,
-               const Eigen::Vector3d &color);
-    explicit TerrainMap(const scrimmage_msgs::Terrain &terrain);
+               std::shared_ptr<std::default_random_engine> gener, const Technique& technique,
+               const Eigen::Vector3d& center, const double& x_length, const double& y_length,
+               const double& x_resolution, const double& y_resolution, const double& z_min,
+               const double& z_max, const Eigen::Vector3d& color);
+    explicit TerrainMap(const scrimmage_msgs::Terrain& terrain);
     scrimmage::ShapePtr shape();
     scrimmage_msgs::Terrain proto();
-    boost::optional<double> height_at(const double &x, const double &y);
+    boost::optional<double> height_at(const double& x, const double& y);
 
  protected:
     bool generate();
@@ -98,10 +94,10 @@ class TerrainMap {
     };
 
     std::vector<std::vector<Node>> grid_;
-    double get_neighbor_avg(const int &row, const int &col);
+    double get_neighbor_avg(const int& row, const int& col);
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_

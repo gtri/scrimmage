@@ -30,28 +30,25 @@
  *
  */
 #include <grpc++/grpc++.h>
-
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
 #include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
 #include <scrimmage/pubsub/Publisher.h>
 
-#include <memory>
-#include <limits>
 #include <iostream>
+#include <limits>
+#include <memory>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::GRPCCommandString,
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GRPCCommandString,
                 GRPCCommandString_plugin)
 
 namespace scrimmage {
@@ -60,8 +57,8 @@ namespace interaction {
 GRPCCommandString::GRPCCommandString() {
 }
 
-bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
-                             std::map<std::string, std::string> &plugin_params) {
+bool GRPCCommandString::init(std::map<std::string, std::string>& mission_params,
+                             std::map<std::string, std::string>& plugin_params) {
     ip_ = sc::get<std::string>("ip", plugin_params, ip_);
     port_ = sc::get<int>("port", plugin_params, port_);
 
@@ -70,9 +67,8 @@ bool GRPCCommandString::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-
-bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
+bool GRPCCommandString::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t,
+                                                double dt) {
     // Check for new messages:
     msgs_mutex_.lock();
     while (msgs_.size() > 0) {
@@ -110,14 +106,14 @@ void GRPCCommandString::run_server() {
     builder.RegisterService(&service);
     std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
     std::cout << "GRPCCommandString listening on " << result << std::endl;
-    server->Wait(); // this function blocks (should be in thread now)
+    server->Wait();  // this function blocks (should be in thread now)
 }
 
-void GRPCCommandString::push_msg(const scrimmage_msgs::CommandString &msg) {
+void GRPCCommandString::push_msg(const scrimmage_msgs::CommandString& msg) {
     msgs_mutex_.lock();
     msgs_.push(msg);
     msgs_mutex_.unlock();
 }
 
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

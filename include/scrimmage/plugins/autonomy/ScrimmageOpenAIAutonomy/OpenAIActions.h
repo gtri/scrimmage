@@ -34,11 +34,10 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
 
 #include <pybind11/pybind11.h>
-
 #include <scrimmage/common/Visibility.h>
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace scrimmage {
 namespace autonomy {
@@ -48,7 +47,7 @@ class ScrimmageOpenAIAutonomy;
 class DLL_PUBLIC OpenAIActions {
  public:
     OpenAIActions();
-    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>> &ext_ctrl_vec();
+    std::vector<std::shared_ptr<ScrimmageOpenAIAutonomy>>& ext_ctrl_vec();
     void create_action_space(bool combine_actors);
     void distribute_action(pybind11::object action, bool combine_actors);
 
@@ -61,6 +60,6 @@ class DLL_PUBLIC OpenAIActions {
     pybind11::object asarray_;
 };
 
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_OPENAIACTIONS_H_

@@ -38,28 +38,20 @@ class Angles {
  public:
     Angles();
 
-    enum class Type {GPS, EUCLIDEAN};
+    enum class Type { GPS, EUCLIDEAN };
     Angles(double angle, Type input_type, Type output_type);
 
-    enum class Rotate {
-        CCW = 0,
-        CW
-    };
+    enum class Rotate { CCW = 0, CW };
 
-///           Pos_Y
-///             |
-///             |
-///   Neg_X --- 0 --- Pos_X
-///             |
-///             |
-///           Neg_Y
+    ///           Pos_Y
+    ///             |
+    ///             |
+    ///   Neg_X --- 0 --- Pos_X
+    ///             |
+    ///             |
+    ///           Neg_Y
 
-    enum class HeadingZero {
-        Pos_X = 1,
-        Pos_Y = 2,
-        Neg_X = 3,
-        Neg_Y = 4
-    };
+    enum class HeadingZero { Pos_X = 1, Pos_Y = 2, Neg_X = 3, Neg_Y = 4 };
 
     // Degrees to/from radians conversion
     static double deg2rad(double deg);
@@ -125,5 +117,5 @@ class Angles {
 
  private:
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MATH_ANGLES_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_MATH_ANGLES_H_

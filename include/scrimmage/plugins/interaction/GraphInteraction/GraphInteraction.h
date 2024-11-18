@@ -35,12 +35,11 @@
 
 #include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
-#include <list>
-#include <string>
-#include <memory>
-
 #include <boost/graph/adjacency_list.hpp>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace scrimmage {
 
@@ -55,10 +54,10 @@ namespace interaction {
 class GraphInteraction : public scrimmage::EntityInteraction {
  public:
     GraphInteraction();
-    bool init(std::map<std::string, std::string> &mission_params,
-                std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                    double t, double dt) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t,
+                                 double dt) override;
 
  protected:
     struct GraphData {
@@ -79,11 +78,10 @@ class GraphInteraction : public scrimmage::EntityInteraction {
         std::string name;
     };
 
-    typedef boost::adjacency_list<
-        boost::vecS,  // edge storage
-        boost::vecS,   // vertex storage
-        boost::directedS,
-        VertexProperties, EdgeProperties> Graph;
+    typedef boost::adjacency_list<boost::vecS,  // edge storage
+                                  boost::vecS,  // vertex storage
+                                  boost::directedS, VertexProperties, EdgeProperties>
+        Graph;
     Graph g_;
 
  private:
@@ -93,4 +91,4 @@ class GraphInteraction : public scrimmage::EntityInteraction {
 };
 }  // namespace interaction
 }  // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_

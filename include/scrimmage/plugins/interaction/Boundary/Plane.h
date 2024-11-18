@@ -38,7 +38,6 @@
 #include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
-
 #include <iostream>
 #include <limits>
 #include <string>
@@ -55,14 +54,11 @@ namespace interaction {
 
 class Plane : public BoundaryBase {
  public:
-    Plane() {}
+    Plane() {
+    }
 
-    Plane(Eigen::Vector3d center,
-          double x_length,
-          double y_width,
-          scrimmage::Quaternion quat,
-          std::string texture,
-          bool diffuse_lighting) {
+    Plane(Eigen::Vector3d center, double x_length, double y_width, scrimmage::Quaternion quat,
+          std::string texture, bool diffuse_lighting) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = center(2);
@@ -80,19 +76,16 @@ class Plane : public BoundaryBase {
 
         // TODO: Handle rotation
 
-        for (Eigen::Vector3d &p : points) {
+        for (Eigen::Vector3d& p : points) {
             p += center;
         }
         set_points(points);
     }
 
-    explicit Plane(const scrimmage_proto::Shape &shape)
-        : Plane(proto_2_vector3d(shape.plane().center()),
-                shape.plane().x_length(),
-                shape.plane().y_length(),
-                proto_2_quat(shape.plane().quat()),
-                shape.plane().texture(),
-                shape.plane().diffuse_lighting()) {
+    explicit Plane(const scrimmage_proto::Shape& shape)
+        : Plane(proto_2_vector3d(shape.plane().center()), shape.plane().x_length(),
+                shape.plane().y_length(), proto_2_quat(shape.plane().quat()),
+                shape.plane().texture(), shape.plane().diffuse_lighting()) {
         set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 
@@ -120,16 +113,18 @@ class Plane : public BoundaryBase {
         double r_dot_p = r.dot(p - center_);
         double s_dot_p = s.dot(p - center_);
 
-        if ((u_dot_p > u_dot_P0) && (w_dot_p > w_dot_P0) && (v_dot_p > v_dot_P2) &&
-            (s_dot_p > s_dot_P1) && (r_dot_p > r_dot_P3)) {
+        if ((u_dot_p > u_dot_P0) && (w_dot_p > w_dot_P0) && (v_dot_p > v_dot_P2)
+            && (s_dot_p > s_dot_P1) && (r_dot_p > r_dot_P3)) {
             return true;
         }
         return false;
     }
 
-    const std::vector<Eigen::Vector3d> &points() { return points_; }
+    const std::vector<Eigen::Vector3d>& points() {
+        return points_;
+    }
 
-    void set_points(std::vector<Eigen::Vector3d> &points) {
+    void set_points(std::vector<Eigen::Vector3d>& points) {
         points_ = points;
         compute_dots();
 
@@ -177,7 +172,7 @@ class Plane : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d* p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             // shapes_.push_back(polygon);

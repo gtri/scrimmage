@@ -35,18 +35,18 @@
 
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace sensor {
 class NoisyContacts : public scrimmage::Sensor {
  public:
     NoisyContacts();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:
@@ -54,8 +54,9 @@ class NoisyContacts : public scrimmage::Sensor {
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;
     PublisherPtr pub_;
+
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_

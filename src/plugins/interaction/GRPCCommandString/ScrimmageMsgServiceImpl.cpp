@@ -30,16 +30,15 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
 #include <scrimmage/msgs/Command.grpc.pb.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
 
 #include <list>
 
 namespace scrimmage {
-ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(
-    std::shared_ptr<Plugin> plugin) :
-    plugin_(std::dynamic_pointer_cast<interaction::GRPCCommandString>(plugin)) {
+ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin)
+    : plugin_(std::dynamic_pointer_cast<interaction::GRPCCommandString>(plugin)) {
 }
 
 grpc::Status scrimmage::ScrimmageMsgServiceImpl::SendCommandString(
@@ -50,4 +49,4 @@ grpc::Status scrimmage::ScrimmageMsgServiceImpl::SendCommandString(
     return grpc::Status::OK;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

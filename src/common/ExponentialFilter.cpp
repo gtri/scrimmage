@@ -37,13 +37,14 @@
 
 namespace scrimmage {
 
-ExponentialFilter::ExponentialFilter() :
-    ExponentialFilter(1.0) {}
+ExponentialFilter::ExponentialFilter() : ExponentialFilter(1.0) {
+}
 
-ExponentialFilter::ExponentialFilter(double time_constant) :
-    estimate_(0),
-    time_last_estimate_(-std::numeric_limits<double>::infinity()),
-    time_constant_(time_constant) {}
+ExponentialFilter::ExponentialFilter(double time_constant)
+    : estimate_(0),
+      time_last_estimate_(-std::numeric_limits<double>::infinity()),
+      time_constant_(time_constant) {
+}
 
 double ExponentialFilter::get_estimate() const {
     return estimate_;
@@ -63,4 +64,4 @@ double ExponentialFilter::add_estimate(double estimate, double t) {
     return estimate_;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

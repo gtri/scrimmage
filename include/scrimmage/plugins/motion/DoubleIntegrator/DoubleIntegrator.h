@@ -48,14 +48,14 @@ class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     DoubleIntegrator();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
 
     bool step(double t, double dt) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
-    void teleport(scrimmage::StatePtr &state) override;
+    void teleport(scrimmage::StatePtr& state) override;
 
  protected:
     double update_dvdt(double vel, double max_vel, double acc);

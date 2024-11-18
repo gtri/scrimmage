@@ -31,38 +31,40 @@
  */
 
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
 #include <scrimmage/common/GlobalService.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/simcontrol/SimUtils.h>
-#include <scrimmage/network/Interface.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
-
-#include <iostream>
-#include <iomanip>
-#include <set>
+#include <scrimmage/simcontrol/SimUtils.h>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
+#include <iomanip>
+#include <iostream>
+#include <set>
 
+// Boost files need to be included in this specific order
+// clang-format off
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/algorithm/find_if.hpp>
 #include <boost/range/algorithm/for_each.hpp>
+// clang-format on 
 
 using std::endl;
 using std::cout;

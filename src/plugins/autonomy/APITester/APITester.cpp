@@ -30,13 +30,12 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/APITester/APITester.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/APITester/APITester.h>
 
 #include <iostream>
 #include <limits>
@@ -46,27 +45,25 @@ using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::APITester,
-                APITester_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::APITester, APITester_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
 void APITester::write_my_test_values() {
-    csv_.append(CSV::Pairs{
-            {"my_test_bool", my_test_bool_},
-            {"my_test_int", my_test_int_},
-            {"my_test_float", my_test_float_},
-            {"my_test_double", my_test_double_}
-        });
+    csv_.append(CSV::Pairs{{"my_test_bool", my_test_bool_},
+                           {"my_test_int", my_test_int_},
+                           {"my_test_float", my_test_float_},
+                           {"my_test_double", my_test_double_}});
 }
 
-void APITester::init(std::map<std::string, std::string> &params) {
+void APITester::init(std::map<std::string, std::string>& params) {
     // Setup variableIO
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_alt_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 
     // Get default variable values
     my_test_bool_ = sc::get<bool>("my_test_bool", params, my_test_bool_);
@@ -81,32 +78,24 @@ void APITester::init(std::map<std::string, std::string> &params) {
         std::cout << "APITest: Couldn't create output file" << endl;
     }
     csv_.set_column_headers("my_test_bool, my_test_int, my_test_float, my_test_double");
-    write_my_test_values(); // Write initial values to csv
+    write_my_test_values();  // Write initial values to csv
 
     // Register the test variables with the parameter server
-    auto bool_cb = [&](const bool &my_test_bool) {
-        this->write_my_test_values();
-    };
+    auto bool_cb = [&](const bool& my_test_bool) { this->write_my_test_values(); };
     register_param<bool>("my_test_bool", my_test_bool_, bool_cb);
 
-    auto int_cb = [&](const int &my_test_int) {
-        this->write_my_test_values();
-    };
+    auto int_cb = [&](const int& my_test_int) { this->write_my_test_values(); };
     register_param<int>("my_test_int", my_test_int_, int_cb);
 
-    auto float_cb = [&](const float &my_test_float) {
-        this->write_my_test_values();
-    };
+    auto float_cb = [&](const float& my_test_float) { this->write_my_test_values(); };
     register_param<float>("my_test_float", my_test_float_, float_cb);
 
-    auto double_cb = [&](const double &my_test_double) {
-        this->write_my_test_values();
-    };
+    auto double_cb = [&](const double& my_test_double) { this->write_my_test_values(); };
     register_param<double>("my_test_double", my_test_double_, double_cb);
 }
 
 bool APITester::step_autonomy(double t, double dt) {
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

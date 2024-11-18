@@ -38,7 +38,6 @@
 #include <scrimmage/proto/Visual.pb.h>
 
 #include <Eigen/Dense>
-
 #include <list>
 #include <map>
 #include <memory>
@@ -81,9 +80,9 @@ struct GenerateInfo {
 class MissionParse {
  public:
     bool create_log_dir();
-    void set_overrides(const std::string &overrides);
-    bool parse(const std::string &filename);
-    bool write(const std::string &filename);
+    void set_overrides(const std::string& overrides);
+    bool parse(const std::string& filename);
+    bool write(const std::string& filename);
 
     double t0();
     double tend();
@@ -92,29 +91,29 @@ class MissionParse {
     double time_warp();
     void set_time_warp(double warp);
     bool start_paused();
-    const bool &full_screen();
-    const unsigned &window_width();
-    const unsigned &window_height();
+    const bool& full_screen();
+    const unsigned& window_width();
+    const unsigned& window_height();
 
-    void set_dt(const double &dt);
+    void set_dt(const double& dt);
 
     bool parse_terrain();
 
-    scrimmage_proto::Color &background_color();
+    scrimmage_proto::Color& background_color();
 
-    void set_log_dir(const std::string &log_dir);
+    void set_log_dir(const std::string& log_dir);
     std::string log_dir();
     std::string root_log_dir();
 
-    std::map<int, AttributeMap> &entity_attributes();
+    std::map<int, AttributeMap>& entity_attributes();
 
-    std::map<int, std::map<std::string, std::string>> &entity_params();
+    std::map<int, std::map<std::string, std::string>>& entity_params();
 
-    std::map<int, int> &ent_id_to_block_id();
+    std::map<int, int>& ent_id_to_block_id();
 
-    EntityDesc_t &entity_descriptions();
+    EntityDesc_t& entity_descriptions();
 
-    std::map<std::string, int> &entity_tag_to_id();
+    std::map<std::string, int>& entity_tag_to_id();
 
     bool enable_gui();
     void set_enable_gui(bool enable);
@@ -122,39 +121,39 @@ class MissionParse {
     void set_network_gui(bool enable);
     void set_start_paused(bool paused);
 
-    AttributeMap &attributes();
-    std::map<std::string, std::string> &params();
+    AttributeMap& attributes();
+    std::map<std::string, std::string>& params();
 
     double longitude_origin();
     double latitude_origin();
     double altitude_origin();
 
-    void set_lat_lon_alt_origin(const double &lat, const double &lon, const double &alt);
+    void set_lat_lon_alt_origin(const double& lat, const double& lon, const double& alt);
 
-    std::map<int, TeamInfo> &team_info();
+    std::map<int, TeamInfo>& team_info();
 
     void set_task_number(int task_num);
     void set_job_number(int job_num);
 
     std::list<std::string> entity_interactions();
-    std::list<std::string> &network_names();
+    std::list<std::string>& network_names();
 
     std::list<std::string> metrics();
 
-    std::map<int, GenerateInfo> &gen_info();
+    std::map<int, GenerateInfo>& gen_info();
 
-    std::map<int, std::vector<double>> &next_gen_times();
+    std::map<int, std::vector<double>>& next_gen_times();
 
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
 
-    std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain();
+    std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain();
 
     std::string get_mission_filename();
 
     bool get_no_bin_logging();
 
     bool output_required();
-    bool output_type_required(const std::string &output_type);
+    bool output_type_required(const std::string& output_type);
 
  protected:
     std::string mission_filename_ = "";
@@ -175,7 +174,7 @@ class MissionParse {
 
     bool no_bin_logging_ = false;
 
-    bool read_file_content(const std::string &filename);
+    bool read_file_content(const std::string& filename);
     std::string replace_overrides(std::string str);
 
     template <class Parser>
@@ -237,8 +236,8 @@ class MissionParse {
     std::set<std::string> output_types_;
 
     // Set of all possible output types
-    const std::set<std::string> possible_output_types_ = {
-        "frames", "summary", "git_commits", "mission", "seed", "runtime"};
+    const std::set<std::string> possible_output_types_ = {"frames",  "summary", "git_commits",
+                                                          "mission", "seed",    "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
 }  // namespace scrimmage

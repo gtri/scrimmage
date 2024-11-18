@@ -43,16 +43,15 @@
 #include <scrimmage/parse/XMLParser/LibXML2Parser.h>
 #endif
 
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
+#include <GeographicLib/UTMUPS.hpp>
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <regex>  //NOLINT
 #include <string>
 #include <typeinfo>
-
-#include <GeographicLib/Geocentric.hpp>
-#include <GeographicLib/LocalCartesian.hpp>
-#include <GeographicLib/UTMUPS.hpp>
-#include <boost/algorithm/string.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -64,13 +63,13 @@ using std::endl;
 namespace fs = boost::filesystem;
 namespace scrimmage {
 
-void MissionParse::set_overrides(const std::string &overrides) {
+void MissionParse::set_overrides(const std::string& overrides) {
     std::string overrides_no_space = remove_whitespace(overrides);
 
     // Iterate over comma-separated overrides.
     std::vector<std::string> overrides_tokens;
     split(overrides_tokens, overrides_no_space, ", ");
-    for (auto &overrides_str : overrides_tokens) {
+    for (auto& overrides_str : overrides_tokens) {
         // Parse each key=value pair
         std::vector<std::string> kv_tokens;
         split(kv_tokens, overrides_str, ":= ");
@@ -82,7 +81,7 @@ void MissionParse::set_overrides(const std::string &overrides) {
     }
 }
 
-bool MissionParse::parse(const std::string &filename) {
+bool MissionParse::parse(const std::string& filename) {
     read_file_content(filename);
     mission_file_content_ = replace_overrides(mission_file_content_);
 #if ENABLE_LIBXML2_PARSER
@@ -98,7 +97,7 @@ bool MissionParse::parse(const std::string &filename) {
 #endif
 }
 
-bool MissionParse::read_file_content(const std::string &filename) {
+bool MissionParse::read_file_content(const std::string& filename) {
     mission_filename_ = expand_user(filename);
     // First, explicitly search for the mission file.
     if (!fs::exists(mission_filename_)) {
@@ -106,8 +105,8 @@ bool MissionParse::read_file_content(const std::string &filename) {
         // SCRIMMAGE_MISSION_PATH.
         FileSearch file_search;
         std::string result = "";
-        bool status = file_search.find_file(
-            mission_filename_, "xml", "SCRIMMAGE_MISSION_PATH", result, false);
+        bool status = file_search.find_file(mission_filename_, "xml", "SCRIMMAGE_MISSION_PATH",
+                                            result, false);
         if (!status) {
             // The mission file wasn't found. Exit.
             cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
@@ -133,7 +132,7 @@ bool MissionParse::read_file_content(const std::string &filename) {
 std::string MissionParse::replace_overrides(std::string str) {
     // Search and replace any overrides of the form ${key=value} in the mission
     // file
-    for (auto &kv : overrides_map_) {
+    for (auto& kv : overrides_map_) {
         std::regex reg("\\$\\{" + kv.first + "=(.+?)\\}");
         str = std::regex_replace(str, reg, kv.second);
     }
@@ -160,21 +159,21 @@ bool MissionParse::parse_filecontents(Parser& doc) {
 #if ENABLE_LIBXML2_PARSER
 template <>
 bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
-    // LibXMLParser is used when other xml files are included via xinclude to create a composite 
-    // xml mission file. We need to parse this contents twice to ensure that proper override substitution
-    // occurs
+    // LibXMLParser is used when other xml files are included via xinclude to create a composite
+    // xml mission file. We need to parse this contents twice to ensure that proper override
+    // substitution occurs
     doc.set_filename(mission_filename_);
     std::vector<char> mission_file_content_vec(mission_file_content_.size());
     mission_file_content_vec.assign(mission_file_content_.begin(),
                                     mission_file_content_.end());  // copy
-    doc.parse(mission_file_content_vec); 
+    doc.parse(mission_file_content_vec);
     mission_file_content_vec = doc.get_filecontents();
 
-    mission_file_content_.assign(mission_file_content_vec.cbegin(), mission_file_content_vec.cend());
+    mission_file_content_.assign(mission_file_content_vec.cbegin(),
+                                 mission_file_content_vec.cend());
     mission_file_content_ = replace_overrides(mission_file_content_);
-    mission_file_content_vec.assign(mission_file_content_.begin(),
-                                    mission_file_content_.end());
-    
+    mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end());
+
     return doc.parse(mission_file_content_vec);
 }
 #endif
@@ -190,13 +189,13 @@ bool MissionParse::parse_mission() {
     auto parse_double = [&](std::string str) { return std::stod(replace_overrides(str)); };
 
     Parser doc;
-    //doc.set_filename(mission_filename_);
+    // doc.set_filename(mission_filename_);
     //// doc.parse requires a null terminated string that it can modify.
-    //std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
-    //mission_file_content_vec.assign(mission_file_content_.begin(),
-    //                                mission_file_content_.end());  // copy
-    //mission_file_content_vec.push_back('\0');                      // shouldn't reallocate
-    //doc.parse(mission_file_content_vec);
+    // std::vector<char> mission_file_content_vec(mission_file_content_.size() + 1);
+    // mission_file_content_vec.assign(mission_file_content_.begin(),
+    //                                 mission_file_content_.end());  // copy
+    // mission_file_content_vec.push_back('\0');                      // shouldn't reallocate
+    // doc.parse(mission_file_content_vec);
 
     parse_filecontents(doc);
     auto runscript_node = doc.first_node("runscript");
@@ -239,7 +238,7 @@ bool MissionParse::parse_mission() {
         }
     }
 
-    auto parse_tags = [&](const std::string &tagname, std::list<std::string> &tag_list) {
+    auto parse_tags = [&](const std::string& tagname, std::list<std::string>& tag_list) {
         for (auto node = runscript_node.first_node(tagname); node.is_valid();
              node = node.next_sibling(tagname)) {
             // If a "name" is specified, use this name
@@ -292,7 +291,7 @@ bool MissionParse::parse_mission() {
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (auto& kv : param_common[attr.value()]) {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
                         attributes_[nm4][kv.first] = kv.second;
@@ -353,7 +352,7 @@ bool MissionParse::parse_mission() {
     // Create a directory to hold the log data
     // Use the current time for the directory's name
     time_t rawtime;
-    struct tm *timeinfo;
+    struct tm* timeinfo;
     char time_buffer[80];
     time(&rawtime);
     timeinfo = localtime(&rawtime);
@@ -409,7 +408,7 @@ bool MissionParse::parse_mission() {
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (auto& kv : param_common[attr.value()]) {
                         entity_common_attributes[nm][node_name][kv.first] = kv.second;
                     }
                 } else {
@@ -534,8 +533,8 @@ bool MissionParse::parse_mission() {
 
             // If lon/lat/alt are defined, overwrite x/y/z
             if (lon_valid && lat_valid && alt_valid) {
-                proj_->Forward(
-                    pos_LLA(1), pos_LLA(0), pos_LLA(2), pos_xyz(0), pos_xyz(1), pos_xyz(2));
+                proj_->Forward(pos_LLA(1), pos_LLA(0), pos_LLA(2), pos_xyz(0), pos_xyz(1),
+                               pos_xyz(2));
             }
             team_info_[team_id].bases.push_back(pos_xyz);
             team_info_[team_id].radii.push_back(radius);
@@ -562,7 +561,7 @@ bool MissionParse::parse_mission() {
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
-                    for (auto &kv : param_common[attr.value()]) {
+                    for (auto& kv : param_common[attr.value()]) {
                         entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
                     }
                 } else {
@@ -721,8 +720,8 @@ bool MissionParse::parse_mission() {
 
 bool MissionParse::create_log_dir() {
     // Create the root_log_dir_ if it doesn't exist:
-    if (not fs::exists(fs::path(root_log_dir_)) &&
-        not fs::create_directories(fs::path(root_log_dir_))) {
+    if (not fs::exists(fs::path(root_log_dir_))
+        && not fs::create_directories(fs::path(root_log_dir_))) {
         cout << "Failed to create the root_log_dir: " << root_log_dir_ << endl;
         return false;
     }
@@ -766,8 +765,8 @@ bool MissionParse::create_log_dir() {
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
     // false.
-    bool create_latest_dir = not(params_.count("create_latest_dir") > 0 &&
-                                 str2bool(params_["create_latest_dir"]) == false);
+    bool create_latest_dir = not(params_.count("create_latest_dir") > 0
+                                 && str2bool(params_["create_latest_dir"]) == false);
 
     if (create_latest_dir) {
         boost::system::error_code ec;
@@ -801,25 +800,47 @@ bool MissionParse::create_log_dir() {
     return true;
 }
 
-bool MissionParse::write(const std::string &file) { return true; }
+bool MissionParse::write(const std::string& file) {
+    return true;
+}
 
-double MissionParse::t0() { return t0_; }
+double MissionParse::t0() {
+    return t0_;
+}
 
-double MissionParse::tend() { return tend_; }
+double MissionParse::tend() {
+    return tend_;
+}
 
-double MissionParse::dt() { return dt_; }
+double MissionParse::dt() {
+    return dt_;
+}
 
-void MissionParse::set_dt(const double &dt) { dt_ = dt; }
+void MissionParse::set_dt(const double& dt) {
+    dt_ = dt;
+}
 
-double MissionParse::motion_multiplier() { return motion_multiplier_; }
+double MissionParse::motion_multiplier() {
+    return motion_multiplier_;
+}
 
-double MissionParse::time_warp() { return time_warp_; }
+double MissionParse::time_warp() {
+    return time_warp_;
+}
 
-bool MissionParse::start_paused() { return start_paused_; }
+bool MissionParse::start_paused() {
+    return start_paused_;
+}
 
-const bool &MissionParse::full_screen() { return full_screen_; }
-const unsigned &MissionParse::window_width() { return window_width_; }
-const unsigned &MissionParse::window_height() { return window_height_; }
+const bool& MissionParse::full_screen() {
+    return full_screen_;
+}
+const unsigned& MissionParse::window_width() {
+    return window_width_;
+}
+const unsigned& MissionParse::window_height() {
+    return window_height_;
+}
 
 bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;
@@ -857,33 +878,27 @@ bool MissionParse::parse_terrain() {
     utm_terrain_->set_enable_terrain(false);
     utm_terrain_->set_enable_extrusion(false);
 
-    if (params_.count("terrain") > 0 &&
-        find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
+    if (params_.count("terrain") > 0
+        && find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
         double x_easting;
         double y_northing;
         int zone;
         bool northp;
         double gamma, k_scale;
-        GeographicLib::UTMUPS::Forward(latitude_origin(),
-                                       longitude_origin(),
-                                       zone,
-                                       northp,
-                                       x_easting,
-                                       y_northing,
-                                       gamma,
-                                       k_scale);
+        GeographicLib::UTMUPS::Forward(latitude_origin(), longitude_origin(), zone, northp,
+                                       x_easting, y_northing, gamma, k_scale);
 
         // Make sure the projected zone and hemisphere match the input xml
-        if (((northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "NORTH") ||
-             (!northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "SOUTH")) &&
-            zone == get("zone", terrain_parse.params(), -2)) {
+        if (((northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "NORTH")
+             || (!northp && boost::to_upper_copy(terrain_parse.params()["hemisphere"]) == "SOUTH"))
+            && zone == get("zone", terrain_parse.params(), -2)) {
             double origin_offset_x = 0;
             double origin_offset_y = 0;
             double origin_offset_z = 0;
 
-            if (terrain_parse.params().count("origin_offset_x") == 1 &&
-                terrain_parse.params().count("origin_offset_y") == 1 &&
-                terrain_parse.params().count("origin_offset_z") == 1) {
+            if (terrain_parse.params().count("origin_offset_x") == 1
+                && terrain_parse.params().count("origin_offset_y") == 1
+                && terrain_parse.params().count("origin_offset_z") == 1) {
                 origin_offset_x = stod(terrain_parse.params()["origin_offset_x"]);
                 origin_offset_y = stod(terrain_parse.params()["origin_offset_y"]);
                 origin_offset_z = stod(terrain_parse.params()["origin_offset_z"]);
@@ -917,42 +932,72 @@ bool MissionParse::parse_terrain() {
     return false;
 }
 
-scrimmage_proto::Color &MissionParse::background_color() { return background_color_; }
+scrimmage_proto::Color& MissionParse::background_color() {
+    return background_color_;
+}
 
-std::string MissionParse::log_dir() { return log_dir_; }
-std::string MissionParse::root_log_dir() { return root_log_dir_; }
+std::string MissionParse::log_dir() {
+    return log_dir_;
+}
+std::string MissionParse::root_log_dir() {
+    return root_log_dir_;
+}
 
-void MissionParse::set_log_dir(const std::string &log_dir) { log_dir_ = log_dir; }
+void MissionParse::set_log_dir(const std::string& log_dir) {
+    log_dir_ = log_dir;
+}
 
-std::map<int, AttributeMap> &MissionParse::entity_attributes() { return entity_attributes_; }
+std::map<int, AttributeMap>& MissionParse::entity_attributes() {
+    return entity_attributes_;
+}
 
-std::map<int, std::map<std::string, std::string>> &MissionParse::entity_params() {
+std::map<int, std::map<std::string, std::string>>& MissionParse::entity_params() {
     return entity_params_;
 }
 
-std::map<int, int> &MissionParse::ent_id_to_block_id() { return ent_id_to_block_id_; }
+std::map<int, int>& MissionParse::ent_id_to_block_id() {
+    return ent_id_to_block_id_;
+}
 
-EntityDesc_t &MissionParse::entity_descriptions() { return entity_descs_; }
+EntityDesc_t& MissionParse::entity_descriptions() {
+    return entity_descs_;
+}
 
-std::map<std::string, int> &MissionParse::entity_tag_to_id() { return entity_tag_to_id_; }
+std::map<std::string, int>& MissionParse::entity_tag_to_id() {
+    return entity_tag_to_id_;
+}
 
-bool MissionParse::enable_gui() { return enable_gui_; }
+bool MissionParse::enable_gui() {
+    return enable_gui_;
+}
 
-bool MissionParse::network_gui() { return network_gui_; }
+bool MissionParse::network_gui() {
+    return network_gui_;
+}
 
-AttributeMap &MissionParse::attributes() { return attributes_; }
+AttributeMap& MissionParse::attributes() {
+    return attributes_;
+}
 
-std::map<std::string, std::string> &MissionParse::params() { return params_; }
+std::map<std::string, std::string>& MissionParse::params() {
+    return params_;
+}
 
-double MissionParse::longitude_origin() { return longitude_origin_; }
+double MissionParse::longitude_origin() {
+    return longitude_origin_;
+}
 
-double MissionParse::latitude_origin() { return latitude_origin_; }
+double MissionParse::latitude_origin() {
+    return latitude_origin_;
+}
 
-double MissionParse::altitude_origin() { return altitude_origin_; }
+double MissionParse::altitude_origin() {
+    return altitude_origin_;
+}
 
-void MissionParse::set_lat_lon_alt_origin(const double &latitude_origin,
-                                          const double &longitude_origin,
-                                          const double &altitude_origin) {
+void MissionParse::set_lat_lon_alt_origin(const double& latitude_origin,
+                                          const double& longitude_origin,
+                                          const double& altitude_origin) {
     latitude_origin_ = latitude_origin;
     longitude_origin_ = longitude_origin;
     altitude_origin_ = altitude_origin;
@@ -961,44 +1006,76 @@ void MissionParse::set_lat_lon_alt_origin(const double &latitude_origin,
         latitude_origin_, longitude_origin_, altitude_origin_, GeographicLib::Geocentric::WGS84());
 }
 
-std::map<int, TeamInfo> &MissionParse::team_info() { return team_info_; }
+std::map<int, TeamInfo>& MissionParse::team_info() {
+    return team_info_;
+}
 
-void MissionParse::set_task_number(int task_num) { task_number_ = task_num; }
+void MissionParse::set_task_number(int task_num) {
+    task_number_ = task_num;
+}
 
-void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
+void MissionParse::set_job_number(int job_num) {
+    job_number_ = job_num;
+}
 
-std::list<std::string> MissionParse::entity_interactions() { return entity_interactions_; }
+std::list<std::string> MissionParse::entity_interactions() {
+    return entity_interactions_;
+}
 
-std::list<std::string> &MissionParse::network_names() { return network_names_; }
+std::list<std::string>& MissionParse::network_names() {
+    return network_names_;
+}
 
-std::list<std::string> MissionParse::metrics() { return metrics_; }
+std::list<std::string> MissionParse::metrics() {
+    return metrics_;
+}
 
-std::map<int, GenerateInfo> &MissionParse::gen_info() { return gen_info_; }
+std::map<int, GenerateInfo>& MissionParse::gen_info() {
+    return gen_info_;
+}
 
-std::map<int, std::vector<double>> &MissionParse::next_gen_times() { return next_gen_times_; }
+std::map<int, std::vector<double>>& MissionParse::next_gen_times() {
+    return next_gen_times_;
+}
 
-std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() { return proj_; }
+std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() {
+    return proj_;
+}
 
-std::shared_ptr<scrimmage_proto::UTMTerrain> &MissionParse::utm_terrain() { return utm_terrain_; }
+std::shared_ptr<scrimmage_proto::UTMTerrain>& MissionParse::utm_terrain() {
+    return utm_terrain_;
+}
 
-std::string MissionParse::get_mission_filename() { return mission_filename_; }
+std::string MissionParse::get_mission_filename() {
+    return mission_filename_;
+}
 
-bool MissionParse::get_no_bin_logging() { return no_bin_logging_; }
+bool MissionParse::get_no_bin_logging() {
+    return no_bin_logging_;
+}
 
-void MissionParse::set_enable_gui(bool enable) { enable_gui_ = enable; }
+void MissionParse::set_enable_gui(bool enable) {
+    enable_gui_ = enable;
+}
 
-void MissionParse::set_time_warp(double warp) { time_warp_ = warp; }
+void MissionParse::set_time_warp(double warp) {
+    time_warp_ = warp;
+}
 
-void MissionParse::set_network_gui(bool enable) { network_gui_ = enable; }
+void MissionParse::set_network_gui(bool enable) {
+    network_gui_ = enable;
+}
 
-void MissionParse::set_start_paused(bool paused) { start_paused_ = paused; }
+void MissionParse::set_start_paused(bool paused) {
+    start_paused_ = paused;
+}
 
 bool MissionParse::output_required() {
     // If the output_types set is empty, no output is required
     return output_types_.size() != static_cast<unsigned int>(0);
 }
 
-bool MissionParse::output_type_required(const std::string &output_type) {
+bool MissionParse::output_type_required(const std::string& output_type) {
     return output_types_.find(output_type) != output_types_.end();
 }
 

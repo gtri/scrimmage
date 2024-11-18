@@ -30,27 +30,22 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/TakeFlag/TakeFlag.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Waypoint.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Capture.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/TakeFlag/TakeFlag.h>
+#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
-
-#include <scrimmage/msgs/Capture.pb.h>
-
+#include <GeographicLib/LocalCartesian.hpp>
 #include <iostream>
 #include <limits>
-
-#include <GeographicLib/LocalCartesian.hpp>
 
 using std::cout;
 using std::endl;
@@ -58,9 +53,7 @@ using std::endl;
 namespace sm = scrimmage_msgs;
 namespace sci = scrimmage::interaction;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::TakeFlag,
-                TakeFlag_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::TakeFlag, TakeFlag_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -68,19 +61,19 @@ namespace autonomy {
 TakeFlag::TakeFlag() {
 }
 
-void TakeFlag::init(std::map<std::string, std::string> &params) {
+void TakeFlag::init(std::map<std::string, std::string>& params) {
     flag_boundary_id_ = get<int>("flag_boundary_id", params, 1);
     capture_boundary_id_ = get<int>("capture_boundary_id", params, 1);
 
-    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+    auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
         std::shared_ptr<sci::BoundaryBase> boundary = sci::Boundary::make_boundary(msg->data);
         boundaries_[msg->data.id().id()] = std::make_pair(msg->data, boundary);
     };
     subscribe<sp::Shape>("GlobalNetwork", "Boundary", callback);
 
-    auto flag_taken_cb = [&] (scrimmage::MessagePtr<sm::FlagTaken> msg) {
-        if (msg->data.entity_id() == parent_->id().id() &&
-            msg->data.flag_boundary_id() == flag_boundary_id_) {
+    auto flag_taken_cb = [&](scrimmage::MessagePtr<sm::FlagTaken> msg) {
+        if (msg->data.entity_id() == parent_->id().id()
+            && msg->data.flag_boundary_id() == flag_boundary_id_) {
             has_flag_ = true;
         }
     };
@@ -92,7 +85,6 @@ void TakeFlag::init(std::map<std::string, std::string> &params) {
 }
 
 bool TakeFlag::step_autonomy(double t, double dt) {
-
     Eigen::Vector3d desired_point = state_->pos();
     if (!has_flag_) {
         // If we don't have the flag yet, head towards it!
@@ -119,5 +111,5 @@ bool TakeFlag::step_autonomy(double t, double dt) {
     return true;
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

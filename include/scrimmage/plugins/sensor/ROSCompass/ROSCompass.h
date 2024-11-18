@@ -33,14 +33,14 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
 
 #include <ros/ros.h>
-#include <sensor_msgs/MagneticField.h>
 #include <scrimmage/sensor/Sensor.h>
+#include <sensor_msgs/MagneticField.h>
 
-#include <random>
-#include <vector>
 #include <map>
-#include <string>
 #include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace sensor {
@@ -48,7 +48,7 @@ namespace sensor {
 class ROSCompass : public scrimmage::Sensor {
  public:
     ROSCompass();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:
@@ -59,6 +59,6 @@ class ROSCompass : public scrimmage::Sensor {
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_

@@ -33,11 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <Eigen/Dense>
-
 #include <map>
 #include <string>
 
@@ -47,7 +46,7 @@ namespace controller {
 class UUV6DOFPIDController : public scrimmage::Controller {
  public:
     UUV6DOFPIDController();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -65,6 +64,6 @@ class UUV6DOFPIDController : public scrimmage::Controller {
     scrimmage::PID pitch_pid_;
     scrimmage::PID speed_pid_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_

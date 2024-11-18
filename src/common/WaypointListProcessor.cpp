@@ -40,8 +40,7 @@ namespace sp = scrimmage_proto;
 namespace scrimmage {
 namespace autonomy {
 
-void WaypointListProcessor::set_waypoint_list(
-    const scrimmage_msgs::WaypointList &wp_list) {
+void WaypointListProcessor::set_waypoint_list(const scrimmage_msgs::WaypointList& wp_list) {
     returning_stage_ = false;
 
     // Construct a list of Waypoints from protobuf waypoint list
@@ -52,13 +51,13 @@ void WaypointListProcessor::set_waypoint_list(
 
     // Filter the waypoint list to ensure that two waypoints in succession
     // are not equal. Some planners generate duplicate waypoints.
-    auto wps_are_close = [] (auto &wp0, auto &wp1) {
-        auto numbers_are_close = [] (const double &a, const double &b) {
+    auto wps_are_close = [](auto& wp0, auto& wp1) {
+        auto numbers_are_close = [](const double& a, const double& b) {
             return std::abs(a - b) < std::numeric_limits<double>::epsilon();
         };
         return numbers_are_close(wp0.latitude(), wp1.latitude())
-                && numbers_are_close(wp0.longitude(), wp1.longitude())
-                && numbers_are_close(wp0.altitude(), wp1.altitude());
+               && numbers_are_close(wp0.longitude(), wp1.longitude())
+               && numbers_are_close(wp0.altitude(), wp1.altitude());
     };
     wp_list_.unique(wps_are_close);
 
@@ -68,15 +67,13 @@ void WaypointListProcessor::set_waypoint_list(
     next_wp_it_ = next_waypoint(curr_wp_it_);
 }
 
-WaypointListProcessor::Status
-WaypointListProcessor::process(
-    const scrimmage::StatePtr &state,
-    const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+WaypointListProcessor::Status WaypointListProcessor::process(
+    const scrimmage::StatePtr& state, const std::shared_ptr<GeographicLib::LocalCartesian>& proj) {
     if (wp_list_.size() == 0) {
         return Status::Empty;
     }
 
-    Waypoint &curr_wp_lla = *curr_wp_it_;
+    Waypoint& curr_wp_lla = *curr_wp_it_;
 
     // If the current state isn't within tolerance, the waypoint is unchanged
     if (not curr_wp_lla.is_within_tolerance(state, proj)) {
@@ -90,8 +87,8 @@ WaypointListProcessor::process(
     return Status::Changed;
 }
 
-std::list<Waypoint>::iterator WaypointListProcessor::
-next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
+std::list<Waypoint>::iterator WaypointListProcessor::next_waypoint(
+    const std::list<Waypoint>::iterator& it_wp) {
     std::list<Waypoint>::iterator it_next;
     switch (mode_) {
         case scrimmage_msgs::WaypointList::FOLLOW_ONCE:
@@ -99,7 +96,7 @@ next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
             break;
 
         case scrimmage_msgs::WaypointList::BACK_AND_FORTH:
-            it_next = returning_stage_ ? std::prev(it_wp): std::next(it_wp);
+            it_next = returning_stage_ ? std::prev(it_wp) : std::next(it_wp);
 
             if (it_next == wp_list_.begin()) {
                 returning_stage_ = false;
@@ -122,32 +119,26 @@ next_waypoint(const std::list<Waypoint>::iterator &it_wp) {
             }
             break;
 
-        default :
+        default:
             std::string msg = "Waypoint mode not defined yet.";
             throw std::runtime_error(msg);
     }
     return it_next;
 }
 
-boost::optional<const Waypoint&>
-WaypointListProcessor::previous_waypoint() {
-    return prev_wp_it_ != wp_list_.end() ?
-            boost::optional<const Waypoint&>{*prev_wp_it_} :
-            boost::optional<const Waypoint&>{};
+boost::optional<const Waypoint&> WaypointListProcessor::previous_waypoint() {
+    return prev_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint&>{*prev_wp_it_}
+                                         : boost::optional<const Waypoint&>{};
 }
 
-boost::optional<const Waypoint&>
-WaypointListProcessor::current_waypoint() {
-    return curr_wp_it_ != wp_list_.end() ?
-            boost::optional<const Waypoint&>{*curr_wp_it_} :
-            boost::optional<const Waypoint&>{};
+boost::optional<const Waypoint&> WaypointListProcessor::current_waypoint() {
+    return curr_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint&>{*curr_wp_it_}
+                                         : boost::optional<const Waypoint&>{};
 }
 
-boost::optional<const Waypoint&>
-WaypointListProcessor::next_waypoint() {
-    return next_wp_it_ != wp_list_.end() ?
-            boost::optional<const Waypoint&>{*next_wp_it_} :
-            boost::optional<const Waypoint&>{};
+boost::optional<const Waypoint&> WaypointListProcessor::next_waypoint() {
+    return next_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint&>{*next_wp_it_}
+                                         : boost::optional<const Waypoint&>{};
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

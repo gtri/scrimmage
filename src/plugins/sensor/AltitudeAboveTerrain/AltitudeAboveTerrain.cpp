@@ -30,22 +30,21 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/AltitudeAboveTerrain/AltitudeAboveTerrain.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Random.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/AltitudeAboveTerrain/AltitudeAboveTerrain.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/State.pb.h>
+#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
+#include <boost/optional.hpp>
 #include <iostream>
 #include <limits>
-
-#include <boost/optional.hpp>
 
 using std::cout;
 using std::endl;
@@ -53,8 +52,7 @@ using std::endl;
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::Sensor,
-                scrimmage::sensor::AltitudeAboveTerrain,
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::AltitudeAboveTerrain,
                 AltitudeAboveTerrain_plugin)
 
 namespace scrimmage {
@@ -63,23 +61,23 @@ namespace sensor {
 AltitudeAboveTerrain::AltitudeAboveTerrain() {
 }
 
-void AltitudeAboveTerrain::init(std::map<std::string, std::string> &params) {
+void AltitudeAboveTerrain::init(std::map<std::string, std::string>& params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
     gener_ = parent_->random()->gener();
 
     std::vector<double> vec;
-    if (str2container(sc::get<std::string>("altitude_noise", params, "0.0, 1.0"),
-                    ", ", vec, 2)) {
+    if (str2container(sc::get<std::string>("altitude_noise", params, "0.0, 1.0"), ", ", vec, 2)) {
         noise_ = parent_->random()->make_rng_normal(vec[0], vec[1]);
     } else {
         noise_ = parent_->random()->make_rng_normal(0.0, 1.0);
     }
 
-    pub_true_ = advertise("GlobalNetwork", "/" + std::to_string(parent_->id().id()) + "/TrueAltitudeAboveTerrain");
+    pub_true_ = advertise("GlobalNetwork",
+                          "/" + std::to_string(parent_->id().id()) + "/TrueAltitudeAboveTerrain");
     pub_noise_ = advertise("LocalNetwork", "AltitudeAboveTerrain");
 
-    auto terrain_map_cb = [&] (auto &msg) {
+    auto terrain_map_cb = [&](auto& msg) {
         map_ = std::make_shared<scrimmage::interaction::TerrainMap>(msg->data);
     };
     subscribe<scrimmage_msgs::Terrain>("GlobalNetwork", "Terrain", terrain_map_cb);
@@ -89,8 +87,8 @@ bool AltitudeAboveTerrain::step() {
     // Wait until we have received a valid terrain map
     if (map_ == nullptr) return true;
 
-    boost::optional<double> height = map_->height_at(parent_->state_truth()->pos()(0),
-                                                     parent_->state_truth()->pos()(1));
+    boost::optional<double> height =
+        map_->height_at(parent_->state_truth()->pos()(0), parent_->state_truth()->pos()(1));
     if (height) {
         double alt = parent_->state_truth()->pos()(2) - *height;
 
@@ -108,5 +106,5 @@ bool AltitudeAboveTerrain::step() {
     }
     return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

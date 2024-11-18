@@ -37,14 +37,15 @@
 
 #include <boost/algorithm/clamp.hpp>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControllerHeadingPID, JSBSimModelControllerHeadingPID_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimModelControllerHeadingPID,
+                JSBSimModelControllerHeadingPID_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 using ang = scrimmage::Angles;
 
-void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &params) {
+void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string>& params) {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
     angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
     angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
@@ -63,16 +64,17 @@ void JSBSimModelControllerHeadingPID::init(std::map<std::string, std::string> &p
     max_bank_ = ang::deg2rad(std::stod(params.at("max_bank")));
 
     input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    input_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    input_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
     input_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
 
     output_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     output_bank_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::Out);
 
     // Is the motion model using pitch or altitude control
-    std::string z_name = vars_.exists(VariableIO::Type::desired_pitch, VariableIO::Direction::Out) ?
-        vars_.type_map().at(VariableIO::Type::desired_pitch) :
-        vars_.type_map().at(VariableIO::Type::desired_altitude);
+    std::string z_name = vars_.exists(VariableIO::Type::desired_pitch, VariableIO::Direction::Out)
+                             ? vars_.type_map().at(VariableIO::Type::desired_pitch)
+                             : vars_.type_map().at(VariableIO::Type::desired_altitude);
 
     output_alt_idx_ = vars_.declare(z_name, VariableIO::Direction::Out);
 }
@@ -92,7 +94,7 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     // Might have to use the lag
     double desired_yaw_lag;
     if (heading_lag_initialized_) {
-        double k = 1.00; // disable lag
+        double k = 1.00;  // disable lag
         if (ang::angle_pi(std::abs(desired_yaw - yaw)) > 2.35619) {
             k = dt * 0.75;
         }
@@ -120,5 +122,5 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     return true;
 }
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

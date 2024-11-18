@@ -33,34 +33,33 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
 
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <list>
 #include <map>
-#include <string>
 #include <memory>
-
 #include <opencv2/core/core.hpp>
+#include <string>
 
 namespace scrimmage {
 namespace interaction {
 class MapGen2D : public scrimmage::EntityInteraction {
  public:
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(
-        std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t,
+                                 double dt) override;
 
  protected:
-    std::shared_ptr<scrimmage_proto::Shape> connect_points(
-        Eigen::Vector3d &p, Eigen::Vector3d &prev_p);
+    std::shared_ptr<scrimmage_proto::Shape> connect_points(Eigen::Vector3d& p,
+                                                           Eigen::Vector3d& prev_p);
 
-    std::list<cv::Rect> find_rectangles(cv::Mat &img, int threshold);
+    std::list<cv::Rect> find_rectangles(cv::Mat& img, int threshold);
 
-    Eigen::Vector3d img_xy_to_xyz(int x, int y, cv::Mat &img);
+    Eigen::Vector3d img_xy_to_xyz(int x, int y, cv::Mat& img);
 
     bool show_map_debug_;
     bool enable_map_boundary_;
@@ -81,6 +80,6 @@ class MapGen2D : public scrimmage::EntityInteraction {
 
     cv::Mat map_img_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAPGEN2D_H_

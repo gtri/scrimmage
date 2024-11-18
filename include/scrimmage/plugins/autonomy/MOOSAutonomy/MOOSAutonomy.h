@@ -36,9 +36,9 @@
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/Angles.h>
 
-#include <thread> // NOLINT
-#include <string>
 #include <map>
+#include <string>
+#include <thread>  // NOLINT
 
 #include "MOOSNode.h"
 
@@ -47,7 +47,7 @@ namespace autonomy {
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
     MOOSAutonomy();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool ready() override;
     bool step_autonomy(double t, double dt) override;
 
@@ -69,6 +69,6 @@ class MOOSAutonomy : public scrimmage::Autonomy {
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_

@@ -35,20 +35,19 @@
 
 #include <scrimmage/autonomy/Autonomy.h>
 
-#include <string>
-#include <map>
-
-#include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/Constants.hpp>
+#include <GeographicLib/Geodesic.hpp>
+#include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
-class Follow : public scrimmage::Autonomy{
+class Follow : public scrimmage::Autonomy {
  public:
-     Follow();
-     void init(std::map<std::string, std::string> &params) override;
-     bool step_autonomy(double t, double dt) override;
+    Follow();
+    void init(std::map<std::string, std::string>& params) override;
+    bool step_autonomy(double t, double dt) override;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FOLLOW_FOLLOW_H_
