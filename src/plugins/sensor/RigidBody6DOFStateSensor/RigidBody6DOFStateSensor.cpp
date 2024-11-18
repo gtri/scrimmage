@@ -35,10 +35,10 @@
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include <scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h>
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
@@ -48,8 +48,7 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Sensor,
-                scrimmage::sensor::RigidBody6DOFStateSensor,
+REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::RigidBody6DOFStateSensor,
                 RigidBody6DOFStateSensor_plugin)
 
 namespace scrimmage {
@@ -58,7 +57,7 @@ namespace sensor {
 RigidBody6DOFStateSensor::RigidBody6DOFStateSensor() {
 }
 
-void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) {
+void RigidBody6DOFStateSensor::init(std::map<std::string, std::string>& params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
     gener_ = parent_->random()->gener();
@@ -83,7 +82,8 @@ void RigidBody6DOFStateSensor::init(std::map<std::string, std::string> &params) 
 
 bool RigidBody6DOFStateSensor::step() {
     if (motion_ == nullptr) {
-        motion_ = std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
+        motion_ =
+            std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
         if (motion_ == nullptr) {
             cout << "WARNING: Failed to get motion model. Currently only "
                  << "scrimmage::motion::RigidBody6DOFBase and subclasses "
@@ -100,8 +100,10 @@ bool RigidBody6DOFStateSensor::step() {
     msg->data.ang_vel() = parent_->state_truth()->ang_vel();
     msg->data.quat() = parent_->state_truth()->quat();
 
-    msg->data.linear_vel_body() = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
-    msg->data.ang_vel_body()    = parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
+    msg->data.linear_vel_body() =
+        parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->vel());
+    msg->data.ang_vel_body() =
+        parent_->state_truth()->quat().rotate_reverse(parent_->state_truth()->ang_vel());
 
     msg->data.linear_accel_body() = motion_->linear_accel_body();
     msg->data.ang_accel_body() = motion_->ang_accel_body();
@@ -112,5 +114,5 @@ bool RigidBody6DOFStateSensor::step() {
     pub_->publish(msg);
     return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

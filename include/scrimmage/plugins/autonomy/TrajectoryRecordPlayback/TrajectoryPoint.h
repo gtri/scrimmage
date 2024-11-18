@@ -40,24 +40,39 @@ namespace scrimmage {
 namespace autonomy {
 class TrajectoryPoint {
  public:
-    TrajectoryPoint() : t_(0) {}
-    TrajectoryPoint(double t, scrimmage::State &state, scrimmage::State &desired)
-        : t_(t), state_(state), desired_state_(desired) { }
+    TrajectoryPoint() : t_(0) {
+    }
+    TrajectoryPoint(double t, scrimmage::State& state, scrimmage::State& desired)
+        : t_(t), state_(state), desired_state_(desired) {
+    }
 
-    double t() { return t_; }
-    scrimmage::State &state() { return state_; }
-    scrimmage::State &desired_state() { return desired_state_; }
+    double t() {
+        return t_;
+    }
+    scrimmage::State& state() {
+        return state_;
+    }
+    scrimmage::State& desired_state() {
+        return desired_state_;
+    }
 
-    void set_t(double t) { t_ = t; }
-    void set_state(scrimmage::State &state) { state_ = state; }
-    void set_desired_state(scrimmage::State &state) { desired_state_ = state; }
+    void set_t(double t) {
+        t_ = t;
+    }
+    void set_state(scrimmage::State& state) {
+        state_ = state;
+    }
+    void set_desired_state(scrimmage::State& state) {
+        desired_state_ = state;
+    }
 
  protected:
     double t_;
     scrimmage::State state_;
     scrimmage::State desired_state_;
+
  private:
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_

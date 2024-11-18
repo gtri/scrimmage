@@ -31,10 +31,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
 #define INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
 
-#include <scrimmage/parse/XMLParser/XMLParser.h>
-
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
+#include <scrimmage/parse/XMLParser/XMLParser.h>
 
 #include <string>
 #include <vector>

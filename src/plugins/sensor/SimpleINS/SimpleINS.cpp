@@ -35,13 +35,13 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/sensor/SimpleINS/SimpleINS.h>
 #include <scrimmage/math/StateWithCovariance.h>
 #include <scrimmage/msgs/GPS.pb.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/SimpleINS/SimpleINS.h>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <vector>
 
@@ -53,15 +53,16 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::SimpleINS, SimpleINS_plugi
 namespace scrimmage {
 namespace sensor {
 
-void SimpleINS::init(std::map<std::string, std::string> &params) {
+void SimpleINS::init(std::map<std::string, std::string>& params) {
     // Noise params information
-    auto add_noise = [&](std::string prefix, auto &noise_vec) {
+    auto add_noise = [&](std::string prefix, auto& noise_vec) {
         for (int i = 0; i < 3; i++) {
             std::string tag_name = prefix + "_" + std::to_string(i);
             std::vector<double> vec;
             double mean, stdev;
-            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2) ?
-                std::make_pair(vec[0], vec[1]) : std::make_pair(0.0, 1.0);
+            std::tie(mean, stdev) = get_vec(tag_name, params, " ", vec, 2)
+                                        ? std::make_pair(vec[0], vec[1])
+                                        : std::make_pair(0.0, 1.0);
             noise_vec.push_back(parent_->random()->make_rng_normal(mean, stdev));
         }
     };
@@ -69,8 +70,6 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
     add_noise("pos_noise", pos_noise_);
     add_noise("vel_noise", vel_noise_);
     add_noise("orient_noise", orient_noise_);
-
-
 
     pub_ = advertise("LocalNetwork", "StateWithCovariance");
     pub_cep_ = advertise("LocalNetwork", "INS_CEP");
@@ -80,18 +79,14 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
     sea_state_gps_ = sc::get<double>("sea_state_gps", params, 99);
 
     // GPS information
-    auto gps_cb = [&](auto &msg) {
-        gps_fix_ = msg->data.fixed();
-    };
+    auto gps_cb = [&](auto& msg) { gps_fix_ = msg->data.fixed(); };
     subscribe<sm::GPSStatus>("GlobalNetwork", "GPSStatus", gps_cb);
-
 
     surface_timer_ = sc::get<double>("surface_timer", params, 10);
 
     parent_->state() = std::make_shared<State>();
     *(parent_->state()) = *(parent_->state_truth());
 }
-
 
 bool SimpleINS::step() {
     auto gener = parent_->random()->gener();
@@ -109,17 +104,15 @@ bool SimpleINS::step() {
         init_m_ = false;
     }
 
-
-      // Acceleration
-        accel_ = ns.vel() - vel_Nminus1;
-        vel_Nminus1 = ns.vel();
+    // Acceleration
+    accel_ = ns.vel() - vel_Nminus1;
+    vel_Nminus1 = ns.vel();
     for (int i = 0; i < 3; i++) {
         accel_(i) = abs(accel_(i) / .01);
         if (accel_(i) > 1) {
             accel_(i) = 1;
-            }
+        }
     }
-
 
     // Use gen in order to create a growing covariance
     double pos_noise_0 = (*pos_noise_[0])(*gener) * (accel_(0));
@@ -127,8 +120,8 @@ bool SimpleINS::step() {
     const int arrayNum[4] = {15, 30, 45, 60};
 
     if (!gps_fix_) {
-        m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
-        m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
+        m_(0, 0) += (pos_noise_0 < 0 ? -1 * pos_noise_0 : pos_noise_0);
+        m_(1, 1) += (pos_noise_1 < 0 ? -1 * pos_noise_1 : pos_noise_1);
 
         prev_time_ = time_->t();
         int randIdx = rand() % 4;
@@ -138,31 +131,28 @@ bool SimpleINS::step() {
         }
     } else {
         // GPS fix on - wait on surface timer and snap back to an identity matrix
-        m_(0, 0) += (pos_noise_0 < 0 ? -1*pos_noise_0 : pos_noise_0);
-        m_(1, 1) += (pos_noise_1 < 0 ? -1*pos_noise_1 : pos_noise_1);
+        m_(0, 0) += (pos_noise_0 < 0 ? -1 * pos_noise_0 : pos_noise_0);
+        m_(1, 1) += (pos_noise_1 < 0 ? -1 * pos_noise_1 : pos_noise_1);
         // GPS fix on - wait on surface timer and snap back to an identity matrix
         if (time_->t() - prev_time_ > surface_timer_) {
-           m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
-           // Reset the position error accumulator
-           pos_error_accum_ = Eigen::Vector3d::Zero();
+            m_ = Eigen::MatrixXd::Identity(ns.covariance().rows(), ns.covariance().cols());
+            // Reset the position error accumulator
+            pos_error_accum_ = Eigen::Vector3d::Zero();
         }
     }
 
-
-
     // Create noisy position / velocity
     for (int i = 0; i < 3; i++) {
-         // std::cout << "Accelration for " << i << ", is: " << (accel_(i)) << std::endl;
-         pos_error_accum_(i) += (*pos_noise_[i])(*gener) * (accel_(i));
-         // msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
+        // std::cout << "Accelration for " << i << ", is: " << (accel_(i)) << std::endl;
+        pos_error_accum_(i) += (*pos_noise_[i])(*gener) * (accel_(i));
+        // msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
         msg->data.vel()(i) = ns.vel()(i) + (*vel_noise_[i])(*gener);
     }
-      msg->data.pos() = ns.pos() + pos_error_accum_;
+    msg->data.pos() = ns.pos() + pos_error_accum_;
 
-    msg->data.quat() = ns.quat()
-    * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
-    * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
-    * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
+    msg->data.quat() = ns.quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
+                       * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
+                       * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
     msg->data.set_covariance(m_);
 
@@ -184,8 +174,8 @@ bool SimpleINS::step() {
         CEP = 0.59 * sig_L * (1 + sig_w);
     }
     auto msg_cep = std::make_shared<sc::Message<double>>();
-        msg_cep->data = CEP;
-        pub_cep_->publish(msg_cep);
+    msg_cep->data = CEP;
+    pub_cep_->publish(msg_cep);
     // Publish StateWCovariance msg
     pub_->publish(msg);
 
@@ -195,5 +185,5 @@ bool SimpleINS::step() {
     return true;
 }
 
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

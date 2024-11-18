@@ -33,14 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
 
-#include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/MessageBase.h>
 
-#include <type_traits>
 #include <list>
 #include <memory>
+#include <mutex>  // NOLINT
 #include <string>
-#include <mutex> // NOLINT
+#include <type_traits>
 
 namespace scrimmage {
 
@@ -50,18 +50,18 @@ using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
 class NetworkDevice {
  public:
     NetworkDevice();
-    NetworkDevice(NetworkDevice &rhs);
-    NetworkDevice(NetworkDevice &&rhs);
+    NetworkDevice(NetworkDevice& rhs);
+    NetworkDevice(NetworkDevice&& rhs);
 
-    virtual ~NetworkDevice() = default; // Make NetworkDevice Polymorphic
+    virtual ~NetworkDevice() = default;  // Make NetworkDevice Polymorphic
 
-    NetworkDevice(const std::string &topic, const unsigned int& max_queue_size,
+    NetworkDevice(const std::string& topic, const unsigned int& max_queue_size,
                   const bool& enable_queue_size, EntityPluginPtr plugin);
 
     std::string get_topic() const;
-    void set_topic(const std::string &topic);
+    void set_topic(const std::string& topic);
 
-    void set_msg_list(const std::list<MessageBasePtr> &msg_list);
+    void set_msg_list(const std::list<MessageBasePtr>& msg_list);
     void clear_msg_list();
 
     unsigned int msg_list_size() {
@@ -71,7 +71,6 @@ class NetworkDevice {
     unsigned int undelivered_msg_list_size() {
         return undelivered_msg_list_.size();
     }
-
 
     void set_max_queue_size(const unsigned int& size);
     unsigned int max_queue_size();
@@ -85,8 +84,7 @@ class NetworkDevice {
     /* added for delay handling */
     void add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay = false);
     auto deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it);
-    int deliver_undelivered_msg(const double& time_now,
-                                const bool& is_stochastic_delay = false);
+    int deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay = false);
     /* end delay handling */
 
     template <class T = MessageBase,
@@ -104,9 +102,9 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    template <class T,
-              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
-                                       std::is_base_of<MessageBase, T>::value, void>>
+    template <class T, class = std::enable_if_t<!std::is_same<T, MessageBase>::value
+                                                    && std::is_base_of<MessageBase, T>::value,
+                                                void>>
     std::list<std::shared_ptr<T>> pop_msgs() {
         mutex_.lock();
         std::list<std::shared_ptr<T>> msg_list_cast;
@@ -116,9 +114,8 @@ class NetworkDevice {
             auto msg_cast = std::dynamic_pointer_cast<T>(*it);
             if (msg_cast) {
                 msg_list_cast.push_back(msg_cast);
-                } else {
-                print_str(std::string("WARNING: could not cast message on topic \"")
-                          + topic_);
+            } else {
+                print_str(std::string("WARNING: could not cast message on topic \"") + topic_);
             }
             it = msg_list_.erase(it);
         }
@@ -126,59 +123,64 @@ class NetworkDevice {
         return msg_list_cast;
     }
 
-    template <class T,
-              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
-                                       !std::is_base_of<MessageBase, T>::value, void>>
+    template <class T, class = std::enable_if_t<!std::is_same<T, MessageBase>::value
+                                                    && !std::is_base_of<MessageBase, T>::value,
+                                                void>>
     std::list<std::shared_ptr<Message<T>>> pop_msgs() {
         return pop_msgs<Message<T>>();
     }
 
     ////////////////////
 
-    template<class T>
-        struct always_false : std::false_type
-    { };
+    template <class T>
+    struct always_false : std::false_type {};
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
     template <class T = MessageBase,
               class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     std::list<MessageBasePtr> msgs(bool pop_msgs = true) {
-        static_assert(always_false<T>::value, "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in your plugin. Please use the new subscriber callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in "
+                      "your plugin. Please use the new subscriber callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <class T,
-              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
-                                       std::is_base_of<MessageBase, T>::value, void>>
+    template <class T, class = std::enable_if_t<!std::is_same<T, MessageBase>::value
+                                                    && std::is_base_of<MessageBase, T>::value,
+                                                void>>
     std::list<std::shared_ptr<T>> msgs(bool pop_msgs = true) {
-        static_assert(always_false<T>::value, "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in your plugin. Please use the new subscriber callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in "
+                      "your plugin. Please use the new subscriber callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }
 
     /*! \brief The msgs() method is no longer supported. Please use the new
      *  subscriber callback interface.*/
-    template <class T,
-              class = std::enable_if_t<!std::is_same<T, MessageBase>::value &&
-                                       !std::is_base_of<MessageBase, T>::value, void>>
+    template <class T, class = std::enable_if_t<!std::is_same<T, MessageBase>::value
+                                                    && !std::is_base_of<MessageBase, T>::value,
+                                                void>>
     std::list<std::shared_ptr<Message<T>>> msgs(bool pop_msgs = true) {
-        static_assert(always_false<T>::value, "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in your plugin. Please use the new subscriber callback interface.");
+        static_assert(always_false<T>::value,
+                      "You are using the old publisher/subscriber interface (i.e., msgs(bool)) in "
+                      "your plugin. Please use the new subscriber callback interface.");
         std::list<std::shared_ptr<T>> msg_list_cast;
         return msg_list_cast;
     }
 
-    EntityPluginPtr & plugin();
+    EntityPluginPtr& plugin();
 
  protected:
     std::string topic_ = "";
     unsigned int max_queue_size_ = 1;
     bool enable_queue_size_ = false;
     EntityPluginPtr plugin_;
-    void print_str(const std::string &msg);
+    void print_str(const std::string& msg);
     std::list<MessageBasePtr> msg_list_;
     std::mutex mutex_;
 
@@ -186,5 +188,5 @@ class NetworkDevice {
     std::list<MessageBasePtr> undelivered_msg_list_;
 };
 using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_

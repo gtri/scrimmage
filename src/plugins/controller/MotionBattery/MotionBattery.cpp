@@ -30,15 +30,14 @@
  *
  */
 
-#include <scrimmage/plugins/controller/MotionBattery/MotionBattery.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/msgs/Battery.pb.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/MotionBattery/MotionBattery.h>
 #include <scrimmage/pubsub/Publisher.h>
 
 #include <iostream>
@@ -51,17 +50,15 @@ namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 namespace pl = std::placeholders;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::MotionBattery,
-                MotionBattery_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::MotionBattery, MotionBattery_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void MotionBattery::init(std::map<std::string, std::string> &params) {
+void MotionBattery::init(std::map<std::string, std::string>& params) {
     // Discover the output variables that point to the input variables for the
     // motion model. Setup input variables that mirror the output variables.
-    for (auto &kv : vars_.output_variable_index()) {
+    for (auto& kv : vars_.output_variable_index()) {
         int out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);
         int in_idx = vars_.declare(kv.first, VariableIO::Direction::In);
         io_map_[kv.first] = std::make_unique<VarLimit>(in_idx, out_idx, 0.0, 0.0, false);
@@ -73,9 +70,8 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     battery_ = Battery(charge_min, charge_max, charge);
 
     std::vector<std::vector<std::string>> vecs;
-    if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""),
-                        vecs)) {
-        for (auto &vec : vecs) {
+    if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""), vecs)) {
+        for (auto& vec : vecs) {
             if (vec.size() != 5) {
                 cout << "Invalid depletion mapping: " << endl;
                 for (std::string s : vec) {
@@ -99,7 +95,7 @@ void MotionBattery::init(std::map<std::string, std::string> &params) {
     }
 
     // Charging subscriber
-    auto callback_charge_added = [&] (scrimmage::MessagePtr<sm::Charge> msg) {
+    auto callback_charge_added = [&](scrimmage::MessagePtr<sm::Charge> msg) {
         if (parent_->id().id() == msg->data.id()) {
             battery_.add_charge(msg->data.charge_amount());
         }
@@ -122,7 +118,7 @@ bool MotionBattery::step(double t, double dt) {
 
     // Loop over all variables in the io_map_, apply charge calculation, and
     // limit output if required
-    for (auto &kv : io_map_) {
+    for (auto& kv : io_map_) {
         double value = vars_.input(kv.second->input_idx);
         double depletion = kv.second->calc_depletion(value, time_->dt());
         if (!battery_.deplete(depletion)) {
@@ -139,15 +135,14 @@ bool MotionBattery::step(double t, double dt) {
 }
 
 bool MotionBattery::get_battery_charge(scrimmage::MessageBasePtr request,
-                                       scrimmage::MessageBasePtr &response) {
-    response =
-        std::make_shared<sc::Message<double>>(battery_.current_charge());
+                                       scrimmage::MessageBasePtr& response) {
+    response = std::make_shared<sc::Message<double>>(battery_.current_charge());
     return true;
 }
 
-double MotionBattery::calculate_charge_usage(const double &throttle, const double &dt) {
+double MotionBattery::calculate_charge_usage(const double& throttle, const double& dt) {
     return 0.0;
 }
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

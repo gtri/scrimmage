@@ -32,17 +32,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSALTIMETER_ROSALTIMETER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSALTIMETER_ROSALTIMETER_H_
 
-#include <ros/ros.h>
 #include <mavros_msgs/Altitude.h>
+#include <ros/ros.h>
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
-#include <vector>
-#include <map>
-#include <string>
-#include <memory>
-
 #include <GeographicLib/LocalCartesian.hpp>
+#include <map>
+#include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 namespace sensor {
@@ -50,7 +49,7 @@ namespace sensor {
 class ROSAltimeter : public scrimmage::Sensor {
  public:
     ROSAltimeter();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:
@@ -62,6 +61,6 @@ class ROSAltimeter : public scrimmage::Sensor {
 
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSALTIMETER_ROSALTIMETER_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSALTIMETER_ROSALTIMETER_H_

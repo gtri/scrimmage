@@ -30,22 +30,21 @@
  *
  */
 
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/FileSearch.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
 #include <scrimmage/plugins/interaction/MapGen2D/Map2DInfo.h>
+#include <scrimmage/plugins/interaction/MapGen2D/MapGen2D.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/pubsub/Message.h>
 
-#include <memory>
-#include <limits>
 #include <iostream>
-
+#include <limits>
+#include <memory>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -61,14 +60,12 @@ REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::MapGen2D, 
 namespace scrimmage {
 namespace interaction {
 
-bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
-                    std::map<std::string, std::string> &plugin_params) {
-
+bool MapGen2D::init(std::map<std::string, std::string>& mission_params,
+                    std::map<std::string, std::string>& plugin_params) {
     pub_shape_gen_ = advertise("GlobalNetwork", "ShapeGenerated");
     pub_map_2d_info_ = advertise("GlobalNetwork", "Map2DInfo");
 
-    show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params,
-                                    false);
+    show_map_debug_ = sc::get<bool>("show_map_debug", plugin_params, false);
 
     ///////////////////////////////
     // Find the map params
@@ -77,9 +74,8 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     map_parse.set_required("resolution");
 
     sc::FileSearch file_search;
-    std::map<std::string, std::string> overrides; // empty, no overrides
-    if (!map_parse.parse(overrides, plugin_params["map"],
-                            "SCRIMMAGE_DATA_PATH", file_search)) {
+    std::map<std::string, std::string> overrides;  // empty, no overrides
+    if (!map_parse.parse(overrides, plugin_params["map"], "SCRIMMAGE_DATA_PATH", file_search)) {
         cout << "Failed to find map: " << plugin_params["map"] << endl;
         return false;
     }
@@ -87,19 +83,15 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     resolution_ = sc::get<double>("resolution", map_parse.params(), 1.0);
     wall_bottom_z_ = sc::get<double>("wall_bottom_z", map_parse.params(), 0.0);
     wall_height_ = sc::get<double>("wall_height", map_parse.params(), 5.0);
-    enable_map_boundary_ = sc::get<bool>("enable_map_boundary",
-                                         map_parse.params(), false);
-    occupied_thresh_ = sc::get<double>("occupied_thresh", map_parse.params(),
-                                       0.65);
+    enable_map_boundary_ = sc::get<bool>("enable_map_boundary", map_parse.params(), false);
+    occupied_thresh_ = sc::get<double>("occupied_thresh", map_parse.params(), 0.65);
 
     x_origin_ = sc::get<double>("x_origin", map_parse.params(), 0);
     y_origin_ = sc::get<double>("y_origin", map_parse.params(), 0);
     z_origin_ = sc::get<double>("z_origin", map_parse.params(), 0);
 
     // Parse wall_color (default to blue)
-    std::string color_str = sc::get<std::string>("wall_color",
-                                                 map_parse.params(),
-                                                 "0 0 255");
+    std::string color_str = sc::get<std::string>("wall_color", map_parse.params(), "0 0 255");
 
     // Parse wall color
     std::vector<int> color;
@@ -109,8 +101,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         color = {0, 0, 255};
     }
 
-    std::string filename = map_parse.params()["XML_DIR"] + "/" +
-        map_parse.params()["filename"];
+    std::string filename = map_parse.params()["XML_DIR"] + "/" + map_parse.params()["filename"];
 
     map_img_ = cv::imread(filename, cv::IMREAD_COLOR);
     if (!map_img_.data) {
@@ -128,8 +119,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         double height = rect.height * resolution_;
 
         // Convert rectangle into cube shape
-        Eigen::Vector3d center(x + width/2.0 + x_origin_,
-                               y - height/2.0 + y_origin_,
+        Eigen::Vector3d center(x + width / 2.0 + x_origin_, y - height / 2.0 + y_origin_,
                                wall_bottom_z_ + wall_height_ / 2.0 + z_origin_);
 
         sc::Quaternion quat(0, 0, 0);
@@ -145,7 +135,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
         sc::set(wall->mutable_cuboid()->mutable_quat(), quat);
         draw_shape(wall);
 
-        sp::Shape *shape = msg->data.add_shape();
+        sp::Shape* shape = msg->data.add_shape();
         *shape = *wall;
     }
 
@@ -156,9 +146,7 @@ bool MapGen2D::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
-
+bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) {
     if (!map_info_published_) {
         map_info_published_ = true;
 
@@ -174,14 +162,13 @@ bool MapGen2D::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     return true;
 }
 
-std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
+std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat& img, int threshold) {
     // Make sure image is gray and apply threshold
     cv::Mat gray;
     cv::cvtColor(img, gray, cv::COLOR_BGRA2GRAY);
 
     cv::Mat thresh;
-    cv::threshold(gray, thresh, std::floor(threshold*255), 255,
-                  cv::THRESH_BINARY_INV);
+    cv::threshold(gray, thresh, std::floor(threshold * 255), 255, cv::THRESH_BINARY_INV);
 
     cv::Mat img_rects = img.clone();
 
@@ -224,7 +211,7 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
                     }
                 }
 
-                cv::Rect rect(j, i, end_c-j, end_r-i);
+                cv::Rect rect(j, i, end_c - j, end_r - i);
                 cv::rectangle(img_rects, rect, cv::Scalar(0, 0, 255), 1, 8, 0);
                 cv::Mat roi = I(rect);
                 roi.setTo(0);
@@ -235,12 +222,11 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     }
 
     if (enable_map_boundary_) {
-        rects.push_back(cv::Rect(0, 0, img.cols, 1)); // top rect
-        rects.push_back(cv::Rect(0, 0, 1, img.rows)); // left rect
-        rects.push_back(cv::Rect(img.cols, 0, 1, img.rows)); // right rect
-        rects.push_back(cv::Rect(0, img.rows, img.cols, 1)); // bottom rect
+        rects.push_back(cv::Rect(0, 0, img.cols, 1));         // top rect
+        rects.push_back(cv::Rect(0, 0, 1, img.rows));         // left rect
+        rects.push_back(cv::Rect(img.cols, 0, 1, img.rows));  // right rect
+        rects.push_back(cv::Rect(0, img.rows, img.cols, 1));  // bottom rect
     }
-
 
     if (show_map_debug_) {
         cout << "Number of rectangles: " << rects.size() << endl;
@@ -252,5 +238,5 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat &img, int threshold) {
     }
     return rects;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

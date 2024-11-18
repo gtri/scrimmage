@@ -42,19 +42,20 @@ namespace autonomy {
 
 class WaypointList {
  public:
-    enum class WaypointMode {
-        follow_once = 0,
-        back_and_forth = 1,
-        loiter = 2,
-        racetrack = 3
-    };
+    enum class WaypointMode { follow_once = 0, back_and_forth = 1, loiter = 2, racetrack = 3 };
 
     WaypointList() {
     }
 
-    std::list<Waypoint> & waypoints() { return waypoints_; }
-    void set_mode(WaypointMode mode) { mode_ = mode; }
-    WaypointMode mode() { return mode_; }
+    std::list<Waypoint>& waypoints() {
+        return waypoints_;
+    }
+    void set_mode(WaypointMode mode) {
+        mode_ = mode;
+    }
+    WaypointMode mode() {
+        return mode_;
+    }
 
     friend std::ostream& operator<<(std::ostream& os, WaypointList& wp_list) {
         for (Waypoint wp : wp_list.waypoints()) {
@@ -80,6 +81,6 @@ class WaypointList {
     WaypointMode mode_ = WaypointMode::follow_once;
     unsigned int cycles_ = 1;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_

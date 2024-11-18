@@ -33,24 +33,23 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_WAYPOINTLISTPROCESSOR_H_
 #define INCLUDE_SCRIMMAGE_COMMON_WAYPOINTLISTPROCESSOR_H_
 
-#include <scrimmage/msgs/Waypoint.pb.h>
 #include <scrimmage/common/Waypoint.h>
 #include <scrimmage/math/State.h>
-
-#include <list>
-#include <memory>
+#include <scrimmage/msgs/Waypoint.pb.h>
 
 #include <boost/optional.hpp>
+#include <list>
+#include <memory>
 
 namespace scrimmage {
 
 namespace autonomy {
 class WaypointListProcessor {
  public:
-    enum class Status { Empty, Invalid, Changed, Unchanged  };
-    void set_waypoint_list(const scrimmage_msgs::WaypointList &wp_list);
-    Status process(const scrimmage::StatePtr &state,
-                   const std::shared_ptr<GeographicLib::LocalCartesian> &proj);
+    enum class Status { Empty, Invalid, Changed, Unchanged };
+    void set_waypoint_list(const scrimmage_msgs::WaypointList& wp_list);
+    Status process(const scrimmage::StatePtr& state,
+                   const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
 
     boost::optional<const Waypoint&> previous_waypoint();
     boost::optional<const Waypoint&> current_waypoint();
@@ -67,9 +66,8 @@ class WaypointListProcessor {
     scrimmage_msgs::WaypointList::Mode mode_;
     bool returning_stage_ = false;
 
-    std::list<Waypoint>::iterator
-    next_waypoint(const std::list<Waypoint>::iterator &it_wp);
+    std::list<Waypoint>::iterator next_waypoint(const std::list<Waypoint>::iterator& it_wp);
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_WAYPOINTLISTPROCESSOR_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_WAYPOINTLISTPROCESSOR_H_

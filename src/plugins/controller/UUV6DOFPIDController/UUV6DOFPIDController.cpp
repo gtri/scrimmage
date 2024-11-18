@@ -30,14 +30,13 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Time.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h>
 
 #include <iostream>
 #include <limits>
@@ -45,8 +44,7 @@
 using std::cout;
 using std::endl;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UUV6DOFPIDController,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UUV6DOFPIDController,
                 UUV6DOFPIDController_plugin)
 
 namespace scrimmage {
@@ -55,10 +53,12 @@ namespace controller {
 UUV6DOFPIDController::UUV6DOFPIDController() {
 }
 
-void UUV6DOFPIDController::init(std::map<std::string, std::string> &params) {
-    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+void UUV6DOFPIDController::init(std::map<std::string, std::string>& params) {
+    desired_altitude_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);
@@ -76,7 +76,6 @@ void UUV6DOFPIDController::init(std::map<std::string, std::string> &params) {
 }
 
 bool UUV6DOFPIDController::step(double t, double dt) {
-
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
     double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
 
@@ -84,9 +83,10 @@ bool UUV6DOFPIDController::step(double t, double dt) {
     double u_throttle = speed_pid_.step(time_->dt(), state_->vel().norm());
 
     // Reconstruct original velocity vector (close, but not exact)
-    double x_vel = vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
+    double x_vel =
+        vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_altitude_idx_)-state_->pos()(2));
+    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_altitude_idx_) - state_->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
@@ -100,5 +100,5 @@ bool UUV6DOFPIDController::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

@@ -30,52 +30,79 @@
  *
  */
 
+#include <scrimmage/common/ID.h>
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/common/ID.h>
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
 namespace scrimmage {
 
-Contact::Contact() : state_(std::make_shared<State>()) {}
-
-Contact::Contact(const ID &id, const StatePtr &state) :
-    id_(id), state_(state) {
+Contact::Contact() : state_(std::make_shared<State>()) {
 }
 
-Contact::Contact(ID &id, double radius, StatePtr &state, Type type,
+Contact::Contact(const ID& id, const StatePtr& state) : id_(id), state_(state) {
+}
+
+Contact::Contact(ID& id, double radius, StatePtr& state, Type type,
                  scrimmage_proto::ContactVisualPtr cv,
-                 const std::unordered_map<std::string, MessageBasePtr> &properties) :
-    id_(id), state_(state), type_(type), contact_visual_(cv),
-    active_(true), radius_(radius), properties_(properties) {}
+                 const std::unordered_map<std::string, MessageBasePtr>& properties)
+    : id_(id),
+      state_(state),
+      type_(type),
+      contact_visual_(cv),
+      active_(true),
+      radius_(radius),
+      properties_(properties) {
+}
 
-void Contact::set_id(const ID &id) { id_ = id; }
+void Contact::set_id(const ID& id) {
+    id_ = id;
+}
 
-ID &Contact::id() { return id_; }
+ID& Contact::id() {
+    return id_;
+}
 
-void Contact::set_state(StatePtr &state) { state_ = state; }
+void Contact::set_state(StatePtr& state) {
+    state_ = state;
+}
 
-StatePtr &Contact::state() { return state_; }
+StatePtr& Contact::state() {
+    return state_;
+}
 
-std::shared_ptr<const State> Contact::state_const() const { return state_; }
+std::shared_ptr<const State> Contact::state_const() const {
+    return state_;
+}
 
-void Contact::set_type(Contact::Type type) { type_ = type; }
+void Contact::set_type(Contact::Type type) {
+    type_ = type;
+}
 
-Contact::Type Contact::type() { return type_; }
+Contact::Type Contact::type() {
+    return type_;
+}
 
-scrimmage_proto::ContactVisualPtr &Contact::contact_visual()
-{ return contact_visual_; }
+scrimmage_proto::ContactVisualPtr& Contact::contact_visual() {
+    return contact_visual_;
+}
 
-void Contact::set_active(bool active) { active_ = active; }
+void Contact::set_active(bool active) {
+    active_ = active;
+}
 
-void Contact::set_radius(double radius) { radius_ = radius; }
+void Contact::set_radius(double radius) {
+    radius_ = radius;
+}
 
-bool Contact::active() { return active_; }
+bool Contact::active() {
+    return active_;
+}
 
 std::ostream& operator<<(std::ostream& os, const Contact& c) {
     os << c.id_ << ": " << *c.state_;
     return os;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

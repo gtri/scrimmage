@@ -30,27 +30,23 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/GraphvizFSM/GraphvizFSM.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/GraphvizFSM/GraphvizFSM.h>
 #include <scrimmage/pubsub/Publisher.h>
 
+#include <boost/algorithm/string/replace.hpp>
 #include <iostream>
 #include <limits>
-
-#include <boost/algorithm/string/replace.hpp>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::GraphvizFSM,
-                GraphvizFSM_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::GraphvizFSM, GraphvizFSM_plugin)
 
 namespace scrimmage {
 namespace autonomy {
@@ -58,7 +54,7 @@ namespace autonomy {
 GraphvizFSM::GraphvizFSM() {
 }
 
-void GraphvizFSM::init(std::map<std::string, std::string> &params) {
+void GraphvizFSM::init(std::map<std::string, std::string>& params) {
     print_current_state_ = sc::get<bool>("print_current_state", params, print_current_state_);
     std::string graph_str = sc::get<std::string>("graphviz_fsm", params, "");
 
@@ -68,7 +64,7 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
 
     boost::dynamic_properties dp(boost::ignore_other_properties);
 
-    dp.property("node_id", boost::get(&DotVertex::name,  fsm_graph_));
+    dp.property("node_id", boost::get(&DotVertex::name, fsm_graph_));
 
     label_ = get(label_t(), fsm_graph_);
     dp.property("label", label_);
@@ -111,14 +107,14 @@ void GraphvizFSM::init(std::map<std::string, std::string> &params) {
     state_pub_ = advertise(network_name, state_topic);
 
     // Subscribe to event topic
-    auto event_callback = [&] (scrimmage::MessagePtr<std::string> msg) {
+    auto event_callback = [&](scrimmage::MessagePtr<std::string> msg) {
         // If the event received is a trigger for the current state, transition
         // to the next state.
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end;
+             ++ei) {
             if (label_(*ei) == msg->data) {
-                this->update_state_info(current_state_,
-                                        boost::target(*ei, fsm_graph_));
+                this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }
         }
     };
@@ -133,20 +129,18 @@ bool GraphvizFSM::step_autonomy(double t, double dt) {
     // state since this is just a designator for the "initial" state.
     if (boost::out_degree(current_state_, fsm_graph_) == 1) {
         typename boost::graph_traits<graph_t>::out_edge_iterator ei, ei_end;
-        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end; ++ei) {
+        for (boost::tie(ei, ei_end) = boost::out_edges(current_state_, fsm_graph_); ei != ei_end;
+             ++ei) {
             if (label_(*ei) == std::string("")) {
-                this->update_state_info(current_state_,
-                                        boost::target(*ei, fsm_graph_));
+                this->update_state_info(current_state_, boost::target(*ei, fsm_graph_));
             }
         }
     }
     return true;
 }
 
-void GraphvizFSM::update_state_info(
-    boost::graph_traits<graph_t>::vertex_descriptor current_state,
-    boost::graph_traits<graph_t>::vertex_descriptor next_state) {
-
+void GraphvizFSM::update_state_info(boost::graph_traits<graph_t>::vertex_descriptor current_state,
+                                    boost::graph_traits<graph_t>::vertex_descriptor next_state) {
     current_state_ = next_state;
 
     if (print_current_state_) {
@@ -158,5 +152,5 @@ void GraphvizFSM::update_state_info(
     state_pub_->publish(msg);
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

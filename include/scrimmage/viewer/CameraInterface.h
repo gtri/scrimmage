@@ -33,22 +33,21 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
 
-#include <vtkCommand.h>
-#include <vtkSmartPointer.h>
-#include <vtkProperty.h>
-#include <vtkVersion.h>
-#include <vtkPoints.h>
-#include <vtkCellArray.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
+#include <scrimmage/viewer/Updater.h>
 #include <vtkActor.h>
-#include <vtkRenderWindowInteractor.h>
+#include <vtkCellArray.h>
+#include <vtkCommand.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <vtkObjectFactory.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
 #include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
-
-#include <scrimmage/viewer/Updater.h>
+#include <vtkSmartPointer.h>
+#include <vtkVersion.h>
 
 #include <string>
 
@@ -70,7 +69,9 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
     virtual void Pan();
     virtual void Dolly();
 
-    void set_updater(vtkSmartPointer<Updater> & updater) { updater_ = updater; }
+    void set_updater(vtkSmartPointer<Updater>& updater) {
+        updater_ = updater;
+    }
 
  protected:
     vtkSmartPointer<Updater> updater_;
@@ -78,6 +79,6 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
     std::string last_key_;
 };
 // vtkStandardNewMacro(CameraInterface);
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_

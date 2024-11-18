@@ -33,13 +33,13 @@
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/Boids/Boids.h>
-#include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <vector>
 
@@ -50,8 +50,7 @@ namespace sc = scrimmage;
 namespace scrimmage {
 namespace autonomy {
 
-void Boids::init(std::map<std::string, std::string> &params) {
-
+void Boids::init(std::map<std::string, std::string>& params) {
     show_shapes_ = get("show_shapes", params, false);
     max_speed_ = get<double>("max_speed", params, 21);
 
@@ -90,9 +89,11 @@ void Boids::init(std::map<std::string, std::string> &params) {
     io_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     io_pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    io_desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
+    io_desired_speed_idx_ =
+        vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
     io_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
-    io_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    io_altitude_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
 }
 
 bool Boids::step_autonomy(double t, double dt) {
@@ -103,7 +104,6 @@ bool Boids::step_autonomy(double t, double dt) {
     // Remove neighbors that are not within field of view
     for (auto it = rtree_neighbors.begin(); it != rtree_neighbors.end();
          /* no inc */) {
-
         // Ignore own position / id
         if (it->id() == parent_->id().id()) {
             it = rtree_neighbors.erase(it);
@@ -146,14 +146,13 @@ bool Boids::step_autonomy(double t, double dt) {
         if (dist > sphere_of_influence_) {
             O_mag = 0;
         } else if (min_range < dist && dist <= sphere_of_influence_) {
-            O_mag = (sphere_of_influence_ - dist) /
-                (sphere_of_influence_ - min_range);
+            O_mag = (sphere_of_influence_ - dist) / (sphere_of_influence_ - min_range);
         } else if (dist <= min_range) {
             O_mag = 1e10;
         }
 
         // Calculate repulsion vector
-        Eigen::Vector3d O_dir = - O_mag * diff.normalized();
+        Eigen::Vector3d O_dir = -O_mag * diff.normalized();
         if (is_team) {
             O_team_vecs.push_back(O_dir);
         } else {
@@ -177,7 +176,7 @@ bool Boids::step_autonomy(double t, double dt) {
     }
 
     // Make sure alignment vector is well-behaved
-    align = align_vec; // TODO
+    align = align_vec;  // TODO
     Eigen::Vector3d v_align_normed = align.normalized();
     double v_align_norm = align.norm();
     if (v_align_normed.hasNaN()) {
@@ -189,7 +188,7 @@ bool Boids::step_autonomy(double t, double dt) {
     Eigen::Vector3d O_team_vec(0, 0, 0);
     for (Eigen::Vector3d v : O_team_vecs) {
         if (v.hasNaN()) {
-            continue; // ignore misbehaved vectors
+            continue;  // ignore misbehaved vectors
         }
         O_team_vec += v;
     }
@@ -198,7 +197,7 @@ bool Boids::step_autonomy(double t, double dt) {
     Eigen::Vector3d O_nonteam_vec(0, 0, 0);
     for (Eigen::Vector3d v : O_nonteam_vecs) {
         if (v.hasNaN()) {
-            continue; // ignore misbehaved vectors
+            continue;  // ignore misbehaved vectors
         }
         O_nonteam_vec += v;
     }
@@ -210,19 +209,17 @@ bool Boids::step_autonomy(double t, double dt) {
     Eigen::Vector3d v_centroid_w_gain = (centroid - state_->pos()).normalized() * w_centroid_;
     Eigen::Vector3d v_align_w_gain = v_align_normed * w_align_;
 
-    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() +
-        O_nonteam_vec_w_gain.norm() + v_centroid_w_gain.norm() +
-        v_align_norm;
+    double sum_norms = v_goal_w_gain.norm() + O_team_vec_w_gain.norm() + O_nonteam_vec_w_gain.norm()
+                       + v_centroid_w_gain.norm() + v_align_norm;
 
-    Eigen::Vector3d v_sum = (v_goal_w_gain + O_team_vec_w_gain +
-                             O_nonteam_vec_w_gain + v_centroid_w_gain +
-                             v_align_w_gain) / sum_norms;
+    Eigen::Vector3d v_sum = (v_goal_w_gain + O_team_vec_w_gain + O_nonteam_vec_w_gain
+                             + v_centroid_w_gain + v_align_w_gain)
+                            / sum_norms;
 
     // Scale velocity to max speed:
     Eigen::Vector3d vel_result = v_sum * max_speed_;
 
     if (rtree_neighbors.size() > 0) {
-
         velocity_controller(vel_result);
 
         if (show_shapes_) {
@@ -247,8 +244,7 @@ bool Boids::step_autonomy(double t, double dt) {
     return true;
 }
 
-
-void Boids::velocity_controller(Eigen::Vector3d &v) {
+void Boids::velocity_controller(Eigen::Vector3d& v) {
     // Convert to spherical coordinates:
     double desired_heading = atan2(v(1), v(0));
     double desired_pitch = atan2(v(2), v.head<2>().norm());
@@ -271,5 +267,5 @@ void Boids::velocity_controller(Eigen::Vector3d &v) {
     vars_.output(io_vel_y_idx_, v(1));
     vars_.output(io_vel_z_idx_, v(2));
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

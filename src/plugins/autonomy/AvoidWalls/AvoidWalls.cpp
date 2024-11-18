@@ -30,11 +30,10 @@
  *
  */
 
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 #include <scrimmage/pubsub/Subscriber.h>
@@ -44,11 +43,11 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls, AvoidWalls
 namespace scrimmage {
 namespace autonomy {
 
-void AvoidWalls::init(std::map<std::string, std::string> &params) {
+void AvoidWalls::init(std::map<std::string, std::string>& params) {
     double initial_speed = get<double>("initial_speed", params, 21);
     avoid_distance_ = get<double>("avoid_distance", params, 20);
 
-    auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
+    auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
         point_cloud_ = msg->data;
     };
     subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", "RayTrace/pointcloud", pc_cb);
@@ -64,7 +63,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
     // Find closest point and move away from it
     bool all_close_points = true;
     std::list<Eigen::Vector3d> points;
-    for (sensor::RayTrace::PCPoint &p : point_cloud_.points) {
+    for (sensor::RayTrace::PCPoint& p : point_cloud_.points) {
         if (p.point.norm() < avoid_distance_) {
             points.push_back(p.point);
         } else {
@@ -74,7 +73,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
 
     if (!points.empty()) {
         std::vector<Eigen::Vector3d> O_vecs;
-        for (Eigen::Vector3d &p : points) {
+        for (Eigen::Vector3d& p : points) {
             // Transform the point to global coordinate space
             double dist = p.norm();
             p = state_->quat().rotate(p);
@@ -84,7 +83,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
             Eigen::Vector3d diff = p - state_->pos();
             double O_mag = avoid_distance_ - dist;
 
-            Eigen::Vector3d O_dir = - O_mag * diff.normalized();
+            Eigen::Vector3d O_dir = -O_mag * diff.normalized();
             O_vecs.push_back(O_dir);
         }
 
@@ -92,7 +91,7 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
         Eigen::Vector3d O_vec(0, 0, 0);
         for (auto it = O_vecs.begin(); it != O_vecs.end(); it++) {
             if (it->hasNaN()) {
-                continue; // ignore misbehaved vectors
+                continue;  // ignore misbehaved vectors
             }
             O_vec += *it;
         }
@@ -116,5 +115,5 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

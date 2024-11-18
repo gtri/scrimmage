@@ -73,16 +73,16 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
 
     UUV6DOF();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
 
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::Vector2d &u() = 0;
+        virtual Eigen::Vector2d& u() = 0;
     };
 
  protected:

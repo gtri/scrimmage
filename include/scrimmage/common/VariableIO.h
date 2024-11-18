@@ -34,11 +34,10 @@
 #define INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_
 
 #include <Eigen/Dense>
-
-#include <set>
 #include <map>
-#include <string>
 #include <memory>
+#include <set>
+#include <string>
 
 namespace scrimmage {
 /*! \brief abstracts the connection between motion models, controllers, and autonomies
@@ -46,7 +45,7 @@ namespace scrimmage {
 class VariableIO;
 class VariableIO {
  public:
-    enum class Direction {In = 0, Out};
+    enum class Direction { In = 0, Out };
     enum class Type {
         desired_altitude,
         desired_speed,
@@ -78,11 +77,11 @@ class VariableIO {
 
     VariableIO();
 
-    std::map<std::string, int> &output_variable_index();
-    std::map<std::string, int> &input_variable_index();
+    std::map<std::string, int>& output_variable_index();
+    std::map<std::string, int>& input_variable_index();
 
-    int add_input_variable(const std::string &var);
-    int add_output_variable(const std::string &var);
+    int add_input_variable(const std::string& var);
+    int add_output_variable(const std::string& var);
     int declare(std::string var, Direction dir);
     int declare(Type type, Direction dir);
 
@@ -96,17 +95,23 @@ class VariableIO {
     std::set<std::string> declared_input_variables();
     std::set<std::string> declared_output_variables();
 
-    const std::map<Type, std::string> &type_map() const { return type_map_; }
+    const std::map<Type, std::string>& type_map() const {
+        return type_map_;
+    }
 
-    const std::shared_ptr<Eigen::VectorXd> &input() { return input_; }
-    const std::shared_ptr<Eigen::VectorXd> &output() { return output_; }
-    void set_input(const std::shared_ptr<Eigen::VectorXd> &input);
-    void set_output(const std::shared_ptr<Eigen::VectorXd> &output);
+    const std::shared_ptr<Eigen::VectorXd>& input() {
+        return input_;
+    }
+    const std::shared_ptr<Eigen::VectorXd>& output() {
+        return output_;
+    }
+    void set_input(const std::shared_ptr<Eigen::VectorXd>& input);
+    void set_output(const std::shared_ptr<Eigen::VectorXd>& output);
 
     /*! \brief Connect two VariableIO objects where writing to the output of
      *  the first object will transfer the data to the input of the second
      *  object. */
-    friend void connect(VariableIO &output, VariableIO &input);
+    friend void connect(VariableIO& output, VariableIO& input);
 
  protected:
     int next_input_variable_index_ = 0;
@@ -119,9 +124,9 @@ class VariableIO {
     static std::map<Type, std::string> type_map_;
 };
 
-void print_io_error(const std::string &in_name, VariableIO &v);
-bool verify_io_connection(VariableIO &output_plugin, VariableIO &input_plugin);
+void print_io_error(const std::string& in_name, VariableIO& v);
+bool verify_io_connection(VariableIO& output_plugin, VariableIO& input_plugin);
 
-} // namespace scrimmage
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_VARIABLEIO_H_

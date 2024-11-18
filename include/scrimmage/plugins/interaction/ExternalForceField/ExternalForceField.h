@@ -33,30 +33,27 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_EXTERNALFORCEFIELD_EXTERNALFORCEFIELD_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_EXTERNALFORCEFIELD_EXTERNALFORCEFIELD_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
-#include <map>
 #include <list>
+#include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <random>
-#include <memory>
 
 namespace scrimmage {
 namespace interaction {
 
 class ExternalForceField : public scrimmage::EntityInteraction {
  public:
-    enum ForceType {
-        Constant,
-        Variable
-    };
+    enum ForceType { Constant, Variable };
     ExternalForceField();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t,
+                                 double dt) override;
 
  protected:
     PublisherPtr pub_;
@@ -83,6 +80,6 @@ class ExternalForceField : public scrimmage::EntityInteraction {
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_EXTERNALFORCEFIELD_EXTERNALFORCEFIELD_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_EXTERNALFORCEFIELD_EXTERNALFORCEFIELD_H_

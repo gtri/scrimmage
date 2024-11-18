@@ -30,37 +30,34 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/math/State.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/motion/MotionModel.h>
-
+#include <scrimmage/msgs/Collision.pb.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/interaction/GroundCollision/GroundCollision.h>
-
-#include <memory>
+#include <scrimmage/pubsub/Message.h>
 
 #include <GeographicLib/LocalCartesian.hpp>
+#include <memory>
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GroundCollision, GroundCollision_plugin)
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::GroundCollision,
+                GroundCollision_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
-GroundCollision::GroundCollision() : ground_collision_z_(0.0),
-                                     remove_on_collision_(true),
-                                     enable_startup_collisions_(true) {
+GroundCollision::GroundCollision()
+    : ground_collision_z_(0.0), remove_on_collision_(true), enable_startup_collisions_(true) {
 }
 
-bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
-                           std::map<std::string, std::string> &plugin_params) {
-
+bool GroundCollision::init(std::map<std::string, std::string>& mission_params,
+                           std::map<std::string, std::string>& plugin_params) {
     remove_on_collision_ = sc::get<bool>("remove_on_collision", plugin_params, true);
     enable_startup_collisions_ = sc::get<bool>("enable_startup_collisions", plugin_params, true);
 
@@ -71,8 +68,7 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
         double x, y, z, alt;
         alt = sc::get("ground_collision_altitude", plugin_params, 0.0);
         parent_->projection()->Forward(parent_->mp()->latitude_origin(),
-                                       parent_->mp()->longitude_origin(), alt,
-                                       x, y, z);
+                                       parent_->mp()->longitude_origin(), alt, x, y, z);
         ground_collision_z_ = z;
     }
 
@@ -82,8 +78,7 @@ bool GroundCollision::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                              double t, double dt) {
+bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) {
     // Account for entities colliding with
     for (sc::EntityPtr ent : ents) {
         if (team_ != "all" && std::stoi(team_) != ent->id().team_id()) {
@@ -112,9 +107,7 @@ bool GroundCollision::step_entity_interaction(std::list<sc::EntityPtr> &ents,
     return true;
 }
 
-bool GroundCollision::collision_exists(std::list<sc::EntityPtr> &ents,
-                                       Eigen::Vector3d &p) {
-
+bool GroundCollision::collision_exists(std::list<sc::EntityPtr>& ents, Eigen::Vector3d& p) {
     if (!enable_startup_collisions_) {
         return false;
     }
@@ -124,5 +117,5 @@ bool GroundCollision::collision_exists(std::list<sc::EntityPtr> &ents,
     }
     return false;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

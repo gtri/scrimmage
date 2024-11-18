@@ -30,29 +30,26 @@
  *
  */
 
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/AircraftPIDController/AircraftPIDController.h>
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/parse/ParseUtils.h>
-
+#include <boost/algorithm/clamp.hpp>
 #include <iostream>
 #include <limits>
 
-#include <boost/algorithm/clamp.hpp>
-
+using boost::algorithm::clamp;
 using std::cout;
 using std::endl;
-using boost::algorithm::clamp;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::AircraftPIDController,
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::AircraftPIDController,
                 AircraftPIDController_plugin)
 
 namespace scrimmage {
@@ -61,21 +58,24 @@ namespace controller {
 AircraftPIDController::AircraftPIDController() {
 }
 
-void AircraftPIDController::init(std::map<std::string, std::string> &params) {
+void AircraftPIDController::init(std::map<std::string, std::string>& params) {
     use_roll_control_ = sc::get<bool>("use_roll_control", params, use_roll_control_);
 
     // Setup input variables
     if (use_roll_control_) {
-        desired_roll_idx_ = vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
+        desired_roll_idx_ =
+            vars_.declare(VariableIO::Type::desired_roll, VariableIO::Direction::In);
     } else {
-        desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
+        desired_heading_idx_ =
+            vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);
 
         // Outer loop heading PID
         if (!heading_pid_.init(params["heading_pid"], true)) {
             std::cout << "Failed to set heading PID" << std::endl;
         }
     }
-    desired_altitude_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
+    desired_altitude_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);
 
     // Setup output variables
@@ -140,5 +140,5 @@ bool AircraftPIDController::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

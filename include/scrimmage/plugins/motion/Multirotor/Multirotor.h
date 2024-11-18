@@ -71,23 +71,31 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase {
 
     Multirotor();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::VectorXd &u() = 0;
+        virtual Eigen::VectorXd& u() = 0;
     };
 
-    std::vector<Rotor> &rotors() { return rotors_; }
+    std::vector<Rotor>& rotors() {
+        return rotors_;
+    }
 
-    double omega_max() { return wmax_; }
-    double omega_min() { return wmin_; }
+    double omega_max() {
+        return wmax_;
+    }
+    double omega_min() {
+        return wmin_;
+    }
 
-    double c_T() { return c_T_; }
+    double c_T() {
+        return c_T_;
+    }
 
  protected:
     Eigen::VectorXd ctrl_u_;

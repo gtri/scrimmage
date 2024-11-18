@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
 #include <string>
@@ -44,7 +44,7 @@ namespace scrimmage {
 namespace controller {
 class JSBSimControlControllerHeadingPID : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -64,6 +64,6 @@ class JSBSimControlControllerHeadingPID : public scrimmage::Controller {
     int aileron_idx_ = 0;
     int rudder_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_JSBSIMCONTROLCONTROLLERHEADINGPID_JSBSIMCONTROLCONTROLLERHEADINGPID_H_
