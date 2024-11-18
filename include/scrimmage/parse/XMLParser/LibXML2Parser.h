@@ -120,6 +120,7 @@ class LibXML2ParserDocument : public XMLParserDocument<LibXML2ParserDocument> {
     bool parse_document(std::vector<char>& filecontent);
     LibXML2ParserNode find_first_node(const std::string& name) const;
     LibXML2ParserNode find_first_node() const;
+    const std::vector<char>& get_filecontents();
 
  protected:
     static constexpr int PARSING_OPTIONS = XML_PARSE_XINCLUDE | XML_PARSE_NOBLANKS;

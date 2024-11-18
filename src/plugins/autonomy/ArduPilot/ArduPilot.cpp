@@ -190,7 +190,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         recv_io_service_.poll();
     } else {
         boost::system::error_code error;
-        ba::ip::udp::socket::message_flags flags;
+        ba::ip::udp::socket::message_flags flags = 0;
         std::size_t nbytes = recv_socket_->receive_from(
             ba::buffer(recv_buffer_), recv_remote_endpoint_,
             flags, error);
