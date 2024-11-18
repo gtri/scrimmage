@@ -173,7 +173,7 @@ bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser &doc) {
                                  mission_file_content_vec.cend());
     mission_file_content_ = replace_overrides(mission_file_content_);
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end());
-    
+
     return doc.parse(mission_file_content_vec);
 }
 
