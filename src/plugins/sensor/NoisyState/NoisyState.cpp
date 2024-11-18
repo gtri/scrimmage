@@ -70,8 +70,7 @@ void NoisyState::init(std::map<std::string, std::string> &params) {
 
     // Move the enity's state pointer to use the state instance provided by
     // this plugin.
-    parent_->state() = std::make_shared<State>();
-    *(parent_->state()) = *(parent_->state_truth());
+    parent_->set_state_belief(parent_->state_truth());
 
     return;
 }
@@ -99,7 +98,7 @@ bool NoisyState::step() {
     pub_->publish(msg);
 
     // Update the entity's state.
-    *(parent_->state()) = static_cast<sc::State>(msg->data);
+    parent_->set_state_belief(static_cast<sc::State>(msg->data));
 
     return true;
 }
