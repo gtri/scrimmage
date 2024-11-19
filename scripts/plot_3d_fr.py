@@ -134,13 +134,19 @@ def main():
                         dest='frames_file',
                         default='',
                         help='path of frames.bin or its containing directory;\nif not specified, most recent frames.bin will be processed')
-    parser.add_argument('--2d', dest='two_d', default=False, action='store_true')
+    parser.add_argument('--2d', dest='two_d', default=False, action='store_true', help='Generate a 2D plot (x,y) instead of a 3d plot.')
+    parser.add_argument('-i', '--interactive', dest='interactive_mode', default=False, action='store_true', help='Display matplotlib gui. Requires user interaction to write output plot.')
+    parser.add_argument('-o','--output_dir', nargs='?', const=1, action='store', type=str, default='', help='Directory where the plot will be saved. Default is the directory where frames.bin is located.')
 
     args = parser.parse_args()
 
     ## find and read in the frames.bin for the case we want (or most recent case) ##
     finalFramesDir = find_frames(args.frames_file)
     finalFramesLoc = finalFramesDir + '/frames.bin'
+    out_dir = finalFramesDir
+
+    if args.output_dir:
+        out_dir=args.output_dir
 
     # Read in the frames from the protocol buffer
     print('Reading frames...\n')
@@ -221,17 +227,25 @@ def main():
 
     try:
         ## Show and save figure ##
-        trajFig.show()
-        trajFig.savefig(os.environ['HOME']+'/trajectory_plot.png')
+        if args.interactive_mode:
+            trajFig.show()
+
+        if args.two_d:
+            print(f'Writing out trajectory_plot_2d.png to {out_dir}.')
+            trajFig.savefig(out_dir+'/trajectory_plot_2d.png')
+        else:
+            print(f'Writing out trajectory_plot_2d.png to {out_dir}.')
+            trajFig.savefig(out_dir+'/trajectory_plot_3d.png')
 
     except:
-        raise Exception('Could not show plot. Please verify that you are plotting a valid case.')
+        raise Exception('Could not show and/or save plot. Please verify that you are plotting a valid case.')
 
     # Press Enter to close the plot and end the program
-    if sys.version_info <= (3,0):
-        raw_input('Press Enter to close plot and exit.')
-    else:
-        input('Press Enter to close plot and exit.')
+    if args.interactive_mode:
+        if sys.version_info <= (3,0):
+            raw_input('Press Enter to close plot and exit.')
+        else:
+            input('Press Enter to close plot and exit.')
 
 if __name__ == '__main__':
     main()
