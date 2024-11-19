@@ -49,7 +49,22 @@ class DubinsAirplane3D : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string> &info,
               std::map<std::string, std::string> &params) override;
-    bool step(double t, double dt) override;
+    bool step(double t, double dt) override; // Original step function
+
+   ///////////////////////////////////////////////////////////////////////////////////////
+   // Natalie's step functions
+   ///////////////////////////////////////////////////////////////////////////////////////
+
+    bool offset_step(double time, double dt) override; // Used by entity #1 to update ode_step offset vector
+    bool step(double t, double dt, vector_t odevect) override; // Step function used by entities that use entity #1's ode_step function offset
+    bool step(double t, double dt, int iteration) override; // Test that can be deleted
+
+   ///////////////////////////////////////////////////////////////////////////////////////
+
+    //Getters and setters in the case the motion model flag requires
+    //odestep only occuring once
+    std::vector<double> getOdeStepVal();
+
     void model(const vector_t &x , vector_t &dxdt , double t) override;
 
  protected:

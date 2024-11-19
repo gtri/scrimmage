@@ -56,6 +56,14 @@ class MotionModel : public EntityPlugin {
                       std::map<std::string, std::string> &params);
 
     virtual bool step(double time, double dt);
+    virtual bool step(double time, double dt, int iteration);
+    virtual bool step(double time, double dt, vector_t odevect);
+    virtual bool offset_step(double time, double dt);
+
+    //Getters and setters in the case the motion model flag requires
+    //odestep only occuring once
+    virtual std::vector<double> getOdeStepVal();
+
     virtual bool posthumous(double t);
     virtual StatePtr &state();
     virtual void set_state(StatePtr &state);
@@ -74,6 +82,9 @@ class MotionModel : public EntityPlugin {
 
     StatePtr state_;
     vector_t x_;
+
+    //Adding a vector for the Dubin's case
+    vector_t odeVal_;
 
     Eigen::Vector3d ext_force_;
     Eigen::Vector3d ext_moment_;

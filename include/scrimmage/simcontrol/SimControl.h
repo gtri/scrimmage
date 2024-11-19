@@ -327,6 +327,17 @@ class SimControl {
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map_;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map_;
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // map that has ent_desc_id and entity id
+    ///////////////////////////////////////////////////////////////////////////////////////
+    std::map<int, int> ent_desc_to_id_map;
+    bool stepIterDone = false;
+
+    std::map<int, std::vector<double>> ent_desc_to_ode_vector;
+
+    std::map<int, int> ent_id_to_ode_step;
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
 
