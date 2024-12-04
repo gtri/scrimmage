@@ -37,6 +37,7 @@
 
 #include <list>
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <string>
 #include <memory>
@@ -183,6 +184,33 @@ class Log {
                            bool& clean_eof);
 
     bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream);
+
+    template <class T, class T2>
+    bool parse_proto(
+        T factory,
+        T2 &container,
+        const std::string &path,
+        const std::string &prefix
+    ) {
+        int ct = 0;
+        while (true) {
+            auto temp_path = path + "/" + prefix + "_" + std::to_string(ct) + ".bin";
+            ct++;
+            std::fstream input(temp_path, std::ios::in | std::ios::binary);
+
+            if (!input.good()) {
+                break;
+            }
+
+            auto proto_obj = factory();
+            if (!proto_obj->ParseFromIstream(&input)) {
+                std::cerr << "Failed to parse " + prefix + " in file " << temp_path << std::endl;
+            }
+            container.push_back(proto_obj);
+        }
+        return true;
+    }
+
 };
 } // namespace scrimmage
 #endif // INCLUDE_SCRIMMAGE_LOG_LOG_H_

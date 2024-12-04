@@ -144,7 +144,6 @@ int main(int argc, char *argv[]) {
 
     if (seed_set) simcontrol.mp()->params()["seed"] = seed;
 
-    simcontrol.send_terrain();
     simcontrol.run_send_shapes(); // draw any intial shapes
 
     std::shared_ptr<std::thread> viewer_thread = nullptr;

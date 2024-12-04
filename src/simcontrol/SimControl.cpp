@@ -683,6 +683,8 @@ void SimControl::set_running_in_thread(bool running_in_thread) {
 bool SimControl::start() {
     setup_logging();
 
+    send_terrain();
+
     // Set the time parameters based on the mission file input
     t0_ = mp_->t0();
     tend_ = mp_->tend();
