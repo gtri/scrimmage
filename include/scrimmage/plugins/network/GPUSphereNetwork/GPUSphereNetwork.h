@@ -45,25 +45,27 @@ namespace network {
 
 class GPUSphereNetwork : public scrimmage::Network {
  public:
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
 
-    bool step(std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
-              std::map<std::string, std::list<NetworkDevicePtr>> &subs) override;
+    bool step(std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
+              std::map<std::string, std::list<NetworkDevicePtr>>& subs) override;
 
-    std::string type() override { return network_name_; }
+    std::string type() override {
+        return network_name_;
+    }
 
  protected:
-    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                      const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool is_reachable(const scrimmage::EntityPluginPtr& pub_plugin,
+                      const scrimmage::EntityPluginPtr& sub_plugin) override;
 
-    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                    const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool is_successful_transmission(const scrimmage::EntityPluginPtr& pub_plugin,
+                                    const scrimmage::EntityPluginPtr& sub_plugin) override;
 
-    bool deliver_messages(const std::map<std::string, std::list<NetworkDevicePtr>> &pubs,
-                          const std::map<std::string, std::list<NetworkDevicePtr>> &subs);
+    bool deliver_messages(const std::map<std::string, std::list<NetworkDevicePtr>>& pubs,
+                          const std::map<std::string, std::list<NetworkDevicePtr>>& subs);
 
-    bool deliver_topic_messages(NetworkDevicePtr pub, const std::list<NetworkDevicePtr> &subs);
+    bool deliver_topic_messages(NetworkDevicePtr pub, const std::list<NetworkDevicePtr>& subs);
     bool enforce_queue_size(const std::list<NetworkDevicePtr>& subs);
 
     double range_;

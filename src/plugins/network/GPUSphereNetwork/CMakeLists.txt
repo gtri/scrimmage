@@ -1,6 +1,7 @@
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
+if(ENABLE_GPU_ACCELERATION)
 SET (LIBRARY_NAME GPUSphereNetwork_plugin)
 SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
@@ -33,3 +34,4 @@ install(TARGETS ${LIBRARY_NAME}
 
 # Push up the PROJECT_PLUGINS variable
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} ${LIBRARY_NAME} PARENT_SCOPE)
+endif()

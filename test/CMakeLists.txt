@@ -7,7 +7,6 @@ set(test_files
     test_entity_configs.cpp
     test_exponential_filter.cpp
     test_find_mission.cpp
-    test_gpu_sphere_network.cpp
     test_id.cpp
     test_mission_parse.cpp
     test_openai.cpp
@@ -25,6 +24,7 @@ set(test_files
 if(ENABLE_GPU_ACCELERATION)
     set(test_files ${test_files} 
         test_gpu_mapbuffer.cpp
+        test_gpu_sphere_network.cpp
         test_compare_gpu_cpu_motion_models.cpp
     )
 endif()
