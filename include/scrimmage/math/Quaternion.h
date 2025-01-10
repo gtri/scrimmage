@@ -87,6 +87,9 @@ class Quaternion : public Eigen::Quaternion<double, Eigen::DontAlign> {
     /*! \brief return euler angle pitch */
     double pitch() const;
 
+    /*! \brief return euler angle pitch, arcsin argument constrained to [-1, 1] */
+    double pitch_safe() const;
+
     /*! \brief return euler angle yaw */
     double yaw() const;
 

@@ -33,15 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
 #define INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
 
+#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/fwd_decl.h>
+
 #include <Eigen/Dense>
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/entity/EntityPlugin.h>
-
 #include <map>
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace scrimmage {
 
@@ -72,7 +72,7 @@ class MotionModel : public EntityPlugin {
 
  protected:
     void ode_step(double dt);
-    virtual void model(const vector_t &x , vector_t &dxdt , double t);
+    virtual void model(const vector_t &x, vector_t &dxdt, double t);
 
     StatePtr state_;
     vector_t x_;
@@ -81,8 +81,11 @@ class MotionModel : public EntityPlugin {
     Eigen::Vector3d ext_moment_;
     double mass_;
     double g_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 using MotionModelPtr = std::shared_ptr<MotionModel>;
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
