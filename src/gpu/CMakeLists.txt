@@ -33,5 +33,8 @@ install(TARGETS ${LIBRARY_NAME}
   # IMPORTANT: Add the library to the "export-set"
   EXPORT ${PROJECT_NAME}-targets
   RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib/${PROJECT_NAME}/libs
+  LIBRARY DESTINATION lib
 )
+
+# Push up the PROJECT_LIBS variable
+set(PROJECT_LIBS ${PROJECT_LIBS} ${LIBRARY_NAME} PARENT_SCOPE)
