@@ -32,13 +32,10 @@ std::string GPUController::get_device_name(cl::Device& device) {
     return vendor + ":" + name;
 }
 
-GPUController::KernelSource::KernelSource()
-    : name_{""},
-      src_{""} {};
+GPUController::KernelSource::KernelSource() : name_{""}, src_{""} {};
 
 GPUController::KernelSource::KernelSource(const std::string& name, const std::string& src)
-    : name_{name},
-      src_{src} {};
+    : name_{name}, src_{src} {};
 
 std::size_t GPUController::KernelSource::Hash::operator()(const KernelSource& ks) const {
     return std::hash<std::string>{}(ks.src_);
@@ -59,9 +56,7 @@ GPUController::GPUController() {
         std::vector<std::string> kernel_dirs =
             scrimmage::str2container<std::vector<std::string>>(std::string{kernel_dir_str}, ":");
         std::transform(
-            kernel_dirs.cbegin(),
-            kernel_dirs.cend(),
-            std::back_inserter(kernel_dirs_),
+            kernel_dirs.cbegin(), kernel_dirs.cend(), std::back_inserter(kernel_dirs_),
             [](const std::string& kernel_dir_path) { return fs::path{kernel_dir_path}; });
     }
 }
@@ -107,13 +102,10 @@ KernelBuildOpts GPUController::get_kernel_build_opts(
     std::vector<std::optional<fs::path>> src_dir_opts;
 
     for (const fs::path& kernel_dir : kernel_dirs_) {
-        std::transform(include_dirs.cbegin(),
-                       include_dirs.cend(),
+        std::transform(include_dirs.cbegin(), include_dirs.cend(),
                        std::back_inserter(include_dir_opts),
                        [&](const std::string& filename) { return to_path(filename, kernel_dir); });
-        std::transform(src_dirs.cbegin(),
-                       src_dirs.cend(),
-                       std::back_inserter(src_dir_opts),
+        std::transform(src_dirs.cbegin(), src_dirs.cend(), std::back_inserter(src_dir_opts),
                        [&](const std::string& filename) { return to_path(filename, kernel_dir); });
     }
 
@@ -163,16 +155,14 @@ cl::Program::Sources GPUController::read_kernels(const std::vector<fs::path>& ke
         }
     }
 
-    std::transform(kernel_srcs.cbegin(),
-                   kernel_srcs.cend(),
-                   std::back_inserter(ret_srcs),
+    std::transform(kernel_srcs.cbegin(), kernel_srcs.cend(), std::back_inserter(ret_srcs),
                    kernel_src_to_cl_src);
     return ret_srcs;
 }
 
 void GPUController::init(MissionParsePtr mp) {
     auto build_plugin = [&](const std::string& plugin_name,
-                                const std::map<std::string, std::string>& attributes) mutable {
+                            const std::map<std::string, std::string>& attributes) mutable {
         KernelBuildOpts opts = get_kernel_build_opts(attributes);
         std::string kernel_name = scrimmage::get<std::string>("kernel_name", attributes, "");
 
@@ -182,9 +172,8 @@ void GPUController::init(MissionParsePtr mp) {
             if (kernel_queue_opt.has_value()) {
                 auto kernel_queue = kernel_queue_opt.value();
                 plugin_params_.emplace(
-                    plugin_name,
-                    GPUPluginBuildParams{
-                        opts.single_precision, kernel_queue.first, kernel_queue.second});
+                    plugin_name, GPUPluginBuildParams{opts.single_precision, kernel_queue.first,
+                                                      kernel_queue.second});
             }
         }
     };
@@ -243,16 +232,16 @@ std::optional<std::pair<cl::Kernel, cl::CommandQueue>> GPUController::build_kern
             program.getBuildInfo<CL_PROGRAM_BUILD_LOG>();
         std::string build_log = "";
         for (auto device_build_log : build_logs) {
-            build_log += "Build Log for " + get_device_name(device_build_log.first) + "\n\n" +
-                         device_build_log.second + "\n";
+            build_log += "Build Log for " + get_device_name(device_build_log.first) + "\n\n"
+                         + device_build_log.second + "\n";
         }
-        OpenCLUtils::check_error(
-            err, __FILE__, __LINE__, "Error Building Kernels: Output Build Log:\n" + build_log);
+        OpenCLUtils::check_error(err, __FILE__, __LINE__,
+                                 "Error Building Kernels: Output Build Log:\n" + build_log);
         return std::nullopt;
     }
     cl::Kernel kernel{program, kernel_name.c_str(), &err};
-    if (OpenCLUtils::check_error(
-            err, __FILE__, __LINE__, "Error creating Kernel \'" + kernel_name + "\'")) {
+    if (OpenCLUtils::check_error(err, __FILE__, __LINE__,
+                                 "Error creating Kernel \'" + kernel_name + "\'")) {
         return std::nullopt;
     }
 
@@ -274,13 +263,13 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
         std::vector<cl::Device> devices;
         std::string platform_name = platform.getInfo<CL_PLATFORM_NAME>();
         platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
-        device_map.try_emplace(platform_name);
         for (auto it = devices.begin(); it != devices.end(); ++it) {
             if (opts.single_precision || OpenCLUtils::supports_fp64(*it)) {
                 device_map[platform_name].push_back(*it);
             }
         }
     }
+
 
     if (device_map.size() == 0 && !opts.single_precision) {
         std::cerr << "Warning: No Platform found that supports double precision. Try enabling "
@@ -294,8 +283,8 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
         for (auto platform_name_devices : device_map) {
             const std::vector<cl::Device>& platform_devices = platform_name_devices.second;
             if (!platform_devices.empty()) {
-                usable_devices.insert(
-                    usable_devices.end(), platform_devices.begin(), platform_devices.end());
+                usable_devices.insert(usable_devices.end(), platform_devices.begin(),
+                                      platform_devices.end());
             }
         }
     } else {
@@ -304,8 +293,8 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
                 std::cerr << "Warning: No Platform named " << preferred_platform << " found.\n";
             } else {
                 std::vector<cl::Device>& platform_devices = device_map[preferred_platform];
-                usable_devices.insert(
-                    usable_devices.end(), platform_devices.begin(), platform_devices.end());
+                usable_devices.insert(usable_devices.end(), platform_devices.begin(),
+                                      platform_devices.end());
             }
         }
     }
@@ -318,14 +307,12 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
     std::vector<std::pair<cl_uint, cl::Device>> clock_freq_devices;
 
     std::transform(
-        usable_devices.begin(),
-        usable_devices.end(),
-        std::back_inserter(clock_freq_devices),
+        usable_devices.begin(), usable_devices.end(), std::back_inserter(clock_freq_devices),
         [](cl::Device& device) {
             cl_int err;
             cl_uint max_clock_freq = device.getInfo<CL_DEVICE_MAX_CLOCK_FREQUENCY>(&err);
-            if (OpenCLUtils::check_error(
-                    err, __FILE__, __LINE__, "Error querying device MAX_CLOCK_FREQUENCY")) {
+            if (OpenCLUtils::check_error(err, __FILE__, __LINE__,
+                                         "Error querying device MAX_CLOCK_FREQUENCY")) {
                 max_clock_freq =
                     std::numeric_limits<cl_uint>::min();  // Still need to return something,
                                                           // but will not picked as the device
@@ -334,8 +321,7 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
             return std::pair{max_clock_freq, device};
         });
 
-    auto max_it = std::max_element(clock_freq_devices.cbegin(),
-                                   clock_freq_devices.cend(),
+    auto max_it = std::max_element(clock_freq_devices.cbegin(), clock_freq_devices.cend(),
                                    [](const ClockFreqDevice& rhs, const ClockFreqDevice& lhs) {
                                        return rhs.first < lhs.first;
                                    });
