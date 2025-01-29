@@ -179,13 +179,15 @@ bool Log::parse(std::string dir) {
         return false;
     }
 
-    if (!fs::exists(fs::path(frames_name_))) {
+    fs::path frame_path(frames_name_);
+    if (!fs::exists(frame_path) && !fs::exists(frame_path.parent_path() / "frame_0.bin")) {
         cout << "Frames file doesn't exist: " << frames_name_ << endl;
     } else {
         parse(frames_name_, FRAMES);
     }
 
-    if (!fs::exists(fs::path(shapes_name_))) {
+    fs::path shapes_path(frames_name_);
+    if (!fs::exists(shapes_path) && !fs::exists(shapes_path.parent_path() / "shapes_0.bin")) {
         cout << "Shapes file doesn't exist: " << shapes_name_ << endl;
     } else {
         parse(shapes_name_, SHAPES);
@@ -207,6 +209,25 @@ bool Log::parse(std::string dir) {
 }
 
 bool Log::parse(std::string filename, Log::FileType type) {
+
+    if (!fs::exists(fs::path(filename))) {
+        std::string path = fs::path(filename).parent_path().string();
+        bool success = false;
+        if (type == FRAMES) {
+            success = parse_proto(
+                [&]() {return std::make_shared<sp::Frame>();}, frames_, path, "frame"
+            );
+            for (auto &frame : frames_) {
+                scrimmage_frames_.push_back(proto_2_frame(*frame));
+            }
+        } else {
+            success = parse_proto(
+                [&]() {return std::make_shared<sp::Shapes>();}, shapes_, path, "shapes"
+            );
+        }
+        return success;
+    }
+
     int input_fd = open(filename.c_str(), O_RDONLY);
     if (input_fd == -1) {
         cout << "Failed to open file: " << filename.c_str() << endl;

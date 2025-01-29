@@ -331,9 +331,11 @@ class Updater : public vtkCommand {
     double init_scale_ = 1.0;
 
     std::vector<std::vector<double>> prev_camera_pos;
+    bool log_dir_warning_ = false;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+    int screenshot_num_ = 1;
 };
 
 }  // namespace scrimmage
