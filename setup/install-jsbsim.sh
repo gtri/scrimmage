@@ -30,24 +30,30 @@ fi
 # Install jsbsim & jsbsim-devl from deb packages
 for JSBSIM_DEP in "${!DEPS[@]}";
 do
-  echo "Installing ${JSBSIM_DEP}"
+  printf "Installing ${JSBSIM_DEP}...\n"
   if which apt-get &> /dev/null; 
   then
+    DEB=${DEPS[$JSBSIM_DEP]}
     if [[ ! `dpkg -l | grep -w "ii  ${JSBSIM_DEP} "` ]];
     then
-      DEB=${DEPS[$JSBSIM_DEP]}
-      echo ${DEB}
+      printf ${DEB}
       wget "${JSBSIM_RELEASE_URL}/${DEB}" --directory-prefix=${JSBSIM_TMP} &> /dev/null
       apt-get install "${JSBSIM_TMP}/${DEB}" 
     else
-      echo "${DEB} is already installed on this system!"
+      printf "${DEB} is already installed on this system!\n"
     fi
   fi
+  printf "\n"
 done
 
-# Cleanup tmp dir. Change this to a rmdir
-rm ${JSBSIM_TMP}/${JSBSIM_DEVEL}
-rm ${JSBSIM_TMP}/${JSBSIM_BIN}
+# Cleanup tmp dir.
+if [ -f ${JSBSIM_TMP}/${JSBSIM_DEVEL} ]; then 
+  rm ${JSBSIM_TMP}/${JSBSIM_DEVEL}
+fi
+
+if [ -f ${JSBSIM_TMP}/${JSBSIM_BIN} ]; then 
+  rm ${JSBSIM_TMP}/${JSBSIM_BIN}
+fi
 
 # Will only remove directory if it is already empty
 rmdir ${JSBSIM_TMP}
