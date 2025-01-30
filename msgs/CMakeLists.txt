@@ -5,9 +5,23 @@
 # protocol buffer files
 
 # PROTO input - finds all .proto files in the current dir
-file(GLOB PROTO_FILE_LIST
-  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
-  "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
+#file(GLOB PROTO_FILE_LIST
+#  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+#  "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
+
+set(PROTO_FILE_LIST 
+    AuctionMsgs.proto
+    Battery.proto
+    Capture.proto
+    Collision.proto
+    Command.proto
+    Event.proto
+    GPS.proto
+    Graph.proto
+    LOSSensor.proto
+    Simple.proto
+    Terrain.proto
+    Waypoint.proto)
 
 set(GEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/msgs)
 file(MAKE_DIRECTORY ${GEN_DIR})

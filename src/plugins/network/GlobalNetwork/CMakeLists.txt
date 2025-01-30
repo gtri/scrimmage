@@ -6,7 +6,8 @@ SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 
-file(GLOB SRCS *.cpp)
+SET(SRCS GlobalNetwork.cpp )
+
 
 ADD_LIBRARY(${LIBRARY_NAME} SHARED 
   ${SRCS}

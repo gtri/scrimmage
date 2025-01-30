@@ -1,7 +1,9 @@
 set (APP_NAME scrimmage-bin)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
+SET(SRCS main.cpp )
+
+SET(HDRS )
+
 
 #
 if(APPLE)

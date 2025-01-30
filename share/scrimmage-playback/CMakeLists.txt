@@ -1,7 +1,9 @@
 set (APP_NAME scrimmage-playback)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
+SET(SRCS main.cpp )
+
+SET(HDRS )
+
 
 if(APPLE)
   add_executable(${APP_NAME} MACOSX_BUNDLE ${SRCS})

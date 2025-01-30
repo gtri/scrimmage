@@ -1,7 +1,9 @@
 set (APP_NAME scrimmage-viz)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
+SET(SRCS main.cpp )
+
+SET(HDRS )
+
 
 if(APPLE)
   # set(MACOSX_BUNDLE_ICON_FILE scrimmage-viz.icns)

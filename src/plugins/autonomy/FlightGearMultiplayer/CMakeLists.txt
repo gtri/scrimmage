@@ -21,7 +21,8 @@ SET (LIB_MAJOR 0)
 SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 
-file(GLOB SRCS *.cpp) #does this need to be *.cxx too
+SET(SRCS FlightGearMultiplayer.cpp )
+ #does this need to be *.cxx too
 
 ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}

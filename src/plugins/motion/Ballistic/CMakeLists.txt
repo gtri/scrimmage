@@ -6,7 +6,8 @@ set(LIB_MAJOR 0)
 set(LIB_MINOR 0)
 set(LIB_RELEASE 1)
 
-file(GLOB SRCS *.cpp)
+SET(SRCS Ballistic.cpp )
+
 
 add_library(${LIBRARY_NAME} SHARED
   ${SRCS}
