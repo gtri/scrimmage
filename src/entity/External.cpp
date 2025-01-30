@@ -31,70 +31,69 @@
  */
 
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
 #include <scrimmage/common/GlobalService.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/External.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/simcontrol/SimUtils.h>
-#include <scrimmage/network/Interface.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
-
-#include <iostream>
-#include <iomanip>
-#include <set>
+#include <scrimmage/simcontrol/SimUtils.h>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
-
-#include <boost/range/adaptor/map.hpp>
 #include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/map.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/algorithm/find_if.hpp>
 #include <boost/range/algorithm/for_each.hpp>
+#include <iomanip>
+#include <iostream>
+#include <set>
 
-using std::endl;
 using std::cout;
+using std::endl;
 
 namespace ba = boost::adaptors;
 namespace br = boost::range;
 
 namespace scrimmage {
 
-External::External() :
-    entity_(std::make_shared<Entity>()),
-    plugin_manager_(std::make_shared<PluginManager>()),
-    log_(std::make_shared<Log>()),
-    last_t_(NAN),
-    pubsub_(std::make_shared<PubSub>()),
-    printer_(std::make_shared<Print>()),
-    time_(std::make_shared<Time>()),
-    param_server_(std::make_shared<ParameterServer>()),
-    global_services_(std::make_shared<GlobalService>()),
-    mp_(std::make_shared<MissionParse>()),
-    id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
-    id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
-    shape_queue_max_size_(0) {}
+External::External()
+    : entity_(std::make_shared<Entity>()),
+      plugin_manager_(std::make_shared<PluginManager>()),
+      log_(std::make_shared<Log>()),
+      last_t_(NAN),
+      pubsub_(std::make_shared<PubSub>()),
+      printer_(std::make_shared<Print>()),
+      time_(std::make_shared<Time>()),
+      param_server_(std::make_shared<ParameterServer>()),
+      global_services_(std::make_shared<GlobalService>()),
+      mp_(std::make_shared<MissionParse>()),
+      id_to_team_map_(std::make_shared<std::unordered_map<int, int>>()),
+      id_to_ent_map_(std::make_shared<std::unordered_map<int, EntityPtr>>()),
+      shape_queue_max_size_(0) {
+}
 
-void External::print_plugins(std::ostream &out) const {
+void External::print_plugins(std::ostream& out) const {
     out << "====== SCRIMMAGE Plugins Loaded =======" << endl;
     out << "----------- Network ------------" << endl;
-    for (auto &kv : *networks_) {
+    for (auto& kv : *networks_) {
         out << kv.first << endl;
     }
     out << "------ Entity Interaction ------" << endl;
-    for (EntityInteractionPtr ei:  ent_inters_) {
+    for (EntityInteractionPtr ei : ent_inters_) {
         out << ei->name() << endl;
     }
     out << "----------- Metrics ------------" << endl;
@@ -104,17 +103,12 @@ void External::print_plugins(std::ostream &out) const {
     entity_->print_plugins(out);
 }
 
-bool External::create_entity(const std::string &mission_file,
-                             const std::string &entity_tag,
-                             const std::string &plugin_tags_str,
-                             int entity_id,
-                             int max_entities,
-                             double init_time,
-                             double init_dt,
-                             const std::string &log_dir,
-                             std::function<void(std::map<std::string, std::string>&)> param_override_func,
-                             const std::string& mission_file_overrides,
-                             const int& debug_level) {
+bool External::create_entity(
+    const std::string& mission_file, const std::string& entity_tag,
+    const std::string& plugin_tags_str, int entity_id, int max_entities, double init_time,
+    double init_dt, const std::string& log_dir,
+    std::function<void(std::map<std::string, std::string>&)> param_override_func,
+    const std::string& mission_file_overrides, const int& debug_level) {
     // Find the mission file
     auto found_mission_file = FileSearch().find_mission(mission_file);
     if (not found_mission_file) {
@@ -137,8 +131,7 @@ bool External::create_entity(const std::string &mission_file,
     // entity name
     auto it_name_id = mp_->entity_tag_to_id().find(entity_tag);
     if (it_name_id == mp_->entity_tag_to_id().end()) {
-        cout << "Entity name (" << entity_tag << ") not found in mission file"
-             << endl;
+        cout << "Entity name (" << entity_tag << ") not found in mission file" << endl;
         return false;
     }
 
@@ -187,7 +180,8 @@ bool External::create_entity(const std::string &mission_file,
     }
 
     ent_inters_.clear();
-    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, global_services_, plugin_tags, param_override_func)) {
+    if (!create_ent_inters(sim_info, contacts, shapes, ent_inters_, global_services_, plugin_tags,
+                           param_override_func)) {
         std::cout << "External::create_entity() failed on create_ent_inters()" << std::endl;
         return false;
     }
@@ -201,20 +195,17 @@ bool External::create_entity(const std::string &mission_file,
     call_update_contacts(time_->t());
     auto it = entity_->contacts()->find(entity_id);
     if (it != entity_->contacts()->end()) {
-        mp_->entity_descriptions()[it_name_id->second]["team_id"] = std::to_string(it->second.id().team_id());
+        mp_->entity_descriptions()[it_name_id->second]["team_id"] =
+            std::to_string(it->second.id().team_id());
     }
 
-    std::map<std::string, std::string> info =
-        mp_->entity_descriptions()[it_name_id->second];
+    std::map<std::string, std::string> info = mp_->entity_descriptions()[it_name_id->second];
 
-    AttributeMap &attr_map = mp_->entity_attributes()[it_name_id->second];
-    bool ent_success =
-        entity_->init(
-            attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
-            mp_->projection(), entity_id,
-            it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-            printer_, time_, param_server_, global_services_, plugin_tags,
-            param_override_func, debug_level);
+    AttributeMap& attr_map = mp_->entity_attributes()[it_name_id->second];
+    bool ent_success = entity_->init(
+        attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_, mp_->projection(),
+        entity_id, it_name_id->second, plugin_manager_, file_search, rtree, pubsub_, printer_,
+        time_, param_server_, global_services_, plugin_tags, param_override_func, debug_level);
     if (!ent_success) {
         std::cout << "External::create_entity() failed on entity_->init()" << std::endl;
         return false;
@@ -226,11 +217,11 @@ bool External::create_entity(const std::string &mission_file,
         // if vars is not set then we assume it should match the last controller.
         // we need to make sure we do not mess up the order of the indexes
         // because the controller outputs have already been declared
-        auto &ctrl = entity_->controllers().back();
-        auto &var_idx = ctrl->vars().output_variable_index();
+        auto& ctrl = entity_->controllers().back();
+        auto& var_idx = ctrl->vars().output_variable_index();
         if (vars.input_variable_index().empty()) {
             int idx = 0;
-            auto matches_idx = [&](auto &kv) {return kv.second == idx;};
+            auto matches_idx = [&](auto& kv) { return kv.second == idx; };
             auto it = br::find_if(var_idx, matches_idx);
             while (it != var_idx.end()) {
                 vars.add_input_variable(it->first);
@@ -241,14 +232,11 @@ bool External::create_entity(const std::string &mission_file,
         }
         connect(ctrl->vars(), vars);
         if (!verify_io_connection(entity_->controllers().back()->vars(), vars)) {
-            std::cout << "VariableIO Error: "
-                      << ctrl->name()
-                      << " does not provide inputs required by the External class."
-                      << std::endl;
+            std::cout << "VariableIO Error: " << ctrl->name()
+                      << " does not provide inputs required by the External class." << std::endl;
             print_io_error("External", vars);
             std::cout << ctrl->name() << " currently provides the following: ";
-            br::copy(var_idx | ba::map_keys,
-                     std::ostream_iterator<std::string>(std::cout, ", "));
+            br::copy(var_idx | ba::map_keys, std::ostream_iterator<std::string>(std::cout, ", "));
             return false;
         }
     }
@@ -256,15 +244,14 @@ bool External::create_entity(const std::string &mission_file,
     return true;
 }
 
-void External::setup_logging(const std::string &log_dir) {
+void External::setup_logging(const std::string& log_dir) {
     mp_->set_log_dir(log_dir);
 
     std::string output_type = get("output_type", mp_->params(), std::string("all"));
 
     mp_->create_log_dir();
-    bool enable_log =
-        output_type.find("all") != std::string::npos ||
-        output_type.find("frames") != std::string::npos;
+    bool enable_log = output_type.find("all") != std::string::npos
+                      || output_type.find("frames") != std::string::npos;
 
     log_->set_enable_log(enable_log);
     log_->set_drop_bin_logging(mp_->get_no_bin_logging());
@@ -290,7 +277,7 @@ bool External::step(double t) {
         autonomy->step_autonomy(t, dt);
     }
 
-    for (const auto &kv : entity_->sensors()) {
+    for (const auto& kv : entity_->sensors()) {
         SensorPtr sensor = kv.second;
         sensor->step();
     }
@@ -320,13 +307,16 @@ bool External::step(double t) {
         metrics->step_metrics(t, dt);
     }
 
-    if (!send_messages()) {mutex.unlock(); return false;}
+    if (!send_messages()) {
+        mutex.unlock();
+        return false;
+    }
 
     // shapes
     scrimmage_proto::Shapes shapes;
     shapes.set_time(t);
     auto add_clear_shapes = [&](auto p) {
-        auto add_shape = [&](auto &shape) {
+        auto add_shape = [&](auto& shape) {
             *shapes.add_shape() = *shape;
 
             shape_queue_.push(shape);
@@ -337,7 +327,7 @@ bool External::step(double t) {
             }
         };
         br::for_each(p->shapes(), add_shape);
-        p->shapes().clear(); // don't let shapes build up
+        p->shapes().clear();  // don't let shapes build up
     };
 
     br::for_each(entity_->autonomies(), add_clear_shapes);
@@ -359,21 +349,21 @@ bool External::step(double t) {
     return true;
 }
 
-EntityPtr &External::entity() {
+EntityPtr& External::entity() {
     return entity_;
 }
 
 bool External::send_messages() {
     // Send messages that are published by a SCRIMMAGE plugin to the external
     // network (e.g., ROS, MOOS)
-    auto to_publisher = [&](auto &network_device) {return std::dynamic_pointer_cast<Publisher>(network_device);};
-    auto has_callback = [&](auto &pub) {return pub && pub->callback;};
+    auto to_publisher = [&](auto& network_device) {
+        return std::dynamic_pointer_cast<Publisher>(network_device);
+    };
+    auto has_callback = [&](auto& pub) { return pub && pub->callback; };
 
-    for (auto &topic_device_kv : pubsub_->pubs() | ba::map_values) {
-        for (auto &dev_list : topic_device_kv | ba::map_values) {
-            for (auto pub : dev_list |
-                            ba::transformed(to_publisher) |
-                            ba::filtered(has_callback)) {
+    for (auto& topic_device_kv : pubsub_->pubs() | ba::map_values) {
+        for (auto& dev_list : topic_device_kv | ba::map_values) {
+            for (auto pub : dev_list | ba::transformed(to_publisher) | ba::filtered(has_callback)) {
                 for (auto msg : pub->pop_msgs()) {
                     pub->callback(msg);
                 }
@@ -383,9 +373,9 @@ bool External::send_messages() {
 
     // any messages that are not linked to the external network can now
     // be sent via the internal scrimmage messaging system
-    auto &pubs = pubsub_->pubs();
-    auto &subs = pubsub_->subs();
-    for (auto &network : *networks_ | ba::map_values) {
+    auto& pubs = pubsub_->pubs();
+    auto& subs = pubsub_->subs();
+    for (auto& network : *networks_ | ba::map_values) {
         auto name = network->name();
         if (!network->step(pubs[name], subs[name])) {
             std::cout << "Network failed: " << name << std::endl;
@@ -404,10 +394,13 @@ bool External::send_messages() {
 bool External::call_update_contacts(double t) {
     mutex.lock();
     if (update_contacts_task.update(t).first) {
-        auto rtree = entity_->rtree(); // rtree is a shared_ptr
-        if (!rtree) {mutex.unlock(); return false;}
+        auto rtree = entity_->rtree();  // rtree is a shared_ptr
+        if (!rtree) {
+            mutex.unlock();
+            return false;
+        }
         rtree->init(entity_->contacts()->size());
-        for (auto &kv : *entity_->contacts()) {
+        for (auto& kv : *entity_->contacts()) {
             rtree->add(kv.second.state()->pos(), kv.second.id());
         }
         update_ents();
@@ -423,13 +416,13 @@ MissionParsePtr External::mp() {
 void External::update_ents() {
     if (ent_inters_.empty() && !metrics_.empty()) return;
 
-    auto &contacts = *entity_->contacts();
+    auto& contacts = *entity_->contacts();
 
     id_to_team_map_->clear();
     id_to_ent_map_->clear();
     ents_.clear();
-    for (auto &kv : contacts) {
-        ID &id = kv.second.id();
+    for (auto& kv : contacts) {
+        ID& id = kv.second.id();
         (*id_to_team_map_)[id.id()] = id.team_id();
 
         auto ent = id.id() == entity_->id().id() ? entity_ : std::make_shared<Entity>();
@@ -450,13 +443,13 @@ void External::close() {
     entity_->close(time_->t());
     entity_ = std::make_shared<Entity>();
 
-    auto close = [&](auto p) {p->close(time_->t());};
+    auto close = [&](auto p) { p->close(time_->t()); };
     br::for_each(ent_inters_, close);
     br::for_each(metrics_, close);
     mutex.unlock();
 }
 
-bool External::enable_outgoing_interface(const std::string &ip, const int &port) {
+bool External::enable_outgoing_interface(const std::string& ip, const int& port) {
     InterfacePtr interface = std::make_shared<Interface>();
     interface->init_network(Interface::client, ip, port);
 
@@ -470,9 +463,9 @@ bool External::disable_outgoing_interfaces() {
     return true;
 }
 
-void External::set_time(const double &t, const double &dt) {
+void External::set_time(const double& t, const double& dt) {
     time_->set_t(t);
     time_->set_dt(dt);
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

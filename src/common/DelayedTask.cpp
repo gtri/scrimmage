@@ -36,18 +36,19 @@
 
 namespace scrimmage {
 
-DelayedTask::DelayedTask() : DelayedTask(0, -1) {}
+DelayedTask::DelayedTask() : DelayedTask(0, -1) {
+}
 
-DelayedTask::DelayedTask(double _delay, int repeats) :
-        disable(false),
-        delay(_delay),
-        last_updated_time(-std::numeric_limits<double>::infinity()),
-        end_time(std::numeric_limits<double>::infinity()),
-        eps(0.0),
-        condition(nullptr),
-        task(nullptr),
-        repeat_infinitely_(true),
-        repeats_left_(-1) {
+DelayedTask::DelayedTask(double _delay, int repeats)
+    : disable(false),
+      delay(_delay),
+      last_updated_time(-std::numeric_limits<double>::infinity()),
+      end_time(std::numeric_limits<double>::infinity()),
+      eps(0.0),
+      condition(nullptr),
+      task(nullptr),
+      repeat_infinitely_(true),
+      repeats_left_(-1) {
     set_repeats(repeats);
 }
 
@@ -88,4 +89,4 @@ void DelayedTask::set_repeat_infinitely(bool repeat_infinitely) {
     repeats_left_ = -1;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

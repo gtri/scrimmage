@@ -30,12 +30,12 @@
  *
  */
 
+#include <scrimmage/entity/EntityPlugin.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugins/controller/JoystickController/Joystick.h>
-#include <scrimmage/entity/EntityPlugin.h>
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -53,23 +53,23 @@ Joystick::~Joystick() {
     free(button_);
 }
 
-void Joystick::init(std::map<std::string, std::string> &params,
-                    VariableIO &vars, EntityPluginPtr plugin) {
+void Joystick::init(std::map<std::string, std::string>& params, VariableIO& vars,
+                    EntityPluginPtr plugin) {
     print_js_values_ = sc::get<bool>("print_raw_joystick_values", params, false);
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
     if ((joy_fd_ = open(dev.c_str(), O_RDONLY)) == -1) {
-		cout << "couldn't open joystick: " << dev << endl;
-	}
+        cout << "couldn't open joystick: " << dev << endl;
+    }
 
     char name_of_joystick[80];
 
     ioctl(joy_fd_, JSIOCGAXES, &num_of_axis_);
-	ioctl(joy_fd_, JSIOCGBUTTONS, &num_of_buttons_);
-	ioctl(joy_fd_, JSIOCGNAME(80), &name_of_joystick);
+    ioctl(joy_fd_, JSIOCGBUTTONS, &num_of_buttons_);
+    ioctl(joy_fd_, JSIOCGNAME(80), &name_of_joystick);
 
-	axis_ = reinterpret_cast<int*>(calloc(num_of_axis_, sizeof(int)));
-	button_ = reinterpret_cast<char*>(calloc(num_of_buttons_, sizeof(char)));
+    axis_ = reinterpret_cast<int*>(calloc(num_of_axis_, sizeof(int)));
+    button_ = reinterpret_cast<char*>(calloc(num_of_buttons_, sizeof(char)));
 
     prev_button_state_.resize(num_of_buttons_);
 
@@ -79,7 +79,7 @@ void Joystick::init(std::map<std::string, std::string> &params,
         cout << "\t " << num_of_buttons_ << " buttons" << endl;
     }
 
-	fcntl(joy_fd_, F_SETFL, O_NONBLOCK); // use non-blocking mode
+    fcntl(joy_fd_, F_SETFL, O_NONBLOCK);  // use non-blocking mode
 
     std::string axis_map = sc::get<std::string>("axis_map", params, "");
     std::vector<std::vector<std::string>> vecs;
@@ -97,11 +97,9 @@ void Joystick::init(std::map<std::string, std::string> &params,
 
             int axis = std::stod(vec[1]);
             if (axis >= num_of_axis_) {
-                cout << "Warning: axis_map contains out-of-range axis index"
-                     << endl;
+                cout << "Warning: axis_map contains out-of-range axis index" << endl;
             } else {
-                AxisScale at(axis, std::stod(vec[2]),
-                             std::stod(vec[3]), std::stod(vec[4]),
+                AxisScale at(axis, std::stod(vec[2]), std::stod(vec[3]), std::stod(vec[4]),
                              std::stod(vec[5]), std::stod(vec[6]),
                              vars.declare(vec[0], VariableIO::Direction::Out));
                 axis_tfs_.push_back(at);
@@ -111,13 +109,14 @@ void Joystick::init(std::map<std::string, std::string> &params,
 
     publish_button_state_ = sc::get<bool>("publish_button_state", params, false);
     std::string button_topic = sc::get<std::string>("button_topic", params, "joystick_buttons");
-    std::string button_network_name = sc::get<std::string>("button_network_name", params, "LocalNetwork");
+    std::string button_network_name =
+        sc::get<std::string>("button_network_name", params, "LocalNetwork");
     if (publish_button_state_) {
         pub_buttons_ = plugin->advertise(button_network_name, button_topic);
     }
 }
 
-bool Joystick::step(double t, double dt, VariableIO &vars) {
+bool Joystick::step(double t, double dt, VariableIO& vars) {
     int bytes = read(joy_fd_, &js_, sizeof(struct js_event));
     if (bytes == -1) {
         // nop, avoid unused variable warning
@@ -126,18 +125,18 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     // see what to do with the event
     bool button_changed = false;
     switch (js_.type & ~JS_EVENT_INIT) {
-    case JS_EVENT_AXIS:
-        axis_[js_.number] = js_.value;
-        break;
-    case JS_EVENT_BUTTON:
-        button_[js_.number] = js_.value;
-        button_changed = true;
-        break;
+        case JS_EVENT_AXIS:
+            axis_[js_.number] = js_.value;
+            break;
+        case JS_EVENT_BUTTON:
+            button_[js_.number] = js_.value;
+            button_changed = true;
+            break;
     }
 
     if (print_js_values_) {
         for (int x = 0; x < num_of_axis_; x++) {
-            printf("%d: %6d  ", x, axis_[x] );
+            printf("%d: %6d  ", x, axis_[x]);
         }
 
         for (int x = 0; x < num_of_buttons_; x++) {
@@ -148,8 +147,7 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     }
 
     for (AxisScale axis_tf : axis_tfs_) {
-        vars.output(axis_tf.vector_index(),
-                    axis_tf.scale(axis_[axis_tf.axis_index()]));
+        vars.output(axis_tf.vector_index(), axis_tf.scale(axis_[axis_tf.axis_index()]));
     }
 
     if (publish_button_state_) {
@@ -162,8 +160,7 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
                 msg->data[i] = button_[i];
             }
 
-            auto it = std::mismatch(msg->data.begin(), msg->data.end(),
-                              prev_button_state_.begin());
+            auto it = std::mismatch(msg->data.begin(), msg->data.end(), prev_button_state_.begin());
             if (it.first != msg->data.end()) {
                 pub_buttons_->publish(msg);
                 prev_button_state_ = msg->data;
@@ -174,5 +171,5 @@ bool Joystick::step(double t, double dt, VariableIO &vars) {
     return true;
 }
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

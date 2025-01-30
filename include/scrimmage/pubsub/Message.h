@@ -35,21 +35,23 @@
 
 #include <scrimmage/pubsub/MessageBase.h>
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 
 template <class T>
 class Message : public MessageBase {
  public:
-    Message() : MessageBase() {}
-    explicit Message(T _data) : MessageBase(), data(_data) {}
+    Message() : MessageBase() {
+    }
+    explicit Message(T _data) : MessageBase(), data(_data) {
+    }
     T data;
 };
 
-template<class T>
+template <class T>
 using MessagePtr = std::shared_ptr<Message<T>>;
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_

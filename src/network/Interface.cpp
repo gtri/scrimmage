@@ -32,8 +32,8 @@
 
 #if ENABLE_GRPC
 #include <grpc++/grpc++.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
 #include <scrimmage/network/ScrimmageServiceImpl.h>
+#include <scrimmage/proto/Scrimmage.grpc.pb.h>
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
@@ -41,12 +41,12 @@ using grpc::Status;
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Contact.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/network/Interface.h>
 
 #include <iostream>
-#include <thread> // NOLINT
+#include <thread>  // NOLINT
 
 using std::cout;
 using std::endl;
@@ -59,7 +59,7 @@ void Interface::start_server() {
 }
 #endif
 
-bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int port) {
+bool Interface::init_network(Interface::Mode_t mode, const std::string& ip, int port) {
     mode_ = mode;
     ip_ = ip;
     port_ = port;
@@ -88,9 +88,9 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string &ip, int 
 #if ENABLE_GRPC
         std::string result = ip_ + ":" + std::to_string(port_);
         std::shared_ptr<Channel> channel(
-            grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
-        );
-        std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(scrimmage_proto::ScrimmageService::NewStub(channel));
+            grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+        std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(
+            scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
         cout << "Client connecting to " << result << endl;
 #else
@@ -113,9 +113,9 @@ bool Interface::check_ready() {
     // the non-connection
     std::string result = ip_ + ":" + std::to_string(port_);
     std::shared_ptr<Channel> channel(
-        grpc::CreateChannel(result, grpc::InsecureChannelCredentials())
-    );
-    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(scrimmage_proto::ScrimmageService::NewStub(channel));
+        grpc::CreateChannel(result, grpc::InsecureChannelCredentials()));
+    std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> stub(
+        scrimmage_proto::ScrimmageService::NewStub(channel));
 
     google::protobuf::Empty req;
     scrimmage_proto::BlankReply reply;
@@ -126,7 +126,7 @@ bool Interface::check_ready() {
 #endif
 }
 
-bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame>& frame) {
     if (mode_ == shared) {
         push_frame(frame);
     } else if (mode_ == client) {
@@ -159,15 +159,13 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::send_frame(double time,
-                           std::shared_ptr<ContactMap> &contacts) {
-    std::shared_ptr<scrimmage_proto::Frame> frame =
-        create_frame(time, contacts);
+bool Interface::send_frame(double time, std::shared_ptr<ContactMap>& contacts) {
+    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(time, contacts);
 
     return send_frame(frame);
 }
 
-bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain) {
     if (caching_enabled_) {
         utm_terrain_cache_ = utm_terrain;
     }
@@ -204,7 +202,7 @@ bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
     return true;
 }
 
-bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual>& cv) {
     if (caching_enabled_) {
         contact_visual_cache_.push_back(cv);
     }
@@ -241,7 +239,7 @@ bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisu
     return true;
 }
 
-bool Interface::send_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
+bool Interface::send_gui_msg(scrimmage_proto::GUIMsg& gui_msg) {
     if (mode_ == shared) {
         push_gui_msg(gui_msg);
     } else if (mode_ == client) {
@@ -274,7 +272,7 @@ bool Interface::send_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
     return true;
 }
 
-bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
+bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked& msg) {
     if (mode_ == shared) {
         push_world_point_clicked_msg(msg);
     } else if (mode_ == client) {
@@ -307,8 +305,7 @@ bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked 
     return true;
 }
 
-
-bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
+bool Interface::send_sim_info(scrimmage_proto::SimInfo& sim_info) {
     if (mode_ == shared) {
         push_sim_info(sim_info);
     } else if (mode_ == client) {
@@ -341,7 +338,7 @@ bool Interface::send_sim_info(scrimmage_proto::SimInfo &sim_info) {
     return true;
 }
 
-bool Interface::send_shapes(scrimmage_proto::Shapes &shapes) {
+bool Interface::send_shapes(scrimmage_proto::Shapes& shapes) {
     if (mode_ == shared) {
         push_shapes(shapes);
     } else if (mode_ == client) {
@@ -391,14 +388,14 @@ void Interface::send_cached() {
     caching_enabled_ = true;
 }
 
-bool Interface::push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual> &cv) {
+bool Interface::push_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisual>& cv) {
     contact_visual_mutex.lock();
     contact_visual_list_.push_back(cv);
     contact_visual_mutex.unlock();
     return true;
 }
 
-bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame>& frame) {
     frames_mutex.lock();
     frames_list_.push_back(frame);
     if (frames_list_.size() > max_queue_size_) {
@@ -408,28 +405,28 @@ bool Interface::push_frame(std::shared_ptr<scrimmage_proto::Frame> &frame) {
     return true;
 }
 
-bool Interface::push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Interface::push_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain) {
     utm_terrain_mutex.lock();
     utm_terrain_list_.push_back(utm_terrain);
     utm_terrain_mutex.unlock();
     return true;
 }
 
-bool Interface::push_gui_msg(scrimmage_proto::GUIMsg &gui_msg) {
+bool Interface::push_gui_msg(scrimmage_proto::GUIMsg& gui_msg) {
     gui_msg_mutex.lock();
     gui_msg_list_.push_back(gui_msg);
     gui_msg_mutex.unlock();
     return true;
 }
 
-bool Interface::push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &msg) {
+bool Interface::push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked& msg) {
     world_point_clicked_msg_mutex.lock();
     world_point_clicked_msg_list_.push_back(msg);
     world_point_clicked_msg_mutex.unlock();
     return true;
 }
 
-bool Interface::push_sim_info(scrimmage_proto::SimInfo &sim_info) {
+bool Interface::push_sim_info(scrimmage_proto::SimInfo& sim_info) {
     sim_info_mutex.lock();
     sim_info_list_.push_back(sim_info);
     if (sim_info_list_.size() > max_queue_size_) {
@@ -439,7 +436,7 @@ bool Interface::push_sim_info(scrimmage_proto::SimInfo &sim_info) {
     return true;
 }
 
-bool Interface::push_shapes(scrimmage_proto::Shapes &shapes) {
+bool Interface::push_shapes(scrimmage_proto::Shapes& shapes) {
     shapes_mutex.lock();
     shapes_list_.push_back(shapes);
 
@@ -499,4 +496,4 @@ bool Interface::shapes_update() {
     return status;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

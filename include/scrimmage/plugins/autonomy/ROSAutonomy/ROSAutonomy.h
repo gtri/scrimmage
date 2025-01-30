@@ -33,26 +33,25 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
 
-#include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
+#include <ros/ros.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include <scrimmage/pubsub/Subscriber.h>
 #include <sensor_msgs/LaserScan.h>
 #include <tf/transform_broadcaster.h>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class ROSAutonomy : public scrimmage::Autonomy {
  public:
     ROSAutonomy();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
     void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg);
 
@@ -82,6 +81,6 @@ class ROSAutonomy : public scrimmage::Autonomy {
     int pitch_rate_idx_ = 0;
     int velocity_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_

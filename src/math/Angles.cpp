@@ -32,16 +32,15 @@
 
 #include <scrimmage/math/Angles.h>
 
-#include <cmath>
-
 #include <boost/math/special_functions/sign.hpp>
+#include <cmath>
 
 namespace scrimmage {
 
-Angles::Angles() {}
+Angles::Angles() {
+}
 
 Angles::Angles(double angle, Type input_type, Type output_type) {
-
     if (input_type == Type::GPS) {
         in_zero_ = HeadingZero::Pos_Y;
         in_direction_ = Rotate::CW;
@@ -61,9 +60,13 @@ Angles::Angles(double angle, Type input_type, Type output_type) {
     set_angle(angle);
 }
 
-double Angles::deg2rad(double deg) {return deg * M_PI / 180.0;}
+double Angles::deg2rad(double deg) {
+    return deg * M_PI / 180.0;
+}
 
-double Angles::rad2deg(double rad) {return rad * 180.0 / M_PI;}
+double Angles::rad2deg(double rad) {
+    return rad * 180.0 / M_PI;
+}
 
 void Angles::set_input_clock_direction(Angles::Rotate direction) {
     in_direction_ = direction;
@@ -91,11 +94,11 @@ bool Angles::is_angle_360(double angle) {
 
 double Angles::angle_360(double angle) {
     if (angle >= 360) {
-        angle -= 360*floor(angle/360.0);
+        angle -= 360 * floor(angle / 360.0);
     }
 
     if (angle < 0) {
-        angle += 360*ceil(std::abs(angle)/360.0);
+        angle += 360 * ceil(std::abs(angle) / 360.0);
     }
     return angle;
 }
@@ -107,7 +110,7 @@ double Angles::angle_2pi(double angle) {
     }
 
     if (angle < 0) {
-        angle += pi2 * ceil(std::abs(angle)/ pi2);
+        angle += pi2 * ceil(std::abs(angle) / pi2);
     }
 
     return angle;
@@ -157,7 +160,7 @@ void Angles::set_angle(double angle) {
         // If the angle increase is in the same direction
         // Just add or subtract a specific offset
         int rots = static_cast<int>(in_zero_) - static_cast<int>(out_zero_);
-        angle_ = angle_360(angle + rots*90);
+        angle_ = angle_360(angle + rots * 90);
     } else {
         // If the coordinates are in different CW / CCW frames
 
@@ -176,7 +179,7 @@ void Angles::set_angle(double angle) {
         if (rots == 0) {
             rots = 4;
         }
-        angle_ = angle_360(rots*90 - angle);
+        angle_ = angle_360(rots * 90 - angle);
     }
 }
 
@@ -187,14 +190,12 @@ double Angles::angle() {
 bool Angles::angle_within(double ang1, double ang2, double ang) {
     double diff = angle_diff(ang1, ang2);
     double diff1 = angle_diff(ang, ang2);
-    return boost::math::sign(diff) == boost::math::sign(diff1) &&
-        std::abs(diff) > std::abs(diff1);
+    return boost::math::sign(diff) == boost::math::sign(diff1) && std::abs(diff) > std::abs(diff1);
 }
 
 bool Angles::angle_within_rad(double ang1, double ang2, double ang) {
     double diff = angle_diff_rad(ang1, ang2);
     double diff1 = angle_diff_rad(ang, ang2);
-    return boost::math::sign(diff) == boost::math::sign(diff1) &&
-        std::abs(diff) > std::abs(diff1);
+    return boost::math::sign(diff) == boost::math::sign(diff1) && std::abs(diff) > std::abs(diff1);
 }
-} // namespace scrimmage
+}  // namespace scrimmage

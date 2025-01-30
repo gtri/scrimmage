@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 #include <list>
 #include <map>
@@ -45,14 +45,13 @@ namespace scrimmage {
 namespace interaction {
 class SimpleCollision : public scrimmage::EntityInteraction {
  public:
-    bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
+    bool init(std::map<std::string, std::string>& mission_params,
+              std::map<std::string, std::string>& plugin_params) override;
 
-    bool step_entity_interaction(
-        std::list<scrimmage::EntityPtr> &ents, double t, double dt) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t,
+                                 double dt) override;
 
-    bool collision_exists(
-        std::list<scrimmage::EntityPtr> &ents, Eigen::Vector3d &p) override;
+    bool collision_exists(std::list<scrimmage::EntityPtr>& ents, Eigen::Vector3d& p) override;
 
  protected:
     double collision_range_;
@@ -65,6 +64,6 @@ class SimpleCollision : public scrimmage::EntityInteraction {
     scrimmage::PublisherPtr team_collision_pub_;
     scrimmage::PublisherPtr non_team_collision_pub_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_

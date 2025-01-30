@@ -33,10 +33,9 @@
 #include <scrimmage/common/RTree.h>
 
 #include <algorithm>
-#include <list>
-
 #include <boost/geometry.hpp>
 #include <boost/geometry/index/rtree.hpp>
+#include <list>
 
 namespace bg = boost::geometry;
 namespace bgi = boost::geometry::index;
@@ -58,7 +57,7 @@ void RTree::clear() {
     rtree_team_.clear();
 }
 
-void RTree::add(const Eigen::Vector3d &pos, const ID &id) {
+void RTree::add(const Eigen::Vector3d& pos, const ID& id) {
     point p(pos(0), pos(1), pos(2));
     std::pair<point, ID> pair(p, id);
     rtree_->insert(pair);
@@ -72,27 +71,24 @@ void RTree::add(const Eigen::Vector3d &pos, const ID &id) {
     it->second->insert(pair);
 }
 
-void results_to_neighbors(std::list<point_id_t> &results,
-                          std::vector<ID> &neighbors,
-                          int self_id) {
+void results_to_neighbors(std::list<point_id_t>& results, std::vector<ID>& neighbors, int self_id) {
     neighbors.clear();
     neighbors.reserve(results.size());
     if (self_id >= 0) {
-        for (point_id_t &pt_id : results) {
+        for (point_id_t& pt_id : results) {
             if (pt_id.second.id() != self_id) {
                 neighbors.push_back(pt_id.second);
             }
         }
     } else {
-        for (point_id_t &pt_id : results) {
+        for (point_id_t& pt_id : results) {
             neighbors.push_back(pt_id.second);
         }
     }
 }
 
-void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
-                                std::vector<ID> &neighbors, unsigned int n,
-                                int self_id, int team_id) const {
+void RTree::nearest_n_neighbors(const Eigen::Vector3d& pos, std::vector<ID>& neighbors,
+                                unsigned int n, int self_id, int team_id) const {
     std::list<point_id_t> results;
     point sought(pos(0), pos(1), pos(2));
 
@@ -116,9 +112,7 @@ void RTree::nearest_n_neighbors(const Eigen::Vector3d &pos,
     results_to_neighbors(results, neighbors, self_id);
 }
 
-void RTree::neighbors_in_range(const Eigen::Vector3d &pos,
-                               std::vector<ID> &neighbors,
-                               double dist,
+void RTree::neighbors_in_range(const Eigen::Vector3d& pos, std::vector<ID>& neighbors, double dist,
                                int self_id, int team_id) const {
     // see here: http://stackoverflow.com/a/22910447
     std::list<point_id_t> results;
@@ -127,31 +121,25 @@ void RTree::neighbors_in_range(const Eigen::Vector3d &pos,
     double z = pos(2);
     point sought(x, y, z);
 
-    bg::model::box<point> box(
-        point(x - dist, y - dist, z - dist), point(x + dist, y + dist, z + dist)
-    );
+    bg::model::box<point> box(point(x - dist, y - dist, z - dist),
+                              point(x + dist, y + dist, z + dist));
 
-    auto dist_func = [&](point_id_t const& v) {return bg::distance(v.first, sought) < dist;};
+    auto dist_func = [&](point_id_t const& v) { return bg::distance(v.first, sought) < dist; };
 
     if (team_id == -1) {
-        rtree_->query(
-            bgi::within(box) && bgi::satisfies(dist_func),
-            std::front_inserter(results)
-        );
+        rtree_->query(bgi::within(box) && bgi::satisfies(dist_func), std::front_inserter(results));
     } else {
         auto it = rtree_team_.find(team_id);
         if (it == rtree_team_.end()) {
             neighbors.clear();
             return;
         } else {
-            it->second->query(
-                bgi::within(box) && bgi::satisfies(dist_func),
-                std::front_inserter(results)
-            );
+            it->second->query(bgi::within(box) && bgi::satisfies(dist_func),
+                              std::front_inserter(results));
         }
     }
 
     results_to_neighbors(results, neighbors, self_id);
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

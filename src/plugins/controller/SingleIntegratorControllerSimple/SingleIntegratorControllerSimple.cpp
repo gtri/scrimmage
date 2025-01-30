@@ -34,12 +34,13 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerSimple, SingleIntegratorControllerSimple_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerSimple,
+                SingleIntegratorControllerSimple_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void SingleIntegratorControllerSimple::init(std::map<std::string, std::string> &params) {
+void SingleIntegratorControllerSimple::init(std::map<std::string, std::string>& params) {
     input_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);
     input_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);
     input_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);
@@ -55,5 +56,5 @@ bool SingleIntegratorControllerSimple::step(double t, double dt) {
     vars_.output(output_vel_z_idx_, vars_.input(input_vel_z_idx_));
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

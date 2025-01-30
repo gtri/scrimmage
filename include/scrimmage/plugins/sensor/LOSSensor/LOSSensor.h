@@ -35,19 +35,18 @@
 #include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 #include <Eigen/Dense>
-
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <random>
-#include <memory>
 
 namespace scrimmage {
 namespace sensor {
 class LOSSensor : public RayTrace {
  public:
     LOSSensor();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  private:

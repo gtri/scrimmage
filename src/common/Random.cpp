@@ -31,16 +31,21 @@
  */
 
 #include <scrimmage/common/Random.h>
-#include <chrono> // NOLINT
+
+#include <chrono>  // NOLINT
 
 namespace scrimmage {
 
-Random::Random() :
-    seed_(std::chrono::system_clock::now().time_since_epoch().count()),
-    gener_(std::make_shared<std::default_random_engine>()),
-    rng_normal_(0, 1), rng_uniform_(-1, 1) {}
+Random::Random()
+    : seed_(std::chrono::system_clock::now().time_since_epoch().count()),
+      gener_(std::make_shared<std::default_random_engine>()),
+      rng_normal_(0, 1),
+      rng_uniform_(-1, 1) {
+}
 
-uint32_t Random::get_seed() {return seed_;}
+uint32_t Random::get_seed() {
+    return seed_;
+}
 
 void Random::seed() {
     seed(std::chrono::system_clock::now().time_since_epoch().count());
@@ -72,14 +77,14 @@ int Random::rng_uniform_int(int low, int high) {
     return std::uniform_int_distribution<int>(low, high)(*gener_);
 }
 
-int Random::rng_discrete_int(std::vector<double> &weights) {
+int Random::rng_discrete_int(std::vector<double>& weights) {
     std::discrete_distribution<int> dist(weights.begin(), weights.end());
     return dist(*gener_);
 }
 
-std::shared_ptr<std::normal_distribution<double>>
-Random::make_rng_normal(double mean, double sigma) {
+std::shared_ptr<std::normal_distribution<double>> Random::make_rng_normal(double mean,
+                                                                          double sigma) {
     return std::make_shared<std::normal_distribution<double>>(mean, sigma);
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

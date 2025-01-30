@@ -42,8 +42,8 @@ namespace scrimmage {
 namespace motion {
 class SingleIntegrator : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -55,6 +55,6 @@ class SingleIntegrator : public scrimmage::MotionModel {
     uint8_t vel_z_idx_ = 0;
     uint8_t desired_heading_idx_ = 0;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SINGLEINTEGRATOR_SINGLEINTEGRATOR_H_

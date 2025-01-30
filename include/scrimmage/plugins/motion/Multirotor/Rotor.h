@@ -46,24 +46,36 @@ class Rotor {
  public:
     enum Direction { CW = 1, CCW = -1 };
 
-    Rotor()
-        : dir_(Direction::CW),
-          offset_length_(1.0),
-          xy_angle_(0.0) {}
+    Rotor() : dir_(Direction::CW), offset_length_(1.0), xy_angle_(0.0) {
+    }
 
-    void set_direction(Direction dir) { dir_ = dir; }
+    void set_direction(Direction dir) {
+        dir_ = dir;
+    }
     void set_offset(Eigen::Vector3d offset) {
         offset_ = offset;
         offset_length_ = offset_.norm();
         xy_angle_ = atan2(offset_(1), offset_(0));
     }
-    void set_quat(scrimmage::Quaternion quat) { quat_ = quat; }
+    void set_quat(scrimmage::Quaternion quat) {
+        quat_ = quat;
+    }
 
-    Direction &direction() { return dir_; }
-    Eigen::Vector3d &offset() { return offset_; }
-    scrimmage::Quaternion &quat() { return quat_; }
-    double offset_length() { return offset_length_; }
-    double xy_angle() { return xy_angle_; }
+    Direction& direction() {
+        return dir_;
+    }
+    Eigen::Vector3d& offset() {
+        return offset_;
+    }
+    scrimmage::Quaternion& quat() {
+        return quat_;
+    }
+    double offset_length() {
+        return offset_length_;
+    }
+    double xy_angle() {
+        return xy_angle_;
+    }
 
  protected:
     Direction dir_;

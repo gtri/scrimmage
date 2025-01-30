@@ -30,23 +30,21 @@
  *
  */
 
-#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
 #include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 #include <Eigen/Dense>
-
-#include <iostream>
-#include <iomanip>
-
 #include <boost/algorithm/clamp.hpp>
+#include <iomanip>
+#include <iostream>
 
 using std::cout;
 using std::endl;
@@ -70,8 +68,8 @@ std::tuple<int, int, int> FixedWing6DOF::version() {
     return std::tuple<int, int, int>(0, 0, 1);
 }
 
-bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
-                          std::map<std::string, std::string> &params) {
+bool FixedWing6DOF::init(std::map<std::string, std::string>& info,
+                         std::map<std::string, std::string>& params) {
     // Setup variable index for controllers
     throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);
     elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);
@@ -93,7 +91,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     x_[V] = vel_body(1);
     x_[W] = vel_body(2);
 
-    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1), -state_->ang_vel()(2));
+    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1),
+                                  -state_->ang_vel()(2));
     local_ang_vel = quat_body_.rotate_reverse(local_ang_vel);
 
     x_[P] = local_ang_vel(0);
@@ -123,10 +122,9 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     // catapault parameters
     launch_accel_ = sc::get<double>("launch_accel", params, launch_accel_);
     launch_speed_ = sc::get<double>("launch_speed", params, launch_speed_);
-    launch_time_  = sc::get<double>("launch_time",  params, launch_time_);
+    launch_time_ = sc::get<double>("launch_time", params, launch_time_);
     bool use_launcher = sc::get<bool>("use_launcher", params, false);
-    if (true == use_launcher)
-        launch_state_ = PRELAUNCH;
+    if (true == use_launcher) launch_state_ = PRELAUNCH;
 
     use_ground_model_ = sc::get<double>("use_ground_model", params, true);
 
@@ -136,15 +134,13 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 
     // Get the inertia matrix
     std::vector<std::vector<std::string>> vecs;
-    std::string inertia_matrix = sc::get<std::string>("inertia_matrix",
-                                                      params, "");
+    std::string inertia_matrix = sc::get<std::string>("inertia_matrix", params, "");
 
     // If the inertia matrix is described using slug_ft_sq, it has priority
     bool convert_slug = false;
     if (params.count("inertia_matrix_slug_ft_sq")) {
         convert_slug = true;
-        inertia_matrix = sc::get<std::string>("inertia_matrix_slug_ft_sq",
-                                              params, "");
+        inertia_matrix = sc::get<std::string>("inertia_matrix_slug_ft_sq", params, "");
     }
 
     // Parse inertia matrix
@@ -162,7 +158,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
                 I_(row, i) = std::stod(vec[i]);
                 // If the matrix was defined in slug*ft^2, convert it to SI
                 if (convert_slug) {
-                    I_(row, i) *= 1.35581795; // slug*ft^2 to kg*m^2
+                    I_(row, i) *= 1.35581795;  // slug*ft^2 to kg*m^2
                 }
             }
             row++;
@@ -184,27 +180,23 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     // Should we write a CSV file? What values should be written?
     write_csv_ = sc::get<bool>("write_csv", params, false);
     if (write_csv_) {
-        csv_.open_output(parent_->mp()->log_dir() + "/"
-                         + std::to_string(parent_->id().id())
+        csv_.open_output(parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id())
                          + "-states.csv");
         cout << "Writing log to " + parent_->mp()->log_dir() + "/"
-                         + std::to_string(parent_->id().id())
-                         + "-states.csv" << endl;
+                    + std::to_string(parent_->id().id()) + "-states.csv"
+             << endl;
 
-        csv_.set_column_headers(sc::CSV::Headers{"t",
-                    "x", "y", "z",
-                    "U", "V", "W", "alpha", "alpha_dot", "beta",
-                    "P", "Q", "R",
-                    "Ax_b", "Ay_b", "Az_b",
-                    "AngAccelx_b", "AngAccely_b", "AngAccelz_b",
-                    "roll", "pitch", "yaw",
-                    "throttle", "thrust", "elevator", "aileron", "rudder"});
+        csv_.set_column_headers(sc::CSV::Headers{
+            "t",     "x",         "y",           "z",           "U",           "V",     "W",
+            "alpha", "alpha_dot", "beta",        "P",           "Q",           "R",     "Ax_b",
+            "Ay_b",  "Az_b",      "AngAccelx_b", "AngAccely_b", "AngAccelz_b", "roll",  "pitch",
+            "yaw",   "throttle",  "thrust",      "elevator",    "aileron",     "rudder"});
     }
 
-    rho_ = sc::get<double>("air_density", params, rho_); // air density
-    wind_(0) = sc::get<double>("wind_E", params, 0); // wind constant
-    wind_(1) = sc::get<double>("wind_N", params, 0); // wind constant
-    wind_(2) = sc::get<double>("wind_U", params, 0); // wind constant
+    rho_ = sc::get<double>("air_density", params, rho_);  // air density
+    wind_(0) = sc::get<double>("wind_E", params, 0);      // wind constant
+    wind_(1) = sc::get<double>("wind_N", params, 0);      // wind constant
+    wind_(2) = sc::get<double>("wind_U", params, 0);      // wind constant
 
     // thrust and dimensional specs
     throttle_input_min_ = sc::get<double>("throttle_input_min", params, throttle_input_min_);
@@ -223,7 +215,7 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
     S_ = sc::get<double>("surface_area_of_wing", params, S_);
     c_ = sc::get<double>("chord_length", params, c_);
     e_ = sc::get<double>("efficiency_factor", params, e_);
-    AR_ = b_/c_;
+    AR_ = b_ / c_;
 
     // Drag coefficients
     C_D0_ = sc::get<double>("C_D0", params, C_D0_);
@@ -268,8 +260,8 @@ bool FixedWing6DOF::init(std::map<std::string, std::string> &info,
 bool FixedWing6DOF::step(double time, double dt) {
     // Get inputs and saturate
     throttle_ = clamp(vars_.input(throttle_idx_), -1.0, 1.0);
-    thrust_ = scale<double>(throttle_, throttle_input_min_,
-                            throttle_input_max_, thrust_min_, thrust_max_);
+    thrust_ = scale<double>(throttle_, throttle_input_min_, throttle_input_max_, thrust_min_,
+                            thrust_max_);
 
     delta_elevator_ = clamp(vars_.input(elevator_idx_), delta_elevator_min_, delta_elevator_max_);
     delta_aileron_ = clamp(vars_.input(aileron_idx_), delta_aileron_min_, delta_aileron_max_);
@@ -285,7 +277,8 @@ bool FixedWing6DOF::step(double time, double dt) {
     x_[V] = local_lin_vel(1);
     x_[W] = local_lin_vel(2);
 
-    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1), -state_->ang_vel()(2));
+    Eigen::Vector3d local_ang_vel(state_->ang_vel()(0), -state_->ang_vel()(1),
+                                  -state_->ang_vel()(2));
     local_ang_vel = quat_body_.rotate_reverse(local_ang_vel);
 
     x_[P] = local_ang_vel(0);
@@ -319,42 +312,41 @@ bool FixedWing6DOF::step(double time, double dt) {
     // wind frame velocity
     Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
     wind_B = quat_body_.rotate_reverse(wind_B);
-    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+    Eigen::Vector3d vel_rel_wind(x_[U] + wind_B(0), x_[V] + wind_B(1), x_[W] + wind_B(2));
 
-    alpha_ = atan2(vel_rel_wind(2), vel_rel_wind(0)); // angle of attack
+    alpha_ = atan2(vel_rel_wind(2), vel_rel_wind(0));  // angle of attack
     // TODO: Need to compute alpha_dot without using alpha_prev_
     alpha_dot_ = 0;
     // alpha_dot_ = (alpha_ - alpha_prev_) / dt;
     // alpha_prev_ = alpha_;
 
-    if (time > launch_time_)
-        launch_command_ = 1;
+    if (time > launch_time_) launch_command_ = 1;
 
     // Eigen::Vector3d F_catapult_NED(0, 0, 0);
     Eigen::Vector3d F_catapult(0, 0, 0);
 
-    double launch_duration = launch_speed_/launch_accel_;
+    double launch_duration = launch_speed_ / launch_accel_;
     switch (launch_state_) {
-    case PRELAUNCH:
-        if (launch_command_) {
-            launch_state_ = LAUNCH;
-            launch_start_t_ = time;
-        }
-        break;
-    case LAUNCH:
-        F_catapult(0) = launch_accel_ * mass_;
-        if (launch_duration < time - launch_start_t_) {
-            launch_state_ = POSTLAUNCH;
-        }
-        break;
-    case POSTLAUNCH:
-        // normal operation
-        break;
+        case PRELAUNCH:
+            if (launch_command_) {
+                launch_state_ = LAUNCH;
+                launch_start_t_ = time;
+            }
+            break;
+        case LAUNCH:
+            F_catapult(0) = launch_accel_ * mass_;
+            if (launch_duration < time - launch_start_t_) {
+                launch_state_ = POSTLAUNCH;
+            }
+            break;
+        case POSTLAUNCH:
+            // normal operation
+            break;
     }
 
     // Apply any external forces (todo)
     Eigen::Vector3d ext_force_NED(ext_force_(0), -ext_force_(1), -ext_force_(2));
-    ext_force_ = Eigen::Vector3d::Zero(); // reset ext_force_ member variable
+    ext_force_ = Eigen::Vector3d::Zero();  // reset ext_force_ member variable
     force_ext_body_ = quat_body_.rotate_reverse(ext_force_NED);
     force_ext_body_ += F_catapult;
 
@@ -412,76 +404,73 @@ bool FixedWing6DOF::step(double time, double dt) {
     }
 
     if (write_csv_) {
-        double beta = atan2(x_[V], x_[U]); // side slip
+        double beta = atan2(x_[V], x_[U]);  // side slip
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-                {"t", time},
-                {"x", x_[Xw]},
-                {"y", x_[Yw]},
-                {"z", x_[Zw]},
-                {"U", x_[U]},
-                {"V", x_[V]},
-                {"W", x_[W]},
-                {"alpha", alpha_},
-                {"alpha_dot", alpha_dot_},
-                {"beta", beta},
-                {"P", x_[P]},
-                {"Q", x_[Q]},
-                {"R", x_[R]},
-                {"Ax_b", linear_accel_body_(0)},
-                {"Ay_b", linear_accel_body_(1)},
-                {"Az_b", linear_accel_body_(2)},
-                {"AngAccelx_b", ang_accel_body_(0)},
-                {"AngAccely_b", ang_accel_body_(1)},
-                {"AngAccelz_b", ang_accel_body_(2)},
-                {"roll", quat_body_.roll()},
-                {"pitch", quat_body_.pitch()},
-                {"yaw", quat_body_.yaw()},
-                {"throttle", throttle_},
-                {"thrust", thrust_},
-                {"elevator", delta_elevator_},
-                {"aileron", delta_aileron_},
-                {"rudder", delta_rudder_}});
+        csv_.append(sc::CSV::Pairs{{"t", time},
+                                   {"x", x_[Xw]},
+                                   {"y", x_[Yw]},
+                                   {"z", x_[Zw]},
+                                   {"U", x_[U]},
+                                   {"V", x_[V]},
+                                   {"W", x_[W]},
+                                   {"alpha", alpha_},
+                                   {"alpha_dot", alpha_dot_},
+                                   {"beta", beta},
+                                   {"P", x_[P]},
+                                   {"Q", x_[Q]},
+                                   {"R", x_[R]},
+                                   {"Ax_b", linear_accel_body_(0)},
+                                   {"Ay_b", linear_accel_body_(1)},
+                                   {"Az_b", linear_accel_body_(2)},
+                                   {"AngAccelx_b", ang_accel_body_(0)},
+                                   {"AngAccely_b", ang_accel_body_(1)},
+                                   {"AngAccelz_b", ang_accel_body_(2)},
+                                   {"roll", quat_body_.roll()},
+                                   {"pitch", quat_body_.pitch()},
+                                   {"yaw", quat_body_.yaw()},
+                                   {"throttle", throttle_},
+                                   {"thrust", thrust_},
+                                   {"elevator", delta_elevator_},
+                                   {"aileron", delta_aileron_},
+                                   {"rudder", delta_rudder_}});
     }
     return true;
 }
 
-void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
+void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     // Calculate velocity magnitude (handle zero velocity)
     Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
     wind_B = quat_body_.rotate_reverse(wind_B);
-    Eigen::Vector3d vel_rel_wind(x_[U]+wind_B(0), x_[V]+wind_B(1), x_[W]+wind_B(2));
+    Eigen::Vector3d vel_rel_wind(x_[U] + wind_B(0), x_[V] + wind_B(1), x_[W] + wind_B(2));
     double V_tau = vel_rel_wind.norm();
     if (std::abs(V_tau) < std::numeric_limits<double>::epsilon()) {
         V_tau = 0.00001;
     }
 
     // Calculate commonly used quantities
-    double beta = asin(clamp(vel_rel_wind(1)/V_tau, -1.0, 1.0)); // side slip
+    double beta = asin(clamp(vel_rel_wind(1) / V_tau, -1.0, 1.0));  // side slip
     // double delta_Ve = 0.05*V_tau; // wind velocity across tail of aircraft (approximation)
     // double VtauVe = pow((V_tau + delta_Ve)/V_tau, 2);
     double pVtS = rho_ * pow(V_tau, 2) * S_ / 2.0;
 
-
     // Calculate lift, drag, and side_force magnitudes
-    double CL = (C_L0_ + C_L_alpha_*alpha_ + C_LQ_*x_[Q] * c_ / (2*V_tau) +
-                   C_L_alpha_dot_ * alpha_dot_ * c_ / (2*V_tau) +
-                   C_L_delta_elevator_ * delta_elevator_);
+    double CL =
+        (C_L0_ + C_L_alpha_ * alpha_ + C_LQ_ * x_[Q] * c_ / (2 * V_tau)
+         + C_L_alpha_dot_ * alpha_dot_ * c_ / (2 * V_tau) + C_L_delta_elevator_ * delta_elevator_);
     double lift = CL * pVtS;
 
-    double drag = (C_D0_ + C_D_alpha_*std::abs(alpha_) + CL*CL/(M_PI*AR_*e_) +
-                   C_D_delta_elevator_*std::abs(delta_elevator_)) * pVtS;
+    double drag = (C_D0_ + C_D_alpha_ * std::abs(alpha_) + CL * CL / (M_PI * AR_ * e_)
+                   + C_D_delta_elevator_ * std::abs(delta_elevator_))
+                  * pVtS;
 
-
-    double side_force = (C_Y_beta_*beta + C_Y_delta_rudder_*delta_rudder_) * pVtS;
+    double side_force = (C_Y_beta_ * beta + C_Y_delta_rudder_ * delta_rudder_) * pVtS;
 
     // Bring lift, drag, side_force magnitudes into body frame
-    Eigen::Vector3d F_aero(lift*sin(alpha_) - drag*cos(alpha_) - side_force*sin(beta),
-                           side_force*cos(beta),
-                           -lift*cos(alpha_) - drag*sin(alpha_));
+    Eigen::Vector3d F_aero(lift * sin(alpha_) - drag * cos(alpha_) - side_force * sin(beta),
+                           side_force * cos(beta), -lift * cos(alpha_) - drag * sin(alpha_));
 
     // Calculate force from weight in body frame:
-    Eigen::Vector3d gravity_vector(0, 0, +mass_*g_);
+    Eigen::Vector3d gravity_vector(0, 0, +mass_ * g_);
     Eigen::Vector3d F_weight = quat_body_.rotate_reverse(gravity_vector);
 
     Eigen::Vector3d F_thrust(thrust_, 0, 0);
@@ -492,12 +481,12 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
     Eigen::Vector3d F_ground(0, 0, 0);
     if (x_[Zw] < 0 && use_ground_model_) {
         double wn = 20;
-        double Kp = wn*wn*mass_;
-        double Kd = 2*wn;
+        double Kp = wn * wn * mass_;
+        double Kd = 2 * wn;
 
-        F_ground_W[2] = std::max(0.0, -Kp*(x_[Zw] - 0.0) - Kd*(x_[Ww] - 0.0));
+        F_ground_W[2] = std::max(0.0, -Kp * (x_[Zw] - 0.0) - Kd * (x_[Ww] - 0.0));
 
-        F_ground(0) =  F_ground_W(0);
+        F_ground(0) = F_ground_W(0);
         F_ground(1) = -F_ground_W(1);
         F_ground(2) = -F_ground_W(2);
         F_ground = quat_body_.rotate_reverse(F_ground);
@@ -505,28 +494,35 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
         F_total += F_ground;
     }
     if (POSTLAUNCH != launch_state_) {
-        F_total = Eigen::Vector3d::Zero();;
+        F_total = Eigen::Vector3d::Zero();
+        ;
     }
     F_total += force_ext_body_;
 
     // Calculate body frame linear velocities
-    dxdt[U] = x[V]*x[R] - x[W]*x[Q] + F_total(0) / mass_;
-    dxdt[V] = x[W]*x[P] - x[U]*x[R] + F_total(1) / mass_;
-    dxdt[W] = x[U]*x[Q] - x[V]*x[P] + F_total(2) / mass_;
+    dxdt[U] = x[V] * x[R] - x[W] * x[Q] + F_total(0) / mass_;
+    dxdt[V] = x[W] * x[P] - x[U] * x[R] + F_total(1) / mass_;
+    dxdt[W] = x[U] * x[Q] - x[V] * x[P] + F_total(2) / mass_;
 
     // Calculate moments;
-    Eigen::Vector3d Moments_thrust(0, 0, 0); // no moment from thrust
-    Eigen::Vector3d Moments_torque(0, 0, 0); // no moment from torque
-    Eigen::Vector3d Moments_gyro(0, 0, 0);   // no moment from gyro effect
+    Eigen::Vector3d Moments_thrust(0, 0, 0);  // no moment from thrust
+    Eigen::Vector3d Moments_torque(0, 0, 0);  // no moment from torque
+    Eigen::Vector3d Moments_gyro(0, 0, 0);    // no moment from gyro effect
 
     // Calculate moments from aerodynamic forces
-    Eigen::Vector3d Moments_aero((C_L_beta_*beta + C_LP_*x_[P]*b_/(2*V_tau) + C_LR_*x_[R]*b_/(2*V_tau) + C_L_delta_aileron_*delta_aileron_ + C_L_delta_rudder_*delta_rudder_) * pVtS*b_,
-                                 (C_M0_ + C_M_alpha_*alpha_ + C_MQ_*x_[Q]*c_/(2*V_tau) + C_M_alpha_dot_*alpha_dot_*c_/(2*V_tau) + C_M_delta_elevator_*delta_elevator_) * pVtS*c_,
-                                 (C_N_beta_*beta + C_NP_*x_[P]*b_/(2*V_tau) + C_NR_*x_[R]*b_/(2*V_tau) + C_N_delta_aileron_*delta_aileron_ + C_N_delta_rudder_*delta_rudder_) * pVtS*b_);
+    Eigen::Vector3d Moments_aero(
+        (C_L_beta_ * beta + C_LP_ * x_[P] * b_ / (2 * V_tau) + C_LR_ * x_[R] * b_ / (2 * V_tau)
+         + C_L_delta_aileron_ * delta_aileron_ + C_L_delta_rudder_ * delta_rudder_)
+            * pVtS * b_,
+        (C_M0_ + C_M_alpha_ * alpha_ + C_MQ_ * x_[Q] * c_ / (2 * V_tau)
+         + C_M_alpha_dot_ * alpha_dot_ * c_ / (2 * V_tau) + C_M_delta_elevator_ * delta_elevator_)
+            * pVtS * c_,
+        (C_N_beta_ * beta + C_NP_ * x_[P] * b_ / (2 * V_tau) + C_NR_ * x_[R] * b_ / (2 * V_tau)
+         + C_N_delta_aileron_ * delta_aileron_ + C_N_delta_rudder_ * delta_rudder_)
+            * pVtS * b_);
 
     // Sum moments
-    Eigen::Vector3d Moments_total = Moments_aero + Moments_thrust +
-        Moments_torque + Moments_gyro;
+    Eigen::Vector3d Moments_total = Moments_aero + Moments_thrust + Moments_torque + Moments_gyro;
 
     if (POSTLAUNCH != launch_state_) {
         Moments_total = Eigen::Vector3d::Zero();
@@ -534,17 +530,17 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Calculate rotational velocites
     Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
-    Eigen::Vector3d pqr_dot = I_inv_ * (Moments_total - pqr.cross(I_*pqr));
+    Eigen::Vector3d pqr_dot = I_inv_ * (Moments_total - pqr.cross(I_ * pqr));
     dxdt[P] = pqr_dot(0);
     dxdt[Q] = pqr_dot(1);
     dxdt[R] = pqr_dot(2);
 
     // Compute quaternion derivatives
     double lambda = 1 - (pow(x[q0], 2) + pow(x[q1], 2) + pow(x[q2], 2) + pow(x[q3], 2));
-    dxdt[q0] = -0.5 * (x[q1]*x[P] + x[q2]*x[Q] + x[q3]*x[R]) + lambda * x[q0];
-    dxdt[q1] = +0.5 * (x[q0]*x[P] + x[q2]*x[R] - x[q3]*x[Q]) + lambda * x[q1];
-    dxdt[q2] = +0.5 * (x[q0]*x[Q] + x[q3]*x[P] - x[q1]*x[R]) + lambda * x[q2];
-    dxdt[q3] = +0.5 * (x[q0]*x[R] + x[q1]*x[Q] - x[q2]*x[P]) + lambda * x[q3];
+    dxdt[q0] = -0.5 * (x[q1] * x[P] + x[q2] * x[Q] + x[q3] * x[R]) + lambda * x[q0];
+    dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
+    dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
+    dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Normalize quaternion
     sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
@@ -552,20 +548,20 @@ void FixedWing6DOF::model(const vector_t &x , vector_t &dxdt , double t) {
 
     // Integrate local velocities to compute local positions
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
-    Eigen::Vector3d vel_world = quat.rotate(vel_local); // rot * vel_local;
+    Eigen::Vector3d vel_world = quat.rotate(vel_local);  // rot * vel_local;
     dxdt[Xw] = vel_world(0);
-    dxdt[Yw] = -vel_world(1); // Due to rotated frame
-    dxdt[Zw] = -vel_world(2); // Due to rotated frame
+    dxdt[Yw] = -vel_world(1);  // Due to rotated frame
+    dxdt[Zw] = -vel_world(2);  // Due to rotated frame
 
     // Integrate local accelerations to compute global velocities
     Eigen::Vector3d acc_local = F_total / mass_;
-    Eigen::Vector3d acc_world = quat.rotate(acc_local); // rot * acc_local;
+    Eigen::Vector3d acc_world = quat.rotate(acc_local);  // rot * acc_local;
     dxdt[Uw] = acc_world(0);
-    dxdt[Vw] = -acc_world(1); // Due to rotated frame
-    dxdt[Ww] = -acc_world(2); // Due to rotated frame
+    dxdt[Vw] = -acc_world(1);  // Due to rotated frame
+    dxdt[Ww] = -acc_world(2);  // Due to rotated frame
 }
 
-void FixedWing6DOF::teleport(StatePtr &state) {
+void FixedWing6DOF::teleport(StatePtr& state) {
     state_->pos() = state->pos();
     state_->vel() = state->vel();
     state_->ang_vel() = state->ang_vel();
@@ -573,5 +569,5 @@ void FixedWing6DOF::teleport(StatePtr &state) {
     skip_propagation_ = true;
 }
 
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

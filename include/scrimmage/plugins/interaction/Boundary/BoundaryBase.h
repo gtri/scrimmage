@@ -37,7 +37,6 @@
 #include <scrimmage/proto/Shape.pb.h>
 
 #include <Eigen/Dense>
-
 #include <list>
 #include <memory>
 #include <tuple>
@@ -51,18 +50,27 @@ namespace interaction {
 
 class BoundaryBase {
  public:
-    BoundaryBase()
-        : center_(0, 0, 0) {}
-    virtual ~BoundaryBase() {}
-    explicit BoundaryBase(const Eigen::Vector3d &center)
-        : center_(center) {}
+    BoundaryBase() : center_(0, 0, 0) {
+    }
+    virtual ~BoundaryBase() {
+    }
+    explicit BoundaryBase(const Eigen::Vector3d& center) : center_(center) {
+    }
     virtual bool contains(Eigen::Vector3d p) = 0;
-    const sc::ShapePtr shape() const { return shape_; }
-    void set_shape(const sc::ShapePtr &shape) { shape_ = shape; }
+    const sc::ShapePtr shape() const {
+        return shape_;
+    }
+    void set_shape(const sc::ShapePtr& shape) {
+        shape_ = shape;
+    }
     virtual void set_visual(int R, int G, int B, double opacity) = 0;
-    virtual Eigen::Vector3d center() { return center_; }
+    virtual Eigen::Vector3d center() {
+        return center_;
+    }
 
-    virtual const std::vector<std::tuple<double, double>> &extents() { return extents_; }
+    virtual const std::vector<std::tuple<double, double>>& extents() {
+        return extents_;
+    }
 
  protected:
     sc::ShapePtr shape_;

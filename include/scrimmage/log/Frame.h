@@ -44,5 +44,5 @@ class Frame {
     double time_ = 0;
     ContactMapPtr contacts_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_LOG_FRAME_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_LOG_FRAME_H_

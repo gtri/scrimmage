@@ -34,11 +34,11 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_
 #include <scrimmage/metrics/Metrics.h>
 
-#include "SimpleCollisionScore.h"
-
 #include <map>
 #include <set>
 #include <string>
+
+#include "SimpleCollisionScore.h"
 
 namespace scrimmage {
 namespace metrics {
@@ -46,7 +46,7 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
 
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;
     void print_team_summaries() override;
