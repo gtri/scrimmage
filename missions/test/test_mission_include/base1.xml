@@ -1,0 +1,8 @@
+<!-- Second level include. Belongs to entity1 -->
+<base>
+<latitude>35.721112</latitude>
+<longitude>-120.770305</longitude>
+<altitude>300</altitude>
+<radius>25</radius>
+<opacity>0.5</opacity>
+</base>

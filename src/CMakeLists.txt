@@ -22,6 +22,7 @@ set(SRCS
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
     parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
+    #parse/XMLParser/RapidXMLParser.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp
     proto_conversions/ProtoConversions.cpp
@@ -38,27 +39,17 @@ set(SRCS
     common/WaypointListProcessor.cpp
 )
 
-add_library(${LIBRARY_NAME} SHARED
-  ${SRCS}
-)
+add_subdirectory(parse/XMLParser)
 
-add_dependencies(${LIBRARY_NAME}
-  scrimmage-msgs scrimmage-proto-gen
-)
-
-if (GRPC_FOUND)
-  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=1)
-else()
-  target_compile_definitions(${LIBRARY_NAME} PUBLIC -DENABLE_GRPC=0)
-endif()
-
-target_link_libraries(${LIBRARY_NAME}
-  PUBLIC
+set(PUBLIC_LIBS
     scrimmage-protos
     scrimmage-msgs
+    scrimmage-xml
     ${GeographicLib_LIBRARIES}
     ${CMAKE_DL_LIBS}
-  PRIVATE
+)
+
+set(CORE_LIBS
     Boost::boost
     Boost::filesystem
     Boost::program_options
@@ -67,6 +58,41 @@ target_link_libraries(${LIBRARY_NAME}
     Boost::thread
     Boost::chrono
 )
+
+set(INCLUDE_DIRS
+    ${EIGEN3_INCLUDE_DIR}
+    ${GeographicLib_INCLUDE_DIRS}
+    "$<INSTALL_INTERFACE:include>"
+    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
+)
+
+if (GRPC_FOUND)
+  set(DEFINITIONS ${DEFINITIONS} -DENABLE_GRPC=1)
+else()
+  set(DEFINITIONS ${DEFINITIONS} -DENABLE_GRPC=0)
+endif()
+
+if(LibXml2_FOUND)
+   set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=1)
+else()
+   set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=0)
+endif()
+
+add_library(${LIBRARY_NAME} SHARED
+  ${SRCS}
+)
+
+add_dependencies(${LIBRARY_NAME}
+  scrimmage-msgs scrimmage-proto-gen
+)
+target_link_libraries(${LIBRARY_NAME}
+  PUBLIC
+    ${PUBLIC_LIBS}
+  PRIVATE
+    ${CORE_LIBS}
+)
+
+target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
 if(ENABLE_PYTHON_BINDINGS)
   # compile definitions need to be public
@@ -86,12 +112,10 @@ set_target_properties(
   VERSION ${_soversion}
 )
 
+
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    ${EIGEN3_INCLUDE_DIR}
-    ${GeographicLib_INCLUDE_DIRS}
-    "$<INSTALL_INTERFACE:include>"
-    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
+    ${INCLUDE_DIRS}
 )
 
 install(TARGETS ${LIBRARY_NAME}

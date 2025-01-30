@@ -105,6 +105,12 @@ bool FileSearch::find_file(const std::string &search,
         dbg(std::string("not an absolute path, checking recursively in ")
                 + env_var);
         std::unordered_map<std::string, std::list<std::string>> files;
+        char native_path_sep = fs::path("/").make_preferred().native().at(0);
+        std::size_t last_seperator = search_filename.find_last_of(native_path_sep);
+        if(last_seperator != std::string::npos) {
+          search_filename = search_filename.substr(last_seperator + 1);
+        }
+        
         find_files(env_var, ext, files, verbose);
         filenames = files[search_filename];
     } else {

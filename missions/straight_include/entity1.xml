@@ -1,0 +1,29 @@
+  <entity>
+    <name>uav_entity</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>${count=1}</count>
+    <health>1</health>
+    <radius>1</radius>
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+    <x>-900</x>
+    <y>0</y>
+    <z>195</z>
+    <heading>0</heading>
+    <controller>SimpleAircraftControllerPID</controller>
+    <motion_model>SimpleAircraft</motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+    <autonomy show_text_label="true"
+              generate_entities="false"
+              enable_boundary_control="true">Straight</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
