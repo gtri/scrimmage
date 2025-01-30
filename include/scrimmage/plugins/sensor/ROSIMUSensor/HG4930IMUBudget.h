@@ -37,33 +37,36 @@
 
 class HG4930IMUBudget : public IMUErrorBudgetTemplate {
  public:
-    bool localInRunBiasOption = true; // false = 1st order Gauss-Markov process, true = Barnes-Jarvis model
+    bool localInRunBiasOption =
+        true;  // false = 1st order Gauss-Markov process, true = Barnes-Jarvis model
 
     // Accelerometer Spec.'s
-    double AccelFullScaleG = 20; // +/- 30 g
+    double AccelFullScaleG = 20;  // +/- 30 g
     // Scale factor & misalignment
-    double AccelScaleFactorPPMStdDev = 600.0;   // scale factor 1-sigma in ppm
-    double AccelMisalignmentRadians = 0.0 * 1e-6; // 100 micro-rad 1-sigma
+    double AccelScaleFactorPPMStdDev = 600.0;      // scale factor 1-sigma in ppm
+    double AccelMisalignmentRadians = 0.0 * 1e-6;  // 100 micro-rad 1-sigma
     // Bias
-    double AccelBiasRepeatabilityG = 1.7e-3; // 1 milli-g 1-sigma
+    double AccelBiasRepeatabilityG = 1.7e-3;  // 1 milli-g 1-sigma
     double AccelBiasInstabilityG = 0.025e-3;  // 50 micro-g 1-sigma
-    double AccelBiasTimeConstantSec = 60.0;  // accel bias time constant in seconds
+    double AccelBiasTimeConstantSec = 60.0;   // accel bias time constant in seconds
     // Velocity random walk
-    double AccelVRWGPerRtHz = 0.03 * (1.0 / 60) * 1.0 / 9.8; // Units of g's per root hertz -  0.065 fps/rt(hr)
+    double AccelVRWGPerRtHz =
+        0.03 * (1.0 / 60) * 1.0 / 9.8;  // Units of g's per root hertz -  0.065 fps/rt(hr)
     // Quantization
     double localAccelDeltaVQuantizationMPS = pow(2, -29);
 
     // Gyro Spec.'s
-    double GyroFullScaleDegPerSec = 400.0; // Full scale in degrees/second +/- 1000
+    double GyroFullScaleDegPerSec = 400.0;  // Full scale in degrees/second +/- 1000
     // Scale factor & misalignment
-    double GyroScaleFactorPPMStdDev = 600;     // 0.01% (i.e. 150 PPM) 1-sigma
-    double GyroMisalignmentRadians = 0.0 * 1e-6; // 100 arcsec 1-sigma
+    double GyroScaleFactorPPMStdDev = 600;        // 0.01% (i.e. 150 PPM) 1-sigma
+    double GyroMisalignmentRadians = 0.0 * 1e-6;  // 100 arcsec 1-sigma
     // Bias
-    double GyroBiasRepeatabilityDegPerHr = 7.0;       // 1.0 deg/Hr 1-sigma
-    double GyroBiasInstabilityDegPerHr = 0.25;         // 1 deg/Hr 1-sigma
-    double GyroBiasInstabilityTimeConstantSec = 60.0; // 100.0 second time constant for in-run bias instability
+    double GyroBiasRepeatabilityDegPerHr = 7.0;  // 1.0 deg/Hr 1-sigma
+    double GyroBiasInstabilityDegPerHr = 0.25;   // 1 deg/Hr 1-sigma
+    double GyroBiasInstabilityTimeConstantSec =
+        60.0;  // 100.0 second time constant for in-run bias instability
     // Angle random walk
-    double GyroARWDegPerRtHr = 0.04; // 0.09 deg/sqrt(hr)
+    double GyroARWDegPerRtHr = 0.04;  // 0.09 deg/sqrt(hr)
     // Quantization
     double localGyroDeltaThetaQuantizationRadians = pow(2, -33);
 
@@ -71,4 +74,4 @@ class HG4930IMUBudget : public IMUErrorBudgetTemplate {
     void CalculateParameters();
 };
 
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_HG4930IMUBUDGET_H_
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_HG4930IMUBUDGET_H_

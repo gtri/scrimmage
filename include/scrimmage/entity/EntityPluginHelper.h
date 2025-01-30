@@ -33,50 +33,39 @@
 #ifndef INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
 #define INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
 
-#include <scrimmage/fwd_decl.h>
 #include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/fwd_decl.h>
 #include <scrimmage/motion/Controller.h>
+#include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 
-#include <map>
-#include <unordered_map>
-#include <set>
-#include <vector>
-#include <string>
-#include <functional>
-#include <memory>
-
 #include <boost/optional.hpp>
+#include <functional>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace scrimmage {
 
 template <class T>
 boost::optional<std::shared_ptr<T>> make_autonomy(
-    const std::string& autonomy_name,
-    PluginManagerPtr plugin_manager,
-    std::map<std::string, std::string> &overrides,
-    EntityPtr parent,
-    StatePtr state,
-    std::shared_ptr<std::unordered_map<int, int>> &id_to_team_map,
-    std::shared_ptr<std::unordered_map<int, EntityPtr>> &id_to_ent_map,
-    std::shared_ptr<GeographicLib::LocalCartesian> proj,
-    ContactMapPtr &contacts,
-    FileSearchPtr &file_search,
-    RTreePtr &rtree,
-    PubSubPtr &pubsub,
-    const std::shared_ptr<const Time> &time,
-    const ParameterServerPtr &param_server,
-    const std::set<std::string> &plugin_tags = {},
-    std::function<void(std::map<std::string, std::string>&)> param_override_func = [](std::map<std::string, std::string>& params){},
-    std::vector<ControllerPtr> controllers = {},
-    const int& debug_level = 0) {
-
+    const std::string& autonomy_name, PluginManagerPtr plugin_manager,
+    std::map<std::string, std::string>& overrides, EntityPtr parent, StatePtr state,
+    std::shared_ptr<std::unordered_map<int, int>>& id_to_team_map,
+    std::shared_ptr<std::unordered_map<int, EntityPtr>>& id_to_ent_map,
+    std::shared_ptr<GeographicLib::LocalCartesian> proj, ContactMapPtr& contacts,
+    FileSearchPtr& file_search, RTreePtr& rtree, PubSubPtr& pubsub,
+    const std::shared_ptr<const Time>& time, const ParameterServerPtr& param_server,
+    const std::set<std::string>& plugin_tags = {},
+    std::function<void(std::map<std::string, std::string>&)> param_override_func =
+        [](std::map<std::string, std::string>& params) {},
+    std::vector<ControllerPtr> controllers = {}, const int& debug_level = 0) {
     ConfigParse config_parse;
-    PluginStatus<T> status =
-            plugin_manager->make_plugin<T>(
-                "scrimmage::Autonomy", autonomy_name, *file_search,
-                config_parse, overrides, plugin_tags);
+    PluginStatus<T> status = plugin_manager->make_plugin<T>(
+        "scrimmage::Autonomy", autonomy_name, *file_search, config_parse, overrides, plugin_tags);
     if (status.status == PluginStatus<T>::cast_failed) {
         std::cout << "Failed to open autonomy plugin: " << autonomy_name << std::endl;
     } else if (status.status == PluginStatus<T>::parse_failed) {
@@ -118,5 +107,5 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
     }
     return boost::none;
 }
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_

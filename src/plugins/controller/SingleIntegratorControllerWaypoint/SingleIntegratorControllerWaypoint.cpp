@@ -31,16 +31,17 @@
  */
 
 #include <scrimmage/common/VariableIO.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h>
-#include <scrimmage/math/State.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerWaypoint, SingleIntegratorControllerWaypoint_plugin)
+REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::SingleIntegratorControllerWaypoint,
+                SingleIntegratorControllerWaypoint_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string> &params) {
+void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string>& params) {
     input_pos_x_idx_ = vars_.declare(VariableIO::Type::position_x, VariableIO::Direction::In);
     input_pos_y_idx_ = vars_.declare(VariableIO::Type::position_y, VariableIO::Direction::In);
     input_pos_z_idx_ = vars_.declare(VariableIO::Type::position_z, VariableIO::Direction::In);
@@ -53,7 +54,7 @@ void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
-    const Eigen::Vector3d &p = state_->pos();
+    const Eigen::Vector3d& p = state_->pos();
 
     const double des_x = vars_.input(input_pos_x_idx_);
     const double des_y = vars_.input(input_pos_y_idx_);
@@ -66,5 +67,5 @@ bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
     return true;
 }
 
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

@@ -38,7 +38,6 @@
 #include <scrimmage/proto/ProtoConversions.h>
 
 #include <Eigen/Dense>
-
 #include <iostream>
 #include <limits>
 #include <tuple>
@@ -54,12 +53,10 @@ namespace interaction {
 
 class Cuboid : public BoundaryBase {
  public:
-    Cuboid() {}
+    Cuboid() {
+    }
 
-    Cuboid(Eigen::Vector3d center,
-           double x_length,
-           double y_width,
-           double z_height,
+    Cuboid(Eigen::Vector3d center, double x_length, double y_width, double z_height,
            scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
@@ -77,17 +74,15 @@ class Cuboid : public BoundaryBase {
 
         // TODO: Handle rotation
 
-        for (Eigen::Vector3d &p : points) {
+        for (Eigen::Vector3d& p : points) {
             p += center;
         }
         set_points(points);
     }
 
-    explicit Cuboid(const scrimmage_proto::Shape &shape)
-        : Cuboid(proto_2_vector3d(shape.cuboid().center()),
-                 shape.cuboid().x_length(),
-                 shape.cuboid().y_length(),
-                 shape.cuboid().z_length(),
+    explicit Cuboid(const scrimmage_proto::Shape& shape)
+        : Cuboid(proto_2_vector3d(shape.cuboid().center()), shape.cuboid().x_length(),
+                 shape.cuboid().y_length(), shape.cuboid().z_length(),
                  sc::proto_2_quat(shape.cuboid().quat())) {
         set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
@@ -112,16 +107,18 @@ class Cuboid : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
-            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p)
+            && (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
     }
 
-    const std::vector<Eigen::Vector3d> &points() { return points_; }
+    const std::vector<Eigen::Vector3d>& points() {
+        return points_;
+    }
 
-    void set_points(std::vector<Eigen::Vector3d> &points) {
+    void set_points(std::vector<Eigen::Vector3d>& points) {
         points_ = points;
         compute_dots();
 
@@ -158,12 +155,7 @@ class Cuboid : public BoundaryBase {
         const int num_faces = 6;
         const int vert_per_face = 4;
         int vert_lookup[num_faces][vert_per_face] = {
-            {0, 1, 2, 3},
-            {0, 1, 5, 4},
-            {0, 3, 7, 4},
-            {6, 5, 4, 7},
-            {6, 2, 1, 5},
-            {6, 7, 3, 2},
+            {0, 1, 2, 3}, {0, 1, 5, 4}, {0, 3, 7, 4}, {6, 5, 4, 7}, {6, 2, 1, 5}, {6, 7, 3, 2},
         };
 
         for (int f = 0; f < num_faces; f++) {
@@ -173,7 +165,7 @@ class Cuboid : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d* p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             // shapes_.push_back(polygon);

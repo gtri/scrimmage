@@ -33,13 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
 
+#include <pybind11/pybind11.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Visibility.h>
-#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIActions.h>
+#include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIObservations.h>
 #include <scrimmage/plugins/autonomy/ScrimmageOpenAIAutonomy/OpenAIUtils.h>
-
-#include <pybind11/pybind11.h>
 
 #if ENABLE_GRPC
 #include <grpc++/grpc++.h>
@@ -48,11 +47,11 @@
 #endif
 
 #include <map>
-#include <vector>
-#include <string>
-#include <utility>
-#include <tuple>
 #include <memory>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 namespace scrimmage {
 
@@ -73,26 +72,32 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     ScrimmageOpenAIAutonomy();
 
     // normal overrides
-    void init(std::map<std::string, std::string> &params) final;
+    void init(std::map<std::string, std::string>& params) final;
     bool step_autonomy(double t, double dt) final;
 
     // new overrides
-    virtual void init_helper(std::map<std::string, std::string> &/*params*/) {}
-    virtual bool step_helper() {return true;}
+    virtual void init_helper(std::map<std::string, std::string>& /*params*/) {
+    }
+    virtual bool step_helper() {
+        return true;
+    }
 
-    virtual void set_environment() {}
+    virtual void set_environment() {
+    }
     std::tuple<bool, double, pybind11::dict> calculate_reward();
     std::pair<double, double> reward_range;
     EnvParams action_space;
     EnvValues action;
-    int self_id() {return self_id_;}
+    int self_id() {
+        return self_id_;
+    }
 
  protected:
 #if ENABLE_GRPC
     std::unique_ptr<scrimmage_proto::OpenAI::Stub> openai_stub_;
     std::unique_ptr<grpc::Server> server_;
-    boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs &observation);
-    pybind11::object convert_proto_action(const scrimmage_proto::Action &proto_act);
+    boost::optional<scrimmage_proto::Action> get_action(scrimmage_proto::Obs& observation);
+    pybind11::object convert_proto_action(const scrimmage_proto::Action& proto_act);
     scrimmage_proto::Obs obs_to_proto();
     bool send_env();
 
@@ -117,6 +122,6 @@ class DLL_PUBLIC ScrimmageOpenAIAutonomy : public scrimmage::Autonomy {
     virtual std::tuple<bool, double, pybind11::dict> calc_reward();
     bool setup_complete_ = false;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SCRIMMAGEOPENAIAUTONOMY_SCRIMMAGEOPENAIAUTONOMY_H_

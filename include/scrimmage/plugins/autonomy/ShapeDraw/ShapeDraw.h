@@ -34,15 +34,15 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_
 #include <scrimmage/autonomy/Autonomy.h>
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class ShapeDraw : public scrimmage::Autonomy {
  public:
     ShapeDraw();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -56,6 +56,6 @@ class ShapeDraw : public scrimmage::Autonomy {
     scrimmage_proto::ShapePtr cuboid_shape_;
     scrimmage_proto::ShapePtr mesh_shape_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SHAPEDRAW_SHAPEDRAW_H_

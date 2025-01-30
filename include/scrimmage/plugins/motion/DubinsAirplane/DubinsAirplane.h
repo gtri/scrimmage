@@ -33,32 +33,32 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/common/PID.h>
 #include <scrimmage/common/CSV.h>
+#include <scrimmage/common/PID.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/motion/MotionModel.h>
 
+#include <limits>
 #include <map>
 #include <string>
-#include <limits>
 
 namespace scrimmage {
 namespace motion {
 class DubinsAirplane : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info,
+              std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
  protected:
     double speed_max_ = +std::numeric_limits<double>::infinity();
     double speed_min_ = -std::numeric_limits<double>::infinity();
     double pitch_max_ = +90;
     double pitch_min_ = -90;
-    double roll_max_  = +90;
-    double roll_min_  = -90;
+    double roll_max_ = +90;
+    double roll_min_ = -90;
 
     bool write_csv_ = false;
     CSV csv_;
@@ -71,6 +71,6 @@ class DubinsAirplane : public scrimmage::MotionModel {
     double pitch_ = 0;
     double roll_ = 0;
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_

@@ -34,16 +34,15 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/msgs/LOSSensor.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/sensor/LOSSensor/LOSSensor.h>
-#include <scrimmage/msgs/LOSSensor.pb.h>
-
-#include <cstdlib>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 #include <algorithm>
+#include <cstdlib>
 #include <vector>
 
 namespace sc = scrimmage;
@@ -54,26 +53,25 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::LOSSensor, LOSSensor_plugi
 namespace scrimmage {
 namespace sensor {
 
-
-LOSSensor::LOSSensor():
-    RayTrace(),
-    sensor_id_(0),
-    last_update_time_(0.0),
-    range_sd_min_(0.0),
-    range_sd_per_unit_(0.0),
-    range_sd_oor_(0.0),
-    oor_return_(0.1),
-    probability_of_error_(0.0),
-    error_sd_(0.0),
-    probability_oor_error_(0.0),
-    use_flat_earth_(true),
-    new_data_(false),
-    range_(0.0),
-    oor_(false),
-    subscribed_(false) {
+LOSSensor::LOSSensor()
+    : RayTrace(),
+      sensor_id_(0),
+      last_update_time_(0.0),
+      range_sd_min_(0.0),
+      range_sd_per_unit_(0.0),
+      range_sd_oor_(0.0),
+      oor_return_(0.1),
+      probability_of_error_(0.0),
+      error_sd_(0.0),
+      probability_oor_error_(0.0),
+      use_flat_earth_(true),
+      new_data_(false),
+      range_(0.0),
+      oor_(false),
+      subscribed_(false) {
 }
 
-void LOSSensor::init(std::map<std::string, std::string> &params) {
+void LOSSensor::init(std::map<std::string, std::string>& params) {
     // Call the super class
     RayTrace::init(params);
 
@@ -113,12 +111,13 @@ bool LOSSensor::step() {
         if (subscribed_ == false) {
             subscribed_ = true;
             // Register for the collision callbacks.  Assume set up for local network publish
-            auto pc_cb = [&] (scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
+            auto pc_cb = [&](scrimmage::MessagePtr<sensor::RayTrace::PointCloud> msg) {
                 range_ = msg->data.points[0].point.norm();
                 oor_ = msg->data.points[0].oor;
                 new_data_ = true;
             };
-            std::string topic_name = std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
+            std::string topic_name =
+                std::to_string(parent_->id().id()) + "/" + name() + "/pointcloud";
             subscribe<sensor::RayTrace::PointCloud>("LocalNetwork", topic_name, pc_cb);
             printf("LOSSensor: Subscribing with topic name %s\n", topic_name.c_str());
         }
@@ -139,8 +138,7 @@ bool LOSSensor::step() {
     double range = 0.0;
     if (use_flat_earth_ == true) {
         // Get appropriate conversion
-        Eigen::Matrix4d tf_m = parent_->state_truth()->tf_matrix(false) *
-                               transform()->tf_matrix();
+        Eigen::Matrix4d tf_m = parent_->state_truth()->tf_matrix(false) * transform()->tf_matrix();
         // Transform sensor's origin to world coordinates
         Eigen::Vector4d sensor_pos = tf_m * Eigen::Vector4d(0, 0, 0, 1);
         Eigen::Vector3d sensor_pos_w = sensor_pos.head<3>() + parent_->state_truth()->pos();
@@ -165,11 +163,11 @@ bool LOSSensor::step() {
 
     if ((oor == false) && (probability_oor_error_ > 0.0)) {
         // Check the random error to see whether it could swap in-range/out-of-range.
-        bool swap_in_out_range =
-            (static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) < probability_oor_error_;
+        bool swap_in_out_range = (static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX))
+                                 < probability_oor_error_;
 
-        if ((((range < min_range()) || (range > max_range())) && !swap_in_out_range) ||
-                (((range > min_range()) && (range < max_range())) && swap_in_out_range)) {
+        if ((((range < min_range()) || (range > max_range())) && !swap_in_out_range)
+            || (((range > min_range()) && (range < max_range())) && swap_in_out_range)) {
             // Out of range
             oor = true;
         } else {  // In-range
@@ -185,7 +183,8 @@ bool LOSSensor::step() {
     msg->data.set_sensor_id(sensor_id_);
     if (oor == false) {
         // Add error
-        if ((static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX)) < probability_of_error_) {
+        if ((static_cast<double>(std::rand()) / static_cast<double>(RAND_MAX))
+            < probability_of_error_) {
             // Add additional error
             std::normal_distribution<double> error_dist(0.0, error_sd_);
             double error = error_dist(generator_);

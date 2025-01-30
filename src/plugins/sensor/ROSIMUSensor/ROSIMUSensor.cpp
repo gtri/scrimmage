@@ -29,24 +29,24 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h>
 #include <math.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h>
+#include <scrimmage/proto/Shape.pb.h>
+#include <scrimmage/proto/State.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/math/Angles.h>
-#include <unsupported/Eigen/MatrixFunctions>
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <unsupported/Eigen/MatrixFunctions>
 
 using std::cout;
 using std::endl;
@@ -59,9 +59,10 @@ REGISTER_PLUGIN(scrimmage::Sensor, scrimmage::sensor::ROSIMUSensor, ROSIMUSensor
 namespace scrimmage {
 namespace sensor {
 
-ROSIMUSensor::ROSIMUSensor() {}
+ROSIMUSensor::ROSIMUSensor() {
+}
 
-void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
+void ROSIMUSensor::init(std::map<std::string, std::string>& params) {
     // Setup robot namespace
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "none");
     if (vehicle_name_ == "none") {
@@ -72,9 +73,9 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
     }
 
     if (!ros::isInitialized()) {
-      int argc = 0;
-      // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
-      ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
+        int argc = 0;
+        // scrimmage handles it's own SIGINT/SIGTERM shutdown in main.cpp
+        ros::init(argc, NULL, "scrimmage", ros::init_options::NoSigintHandler);
     }
     nh_ = std::make_shared<ros::NodeHandle>();
 
@@ -82,16 +83,21 @@ void ROSIMUSensor::init(std::map<std::string, std::string> &params) {
     imu_pub_ = nh_->advertise<sensor_msgs::Imu>(ros_namespace_ + "/imu", 1);
 
     // Open imu_data CSV for append (app) and set column headers
-    std::string csv_filename = parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
-    if (!csv.open_output(csv_filename, std::ios_base::app)) std::cout << "Couldn't create csv file" << endl;
+    std::string csv_filename =
+        parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
+    if (!csv.open_output(csv_filename, std::ios_base::app))
+        std::cout << "Couldn't create csv file" << endl;
     if (!csv.output_is_open()) cout << "File isn't open. Can't write to CSV" << endl;
 
-    csv.set_column_headers("time, dt, ECEF_POSX, ECEF_POSY, ECEF_POSZ, ECEF_VELX, ECEF_VELY, ECEF_VELZ, bodyToEcef_X, bodyToEcef_Y, bodyToEcef_Z, bodyToEcef_W, dV_X, dV_Y, dV_Z, dTheta_X, dTheta_Y, dTheta_Z, Noisy_dV_X, Noisy_dV_Y, Noisy_dV_Z, Noisy_dTheta_X, Noisy_dTheta_Y, Noisy_dTheta_Z");
+    csv.set_column_headers(
+        "time, dt, ECEF_POSX, ECEF_POSY, ECEF_POSZ, ECEF_VELX, ECEF_VELY, ECEF_VELZ, bodyToEcef_X, "
+        "bodyToEcef_Y, bodyToEcef_Z, bodyToEcef_W, dV_X, dV_Y, dV_Z, dTheta_X, dTheta_Y, dTheta_Z, "
+        "Noisy_dV_X, Noisy_dV_Y, Noisy_dV_Z, Noisy_dTheta_X, Noisy_dTheta_Y, Noisy_dTheta_Z");
 
     prev_time_ = time_->t();
     first_sample_collected = false;
 
-    error_budget.SampleFrequency = 1.0 / time_->dt(); // Make sure this is valid during init
+    error_budget.SampleFrequency = 1.0 / time_->dt();  // Make sure this is valid during init
     error_sim = new IMUErrorSimulator(error_budget);
 }
 
@@ -141,11 +147,14 @@ Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
 
     double w = sqrt(u2 + e2 * sBeta2) / v;
     double q = 0.5 * ((1.0 + 3.0 * u2 / e2) * atan2(e, u) - 3.0 * u / e);
-    double q0 = 0.5 * ((1.0 + 3.0 * b2 / e2) * atan2(e, earth_semiminor_axis) - 3.0 * earth_semiminor_axis / e);
+    double q0 =
+        0.5
+        * ((1.0 + 3.0 * b2 / e2) * atan2(e, earth_semiminor_axis) - 3.0 * earth_semiminor_axis / e);
     double qp = 3.0 * (1.0 + u2 / e2) * (1.0 - (u / e) * atan2(e, u)) - 1.0;
 
     // %   //Mass Attraction Only
-    double Gu = -(wgs84_grav / v2 + omega2 * a2 * e * qp * (0.5 * sBeta2 - 1.0 / 6.0) / (q0 * v2)) / w;
+    double Gu =
+        -(wgs84_grav / v2 + omega2 * a2 * e * qp * (0.5 * sBeta2 - 1.0 / 6.0) / (q0 * v2)) / w;
     double Gb = omega2 * sBeta * cBeta * a2 * q / (w * q0 * v);
     double Psi = atan2(z, sqrt(x2 + y2));
     double sPsi = sin(Psi);
@@ -153,8 +162,10 @@ Eigen::Vector3d ROSIMUSensor::gravity_ned_from_lla(Eigen::Vector3d lla) {
     double Alfa = lla(0) - Psi;
     double sAlfa = sin(Alfa);
     double cAlfa = cos(Alfa);
-    double Gr = Gu * (cPsi * cBeta * u / v + sPsi * sBeta) / w + Gb * (sPsi * cBeta * u / v - cPsi * sBeta) / w;
-    double Gp = -Gu * (sPsi * cBeta * u / v - cPsi * sBeta) / w + Gb * (cPsi * cBeta * u / v + sPsi * sBeta) / w;
+    double Gr = Gu * (cPsi * cBeta * u / v + sPsi * sBeta) / w
+                + Gb * (sPsi * cBeta * u / v - cPsi * sBeta) / w;
+    double Gp = -Gu * (sPsi * cBeta * u / v - cPsi * sBeta) / w
+                + Gb * (cPsi * cBeta * u / v + sPsi * sBeta) / w;
 
     g(0) = -Gr * sAlfa + Gp * cAlfa;
     g(1) = 0.0;
@@ -214,17 +225,18 @@ Eigen::Vector3d ROSIMUSensor::inv_skew_sym(Eigen::Matrix3d inputMatrix) {
 
 Eigen::Matrix3d ROSIMUSensor::enu_to_ecef_rotation(double lat, double lon) {
     Eigen::Matrix3d enuToNed;
-    enuToNed << 0, 1, 0,
-                1, 0, 0,
-                0, 0, -1;
+    enuToNed << 0, 1, 0, 1, 0, 0, 0, 0, -1;
     Eigen::Matrix3d rotationMatrix = ecef_to_ned_rotation(lat, lon);
-    // note don't use .transpose(), bad things happen https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
+    // note don't use .transpose(), bad things happen
+    // https://eigen.tuxfamily.org/dox/group__TopicAliasing.html
     rotationMatrix.transposeInPlace();
     rotationMatrix = (rotationMatrix * enuToNed).eval();
     return rotationMatrix;
 }
 
-Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Quaterniond qBodyToECEFt2, double inertialDeltaT) {
+Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Hat,
+                                              Eigen::Quaterniond qBodyToECEFt2,
+                                              double inertialDeltaT) {
     Eigen::Matrix3d CBodyToECEFt1Hat(qBodyToECEFt1Hat);
     Eigen::Matrix3d CBodyToECEFt2(qBodyToECEFt2);
     Eigen::Matrix3d CBodyt2ToBodyt1 = CBodyToECEFt1Hat.transpose() * CBodyToECEFt2;
@@ -246,12 +258,15 @@ Eigen::Vector3d ROSIMUSensor::get_delta_theta(Eigen::Quaterniond qBodyToECEFt1Ha
 
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
-    Eigen::Vector3d deltaThetaBodyWRTInertialInBody = DeltaThetaBodyWRTECEFInBody + inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
+    Eigen::Vector3d deltaThetaBodyWRTInertialInBody =
+        DeltaThetaBodyWRTECEFInBody
+        + inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
 
     return deltaThetaBodyWRTInertialInBody;
 }
 
-Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen::Vector3d omegaABInB) {
+Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA,
+                                                Eigen::Vector3d omegaABInB) {
     Eigen::Quaterniond Temp4By1;
     Temp4By1.w() = 0;
     Temp4By1.vec() = omegaABInB;
@@ -260,29 +275,38 @@ Eigen::Quaterniond ROSIMUSensor::omega_to_q_dot(Eigen::Quaterniond qBToA, Eigen:
     return qBToADot;
 }
 
-Eigen::Quaterniond ROSIMUSensor::integrate_quaternion(Eigen::Quaterniond qBToA, Eigen::Vector3d deltaThetasBFrame) {
-    Eigen::Quaterniond QPredictor(qBToA.coeffs() + omega_to_q_dot(qBToA, deltaThetasBFrame).coeffs());
-    Eigen::Quaterniond QCorrector(qBToA.coeffs() + omega_to_q_dot(QPredictor, deltaThetasBFrame).coeffs());
+Eigen::Quaterniond ROSIMUSensor::integrate_quaternion(Eigen::Quaterniond qBToA,
+                                                      Eigen::Vector3d deltaThetasBFrame) {
+    Eigen::Quaterniond QPredictor(qBToA.coeffs()
+                                  + omega_to_q_dot(qBToA, deltaThetasBFrame).coeffs());
+    Eigen::Quaterniond QCorrector(qBToA.coeffs()
+                                  + omega_to_q_dot(QPredictor, deltaThetasBFrame).coeffs());
     // Perform the addition
     Eigen::Quaterniond sum;
-    sum.w() = QPredictor.w() + QCorrector.w();           // Add the scalar portion
-    sum.vec() = QPredictor.vec() + QCorrector.vec();     // Add the vector portion
-    Eigen::Quaterniond qBToAUpdated(0.5 * sum.coeffs()); // (QPredictor + QCorrector);
+    sum.w() = QPredictor.w() + QCorrector.w();            // Add the scalar portion
+    sum.vec() = QPredictor.vec() + QCorrector.vec();      // Add the vector portion
+    Eigen::Quaterniond qBToAUpdated(0.5 * sum.coeffs());  // (QPredictor + QCorrector);
     qBToAUpdated.coeffs() = qBToAUpdated.coeffs() / qBToAUpdated.norm();
     return qBToAUpdated;
 }
 
-Eigen::Quaterniond ROSIMUSensor::propagate_quaternion(Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Vector3d deltaThetaBodyWRTInertialInBody, double inertialDeltaT) {
+Eigen::Quaterniond ROSIMUSensor::propagate_quaternion(
+    Eigen::Quaterniond qBodyToECEFt1Hat, Eigen::Vector3d deltaThetaBodyWRTInertialInBody,
+    double inertialDeltaT) {
     Eigen::Matrix3d CBodyToECEFt1Hat(qBodyToECEFt1Hat);
 
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
-    Eigen::Vector3d deltaThetaBodyWRTECEFInBodyHat = deltaThetaBodyWRTInertialInBody - inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
-    Eigen::Quaterniond qBodyToECEFt2 = integrate_quaternion(qBodyToECEFt1Hat, deltaThetaBodyWRTECEFInBodyHat);
+    Eigen::Vector3d deltaThetaBodyWRTECEFInBodyHat =
+        deltaThetaBodyWRTInertialInBody
+        - inertialDeltaT * CBodyToECEFt1Hat.transpose() * EarthRateVector;
+    Eigen::Quaterniond qBodyToECEFt2 =
+        integrate_quaternion(qBodyToECEFt1Hat, deltaThetaBodyWRTECEFInBodyHat);
     return qBodyToECEFt2;
 }
 
-Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3d velECEF, Eigen::Quaterniond qBodyToECEF, double InertialDeltaT) {
+Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3d velECEF,
+                                         Eigen::Quaterniond qBodyToECEF, double InertialDeltaT) {
     double k1 = -1, k2 = -1.25;
 
     Eigen::Vector3d Acct1 = (velECEF - vel_t1) / InertialDeltaT;
@@ -297,7 +321,9 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
     Eigen::Vector3d EarthRateVector;
     EarthRateVector << 0, 0, earth_rate;
     Eigen::Matrix3d EarthRateSkewSym = skew_sym(EarthRateVector);
-    Eigen::Vector3d deltaV = CECEFToBodyTruth * (Acct1 + 2.0 * EarthRateSkewSym * vel_t1 + EarthRateSkewSym * EarthRateSkewSym * pos_ECEF_t1 - GravityECEF);
+    Eigen::Vector3d deltaV = CECEFToBodyTruth
+                             * (Acct1 + 2.0 * EarthRateSkewSym * vel_t1
+                                + EarthRateSkewSym * EarthRateSkewSym * pos_ECEF_t1 - GravityECEF);
     deltaV = deltaV * InertialDeltaT;
 
     Eigen::Matrix3d CBodyToECEFt1Hat(qBody_to_ECEF_hat);
@@ -313,7 +339,8 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
     Eigen::Vector3d AAdd = -k1 * PErr - k2 * VErr;
     deltaV = (deltaV + InertialDeltaT * CBodyToECEFt1Hat.transpose() * AAdd);
 
-    Eigen::Vector3d Ahat = CBodyToECEFt1Hat * deltaV / InertialDeltaT - 2 * EarthRateSkewSym * v_hat - EarthRateSkewSym * EarthRateSkewSym * p_hat + GravityECEF;
+    Eigen::Vector3d Ahat = CBodyToECEFt1Hat * deltaV / InertialDeltaT - 2 * EarthRateSkewSym * v_hat
+                           - EarthRateSkewSym * EarthRateSkewSym * p_hat + GravityECEF;
     Eigen::Vector3d tmpVhat = v_hat + (InertialDeltaT)*Ahat;
     p_hat = p_hat + (InertialDeltaT)*v_hat + 0.5 * (InertialDeltaT * InertialDeltaT) * Ahat;
     v_hat = tmpVhat;
@@ -323,7 +350,7 @@ Eigen::Vector3d ROSIMUSensor::get_deltaV(Eigen::Vector3d posECEF, Eigen::Vector3
 
 bool ROSIMUSensor::step() {
     // Obtain current state information
-    sc::StatePtr &state = parent_->state_truth();
+    sc::StatePtr& state = parent_->state_truth();
     double time_now = time_->t();
     double dt = time_now - prev_time_;
     prev_time_ = time_now;
@@ -332,9 +359,9 @@ bool ROSIMUSensor::step() {
     sensor_msgs::Imu imu_msg;
 
     // Header
-    std_msgs::Header header; // empty header
+    std_msgs::Header header;  // empty header
     // TODO: header.frame = ? // No system for ROS Frame ID's yet
-    header.stamp = ros::Time::now(); // time
+    header.stamp = ros::Time::now();  // time
     imu_msg.header = header;
 
     // get the geodetic origin specified in the mission file
@@ -350,26 +377,27 @@ bool ROSIMUSensor::step() {
 
     // convert the current position (ENU) to ECEF
     Eigen::Vector3d ecefPos = state->pos();
-    ecefPos = enuToEcef * ecefPos;  // rotate
-    ecefPos = ecefPos + ecefOrigin; // translate
+    ecefPos = enuToEcef * ecefPos;   // rotate
+    ecefPos = ecefPos + ecefOrigin;  // translate
 
     // convert (ENU) velocity to ECEF
     Eigen::Vector3d ecefVel = state->vel();
-    ecefVel = enuToEcef * ecefVel; // rotate
+    ecefVel = enuToEcef * ecefVel;  // rotate
 
     // calculate the body to ECEF orientation
     Eigen::Quaterniond qbodyToEnu = state->quat();
     Eigen::Quaterniond qbodyToECEF = qEnuToEcef * qbodyToEnu;
 
     // calculate angular velocity and linear acceleration based on this and the previous frames
-    if (!first_sample_collected) { // for the first sample, just store it, we need 2 samples to perform a calculation
+    if (!first_sample_collected) {  // for the first sample, just store it, we need 2 samples to
+                                    // perform a calculation
         pos_ECEF_t1 = ecefPos;
         vel_t1 = ecefVel;
         prev_qBody_to_ECEF = qbodyToECEF;
         p_hat = pos_ECEF_t1;
         v_hat = vel_t1;
         qBody_to_ECEF_hat = qbodyToECEF;
-        first_sample_collected = true; // first sample has been collected
+        first_sample_collected = true;  // first sample has been collected
     } else {
         // calculate deltas
         Eigen::Vector3d deltaV = get_deltaV(ecefPos, ecefVel, qbodyToECEF, dt);
@@ -418,34 +446,33 @@ bool ROSIMUSensor::step() {
         // Write IMU data to CSV
         // Write the CSV file to the root log directory file name = imu_data.csv
         if (!csv.output_is_open()) {
-        cout << "File isn't open. Can't append to CSV" << endl;
+            cout << "File isn't open. Can't append to CSV" << endl;
         }
-        csv.append(sc::CSV::Pairs{
-                    {"time", time_now},
-                    {"dt", dt},
-                    {"ECEF_POSX", ecefPos.x()},
-                    {"ECEF_POSY", ecefPos.y()},
-                    {"ECEF_POSZ", ecefPos.z()},
-                    {"ECEF_VELX", ecefVel.x()},
-                    {"ECEF_VELY", ecefVel.y()},
-                    {"ECEF_VELZ", ecefVel.z()},
-                    {"bodyToEcef_X", qbodyToECEF.x()},
-                    {"bodyToEcef_Y", qbodyToECEF.y()},
-                    {"bodyToEcef_Z", qbodyToECEF.z()},
-                    {"bodyToEcef_W", qbodyToECEF.w()},
-                    {"dV_X", deltaV.x()},
-                    {"dV_Y", deltaV.y()},
-                    {"dV_Z", deltaV.z()},
-                    {"dTheta_X", deltaTheta.x()},
-                    {"dTheta_Y", deltaTheta.y()},
-                    {"dTheta_Z", deltaTheta.z()},
-                    {"Noisy_dV_X", imu_msg.linear_acceleration.x},
-                    {"Noisy_dV_Y", imu_msg.linear_acceleration.y},
-                    {"Noisy_dV_Z", imu_msg.linear_acceleration.z},
-                    {"Noisy_dTheta_X", imu_msg.angular_velocity.x},
-                    {"Noisy_dTheta_Y", imu_msg.angular_velocity.y},
-                    {"Noisy_dTheta_Z", imu_msg.angular_velocity.z}},
-                true, true);
+        csv.append(sc::CSV::Pairs{{"time", time_now},
+                                  {"dt", dt},
+                                  {"ECEF_POSX", ecefPos.x()},
+                                  {"ECEF_POSY", ecefPos.y()},
+                                  {"ECEF_POSZ", ecefPos.z()},
+                                  {"ECEF_VELX", ecefVel.x()},
+                                  {"ECEF_VELY", ecefVel.y()},
+                                  {"ECEF_VELZ", ecefVel.z()},
+                                  {"bodyToEcef_X", qbodyToECEF.x()},
+                                  {"bodyToEcef_Y", qbodyToECEF.y()},
+                                  {"bodyToEcef_Z", qbodyToECEF.z()},
+                                  {"bodyToEcef_W", qbodyToECEF.w()},
+                                  {"dV_X", deltaV.x()},
+                                  {"dV_Y", deltaV.y()},
+                                  {"dV_Z", deltaV.z()},
+                                  {"dTheta_X", deltaTheta.x()},
+                                  {"dTheta_Y", deltaTheta.y()},
+                                  {"dTheta_Z", deltaTheta.z()},
+                                  {"Noisy_dV_X", imu_msg.linear_acceleration.x},
+                                  {"Noisy_dV_Y", imu_msg.linear_acceleration.y},
+                                  {"Noisy_dV_Z", imu_msg.linear_acceleration.z},
+                                  {"Noisy_dTheta_X", imu_msg.angular_velocity.x},
+                                  {"Noisy_dTheta_Y", imu_msg.angular_velocity.y},
+                                  {"Noisy_dTheta_Z", imu_msg.angular_velocity.z}},
+                   true, true);
     }
     return true;
 }
@@ -453,5 +480,5 @@ bool ROSIMUSensor::step() {
 void ROSIMUSensor::close(double t) {
     csv.close_output();
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

@@ -36,18 +36,17 @@
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ConfigParse.h>
+#include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
 #include <scrimmage/pubsub/Network.h>
 #include <scrimmage/simcontrol/EntityInteraction.h>
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
-
 #include <signal.h>
-#include <cstdlib>
 
+#include <cstdlib>
 #include <iostream>
 
 using std::cout;
@@ -55,34 +54,29 @@ using std::endl;
 
 namespace scrimmage {
 
-bool create_ent_inters(const SimUtilsInfo &info,
-                       ContactMapPtr contacts,
-                       std::list<scrimmage_proto::ShapePtr> &shapes,
-                       std::list<EntityInteractionPtr> &ent_inters,
+bool create_ent_inters(const SimUtilsInfo& info, ContactMapPtr contacts,
+                       std::list<scrimmage_proto::ShapePtr>& shapes,
+                       std::list<EntityInteractionPtr>& ent_inters,
                        const GlobalServicePtr global_services,
-                       const std::set<std::string> &plugin_tags,
+                       const std::set<std::string>& plugin_tags,
                        std::function<void(std::map<std::string, std::string>&)> param_override_func,
                        const int& debug_level) {
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
-        std::map<std::string, std::string> &overrides =
-            info.mp->attributes()[ent_inter_name];
+        std::map<std::string, std::string>& overrides = info.mp->attributes()[ent_inter_name];
 
         PluginStatus<EntityInteraction> status =
             info.plugin_manager->make_plugin<EntityInteraction>(
-                "scrimmage::EntityInteraction",
-                ent_inter_name, *info.file_search,
-                config_parse, overrides, plugin_tags);
+                "scrimmage::EntityInteraction", ent_inter_name, *info.file_search, config_parse,
+                overrides, plugin_tags);
 
         if (status.status == PluginStatus<EntityInteraction>::cast_failed) {
-            cout << "Failed to load entity interaction plugin: "
-                      << ent_inter_name << endl;
+            cout << "Failed to load entity interaction plugin: " << ent_inter_name << endl;
         } else if (status.status == PluginStatus<EntityInteraction>::loaded) {
             EntityInteractionPtr ent_inter = status.plugin;
 
             // If the name was overridden, use the override.
-            std::string name = get<std::string>("name", config_parse.params(),
-                                                ent_inter_name);
+            std::string name = get<std::string>("name", config_parse.params(), ent_inter_name);
             // Parent specific members
             ent_inter->parent()->set_random(info.random);
             ent_inter->parent()->set_mp(info.mp);
@@ -110,8 +104,7 @@ bool create_ent_inters(const SimUtilsInfo &info,
             ent_inter->init(info.mp->params(), config_parse.params());
 
             // Get shapes from plugin
-            shapes.insert(
-                shapes.end(), ent_inter->shapes().begin(), ent_inter->shapes().end());
+            shapes.insert(shapes.end(), ent_inter->shapes().begin(), ent_inter->shapes().end());
             ent_inter->shapes().clear();
 
             ent_inters.push_back(ent_inter);
@@ -121,23 +114,17 @@ bool create_ent_inters(const SimUtilsInfo &info,
     return true;
 }
 
-bool create_metrics(const SimUtilsInfo &info,
-                    ContactMapPtr contacts,
-                    std::list<MetricsPtr> &metrics_list,
-                    const std::set<std::string> &plugin_tags,
+bool create_metrics(const SimUtilsInfo& info, ContactMapPtr contacts,
+                    std::list<MetricsPtr>& metrics_list, const std::set<std::string>& plugin_tags,
                     std::function<void(std::map<std::string, std::string>&)> param_override_func,
                     const int& debug_level) {
-
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
-        std::map<std::string, std::string> &overrides =
-            info.mp->attributes()[metrics_name];
+        std::map<std::string, std::string>& overrides = info.mp->attributes()[metrics_name];
 
-        PluginStatus<Metrics> status =
-            info.plugin_manager->make_plugin<Metrics>(
-                "scrimmage::Metrics", metrics_name,
-                *info.file_search, config_parse, overrides,
-                plugin_tags);
+        PluginStatus<Metrics> status = info.plugin_manager->make_plugin<Metrics>(
+            "scrimmage::Metrics", metrics_name, *info.file_search, config_parse, overrides,
+            plugin_tags);
 
         if (status.status == PluginStatus<Metrics>::cast_failed) {
             cout << "Failed to load metrics: " << metrics_name << endl;
@@ -176,7 +163,7 @@ bool create_metrics(const SimUtilsInfo &info,
 }
 
 void run_callbacks(EntityPluginPtr plugin) {
-    for (auto &sub : plugin->subs()) {
+    for (auto& sub : plugin->subs()) {
         for (auto msg : sub->pop_msgs<MessageBase>()) {
             sub->accept(msg);
         }
@@ -186,11 +173,12 @@ void run_callbacks(EntityPluginPtr plugin) {
 namespace {
 // https://stackoverflow.com/a/48164204
 std::function<void(int)> shutdown_handler;
-void signal_handler(int signal) { shutdown_handler(signal); }
-} // namespace
+void signal_handler(int signal) {
+    shutdown_handler(signal);
+}
+}  // namespace
 
-boost::optional<std::string> run_test(const std::string& mission,
-                                      const bool& init_python,
+boost::optional<std::string> run_test(const std::string& mission, const bool& init_python,
                                       const bool& shutdown_python) {
     SimControl simcontrol;
     if (not simcontrol.init(mission, init_python)) {
@@ -200,8 +188,8 @@ boost::optional<std::string> run_test(const std::string& mission,
 
     // Handle kill signals
     struct sigaction sa;
-    memset( &sa, 0, sizeof(sa) );
-    shutdown_handler = [&](int /*s*/){
+    memset(&sa, 0, sizeof(sa));
+    shutdown_handler = [&](int /*s*/) {
         cout << endl << "Exiting gracefully" << endl;
         simcontrol.force_exit();
     };
@@ -228,30 +216,25 @@ boost::optional<std::string> run_test(const std::string& mission,
     return out;
 }
 
-bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
-                     const std::set<std::string> &plugin_tags,
+bool create_networks(const SimUtilsInfo& info, NetworkMap& networks,
+                     const std::set<std::string>& plugin_tags,
                      std::function<void(std::map<std::string, std::string>&)> param_override_func,
                      const int& debug_level) {
-
     for (std::string network_name : info.mp->network_names()) {
         ConfigParse config_parse;
-        std::map<std::string, std::string> &overrides =
-            info.mp->attributes()[network_name];
+        std::map<std::string, std::string>& overrides = info.mp->attributes()[network_name];
 
-        PluginStatus<Network> status =
-            info.plugin_manager->make_plugin<Network>(
-                "scrimmage::Network", network_name, *info.file_search,
-                config_parse, overrides, plugin_tags);
+        PluginStatus<Network> status = info.plugin_manager->make_plugin<Network>(
+            "scrimmage::Network", network_name, *info.file_search, config_parse, overrides,
+            plugin_tags);
 
         if (status.status == PluginStatus<Network>::cast_failed) {
-            cout << "Failed to load network plugin: "
-                << network_name << endl;
+            cout << "Failed to load network plugin: " << network_name << endl;
             return false;
         } else if (status.status == PluginStatus<Network>::loaded) {
             NetworkPtr network = status.plugin;
             // If the name was overridden, use the override.
-            std::string name =
-                get<std::string>("name", config_parse.params(), network_name);
+            std::string name = get<std::string>("name", config_parse.params(), network_name);
             network->parent()->set_printer(info.printer);
             network->set_name(name);
             network->set_mission_parse(info.mp);
@@ -279,4 +262,4 @@ bool create_networks(const SimUtilsInfo &info, NetworkMap &networks,
     }
     return true;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

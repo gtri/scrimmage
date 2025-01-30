@@ -45,7 +45,7 @@ namespace scrimmage {
 namespace sensor {
 class SimpleINS : public scrimmage::Sensor {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:

@@ -35,16 +35,16 @@
 
 #include <scrimmage/motion/Controller.h>
 
+#include <cmath>
 #include <map>
 #include <string>
-#include <cmath>
 
 namespace scrimmage {
 namespace controller {
 
 class SingleIntegratorControllerSimple : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
     virtual bool step(double t, double dt);
 
  protected:
@@ -60,6 +60,6 @@ class SingleIntegratorControllerSimple : public Controller {
     double vel_y_ = NAN;
     double vel_z_ = NAN;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

@@ -40,8 +40,6 @@
 #include <scrimmage/proto/GUIControl.pb.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
-
-#include <Eigen/Eigen>
 #include <time.h>
 #include <vtkActor.h>
 #include <vtkCommand.h>
@@ -53,6 +51,7 @@
 #include <vtkSmartPointer.h>
 #include <vtkTextActor.h>
 
+#include <Eigen/Eigen>
 #include <limits>
 #include <list>
 #include <map>
@@ -98,40 +97,42 @@ class Updater : public vtkCommand {
 
     enum class ViewMode { FOLLOW = 0, FREE, OFFSET, FPV };
 
-    static Updater *New() { return new Updater; }
+    static Updater* New() {
+        return new Updater;
+    }
 
     Updater();
 
-    static void set_quat(const scrimmage_proto::Quaternion &quat, vtkSmartPointer<vtkActor> &actor);
-    static void set_quat(const scrimmage::Quaternion &quat, vtkSmartPointer<vtkActor> &actor);
+    static void set_quat(const scrimmage_proto::Quaternion& quat, vtkSmartPointer<vtkActor>& actor);
+    static void set_quat(const scrimmage::Quaternion& quat, vtkSmartPointer<vtkActor>& actor);
 
-    void Execute(vtkObject *caller,
+    void Execute(vtkObject* caller,
                  unsigned long vtkNotUsed(eventId),  // NOLINT
-                 void *vtkNotUsed(callData));
+                 void* vtkNotUsed(callData));
 
     void enable_fps();
 
     bool update();
-    bool update_contacts(std::shared_ptr<scrimmage_proto::Frame> &frame);
-    bool draw_shapes(scrimmage_proto::Shapes &shapes);
+    bool update_contacts(std::shared_ptr<scrimmage_proto::Frame>& frame);
+    bool draw_shapes(scrimmage_proto::Shapes& shapes);
     bool update_scale();
     bool update_camera();
     bool update_text_display();
     bool update_shapes();
 
-    bool update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &utm);
+    bool update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain>& utm);
 
     void set_max_update_rate(double max_update_rate);
 
-    void set_renderer(vtkSmartPointer<vtkRenderer> &renderer);
+    void set_renderer(vtkSmartPointer<vtkRenderer>& renderer);
 
-    void set_rwi(vtkSmartPointer<vtkRenderWindowInteractor> &rwi);
+    void set_rwi(vtkSmartPointer<vtkRenderWindowInteractor>& rwi);
 
-    void set_incoming_interface(InterfacePtr &incoming_interface);
+    void set_incoming_interface(InterfacePtr& incoming_interface);
 
-    void set_outgoing_interface(InterfacePtr &outgoing_interface);
+    void set_outgoing_interface(InterfacePtr& outgoing_interface);
 
-    void init(const std::string &log_dir, double dt);
+    void init(const std::string& log_dir, double dt);
 
     void next_mode();
 
@@ -139,7 +140,7 @@ class Updater : public vtkCommand {
 
     void track_camera_pos();
 
-    void process_custom_key(std::string &key);
+    void process_custom_key(std::string& key);
 
     void inc_follow();
     void dec_follow();
@@ -168,14 +169,16 @@ class Updater : public vtkCommand {
     void inc_follow_offset();
     void dec_follow_offset();
 
-    void world_point_clicked(const double &x, const double &y, const double &z);
+    void world_point_clicked(const double& x, const double& y, const double& z);
 
     void reset_scale();
-    void set_init_scale(double init_scale) { init_scale_ = init_scale; }
+    void set_init_scale(double init_scale) {
+        init_scale_ = init_scale;
+    }
 
     void set_reset_camera();
-    void set_camera_reset_params(
-        double pos_x, double pos_y, double pos_z, double focal_x, double focal_y, double focal_z);
+    void set_camera_reset_params(double pos_x, double pos_y, double pos_z, double focal_x,
+                                 double focal_y, double focal_z);
 
     void set_view_mode(ViewMode view_mode);
     void set_show_fps(bool show_fps);
@@ -185,110 +188,79 @@ class Updater : public vtkCommand {
 
     void create_text_display();
 
-    void update_trail(std::shared_ptr<ActorContact> &actor_contact,
-                      double &x_pos,
-                      double &y_pos,
-                      double &z_pos);
+    void update_trail(std::shared_ptr<ActorContact>& actor_contact, double& x_pos, double& y_pos,
+                      double& z_pos);
 
-    void update_contact_visual(std::shared_ptr<ActorContact> &actor_contact,
-                               std::shared_ptr<scrimmage_proto::ContactVisual> &cv);
+    void update_contact_visual(std::shared_ptr<ActorContact>& actor_contact,
+                               std::shared_ptr<scrimmage_proto::ContactVisual>& cv);
 
-    void quat_2_transform(const Quaternion &quat, vtkSmartPointer<vtkTransform> transform);
+    void quat_2_transform(const Quaternion& quat, vtkSmartPointer<vtkTransform> transform);
 
-    bool draw_arc(const bool &new_shape,
-                  const scrimmage_proto::Arc &a,
-                  vtkSmartPointer<vtkActor> &actor,
-                  vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                  vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_arrow(const bool &new_shape,
-                    const scrimmage_proto::Arrow &a,
-                    vtkSmartPointer<vtkActor> &actor,
-                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_circle(const bool &new_shape,
-                     const scrimmage_proto::Circle &c,
-                     vtkSmartPointer<vtkActor> &actor,
-                     vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                     vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_cone(const bool &new_shape,
-                   const scrimmage_proto::Cone &c,
-                   vtkSmartPointer<vtkActor> &actor,
-                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_cube(const bool &new_shape,
-                   const scrimmage_proto::Cuboid &c,
-                   vtkSmartPointer<vtkActor> &actor,
-                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_ellipse(const bool &new_shape,
-                      const scrimmage_proto::Ellipse &elp,
-                      vtkSmartPointer<vtkActor> &actor,
-                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_line(const bool &new_shape,
-                   const scrimmage_proto::Line &l,
-                   vtkSmartPointer<vtkActor> &actor,
-                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_mesh(const bool &new_shape,
-                   const scrimmage_proto::Mesh &m,
-                   vtkSmartPointer<vtkActor> &actor,
-                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_plane(const bool &new_shape,
-                    const scrimmage_proto::Plane &p,
-                    vtkSmartPointer<vtkActor> &actor,
-                    vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                    vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_pointcloud(const bool &new_shape,
-                         const scrimmage_proto::Shape &shape,
-                         vtkSmartPointer<vtkActor> &actor,
-                         vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                         vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_polydata(const bool &new_shape,
-                       const scrimmage_proto::Polydata &p,
-                       vtkSmartPointer<vtkActor> &actor,
-                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_polygon(const bool &new_shape,
-                      const scrimmage_proto::Polygon &p,
-                      vtkSmartPointer<vtkActor> &actor,
-                      vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                      vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_polyline(const bool &new_shape,
-                       const scrimmage_proto::Polyline &pl,
-                       vtkSmartPointer<vtkActor> &actor,
-                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_sphere(const bool &new_shape,
-                     const scrimmage_proto::Sphere &s,
-                     vtkSmartPointer<vtkActor> &actor,
-                     vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                     vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_spline(const bool &new_shape,
-                     const scrimmage_proto::Spline &s,
-                     vtkSmartPointer<vtkActor> &actor,
-                     vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                     vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_text(const bool &new_shape,
-                   const scrimmage_proto::Text &t,
-                   vtkSmartPointer<vtkActor> &actor,
-                   vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                   vtkSmartPointer<vtkPolyDataMapper> &mapper);
-    bool draw_triangle(const bool &new_shape,
-                       const scrimmage_proto::Triangle &t,
-                       vtkSmartPointer<vtkActor> &actor,
-                       vtkSmartPointer<vtkPolyDataAlgorithm> &source,
-                       vtkSmartPointer<vtkPolyDataMapper> &mapper);
+    bool draw_arc(const bool& new_shape, const scrimmage_proto::Arc& a,
+                  vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                  vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_arrow(const bool& new_shape, const scrimmage_proto::Arrow& a,
+                    vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                    vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_circle(const bool& new_shape, const scrimmage_proto::Circle& c,
+                     vtkSmartPointer<vtkActor>& actor,
+                     vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                     vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_cone(const bool& new_shape, const scrimmage_proto::Cone& c,
+                   vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                   vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_cube(const bool& new_shape, const scrimmage_proto::Cuboid& c,
+                   vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                   vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_ellipse(const bool& new_shape, const scrimmage_proto::Ellipse& elp,
+                      vtkSmartPointer<vtkActor>& actor,
+                      vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                      vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_line(const bool& new_shape, const scrimmage_proto::Line& l,
+                   vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                   vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_mesh(const bool& new_shape, const scrimmage_proto::Mesh& m,
+                   vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                   vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_plane(const bool& new_shape, const scrimmage_proto::Plane& p,
+                    vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                    vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_pointcloud(const bool& new_shape, const scrimmage_proto::Shape& shape,
+                         vtkSmartPointer<vtkActor>& actor,
+                         vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                         vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_polydata(const bool& new_shape, const scrimmage_proto::Polydata& p,
+                       vtkSmartPointer<vtkActor>& actor,
+                       vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                       vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_polygon(const bool& new_shape, const scrimmage_proto::Polygon& p,
+                      vtkSmartPointer<vtkActor>& actor,
+                      vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                      vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_polyline(const bool& new_shape, const scrimmage_proto::Polyline& pl,
+                       vtkSmartPointer<vtkActor>& actor,
+                       vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                       vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_sphere(const bool& new_shape, const scrimmage_proto::Sphere& s,
+                     vtkSmartPointer<vtkActor>& actor,
+                     vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                     vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_spline(const bool& new_shape, const scrimmage_proto::Spline& s,
+                     vtkSmartPointer<vtkActor>& actor,
+                     vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                     vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_text(const bool& new_shape, const scrimmage_proto::Text& t,
+                   vtkSmartPointer<vtkActor>& actor, vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                   vtkSmartPointer<vtkPolyDataMapper>& mapper);
+    bool draw_triangle(const bool& new_shape, const scrimmage_proto::Triangle& t,
+                       vtkSmartPointer<vtkActor>& actor,
+                       vtkSmartPointer<vtkPolyDataAlgorithm>& source,
+                       vtkSmartPointer<vtkPolyDataMapper>& mapper);
 
  protected:
-    void get_model_texture(std::string name,
-                           std::string &model_file,
-                           bool &model_found,
-                           std::string &texture_file,
-                           bool &texture_found,
-                           double &base_scale,
-                           Quaternion &base_rot);
+    void get_model_texture(std::string name, std::string& model_file, bool& model_found,
+                           std::string& texture_file, bool& texture_found, double& base_scale,
+                           Quaternion& base_rot);
 
  protected:
     vtkSmartPointer<vtkRenderWindowInteractor> rwi_;
@@ -333,11 +305,8 @@ class Updater : public vtkCommand {
 
     std::map<int, std::shared_ptr<scrimmage_proto::ContactVisual>> contact_visuals_;
 
-    std::unordered_map<uint64_t,
-                       std::tuple<scrimmage_proto::Shape,
-                                  vtkSmartPointer<vtkActor>,
-                                  vtkSmartPointer<vtkPolyDataAlgorithm>,
-                                  double>>
+    std::unordered_map<uint64_t, std::tuple<scrimmage_proto::Shape, vtkSmartPointer<vtkActor>,
+                                            vtkSmartPointer<vtkPolyDataAlgorithm>, double>>
         shapes_;
 
     std::map<std::string, std::shared_ptr<scrimmage_proto::UTMTerrain>> terrain_map_;

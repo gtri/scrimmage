@@ -30,38 +30,45 @@
  *
  */
 
-#include <scrimmage/pubsub/NetworkDevice.h>
-#include <scrimmage/pubsub/MessageBase.h>
 #include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/pubsub/MessageBase.h>
+#include <scrimmage/pubsub/NetworkDevice.h>
 
 #include <iostream>
 
 namespace scrimmage {
 
-NetworkDevice::NetworkDevice() : plugin_(std::make_shared<EntityPlugin>()) {}
-
-NetworkDevice::NetworkDevice(const std::string &topic, const unsigned int& max_queue_size,
-                             const bool& enable_queue_size, EntityPluginPtr plugin) :
-    topic_(topic), max_queue_size_(max_queue_size),
-    enable_queue_size_(enable_queue_size), plugin_(plugin) {
+NetworkDevice::NetworkDevice() : plugin_(std::make_shared<EntityPlugin>()) {
 }
 
-NetworkDevice::NetworkDevice(NetworkDevice &rhs) :
-    topic_(rhs.topic_),
-    max_queue_size_(rhs.max_queue_size_),
-    plugin_(rhs.plugin_),
-    msg_list_(rhs.msg_list_) {}
-
-NetworkDevice::NetworkDevice(NetworkDevice &&rhs) :
-    topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_),
-    msg_list_(rhs.msg_list_) {
+NetworkDevice::NetworkDevice(const std::string& topic, const unsigned int& max_queue_size,
+                             const bool& enable_queue_size, EntityPluginPtr plugin)
+    : topic_(topic),
+      max_queue_size_(max_queue_size),
+      enable_queue_size_(enable_queue_size),
+      plugin_(plugin) {
 }
 
-std::string NetworkDevice::get_topic() const {return topic_;}
+NetworkDevice::NetworkDevice(NetworkDevice& rhs)
+    : topic_(rhs.topic_),
+      max_queue_size_(rhs.max_queue_size_),
+      plugin_(rhs.plugin_),
+      msg_list_(rhs.msg_list_) {
+}
 
-void NetworkDevice::set_topic(const std::string &topic) {topic_ = topic;}
+NetworkDevice::NetworkDevice(NetworkDevice&& rhs)
+    : topic_(rhs.topic_), max_queue_size_(rhs.max_queue_size_), msg_list_(rhs.msg_list_) {
+}
 
-void NetworkDevice::set_msg_list(const std::list<MessageBasePtr> &msg_list) {
+std::string NetworkDevice::get_topic() const {
+    return topic_;
+}
+
+void NetworkDevice::set_topic(const std::string& topic) {
+    topic_ = topic;
+}
+
+void NetworkDevice::set_msg_list(const std::list<MessageBasePtr>& msg_list) {
     mutex_.lock();
     msg_list_ = msg_list;
     mutex_.unlock();
@@ -113,14 +120,13 @@ void NetworkDevice::clear_msg_list() {
     mutex_.unlock();
 }
 
-void NetworkDevice::print_str(const std::string &msg) {
+void NetworkDevice::print_str(const std::string& msg) {
     std::cout << msg << std::endl;
 }
 
-EntityPluginPtr & NetworkDevice::plugin() {
+EntityPluginPtr& NetworkDevice::plugin() {
     return plugin_;
 }
-
 
 /* added for delay handling */
 void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, const bool& is_stochastic_delay) {
@@ -143,7 +149,6 @@ void NetworkDevice::add_undelivered_msg(MessageBasePtr msg, const bool& is_stoch
     mutex_.unlock();
 }
 
-
 auto NetworkDevice::deliver_undelivered_msg(std::list<MessageBasePtr>::iterator it) {
     mutex_.lock();
     msg_list_.push_back(*it);
@@ -152,14 +157,13 @@ auto NetworkDevice::deliver_undelivered_msg(std::list<MessageBasePtr>::iterator 
     return it;
 }
 
-
-int NetworkDevice::deliver_undelivered_msg(const double& time_now, const bool& is_stochastic_delay) {
+int NetworkDevice::deliver_undelivered_msg(const double& time_now,
+                                           const bool& is_stochastic_delay) {
     // number of messages delivered
     int n_delivered = 0;
 
     for (auto it = undelivered_msg_list_.begin(); it != undelivered_msg_list_.end(); /**/) {
-        if ( time_now >= (*it)->time ) {
-
+        if (time_now >= (*it)->time) {
             mutex_.lock();
             msg_list_.push_back(*it);
             it = undelivered_msg_list_.erase(it);
@@ -176,4 +180,4 @@ int NetworkDevice::deliver_undelivered_msg(const double& time_now, const bool& i
 }
 
 //
-} // namespace scrimmage
+}  // namespace scrimmage

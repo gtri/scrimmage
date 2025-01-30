@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_
 
-#include <scrimmage/motion/Controller.h>
 #include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace controller {
@@ -46,7 +46,7 @@ namespace controller {
 class UnicyclePID : public scrimmage::Controller {
  public:
     UnicyclePID();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -71,6 +71,6 @@ class UnicyclePID : public scrimmage::Controller {
 
     bool use_accel_ = false;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_

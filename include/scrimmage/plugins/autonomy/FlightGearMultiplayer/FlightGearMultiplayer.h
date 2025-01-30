@@ -33,24 +33,23 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FLIGHTGEARMULTIPLAYER_FLIGHTGEARMULTIPLAYER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FLIGHTGEARMULTIPLAYER_FLIGHTGEARMULTIPLAYER_H_
 
+#include <plib/netSocket.h>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/Quaternion.h>
-#include <plib/netSocket.h>
-
-#include <string>
-#include <map>
-#include <memory>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <flightgear/MultiPlayer/mpmessages.hxx>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace autonomy {
 class FlightGearMultiplayer : public scrimmage::Autonomy {
  public:
     FlightGearMultiplayer();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -69,6 +68,6 @@ class FlightGearMultiplayer : public scrimmage::Autonomy {
     struct T_PositionMsg pos_msg_;
     int msg_size_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FLIGHTGEARMULTIPLAYER_FLIGHTGEARMULTIPLAYER_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FLIGHTGEARMULTIPLAYER_FLIGHTGEARMULTIPLAYER_H_

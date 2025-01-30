@@ -33,14 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 
 class MessageBase {
  public:
-    virtual ~MessageBase() {}       // http://stackoverflow.com/a/5831797
+    virtual ~MessageBase() {
+    }  // http://stackoverflow.com/a/5831797
 
     static const int undefined_id = -1;
     double time;
@@ -51,5 +52,5 @@ class MessageBase {
 
 using MessageBasePtr = std::shared_ptr<MessageBase>;
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGEBASE_H_

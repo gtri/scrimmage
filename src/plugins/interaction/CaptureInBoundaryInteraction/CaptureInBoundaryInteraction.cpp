@@ -30,25 +30,23 @@
  *
  */
 
-#include <scrimmage/plugins/interaction/CaptureInBoundaryInteraction/CaptureInBoundaryInteraction.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Capture.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
+#include <scrimmage/plugins/interaction/CaptureInBoundaryInteraction/CaptureInBoundaryInteraction.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/msgs/Capture.pb.h>
 
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-
-#include <memory>
-#include <limits>
 #include <iostream>
+#include <limits>
+#include <memory>
 
 using std::cout;
 using std::endl;
@@ -58,25 +56,23 @@ namespace sci = scrimmage::interaction;
 namespace sm = scrimmage_msgs;
 namespace sp = scrimmage_proto;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::CaptureInBoundaryInteraction,
+REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::CaptureInBoundaryInteraction,
                 CaptureInBoundaryInteraction_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
-CaptureInBoundaryInteraction::CaptureInBoundaryInteraction() :
-    capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {
+CaptureInBoundaryInteraction::CaptureInBoundaryInteraction()
+    : capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {
 }
 
-bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
-
+bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string>& mission_params,
+                                        std::map<std::string, std::string>& plugin_params) {
     capture_range_ = sc::get<double>("capture_range", plugin_params, 5.0);
     boundary_id_ = sc::get<int>("boundary_id", plugin_params, 1);
     cool_down_period_ = sc::get<double>("cool_down_period", plugin_params, 0.0);
 
-    auto callback = [&] (scrimmage::MessagePtr<sp::Shape> msg) {
+    auto callback = [&](scrimmage::MessagePtr<sp::Shape> msg) {
         if (msg->data.id().id() == boundary_id_) {
             boundary_shape_ = msg->data;
             boundary_ = sci::Boundary::make_boundary(msg->data);
@@ -89,9 +85,8 @@ bool CaptureInBoundaryInteraction::init(std::map<std::string, std::string> &miss
     return true;
 }
 
-
-bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                           double t, double dt) {
+bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t,
+                                                           double dt) {
     if (boundary_ == nullptr) {
         return true;
     }
@@ -113,20 +108,16 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
             }
         }
 
-        if (cool_down_expired &&
-            ent->id().team_id() == boundary_shape_.id().team_id() &&
-            boundary_->contains(ent->state_truth()->pos())) {
-
+        if (cool_down_expired && ent->id().team_id() == boundary_shape_.id().team_id()
+            && boundary_->contains(ent->state_truth()->pos())) {
             // Find all entities within capture range of this entity
             std::vector<ID> rtree_neighbors;
-            parent_->rtree()->neighbors_in_range(ent->state_truth()->pos(),
-                                                 rtree_neighbors,
-                                                 capture_range_,
-                                                 ent->id().id());
+            parent_->rtree()->neighbors_in_range(ent->state_truth()->pos(), rtree_neighbors,
+                                                 capture_range_, ent->id().id());
 
             // Only copy IDs whose team ID isn't the same as the boundary's
             // team ID.
-            for (ID &id : rtree_neighbors) {
+            for (ID& id : rtree_neighbors) {
                 if (id.team_id() != boundary_shape_.id().team_id()) {
                     possible_captures[id.id()] = ent->id().id();
                 }
@@ -141,8 +132,8 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
         if (it != possible_captures.end()) {
             // If the entity hasn't been captured yet and it's within the
             // boundary, it is captured
-            if (already_captured_.count(it->first) == 0 &&
-                boundary_->contains(ent->state_truth()->pos())) {
+            if (already_captured_.count(it->first) == 0
+                && boundary_->contains(ent->state_truth()->pos())) {
                 ent->collision();
 
                 // Keep track of all captured entities
@@ -151,8 +142,7 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
                 // Keep track of the capture time to limit the capture rate
                 prev_capture_times_[it->second] = time_->t();
 
-                auto msg =
-                    std::make_shared<sc::Message<sm::NonTeamCapture>>();
+                auto msg = std::make_shared<sc::Message<sm::NonTeamCapture>>();
                 msg->data.set_source_id(it->second);
                 msg->data.set_target_id(it->first);
                 non_team_capture_pub_->publish(msg);
@@ -163,5 +153,5 @@ bool CaptureInBoundaryInteraction::step_entity_interaction(std::list<sc::EntityP
     }
     return true;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

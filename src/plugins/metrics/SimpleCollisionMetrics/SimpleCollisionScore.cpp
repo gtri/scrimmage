@@ -39,7 +39,7 @@ namespace sc = scrimmage;
 namespace scrimmage {
 namespace metrics {
 
-bool SimpleCollisionScore::set_weights(std::map<std::string, std::string> &params) {
+bool SimpleCollisionScore::set_weights(std::map<std::string, std::string>& params) {
     flight_time_w_ = sc::get<double>("flight_time_w", params, 0.0);
     team_collisions_w_ = sc::get<double>("team_collisions_w", params, 0.0);
     non_team_collisions_w_ = sc::get<double>("non_team_collisions_w", params, 0.0);
@@ -48,10 +48,9 @@ bool SimpleCollisionScore::set_weights(std::map<std::string, std::string> &param
 }
 
 double SimpleCollisionScore::score() {
-    double s = flight_time_norm() * flight_time_w_
-        + non_team_collisions() * non_team_collisions_w_
-        + team_collisions() * team_collisions_w_;
+    double s = flight_time_norm() * flight_time_w_ + non_team_collisions() * non_team_collisions_w_
+               + team_collisions() * team_collisions_w_;
     return s;
 }
-} // namespace metrics
-} // namespace scrimmage
+}  // namespace metrics
+}  // namespace scrimmage
