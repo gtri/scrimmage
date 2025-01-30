@@ -60,7 +60,7 @@
 #include <iostream>
 
 #include <boost/type_index.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/function.hpp>
 
 namespace scrimmage {
