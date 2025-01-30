@@ -1,6 +1,6 @@
 find_path(GeographicLib_INCLUDE_DIR NAMES GeographicLib/Config.h DOC "GeographicLib include directory")
-find_library(GeographicLib_LIBRARY_RELEASE NAMES Geographic DOC "GeographicLib library (release)")
-find_library(GeographicLib_LIBRARY_DEBUG NAMES Geographic_d DOC "GeographicLib library (debug)")
+find_library(GeographicLib_LIBRARY_RELEASE NAMES GeographicLib DOC "GeographicLib library (release)")
+find_library(GeographicLib_LIBRARY_DEBUG NAMES GeographicLib_d DOC "GeographicLib library (debug)")
 
 include(SelectLibraryConfigurations)
 select_library_configurations(GeographicLib)
