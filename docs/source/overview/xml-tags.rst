@@ -371,6 +371,9 @@ and match between the two paradigms for a single entity.
 
 - ``scale``: the initial scale of the vehicles in the gui (``default = 1.0``)
 
+- ``no_bin_logging``: Disables binary logging in Scrimmage. Signifigantly reduces the size of mission outputs, but 
+  will not have entity trajectories logged. (``default = false``) 
+
 Combining XML Files
 ===================
 
