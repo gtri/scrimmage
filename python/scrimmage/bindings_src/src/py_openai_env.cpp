@@ -237,7 +237,7 @@ void ScrimmageOpenAIEnv::scrimmage_memory_cleanup() {
         e->motion() = nullptr;
         e->controllers().clear();
         e->set_mp(nullptr);
-        e->state() = nullptr;
+        e->state_truth() = nullptr;
         e->contacts() = nullptr;
         e->plugin_manager() = nullptr;
         e->file_search() = nullptr;
