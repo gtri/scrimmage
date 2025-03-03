@@ -1038,6 +1038,11 @@ bool SimControl::finalize() {
         pub_ent_pres_end_->publish(msg);
     }
 
+    // Run the networks one final time to send out the messages sent above
+    // Then trigger the metric callbacks to run 
+    run_networks();
+    br::for_each(metrics_, run_callbacks);
+
     run_logging();
 
     if (display_progress_) cout << endl;
