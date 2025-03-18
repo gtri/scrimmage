@@ -125,10 +125,16 @@ class Entity : public std::enable_shared_from_this<Entity> {
     [[deprecated("Use state_belief() or state_truth() to query state information instead")]]
     StatePtr& state();
 
+    /*
+     * Getters and Setters for state_truth_ and state_belief_. Only motion models *should* update
+     * state_truth_. Autonomies & Sensors have access to both, but should only update state_belief_
+     * using these setters.
+     */
     void set_state_belief(const StatePtr& other);
     void set_state_belief(const State& other);
     const std::shared_ptr<const State> state_belief() const;
     StatePtr& state_truth();
+
     std::vector<AutonomyPtr>& autonomies();
     MotionModelPtr& motion();
     std::vector<ControllerPtr>& controllers();
@@ -228,6 +234,13 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     StatePtr state_belief_;
     StatePtr state_truth_;
+
+    /*
+     * Copies state_truth_ to a new pointer so that state_belief_ is no longer updated when
+     * state_truth_ is.
+     */
+    void decouple_state();
+
     std::unordered_map<std::string, MessageBasePtr> properties_;
     std::unordered_map<std::string, SensorPtr> sensors_;
 

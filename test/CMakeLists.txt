@@ -17,6 +17,7 @@ set(test_files
   test_shape.cpp
   test_simple.cpp
   test_state.cpp
+  test_state_belief.cpp
   test_utilities.cpp
   test_xml_parsers.cpp
   )

@@ -8,7 +8,7 @@
        enable_gui="true"
        network_gui="false"
        start_paused="true"
-       full_screen="true"
+       full_screen="false"
        window_width="800"
        window_height="600"/>
 

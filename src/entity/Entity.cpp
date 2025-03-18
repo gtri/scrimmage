@@ -496,21 +496,28 @@ StatePtr& Entity::state() {
     return state_belief_;
 }
 
-void Entity::set_state_belief(const StatePtr& other) {
-    if (state_belief_ == state_truth_) {
-        std::cout << "Decoupling State Belief and State Truth. Ensure that you have an explicit "
-                  << "method of updating the state belief.\n";
-        state_belief_ = std::make_shared<State>();
+/*
+ * Access to state_belief_ needs to be carefully managed as to not overwrite pointers that
+ * controllers are using. If state_truth_ and state_belief_ are coupled, first detach them.
+ */
+
+void Entity::decouple_state() {
+    if (state_belief_ != state_truth_) {
+        return;
     }
+    state_belief_ = std::make_shared<State>(*state_truth_);
+    for (ControllerPtr controller : controllers()) {
+        controller->set_state(state_belief_);
+    }
+}
+
+void Entity::set_state_belief(const StatePtr& other) {
+    decouple_state();
     *state_belief_ = *other;
 }
 
 void Entity::set_state_belief(const State& other) {
-    if (state_belief_ == state_truth_) {
-        std::cout << "Decoupling State Belief and State Truth. Ensure that you have an explicit "
-                  << "method of updating the state belief.\n";
-        state_belief_ = std::make_shared<State>();
-    }
+    decouple_state();
     *state_belief_ = other;
 }
 
