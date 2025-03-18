@@ -85,6 +85,8 @@ DEPS_DPKG=(
     gcc
     build-essential
     librapidxml-dev
+    libxml2-dev
+    libxmlsec1-dev
     libeigen3-dev
     libgeographic-dev
     libboost-thread-dev
@@ -110,13 +112,7 @@ if [ "$EXTERNAL" = false ]; then
         graphviz
         doxygen
         libopencv-dev
-        libvtk6-dev
     )
-    if ! echo "$UBUNTU_VERSION 18.04 -p" | dc | grep > \dev\null ^- || ! echo "$UBUNTU_VERSION 20.04 -p" | dc | grep > \dev\null ^-; then
-        DEPS_DPKG+=(tcl-vtk7)
-    else
-        DEPS_DPKG+=(tcl-vtk)
-    fi
 fi
 
 if [ "20.04" == ${UBUNTU_VERSION} ]; then
@@ -127,7 +123,21 @@ if [ "20.04" == ${UBUNTU_VERSION} ]; then
     libgrpc++-dev
     ) #GRPC Libraries for Focal
 fi
-
+if [ "22.04" == ${UBUNTU_VERSION} ]; then
+    echo "Detected Ubuntu 22"
+    PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
+    DEPS_DPKG+=(
+    libvtk9-qt-dev
+    libgrpc-dev
+    libgrpc++-dev
+    tcl-vtk7
+    libvtk9-dev
+    protobuf-compiler
+    protobuf-compiler-grpc
+    pybind11-dev
+    libprotobuf-dev
+    ) #GRPC Libraries for Jammy
+fi
 if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
     DEPS_DPKG+=(
         python

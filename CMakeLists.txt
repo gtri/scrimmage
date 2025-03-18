@@ -47,6 +47,7 @@ include_directories(${PROTO_INCLUDE_DIR})
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
 include(FindPythonModule)
+include(FetchContent)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
@@ -168,6 +169,16 @@ set(GRPC_VERSION 1.2.1)
 find_package(gRPC CONFIG)
 
 ########################################################
+# Find LibXML2
+########################################################
+# Sets:
+# - LIBXML2_FOUND
+# - LIBXML2_LIBRARIES
+# - LIBXML2_INCLUDE_DIRS
+find_package(LibXml2)
+
+
+########################################################
 # Find GeographicLib
 ########################################################
 find_package (GeographicLib REQUIRED)
@@ -198,13 +209,31 @@ endif()
 # Find VTK
 ########################################################
 
-find_package(VTK QUIET NO_MODULE)
+find_package(VTK NO_MODULE)
 if (${VTK_FOUND})
+	if (${VTK_MAJOR_VERSION} EQUAL 9)
+      set(OPENGL_MODULE RenderingOpenGL2)
+      # Current binaries of VTK9 do not compile IOGeoJSON
+      #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+      set(EXTRUSION_MODULES FiltersModeling)
+			set(VTK_MODULES
+					FiltersSources
+					FiltersTexture
+					InteractionStyle
+					IOGeometry
+					IOImage
+					IOLegacy
+					RenderingAnnotation
+					RenderingCore
+					${OPENGL_MODULE}
+					${EXTRUSION_MODULES})
+			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+	else()
     if (${VTK_MAJOR_VERSION} LESS 7)
-        set(OPENGL_MODULE vtkRenderingOpenGL)
+			set(OPENGL_MODULE vtkRenderingOpenGL)
     else()
         set(OPENGL_MODULE vtkRenderingOpenGL2)
-        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+				set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
     endif()
 
     set(VTK_MODULES
@@ -219,16 +248,23 @@ if (${VTK_FOUND})
         ${OPENGL_MODULE}
         ${EXTRUSION_MODULES})
 
-    find_package(VTK QUIET NO_MODULE COMPONENTS ${VTK_MODULES})
+			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+		endif()
 endif()
 
 if (${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
   include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
-  include(${VTK_USE_FILE})
+  if(${VTK_MAJOR_VERSION} LESS 9)
+      ## VTK_USE_FILE is deprecated in vtk9
+      include(${VTK_USE_FILE})
+  endif()
   add_definitions(-DENABLE_VTK=1)
 else()
   add_definitions(-DENABLE_VTK=0)
+  message(--------------------------)
+	message("VTK_NOT_FOUND, Scrimmage will not have a GUI")
+  message(--------------------------)
 endif()
 
 ########################################################
@@ -335,31 +371,18 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   ############################################################
 
   # Download and unpack googletest at configure time
-  if (NOT TARGET gtest_main)
-    configure_file(${PROJECT_SOURCE_DIR}/cmake/Modules/CMakeLists.txt.gtest.in
-      googletest-download/CMakeLists.txt)
-    execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-      RESULT_VARIABLE result
-      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-    if(result)
-      message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-    endif()
-    execute_process(COMMAND ${CMAKE_COMMAND} --build .
-      RESULT_VARIABLE result
-      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
-    if(result)
-      message(FATAL_ERROR "Build step for googletest failed: ${result}")
-    endif()
+  FetchContent_Declare(
+      googletest
+      GIT_REPOSITORY  https://github.com/google/googletest.git      
+      GIT_TAG         origin/main
+      GIT_SHALLOW     true
+      GIT_PROGRESS    true
+      )
 
     # Prevent overriding the parent project's compiler/linker
     # settings on Windows
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-    # Add googletest directly to our build. This defines
-    # the gtest and gtest_main targets.
-    add_subdirectory(${PROJECT_BINARY_DIR}/googletest-src
-                     ${PROJECT_BINARY_DIR}/googletest-build)
-  endif()
+    FetchContent_MakeAvailable(googletest)
 
   add_subdirectory(test)
 endif()

@@ -1,0 +1,22 @@
+<!-- Entity that is generated during runtime by other plugins -->
+<entity tag="gen_straight">
+<count>0</count>
+<team_id>1</team_id>
+<health>1</health>
+<radius>1</radius>
+
+<variance_x>20</variance_x>
+<variance_y>20</variance_y>
+<variance_z>10</variance_z>
+
+<x>0</x>
+<y>0</y>
+<z>0</z>
+<heading>0</heading>
+
+<autonomy>Straight</autonomy>
+<controller>SimpleAircraftControllerPID</controller>
+<motion_model>SimpleAircraft</motion_model>
+<visual_model>zephyr-blue</visual_model>
+</entity>
+

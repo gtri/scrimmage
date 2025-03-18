@@ -35,11 +35,11 @@
 
 #include <scrimmage/sensor/Sensor.h>
 
-#include <random>
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace scrimmage {
 namespace sensor {
@@ -47,9 +47,18 @@ class RayTrace : public scrimmage::Sensor {
  public:
     class PCPoint {
      public:
-        PCPoint() : point(Eigen::Vector3d(0, 0, 0)), intensity(0), oor(false) {}
-        explicit PCPoint(Eigen::Vector3d p) : point(p), intensity(0), oor(false) {}
-        PCPoint(Eigen::Vector3d p, double i, bool o) : point(p), intensity(i), oor(o) {}
+        PCPoint()
+            : point(Eigen::Vector3d(0, 0, 0)),
+              intensity(0),
+              oor(false) {}
+        explicit PCPoint(Eigen::Vector3d p)
+            : point(p),
+              intensity(0),
+              oor(false) {}
+        PCPoint(Eigen::Vector3d p, double i, bool o)
+            : point(p),
+              intensity(i),
+              oor(o) {}
         Eigen::Vector3d point;
         double intensity;
         bool oor;  // Out of range
@@ -60,15 +69,22 @@ class RayTrace : public scrimmage::Sensor {
      */
     class PCRay {
      public:
-        PCRay() : azimuth_rad(0.0), elevation_rad(0.0) {}
-        PCRay(double in_az_rad, double in_el_rad) : azimuth_rad(in_az_rad), elevation_rad(in_el_rad) {}
+        PCRay()
+            : azimuth_rad(0.0),
+              elevation_rad(0.0) {}
+        PCRay(double in_az_rad, double in_el_rad)
+            : azimuth_rad(in_az_rad),
+              elevation_rad(in_el_rad) {}
         double azimuth_rad;
         double elevation_rad;
     };
 
     class PointCloud {
      public:
-        PointCloud() : max_range(0), min_range(0), max_sample_rate(0) {}
+        PointCloud()
+            : max_range(0),
+              min_range(0),
+              max_sample_rate(0) {}
 
         std::vector<PCRay> get_rays();
 
@@ -81,11 +97,16 @@ class RayTrace : public scrimmage::Sensor {
 
     class PointCloudWithId : public PointCloud {
      public:
-        PointCloudWithId() :  PointCloud(), sensor_name("unknown"), entity_id(0), world_frame(false) {}
+        PointCloudWithId()
+            : PointCloud(),
+              sensor_name("unknown"),
+              entity_id(0),
+              world_frame(false) {}
 
         std::string sensor_name;
         int entity_id;
-        bool world_frame;  // Whether the point cloud is in the world frame (true) or sensor frame (false)
+        bool world_frame;  // Whether the point cloud is in the world frame (true) or sensor frame
+                           // (false)
     };
 
     RayTrace();
@@ -94,7 +115,8 @@ class RayTrace : public scrimmage::Sensor {
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
 
-    /** Whether to have the bullet collision plugin automatically run ray tracing for this sensor and send associated messages */
+    /** Whether to have the bullet collision plugin automatically run ray tracing for this sensor
+     * and send associated messages */
     bool automatic_ray_tracing() { return auto_ray_tracing_; }
     /** Returns a copy of the rays*/
     std::vector<PCRay> rays();
@@ -115,10 +137,14 @@ class RayTrace : public scrimmage::Sensor {
     double min_range_;
     // Sample rate used for update rate in collision models
     double max_sample_rate_;
-    // Configuration item of whether to do automatic ray tracing - default true for backwards compatibility
+    // Configuration item of whether to do automatic ray tracing - default true for backwards
+    // compatibility
     bool auto_ray_tracing_{true};
 
     PublisherPtr pub_;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 }  // namespace sensor
 }  // namespace scrimmage

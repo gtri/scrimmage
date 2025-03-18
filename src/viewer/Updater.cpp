@@ -84,8 +84,9 @@
 #include <vtkPNGWriter.h>
 #include <vtkArcSource.h>
 #include <vtksys/SystemTools.hxx>
+#include <vtkTexture.h>
 
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
 #include <vtkCellLocator.h>
 #include <vtkGeoJSONReader.h>
 #include <vtkCellData.h>
@@ -179,9 +180,17 @@ void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // N
 
     incoming_interface_->gui_msg_mutex.lock();
     auto &gui_msg_list = incoming_interface_->gui_msg();
-    if (!gui_msg_list.empty()) {
+    while (!gui_msg_list.empty()) {
+
         auto &msg = gui_msg_list.front();
-        if (std::abs(msg.time() - frame_time_) < 1e-7 && fs::exists(log_dir_)) {
+        bool time_near = std::abs(msg.time() - frame_time_) < 1e-7;
+
+        if (time_near and !fs::exists(log_dir_) and !log_dir_warning_) {
+            std::cout << "Updater cannot save screenshot because the log dir "
+                << log_dir_ << " does not exist" << std::endl;
+            log_dir_warning_ = true;
+        }
+        if (time_near && fs::exists(log_dir_)) {
 
             vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
                 vtkSmartPointer<vtkWindowToImageFilter>::New();
@@ -190,16 +199,26 @@ void Updater::Execute(vtkObject *caller, unsigned long vtkNotUsed(eventId), // N
 
             vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
 
-            const std::string fname =
-                log_dir_ + "/screenshot_" + std::to_string(frame_time_) + ".png";
+            std::string fname = "";
+            int num_zeros = 6 - static_cast<int>(std::log10(screenshot_num_));
+            for (int i = 0; i < num_zeros; i++) {
+                fname += "0";
+            }
+            fname = log_dir_ + "/screenshot_" + fname + std::to_string(screenshot_num_) + ".png";
+            screenshot_num_++;
+            
             if (!fs::exists(fname)) {
                 writer->SetFileName(fname.c_str());
                 writer->SetInputConnection(windowToImageFilter->GetOutputPort());
                 writer->Write();
             }
             single_step();
-            gui_msg_list.pop_front();
+        } else if (msg.time() > frame_time_) {
+            // got a message that is in the future so exit
+            // since it will be relevant to a future frame
+            break;
         }
+        gui_msg_list.pop_front();
     }
     incoming_interface_->gui_msg_mutex.unlock();
 }
@@ -922,7 +941,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
             vtkSmartPointer<vtkTextureMapToPlane>::New();
         texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
 
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
         if (utm->enable_extrusion()) {
             // Locate elevation data
             vtkSmartPointer<vtkCellLocator> cellLocator =
@@ -1034,7 +1053,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
         terrain_actor_->GetProperty()->SetColor(0, 0, 0);
 
         renderer_->AddActor(terrain_actor_);
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
         if (utm->enable_extrusion())
             renderer_->AddActor(extrusion_actor_);
 #endif

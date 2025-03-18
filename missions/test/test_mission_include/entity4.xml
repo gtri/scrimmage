@@ -1,0 +1,26 @@
+<entity>
+<team_id>1</team_id>
+<color>77 77 255</color>
+<count>10</count>
+
+<x>0</x>
+<y>0</y>
+<z>0</z>
+<heading>0</heading>
+
+
+<controller>SimpleAircraftControllerPID</controller>
+<motion_model>SimpleAircraft</motion_model>
+
+<visual_model>zephyr-blue</visual_model>
+<!--<sensor>NoisyState</sensor>-->
+<autonomy show_text_label="true"
+generate_entities="false"
+enable_boundary_control="true">Straight</autonomy>
+
+
+<generate_rate>5</generate_rate>
+<generate_count>2</generate_count>
+<generate_time_variance>10</generate_time_variance>
+<generate_start_time>8</generate_start_time>
+</entity>

@@ -44,35 +44,26 @@ namespace motion {
 
 class PwmState : public scrimmage::State {
  public:
-    void set_pwm_input(Eigen::VectorXd pwm_input) {
-        pwm_input_ = pwm_input;
-    }
+    void set_pwm_input(Eigen::VectorXd pwm_input) { pwm_input_ = pwm_input; }
 
-    Eigen::VectorXd &pwm_input() {
-        return pwm_input_;
-    }
+    Eigen::VectorXd &pwm_input() { return pwm_input_; }
 
-    void set_pwm_min(double pwm_min) {
-        pwm_min_ = pwm_min;
-    }
-    void set_pwm_max(double pwm_max) {
-        pwm_max_ = pwm_max;
-    }
-    double &pwm_min() {
-        return pwm_min_;
-    }
-    double &pwm_max() {
-        return pwm_max_;
-    }
+    void set_pwm_min(double pwm_min) { pwm_min_ = pwm_min; }
+    void set_pwm_max(double pwm_max) { pwm_max_ = pwm_max; }
+    double &pwm_min() { return pwm_min_; }
+    double &pwm_max() { return pwm_max_; }
 
  protected:
     Eigen::VectorXd pwm_input_;
     double pwm_min_ = 1000;
     double pwm_max_ = 2000;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 using PwmStatePtr = std::shared_ptr<PwmState>;
 
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_

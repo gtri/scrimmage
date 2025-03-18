@@ -47,7 +47,7 @@
 
 #include <GeographicLib/LocalCartesian.hpp>
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/asio/placeholders.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/basic_datagram_socket.hpp>
@@ -190,7 +190,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         recv_io_service_.poll();
     } else {
         boost::system::error_code error;
-        ba::ip::udp::socket::message_flags flags;
+        ba::ip::udp::socket::message_flags flags = 0;
         std::size_t nbytes = recv_socket_->receive_from(
             ba::buffer(recv_buffer_), recv_remote_endpoint_,
             flags, error);
@@ -297,7 +297,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
 
     // Global frame, roll, pitch, yaw from NED to FRU
     fdm_pkt.roll = state.quat().roll();
-    fdm_pkt.pitch = -state.quat().pitch();
+    fdm_pkt.pitch = -state.quat().pitch_safe();
     fdm_pkt.yaw = fdm_pkt.heading;
 
     if (mavproxy_mode_) {

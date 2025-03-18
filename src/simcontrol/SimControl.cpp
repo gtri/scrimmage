@@ -390,7 +390,7 @@ bool SimControl::generate_entity(const int &ent_desc_id,
     }
 
     ents_.push_back(ent);
-    rtree_->add(ent->state()->pos(), ent->id());
+    rtree_->add(ent->state_truth()->pos(), ent->id());
     contacts_mutex_.lock();
     (*contacts_)[ent->id().id()] =
             Contact(ent->id(), ent->radius(), ent->state_truth(),
@@ -421,7 +421,7 @@ void SimControl::join() {
 void SimControl::create_rtree(const unsigned int& additional_size) {
     rtree_->init(ents_.size() + additional_size);
     for (EntityPtr &ent: ents_) {
-        rtree_->add(ent->state()->pos(), ent->id());
+        rtree_->add(ent->state_truth()->pos(), ent->id());
     }
 }
 
@@ -682,6 +682,8 @@ void SimControl::set_running_in_thread(bool running_in_thread) {
 
 bool SimControl::start() {
     setup_logging();
+
+    send_terrain();
 
     // Set the time parameters based on the mission file input
     t0_ = mp_->t0();
@@ -1599,7 +1601,7 @@ bool SimControl::run_entities() {
 
     // Check if any entity has NaN in its state
     for (EntityPtr &ent : ents_) {
-        if (ent->state()->pos().hasNaN()) {
+        if (ent->state_truth()->pos().hasNaN()) {
             cout << "WARNING: Entity with motion model, "
                  << ent->motion()->name() << ", contains a NaN value." << endl
                  << "Check your time step values and for NaN values coming "

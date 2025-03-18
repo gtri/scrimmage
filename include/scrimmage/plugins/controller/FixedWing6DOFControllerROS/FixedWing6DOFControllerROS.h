@@ -35,18 +35,18 @@
 
 #include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
 
-#include <ros/ros.h>
 #include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
 
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace scrimmage {
 namespace controller {
 class FixedWing6DOFControllerROS : public Controller {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
     virtual bool step(double t, double dt);
 
  protected:
@@ -61,7 +61,10 @@ class FixedWing6DOFControllerROS : public Controller {
     int elevator_idx_ = 0;
     int aileron_idx_ = 0;
     int rudder_idx_ = 0;
+
+ public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_

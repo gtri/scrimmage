@@ -89,6 +89,8 @@ class Viewer {
     int remote_port_ = 50052;
 
     double init_scale_ = 1.0;
+
+    bool full_screen_;
 };
 
 } // namespace scrimmage
