@@ -95,7 +95,7 @@ ENV PKG_CONFIG_PATH ${PKG_PREFIX}/lib/pkgconfig
 WORKDIR /root/3rd-party
 RUN git clone https://github.com/Kitware/CMake.git
 WORKDIR CMake
-RUN git checkout release
+RUN git checkout tags/v3.31.3 -b release
 
 RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
     ./bootstrap --prefix=${PKG_PREFIX} \
@@ -175,9 +175,9 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
 # Build GeographicLib
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone https://git.code.sf.net/p/geographiclib/code geographiclib
+RUN git clone https://github.com/geographiclib/geographiclib.git geographiclib
 WORKDIR geographiclib
-RUN git checkout v1.45 && mkdir build && cd build \
+RUN git checkout tags/v1.45 -b release && mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
                 -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
     && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/geographiclib install
@@ -306,7 +306,7 @@ RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
 # Build JSBsim from scrimmage's 3rd-party
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone -b fix-compiler-errors https://github.com/gtri/scrimmage.git
+RUN git clone -b rhel-build-wsyre https://github.com/gtri/scrimmage.git
 WORKDIR ./scrimmage/3rd-party
 RUN mkdir ./build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX}

@@ -181,9 +181,9 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
 # Build GeographicLib
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone https://git.code.sf.net/p/geographiclib/code geographiclib
+RUN git clone https://github.com/geographiclib/geographiclib.git geographiclib
 WORKDIR geographiclib
-RUN git checkout v1.45 && mkdir build && cd build \
+RUN git checkout tags/v1.45 -b release && mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
                 -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
     && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/geographiclib install
