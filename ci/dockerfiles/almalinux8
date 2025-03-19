@@ -1,0 +1,418 @@
+FROM almalinux:8 AS builder
+
+ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
+
+# Setup directories to work in
+RUN mkdir -p /root/installs /root/rpms /root/3rd-party
+
+# Install basic dependencies
+RUN dnf -y update && dnf clean all && dnf -y install \
+    wget \
+    which \
+    tar \
+    xz \
+    gcc \
+    gcc-c++ \
+    bzip2 \
+    ruby-devel \
+    git \
+    rpmdevtools \
+    rpmlint \
+    dnf-utils \
+    bzip2-devel \
+    procps \
+    sudo \
+    libxml2 \
+    openssl-devel-1:1.1.1k-12.el8_9.x86_64
+
+RUN echo "exclude=openssl-devel openssl" >> /etc/dnf/dnf.conf
+###############################################################################
+# Install FPM
+###############################################################################
+# get the ruby version manager and install
+# RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN curl -sSL https://get.rvm.io | bash -s stable
+
+RUN usermod -a -G rvm root
+
+RUN source /etc/profile.d/rvm.sh \
+    && rvm autolibs packages \
+    && rvm install ruby 3.0.0 \
+    && gem install fpm
+
+
+# RUN dnf downgrade openssl-devel-1:1.1.1k-12.el8_9.x86_64
+
+# install rubygems
+RUN source /etc/profile.d/rvm.sh && rvm rubygems current
+
+USER root
+###############################################################################
+# The PREFIX used for all built RPM packages
+ARG PKG_PREFIX=/opt/scrimmage
+RUN mkdir -p ${PKG_PREFIX}
+
+###############################################################################
+# Install gcc 11.3.0
+###############################################################################
+WORKDIR /root/3rd-party
+RUN wget --no-check-certificate http://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz \
+    && tar xJvf gcc-11.3.0.tar.xz
+
+WORKDIR gcc-11.3.0
+RUN sed -i 's/wget/wget --secure-protocol tlsv1/g' ./contrib/download_prerequisites \
+    && ./contrib/download_prerequisites \
+    && ./configure --disable-multilib --enable-languages=c,c++ --prefix=${PKG_PREFIX} \
+    && make -j 8 \
+    && sudo make DESTDIR=/root/installs/gcc install
+
+# Build RPM package, install RPM, test installation
+WORKDIR /root/installs/gcc
+RUN source /etc/profile.d/rvm.sh \
+    && fpm --force --input-type dir --output-type rpm \
+        --name scrimmage-gcc --version 11.3.0 \
+        --package scrimmage_gcc_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX}
+RUN rpm -ivh /root/installs/gcc/*.rpm \
+    && echo "${PKG_PREFIX}/lib64" > /etc/ld.so.conf.d/scrimmage-gcc113.conf \
+    && ldconfig \
+    && ${PKG_PREFIX}/bin/gcc --version
+
+# Use the new compiler for the following builds
+ENV CC ${PKG_PREFIX}/bin/gcc
+ENV CXX ${PKG_PREFIX}/bin/g++
+  
+# Update standard environment variables
+ENV PATH="${PKG_PREFIX}/bin:${PATH}"
+ENV CMAKE_PREFIX_PATH ${PKG_PREFIX}
+ENV CPATH ${PKG_PREFIX}/include
+ENV PKG_CONFIG_PATH ${PKG_PREFIX}/lib/pkgconfig
+
+###############################################################################
+# Build CMake
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/Kitware/CMake.git
+WORKDIR CMake
+RUN git checkout v3.31.0
+
+RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
+    ./bootstrap --prefix=${PKG_PREFIX} \
+    && make -j $(($(nproc)-1)) \
+    && sudo make DESTDIR=/root/installs/cmake install
+
+# Build RPM package for cmake
+WORKDIR /root/installs/cmake
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-cmake --version 3.30.0 \
+           --package scrimmage_cmake_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh --nodigest --nofiledigest /root/installs/cmake/*.rpm \
+    && /root/3rd-party/CMake/bin/cmake --version
+
+###############################################################################
+# Build Python
+###############################################################################
+WORKDIR /root/3rd-party
+RUN wget https://www.python.org/ftp/python/3.12.4/Python-3.12.4.tgz
+RUN tar xvf Python-3.12.4.tgz
+WORKDIR Python-3.12.4
+RUN LDFLAGS='-Wl,-rpath=\$$ORIGIN/../lib:\$$ORIGIN/../lib64' \
+    ./configure --prefix=${PKG_PREFIX} --enable-shared --enable-unicode=ucs4 \
+    && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/python install
+
+# Build RPM package for python
+WORKDIR /root/installs/python
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+          --name scrimmage-python --version Python3.12.4 \
+          --package scrimmage_python_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh --nodigest --nofiledigest /root/installs/python/*.rpm \
+    && python3 --version
+
+###############################################################################
+# Build Boost
+###############################################################################
+WORKDIR /root/3rd-party
+RUN wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.85.0/boost_1_85_0.tar.gz
+RUN tar xvf boost_1_85_0.tar.gz
+WORKDIR boost_1_85_0
+RUN echo "using gcc : 11.3 : /root/installs/gcc/${PKG_PREFIX}/bin/g++ : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
+    && cp ./tools/build/example/user-config.jam ./tools/build/src/user-config.jam
+
+RUN ./bootstrap.sh --prefix=/root/installs/boost${PKG_PREFIX} \
+    && ./b2 -d 2 \
+    && sudo ./b2 install
+
+# Build RPM package for boost
+WORKDIR /root/installs/boost
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-boost --version 1.85 \
+           --package scrimmage_boost_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh --nodigest --nofiledigest /root/installs/boost/*.rpm
+
+# Help other projects find boost
+ENV BOOST_ROOT ${PKG_PREFIX}
+
+#############################################################################
+# Build Eigen
+###############################################################################
+WORKDIR /root/3rd-party
+RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.4/eigen-3.3.4.tar.bz2
+RUN tar xvf eigen-3.3.4.tar.bz2
+WORKDIR eigen-3.3.4
+RUN mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+    && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/eigen install
+
+# Build RPM package for eigen
+WORKDIR /root/installs/eigen
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           -C /root/installs/eigen/ \
+           --name scrimmage-eigen --version 3.3.4 \
+           --package scrimmage_eigen_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm -ivh --force --nodigest --nofiledigest /root/installs/eigen/*.rpm
+
+###############################################################################
+# Build GeographicLib
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/geographiclib/geographiclib.git geographiclib
+WORKDIR geographiclib
+RUN git checkout release && mkdir build && cd build \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
+    && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/geographiclib install
+
+# Build RPM package for geographiclib
+WORKDIR /root/installs/geographiclib
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           -C /root/installs/geographiclib/ \
+           --name scrimmage-geographiclib --version 1.45 \
+           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \ 
+    && rpm --nodigest --nofiledigest -ivh /root/installs/geographiclib/*.rpm
+
+###############################################################################
+# RapidXML Package
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/dwd/rapidxml.git && cd rapidxml \
+    && git checkout f0058ab9374643018c1db3de521e44d4d52b8f5d
+RUN rm -rf ./rapidxml/{.git,test}
+RUN mkdir -p /root/installs/rapidxml${PKG_PREFIX}/include \
+    && cp -r ./rapidxml /root/installs/rapidxml${PKG_PREFIX}/include
+
+# Build RPM package for rapidxml
+WORKDIR /root/installs/rapidxml
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-rapidxml --version 1.00 \
+           --package scrimmage_rapidxml_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm --nodigest --nofiledigest -ivh /root/installs/rapidxml/*.rpm
+
+###############################################################################
+# Build PyBind11
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/pybind/pybind11.git && cd pybind11 \
+    && git checkout v2.10 && mkdir -p ./build
+WORKDIR ./pybind11/build
+RUN cmake .. -DPYBIND11_TEST:BOOL=OFF \
+             -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+	     -DPYTHON_LIBRARY=/root/installs/python${PKG_PREFIX}/lib/libpython3.so \
+	     -DPython_INCLUDE_DIRS=/root/installs/python/opt/scrimmage/include/python3.12 \
+    && make && sudo make DESTDIR=/root/installs/pybind11 install
+
+# Build RPM package
+WORKDIR /root/installs/pybind11
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-pybind11 --version 2.13 \
+           --package scrimmage_pybind11_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm --nodigest --nofiledigest -ivh /root/installs/pybind11/*.rpm
+
+###############################################################################
+# Build Protobuf
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone -b v1.44.x https://github.com/grpc/grpc
+WORKDIR ./grpc
+RUN git submodule update --init --recursive
+
+WORKDIR ./third_party/protobuf
+RUN mkdir -p build
+WORKDIR ./build
+RUN cmake ../cmake \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_STANDARD=17 \
+  -Dprotobuf_BUILD_SHARED_LIBS=ON
+RUN make \
+    && sudo make DESTDIR=/root/installs/protobuf -j $(($(nproc)-1)) install \
+    && ldconfig
+
+
+# RUN ./autogen.sh && ./configure --enable-shared && \
+#     make -j$(nproc) && make -j$(nproc) check && sudo make DESTDIR=/root/installs/protobuf install && make clean && sudo ldconfig
+# Build RPM package
+WORKDIR /root/installs/protobuf
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-protobuf --version 25.x \
+           --package scrimmage_protobuf_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm --nodigest --nofiledigest -ivh /root/installs/protobuf/*.rpm
+
+###############################################################################
+# Build GoogleTest
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/google/googletest.git -b v1.14.0
+WORKDIR ./googletest
+RUN mkdir build          # Create a directory to hold the build output.
+WORKDIR build
+RUN cmake ..             # Generate native build scripts for GoogleTest.
+RUN make
+RUN sudo make install    # Install in /usr/local/ by default
+
+###############################################################################
+# Build GRPC
+###############################################################################
+WORKDIR /root/3rd-party/grpc
+ENV PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/scrimmage/lib64/pkgconfig/"
+
+RUN mkdir -p cmake/build
+WORKDIR ./cmake/build
+RUN cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DgRPC_INSTALL=ON \
+  -DgRPC_BUILD_TESTS=OFF \
+  -DgRPC_SSL_PROVIDER=package \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_FLAGS=-std=c++17 \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE \
+  -DgRPC_PROTOBUF_PROVIDER=package \
+  ../.. \
+  && LD_LIBRARY_PATH=${PKG_PREFIX}/lib64 make DESTDIR=/root/installs/grpc -j $(($(nproc)-1)) install
+
+# Build RPM package for grpc
+WORKDIR /root/installs/grpc
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-grpc --version 1.44.2 \
+           --package scrimmage_grpc_VERSION_ARCH.rpm ./ \
+    && rpm --nodigest --nofiledigest -ivh --force /root/installs/grpc/*.rpm
+
+###############################################################################
+# Clone and Setup CMakeDebSrc
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/SyllogismRXS/CMakeDebSrc.git
+RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
+
+###############################################################################
+# Build JSBsim from scrimmage's 3rd-party
+###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone -b fix-compiler-errors https://github.com/gtri/scrimmage.git
+WORKDIR ./scrimmage/3rd-party
+RUN mkdir ./build && cd build \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX}
+WORKDIR ./build
+RUN sudo make jsbsim -j $(($(nproc)-1))
+
+# Build RPM package for jsbsim
+WORKDIR /root/installs/jsbsim
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-jsbsim --version 0.1.0 \
+           --package scrimmage_jsbsim_VERSION_ARCH.rpm ./ \
+    && rpm --nodigest --nofiledigest -ivh /root/installs/jsbsim/*.rpm
+
+###############################################################################
+# Build VTK
+###############################################################################
+RUN dnf -y install \
+    libX11-devel \
+    mesa-libGL \
+    mesa-libGL-devel \
+    libXt-devel
+
+WORKDIR /root/3rd-party
+RUN git clone https://github.com/Kitware/VTK.git \
+    && cd VTK \
+    && git checkout release
+
+RUN cd VTK \
+    && mkdir build \
+    && cd build \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} -DBUILD_TESTING=OFF \
+    && make -j $(($(nproc)-1)) \
+    && sudo make DESTDIR=/root/installs/vtk install
+
+# Build RPM package for VTK
+WORKDIR /root/installs/vtk
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage-vtk --version 9.3 \
+           --package scrimmage_vtk_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
+    && rpm --nodigest --nofiledigest -ivh /root/installs/vtk/*.rpm
+
+###############################################################################
+# Build SCRIMMAGE
+###############################################################################
+WORKDIR /root/3rd-party/scrimmage
+RUN git pull && git status
+RUN git pull
+RUN echo "" && git pull
+RUN mkdir build
+WORKDIR ./build
+RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
+                -DENABLE_LD_SO_CONF_INSTALL=OFF \
+		-DPYTHON_LIBRARY='/root/installs/python/opt/scrimmage/lib/libpython3.so' \
+		-DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12' \
+		-DPROTOC='/opt/scrimmage/bin/protoc' \
+		-DPROTOBUF_INCLUDE='/opt/scrimmage/lib/' \
+		-DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0' \
+		-DENABLE_PYTHON_BINDINGS=false
+RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib sudo make -j 1 \
+    && sudo make DESTDIR=/root/installs/scrimmage install
+
+# Build RPM package for scrimmage
+WORKDIR /root/installs/scrimmage
+RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+           --name scrimmage --version 0.2.0 \
+           --package scrimmage_VERSION_ARCH.rpm ./
+
+###############################################################################
+# Place all generated rpm files in common folder for later extraction
+###############################################################################
+RUN find /root/installs -type f -name '*.rpm' -exec mv -i {} /root/rpms \;
+
+###############################################################################
+# Install packages in clean image and run a scrimmage mission
+###############################################################################
+FROM almalinux:8 AS tester
+
+MAINTAINER Kevin DeMarco
+ENV DEBIAN_FRONTEND noninteractive
+SHELL ["/bin/bash", "-c"]
+
+RUN dnf -y install \
+    libX11 \
+    mesa-libGL \
+    libXt
+
+# Copy over the RPMS from the builder image
+RUN mkdir -p /root/rpms
+COPY --from=builder /root/rpms/*.rpm /root/rpms/
+
+# Install the run-time RPMs
+WORKDIR /root/rpms
+RUN rpm -ivh scrimmage_gcc*.rpm \
+             scrimmage_python*.rpm \
+             scrimmage_boost*.rpm \
+             scrimmage_geographiclib*.rpm \
+             scrimmage_jsbsim*.rpm \
+             scrimmage_grpc*.rpm \
+             scrimmage_protobuf*.rpm \
+             scrimmage_vtk*.rpm \
+             scrimmage_0.2.0*.rpm
+
+ARG PKG_PREFIX=/opt/scrimmage
+ENV JSBSIM_ROOT ${PKG_PREFIX}/etc/JSBSim
+
+# Run a scrimmage mission
+RUN source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
+    && scrimmage /opt/scrimmage/share/scrimmage/missions/straight-no-gui.xml
