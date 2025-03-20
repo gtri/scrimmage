@@ -105,7 +105,7 @@ RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
 # Build RPM package for cmake
 WORKDIR /root/installs/cmake
 RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-cmake --version 3.30.0 \
+           --name scrimmage-cmake --version 3.31.3 \
            --package scrimmage_cmake_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
     && rpm -ivh --nodigest --nofiledigest /root/installs/cmake/*.rpm \
     && /root/3rd-party/CMake/bin/cmake --version
@@ -223,7 +223,7 @@ RUN cmake .. -DPYBIND11_TEST:BOOL=OFF \
 # Build RPM package
 WORKDIR /root/installs/pybind11
 RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-pybind11 --version 2.13 \
+           --name scrimmage-pybind11 --version 2.10 \
            --package scrimmage_pybind11_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
     && rpm --nodigest --nofiledigest -ivh /root/installs/pybind11/*.rpm
 
@@ -252,7 +252,7 @@ RUN make \
 # Build RPM package
 WORKDIR /root/installs/protobuf
 RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-protobuf --version 25.x \
+           --name scrimmage-protobuf --version 1.44.x \
            --package scrimmage_protobuf_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
     && rpm --nodigest --nofiledigest -ivh /root/installs/protobuf/*.rpm
 
@@ -303,20 +303,25 @@ RUN git clone https://github.com/SyllogismRXS/CMakeDebSrc.git
 RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
 
 ###############################################################################
-# Build JSBsim from scrimmage's 3rd-party
+# Build JSBsim from source
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone -b rhel-build-wsyre https://github.com/gtri/scrimmage.git
-WORKDIR ./scrimmage/3rd-party
-RUN mkdir ./build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX}
-WORKDIR ./build
-RUN sudo make jsbsim -j $(($(nproc)-1))
+RUN git clone https://github.com/JSBSim-Team/jsbsim.git \
+    && cd jsbsim \
+    && git checkout tags/v1.2.0 -b release/v1.2 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX} \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBUILD_SHARED_LIBS=ON \
+    && make -j $(($(nproc)-1)) \
+    && sudo make install
 
 # Build RPM package for jsbsim
 WORKDIR /root/installs/jsbsim
 RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
-           --name scrimmage-jsbsim --version 0.1.0 \
+           --name scrimmage-jsbsim --version 1.2.0 \
            --package scrimmage_jsbsim_VERSION_ARCH.rpm ./ \
     && rpm --nodigest --nofiledigest -ivh /root/installs/jsbsim/*.rpm
 
@@ -351,10 +356,10 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
 ###############################################################################
 # Build SCRIMMAGE
 ###############################################################################
+WORKDIR /root/3rd-party
+RUN git clone -b rhel-build-wsyre https://github.com/gtri/scrimmage.git
 WORKDIR /root/3rd-party/scrimmage
 RUN git pull && git status
-RUN git pull
-RUN echo "" && git pull
 RUN mkdir build
 WORKDIR ./build
 RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
