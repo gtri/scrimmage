@@ -363,13 +363,13 @@ RUN git pull && git status
 RUN mkdir build
 WORKDIR ./build
 RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
-                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
-                -DENABLE_LD_SO_CONF_INSTALL=OFF \
-		-DPYTHON_LIBRARY='/root/installs/python/opt/scrimmage/lib/libpython3.so' \
-		-DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12' \
-		-DPROTOC='/opt/scrimmage/bin/protoc' \
-		-DPROTOBUF_INCLUDE='/opt/scrimmage/lib/' \
-		-DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0'
+             -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
+             -DENABLE_LD_SO_CONF_INSTALL=OFF \
+             -DPYTHON_LIBRARY='/root/installs/python/opt/scrimmage/lib/libpython3.so' \
+             -DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12' \
+             -DPROTOC='/opt/scrimmage/bin/protoc' \
+             -DPROTOBUF_INCLUDE='/opt/scrimmage/lib/' \
+             -DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0'
 RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib sudo make -j 1 \
     && sudo make DESTDIR=/root/installs/scrimmage install
 
