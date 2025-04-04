@@ -24,7 +24,7 @@ pandas==0.25.3
 pathlib2==2.3.5
 pluggy==0.13.1
 protobuf==3.3.0
-py==1.8.1
+py==1.10.0
 pyglet==1.5.0
 Pygments==2.6.1
 pyparsing==2.4.7
