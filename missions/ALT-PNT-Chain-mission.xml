@@ -1,0 +1,676 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="100" dt="0.01"
+       time_warp="1"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="true"/>
+
+  <display_progress>false</display_progress>
+
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>ROSClockServer</entity_interaction>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <!-- Multiple Vehicles -->
+  <!-- User must give vehicle and lidar names specified in settings.json file on windows side for each vehicle in
+  simulation. Multiple vehicles work when multiple entities are used in a scrimmage mission where the entity count=1
+  and an AirSimSensor plugin (and if using ROS, ROSAirSim plugin) is specified in each entity. ROS topics also receive
+  sensor data under namespace from entity ID (team_id) e.g. robot1, robot2. Also images from each vehicle are saved
+  in logs under a directory related to each vehicle name. -->
+
+  <!-- ========================== Quadcopter 1 ========================= -->
+  <entity>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>20.0</z>
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot1"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot1">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot1">ROSCompass</sensor>
+    <sensor vehicle_name="robot1">ROSIMUSensor</sensor>
+
+  </entity>
+
+  <!-- ========================== Quadcopter 2 ========================= -->
+  <entity>
+    <team_id>2</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>0.0</x>
+    <y>10.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot2"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot2">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot2">ROSCompass</sensor>
+    <sensor vehicle_name="robot2">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 3 ========================= -->
+  <entity>
+    <team_id>3</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-10.0</x>
+    <y>0.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot3"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot3">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot3">ROSCompass</sensor>
+    <sensor vehicle_name="robot3">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 4 ========================= -->
+  <entity>
+    <team_id>4</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-10.0</x>
+    <y>10.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot4"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot4">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot4">ROSCompass</sensor>
+    <sensor vehicle_name="robot4">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 5 ========================= -->
+  <entity>
+    <team_id>5</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-20.0</x>
+    <y>0.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot5"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot5">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot5">ROSCompass</sensor>
+    <sensor vehicle_name="robot5">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 6 ========================= -->
+  <entity>
+    <team_id>6</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-20.0</x>
+    <y>10.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot6"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot6">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot6">ROSCompass</sensor>
+    <sensor vehicle_name="robot6">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 7 ========================= -->
+  <entity>
+    <team_id>7</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-30.0</x>
+    <y>0.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot7"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot7">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot7">ROSCompass</sensor>
+    <sensor vehicle_name="robot7">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 8 ========================= -->
+  <entity>
+    <team_id>8</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-30.0</x>
+    <y>10.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot8"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot8">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot8">ROSCompass</sensor>
+    <sensor vehicle_name="robot8">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 9 ========================= -->
+  <entity>
+    <team_id>9</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-40.0</x>
+    <y>0.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot9"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot9">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot9">ROSCompass</sensor>
+    <sensor vehicle_name="robot9">ROSIMUSensor</sensor>
+
+  </entity>
+  <!-- ========================== Quadcopter 10 ========================= -->
+  <entity>
+    <team_id>10</team_id>
+    <color>77 77 255</color>
+    <count>1</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <!-- Start Position in relation to Lat/ Long. If you wish to change, you will also need to change in the AirSim settings.json -->
+    <!-- Here these are in ENU, but in the settings.json you must state them in NED (ENU -> Ned = switch x & y, negate z) -->
+    <!-- Leave Z = 0.0 in the settings.json, only change Z here.-->
+    <!-- Recommended Z (below) for Assets: LandscapeMountains=100, Neighborhood=10, Africa=30, City=30, ZhangJiaJie=10 -->
+    <x>-40.0</x>
+    <y>10.0</y>
+    <z>20.0</z>
+
+    <heading>0</heading>
+
+    <!-- airsim_ip is IP of the Windows machine running AirSim/ Unreal Engine or Localhost if Unreal Engine running on Windows-->
+    <!-- vehicle_name is the name given to the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- lidar_name is the name given to the lidar of the corresponding vehicle in the AirSim settings.json file on the Windows side -->
+    <!-- save_airsim_data saves all images and a CSV of quaternion pose values to scrimmage logs -->
+    <!-- get_image_data requests images from AirSim,see scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.xml for specifying image types -->
+    <!-- get_lidar_data requests lidar data from AirSim -->
+    <!-- data_acquisition_period determines the number of times data is requested from AirSim per second -->
+    <!-- 0.1 => 1000ms/(0.1*1000ms) = 10 times per second -->
+    <sensor airsim_ip="10.108.21.246"
+            vehicle_name="robot10"
+            lidar_name="lidar1"
+            save_airsim_data="true"
+            get_image_data="true"
+            get_lidar_data="true"
+            get_imu_data="false"
+            data_acquisition_period="0.01">AirSimSensor</sensor>
+
+    <!-- Publishes AirSim data to ROS, to use you must build scrimmage with -DBUILD_ROS_PLUGINS=ON-->
+    <!-- Make sure "get_image/lidar_data" is specified in AirSimSensor above before use. -->
+    <!-- show_camera_images shows AirSim images in OpenCV windows during simulation. -->
+    <!-- pub_image_data publishes image data to ROS when set to "true". -->
+    <!-- pub_lidar_data publishes LIDAR data to ROS when set to "true". -->
+    <autonomy show_camera_images="false"
+              pub_image_data="true"
+              pub_lidar_data="true">ROSAirSim</autonomy>
+
+    <!-- show_camera_images shows AirSim images in windows during simulation. -->
+    <!-- Make sure "get_image_data" is set "true" in AirSimSensor above before use. -->
+    <autonomy show_camera_images="true">Straight</autonomy>
+
+    <motion_model motion_model_sets_yaw="false"
+                  sim_copter_orientation="true"
+                  max_vel="1"
+                  max_acc="2"
+                  max_yaw_vel="12"
+                  max_yaw_acc="2">DoubleIntegrator</motion_model>
+    <controller>DoubleIntegratorControllerVelYaw</controller>
+    <visual_model>iris</visual_model>
+
+    <sensor vehicle_name="robot10">ROSAltimeter</sensor>
+    <sensor vehicle_name="robot10">ROSCompass</sensor>
+    <sensor vehicle_name="robot10">ROSIMUSensor</sensor>
+
+  </entity>
+
+</runscript>

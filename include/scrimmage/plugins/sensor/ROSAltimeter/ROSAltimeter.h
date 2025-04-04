@@ -35,6 +35,8 @@
 #include <ros/ros.h>
 #include <mavros_msgs/Altitude.h>
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/common/CSV.h>
 
 #include <random>
 #include <vector>
@@ -52,6 +54,7 @@ class ROSAltimeter : public scrimmage::Sensor {
     ROSAltimeter();
     void init(std::map<std::string, std::string> &params) override;
     bool step() override;
+    void close(double t) override;
 
  protected:
     std::string vehicle_name_ = "none";
@@ -59,6 +62,8 @@ class ROSAltimeter : public scrimmage::Sensor {
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Publisher altimeter_pub_;
     float monotonic_ = 0.0;
+    double prev_time_ = 0.0;
+    scrimmage::CSV csv;
 
  private:
 };

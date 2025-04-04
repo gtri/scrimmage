@@ -41,8 +41,8 @@
 #include <scrimmage/proto/State.pb.h>
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/Angles.h>
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/plugins/autonomy/Square/Square.h>
 
 #include <iostream>
 #include <memory>
@@ -230,6 +230,19 @@ void AirSimSensor::init(std::map<std::string, std::string> &params) {
     lidar_acquisition_period_ = sc::get<double>("lidar_acquisition_period", params, 0.1);
     imu_acquisition_period_ = sc::get<double>("imu_acquisition_period", params, 0.1);
 
+    ///// Init Maneuver //////
+    // Subscribe to initialization maneuver active flag
+    sc::StatePtr &state = parent_->state_truth();
+    init_man_orig_quat_ = state->quat();
+    auto init_man_cb = [&](auto &msg) {
+        init_maneuver_active_ = msg->data.active;
+        init_man_orig_quat_ = msg->data.init_man_goal_quat;
+        stay_straight_ = msg->data.stay_straight;
+    };
+    subscribe<autonomy::InitManeuverType>("LocalNetwork", "InitManeuver", init_man_cb);
+    if (init_maneuver_active_) {
+        cout << "[AirSimSensor] Start VO Initialization Maneuver." << endl;
+    }
 
     // Open airsim_data CSV for append (app) and set column headers
     std::string csv_filename =
@@ -622,20 +635,66 @@ bool AirSimSensor::step() {
 
     // Setup state information for AirSim
     sc::StatePtr &state = parent_->state_truth();
-    // convert from ENU to NED frame
-    ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+    State next_state(*state);
 
-    enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
-    double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+    // if using init maneuver, keep the quadcopter at the same roll, pitch, yaw during the init maneuver
+    // and for a little while afterwards in order to ensure a smooth transition.
+    if (stay_straight_ == true) {
+        parent_->state_truth()->set_quat(init_man_orig_quat_);
+        next_state.set_quat(init_man_orig_quat_);
+    }
 
-    // pitch, roll, yaw
-    // note, the negative pitch and yaw are required because of the wsu coordinate frame
-    ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
-                                                      state->quat().roll(),
-                                                      airsim_yaw_rad);
+    if (init_maneuver_active_) {
+        // move the quadcopter, but keep its heading facing forward so that the camera can
+        // perform correctly
+        // Go through the motions of the autonomy plugin defined in the mission file.
+        // convert from ENU to NED frame
+        ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
 
-    // Send state information to AirSim
-    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+        enu_to_ned_yaw_.set_angle(ang::rad2deg(init_man_orig_quat_.yaw()));
+        double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+
+        // pitch, roll, yaw
+        // note, the negative pitch and yaw are required because of the wsu coordinate frame
+        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-init_man_orig_quat_.pitch(),
+                                                          init_man_orig_quat_.roll(),
+                                                          airsim_yaw_rad);
+        // Send state information to AirSim
+        sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+
+    } else {
+        // Go through the motions of the autonomy plugin defined in the mission file.
+        // convert from ENU to NED frame
+        ma::Vector3r pos(next_state.pos()(1), next_state.pos()(0), -next_state.pos()(2));
+
+        enu_to_ned_yaw_.set_angle(ang::rad2deg(next_state.quat().yaw()));
+        double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+
+        // pitch, roll, yaw
+        // note, the negative pitch and yaw are required because of the wsu coordinate frame
+        ma::Quaternionr qd = ma::VectorMath::toQuaternion(-next_state.quat().pitch(),
+                                                          next_state.quat().roll(),
+                                                          airsim_yaw_rad);
+
+        // Send state information to AirSim
+        sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
+    }
+
+//    // Go through the motions of the autonomy plugin defined in the mission file.
+//    // convert from ENU to NED frame
+//    ma::Vector3r pos(state->pos()(1), state->pos()(0), -state->pos()(2));
+//
+//    enu_to_ned_yaw_.set_angle(ang::rad2deg(state->quat().yaw()));
+//    double airsim_yaw_rad = ang::deg2rad(enu_to_ned_yaw_.angle());
+//
+//    // pitch, roll, yaw
+//    // note, the negative pitch and yaw are required because of the wsu coordinate frame
+//    ma::Quaternionr qd = ma::VectorMath::toQuaternion(-state->quat().pitch(),
+//                                                      state->quat().roll(),
+//                                                      airsim_yaw_rad);
+//
+//    // Send state information to AirSim
+//    sim_client_->simSetVehiclePose(ma::Pose(pos, qd), true, vehicle_name_);
 
     // Get the camera images from the other thread
     if (get_image_data_) {
@@ -656,7 +715,7 @@ bool AirSimSensor::step() {
         // If image is new, publish
         if (new_image) {
             if (save_airsim_data_) {
-                AirSimSensor::save_data(im_msg_step, state, airsim_frame_num_);
+                AirSimSensor::save_data(im_msg_step, next_state, airsim_frame_num_);
             }
             img_pub_->publish(im_msg_step);
         }
@@ -706,7 +765,7 @@ bool AirSimSensor::step() {
     return true;
 }
 
-bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, sc::StatePtr& state, int frame_num) {
+bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, State state, int frame_num) {
     // Get timestamp
     double time_now = time_->t();
 
@@ -735,12 +794,12 @@ bool AirSimSensor::save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, s
     csv.append(sc::CSV::Pairs{
     {"frame", frame_num},
     {"t", time_now},
-    {"x", state->pos()(0)},
-    {"y", state->pos()(1)},
-    {"z", state->pos()(2)},
-    {"roll", state->quat().roll()},
-    {"pitch", state->quat().pitch()},
-    {"yaw", state->quat().yaw()}}, true, true);
+    {"x", state.pos()(0)},
+    {"y", state.pos()(1)},
+    {"z", state.pos()(2)},
+    {"roll", state.quat().roll()},
+    {"pitch", state.quat().pitch()},
+    {"yaw", state.quat().yaw()}}, true, true);
 
     return true;
 }
