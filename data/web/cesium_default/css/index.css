@@ -1,0 +1,201 @@
+
+#upload_button {
+  display: inline-block;
+}
+#upload_button input[type=file] {
+  display:none;
+}
+
+.backdrop {
+  width:420px;
+  max-width:420px;
+  /* height:680px; */
+  display: inline-block;
+  background: rgba(42, 42, 42, 0.7);
+  border-radius: 5px;
+  border: 1px solid #444;
+  padding: 5px 10px;
+  color: #fff;
+  line-height: 150%;
+  font-size: small;
+  transition: 0.4s;
+}
+
+.accordion {
+  background-color: transparent;
+	color: #edffff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+#accordion:first-child div {
+    display:block;
+    /* border-top:3px solid #FFCDCD; */
+}
+
+.panel {
+  /* padding: 0 18px; */
+  /* min-height: 500px; */
+  /* max-height: 500px; */
+  /* min-height: 0; */
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+/* .inputfile:focus + label { */
+/* 	outline: 1px dotted #000; */
+/* 	outline: -webkit-focus-ring-color auto 5px; */
+/* } */
+
+#heightSliderLabel, #heightValue {
+    vertical-align: top;
+}
+
+.backdrop a:link, .backdrop a:visited, .backdrop a:hover {
+    color: #fff
+}
+
+.loadingIndicator {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -33px;
+    margin-left: -33px;
+    width: 66px;
+    height: 66px;
+    background: url(Source/Images/ajax-loader.gif) center no-repeat;
+}
+
+.cover {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#menu {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+html, body, #cesiumContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    background: #000;
+}
+
+#toolbar,
+#galleryContainer {
+  -ms-user-select: none;
+  -moz-user-select: -moz-none; /* allows for re-enabling on sub-elements like the search box */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button.cesium-infoBox-camera {
+    display: none;
+}
+
+#3DTiles {
+    padding-top: 10px;
+}
+
+input[type="text"].cesium-button:hover {
+	color: #fff;
+	fill: #fff;
+	background: #303336;
+	border-color: #aef;
+	box-shadow: none;
+    cursor: text;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.ui-tabs.ui-tabs-vertical {
+    padding: 0;
+}
+.ui-tabs.ui-tabs-vertical .ui-widget-header {
+    border: none;
+    margin-left: -40px;
+    /* margin-right: 10px; */
+    margin-block-start: unset;
+    margin-block-end: unset;
+}
+
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav {
+    float: left;
+    /* background-color: transparent; */
+    /* border-radius: 4px 0 0 4px; */
+    /* border-right: 1px solid gray; */
+	  font: 12px sans-serif
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav li {
+    clear: left;
+    width: 100%;
+    margin: 0.2em 0;
+    /* border: 1px solid gray; */
+    /* border-width: 1px 0 1px 1px; */
+    /* border-radius: 4px 0 0 4px; */
+    overflow: hidden;
+    position: relative;
+    right: -2px;
+    z-index: 2;
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav li a {
+    display: block;
+    width: 100%;
+    padding: 0.6em 1em;
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav li a:hover {
+    cursor: pointer;
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+    /* border-right: 1px solid white; */
+    border-radius: 5px;
+    background: rgba(142, 142, 142, 0.7);
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-nav li:last-child {
+    margin-bottom: 10px;
+}
+.ui-tabs.ui-tabs-vertical .ui-tabs-panel {
+    padding-left: 20px;
+    float: left;
+    /* width: 28em; */
+    /* border-left: 1px solid gray; */
+    position: relative;
+    left: -1px;
+}
