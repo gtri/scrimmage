@@ -98,7 +98,14 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
     for (const auto& kv : pubs) {
         const std::string& topic = kv.first;
         for (NetworkDevicePtr device : kv.second) {
+            
+            /*
+             * TODO: Network devices are not removed from the pubusbs when 
+             * an entity is destroyed. This should happen in the sim control, 
+             * unless there is a good reason why this should not happen
+             */
             EntityPtr entity = device->plugin()->parent();
+            if (entity == nullptr) { continue; }
             StatePtr state = entity->state_truth();
             int id = entity->id().id();
             states[id] = state;
@@ -111,6 +118,7 @@ bool GPUSphereNetwork::step(std::map<std::string, std::list<NetworkDevicePtr>>& 
         const std::string& topic = kv.first;
         for (NetworkDevicePtr device : kv.second) {
             EntityPtr entity = device->plugin()->parent();
+            if (entity == nullptr) { continue; }
             StatePtr state = entity->state_truth();
             int id = entity->id().id();
             states[id] = state;
