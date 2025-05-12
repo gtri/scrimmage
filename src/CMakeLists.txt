@@ -94,15 +94,6 @@ target_link_libraries(${LIBRARY_NAME}
 
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
-if(ENABLE_PYTHON_BINDINGS)
-  # compile definitions need to be public
-  # but the rest can be private
-  get_target_property(python_def scrimmage-python INTERFACE_COMPILE_DEFINITIONS)
-  target_compile_definitions(${LIBRARY_NAME} PUBLIC ${python_def})
-  target_link_libraries(
-    ${LIBRARY_NAME} PRIVATE scrimmage-python)
-endif()
-
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
 set_target_properties(

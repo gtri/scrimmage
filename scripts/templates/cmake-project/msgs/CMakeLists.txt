@@ -48,14 +48,13 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
     add_custom_command(
       OUTPUT ${PROTO_FILE_GEN_FILES}
       COMMAND ${SCRIMMAGE_PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${REAL_PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --proto_path=${SCRIMMAGE_MSGS_PROTO_PATH} --cpp_out=${GEN_DIR} --grpc_out=${GEN_DIR} --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
-      COMMAND ${SCRIMMAGE_PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${REAL_PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --proto_path=${SCRIMMAGE_MSGS_PROTO_PATH} --python_out=${GEN_DIR} --grpc_python_out=${GEN_DIR} --plugin=protoc-gen-grpc_python=${GRPC_PYTHON_PLUGIN}
       DEPENDS ${PROTO_FILE}
       WORKING_DIRECTORY ${REAL_PROTO_PATH}
       )
   else()
     add_custom_command(
       OUTPUT ${PROTO_FILE_GEN_FILES}
-      COMMAND ${SCRIMMAGE_PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${REAL_PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --proto_path=${SCRIMMAGE_MSGS_PROTO_PATH} --cpp_out=${GEN_DIR} --python_out=${GEN_DIR}
+      COMMAND ${SCRIMMAGE_PROTOBUF_PROTOC_EXECUTABLE} ${ABS_PROTO_NAME} --proto_path=${REAL_PROTO_PATH} --proto_path=${SCRIMMAGE_PROTO_PATH} --proto_path=${SCRIMMAGE_MSGS_PROTO_PATH} --cpp_out=${GEN_DIR}
       DEPENDS ${PROTO_FILE}
       WORKING_DIRECTORY ${REAL_PROTO_PATH}
       )

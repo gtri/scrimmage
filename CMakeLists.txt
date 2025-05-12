@@ -37,7 +37,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules
   ${PROJECT_SOURCE_DIR}/share/cmake/${PROJECT_NAME})
 
-set(SCRIMMAGE_PYTHON_DIR ${PROJECT_SOURCE_DIR}/python)
 set(SCRIMMAGE_PROTO_PATH ${CMAKE_CURRENT_LIST_DIR}/src/proto)
 set(MSGS_INCLUDE_DIR ${PROJECT_BINARY_DIR}/msgs)
 set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
@@ -46,7 +45,6 @@ include_directories(${PROTO_INCLUDE_DIR})
 
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
-include(FindPythonModule)
 include(FetchContent)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -91,51 +89,9 @@ GenerateSetEnv(
   PATH             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${SCRIMMAGE_SCRIPTS_DIR} ${APPEND_TO_PATH}
   CONFIG_PATH      ${PROJECT_SOURCE_DIR}/config
   DATA_PATH        ${PROJECT_SOURCE_DIR}/data
-  PYTHONPATH       ${PROJECT_SOURCE_DIR}/src/plugins/autonomy/python
-                   ${PROJECT_BINARY_DIR}/msgs/scrimmage/msgs
                    )
 
 option(EXTERNAL "EXTERNAL" 0)
-
-
-option(ENABLE_PYTHON_BINDINGS "ENABLE_PYTHON_BINDINGS" ON)
-set(PYTHON_MIN_VERSION "" CACHE STRING "Minimum Python version for building, typically outside of environment default Python")
-add_library(scrimmage-python INTERFACE)
-if (ENABLE_PYTHON_BINDINGS)
-
-  # Find Python
-  #The order of the following find_package calls is important!
-  if (PYTHON_MIN_VERSION)
-    find_package(PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
-    find_package(PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
-  else()
-    find_package(PythonInterp REQUIRED)
-    find_package(PythonLibs REQUIRED)
-  endif()
-
-  message(STATUS "Python Versions Found: ${PYTHONLIBS_VERSION_STRING}")
-  message(STATUS "PYTHON_LIBRARIES : ${PYTHON_LIBRARIES}")
-  message(STATUS "PYTHON_INCLUDE_DIRS: ${PYTHON_INCLUDE_DIRS}")
-
-  set(PYTHON_FOUND TRUE)
-
-  # We have already found the python libs and modules, so tell pybind11 to not
-  # search for the python interpreter and libraries again.
-  set(PYTHONLIBS_FOUND TRUE)
-  set(PYTHON_MODULE_EXTENSION TRUE)
-  find_package(pybind11 REQUIRED)
-  set(PYBIND11_INCLUDE_DIRS ${pybind11_INCLUDE_DIRS})
-
-  target_include_directories(scrimmage-python
-      SYSTEM INTERFACE ${PYTHON_INCLUDE_DIRS} ${pybind11_INCLUDE_DIRS})
-  target_compile_definitions(scrimmage-python
-      INTERFACE -DENABLE_PYTHON_BINDINGS=1)
-  target_link_libraries(scrimmage-python INTERFACE ${PYTHON_LIBRARIES})
-else()
-  target_compile_definitions(scrimmage-python
-      INTERFACE -DENABLE_PYTHON_BINDINGS=0)
-endif()
-install(TARGETS scrimmage-python EXPORT ${PROJECT_NAME}-targets)
 
 ########################################################
 # Find Protobuf
@@ -351,7 +307,6 @@ add_subdirectory(src)
 if (NOT EXTERNAL)
   add_subdirectory(tools)
 endif()
-add_subdirectory(${SCRIMMAGE_PYTHON_DIR})
 
 option(BUILD_DOCS "Build documentation" OFF)
 if (BUILD_DOCS)
