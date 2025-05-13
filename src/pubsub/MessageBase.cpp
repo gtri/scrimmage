@@ -30,27 +30,7 @@
  *
  */
 
-#include <scrimmage/pubsub/MessageBase.h>
 #include <cmath>
+#include <scrimmage/pubsub/MessageBase.h>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-// namespace py = pybind11;
-#endif
-
-namespace scrimmage {
-
-#if ENABLE_PYTHON_BINDINGS == 1
-// void MessageBase::serialize_to_python(std::string module_name, std::string object_name) {
-//     if (serialized_data == "") {
-//         return;
-//     }
-//     py::module pb_module = pybind11::module::import(module_name.c_str());
-//     py::object pb_object_class = pb_module.attr(object_name.c_str());
-//     py_data = pb_object_class();
-//     py::object parse_func = py_data.attr("ParseFromString");
-//     parse_func(pybind11::bytes(serialized_data));
-// }
-#endif
-
-
-} // namespace scrimmage
+namespace scrimmage {} // namespace scrimmage
