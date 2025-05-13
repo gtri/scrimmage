@@ -137,6 +137,7 @@ find_package(LibXml2)
 ########################################################
 # Find GeographicLib
 ########################################################
+list(APPEND CMAKE_MODULE_PATH "/usr/share/cmake/geographiclib/")
 find_package (GeographicLib REQUIRED)
 add_definitions (${GeographicLib_DEFINITIONS})
 
@@ -144,7 +145,7 @@ add_definitions (${GeographicLib_DEFINITIONS})
 # Find JSBSim
 ########################################################
 if (NOT APPLE)
-  find_package(JSBSIM REQUIRED)
+  find_package(JSBSIM)
   string(FIND "${JSBSIM_INCLUDE_DIRS}" "NOTFOUND" POS)
   if (JSBSIM_FOUND AND (POS EQUAL -1))
     add_definitions(-DENABLE_JSBSIM=1)
