@@ -567,9 +567,9 @@ State Entity::state_to_belief_frame(const State& other) {
     Eigen::Vector3d displacement_local = state_truth_->quat().rotate_reverse(new_local_pos);
     Eigen::Vector3d relative_neighbor_pos =
         state_belief_->pos() + state_belief_->quat().rotate(displacement_local);
-    // Quaternion new_rotation = other.quat() - (state_truth_->quat() - state_belief_->quat());
+    Quaternion new_rotation = state_truth_->quat() * other.quat();
     s.pos() = relative_neighbor_pos;
-    // s.quat() = new_rotation;
+    s.quat() = new_rotation;
     return s;
 }
 
