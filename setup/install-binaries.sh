@@ -126,6 +126,7 @@ fi
 ###################################################################
 # Ubuntu
 if which apt-get &> /dev/null; then
+    DEPENDENCIES=("${DEPS_COMMON[@]}" "${DEPS_DPKG[@]}")
     echo "This is Ubuntu. Using dpkg."
 
     # OpenSuse, Mandriva, Fedora, CentOs, ecc. (with rpm)

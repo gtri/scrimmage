@@ -31,10 +31,6 @@
  */
 
 #include <gtest/gtest.h>
-
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-
 #include <scrimmage/simcontrol/SimUtils.h>
 
 #include <boost/optional.hpp>
@@ -65,21 +61,7 @@ TEST(test_entity_configs, missing_controller) {
     EXPECT_FALSE(success);
 }
 
-class PyTestEnv : public ::testing::Environment {
-public:
-    virtual ~PyTestEnv() {}
-
-    virtual void SetUp() {
-        Py_Initialize();
-    }
-
-    virtual void TearDown() {
-        Py_Finalize();
-    }
-};
-
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
-    ::testing::AddGlobalTestEnvironment(new PyTestEnv);
     return RUN_ALL_TESTS();
 }
