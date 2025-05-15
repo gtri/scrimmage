@@ -12,15 +12,7 @@ __kernel void SphereNetwork(__global fp_t* positions,
 size_t row = get_global_id(0);
 size_t col = get_global_id(1);
 
-//if (n_rows == 1 && n_cols == 1) {
-//reachable_map[0] = true;
-//distances[0] = 0;
-//return;
-//}
-
 // Return if worker has nothing to do.
-
-// TODO: There is something weird here
 if(row >= n_rows || col >= n_cols) {
     return;
 }
