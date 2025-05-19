@@ -113,26 +113,6 @@ TEST_P(TestMotionModels, CompareMotionModelsTrajectories) {
   using FramePtr = std::shared_ptr<Frame>;
   using Frames = std::list<FramePtr>;
   Log cpu_log, gpu_log;
-  constexpr double two_pi = 2*M_PI;
-
-  auto clamp_angle = [](double rad) {
-    // Makes sure angle is in [0, 2pi)
-    while(rad < 0) {
-      rad += two_pi;
-    }
-    while (rad >= two_pi) {
-      rad -= two_pi;
-    }
-    return rad;
-  }; 
-
-  auto angle_diff = [&](double lhs, double rhs) {
-    lhs = clamp_angle(lhs);
-    rhs = clamp_angle(rhs);
-    double cw_diff = lhs - rhs; 
-    double ccw_diff = two_pi - cw_diff;
-    return (abs(cw_diff) < abs(ccw_diff)) ? cw_diff : ccw_diff;
-  };
 
   auto get_mission_seed = [&](const fs::path& mission_dir) -> unsigned long {
     const std::string seed_str{"Seed: "};
