@@ -35,6 +35,7 @@
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/entity/EntityPluginHelper.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/Controller.h>
@@ -66,27 +67,33 @@ namespace ba = boost::adaptors;
 
 namespace scrimmage {
 
-bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& info,
-                  std::shared_ptr<std::unordered_map<int, int>>& id_to_team_map,
-                  std::shared_ptr<std::unordered_map<int, EntityPtr>>& id_to_ent_map,
-                  ContactMapPtr& contacts, MissionParsePtr mp,
-                  const std::shared_ptr<GeographicLib::LocalCartesian>& proj, int id,
-                  int ent_desc_id, PluginManagerPtr plugin_manager, FileSearchPtr& file_search,
-                  RTreePtr& rtree, PubSubPtr& pubsub, PrintPtr& printer, TimePtr& time,
-                  const ParameterServerPtr& param_server, const GlobalServicePtr& global_services,
-                  const std::set<std::string>& plugin_tags,
-                  std::function<void(std::map<std::string, std::string>&)> param_override_func,
-                  const int& debug_level) {
-    pubsub_ = pubsub;
-    printer_ = printer;
-    global_services_ = global_services;
-    time_ = time;
-    file_search_ = file_search;
-    plugin_manager_ = plugin_manager;
-    contacts_ = contacts;
-    rtree_ = rtree;
-    proj_ = proj;
-    param_server_ = param_server;
+bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
+    pubsub_ = sim_info.pubsub;
+    printer_ = sim_info.printer;
+    global_services_ = sim_info.global_services;
+    time_ = sim_info.time;
+    file_search_ = sim_info.file_search;
+    plugin_manager_ = sim_info.plugin_manager;
+    contacts_ = sim_info.contacts;
+    rtree_ = sim_info.rtree;
+    proj_ = sim_info.proj;
+    param_server_ = sim_info.param_server;
+    gpu_controller_ = init_params.gpu_controller;
+    gpu_motion_model_ = init_params.gpu_motion_model;
+
+    auto mp = sim_info.mp;
+    auto id_to_ent_map = sim_info.id_to_ent_map;
+    auto id_to_team_map = sim_info.id_to_team_map;
+    GPUMotionModelPtr gpu_motion_model = init_params.gpu_motion_model;
+
+    int id = init_params.id;
+    int ent_desc_id = init_params.ent_desc_id;
+    std::map<std::string, std::string>& info = init_params.info;
+    AttributeMap& overrides = init_params.overrides;
+    std::set<std::string>& plugin_tags = init_params.plugin_tags;
+    std::function<void(std::map<std::string, std::string>&)> param_override_func =
+        init_params.param_override_func;
+    int debug_level = init_params.debug_level;
 
     id_.set_id(id);
     id_.set_sub_swarm_id(ent_desc_id);
@@ -152,8 +159,8 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
     while (info.count(sensor_order_name) > 0) {
         ConfigParse config_parse;
         std::string sensor_name = info[sensor_order_name];
-        PluginStatus<Sensor> status = plugin_manager->make_plugin<Sensor>(
-            "scrimmage::Sensor", sensor_name, *file_search, config_parse,
+        PluginStatus<Sensor> status = plugin_manager_->make_plugin<Sensor>(
+            "scrimmage::Sensor", sensor_name, *file_search_, config_parse,
             overrides[sensor_order_name], plugin_tags);
         if (status.status == PluginStatus<Sensor>::cast_failed) {
             std::cout << "Failed to open sensor plugin: " << sensor_name << std::endl;
@@ -181,11 +188,11 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
                                             Angles::deg2rad(tf_rpy[2]));
 
             sensor->set_parent(parent);
-            sensor->set_pubsub(pubsub);
-            sensor->set_time(time);
+            sensor->set_pubsub(pubsub_);
+            sensor->set_time(time_);
             sensor->set_id_to_team_map(id_to_team_map);
             sensor->set_id_to_ent_map(id_to_ent_map);
-            sensor->set_param_server(param_server);
+            sensor->set_param_server(param_server_);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -212,11 +219,13 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
     ////////////////////////////////////////////////////////////
     // motion model
     ////////////////////////////////////////////////////////////
-    bool init_empty_motion_model = true;
-    if (info.count("motion_model") > 0) {
+    bool use_gpu_motion_model = gpu_motion_model != nullptr;
+    bool init_empty_motion_model = true;  // Still init a dummy motion model when using a gpu one.
+                                          // Otherwise program may segfault during execution.
+    if (info.count("motion_model") > 0 && !use_gpu_motion_model) {
         ConfigParse config_parse;
-        PluginStatus<MotionModel> status = plugin_manager->make_plugin<MotionModel>(
-            "scrimmage::MotionModel", info["motion_model"], *file_search, config_parse,
+        PluginStatus<MotionModel> status = plugin_manager_->make_plugin<MotionModel>(
+            "scrimmage::MotionModel", info["motion_model"], *file_search_, config_parse,
             overrides["motion_model"], plugin_tags);
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
             cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
@@ -230,11 +239,11 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
             motion_model_ = status.plugin;
             motion_model_->set_state(state_truth_);
             motion_model_->set_parent(parent);
-            motion_model_->set_pubsub(pubsub);
-            motion_model_->set_time(time);
+            motion_model_->set_pubsub(pubsub_);
+            motion_model_->set_time(time_);
             motion_model_->set_id_to_team_map(id_to_team_map);
             motion_model_->set_id_to_ent_map(id_to_ent_map);
-            motion_model_->set_param_server(param_server);
+            motion_model_->set_param_server(param_server_);
             motion_model_->set_name(info["motion_model"]);
             param_override_func(config_parse.params());
 
@@ -245,15 +254,16 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
             }
             motion_model_->init(info, config_parse.params());
         }
+    } else if (use_gpu_motion_model) {
+        gpu_motion_model->add_entity(shared_from_this());
     }
-
     if (init_empty_motion_model) {
         motion_model_ = std::make_shared<MotionModel>();
         motion_model_->set_state(state_truth_);
         motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub);
-        motion_model_->set_param_server(param_server);
-        motion_model_->set_time(time);
+        motion_model_->set_pubsub(pubsub_);
+        motion_model_->set_param_server(param_server_);
+        motion_model_->set_time(time_);
         motion_model_->set_id_to_team_map(id_to_team_map);
         motion_model_->set_id_to_ent_map(id_to_ent_map);
         motion_model_->set_name("BLANK");
@@ -285,7 +295,7 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
 
         ConfigParse config_parse;
         PluginStatus<Controller> status = plugin_manager_->make_plugin<Controller>(
-            "scrimmage::Controller", info[controller_name], *file_search, config_parse,
+            "scrimmage::Controller", info[controller_name], *file_search_, config_parse,
             overrides[controller_name], plugin_tags);
         if (status.status == PluginStatus<Controller>::cast_failed) {
             std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
@@ -300,7 +310,7 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
             controller->set_time(time_);
             controller->set_id_to_team_map(id_to_team_map);
             controller->set_id_to_ent_map(id_to_ent_map);
-            controller->set_param_server(param_server);
+            controller->set_param_server(param_server_);
             controller->set_pubsub(pubsub_);
             controller->set_name(info[controller_name]);
             param_override_func(config_parse.params());
@@ -316,9 +326,16 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
             // controller in XML top-down order (i.e., first in the reverse
             // list). If it is not the last controller, connect it to the next
             // controller.
+            // If we are using a gpu motoin model, connect the final output to
+            // the variableIO provided by the gpu motion model
             bool connect_to_motion_model = (controllers_.size() == 0);
             if (connect_to_motion_model) {
-                connect(controller->vars(), motion_model_->vars());
+                if (!gpu_motion_model) {
+                    connect(controller->vars(), motion_model_->vars());
+                } else {
+                    VariableIO& vario = gpu_motion_model->get_entity_input(shared_from_this());
+                    connect(controller->vars(), vario);
+                }
             } else {
                 connect(controller->vars(), controllers_.back()->vars());
             }
@@ -331,9 +348,14 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
             }
             controller->init(config_parse.params());
 
+            if (connect_to_motion_model && gpu_motion_model) {
+                controller->vars().create_unconnected_output();
+            }
+
             // Verify the VariableIO connection
             if (connect_to_motion_model) {
-                if (!verify_io_connection(controller->vars(), motion_model_->vars())) {
+                if (!gpu_motion_model
+                    && !verify_io_connection(controller->vars(), motion_model_->vars())) {
                     std::cout << "VariableIO Error: " << std::quoted(controller->name())
                               << " does not provide inputs required by motion model "
                               << std::quoted(motion_model_->name()) << ": ";
@@ -362,7 +384,8 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
 
     // If the motion model requires any inputs and there are no controllers,
     // this is a VariableIO error.
-    if (motion_model_->vars().input_variable_index().size() > 0 && controllers_.size() == 0) {
+    if (motion_model_ != nullptr && motion_model_->vars().input_variable_index().size() > 0
+        && controllers_.size() == 0) {
         std::cout << "VariableIO Error: There are not any controllers that "
                   << "provide the inputs required by " << std::quoted(motion_model_->name())
                   << std::endl;
@@ -388,9 +411,9 @@ bool Entity::init(AttributeMap& overrides, std::map<std::string, std::string>& i
     // Create the autonomy plugins from the autonomy_names list.
     for (auto autonomy_name : autonomy_names) {
         auto autonomy = make_autonomy<Autonomy>(
-            info[autonomy_name], plugin_manager, overrides[autonomy_name], parent, state_belief_,
-            id_to_team_map, id_to_ent_map, proj_, contacts, file_search, rtree, pubsub, time,
-            param_server, plugin_tags, param_override_func, controllers_, debug_level);
+            info[autonomy_name], plugin_manager_, overrides[autonomy_name], parent, state_belief_,
+            id_to_team_map, id_to_ent_map, proj_, contacts_, file_search_, rtree_, pubsub_, time_,
+            param_server_, plugin_tags, param_override_func, controllers_, debug_level);
 
         if (autonomy) {
             autonomies_.push_back(*autonomy);
@@ -488,8 +511,12 @@ bool Entity::ready() {
     auto single_ready = [&](auto& plugin) { return plugin->ready(); };
     auto values_single_ready = [&](auto& kv) { return kv.second->ready(); };
 
-    return all_ready(autonomies_, single_ready) && all_ready(controllers_, single_ready)
-           && all_ready(sensors_, values_single_ready) && motion_model_->ready();
+    bool autonomies_ready = all_ready(autonomies_, single_ready);
+    bool controllers_ready = all_ready(controllers_, single_ready);
+    bool sensors_ready = all_ready(sensors_, values_single_ready);
+    bool motion_model_ready = motion_model_ == nullptr || motion_model_->ready();
+
+    return autonomies_ready && controllers_ready && sensors_ready && motion_model_ready;
 }
 
 StatePtr& Entity::state() {
@@ -553,7 +580,7 @@ void Entity::set_health_points(int health_points) {
     health_points_ = health_points;
 }
 
-int Entity::health_points() {
+int Entity::health_points() const {
     return health_points_;
 }
 
@@ -614,6 +641,10 @@ std::unordered_map<std::string, SensorPtr> Entity::sensors(const std::string& se
         }
     }
     return out;
+}
+
+bool Entity::using_gpu_motion_model() const {
+    return gpu_motion_model_ != nullptr;
 }
 
 SensorPtr Entity::sensor(const std::string& sensor_name) {

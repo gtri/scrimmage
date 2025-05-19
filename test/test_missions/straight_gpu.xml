@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="200" dt="0.1"
+       time_warp="10"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="false"
+        full_screen="false"
+       window_width="800"
+       window_height="600"/>
+
+  <multi_threaded num_threads="8">false</multi_threaded>
+  <stream_port>50051</stream_port>
+  <stream_ip>localhost</stream_ip>
+
+  <end_condition>time, all_dead</end_condition> <!-- time, one_team, none-->
+
+  <grid_spacing>10</grid_spacing>
+  <grid_size>1000</grid_size>
+
+  <terrain>mcmillan</terrain>
+  <background_color>191 191 191</background_color> <!-- Red Green Blue -->
+  <gui_update_period>10</gui_update_period> <!-- milliseconds -->
+
+  <plot_tracks>false</plot_tracks>
+  <output_type>all</output_type>
+  <no_bin_logging>false</no_bin_logging>
+  <show_plugins>false</show_plugins>
+
+  <metrics>SimpleCollisionMetrics</metrics>
+
+  <log_dir>~/.scrimmage/logs</log_dir>
+  <create_latest_dir>true</create_latest_dir>
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+  <show_origin>true</show_origin>
+  <origin_length>10</origin_length>
+
+  <!--
+  <entity_interaction type="cuboid"
+                      lengths="2000, 2000, 1000"
+                      center="0, 0, 500"
+                      rpy="0, 0, 0"
+                      >Boundary</entity_interaction>
+  <entity_interaction>SimpleCollision</entity_interaction>
+  <entity_interaction>GroundCollision</entity_interaction>
+  -->
+
+  <gpu_kernel single_precision="true" 
+  src_dirs = "SimpleAircraft" 
+  include_dirs = "kernels"
+  kernel_name = "SimpleAircraft">SimpleAircraftSingle</gpu_kernel>
+
+  <gpu_kernel single_precision="false" 
+  src_dirs = "SimpleAircraft" 
+  include_dirs = "kernels"
+  kernel_name = "SimpleAircraft">SimpleAircraftDouble</gpu_kernel>
+
+  
+
+  <!--
+       The following is an example configuration of the BulletCollision plugin
+       that uses the terrain to determine ground and entity collisions. Note
+       that the SimpleCollision plugin is configured to only check for startup
+       collisions. This helps the entity initializer to place the entities in
+       unique locations. (You will want to remove the above SimpleCollision and
+       GroundCollision plugins.)
+  -->
+  <!--
+  <entity_interaction startup_collisions_only="true"
+                      startup_collision_range="5"
+                      >SimpleCollision</entity_interaction>
+  <entity_interaction enable_collision_detection="true"
+                      remove_on_collision="true"
+                      enable_team_collisions="true"
+                      enable_non_team_collisions="true"
+                      show_collision_shapes="false"
+                      enable_terrain="true"
+                      enable_ground_plane="false"
+                      ground_plane_height="0"
+                      >BulletCollision</entity_interaction>
+  -->
+
+  <enable_screenshots min_period="1.0" start="8.3" end="15.3">false</enable_screenshots>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+
+  <!-- uncomment "seed" and use integer for deterministic results -->
+  <seed>2147483648</seed>
+
+  <!-- ========================== TEAM 1 ========================= -->
+  <entity>
+    <name>uav_entity</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>${count=1}</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>-900</x>
+    <y>0</y>
+    <z>195</z>
+
+    <!-- The vehicle's initial heading, roll, and pitch can be specified -->
+    <heading>0</heading>
+    <!--<roll>45</roll>-->
+    <!--<pitch>45</pitch>-->
+
+    <controller>SimpleAircraftControllerPID</controller>
+    <gpu_motion_model>SimpleAircraftDouble</gpu_motion_model>
+
+    <visual_model>zephyr-blue</visual_model>
+
+    <!--<sensor>NoisyState</sensor>-->
+    <!--<sensor>NoisyContacts</sensor>-->
+    <!--
+    <sensor rpy="0, 0, 0" show_image="true" camera_id="0">ContactBlobCamera</sensor>
+    <sensor rpy="0, 0, 45" show_image="true" camera_id="1">ContactBlobCamera</sensor>
+    -->
+
+    <autonomy show_text_label="true"
+              generate_entities="false"
+              enable_boundary_control="true">Straight</autonomy>
+
+    <base>
+      <latitude>35.721112</latitude>
+      <longitude>-120.770305</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+
+  <entity>
+    <team_id>2</team_id>
+    <color>255 0 0</color>
+    <count>0</count>
+    <health>1</health>
+    <radius>2</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>20</variance_z>
+
+    <x>50</x>
+    <y>0</y>
+    <z>200</z>
+
+    <heading>180</heading>
+    <altitude>200</altitude>
+    <controller>SimpleAircraftControllerPID</controller>
+    <gpu_motion_model>SimpleAircraftDouble</gpu_motion_model>
+    <visual_model>zephyr-red</visual_model>
+    <autonomy speed="21"
+              enable_boundary_control="true">Straight</autonomy>
+    <base>
+      <latitude>35.719961</latitude>
+      <longitude>-120.767304</longitude>
+      <altitude>300</altitude>
+      <radius>25</radius>
+    </base>
+  </entity>
+</runscript>

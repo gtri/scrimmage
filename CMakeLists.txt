@@ -58,7 +58,7 @@ endif()
 if (${SCRIMMAGE_CXX_VERSION})
     set(CMAKE_CXX_STANDARD ${SCRIMMAGE_CXX_VERSION})
 else()
-    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD 17)
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -85,6 +85,7 @@ GenerateSetEnv(
   SETUP_LOCAL_CONFIG_DIR ${SETUP_HOME_CONFIG}
   LOCAL_CONFIG_DIR ${LOCAL_CONFIG_DIR}
   SETENV_IN_FILE   ${PROJECT_SOURCE_DIR}/share/cmake/scrimmage/setenv.in
+  KERNEL_PATH      ${PROJECT_SOURCE_DIR}/src/gpu/kernels
   MISSION_PATH     ${PROJECT_SOURCE_DIR}/missions
   PLUGIN_PATH      ${PROJECT_BINARY_DIR}/plugin_libs
                    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
@@ -252,7 +253,7 @@ if(NOT "${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
   add_definitions(-DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT=1)
 endif()
 
-find_package(Eigen3 QUIET)
+find_package(Eigen3 3.4 QUIET)
 
 if (NOT Eigen3_FOUND)
   include(LibFindMacros)
@@ -316,6 +317,23 @@ else()
   add_definitions(-DENABLE_AIRSIM=0)
 endif()
 
+########################################################
+# Find OpenCL
+########################################################
+find_package(OpenCL)
+## Enable GPU Acceleration only if OpenCL is installed and it is not explicitly turned off
+if(OpenCL_FOUND AND (NOT DEFINED ENABLE_GPU_ACCELERATION OR ENABLE_GPU_ACCELERATION))
+  set(ENABLE_GPU_ACCELERATION true)
+  add_compile_options(-DENABLE_GPU_ACCELERATION=1)
+  message("-- OpenCL found at ${OpenCL_LIBRARY}. Enabling GPU Support")
+else()
+  if (NOT OpenCL_FOUND)
+  message("-- No OpenCL installation found. Disabling GPU Acceleration")
+else()
+  message("-- Disabling GPU Acceleration")
+endif()
+  add_compile_options(-DENABLE_GPU_ACCELERATION=0)
+endif()
 
 ########################################################
 # Recurse into src, share, and plugins

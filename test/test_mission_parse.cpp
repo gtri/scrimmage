@@ -30,7 +30,6 @@
  */
 
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 #include <scrimmage/parse/MissionParse.h>

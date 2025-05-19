@@ -2,8 +2,8 @@ include(CMakeParseArguments)
 
 function(GenerateSetEnv)
   set(options)
-  set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE)
-  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH)
+  set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE JSBSIM_ROOT)
+  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH KERNEL_PATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
   if (ARG_SETUP_LOCAL_CONFIG_DIR)
@@ -14,6 +14,8 @@ function(GenerateSetEnv)
     set(SCRIMMAGE_ENV_DIR "${ARG_LOCAL_CONFIG_DIR}/env")
     set(LOCAL_SETUP_BASH ${ARG_LOCAL_CONFIG_DIR}/setup.bash)
     file(MAKE_DIRECTORY ${SCRIMMAGE_ENV_DIR})
+
+    set(ARG_JSBSIM_ROOT "${ARG_DATA_PATH}")
 
     # Convert CMake lists into file paths separated by ":"
     string(REPLACE ";" ":" ARG_MISSION_PATH "${ARG_MISSION_PATH}")
@@ -44,6 +46,11 @@ function(GenerateSetEnv)
     string(REPLACE ";" ":" ARG_PYTHONPATH "${ARG_PYTHONPATH}")
     if (NOT "${ARG_PYTHONPATH}" STREQUAL "")
       string(CONCAT ARG_PYTHONPATH ":" "${ARG_PYTHONPATH}")
+    endif()
+
+    string(REPLACE ";" ":" ARG_KERNEL_PATH "${ARG_KERNEL_PATH}")
+    if (NOT "${ARG_KERNEL_PATH}" STREQUAL "")
+      string(CONCAT ARG_KERNEL_PATH ":" "${ARG_KERNEL_PATH}")
     endif()
 
     # Write the project-setenv file

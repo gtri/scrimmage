@@ -38,10 +38,10 @@
 #include <scrimmage/fwd_decl.h>
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/pubsub/Message.h>
+#include <scrimmage/simcontrol/SimUtils.h>
 
 #include <boost/optional.hpp>
 #include <functional>
-#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -59,22 +59,25 @@ using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::Message
 
 typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
 
+struct EntityInitParams {
+    EntityInitParams() {};
+    AttributeMap overrides;
+    GPUControllerPtr gpu_controller;
+    GPUMotionModelPtr gpu_motion_model;
+    std::map<std::string, std::string> info;
+    int id;
+    int ent_desc_id;
+    std::set<std::string> plugin_tags;
+    std::function<void(std::map<std::string, std::string>&)> param_override_func;
+    int debug_level = 0;
+};
+
 class Entity : public std::enable_shared_from_this<Entity> {
  public:
     /*! \name utilities */
     ///@{
 
-    bool init(AttributeMap& overrides, std::map<std::string, std::string>& info,
-              std::shared_ptr<std::unordered_map<int, int>>& id_to_team_map,
-              std::shared_ptr<std::unordered_map<int, EntityPtr>>& id_to_ent_map,
-              ContactMapPtr& contacts, MissionParsePtr mp,
-              const std::shared_ptr<GeographicLib::LocalCartesian>& proj, int id, int ent_desc_id,
-              PluginManagerPtr plugin_manager, FileSearchPtr& file_search, RTreePtr& rtree,
-              PubSubPtr& pubsub, PrintPtr& printer, TimePtr& time,
-              const ParameterServerPtr& param_server, const GlobalServicePtr& global_services,
-              const std::set<std::string>& plugin_tags,
-              std::function<void(std::map<std::string, std::string>&)> param_override_func,
-              const int& debug_level = 0);
+    bool init(const SimUtilsInfo& sim_info, EntityInitParams init_params);
 
     void print_plugins(std::ostream& out) const;
 
@@ -136,9 +139,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void set_id(ID& id);
     ID& id();
 
-    void set_health_points(int health_points);
-    int health_points();
-
     std::shared_ptr<GeographicLib::LocalCartesian> projection();
     void set_projection(const std::shared_ptr<GeographicLib::LocalCartesian>& proj);
 
@@ -194,15 +194,26 @@ class Entity : public std::enable_shared_from_this<Entity> {
         return printer_;
     }
 
+    GPUControllerPtr gpu_controller() {
+        return gpu_controller_;
+    }
+
     const ParameterServerPtr& param_server() {
         return param_server_;
     }
 
-    double radius() {
+    double radius() const {
         return radius_;
     }
     void set_time_ptr(TimePtr t);
     void set_printer(PrintPtr printer);
+    void set_gpu_controller(GPUControllerPtr gpu_controller) {
+        gpu_controller_ = gpu_controller;
+    }
+    bool using_gpu_motion_model() const;
+
+    void set_health_points(int health_points);
+    int health_points() const;
 
     ///@}
 
@@ -213,6 +224,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     std::vector<ControllerPtr> controllers_;
     MotionModelPtr motion_model_;
+    GPUMotionModelPtr gpu_motion_model_;
     std::vector<AutonomyPtr> autonomies_;
     MissionParsePtr mp_;
 
@@ -243,8 +255,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
     void print(const std::string& msg);
     PluginManagerPtr plugin_manager_;
     FileSearchPtr file_search_;
+    GPUControllerPtr gpu_controller_;
     PubSubPtr pubsub_;
     PrintPtr printer_;
+    GPUControllerPtr gpu_;
     GlobalServicePtr global_services_;
     ParameterServerPtr param_server_;
     TimePtr time_;

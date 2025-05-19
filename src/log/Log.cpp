@@ -145,19 +145,33 @@ bool Log::save_contact_visual(
     return writeDelimitedTo(*contact_visual, contact_visual_output_);
 }
 
-std::string Log::frames_filename() { return frames_name_; }
+std::string Log::frames_filename() {
+    return frames_name_;
+}
 
-std::string Log::shapes_filename() { return shapes_name_; }
+std::string Log::shapes_filename() {
+    return shapes_name_;
+}
 
-std::string Log::utm_terrain_filename() { return utm_terrain_name_; }
+std::string Log::utm_terrain_filename() {
+    return utm_terrain_name_;
+}
 
-std::string Log::contact_visual_filename() { return contact_visual_name_; }
+std::string Log::contact_visual_filename() {
+    return contact_visual_name_;
+}
 
-std::string Log::msgs_filename() { return msgs_name_; }
+std::string Log::msgs_filename() {
+    return msgs_name_;
+}
 
-void Log::set_enable_log(bool enable) { enable_log_ = enable; }
+void Log::set_enable_log(bool enable) {
+    enable_log_ = enable;
+}
 
-void Log::set_drop_bin_logging(bool enable) { drop_bin_logging_ = enable; }
+void Log::set_drop_bin_logging(bool enable) {
+    drop_bin_logging_ = enable;
+}
 
 bool Log::parse(std::string dir) {
     if (!fs::is_directory(dir)) {
@@ -199,20 +213,14 @@ bool Log::parse(std::string filename, Log::FileType type) {
         std::string path = fs::path(filename).parent_path().string();
         bool success = false;
         if (type == FRAMES) {
-            success = parse_proto(
-                [&]() { return std::make_shared<sp::Frame>(); },
-                frames_,
-                path,
-                "frame");
+            success = parse_proto([&]() { return std::make_shared<sp::Frame>(); }, frames_, path,
+                                  "frame");
             for (auto& frame : frames_) {
                 scrimmage_frames_.push_back(proto_2_frame(*frame));
             }
         } else {
-            success = parse_proto(
-                [&]() { return std::make_shared<sp::Shapes>(); },
-                shapes_,
-                path,
-                "shapes");
+            success = parse_proto([&]() { return std::make_shared<sp::Shapes>(); }, shapes_, path,
+                                  "shapes");
         }
         return success;
     }
@@ -318,9 +326,8 @@ bool Log::parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr inpu
     return true;
 }
 
-bool Log::writeDelimitedTo(
-    const google::protobuf::MessageLite& message,
-    ZeroCopyOutputStreamPtr rawOutput) {
+bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
+                           ZeroCopyOutputStreamPtr rawOutput) {
     if (mode_ == READ || !enable_log_ || drop_bin_logging_) {
         return true;
     }
@@ -350,11 +357,8 @@ bool Log::writeDelimitedTo(
     return true;
 }
 
-bool Log::readDelimitedFrom(
-    const std::string& filename,
-    ZeroCopyInputStreamPtr rawInput,
-    MessageLitePtr message,
-    bool& clean_eof) {
+bool Log::readDelimitedFrom(const std::string& filename, ZeroCopyInputStreamPtr rawInput,
+                            MessageLitePtr message, bool& clean_eof) {
     // see here for the implementation: http://stackoverflow.com/a/22927149
 
     // We create a new coded stream for each message.  Don't worry, this is fast,
@@ -421,18 +425,28 @@ bool Log::close_log() {
     return true;
 }
 
-std::list<Frame>& Log::scrimmage_frames() { return scrimmage_frames_; }
+std::list<Frame>& Log::scrimmage_frames() {
+    return scrimmage_frames_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::Frame>>& Log::frames() { return frames_; }
+std::list<std::shared_ptr<scrimmage_proto::Frame>>& Log::frames() {
+    return frames_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::Shapes>>& Log::shapes() { return shapes_; }
+std::list<std::shared_ptr<scrimmage_proto::Shapes>>& Log::shapes() {
+    return shapes_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& Log::utm_terrain() { return utm_terrain_; }
+std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& Log::utm_terrain() {
+    return utm_terrain_;
+}
 
 std::list<std::shared_ptr<scrimmage_proto::ContactVisual>>& Log::contact_visual() {
     return contact_visual_;
 }
 
-std::string Log::log_dir() { return log_dir_; }
+std::string Log::log_dir() {
+    return log_dir_;
+}
 
 }  // namespace scrimmage

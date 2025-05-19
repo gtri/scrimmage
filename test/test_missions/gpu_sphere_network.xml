@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Straight flying">
+
+  <run start="0.0" end="200" dt="0.1"
+       time_warp="10"
+       enable_gui="true"
+       network_gui="false"
+       start_paused="false"
+        full_screen="false"
+       window_width="800"
+       window_height="600"/>
+
+<gpu_kernel single_precision="true" 
+  platforms = "Intel Gen OCL Driver"
+  src_dirs = "SphereNetwork" 
+  include_dirs = "kernels"
+  kernel_name = "SphereNetwork">GPUSphereNetwork</gpu_kernel>
+
+  <network>GlobalNetwork</network>
+  <network>LocalNetwork</network>
+  <network>GPUSphereNetwork</network>
+
+  <entity>
+    <x>-49</x>
+    <y>0</y>
+    <z>0</z>
+  </entity>
+
+</runscript>

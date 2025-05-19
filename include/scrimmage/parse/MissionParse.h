@@ -138,6 +138,7 @@ class MissionParse {
 
     std::list<std::string> entity_interactions();
     std::list<std::string> &network_names();
+    const std::list<std::string>& kernel_names() const;
 
     std::list<std::string> metrics();
 
@@ -149,7 +150,10 @@ class MissionParse {
 
     std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain();
 
+    std::string kernel_dir() const;
+
     std::string get_mission_filename();
+
 
     bool get_no_bin_logging();
 
@@ -203,6 +207,7 @@ class MissionParse {
     std::string root_log_dir_;
     std::string log_dir_;
     std::string output_dir_trailer_;
+    std::string kernel_dir_;
 
     double longitude_origin_ = 29.0;
     double latitude_origin_ = -95.0;
@@ -216,6 +221,7 @@ class MissionParse {
     std::list<std::string> entity_interactions_;
     std::list<std::string> metrics_;
     std::list<std::string> network_names_;
+    std::list<std::string> kernel_names_;
 
     // Key: entity_description ID in EntityDesc_t map
     // Value: generation

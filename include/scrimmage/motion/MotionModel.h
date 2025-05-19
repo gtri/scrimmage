@@ -65,7 +65,9 @@ class MotionModel : public EntityPlugin {
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
     virtual double gravity_magnitude() { return g_; }
-    virtual std::vector<double> &full_state_vector() { return x_; }
+    virtual vector_t &full_state_vector() {
+        return x_;
+    }
     void close(double t) override;
 
  protected:

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>GPUSphereNetwork_plugin</library>
+  <name>SphereNetwork</name>
+  <range>100</range>
+  <prob_transmit>1.0</prob_transmit>
+  <filter_comms_plane>false</filter_comms_plane>
+  <comms_boundary_altitude/>
+  <comms_boundary_epsilon/>
+  <monitor_publisher_topics/>
+  <monitor_subscriber_topics/>
+  <csv_filename/>
+
+</params>

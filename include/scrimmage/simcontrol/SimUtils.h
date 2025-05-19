@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_
 
+#include <GeographicLib/LocalCartesian.hpp>
 #include <scrimmage/fwd_decl.h>
 
 
@@ -57,9 +58,13 @@ struct SimUtilsInfo {
     RTreePtr rtree;
     PubSubPtr pubsub;
     PrintPtr printer;
+    std::shared_ptr<GeographicLib::LocalCartesian> proj;
+    GlobalServicePtr global_services;
+    ContactMapPtr contacts;
     TimePtr time;
     ParameterServerPtr param_server;
     RandomPtr random;
+    GPUControllerPtr gpu;
     std::shared_ptr<std::unordered_map<int, int>> id_to_team_map;
     std::shared_ptr<std::unordered_map<int, EntityPtr>> id_to_ent_map;
 };
