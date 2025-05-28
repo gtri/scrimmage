@@ -37,7 +37,6 @@
 #include <scrimmage/fwd_decl.h>
 
 #include <Eigen/Dense>
-
 #include <map>
 #include <memory>
 #include <string>
@@ -52,30 +51,33 @@ class MotionModel : public EntityPlugin {
     MotionModel();
     std::string type() override;
 
-    virtual bool init(std::map<std::string, std::string> &info,
-                      std::map<std::string, std::string> &params);
+    virtual bool init(
+        std::map<std::string, std::string>& info,
+        std::map<std::string, std::string>& params);
 
     virtual bool step(double time, double dt);
     virtual bool posthumous(double t);
-    virtual StatePtr &state();
-    virtual void set_state(StatePtr &state);
-    virtual void teleport(StatePtr &state);
-    virtual void set_external_force(const Eigen::Vector3d &force);
-    virtual void set_external_moment(const Eigen::Vector3d &moment);
+    virtual StatePtr& state();
+    virtual void set_state(StatePtr& state);
+    virtual void teleport(StatePtr& state);
+    virtual void set_external_velocity(const Eigen::Vector3d& vel);
+    virtual void set_external_force(const Eigen::Vector3d& force);
+    virtual void set_external_moment(const Eigen::Vector3d& moment);
     virtual void set_mass(double mass) { mass_ = mass; }
     virtual double mass() { return mass_; }
     virtual double gravity_magnitude() { return g_; }
-    virtual std::vector<double> &full_state_vector() { return x_; }
+    virtual std::vector<double>& full_state_vector() { return x_; }
     void close(double t) override;
 
  protected:
     void ode_step(double dt);
-    virtual void model(const vector_t &x, vector_t &dxdt, double t);
+    virtual void model(const vector_t& x, vector_t& dxdt, double t);
 
     StatePtr state_;
     vector_t x_;
 
     Eigen::Vector3d ext_force_;
+    Eigen::Vector3d ext_velocity_;
     Eigen::Vector3d ext_moment_;
     double mass_;
     double g_;
