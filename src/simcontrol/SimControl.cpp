@@ -606,6 +606,11 @@ bool SimControl::run_single_step(const int& loop_number) {
         info.set_desired_warp(this->time_warp());
         info.set_actual_warp(this->actual_time_warp());
         info.set_shutting_down(false);
+        if(paused()){
+            info.set_sim_paused(true);
+        } else {
+            info.set_sim_paused(false);
+        }
         outgoing_interface_->send_sim_info(info);
         if (paused()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
