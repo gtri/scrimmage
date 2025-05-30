@@ -64,6 +64,7 @@
 #include <vtkParametricSpline.h>
 #include <vtkPolyDataNormals.h>
 #include <vtkTextureMapToPlane.h>
+#include <vtkTexture.h>
 #include <vtkPointData.h>
 #include <vtkPoints.h>
 #include <vtkPolygon.h>
@@ -87,12 +88,18 @@
 
 #if VTK_MAJOR_VERSION > 6
 #include <vtkCellLocator.h>
+#if VTK_MAJOR_VERSION < 9
 #include <vtkGeoJSONReader.h>
+#endif
 #include <vtkCellData.h>
 #include <vtkDoubleArray.h>
 #include <vtkAppendPolyData.h>
 #include <vtkLinearExtrusionFilter.h>
 #include <vtkProperty.h>
+#endif
+
+#if VTK_MAJOR_VERSION > 8
+#include <vtkAutoInit.h>
 #endif
 
 #include <boost/filesystem.hpp>
@@ -105,6 +112,11 @@ namespace fs = boost::filesystem;
 
 namespace sp = scrimmage_proto;
 namespace sc = scrimmage;
+
+#if VTK_MAJOR_VERSION > 8
+VTK_MODULE_INIT(vtkRenderingOpenGL2)
+VTK_MODULE_INIT(vtkInteractionStyle)
+#endif
 
 namespace scrimmage {
 
@@ -940,7 +952,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain> &u
             vtkSmartPointer<vtkTextureMapToPlane>::New();
         texturePlane->SetInputConnection(normalGenerator->GetOutputPort());
 
-#if VTK_MAJOR_VERSION > 6
+#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
         if (utm->enable_extrusion()) {
             // Locate elevation data
             vtkSmartPointer<vtkCellLocator> cellLocator =
