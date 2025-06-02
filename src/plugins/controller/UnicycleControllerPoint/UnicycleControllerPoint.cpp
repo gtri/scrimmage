@@ -34,12 +34,15 @@
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::UnicycleControllerPoint, UnicycleControllerPoint_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Controller,
+    scrimmage::controller::UnicycleControllerPoint,
+    UnicycleControllerPoint_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
+void UnicycleControllerPoint::init(std::map<std::string, std::string>& params) {
     l_ = std::stod(params.at("l"));
     gain_ = std::stod(params.at("gain"));
 
@@ -58,10 +61,10 @@ void UnicycleControllerPoint::init(std::map<std::string, std::string> &params) {
 
 bool UnicycleControllerPoint::step(double t, double dt) {
     Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));
-    Eigen::Vector2d pos_xy = state_->pos().head<2>();
+    Eigen::Vector2d pos_xy = parent()->state_belief()->pos().head<2>();
     Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);
 
-    double th = state_->quat().yaw();
+    double th = parent()->state_belief()->quat().yaw();
 
     Eigen::Matrix2d M;
     M << cos(th), sin(th), -sin(th) / l_, cos(th) / l_;
@@ -72,9 +75,9 @@ bool UnicycleControllerPoint::step(double t, double dt) {
     vars_.output(pitch_rate_idx_out_, 0);
 
     const double des_z = vars_.input(z_idx_in_);
-    const double z = state_->pos()(2);
+    const double z = parent()->state_belief()->pos()(2);
     vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage
