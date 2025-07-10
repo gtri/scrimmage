@@ -26,7 +26,6 @@ swarm behaviors.
    scrimmage-ros-integration.rst
    ros-plugin.rst
    airsim-plugin.rst
-   openai-plugin.rst
    terrain.rst
    optimize.rst
    open-grid.rst
