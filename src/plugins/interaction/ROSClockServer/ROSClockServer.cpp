@@ -133,6 +133,11 @@ void ROSClockServer::publish_clock_msg(const double& t) {
     clock_msg.clock = ros::Time(sec, nsec);
 
     pub_mutex_.lock();
+    // Check the publisher init since rosmaster might not have started yet (see
+    // check_rosmaster()).
+    if (clock_pub_) {
+        clock_pub_.publish(clock_msg);
+    }
     clock_pub_.publish(clock_msg);
     pub_mutex_.unlock();
 }
