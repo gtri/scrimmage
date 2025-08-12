@@ -138,7 +138,6 @@ void ROSClockServer::publish_clock_msg(const double& t) {
     if (clock_pub_) {
         clock_pub_.publish(clock_msg);
     }
-    clock_pub_.publish(clock_msg);
     pub_mutex_.unlock();
 }
 
