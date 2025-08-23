@@ -33,7 +33,9 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_
 
 #include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/common/CSV.h>
 
 #include <random>
@@ -132,7 +134,7 @@ class AirSimSensor : public scrimmage::Sensor {
 
  protected:
     std::string vehicle_name_ = "none";
-    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, StatePtr& state, int frame_num);
+    bool save_data(MessagePtr<std::vector<AirSimImageType>>& im_msg, State state, int frame_num);
     scrimmage::CSV csv;
     int airsim_frame_num_ = 0;
 
@@ -189,6 +191,12 @@ class AirSimSensor : public scrimmage::Sensor {
     bool get_image_data_ = true;
     bool get_lidar_data_ = true;
     bool get_imu_data_ = true;
+
+    // Init Maneuver
+    bool init_maneuver_active_ = false;
+    Quaternion init_man_orig_quat_;
+    bool stay_straight_ = false;
+
     // period at which the data acquisition is run [seconds]
     // double data_acquisition_period_ = .1;
     double image_acquisition_period_ = .1;
