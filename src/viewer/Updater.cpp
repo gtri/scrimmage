@@ -708,6 +708,16 @@ bool Updater::update_text_display() {
     ss << std::setprecision(num_digits) << std::fixed << frame_time_ << " s";
     time_actor_->SetInput(ss.str().c_str());
 
+    // Update play and pause indicator text value and position based on window size
+    int *win_size = rwi_->GetRenderWindow()->GetSize();
+    playpause_actor_->SetPosition(win_size[0] - 100, 10);
+
+    if(sim_info_.sim_paused()){
+        playpause_actor_->SetInput("Paused");
+    } else {
+        playpause_actor_->SetInput("Playing");
+    }
+
     // Update the time warp
     std::stringstream stream_warp;
     stream_warp << std::fixed << std::setprecision(2) << sim_info_.desired_warp();
@@ -1675,6 +1685,7 @@ void Updater::create_text_display() {
     alt_actor_->GetTextProperty()->SetFontSize(24);
     alt_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(alt_actor_);
+    text_y += text_y_spacing;
 
     // Add the help menu
     // NOTE: this requires two vtkTextActor's because you can't
@@ -1712,6 +1723,13 @@ void Updater::create_text_display() {
     fps_actor_->GetTextProperty()->SetFontSize(24);
     fps_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
     renderer_->AddActor2D(fps_actor_);
+
+    // Add the play and pause display
+    playpause_actor_ = vtkSmartPointer<vtkTextActor>::New();
+    playpause_actor_->SetInput(" ");
+    playpause_actor_->GetTextProperty()->SetFontSize(24);
+    playpause_actor_->GetTextProperty()->SetColor(1.0, 1.0, 1.0);
+    renderer_->AddActor2D(playpause_actor_);
 }
 
 void Updater::enable_fps() {
