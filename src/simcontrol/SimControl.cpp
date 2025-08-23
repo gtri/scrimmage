@@ -1579,7 +1579,7 @@ bool SimControl::run_entities() {
             for (auto c : ent->controllers()) {
                 success &= exec_step(c, [&](auto c){
                   return c->step_loop_timer(dt_) ?
-                    c->step(t_, dt_) : true;});
+                    c->step(temp_t, motion_dt) : true;});
             }
         }
 
