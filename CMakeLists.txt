@@ -213,9 +213,12 @@ find_package(VTK QUIET NO_MODULE)
 if (${VTK_FOUND})
     if (${VTK_MAJOR_VERSION} LESS 7)
         set(OPENGL_MODULE vtkRenderingOpenGL)
-    else()
+    elseif(${VTK_MAJOR_VERSION} LESS 9)
         set(OPENGL_MODULE vtkRenderingOpenGL2)
         set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+    else()
+        # in libvtk9-dev, the vtkIOGeoJSON module is not provided
+        set(OPENGL_MODULE vtkRenderingOpenGL2)
     endif()
 
     set(VTK_MODULES
