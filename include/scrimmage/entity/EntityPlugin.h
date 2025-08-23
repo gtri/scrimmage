@@ -38,6 +38,7 @@
 #include <scrimmage/plugin_manager/Plugin.h>
 #include <scrimmage/common/VariableIO.h>
 #include <scrimmage/common/ParameterServer.h>
+#include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
@@ -186,6 +187,7 @@ class EntityPlugin : public Plugin {
     ParameterServerPtr param_server_;
     double loop_rate_;
     double loop_timer_;
+    scrimmage::PublisherPtr pub_shapes_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

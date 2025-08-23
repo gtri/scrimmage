@@ -62,6 +62,8 @@ class FileSearch {
     void find_files(std::string env_var, const std::string &ext,
         std::unordered_map<std::string, std::list<std::string>> &out,
         bool verbose = false);
+    bool find_dir(const std::string &dirname,
+        const std::string &env_var, std::string &result, bool verbose = false);
 
  protected:
     // cache_[env_var][ext][filename] = list of full paths to files with that filename
