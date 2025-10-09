@@ -1,6 +1,5 @@
-FROM almalinux:8 as builder
+FROM almalinux:8 AS builder
 
-MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
@@ -24,6 +23,7 @@ RUN dnf -y update && dnf clean all && dnf -y install \
     bzip2-devel \
     procps \
     sudo \
+    libxml2 \
     openssl-devel-1:1.1.1k-12.el8_9.x86_64
 
 RUN echo "exclude=openssl-devel openssl" >> /etc/dnf/dnf.conf
@@ -95,7 +95,7 @@ ENV PKG_CONFIG_PATH ${PKG_PREFIX}/lib/pkgconfig
 WORKDIR /root/3rd-party
 RUN git clone https://github.com/Kitware/CMake.git
 WORKDIR CMake
-RUN git checkout release
+RUN git checkout v3.31.0
 
 RUN LDFLAGS='-Wl,-rpath=\$ORIGIN/../lib:\$ORIGIN/../lib64' \
     ./bootstrap --prefix=${PKG_PREFIX} \
@@ -175,9 +175,9 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
 # Build GeographicLib
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone https://git.code.sf.net/p/geographiclib/code geographiclib
+RUN git clone https://github.com/geographiclib/geographiclib.git geographiclib
 WORKDIR geographiclib
-RUN git checkout v1.45 && mkdir build && cd build \
+RUN git checkout release && mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
                 -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
     && make -j $(($(nproc)-1)) && sudo make DESTDIR=/root/installs/geographiclib install
@@ -364,7 +364,8 @@ RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
 		-DPYTHON_INCLUDE_DIR='/root/installs/python/opt/scrimmage/include/python3.12' \
 		-DPROTOC='/opt/scrimmage/bin/protoc' \
 		-DPROTOBUF_INCLUDE='/opt/scrimmage/lib/' \
-		-DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0'
+		-DPROTOBUF_LIBS='/opt/scrimmage/lib64/libprotobuf.so.3.19.2.0' \
+		-DENABLE_PYTHON_BINDINGS=false
 RUN LD_LIBRARY_PATH=${PKG_PREFIX}/lib sudo make -j 1 \
     && sudo make DESTDIR=/root/installs/scrimmage install
 
@@ -382,7 +383,7 @@ RUN find /root/installs -type f -name '*.rpm' -exec mv -i {} /root/rpms \;
 ###############################################################################
 # Install packages in clean image and run a scrimmage mission
 ###############################################################################
-FROM almalinux:8 as tester
+FROM almalinux:8 AS tester
 
 MAINTAINER Kevin DeMarco
 ENV DEBIAN_FRONTEND noninteractive

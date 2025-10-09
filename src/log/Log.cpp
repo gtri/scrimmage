@@ -31,27 +31,23 @@
  */
 
 #include <fcntl.h>
-#include <unistd.h>
-
-#include <google/protobuf/message_lite.h>
-#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/coded_stream.h>
-
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/message_lite.h>
+#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/log/Log.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Collision.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
+#include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Shape.pb.h>
 #include <scrimmage/proto/Visual.pb.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/log/Log.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/entity/EntityPlugin.h>
-
 #include <scrimmage/pubsub/Message.h>
-#include <scrimmage/msgs/Collision.pb.h>
-
-#include <iostream>
+#include <unistd.h>
 
 #include <boost/filesystem.hpp>
+#include <iostream>
 namespace fs = boost::filesystem;
 
 using std::cout;
@@ -61,8 +57,7 @@ namespace sp = scrimmage_proto;
 
 namespace scrimmage {
 
-Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(),
-             contact_visual_output_() {
+Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(), contact_visual_output_() {
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -74,17 +69,16 @@ Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(),
     msgs_fd_ = -1;
 }
 
-bool Log::open_file(std::string filename, int &fd) {
+bool Log::open_file(std::string filename, int& fd) {
     fd = open(filename.c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
     if (fd == -1) {
-        cout << "Failed to open file for writing: "
-             << filename << endl;
+        cout << "Failed to open file for writing: " << filename << endl;
         return false;
     }
     return true;
 }
 
-bool Log::init(const std::string &dir, Log::Mode mode) {
+bool Log::init(const std::string& dir, Log::Mode mode) {
     mode_ = mode;
     log_dir_ = dir;
 
@@ -104,10 +98,12 @@ bool Log::init(const std::string &dir, Log::Mode mode) {
             shapes_output_ = std::make_shared<google::protobuf::io::FileOutputStream>(shapes_fd_);
         }
         if (open_file(utm_terrain_name_, utm_terrain_fd_)) {
-            utm_terrain_output_ = std::make_shared<google::protobuf::io::FileOutputStream>(utm_terrain_fd_);
+            utm_terrain_output_ =
+                std::make_shared<google::protobuf::io::FileOutputStream>(utm_terrain_fd_);
         }
         if (open_file(contact_visual_name_, contact_visual_fd_)) {
-            contact_visual_output_ = std::make_shared<google::protobuf::io::FileOutputStream>(contact_visual_fd_);
+            contact_visual_output_ =
+                std::make_shared<google::protobuf::io::FileOutputStream>(contact_visual_fd_);
         }
     } else if (mode_ == READ) {
         parse(dir);
@@ -116,12 +112,11 @@ bool Log::init(const std::string &dir, Log::Mode mode) {
     return true;
 }
 
-bool Log::write_ascii(const std::string &str) {
+bool Log::write_ascii(const std::string& str) {
     if (!enable_log_) return true;
 
     if (!ascii_output_.is_open()) {
-        ascii_output_.open(ascii_filename_.c_str(),
-                           std::ios::out | std::ios::in | std::ios::trunc);
+        ascii_output_.open(ascii_filename_.c_str(), std::ios::out | std::ios::in | std::ios::trunc);
     }
 
     if (!ascii_output_.is_open()) {
@@ -133,19 +128,20 @@ bool Log::write_ascii(const std::string &str) {
     return true;
 }
 
-bool Log::save_frame(const std::shared_ptr<scrimmage_proto::Frame> &frame) {
+bool Log::save_frame(const std::shared_ptr<scrimmage_proto::Frame>& frame) {
     return writeDelimitedTo(*frame, frames_output_);
 }
 
-bool Log::save_shapes(const scrimmage_proto::Shapes &shapes) {
+bool Log::save_shapes(const scrimmage_proto::Shapes& shapes) {
     return writeDelimitedTo(shapes, shapes_output_);
 }
 
-bool Log::save_utm_terrain(const std::shared_ptr<scrimmage_proto::UTMTerrain> &utm_terrain) {
+bool Log::save_utm_terrain(const std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain) {
     return writeDelimitedTo(*utm_terrain, utm_terrain_output_);
 }
 
-bool Log::save_contact_visual(const std::shared_ptr<scrimmage_proto::ContactVisual> &contact_visual) {
+bool Log::save_contact_visual(
+    const std::shared_ptr<scrimmage_proto::ContactVisual>& contact_visual) {
     return writeDelimitedTo(*contact_visual, contact_visual_output_);
 }
 
@@ -199,21 +195,24 @@ bool Log::parse(std::string dir) {
 }
 
 bool Log::parse(std::string filename, Log::FileType type) {
-
     if (!fs::exists(fs::path(filename))) {
         std::string path = fs::path(filename).parent_path().string();
         bool success = false;
         if (type == FRAMES) {
             success = parse_proto(
-                [&]() {return std::make_shared<sp::Frame>();}, frames_, path, "frame"
-            );
-            for (auto &frame : frames_) {
+                [&]() { return std::make_shared<sp::Frame>(); },
+                frames_,
+                path,
+                "frame");
+            for (auto& frame : frames_) {
                 scrimmage_frames_.push_back(proto_2_frame(*frame));
             }
         } else {
             success = parse_proto(
-                [&]() {return std::make_shared<sp::Shapes>();}, shapes_, path, "shapes"
-            );
+                [&]() { return std::make_shared<sp::Shapes>(); },
+                shapes_,
+                path,
+                "shapes");
         }
         return success;
     }
@@ -224,11 +223,11 @@ bool Log::parse(std::string filename, Log::FileType type) {
         return false;
     }
 
-    ZeroCopyInputStreamPtr input = std::make_shared<google::protobuf::io::FileInputStream>(input_fd);
+    ZeroCopyInputStreamPtr input =
+        std::make_shared<google::protobuf::io::FileInputStream>(input_fd);
 
     if (!input) {
-        cout << "Failed to open FileInputStream. Filename: "
-             << filename.c_str() << endl;
+        cout << "Failed to open FileInputStream. Filename: " << filename.c_str() << endl;
     }
 
     if (type == FRAMES) {
@@ -250,8 +249,7 @@ bool Log::parse(std::string filename, Log::FileType type) {
     return true;
 }
 
-bool Log::parse_frames(std::string filename,
-                       ZeroCopyInputStreamPtr input) {
+bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
     frames_.clear();
     scrimmage_frames_.clear();
     bool success = false, clean_eof = false;
@@ -269,12 +267,12 @@ bool Log::parse_frames(std::string filename,
     return true;
 }
 
-bool Log::parse_shapes(std::string filename,
-                      ZeroCopyInputStreamPtr input) {
+bool Log::parse_shapes(std::string filename, ZeroCopyInputStreamPtr input) {
     shapes_.clear();
     bool success = false, clean_eof = false;
     do {
-        std::shared_ptr<scrimmage_proto::Shapes> shapes = std::make_shared<scrimmage_proto::Shapes>();
+        std::shared_ptr<scrimmage_proto::Shapes> shapes =
+            std::make_shared<scrimmage_proto::Shapes>();
         success = this->readDelimitedFrom(filename, input, shapes, clean_eof);
         if (clean_eof || !success) break;
         shapes_.push_back(shapes);
@@ -286,12 +284,12 @@ bool Log::parse_shapes(std::string filename,
     return true;
 }
 
-bool Log::parse_utm_terrain(std::string filename,
-                            ZeroCopyInputStreamPtr input) {
+bool Log::parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input) {
     utm_terrain_.clear();
     bool success = false, clean_eof = false;
     do {
-        std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain = std::make_shared<scrimmage_proto::UTMTerrain>();
+        std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain =
+            std::make_shared<scrimmage_proto::UTMTerrain>();
         success = this->readDelimitedFrom(filename, input, utm_terrain, clean_eof);
         if (clean_eof || !success) break;
         utm_terrain_.push_back(utm_terrain);
@@ -303,12 +301,12 @@ bool Log::parse_utm_terrain(std::string filename,
     return true;
 }
 
-bool Log::parse_contact_visual(std::string filename,
-                               ZeroCopyInputStreamPtr input) {
+bool Log::parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input) {
     contact_visual_.clear();
     bool success = false, clean_eof = false;
     do {
-        std::shared_ptr<scrimmage_proto::ContactVisual> contact_visual = std::make_shared<scrimmage_proto::ContactVisual>();
+        std::shared_ptr<scrimmage_proto::ContactVisual> contact_visual =
+            std::make_shared<scrimmage_proto::ContactVisual>();
         success = this->readDelimitedFrom(filename, input, contact_visual, clean_eof);
         if (clean_eof || !success) break;
         contact_visual_.push_back(contact_visual);
@@ -320,8 +318,9 @@ bool Log::parse_contact_visual(std::string filename,
     return true;
 }
 
-bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
-                           ZeroCopyOutputStreamPtr rawOutput) {
+bool Log::writeDelimitedTo(
+    const google::protobuf::MessageLite& message,
+    ZeroCopyOutputStreamPtr rawOutput) {
     if (mode_ == READ || !enable_log_ || drop_bin_logging_) {
         return true;
     }
@@ -356,9 +355,11 @@ bool Log::writeDelimitedTo(const google::protobuf::MessageLite& message,
     return true;
 }
 
-bool Log::readDelimitedFrom(const std::string &filename,
-                            ZeroCopyInputStreamPtr rawInput,
-                            MessageLitePtr message, bool& clean_eof) {
+bool Log::readDelimitedFrom(
+    const std::string& filename,
+    ZeroCopyInputStreamPtr rawInput,
+    MessageLitePtr message,
+    bool& clean_eof) {
     // see here for the implementation: http://stackoverflow.com/a/22927149
 
     // We create a new coded stream for each message.  Don't worry, this is fast,
@@ -425,16 +426,18 @@ bool Log::close_log() {
     return true;
 }
 
-std::list<Frame> &Log::scrimmage_frames() { return scrimmage_frames_; }
+std::list<Frame>& Log::scrimmage_frames() { return scrimmage_frames_; }
 
-std::list<std::shared_ptr<scrimmage_proto::Frame> > &Log::frames() { return frames_; }
+std::list<std::shared_ptr<scrimmage_proto::Frame>>& Log::frames() { return frames_; }
 
-std::list<std::shared_ptr<scrimmage_proto::Shapes> > &Log::shapes() { return shapes_; }
+std::list<std::shared_ptr<scrimmage_proto::Shapes>>& Log::shapes() { return shapes_; }
 
-std::list<std::shared_ptr<scrimmage_proto::UTMTerrain> > &Log::utm_terrain() { return utm_terrain_; }
+std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& Log::utm_terrain() { return utm_terrain_; }
 
-std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > &Log::contact_visual() { return contact_visual_; }
+std::list<std::shared_ptr<scrimmage_proto::ContactVisual>>& Log::contact_visual() {
+    return contact_visual_;
+}
 
 std::string Log::log_dir() { return log_dir_; }
 
-} // namespace scrimmage
+}  // namespace scrimmage

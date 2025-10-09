@@ -139,7 +139,7 @@ Allow pbuilder to have access to the network during build-time:
 
 ## Manual
 
-Change directories to the location of the *.dsc file that was created and run
+Change directories to the location of the \*.dsc file that was created and run
 pbuilder:
 
     $ cd /path/to/*.dsc

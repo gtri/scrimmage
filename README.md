@@ -46,15 +46,16 @@ commands:
     git clone https://github.com/gtri/scrimmage.git
 
 ### Install Binary Dependencies
-Scrimmage's Binary Dependencies can be intalled by running `./setup/install-binaries.sh` and `./setup/install-jsbsim.sh` 
+
+Scrimmage's Binary Dependencies can be intalled by running `./setup/install-binaries.sh` and `./setup/install-jsbsim.sh`
 
     cd scrimmage
-    sudo ./setup/install-binaries.sh 
+    sudo ./setup/install-binaries.sh
     sudo ./setup/install-jsbsim.sh
 
-`./setup/install-binaries.sh` provides a list of required Ubuntu packages in the "DEPS_DPKG" array. This script allows for futher installation customization with either the `--external` or `--python` flags:
+`./setup/install-binaries.sh` provides a list of required Ubuntu packages in the "DEPS_DPKG" array. This script allows for futher installation customization with either the `--external` flag:
 
-    sudo ./setup/install-binaries.sh [--external] [--python <version>]
+    sudo ./setup/install-binaries.sh [--external]
 
 If the first option `--external` is passed, the script only installs what is necessary for an external build (see EXTERNAL flag to project CMakeLists.txt). The second argument `--python <version>` selects the version of python for which to install dependencies. Supported values for `<version>` are "2", "3", and "a", with "a" installing dependencies for both python 2 and 3. This option defaults to "a" if no valid version is specified.
 
@@ -104,6 +105,7 @@ The GUI responds to the following input keys:
     'SHIFT + Left Click'    : Translate camera through world
 
 The GUI's camera can operate in three modes (cycle with 'a' key):
+
 1. Follow the entity and point towards the entity's heading
 2. Free floating camera
 3. Follow the entity from a fixed viewpoint
@@ -121,35 +123,7 @@ platform is no longer supported by SCRIMMAGE core developers.
 
 ## Python Bindings
 
-It is recommended to build scrimmage's Python bindings in a python virtual
-environment:
-
-    cd /path/to/scrimmage
-    sudo apt-get install python3 libpython3-dev python3-venv
-    python3 -m venv env
-    source ./env/bin/activate
-
-Install the python dependencies with specific version numbers:
-
-    (env)$ pip install -r ./python/requirements.txt
-
-Re-build the scrimmage project within the virtual environment:
-
-    (env)$ cmake .. -DPYTHON_MIN_VERSION=3.6
-    (env)$ make
-
-Scrimmage's cmake build procedures will choose the environment
-default Python in its configuration process when running
-plain `cmake ..`. To specify a specific minimum version of Python
-to be used, use the `cmake .. -DPYTHON_MIN_VERSION=2.7` flag during
-the cmake process.
-
-### Install SCRIMMAGE Python Bindings
-
-To install scrimmage's python bindings:
-
-    (env)$ cd /path/to/scrimmage/python
-    (env)$ python setup.py develop
+Scrimmage no longer supports python bindings as of Ubuntu 22.04
 
 ## Build SCRIMMAGE Documentation
 
@@ -196,7 +170,7 @@ The `${ROS_VERSION}` should be substituted with an appropriate ROS version
 
 An example of using SCRIMMAGE to simulate robots running the ROS 2D Navigation
 stack can be found in the
-[scrimmage\_ros](https://github.com/SyllogismRXS/scrimmage_ros) package.
+[scrimmage_ros](https://github.com/SyllogismRXS/scrimmage_ros) package.
 
 ## MOOS Integration
 
@@ -210,7 +184,6 @@ MOOSAutonomy, you have to provide cmake with the path to the moos-ivp source
 tree:
 
     cmake .. -DMOOSIVP_SOURCE_TREE_BASE=/path/to/moos-ivp
-
 
 ## FlightGear Multiplayer Server (FGMS) Integration
 
@@ -313,8 +286,8 @@ To test that SCRIMMAGE was installed correctly, run the following command:
 ## Installing and Configuring Open Grid Engine
 
 Instructions modified from:
-    https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/
-    http://www.bu.edu/tech/support/research/system-usage/running-jobs/tracking-jobs/
+https://scidom.wordpress.com/2012/01/18/sge-on-single-pc/
+http://www.bu.edu/tech/support/research/system-usage/running-jobs/tracking-jobs/
 
 Install Grid Engine:
 

@@ -3,7 +3,7 @@ include(CMakeParseArguments)
 function(GenerateSetEnv)
   set(options)
   set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE JSBSIM_ROOT)
-  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH PYTHONPATH)
+  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
   if (ARG_SETUP_LOCAL_CONFIG_DIR)
@@ -42,12 +42,6 @@ function(GenerateSetEnv)
     if (NOT "${ARG_DATA_PATH}" STREQUAL "")
       string(CONCAT ARG_DATA_PATH ":" "${ARG_DATA_PATH}")
     endif()
-
-    string(REPLACE ";" ":" ARG_PYTHONPATH "${ARG_PYTHONPATH}")
-    if (NOT "${ARG_PYTHONPATH}" STREQUAL "")
-      string(CONCAT ARG_PYTHONPATH ":" "${ARG_PYTHONPATH}")
-    endif()
-
 
     # Write the project-setenv file
     configure_file(${ARG_SETENV_IN_FILE}
@@ -95,7 +89,6 @@ function(GenerateSetEnv)
     set(ARG_PATH ":${CMAKE_INSTALL_PREFIX}/bin")
   endif()
 
-  set(ARG_PYTHONPATH "")
 
   configure_file(${ARG_SETENV_IN_FILE}
     ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-setenv @ONLY

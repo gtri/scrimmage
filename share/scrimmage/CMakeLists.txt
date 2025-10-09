@@ -24,10 +24,6 @@ target_link_libraries(${APP_NAME}
   ${SWARM_SIM_LIBS}
   dl
   )
-if (ENABLE_PYTHON_BINDINGS)
-  target_link_libraries(${APP_NAME} scrimmage-python)
-endif()
-
 
 if (NOT EXTERNAL AND ${VTK_FOUND})
   target_link_libraries(${APP_NAME}

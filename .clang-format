@@ -1,18 +1,71 @@
 BasedOnStyle: Google
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+WrapNamespaceBodyWithEmptyLines: Always
 IndentWidth: 4
 AccessModifierOffset: -3
 ColumnLimit: 100
 PointerAlignment: Left
 DerivePointerAlignment: false
-AlignTrailingComments: true
-AllowShortFunctionsOnASingleLine: false
-AllowShortIfStatementsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 BreakBeforeBinaryOperators: NonAssignment
-AlignAfterOpenBracket: AlwaysBreak
+# AlwaysBreakAfterDefinitionReturnType: None
+
+# Included for explicitness. This statement tells the formatter
+# what to match to when looking for named header files.
+# The $ grounds the regex on the final "." of the file name
+IncludeIsMainRegex: "$"
+
 IncludeBlocks: Regroup
+IncludeCategories:
+  # Rules are checked in the order they are defined,
+  # so they must go from least general to most general
+  # NOT in order of priority (even though its uglier this way)
+  # - Regex: '^\"(?!.*/).*\"' # The header file for this cpp file
+  #   Priority: 1
+  - Regex: "^(?!.*(*)/).*" # Other libraries' headers (not main project, not system/std)
+    Priority: 4
+  - Regex: '^<.*\.(h|hpp)>' # C system headers (angle brackets, .h extension)
+    Priority: 3
+  - Regex: "^<.*>" # C++ standard library headers (angle brackets, no .h)
+    Priority: 2
+  - Regex: '\"(\.)*/.*\"' # Local files that start with ./ and are surrounded by ""
+    Priority: 5
+    SortPriority: 100
+  - Regex: ".*" # Your project's headers (catch-all for remaining)
+    Priority: 5
+    SortPriority: 0
+SortIncludes: CaseSensitive
+
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowAllArgumentsOnNextLine: false
 BinPackArguments: false
 BinPackParameters: false
 AlignEscapedNewlinesLeft: true
+AlignAfterOpenBracket: AlwaysBreak
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: false
+  AfterStruct: false
+  SplitEmptyFunction: false
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  AfterObjCDeclaration: false
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: true
+  AtStartOfFile: false
+
+PenaltyReturnTypeOnItsOwnLine: 5000
+PenaltyIndentedWhitespace: 0

@@ -46,10 +46,6 @@ State::State(Eigen::Vector3d _pos, Eigen::Vector3d _vel, Eigen::Vector3d _ang_ve
     : pos_(_pos), vel_(_vel), ang_vel_(_ang_vel), quat_(_quat) {
 }
 
-State::State(const State& other)
-    : pos_{other.pos_}, vel_{other.vel_}, ang_vel_{other.ang_vel_}, quat_{other.quat_} {
-}
-
 State::~State() {
 }
 

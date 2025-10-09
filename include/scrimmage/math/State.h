@@ -48,7 +48,6 @@ class State {
     State();
     State(Eigen::Vector3d _pos, Eigen::Vector3d _vel,
           Eigen::Vector3d _ang_vel, Quaternion _quat);
-    State(const State& other);
 
     virtual ~State();
 
