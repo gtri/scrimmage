@@ -132,17 +132,7 @@ find_package(gRPC CONFIG)
 # - LIBXML2_FOUND
 # - LIBXML2_LIBRARIES
 # - LIBXML2_INCLUDE_DIRS
-find_package(LibXml2)
-
-
-########################################################
-# Find LibXML2
-########################################################
-# Sets:
-# - LIBXML2_FOUND
-# - LIBXML2_LIBRARIES
-# - LIBXML2_INCLUDE_DIRS
-find_package(LibXml2)
+# find_package(LibXml2)
 
 
 ########################################################
