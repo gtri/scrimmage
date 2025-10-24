@@ -1,13 +1,8 @@
 # Get full path to plugin
 find_program(GRPC_CPP_PLUGIN
   grpc_cpp_plugin
-  PATHS /usr/local/bin /usr/bin 
+  PATHS /usr/local/bin /usr/bin
   )
-find_program(GRPC_PYTHON_PLUGIN
-  grpc_python_plugin
-  PATHS /usr/local/bin /usr/bin 
-  )
-
 
 find_library(GRPC_LIBRARY NAMES grpc)
 find_library(GRPCPP_LIBRARY NAMES grpc++)
@@ -19,7 +14,6 @@ if(GRPC_LIBRARIES)
     #message(STATUS "Found GRPC")
     #message("GRPC_LIBRARIES: ${GRPC_LIBRARIES}")
     #message("GRPC_CPP_PLUGIN: ${GRPC_CPP_PLUGIN}")
-    #message("GRPC_PYTHON_PLUGIN: ${GRPC_PYTHON_PLUGIN}")
     #message(----------------------------------------)
 endif()
 

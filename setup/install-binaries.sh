@@ -98,6 +98,7 @@ if [ "20.04" == ${UBUNTU_VERSION} ]; then
     libgrpc++-dev
     ) #GRPC Libraries for Focal
 fi
+
 if [ "22.04" == ${UBUNTU_VERSION} ]; then
     echo "Detected Ubuntu 22"
     DEPS_DPKG+=(
@@ -108,8 +109,21 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     libvtk9-dev
     protobuf-compiler
     protobuf-compiler-grpc
-    pybind11-dev
     libprotobuf-dev
+    ) #GRPC Libraries for Jammy
+fi
+
+if [ "24.04" == ${UBUNTU_VERSION} ]; then
+    echo "Detected Ubuntu 24"
+    DEPS_DPKG+=(
+    libvtk9-qt-dev
+    libgrpc-dev
+    libgrpc++-dev
+    libvtk9-dev
+    protobuf-compiler
+    protobuf-compiler-grpc
+    libprotobuf-dev
+    libgeographiclib-dev
     ) #GRPC Libraries for Jammy
 fi
 

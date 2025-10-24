@@ -269,7 +269,6 @@ dependencies:
 
     cd /path/to/rpms
     rpm -ivh scrimmage_gcc*.rpm \
-             scrimmage_python*.rpm \
              scrimmage_boost*.rpm \
              scrimmage_geographiclib*.rpm \
              scrimmage_jsbsim*.rpm \
@@ -349,15 +348,6 @@ At this point, cmake should output a message about finding VTK Version 5. Now,
 you have to rebuild SCRIMMAGE:
 
     make
-
-### Problem: I cannot load python libraries through scrimmage
-
-Make sure that when you run the cmake command it is using the version of python
-that you want to use with the following:
-
-    cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python      \  # adjust path to your needs
-            -DPYTHON_INCLUDE_DIR:PATH=/usr/include/python2.7  \  # adjust path to your needs
-            -DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.7.so   # adjust path to your needs
 
 ### Problem: vtkRenderingPythonTkWidgets cmake Warning
 

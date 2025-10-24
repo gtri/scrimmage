@@ -95,28 +95,6 @@ Note: Allow protobuf3 to build successfully on the Launchpad server before
 building grpc. Then, allow grpc to build successfully before building the
 dependencies-ppa.
 
-## Build GRPC and Protobuf Python Packages from Source
-
-### Install Protobuf Python package
-
-Protobuf should be installed using the source files that are compiled during
-build. Using Protobuf from PyPI (i.e. what you get with `pip install protobuf`
-) is known to cause crashes.
-
-    $ cd /path/to/scrimmage/3rd-party/build/src/protobuf/python
-    $ python setup.py build
-    $ sudo python setup.py install
-
-### Build GRPC Python Bindings
-
-    $ cd /path/to/scrimmage/3rd-party/build/src/grpc
-    $ sudo pip install -rrequirements.txt
-    $ GRPC_PYTHON_BUILD_WITH_CYTHON=1 sudo python setup.py install
-
-If you are using python 3, make sure the futures package isn't installed.
-
-    $ sudo pip3 uninstall futures
-
 # Test Local Build of Source Package
 
 Reference: https://wiki.ubuntu.com/akshmakov/sandbox/Packaging

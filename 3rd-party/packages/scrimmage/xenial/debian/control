@@ -6,8 +6,6 @@ Build-Depends:
  cmake,
  build-essential,
  scrimmage-dependencies,
- python,
- python-dev,
  libvtk5-dev,
  librapidxml-dev,
  libeigen3-dev,
