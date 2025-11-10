@@ -1,0 +1,69 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM ubuntu:22.04 AS dependencies
+
+ENV DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-l", "-c"]
+
+# Install initial dependencies and setup .bashrc
+RUN apt-get update \
+ && apt-get install -y \
+    # Not used for the build, only for docs and scripts
+    python3 \
+    python3-pip \
+    doxygen \
+    graphviz \
+    ruby-full \
+    texlive-bibtex-extra \
+ && apt-get update \
+ && pip install sphinx sphinx_git sphinx-rtd-theme \
+ && gem install bundler -v "2.1.4" && gem install jekyll
+
+FROM dependencies AS scripts
+
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage/scrimmage
+COPY ./ /root/scrimmage/scrimmage
+
+# Install anything that we need that we don't already have
+RUN /root/scrimmage/scrimmage/setup/install-binaries.sh
+
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN python3 create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+ && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
+
+FROM scripts AS build
+
+# Build scrimmage core, plugins, and documentation
+WORKDIR /root/scrimmage/scrimmage
+RUN mkdir -p build \
+ && cd build \
+ && source ~/.bashrc \
+ && cmake .. \
+    -DBUILD_TESTS=ON \
+    -DBUILD_DOCS=ON \
+    -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+ && source ~/.scrimmage/setup.bash \
+ && make \
+ && make docs website-docs
+
+
+# run tests
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
+    ninja test && \
+    scrimmage ../missions/straight-no-gui.xml
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]

@@ -1,0 +1,94 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+###############################################################################
+FROM ubuntu:22.04 AS dependencies
+
+ENV DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-l", "-c"]
+
+# Install initial dependencies and setup .bashrc
+RUN apt-get update \
+ && apt-get install -y \
+    gnupg \
+    gnupg2 \
+ && apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 \
+ && apt-get update \
+ && apt-get install -y \
+    python3-pip \
+    git \
+    clang \
+    build-essential \
+    software-properties-common \
+    doxygen \
+    graphviz \
+    python3-sphinx \
+    sphinx-rtd-theme-common \
+    ccache \
+    libvtk7-dev \
+    wget
+
+# Install jekyll
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+RUN add-apt-repository -y ppa:rael-gc/rvm \
+    && apt-get update \
+    && apt-get install -y rvm
+
+RUN groupadd rvm && usermod -a -G rvm root
+
+RUN rvm autolibs packages \
+    && rvm install ruby 3.1.0
+
+FROM dependencies AS builder
+
+# Copy repo code into image
+RUN mkdir -p /root/scrimmage
+WORKDIR /root/scrimmage
+RUN git clone -b scrimmage-22.04 https://github.com/gtri/scrimmage.git
+
+# Install anything that we need that we don't already have
+RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
+&& /root/scrimmage/scrimmage/setup/install-jsbsim.sh
+
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN python3 create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+ && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+ && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
+
+# Build scrimmage core, plugins, and documentation
+WORKDIR /root/scrimmage/scrimmage
+RUN mkdir -p build \
+ && cd build \
+ && source ~/.bashrc \
+ && cmake .. -DBUILD_TESTS=ON \
+             -DBUILD_DOCS=ON \
+             -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+ && source ~/.scrimmage/setup.bash \
+ && make -j24 \
+ && make docs website-docs
+
+
+# run tests
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source /root/env/bin/activate && \
+    source ~/.scrimmage/setup.bash && \
+    export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD && \
+    export CTEST_OUTPUT_ON_FAILURE=1 && \
+    ninja test && \
+    scrimmage ../missions/straight-no-gui.xml && \
+    scrimmage ../missions/straight_jsbsim.xml
+
+WORKDIR /root/scrimmage/scrimmage
+RUN /bin/bash -c "source /root/env/bin/activate && source ~/.scrimmage/setup.bash"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
+
+
