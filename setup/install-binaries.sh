@@ -64,7 +64,6 @@ DEPS_DPKG=(
     libxml2-dev
     libxmlsec1-dev
     libeigen3-dev
-    libgeographic-dev
     libboost-thread-dev
     libboost-date-time-dev
     libboost-graph-dev
@@ -96,6 +95,7 @@ if [ "20.04" == ${UBUNTU_VERSION} ]; then
     libvtk6.3-qt
     libgrpc-dev
     libgrpc++-dev
+    libgeographic-dev
     ) #GRPC Libraries for Focal
 fi
 
@@ -110,6 +110,7 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     protobuf-compiler
     protobuf-compiler-grpc
     libprotobuf-dev
+    libgeographic-dev
     ) #GRPC Libraries for Jammy
 fi
 
@@ -141,6 +142,7 @@ fi
 # Ubuntu
 if which apt-get &> /dev/null; then
     echo "This is Ubuntu. Using dpkg."
+    DEPENDENCIES=("${DEPS_COMMON[@]}" "${DEPS_DPKG[@]}")
 
     # OpenSuse, Mandriva, Fedora, CentOs, ecc. (with rpm)
 elif which rpm &> /dev/null; then
@@ -164,6 +166,7 @@ echo "Detecting which required packages are not installed."
 dep_len=${#DEPENDENCIES[@]}
 
 PKGSTOINSTALL=""
+echo $PKGSTOINSTALL
 for (( i=0; i < $dep_len; i++))
 do
     if which apt-get &> /dev/null; then
