@@ -188,7 +188,7 @@ add_definitions (${GeographicLib_DEFINITIONS})
 # Find JSBSim
 ########################################################
 if (NOT APPLE)
-  find_package(JSBSIM REQUIRED)
+  find_package(JSBSIM)
   string(FIND "${JSBSIM_INCLUDE_DIRS}" "NOTFOUND" POS)
   if (JSBSIM_FOUND AND (POS EQUAL -1))
     add_definitions(-DENABLE_JSBSIM=1)
@@ -373,7 +373,7 @@ if (NOT DEFINED CMAKE_TOOLCHAIN_FILE AND BUILD_TESTS)
   # Download and unpack googletest at configure time
   FetchContent_Declare(
       googletest
-      GIT_REPOSITORY  https://github.com/google/googletest.git      
+      GIT_REPOSITORY  https://github.com/google/googletest.git
       GIT_TAG         origin/main
       GIT_SHALLOW     true
       GIT_PROGRESS    true

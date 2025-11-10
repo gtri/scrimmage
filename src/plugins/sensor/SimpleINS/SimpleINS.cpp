@@ -88,8 +88,8 @@ void SimpleINS::init(std::map<std::string, std::string> &params) {
 
     surface_timer_ = sc::get<double>("surface_timer", params, 10);
 
-    parent_->state() = std::make_shared<State>();
-    *(parent_->state()) = *(parent_->state_truth());
+
+    parent_->set_state_belief(parent_->state_truth());
 }
 
 
@@ -190,7 +190,7 @@ bool SimpleINS::step() {
     pub_->publish(msg);
 
     // Update the entity's state.
-    *(parent_->state()) = static_cast<sc::State>(msg->data);
+    parent_->set_state_belief(static_cast<sc::State>(msg->data));
 
     return true;
 }
