@@ -1,6 +1,5 @@
-FROM almalinux:8 AS builder
+FROM almalinux:8 AS dependencies
 
-ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
 # Setup directories to work in
@@ -32,16 +31,13 @@ RUN echo "exclude=openssl-devel openssl" >> /etc/dnf/dnf.conf
 ###############################################################################
 # get the ruby version manager and install
 # RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-RUN curl -sSL https://get.rvm.io | bash -s stable
-
-RUN usermod -a -G rvm root
-
-RUN source /etc/profile.d/rvm.sh \
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+    && curl -sSL https://get.rvm.io | bash -s stable \
+    && usermod -a -G rvm root \
+    && source /etc/profile.d/rvm.sh \
     && rvm autolibs packages \
     && rvm install ruby 3.0.0 \
     && gem install fpm
-
 
 # RUN dnf downgrade openssl-devel-1:1.1.1k-12.el8_9.x86_64
 
@@ -80,14 +76,14 @@ RUN rpm -ivh /root/installs/gcc/*.rpm \
     && ${PKG_PREFIX}/bin/gcc --version
 
 # Use the new compiler for the following builds
-ENV CC ${PKG_PREFIX}/bin/gcc
-ENV CXX ${PKG_PREFIX}/bin/g++
-  
+ENV CC=${PKG_PREFIX}/bin/gcc
+ENV CXX=${PKG_PREFIX}/bin/g++
+
 # Update standard environment variables
 ENV PATH="${PKG_PREFIX}/bin:${PATH}"
-ENV CMAKE_PREFIX_PATH ${PKG_PREFIX}
-ENV CPATH ${PKG_PREFIX}/include
-ENV PKG_CONFIG_PATH ${PKG_PREFIX}/lib/pkgconfig
+ENV CMAKE_PREFIX_PATH=${PKG_PREFIX}
+ENV CPATH=${PKG_PREFIX}/include
+ENV PKG_CONFIG_PATH=${PKG_PREFIX}/lib/pkgconfig
 
 ###############################################################################
 # Build CMake
@@ -151,7 +147,7 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
     && rpm -ivh --nodigest --nofiledigest /root/installs/boost/*.rpm
 
 # Help other projects find boost
-ENV BOOST_ROOT ${PKG_PREFIX}
+ENV BOOST_ROOT=${PKG_PREFIX}
 
 #############################################################################
 # Build Eigen
@@ -187,7 +183,7 @@ WORKDIR /root/installs/geographiclib
 RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
            -C /root/installs/geographiclib/ \
            --name scrimmage-geographiclib --version 1.45 \
-           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \ 
+           --package scrimmage_geographiclib_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
     && rpm --nodigest --nofiledigest -ivh /root/installs/geographiclib/*.rpm
 
 ###############################################################################
@@ -306,7 +302,7 @@ RUN cd CMakeDebSrc && mkdir build && cd build && cmake ..
 # Build JSBsim from scrimmage's 3rd-party
 ###############################################################################
 WORKDIR /root/3rd-party
-RUN git clone -b fix-compiler-errors https://github.com/gtri/scrimmage.git
+RUN git clone -b minimal https://github.com/gtri/scrimmage.git
 WORKDIR ./scrimmage/3rd-party
 RUN mkdir ./build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=/root/installs/jsbsim${PKG_PREFIX}
@@ -348,14 +344,15 @@ RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type r
            --package scrimmage_vtk_VERSION_ARCH.rpm .${PKG_PREFIX}/=${PKG_PREFIX} \
     && rpm --nodigest --nofiledigest -ivh /root/installs/vtk/*.rpm
 
+FROM dependencies AS builder
+
 ###############################################################################
 # Build SCRIMMAGE
 ###############################################################################
 WORKDIR /root/3rd-party/scrimmage
-RUN git pull && git status
-RUN git pull
-RUN echo "" && git pull
-RUN mkdir build
+# remove find geographiclib cmake helped becuase we build from source
+# TODO automatically test for this in FindGeographicLib?
+RUN git pull && mkdir build && rm cmake/Modules/FindGeographicLib.cmake
 WORKDIR ./build
 RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
                 -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
@@ -385,8 +382,6 @@ RUN find /root/installs -type f -name '*.rpm' -exec mv -i {} /root/rpms \;
 ###############################################################################
 FROM almalinux:8 AS tester
 
-MAINTAINER Kevin DeMarco
-ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
 RUN dnf -y install \
@@ -411,7 +406,7 @@ RUN rpm -ivh scrimmage_gcc*.rpm \
              scrimmage_0.2.0*.rpm
 
 ARG PKG_PREFIX=/opt/scrimmage
-ENV JSBSIM_ROOT ${PKG_PREFIX}/etc/JSBSim
+ENV JSBSIM_ROOT=${PKG_PREFIX}/etc/JSBSim
 
 # Run a scrimmage mission
 RUN source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
