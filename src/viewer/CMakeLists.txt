@@ -7,7 +7,8 @@ SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-file (GLOB SRCS *.cpp)
+SET(SRCS CameraInterface.cpp Grid.cpp OriginAxes.cpp Updater.cpp Viewer.cpp )
+
 ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )

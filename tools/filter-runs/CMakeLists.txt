@@ -1,7 +1,6 @@
 set (APP_NAME filter-runs)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
+SET(SRCS main.cpp )
 
 add_executable(${APP_NAME} ${SRCS})
 
