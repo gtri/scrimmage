@@ -2,9 +2,6 @@ set (APP_NAME scrimmage-playback)
 
 SET(SRCS main.cpp )
 
-SET(HDRS )
-
-
 if(APPLE)
   add_executable(${APP_NAME} MACOSX_BUNDLE ${SRCS})
 else()
@@ -15,7 +12,7 @@ add_dependencies(${APP_NAME} scrimmage-protos)
 
 target_link_libraries(${APP_NAME}
   scrimmage-core
-  scrimmage-protos  
+  scrimmage-protos
   ${SWARM_SIM_LIBS}
   scrimmage-boost
   dl
@@ -30,7 +27,7 @@ endif()
 
 if (NOT INSTALL_LINK)
     install(TARGETS ${APP_NAME} DESTINATION bin)
-endif() 
+endif()
 # Link executable to other libraries
 #target_link_libraries(${APP_NAME})
 
