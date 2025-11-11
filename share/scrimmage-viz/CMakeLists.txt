@@ -2,9 +2,6 @@ set (APP_NAME scrimmage-viz)
 
 SET(SRCS main.cpp )
 
-SET(HDRS )
-
-
 if(APPLE)
   # set(MACOSX_BUNDLE_ICON_FILE scrimmage-viz.icns)
   # set(appIcon ${PROJECT_SOURCE_DIR}/data/icons/${MACOSX_BUNDLE_ICON_FILE})

@@ -2,9 +2,6 @@ set (APP_NAME scrimmage-plugin)
 
 SET(SRCS main.cpp )
 
-SET(HDRS )
-
-
 add_executable(${APP_NAME} ${SRCS})
 
 target_link_libraries(${APP_NAME}
