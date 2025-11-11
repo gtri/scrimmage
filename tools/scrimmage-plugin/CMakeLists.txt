@@ -1,7 +1,9 @@
 set (APP_NAME scrimmage-plugin)
 
-file (GLOB SRCS *.cpp)
-file (GLOB HDRS *.h)
+SET(SRCS main.cpp )
+
+SET(HDRS )
+
 
 add_executable(${APP_NAME} ${SRCS})
 
