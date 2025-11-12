@@ -33,6 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTOR_H_
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include <scrimmage/common/CSV.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/State.h>
@@ -40,10 +44,6 @@
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/plugins/motion/Multirotor/Rotor.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
-
-#include <map>
-#include <string>
-#include <vector>
 
 namespace scrimmage {
 namespace motion {
@@ -71,18 +71,18 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase {
 
     Multirotor();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
+        override;
     bool step(double time, double dt) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
     class Controller : public scrimmage::Controller {
      public:
-        virtual Eigen::VectorXd &u() = 0;
+        virtual Eigen::VectorXd& u() = 0;
     };
 
-    std::vector<Rotor> &rotors() { return rotors_; }
+    std::vector<Rotor>& rotors() { return rotors_; }
 
     double omega_max() { return wmax_; }
     double omega_min() { return wmin_; }

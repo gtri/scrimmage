@@ -30,7 +30,9 @@
  *
  */
 
-#include <scrimmage/plugins/network/GlobalNetwork/GlobalNetwork.h>
+#include <iostream>
+#include <limits>
+#include <memory>
 
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/RTree.h>
@@ -39,47 +41,45 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/network/GlobalNetwork/GlobalNetwork.h>
 #include <scrimmage/plugins/network/SphereNetwork/SphereNetwork.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-
-#include <iostream>
-#include <limits>
-#include <memory>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GlobalNetwork,
-                GlobalNetwork_plugin)
+REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GlobalNetwork, GlobalNetwork_plugin)
 
 namespace scrimmage {
 namespace network {
 
 GlobalNetwork::GlobalNetwork() {}
 
-bool GlobalNetwork::init(std::map<std::string, std::string> &mission_params,
-                         std::map<std::string, std::string> &plugin_params) {
-  network_init(mission_params, plugin_params);
-  return true;
+bool GlobalNetwork::init(
+    std::map<std::string, std::string>& mission_params,
+    std::map<std::string, std::string>& plugin_params) {
+    network_init(mission_params, plugin_params);
+    return true;
 }
 
-bool GlobalNetwork::is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                                 const scrimmage::EntityPluginPtr &sub_plugin) {
-  // Never reachable if plugin's entity was destroyed
-  if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr)
-    return false;
-  return true;
+bool GlobalNetwork::is_reachable(
+    const scrimmage::EntityPluginPtr& pub_plugin,
+    const scrimmage::EntityPluginPtr& sub_plugin) {
+    // Never reachable if plugin's entity was destroyed
+    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr)
+        return false;
+    return true;
 }
 
 bool GlobalNetwork::is_successful_transmission(
-    const scrimmage::EntityPluginPtr &pub_plugin,
-    const scrimmage::EntityPluginPtr &sub_plugin) {
-  return true;
+    const scrimmage::EntityPluginPtr& pub_plugin,
+    const scrimmage::EntityPluginPtr& sub_plugin) {
+    return true;
 }
 
-} // namespace network
-} // namespace scrimmage
+}  // namespace network
+}  // namespace scrimmage

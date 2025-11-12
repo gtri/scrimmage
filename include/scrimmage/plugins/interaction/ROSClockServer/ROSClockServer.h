@@ -33,18 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/entity/Entity.h>
+#include <chrono>  // NOLINT
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <string>
+#include <thread>
 
 #include <ros/ros.h>
-
-#include <map>
-#include <list>
-#include <string>
-#include <chrono> // NOLINT
-#include <memory>
-#include <thread>
-#include <mutex>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 namespace scrimmage {
 namespace interaction {
@@ -52,11 +51,13 @@ namespace interaction {
 class ROSClockServer : public scrimmage::EntityInteraction {
  public:
     ROSClockServer();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(
+        std::map<std::string, std::string>& mission_params,
+        std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t, double dt)
+        override;
     void close(double t) override;
+
  protected:
     void publish_clock_msg(const double& t);
 
@@ -73,9 +74,9 @@ class ROSClockServer : public scrimmage::EntityInteraction {
     bool running_ = false;
     std::mutex pub_mutex_;
 
-    std::chrono::time_point<std::chrono::system_clock,
-                            std::chrono::duration<double>> sim_start_time_;
+    std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>>
+        sim_start_time_;
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_

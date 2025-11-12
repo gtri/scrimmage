@@ -30,25 +30,25 @@
  *
  */
 
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
+#ifndef(>>> HEADER_GUARD < < <)
+#define(>>> HEADER_GUARD < < <)
 
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/pubsub/Publisher.h>
-
-#include <random>
-#include <vector>
 #include <map>
+#include <random>
 #include <string>
+#include <vector>
+
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/pubsub/Publisher.h>
+#include <scrimmage/sensor/Sensor.h>
 
 namespace scrimmage {
 namespace sensor {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
+class(>>> PLUGIN_NAME < < <) : public scrimmage::Sensor {
  public:
-    (>>>PLUGIN_NAME<<<)();
-    void init(std::map<std::string, std::string> &params) override;
+    (>>> PLUGIN_NAME < < <)();
+    void init(std::map<std::string, std::string> & params) override;
     bool step() override;
 
  protected:
@@ -56,8 +56,9 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::Sensor {
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
 
     PublisherPtr pub_;
+
  private:
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // (>>>HEADER_GUARD<<<)

@@ -31,53 +31,54 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/network/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
+#include <memory>
 
 #include <scrimmage/common/ID.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Random.h>
 #include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Random.h>
+#include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/network/SphereNetwork/SphereNetwork.h>
+#include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/pubsub/Message.h>
-
-#include <memory>
-#include <limits>
-#include <iostream>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Network,
-                scrimmage::network::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Network,
+    scrimmage::network::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 namespace scrimmage {
 namespace network {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
-}
+(>>> PLUGIN_NAME < < <)::(>>> PLUGIN_NAME < < <)() {}
 
-bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
+bool(>>> PLUGIN_NAME < < <)::init(
+    std::map<std::string, std::string>& mission_params,
+    std::map<std::string, std::string>& plugin_params) {
     return true;
 }
 
-bool (>>>PLUGIN_NAME<<<)::is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                                       const scrimmage::PluginPtr &sub_plugin) {
+bool(>>> PLUGIN_NAME < < <)::is_reachable(
+    const scrimmage::PluginPtr& pub_plugin,
+    const scrimmage::PluginPtr& sub_plugin) {
     return true;
 }
 
-bool (>>>PLUGIN_NAME<<<)::is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                                     const scrimmage::PluginPtr &sub_plugin) {
+bool(>>> PLUGIN_NAME < < <)::is_successful_transmission(
+    const scrimmage::PluginPtr& pub_plugin,
+    const scrimmage::PluginPtr& sub_plugin) {
     return true;
 }
 
-
-} // namespace network
-} // namespace scrimmage
+}  // namespace network
+}  // namespace scrimmage

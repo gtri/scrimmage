@@ -33,28 +33,31 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_RTREE_H_
 #define INCLUDE_SCRIMMAGE_COMMON_RTREE_H_
 
+#include <Eigen/Dense>
+#include <functional>
+#include <map>
+#include <memory>
+#include <utility>
+#include <vector>
+
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point.hpp>  // for model::point
+#include <boost/geometry/index/detail/exception.hpp>
+#include <boost/geometry/index/indexable.hpp>
+#include <boost/geometry/index/parameters.hpp>  // for dynamic_rstar definition
+#include <boost/geometry/strategies/default_strategy.hpp>
+#include <boost/tuple/tuple.hpp>
 #include <scrimmage/common/ID.h>
 
-#include <Eigen/Dense>
-
-#include <map>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <utility>
-
-#include <boost/tuple/tuple.hpp>
-#include <boost/geometry/index/detail/exception.hpp>
-#include <boost/geometry/core/cs.hpp>
-#include <boost/geometry/strategies/default_strategy.hpp>
-#include <boost/geometry/index/parameters.hpp> // for dynamic_rstar definition
-#include <boost/geometry/geometries/point.hpp> // for model::point
-#include <boost/geometry/index/indexable.hpp>
-
-namespace boost { namespace geometry { namespace index {
+namespace boost {
+namespace geometry {
+namespace index {
 // boost/geometry/index/rtree.hpp
-template <typename T1, typename T2, typename T3, typename T4, typename T5> class rtree;
-}}}
+template <typename T1, typename T2, typename T3, typename T4, typename T5>
+class rtree;
+}  // namespace index
+}  // namespace geometry
+}  // namespace boost
 
 namespace scrimmage {
 
@@ -65,7 +68,8 @@ typedef boost::geometry::index::rtree<
     boost::geometry::index::dynamic_rstar,
     boost::geometry::index::indexable<point_id_t>,
     std::equal_to<point_id_t>,
-    std::allocator<point_id_t>> rtree_t;
+    std::allocator<point_id_t>>
+    rtree_t;
 
 typedef std::shared_ptr<rtree_t> rtreePtr;
 
@@ -73,13 +77,20 @@ class RTree {
  public:
     void init(const unsigned int& size);
 
-    void add(const Eigen::Vector3d &pos, const ID &id);
-    void nearest_n_neighbors(const Eigen::Vector3d &pos,
-                             std::vector<ID> &neighbors, unsigned int n,
-                             int self_id = -1, int team_id = -1) const;
-    void neighbors_in_range(const Eigen::Vector3d &pos,
-                            std::vector<ID> &neighbors, double dist,
-                            int self_id = -1, int team_id = -1) const;
+    void add(const Eigen::Vector3d& pos, const ID& id);
+    void nearest_n_neighbors(
+        const Eigen::Vector3d& pos,
+        std::vector<ID>& neighbors,
+        unsigned int n,
+        int self_id = -1,
+        int team_id = -1) const;
+    void neighbors_in_range(
+        const Eigen::Vector3d& pos,
+        std::vector<ID>& neighbors,
+        double dist,
+        int self_id = -1,
+        int team_id = -1) const;
+
  protected:
     void clear();
 
@@ -91,4 +102,4 @@ class RTree {
 typedef std::shared_ptr<RTree> RTreePtr;
 }  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_RTREE_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_RTREE_H_

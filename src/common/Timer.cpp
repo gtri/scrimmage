@@ -30,11 +30,10 @@
  *
  */
 
-#include <scrimmage/common/Timer.h>
-
 #include <ctime>
 
 #include <boost/thread.hpp>
+#include <scrimmage/common/Timer.h>
 
 namespace scrimmage {
 
@@ -104,7 +103,7 @@ uint64_t Timer::getnanotime() {
     uint64_t nano = 0;
     timespec ts;
     // clock_gettime(CLOCK_MONOTONIC, &ts); // Works on FreeBSD
-    clock_gettime(CLOCK_REALTIME, &ts); // Works on Linux
+    clock_gettime(CLOCK_REALTIME, &ts);  // Works on Linux
 
     nano = ts.tv_sec * 1e9 + ts.tv_nsec;
     return nano;
@@ -136,4 +135,4 @@ double Timer::time_warp() {
     return time_warp_;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage

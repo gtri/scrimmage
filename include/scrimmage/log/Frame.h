@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_LOG_FRAME_H_
 #define INCLUDE_SCRIMMAGE_LOG_FRAME_H_
 
-#include <scrimmage/fwd_decl.h>
-
 #include <list>
 #include <map>
+
+#include <scrimmage/fwd_decl.h>
 
 namespace scrimmage {
 class Frame {
@@ -44,5 +44,5 @@ class Frame {
     double time_ = 0;
     ContactMapPtr contacts_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_LOG_FRAME_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_LOG_FRAME_H_

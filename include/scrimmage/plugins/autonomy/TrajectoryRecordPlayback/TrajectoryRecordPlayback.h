@@ -33,14 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
-
 #include <fstream>
 #include <list>
 #include <map>
 #include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/CSV.h>
+#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
 
 namespace scrimmage {
 namespace autonomy {
@@ -48,8 +48,9 @@ class TrajectoryRecordPlayback : public scrimmage::Autonomy {
  public:
     TrajectoryRecordPlayback();
     ~TrajectoryRecordPlayback();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
+
  protected:
     std::list<TrajectoryPoint> trajs_;
     std::list<TrajectoryPoint>::iterator it_traj_;
@@ -61,6 +62,6 @@ class TrajectoryRecordPlayback : public scrimmage::Autonomy {
 
  private:
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_

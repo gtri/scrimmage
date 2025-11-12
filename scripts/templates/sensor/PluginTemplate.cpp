@@ -31,36 +31,34 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/sensor/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/math/Quaternion.h>
-
 #include <iostream>
 #include <limits>
+
+#include <scrimmage/common/Random.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/proto/State.pb.h>
+#include <scrimmage/pubsub/Message.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Sensor,
-                scrimmage::sensor::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Sensor,
+    scrimmage::sensor::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 namespace scrimmage {
 namespace sensor {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
-}
+(>>> PLUGIN_NAME < < <)::(>>> PLUGIN_NAME < < <)() {}
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
+void(>>> PLUGIN_NAME < < <)::init(std::map<std::string, std::string>& params) {
     // Use the same generator as the parent so that the simulation is
     // completely deterministic with respect to the simulation seed.
     gener_ = parent_->random()->gener();
@@ -81,7 +79,7 @@ void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
     pub_ = advertise("LocalNetwork", "NoisyState");
 }
 
-bool (>>>PLUGIN_NAME<<<)::step() {
+bool(>>> PLUGIN_NAME < < <)::step() {
     // Make a copy of the current state
     sc::State ns = *(parent_->state_truth());
 
@@ -97,5 +95,5 @@ bool (>>>PLUGIN_NAME<<<)::step() {
     pub_->publish(msg);
     return true;
 }
-} // namespace sensor
-} // namespace scrimmage
+}  // namespace sensor
+}  // namespace scrimmage

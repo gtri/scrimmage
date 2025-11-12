@@ -32,43 +32,44 @@
 #ifndef INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 #define INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/Message.h>
-
 #include <map>
 #include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
+
+#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/pubsub/Message.h>
 
 namespace scrimmage {
 
 class Sensor : public EntityPlugin {
  public:
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
 
     std::string type() override;
 
-    virtual bool step() {return true;}
+    virtual bool step() { return true; }
 
     virtual scrimmage::MessageBasePtr sensor_msg(double t);
 
     /*! \brief version when T = MessageBase (calls sensor_msg without casting) */
-    template <class T = MessageBase,
-              class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
+    template <
+        class T = MessageBase,
+        class = std::enable_if_t<std::is_same<T, MessageBase>::value, void>>
     MessageBasePtr sense(double t) {
         return sensor_msg(t);
     }
 
     /*! \brief default version */
     template <class T>
-    [[deprecated("use Sensor::step() with publish/subscribe functionality instead")]]
-    std::shared_ptr<scrimmage::Message<T>> sense(double t) {
+    [[deprecated("use Sensor::step() with publish/subscribe functionality instead")]] std::
+        shared_ptr<scrimmage::Message<T>>
+        sense(double t) {
         auto msg = sensor_msg(t);
         if (msg) {
             auto msg_cast = std::dynamic_pointer_cast<scrimmage::Message<T>>(msg);
-            return msg_cast ?
-                std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
+            return msg_cast ? std::shared_ptr<scrimmage::Message<T>>(msg_cast) : nullptr;
         } else {
             return nullptr;
         }
@@ -78,4 +79,4 @@ class Sensor : public EntityPlugin {
 using SensorPtr = std::shared_ptr<Sensor>;
 }  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_
+#endif  // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_

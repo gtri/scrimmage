@@ -33,14 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_
 
-#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
-
-#include <geometry_msgs/Twist.h>
-#include <ros/ros.h>
-
 #include <map>
 #include <memory>
 #include <string>
+
+#include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
+#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
 
 namespace scrimmage {
 namespace controller {

@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_
 
-#include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
 
 namespace scrimmage {
 namespace controller {
 class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:

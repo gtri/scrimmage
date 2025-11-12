@@ -30,35 +30,32 @@
  *
  */
 
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+#include <memory>
+#include <ostream>
+#include <string>
+#include <unordered_set>
+
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Contact.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/metrics/Metrics.h>
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/Utilities.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/metrics/Metrics.h>
-
 #include <signal.h>
-#include <cstdlib>
-
-#include <iostream>
-#include <ctime>
-
-#include <unordered_set>
-#include <string>
-#include <ostream>
-#include <memory>
 #if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
 
-#include <scrimmage/log/Log.h>
-
 #include <boost/optional.hpp>
+#include <scrimmage/log/Log.h>
 
 using std::cout;
 using std::endl;
@@ -69,16 +66,18 @@ namespace sc = scrimmage;
 namespace {
 // https://stackoverflow.com/a/48164204
 std::function<void(int)> shutdown_handler;
-void signal_handler(int signal) { shutdown_handler(signal); }
-} // namespace
+void signal_handler(int signal) {
+    shutdown_handler(signal);
+}
+}  // namespace
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     sc::SimControl simcontrol;
 
     // Handle kill signals
     struct sigaction sa;
-    memset( &sa, 0, sizeof(sa) );
-    shutdown_handler = [&](int /*s*/){
+    memset(&sa, 0, sizeof(sa));
+    shutdown_handler = [&](int /*s*/) {
         cout << endl << "Exiting gracefully" << endl;
         simcontrol.force_exit();
     };
@@ -97,30 +96,28 @@ int main(int argc, char *argv[]) {
     int opt;
     while ((opt = getopt(argc, argv, "t:j:s:o:")) != -1) {
         switch (opt) {
-        case 't':
-            task_id = std::stoi(std::string(optarg));
-            break;
-        case 'j':
-            job_id = std::stoi(std::string(optarg));
-            break;
-        case 's':
-            seed = std::string(optarg);
-            seed_set = true;
-            break;
-        case 'o':
-            overrides = std::string(optarg);
-            break;
-        case '?':
-            if (optopt == 't') {
-                fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
-            } else {
-                fprintf(stderr,
-                         "Unknown option character `\\x%x'.\n",
-                         optopt);
-            }
-            return 1;
-        default:
-            exit(EXIT_FAILURE);
+            case 't':
+                task_id = std::stoi(std::string(optarg));
+                break;
+            case 'j':
+                job_id = std::stoi(std::string(optarg));
+                break;
+            case 's':
+                seed = std::string(optarg);
+                seed_set = true;
+                break;
+            case 'o':
+                overrides = std::string(optarg);
+                break;
+            case '?':
+                if (optopt == 't') {
+                    fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
+                } else {
+                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
+                }
+                return 1;
+            default:
+                exit(EXIT_FAILURE);
         }
     }
 
@@ -130,21 +127,23 @@ int main(int argc, char *argv[]) {
     }
 
     // Overwrite mission parameters from command line
-    if (task_id != -1) simcontrol.mp()->set_task_number(task_id);
-    if (job_id != -1) simcontrol.mp()->set_job_number(job_id);
+    if (task_id != -1)
+        simcontrol.mp()->set_task_number(task_id);
+    if (job_id != -1)
+        simcontrol.mp()->set_job_number(job_id);
     simcontrol.mp()->set_overrides(overrides);
 
     // Load in the mission file and parse mission parameters
     std::string mission_file = argv[optind];
     if (not simcontrol.init(mission_file)) {
-        cout << "Failed to initialize SimControl with mission file: "
-             << mission_file << endl;
+        cout << "Failed to initialize SimControl with mission file: " << mission_file << endl;
         return -1;
     }
 
-    if (seed_set) simcontrol.mp()->params()["seed"] = seed;
+    if (seed_set)
+        simcontrol.mp()->params()["seed"] = seed;
 
-    simcontrol.run_send_shapes(); // draw any intial shapes
+    simcontrol.run_send_shapes();  // draw any intial shapes
 
     std::shared_ptr<std::thread> viewer_thread = nullptr;
 
@@ -177,9 +176,7 @@ int main(int argc, char *argv[]) {
         viewer->init(simcontrol.mp(), camera_params);
 
         // Run the viewer in its own thread
-        auto viewer_thread_func = [&] () {
-            viewer->run();
-        };
+        auto viewer_thread_func = [&]() { viewer->run(); };
         viewer_thread = std::make_shared<std::thread>(viewer_thread_func);
 
     } else {

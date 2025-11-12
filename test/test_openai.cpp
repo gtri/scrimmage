@@ -30,44 +30,54 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <pybind11/pybind11.h>
-#include <pybind11/embed.h>
-
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/simcontrol/SimUtils.h>
-
-#include <boost/optional.hpp>
 #include <chrono>
 #include <thread>
 
+#include <boost/optional.hpp>
+#include <gtest/gtest.h>
+#include <pybind11/embed.h>
+#include <pybind11/pybind11.h>
+#include <scrimmage/common/CSV.h>
+#include <scrimmage/simcontrol/SimUtils.h>
+
 namespace sc = scrimmage;
 namespace py = pybind11;
-using namespace pybind11::literals; // NOLINT
+using namespace pybind11::literals;  // NOLINT
 
-void runner(bool x_discrete, bool ctrl_y, bool y_discrete, bool grpc_mode,
-            size_t num_actors, const std::map<int, double> &expected_rewards) {
+void runner(
+    bool x_discrete,
+    bool ctrl_y,
+    bool y_discrete,
+    bool grpc_mode,
+    size_t num_actors,
+    const std::map<int, double>& expected_rewards) {
 
     py::object test_open_ai_module = py::module::import("scrimmage.openai.tests.test_openai");
     py::object write_temp_mission = test_open_ai_module.attr("_write_temp_mission");
 
     const std::string output_mission_file = ".rlsimple.xml";
 
-    write_temp_mission("output_mission_file"_a=output_mission_file,
-        "x_discrete"_a = x_discrete, "ctrl_y"_a = ctrl_y, "y_discrete"_a = y_discrete,
-        "num_actors"_a = num_actors, "grpc_mode"_a = grpc_mode, "end"_a = 1000);
+    write_temp_mission(
+        "output_mission_file"_a = output_mission_file,
+        "x_discrete"_a = x_discrete,
+        "ctrl_y"_a = ctrl_y,
+        "y_discrete"_a = y_discrete,
+        "num_actors"_a = num_actors,
+        "grpc_mode"_a = grpc_mode,
+        "end"_a = 1000);
 
     auto log_dir = sc::run_test(output_mission_file, false, false);
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
-    if (!log_dir) return;
+    if (!log_dir)
+        return;
 
     sc::CSV csv;
     bool rewards_found = csv.read_csv(*log_dir + "/rewards.csv");
     EXPECT_TRUE(rewards_found);
-    if (!rewards_found) return;
+    if (!rewards_found)
+        return;
 
     for (size_t row = 0; row < csv.rows(); row++) {
         int id = csv.at(row, "id");
@@ -105,16 +115,12 @@ TEST(TestOpenAI, combined_one_dim_discrete) {
 // Setting up testing environment according to gtest documentation
 // https://github.com/google/googletest/blob/master/googletest/docs/advanced.md
 class TestOpenAIEnvironment : public ::testing::Environment {
-public:
+ public:
     virtual ~TestOpenAIEnvironment() {}
 
-    virtual void SetUp() {
-        Py_Initialize();
-    }
+    virtual void SetUp() { Py_Initialize(); }
 
-    virtual void TearDown() {
-        Py_Finalize();
-    }
+    virtual void TearDown() { Py_Finalize(); }
 };
 
 int main(int argc, char** argv) {

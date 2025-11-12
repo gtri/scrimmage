@@ -30,22 +30,24 @@
  *
  */
 
+#include <iostream>
+
+#include <boost/algorithm/string.hpp>
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h>
 
-#include <iostream>
-
-#include <boost/algorithm/string.hpp>
-
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::RigidBody6DOFControllerPID, RigidBody6DOFControllerPID_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Controller,
+    scrimmage::controller::RigidBody6DOFControllerPID,
+    RigidBody6DOFControllerPID_plugin)
 
 namespace scrimmage {
 namespace controller {
 
 namespace sc = scrimmage;
 
-void set_pid(sc::PID &pid, std::string str, bool is_angle) {
+void set_pid(sc::PID& pid, std::string str, bool is_angle) {
     std::vector<std::string> str_vals;
     boost::split(str_vals, str, boost::is_any_of(","));
 
@@ -68,7 +70,7 @@ void set_pid(sc::PID &pid, std::string str, bool is_angle) {
     }
 }
 
-void RigidBody6DOFControllerPID::init(std::map<std::string, std::string> &params) {
+void RigidBody6DOFControllerPID::init(std::map<std::string, std::string>& params) {
     set_pid(heading_pid_, params["heading_pid"], true);
     set_pid(alt_pid_, params["alt_pid"], false);
     set_pid(vel_pid_, params["vel_pid"], false);
@@ -92,5 +94,5 @@ bool RigidBody6DOFControllerPID::step(double t, double dt) {
     (*u_) << u_thrust, roll_error, pitch_error, 0;
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

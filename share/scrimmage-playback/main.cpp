@@ -29,25 +29,23 @@
  * A Long description goes here.
  *
  */
-#include <signal.h>
-
+#include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/network/Interface.h>
+#include <signal.h>
 #if ENABLE_VTK == 1
 #include <scrimmage/viewer/Viewer.h>
 #endif
 
-#include <scrimmage/common/Timer.h>
-#include <scrimmage/log/Log.h>
-
-#include <iostream>
-#include <iomanip>
+#include <chrono>  // NOLINT
 #include <ctime>
-#include <chrono> // NOLINT
-#include <thread> // NOLINT
+#include <iomanip>
+#include <iostream>
+#include <thread>  // NOLINT
 
 #include <boost/filesystem.hpp>
+#include <scrimmage/common/Timer.h>
+#include <scrimmage/log/Log.h>
 
 using std::cout;
 using std::endl;
@@ -66,10 +64,11 @@ void HandleSignal(int s) {
     cout << endl << "Exiting gracefully" << endl;
 }
 
-void playback_loop(std::shared_ptr<sc::Log> log,
-                   sc::InterfacePtr in_interface,
-                   sc::InterfacePtr out_interface,
-                   bool save_screenshots) {
+void playback_loop(
+    std::shared_ptr<sc::Log> log,
+    sc::InterfacePtr in_interface,
+    sc::InterfacePtr out_interface,
+    bool save_screenshots) {
     // Get dt from first two frames
     double dt = 0.1;
     if (log->frames().size() >= 2) {
@@ -115,20 +114,19 @@ void playback_loop(std::shared_ptr<sc::Log> log,
         timer.start_loop_timer();
         // Send all other messages up to current frame time before sending
         // current frame
-        while (it_shapes != log->shapes().end() &&
-               (*it_shapes)->time() <= (*it)->time()) {
+        while (it_shapes != log->shapes().end() && (*it_shapes)->time() <= (*it)->time()) {
             out_interface->send_shapes(**it_shapes);
             ++it_shapes;
         }
 
-        while (it_utm_terrain != log->utm_terrain().end() &&
-               (*it_utm_terrain)->time() <= (*it)->time()) {
+        while (it_utm_terrain != log->utm_terrain().end()
+               && (*it_utm_terrain)->time() <= (*it)->time()) {
             out_interface->send_utm_terrain(*it_utm_terrain);
             ++it_utm_terrain;
         }
 
-        while (it_contact_visual != log->contact_visual().end() &&
-               (*it_contact_visual)->time() <= (*it)->time()) {
+        while (it_contact_visual != log->contact_visual().end()
+               && (*it_contact_visual)->time() <= (*it)->time()) {
             out_interface->send_contact_visual(*it_contact_visual);
             ++it_contact_visual;
         }
@@ -152,7 +150,7 @@ void playback_loop(std::shared_ptr<sc::Log> log,
             // Do we have any simcontrol message updates from GUI?
             if (in_interface->gui_msg_update()) {
                 in_interface->gui_msg_mutex.lock();
-                auto &control = in_interface->gui_msg();
+                auto& control = in_interface->gui_msg();
                 auto it = control.begin();
                 while (it != control.end()) {
                     if (it->inc_warp()) {
@@ -183,14 +181,15 @@ void playback_loop(std::shared_ptr<sc::Log> log,
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
             }
         } while (paused && !exit_loop);
-        if (exit_loop) break;
+        if (exit_loop)
+            break;
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     // Handle kill signals
     struct sigaction sa;
-    memset( &sa, 0, sizeof(sa) );
+    memset(&sa, 0, sizeof(sa));
     sa.sa_handler = HandleSignal;
     sigfillset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
@@ -221,14 +220,17 @@ int main(int argc, char *argv[]) {
     if (log->frames().size() == 0) {
         throw std::runtime_error("no frames found");
     } else {
-      cout << "Frames parsed: " << log->frames().size() << endl;
-      cout << "Shapes parsed: " << log->shapes().size() << endl;
+        cout << "Frames parsed: " << log->frames().size() << endl;
+        cout << "Shapes parsed: " << log->shapes().size() << endl;
     }
 
-
-    std::thread playback(playback_loop, log, from_gui_interface,
-                         to_gui_interface, save_screenshots);
-    playback.detach(); // todo
+    std::thread playback(
+        playback_loop,
+        log,
+        from_gui_interface,
+        to_gui_interface,
+        save_screenshots);
+    playback.detach();  // todo
 
     auto mp = std::make_shared<sc::MissionParse>();
 

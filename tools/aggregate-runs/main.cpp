@@ -30,25 +30,24 @@
  *
  */
 
-#include <scrimmage/parse/MissionParse.h>
+#include <chrono>  // NOLINT
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
+#include <scrimmage/common/FileSearch.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/common/FileSearch.h>
-
-#include <iostream>
-#include <string>
-#include <iomanip>
-#include <chrono> // NOLINT
-#include <ctime>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-
-#include <boost/filesystem.hpp>
-#include <boost/tokenizer.hpp>
-#include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
+#include <scrimmage/parse/MissionParse.h>
 
 namespace fs = boost::filesystem;
 namespace sc = scrimmage;
@@ -56,12 +55,11 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-void usage(char *argv[]) {
-    cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs"
-         << endl << endl;
+void usage(char* argv[]) {
+    cout << endl << "Usage: " << argv[0] << " -d ~/.scrimmage/logs" << endl << endl;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
@@ -122,7 +120,7 @@ int main(int argc, char *argv[]) {
     std::ofstream summary_file(log_dir + "/aggregate/all_runs.csv");
 
     // Using the score from each summary_csv, keep track of team wins
-    for (std::string &filename : paths) {
+    for (std::string& filename : paths) {
         if (!fs::exists(fs::path(filename))) {
             cout << "summary.csv doesn't exist: " << filename << endl;
             return -1;
@@ -131,14 +129,15 @@ int main(int argc, char *argv[]) {
         std::ifstream csv_file(filename);
 
         std::string line;
-        std::getline(csv_file, line); // skip header comment
+        std::getline(csv_file, line);  // skip header comment
 
         std::map<int, double> team_scores;
         while (std::getline(csv_file, line)) {
             std::vector<std::string> t;
             boost::split(t, line, boost::is_any_of(","));
 
-            if (t.size() < 2) continue;
+            if (t.size() < 2)
+                continue;
 
             int team_id = std::stoi(t[0]);
             team_scores[team_id] = std::stod(t[1]);
@@ -147,8 +146,8 @@ int main(int argc, char *argv[]) {
         // Determine which teams lost, won, and drew
         double max_score = -std::numeric_limits<double>::infinity();
         std::vector<int> winning_team;
-        for (auto &kv : team_scores) {
-            if (std::abs(kv.second-max_score) < 0.000001) {
+        for (auto& kv : team_scores) {
+            if (std::abs(kv.second - max_score) < 0.000001) {
                 // A possible draw
                 winning_team.push_back(kv.first);
             } else if (kv.second > max_score) {
@@ -173,7 +172,7 @@ int main(int argc, char *argv[]) {
         } else if (winning_team.size() > 1) {
             // Draw for multiple winners
             result_filename = "draw";
-            for (auto &team : winning_team) {
+            for (auto& team : winning_team) {
                 result_filename += "_" + std::to_string(team);
 
                 if (team_draws.count(team) > 0) {
@@ -207,10 +206,10 @@ int main(int argc, char *argv[]) {
     // Make a map of the available team ids, so we can loop over it while
     // printing out their records.
     std::map<int, int> team_ids;
-    for (auto &kv : team_wins) {
+    for (auto& kv : team_wins) {
         team_ids[kv.first] = kv.first;
     }
-    for (auto &kv : team_draws) {
+    for (auto& kv : team_draws) {
         team_ids[kv.first] = kv.first;
     }
 
@@ -222,20 +221,22 @@ int main(int argc, char *argv[]) {
     headings.push_back("Total");
 
     cout << "-----------------------------------------------------" << endl;
-    for (auto &i : headings) {
+    for (auto& i : headings) {
         cout << std::left << std::setw(col_wid) << i;
     }
     cout << endl;
 
-    for (auto &kv : team_ids) {
+    for (auto& kv : team_ids) {
         int wins = 0;
         int draws = 0;
 
         auto it = team_wins.find(kv.first);
-        if (it != team_wins.end()) wins = it->second;
+        if (it != team_wins.end())
+            wins = it->second;
 
         it = team_draws.find(kv.first);
-        if (it != team_draws.end()) draws = it->second;
+        if (it != team_draws.end())
+            draws = it->second;
 
         cout << std::left << std::setw(col_wid) << kv.first;
         cout << std::left << std::setw(col_wid) << wins;

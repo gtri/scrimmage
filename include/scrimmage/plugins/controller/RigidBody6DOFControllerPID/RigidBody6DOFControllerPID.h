@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_
 
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h>
-
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
+
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h>
 
 namespace scrimmage {
 namespace controller {
 class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    std::shared_ptr<Eigen::Vector4d> u() override {return u_;}
+    std::shared_ptr<Eigen::Vector4d> u() override { return u_; }
 
  protected:
     std::shared_ptr<Eigen::Vector4d> u_;
@@ -53,6 +53,6 @@ class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_

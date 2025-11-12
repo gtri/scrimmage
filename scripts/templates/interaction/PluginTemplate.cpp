@@ -31,44 +31,44 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/interaction/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
+#include <memory>
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/math/State.h>
-
-#include <memory>
-#include <limits>
-#include <iostream>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction,
-                scrimmage::interaction::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::EntityInteraction,
+    scrimmage::interaction::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 namespace scrimmage {
 namespace interaction {
 
-(>>>PLUGIN_NAME<<<)::(>>>PLUGIN_NAME<<<)() {
-}
+(>>> PLUGIN_NAME < < <)::(>>> PLUGIN_NAME < < <)() {}
 
-bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &mission_params,
-                               std::map<std::string, std::string> &plugin_params) {
+bool(>>> PLUGIN_NAME < < <)::init(
+    std::map<std::string, std::string>& mission_params,
+    std::map<std::string, std::string>& plugin_params) {
     return true;
 }
 
-
-bool (>>>PLUGIN_NAME<<<)::step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                                  double t, double dt) {
+bool(
+    >>> PLUGIN_NAME
+    < < <)::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) {
     if (ents.empty()) {
         return true;
     }
 
     return true;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

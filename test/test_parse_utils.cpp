@@ -30,22 +30,21 @@
  *
  */
 
+#include <iostream>
+#include <vector>
 
 #include <gtest/gtest.h>
 #include <scrimmage/parse/ParseUtils.h>
-
-#include <vector>
-
-#include <iostream>
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
 TEST(test_parse_utils, get_vec_of_vecs_spaces) {
-    std::string test_str = "[a b c d]"
-                           "[e f g h]"
-                           "[h i j k]";
+    std::string test_str =
+        "[a b c d]"
+        "[e f g h]"
+        "[h i j k]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, " "));
@@ -59,9 +58,10 @@ TEST(test_parse_utils, get_vec_of_vecs_spaces) {
 }
 
 TEST(test_parse_utils, get_vec_of_vecs_commas) {
-    std::string test_str = "[a,b,c,d]"
-                           "[e,f,g,h]"
-                           "[h,i,j,k]";
+    std::string test_str =
+        "[a,b,c,d]"
+        "[e,f,g,h]"
+        "[h,i,j,k]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, ","));
@@ -69,15 +69,15 @@ TEST(test_parse_utils, get_vec_of_vecs_commas) {
     std::vector<std::vector<std::string>> expected_vecs = {
         {"a", "b", "c", "d"},
         {"e", "f", "g", "h"},
-        {"h", "i", "j", "k"}
-    };
+        {"h", "i", "j", "k"}};
     EXPECT_EQ(expected_vecs, test_vecs);
 }
 
 TEST(test_parse_utils, get_vec_of_vecs_spaces_and_commas) {
-    std::string test_str = "[a,  b, c,  d]"
-                           "[e,    f, g, h]"
-                           "[h, i, j, k]";
+    std::string test_str =
+        "[a,  b, c,  d]"
+        "[e,    f, g, h]"
+        "[h, i, j, k]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, " ,"));
@@ -85,31 +85,28 @@ TEST(test_parse_utils, get_vec_of_vecs_spaces_and_commas) {
     std::vector<std::vector<std::string>> expected_vecs = {
         {"a", "b", "c", "d"},
         {"e", "f", "g", "h"},
-        {"h", "i", "j", "k"}
-    };
+        {"h", "i", "j", "k"}};
     EXPECT_EQ(expected_vecs, test_vecs);
 }
 
 TEST(test_parse_utils, get_vec_of_vecs_empty_items) {
-    std::string test_str = "[, b, , d]"
-                           "[e, , g, ]"
-                           "[h, i, j, ]";
+    std::string test_str =
+        "[, b, , d]"
+        "[e, , g, ]"
+        "[h, i, j, ]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, " ,"));
 
-    std::vector<std::vector<std::string>> expected_vecs = {
-        {"b", "d"},
-        {"e", "g"},
-        {"h", "i", "j"}
-    };
+    std::vector<std::vector<std::string>> expected_vecs = {{"b", "d"}, {"e", "g"}, {"h", "i", "j"}};
     EXPECT_EQ(expected_vecs, test_vecs);
 }
 
 TEST(test_parse_utils, get_vec_of_vecs_internal_vecs) {
-    std::string test_str = "[a, [q, w], c, d]"
-                           "[[ e, x ], f, g, h]"
-                           "[h, i, j, [k, x, z]]";
+    std::string test_str =
+        "[a, [q, w], c, d]"
+        "[[ e, x ], f, g, h]"
+        "[h, i, j, [k, x, z]]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, " ,"));
@@ -117,25 +114,28 @@ TEST(test_parse_utils, get_vec_of_vecs_internal_vecs) {
     std::vector<std::vector<std::string>> expected_vecs = {
         {"a", "[qw]", "c", "d"},
         {"[ex]", "f", "g", "h"},
-        {"h", "i", "j", "[kxz]"}
-    };
+        {"h", "i", "j", "[kxz]"}};
     EXPECT_EQ(expected_vecs, test_vecs);
 }
 
 TEST(test_parse_utils, get_vec_of_vecs_internal_vecs_complicated) {
     std::string test_str =
-            "[ MyPlanner print_planner_settings='true' "
-            "show_path='true' "
-            "goal='1000,1000,600,0,0,0' "
-            "waypoint_list_topic='WaypointList'] "
-            "[ MyController "
-            "translation_bounds='[-1900,1900][-1900,1900][-2000,2000]]";
+        "[ MyPlanner print_planner_settings='true' "
+        "show_path='true' "
+        "goal='1000,1000,600,0,0,0' "
+        "waypoint_list_topic='WaypointList'] "
+        "[ MyController "
+        "translation_bounds='[-1900,1900][-1900,1900][-2000,2000]]";
 
     std::vector<std::vector<std::string>> test_vecs;
     ASSERT_TRUE(sc::get_vec_of_vecs(test_str, test_vecs, " "));
 
     std::vector<std::vector<std::string>> expected_vecs = {
-        {"MyPlanner", "print_planner_settings='true'", "show_path='true'", "goal='1000,1000,600,0,0,0'", "waypoint_list_topic='WaypointList'"},
+        {"MyPlanner",
+         "print_planner_settings='true'",
+         "show_path='true'",
+         "goal='1000,1000,600,0,0,0'",
+         "waypoint_list_topic='WaypointList'"},
         {"MyController", "translation_bounds='[-1900,1900][-1900,1900][-2000,2000]"},
     };
     EXPECT_EQ(expected_vecs, test_vecs);

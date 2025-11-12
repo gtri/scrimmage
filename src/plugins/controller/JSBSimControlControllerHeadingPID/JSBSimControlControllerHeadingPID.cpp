@@ -30,17 +30,19 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/State.h>
-
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h>
 
-REGISTER_PLUGIN(scrimmage::Controller, scrimmage::controller::JSBSimControlControllerHeadingPID, JSBSimControlControllerHeadingPID_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Controller,
+    scrimmage::controller::JSBSimControlControllerHeadingPID,
+    JSBSimControlControllerHeadingPID_plugin)
 
 namespace scrimmage {
 namespace controller {
@@ -48,7 +50,7 @@ namespace controller {
 namespace sc = scrimmage;
 using ang = scrimmage::Angles;
 
-void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string> &params) {
+void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string>& params) {
     angles_from_jsbsim_.set_input_clock_direction(ang::Rotate::CW);
     angles_from_jsbsim_.set_input_zero_axis(ang::HeadingZero::Pos_Y);
     angles_from_jsbsim_.set_output_clock_direction(ang::Rotate::CCW);
@@ -95,5 +97,5 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

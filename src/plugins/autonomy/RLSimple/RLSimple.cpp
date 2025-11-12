@@ -34,7 +34,6 @@
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
-
 #include <scrimmage/plugins/autonomy/RLSimple/RLSimple.h>
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plugin)
@@ -42,7 +41,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::RLSimple, RLSimple_plu
 namespace scrimmage {
 namespace autonomy {
 
-void RLSimple::init_helper(std::map<std::string, std::string> &params) {
+void RLSimple::init_helper(std::map<std::string, std::string>& params) {
     x_discrete_ = str2bool(params.at("x_discrete"));
     y_discrete_ = str2bool(params.at("y_discrete"));
     ctrl_y_ = str2bool(params.at("ctrl_y"));
@@ -71,7 +70,7 @@ void RLSimple::set_environment() {
 
     auto add_output = [&](bool is_discrete) {
         if (is_discrete) {
-            action_space.discrete_count.push_back(2); // forward/backward
+            action_space.discrete_count.push_back(2);  // forward/backward
         } else {
             action_space.continuous_extrema.push_back({-max_speed_, max_speed_});
         }
@@ -90,7 +89,7 @@ std::tuple<bool, double, pybind11::dict> RLSimple::calc_reward() {
     double reward = within_radius ? 1 : 0;
 
     pybind11::dict info;
-    info["x_within_radius"] = within_radius; // added for test harness
+    info["x_within_radius"] = within_radius;  // added for test harness
     return std::make_tuple(done, reward, info);
 }
 
@@ -115,5 +114,5 @@ bool RLSimple::step_helper() {
     return true;
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

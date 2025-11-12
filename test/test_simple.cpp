@@ -30,11 +30,9 @@
  *
  */
 
-
 #include <gtest/gtest.h>
-
 #include <math.h>
 
 TEST(test_simple, test1) {
-    EXPECT_EQ (2, sqrt(4));
+    EXPECT_EQ(2, sqrt(4));
 }

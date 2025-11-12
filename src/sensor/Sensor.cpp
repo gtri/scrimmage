@@ -34,12 +34,16 @@
 
 namespace scrimmage {
 
-void Sensor::init(std::map<std::string, std::string> &params) {return;}
+void Sensor::init(std::map<std::string, std::string>& params) {
+    return;
+}
 
-std::string Sensor::type() {return std::string("Sensor");}
+std::string Sensor::type() {
+    return std::string("Sensor");
+}
 
 scrimmage::MessageBasePtr Sensor::sensor_msg(double t) {
     return nullptr;
 }
 
-} // namespace scrimmage
+}  // namespace scrimmage
