@@ -47,7 +47,7 @@ FROM dependencies AS builder
 # Copy repo code into image
 RUN mkdir -p /root/scrimmage
 WORKDIR /root/scrimmage
-RUN git clone -b scrimmage-22.04 https://github.com/gtri/scrimmage.git
+RUN git clone -b Ubuntu-22.04 https://github.com/gtri/scrimmage.git
 
 # Install anything that we need that we don't already have
 RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
