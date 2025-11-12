@@ -30,12 +30,11 @@
  *
  */
 
-#include <gtest/gtest.h>
+#include <cmath>
 
+#include <gtest/gtest.h>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/math/Angles.h>
-
-#include <cmath>
 
 namespace sc = scrimmage;
 using ang = sc::Angles;
@@ -48,14 +47,14 @@ TEST(test_angles, rotation) {
     ang.set_output_zero_axis(ang::HeadingZero::Pos_X);
 
     ang.set_angle(134);
-    EXPECT_NEAR(ang.angle(), 360-44, 1e-1);
+    EXPECT_NEAR(ang.angle(), 360 - 44, 1e-1);
 }
 
 TEST(test_angles, angle_within) {
     for (int i = -360 * 2; i < 360 * 2; i++) {
         for (int j = 1; j < 89; j++) {
             int low = i;
-            int high = i+ 90;
+            int high = i + 90;
             int ang = i + j;
 
             EXPECT_TRUE(ang::angle_within(low, high, ang));
@@ -91,7 +90,8 @@ TEST(test_angles, gps_to_euclidean) {
     // test interpolation (clockwise)
     std::vector<double> angles = sc::linspace(beg_angle.angle(), end_angle.angle(), 3);
     EXPECT_EQ(angles.size(), static_cast<size_t>(3));
-    if (angles.size() != 3) return;
+    if (angles.size() != 3)
+        return;
 
     EXPECT_NEAR(angles[0], 90, eps);
     EXPECT_NEAR(angles[1], 150, eps);
@@ -100,7 +100,8 @@ TEST(test_angles, gps_to_euclidean) {
     // now test interpolation (counter-clockwise)
     angles = sc::linspace(beg_angle.angle(), end_angle.angle() - 360, 3);
     EXPECT_EQ(angles.size(), static_cast<size_t>(3));
-    if (angles.size() != 3) return;
+    if (angles.size() != 3)
+        return;
 
     EXPECT_NEAR(angles[0], 90, eps);
     EXPECT_NEAR(angles[1], -30, eps);

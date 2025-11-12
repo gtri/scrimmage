@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLEROMEGA_MULTIROTORCONTROLLEROMEGA_H_
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
-
 #include <map>
 #include <memory>
 #include <string>
+
+#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
+#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
 
 namespace scrimmage {
 namespace controller {
@@ -46,9 +46,9 @@ namespace controller {
 class MultirotorControllerOmega : public motion::Multirotor::Controller {
  public:
     MultirotorControllerOmega();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    Eigen::VectorXd &u() override { return u_; }
+    Eigen::VectorXd& u() override { return u_; }
 
  protected:
     Eigen::VectorXd u_;

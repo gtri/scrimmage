@@ -33,16 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_CUBOID_H_
 
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/ProtoConversions.h>
-
 #include <Eigen/Dense>
-
 #include <iostream>
 #include <limits>
 #include <tuple>
 #include <vector>
+
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include <scrimmage/proto/ProtoConversions.h>
 
 using std::cout;
 using std::endl;
@@ -56,11 +55,12 @@ class Cuboid : public BoundaryBase {
  public:
     Cuboid() {}
 
-    Cuboid(Eigen::Vector3d center,
-           double x_length,
-           double y_width,
-           double z_height,
-           scrimmage::Quaternion quat) {
+    Cuboid(
+        Eigen::Vector3d center,
+        double x_length,
+        double y_width,
+        double z_height,
+        scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -77,18 +77,19 @@ class Cuboid : public BoundaryBase {
 
         // TODO: Handle rotation
 
-        for (Eigen::Vector3d &p : points) {
+        for (Eigen::Vector3d& p : points) {
             p += center;
         }
         set_points(points);
     }
 
-    explicit Cuboid(const scrimmage_proto::Shape &shape)
-        : Cuboid(proto_2_vector3d(shape.cuboid().center()),
-                 shape.cuboid().x_length(),
-                 shape.cuboid().y_length(),
-                 shape.cuboid().z_length(),
-                 sc::proto_2_quat(shape.cuboid().quat())) {
+    explicit Cuboid(const scrimmage_proto::Shape& shape)
+        : Cuboid(
+            proto_2_vector3d(shape.cuboid().center()),
+            shape.cuboid().x_length(),
+            shape.cuboid().y_length(),
+            shape.cuboid().z_length(),
+            sc::proto_2_quat(shape.cuboid().quat())) {
         set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 
@@ -112,16 +113,16 @@ class Cuboid : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
-            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p)
+            && (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
     }
 
-    const std::vector<Eigen::Vector3d> &points() { return points_; }
+    const std::vector<Eigen::Vector3d>& points() { return points_; }
 
-    void set_points(std::vector<Eigen::Vector3d> &points) {
+    void set_points(std::vector<Eigen::Vector3d>& points) {
         points_ = points;
         compute_dots();
 
@@ -130,16 +131,20 @@ class Cuboid : public BoundaryBase {
         center_ << xy_center(0), xy_center(1), alt_center;
 
         // Compute min / max values for x, y, z
-        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
-                             std::numeric_limits<double>::infinity(),
-                             std::numeric_limits<double>::infinity());
-        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
-                             -std::numeric_limits<double>::infinity(),
-                             -std::numeric_limits<double>::infinity());
+        Eigen::Vector3d mins(
+            std::numeric_limits<double>::infinity(),
+            std::numeric_limits<double>::infinity(),
+            std::numeric_limits<double>::infinity());
+        Eigen::Vector3d maxs(
+            -std::numeric_limits<double>::infinity(),
+            -std::numeric_limits<double>::infinity(),
+            -std::numeric_limits<double>::infinity());
         for (Eigen::Vector3d p : points) {
             for (int i = 0; i < 3; i++) {
-                if (p(i) < mins(i)) mins(i) = p(i);
-                if (p(i) > maxs(i)) maxs(i) = p(i);
+                if (p(i) < mins(i))
+                    mins(i) = p(i);
+                if (p(i) > maxs(i))
+                    maxs(i) = p(i);
             }
         }
         extents_.clear();
@@ -173,7 +178,7 @@ class Cuboid : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d* p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             // shapes_.push_back(polygon);

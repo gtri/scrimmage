@@ -30,11 +30,11 @@
  *
  */
 
+#include <Eigen/Dense>
 
 #include <gtest/gtest.h>
-#include <scrimmage/math/Quaternion.h>
 #include <scrimmage/math/Angles.h>
-#include <Eigen/Dense>
+#include <scrimmage/math/Quaternion.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
 
@@ -79,13 +79,13 @@ TEST(test_quaternion, pitch_safe) {
     EXPECT_NEAR(yaw, quaternion.yaw(), 1e-10);
 
     // check overflows
-    pitch = M_PI/2;
-    quaternion.set(cos(pitch/2), 0.0, sin(pitch/2) + 1e-3, 0.0);
+    pitch = M_PI / 2;
+    quaternion.set(cos(pitch / 2), 0.0, sin(pitch / 2) + 1e-3, 0.0);
     EXPECT_TRUE(std::isnan(quaternion.pitch()));
     EXPECT_NEAR(pitch, quaternion.pitch_safe(), 1e-10);
 
-    pitch = -M_PI/2;
-    quaternion.set(cos(pitch/2), 0.0, sin(pitch/2) - 1e-3, 0.0);
+    pitch = -M_PI / 2;
+    quaternion.set(cos(pitch / 2), 0.0, sin(pitch / 2) - 1e-3, 0.0);
     EXPECT_TRUE(std::isnan(quaternion.pitch()));
     EXPECT_NEAR(pitch, quaternion.pitch_safe(), 1e-10);
 }
@@ -122,17 +122,17 @@ TEST(test_quaternion, constructors) {
 
     // test values
     EXPECT_TRUE(std::abs(quat3.w()) < 1e-7);
-    EXPECT_DOUBLE_EQ(quat3.vec()[0], std::sqrt(1./2.));
-    EXPECT_DOUBLE_EQ(quat3.vec()[1], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat3.vec()[0], std::sqrt(1. / 2.));
+    EXPECT_DOUBLE_EQ(quat3.vec()[1], std::sqrt(1. / 2.));
     EXPECT_TRUE(std::abs(quat3.vec()[2]) < 1e-7);
 
     EXPECT_TRUE(std::abs(quat4.w()) < 1e-7);
-    EXPECT_DOUBLE_EQ(quat4.vec()[0], std::sqrt(1./2.));
-    EXPECT_DOUBLE_EQ(quat4.vec()[1], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat4.vec()[0], std::sqrt(1. / 2.));
+    EXPECT_DOUBLE_EQ(quat4.vec()[1], std::sqrt(1. / 2.));
     EXPECT_TRUE(std::abs(quat4.vec()[2]) < 1e-7);
 
     EXPECT_TRUE(std::abs(quat5.w()) < 1e-7);
-    EXPECT_DOUBLE_EQ(quat5.vec()[0], std::sqrt(1./2.));
-    EXPECT_DOUBLE_EQ(quat5.vec()[1], std::sqrt(1./2.));
+    EXPECT_DOUBLE_EQ(quat5.vec()[0], std::sqrt(1. / 2.));
+    EXPECT_DOUBLE_EQ(quat5.vec()[1], std::sqrt(1. / 2.));
     EXPECT_TRUE(std::abs(quat5.vec()[2]) < 1e-7);
 }

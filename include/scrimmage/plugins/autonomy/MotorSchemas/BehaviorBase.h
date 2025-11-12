@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_BEHAVIORBASE_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-
 #include <map>
 #include <memory>
 #include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Contact.h>
 
 namespace scrimmage {
 namespace autonomy {
@@ -46,11 +46,11 @@ namespace motor_schemas {
 class BehaviorBase : public scrimmage::Autonomy {
  public:
     BehaviorBase();
-    Eigen::Vector3d &desired_vector();
-    void set_gain(const double &gain);
-    const double &gain();
-    void set_max_vector_length(const double &max_vector_length);
-    void configure_contacts(std::map<std::string, std::string> &params);
+    Eigen::Vector3d& desired_vector();
+    void set_gain(const double& gain);
+    const double& gain();
+    void set_max_vector_length(const double& max_vector_length);
+    void configure_contacts(std::map<std::string, std::string>& params);
 
  protected:
     Eigen::Vector3d desired_vector_;

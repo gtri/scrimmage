@@ -33,22 +33,24 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECAPTURE_SIMPLECAPTURE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECAPTURE_SIMPLECAPTURE_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
-
-#include <map>
-#include <unordered_set>
-#include <string>
 #include <list>
+#include <map>
+#include <string>
+#include <unordered_set>
+
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 namespace scrimmage {
 namespace interaction {
 class SimpleCapture : public scrimmage::EntityInteraction {
  public:
     SimpleCapture();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(
+        std::map<std::string, std::string>& mission_params,
+        std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t, double dt)
+        override;
+
  protected:
     double capture_range_;
     bool enable_team_captures_;

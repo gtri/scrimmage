@@ -33,18 +33,18 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
 
-#include <scrimmage/sensor/Sensor.h>
-
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
+
+#include <scrimmage/sensor/Sensor.h>
 
 namespace scrimmage {
 namespace sensor {
 class NoisyState : public scrimmage::Sensor {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:
@@ -54,6 +54,6 @@ class NoisyState : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 };
-} // namespace sensor
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
+}  // namespace sensor
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_

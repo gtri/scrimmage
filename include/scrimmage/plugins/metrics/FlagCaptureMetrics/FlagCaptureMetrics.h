@@ -33,11 +33,11 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_FLAGCAPTUREMETRICS_FLAGCAPTUREMETRICS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_FLAGCAPTUREMETRICS_FLAGCAPTUREMETRICS_H_
 
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/parse/ParseUtils.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/metrics/Metrics.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 namespace sc = scrimmage;
 
@@ -46,7 +46,7 @@ namespace metrics {
 
 class Score {
  public:
-    bool set_weights(std::map<std::string, std::string> &params) {
+    bool set_weights(std::map<std::string, std::string>& params) {
         flags_taken_w_ = sc::get<double>("flags_taken_w", params, 0.0);
         flags_captured_w_ = sc::get<double>("flags_captured_w", params, 0.0);
         return true;
@@ -55,20 +55,15 @@ class Score {
     void increment_flags_taken() { flags_taken_++; }
     void add_flags_taken(int c) { flags_taken_ += c; }
     int flags_taken() { return flags_taken_; }
-    void set_flags_taken(int flags_taken) {
-        flags_taken_ = flags_taken;
-    }
+    void set_flags_taken(int flags_taken) { flags_taken_ = flags_taken; }
 
     void increment_flags_captured() { flags_captured_++; }
     void add_flags_captured(int c) { flags_captured_ += c; }
     int flags_captured() { return flags_captured_; }
-    void set_flags_captured(int flags_captured) {
-        flags_captured_ = flags_captured;
-    }
+    void set_flags_captured(int flags_captured) { flags_captured_ = flags_captured; }
 
     double score() {
-        double s = flags_taken() * flags_taken_w_ +
-            flags_captured() * flags_captured_w_;
+        double s = flags_taken() * flags_taken_w_ + flags_captured() * flags_captured_w_;
         return s;
     }
 
@@ -80,21 +75,22 @@ class Score {
     double flags_captured_w_ = 0.0;
 };
 
-
 class FlagCaptureMetrics : public scrimmage::Metrics {
  public:
     FlagCaptureMetrics();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_metrics(double t, double dt) override;
     void calc_team_scores() override;
     void print_team_summaries() override;
+
  protected:
     std::map<int, Score> scores_;
     std::map<int, Score> team_flag_scores_;
     std::map<std::string, std::string> params_;
+
  private:
 };
 
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_FLAGCAPTUREMETRICS_FLAGCAPTUREMETRICS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_FLAGCAPTUREMETRICS_FLAGCAPTUREMETRICS_H_

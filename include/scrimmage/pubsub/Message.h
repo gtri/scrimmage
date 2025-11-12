@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_
 
-#include <scrimmage/pubsub/MessageBase.h>
-
-#include <string>
 #include <memory>
+#include <string>
+
+#include <scrimmage/pubsub/MessageBase.h>
 
 namespace scrimmage {
 
@@ -48,8 +48,8 @@ class Message : public MessageBase {
     T data;
 };
 
-template<class T>
+template <class T>
 using MessagePtr = std::shared_ptr<Message<T>>;
 
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_MESSAGE_H_

@@ -30,9 +30,10 @@
  *
  */
 
+#include <Eigen/Dense>
+
 #include <gtest/gtest.h>
 #include <scrimmage/math/State.h>
-#include <Eigen/Dense>
 #define _USE_MATH_DEFINES
 #include <cmath>
 
@@ -47,15 +48,13 @@ TEST(test_state, local_frames) {
 
     state2.pos() = Vector3d(1, 0, 1);
     state2.quat().set(0, 0, 0);
-    Vector3d position_local_to_state1 = \
-        state1.rel_pos_local_frame(state2.pos());
+    Vector3d position_local_to_state1 = state1.rel_pos_local_frame(state2.pos());
 
     EXPECT_NEAR(0, position_local_to_state1(0), 1e-10);
     EXPECT_NEAR(0, position_local_to_state1(1), 1e-10);
     EXPECT_NEAR(-1, position_local_to_state1(2), 1e-10);
 
-    Vector3d position_local_to_state2 = \
-        state2.rel_pos_local_frame(state1.pos());
+    Vector3d position_local_to_state2 = state2.rel_pos_local_frame(state1.pos());
 
     EXPECT_NEAR(0, position_local_to_state2(0), 1e-10);
     EXPECT_NEAR(0, position_local_to_state2(1), 1e-10);

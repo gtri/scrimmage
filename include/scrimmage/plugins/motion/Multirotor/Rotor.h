@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_ROTOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_ROTOR_H_
 
+#include <Eigen/Dense>
+
 #include <scrimmage/math/Angles.h>
 #include <scrimmage/math/Quaternion.h>
-
-#include <Eigen/Dense>
 
 namespace sc = scrimmage;
 
@@ -46,10 +46,7 @@ class Rotor {
  public:
     enum Direction { CW = 1, CCW = -1 };
 
-    Rotor()
-        : dir_(Direction::CW),
-          offset_length_(1.0),
-          xy_angle_(0.0) {}
+    Rotor() : dir_(Direction::CW), offset_length_(1.0), xy_angle_(0.0) {}
 
     void set_direction(Direction dir) { dir_ = dir; }
     void set_offset(Eigen::Vector3d offset) {
@@ -59,9 +56,9 @@ class Rotor {
     }
     void set_quat(scrimmage::Quaternion quat) { quat_ = quat; }
 
-    Direction &direction() { return dir_; }
-    Eigen::Vector3d &offset() { return offset_; }
-    scrimmage::Quaternion &quat() { return quat_; }
+    Direction& direction() { return dir_; }
+    Eigen::Vector3d& offset() { return offset_; }
+    scrimmage::Quaternion& quat() { return quat_; }
     double offset_length() { return offset_length_; }
     double xy_angle() { return xy_angle_; }
 

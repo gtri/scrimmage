@@ -30,39 +30,37 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <scrimmage/simcontrol/SimUtils.h>
-
 #include <boost/optional.hpp>
+#include <gtest/gtest.h>
+#include <scrimmage/simcontrol/SimUtils.h>
 
 namespace sc = scrimmage;
 
 TEST(test_entity_configs, valid_entity_configs) {
-  const std::string mission = "test_valid_entity_configs";
-  auto log_dir = sc::run_test(mission, false, false);
+    const std::string mission = "test_valid_entity_configs";
+    auto log_dir = sc::run_test(mission, false, false);
 
-  bool success = log_dir ? true : false;
-  EXPECT_TRUE(success);
+    bool success = log_dir ? true : false;
+    EXPECT_TRUE(success);
 }
 
 TEST(test_entity_configs, missing_autonomy) {
-  const std::string mission = "test_missing_autonomy";
-  auto log_dir = sc::run_test(mission, false, false);
+    const std::string mission = "test_missing_autonomy";
+    auto log_dir = sc::run_test(mission, false, false);
 
-  bool success = log_dir ? true : false;
-  EXPECT_FALSE(success);
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
 }
 
 TEST(test_entity_configs, missing_controller) {
-  const std::string mission = "test_missing_controller";
-  auto log_dir = sc::run_test(mission, false, false);
+    const std::string mission = "test_missing_controller";
+    auto log_dir = sc::run_test(mission, false, false);
 
-  bool success = log_dir ? true : false;
-  EXPECT_FALSE(success);
+    bool success = log_dir ? true : false;
+    EXPECT_FALSE(success);
 }
 
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

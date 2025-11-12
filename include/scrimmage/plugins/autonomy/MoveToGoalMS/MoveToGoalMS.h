@@ -33,13 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOVETOGOALMS_MOVETOGOALMS_H_
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-
 #include <list>
 #include <map>
 #include <string>
+
+#include <scrimmage/common/PID.h>
+#include <scrimmage/common/Waypoint.h>
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
 namespace scrimmage {
 namespace autonomy {
@@ -47,7 +47,7 @@ namespace motor_schemas {
 class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
     MoveToGoalMS();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:

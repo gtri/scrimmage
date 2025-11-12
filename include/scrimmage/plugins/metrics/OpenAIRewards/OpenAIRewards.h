@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_
 
-#include <scrimmage/metrics/Metrics.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/metrics/Metrics.h>
 
 namespace scrimmage {
 namespace metrics {
@@ -44,8 +44,8 @@ namespace metrics {
 class OpenAIRewards : public scrimmage::Metrics {
  public:
     OpenAIRewards();
-    void init(std::map<std::string, std::string> &params) override;
-    bool step_metrics(double /*t*/, double /*dt*/) override {return true;}
+    void init(std::map<std::string, std::string>& params) override;
+    bool step_metrics(double /*t*/, double /*dt*/) override { return true; }
     void print_team_summaries() override;
     void calc_team_scores() override;
 
@@ -54,6 +54,6 @@ class OpenAIRewards : public scrimmage::Metrics {
     std::map<size_t, double> rewards_;
 };
 
-} // namespace metrics
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_
+}  // namespace metrics
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_OPENAIREWARDS_OPENAIREWARDS_H_

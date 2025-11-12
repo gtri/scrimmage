@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 namespace scrimmage {
 namespace autonomy {
 class Control3D : public scrimmage::Autonomy {
  public:
     Control3D();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_CONTROL3D_CONTROL3D_H_

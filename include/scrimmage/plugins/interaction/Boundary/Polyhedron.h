@@ -33,15 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_
 
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-
 #include <Eigen/Dense>
-
 #include <iostream>
 #include <limits>
 #include <tuple>
 #include <vector>
+
+#include <scrimmage/math/Quaternion.h>
+#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
 
 using std::cout;
 using std::endl;
@@ -53,11 +52,12 @@ class Polyhedron : public BoundaryBase {
  public:
     Polyhedron() {}
 
-    Polyhedron(Eigen::Vector3d center,
-               double x_length,
-               double y_width,
-               double z_height,
-               scrimmage::Quaternion quat) {
+    Polyhedron(
+        Eigen::Vector3d center,
+        double x_length,
+        double y_width,
+        double z_height,
+        scrimmage::Quaternion quat) {
         double x = x_length / 2.0;
         double y = y_width / 2.0;
         double z = z_height / 2.0;
@@ -74,7 +74,7 @@ class Polyhedron : public BoundaryBase {
 
         // TODO: Handle rotation
 
-        for (Eigen::Vector3d &p : points) {
+        for (Eigen::Vector3d& p : points) {
             p += center;
         }
         set_points(points);
@@ -100,14 +100,14 @@ class Polyhedron : public BoundaryBase {
         double v_dot_p = v.dot(p);
         double w_dot_p = w.dot(p);
 
-        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p) &&
-            (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
+        if ((u_dot_P0 > u_dot_p) && (u_dot_p > u_dot_P1) && (v_dot_P0 > v_dot_p)
+            && (v_dot_p > v_dot_P3) && (w_dot_P0 > w_dot_p) && (w_dot_p > w_dot_P4)) {
             return true;
         }
         return false;
     }
 
-    void set_points(std::vector<Eigen::Vector3d> &points) {
+    void set_points(std::vector<Eigen::Vector3d>& points) {
         points_ = points;
         compute_dots();
 
@@ -116,16 +116,20 @@ class Polyhedron : public BoundaryBase {
         center_ << xy_center(0), xy_center(1), alt_center;
 
         // Compute min / max values for x, y, z
-        Eigen::Vector3d mins(std::numeric_limits<double>::infinity(),
-                             std::numeric_limits<double>::infinity(),
-                             std::numeric_limits<double>::infinity());
-        Eigen::Vector3d maxs(-std::numeric_limits<double>::infinity(),
-                             -std::numeric_limits<double>::infinity(),
-                             -std::numeric_limits<double>::infinity());
+        Eigen::Vector3d mins(
+            std::numeric_limits<double>::infinity(),
+            std::numeric_limits<double>::infinity(),
+            std::numeric_limits<double>::infinity());
+        Eigen::Vector3d maxs(
+            -std::numeric_limits<double>::infinity(),
+            -std::numeric_limits<double>::infinity(),
+            -std::numeric_limits<double>::infinity());
         for (Eigen::Vector3d p : points) {
             for (int i = 0; i < 3; i++) {
-                if (p(i) < mins(i)) mins(i) = p(i);
-                if (p(i) > maxs(i)) maxs(i) = p(i);
+                if (p(i) < mins(i))
+                    mins(i) = p(i);
+                if (p(i) > maxs(i))
+                    maxs(i) = p(i);
             }
         }
         bounds_.clear();
@@ -159,14 +163,14 @@ class Polyhedron : public BoundaryBase {
             sc::set(polygon->mutable_color(), R, G, B);
 
             for (int r = 0; r < vert_per_face; r++) {
-                sp::Vector3d *p = polygon->mutable_polygon()->add_point();
+                sp::Vector3d* p = polygon->mutable_polygon()->add_point();
                 sc::set(p, points_[vert_lookup[f][r]]);
             }
             shapes_.push_back(polygon);
         }
     }
 
-    const std::vector<std::tuple<double, double>> &get_bounds() const { return bounds_; }
+    const std::vector<std::tuple<double, double>>& get_bounds() const { return bounds_; }
 
  protected:
     std::vector<Eigen::Vector3d> points_;

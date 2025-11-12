@@ -30,11 +30,10 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <scrimmage/common/Algorithm.h>
-
 #include <map>
+
+#include <gtest/gtest.h>
+#include <scrimmage/common/Algorithm.h>
 
 namespace sc = scrimmage;
 
@@ -43,7 +42,7 @@ TEST(test_algorithm, remove_if) {
     for (int i = 0; i < 10; i++) {
         map[i] = i - 5;
     }
-    sc::remove_if(map, [&](auto &kv) {return kv.second < 0;});
+    sc::remove_if(map, [&](auto& kv) { return kv.second < 0; });
     EXPECT_EQ(static_cast<int>(map.size()), 5);
 
     for (int i = 5; i < 10; i++) {
@@ -52,8 +51,8 @@ TEST(test_algorithm, remove_if) {
 }
 
 TEST(test_algorithm, set_difference) {
-    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
-    std::unordered_set<int> set2 {1, 3, 5};
+    std::unordered_set<int> set1{1, 2, 3, 4, 5};
+    std::unordered_set<int> set2{1, 3, 5};
 
     std::unordered_set<int> set_diff = sc::set_difference(set1, set2);
     EXPECT_EQ(set_diff.count(1), static_cast<uint8_t>(0));
@@ -64,8 +63,8 @@ TEST(test_algorithm, set_difference) {
 }
 
 TEST(test_algorithm, set_union) {
-    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
-    std::unordered_set<int> set2 {1, 3, 5, 6};
+    std::unordered_set<int> set1{1, 2, 3, 4, 5};
+    std::unordered_set<int> set2{1, 3, 5, 6};
 
     std::unordered_set<int> out = sc::set_union(set1, set2);
     EXPECT_EQ(out.count(1), static_cast<uint8_t>(1));
@@ -77,8 +76,8 @@ TEST(test_algorithm, set_union) {
 }
 
 TEST(test_algorithm, set_intersection) {
-    std::unordered_set<int> set1 {1, 2, 3, 4, 5};
-    std::unordered_set<int> set2 {1, 3, 5, 6};
+    std::unordered_set<int> set1{1, 2, 3, 4, 5};
+    std::unordered_set<int> set2{1, 3, 5, 6};
 
     std::unordered_set<int> out = sc::set_intersection(set1, set2);
     EXPECT_EQ(out.count(1), static_cast<uint8_t>(1));

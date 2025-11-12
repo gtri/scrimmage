@@ -30,21 +30,20 @@
  *
  */
 
-#include <scrimmage/parse/MissionParse.h>
+#include <chrono>  // NOLINT
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include <boost/filesystem.hpp>
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/metrics/Metrics.h>
-
-#include <iostream>
-#include <iomanip>
-#include <chrono> // NOLINT
-#include <ctime>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-
-#include <boost/filesystem.hpp>
+#include <scrimmage/parse/MissionParse.h>
 
 namespace fs = boost::filesystem;
 namespace sc = scrimmage;
@@ -52,7 +51,7 @@ namespace sc = scrimmage;
 using std::cout;
 using std::endl;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     if (argc < 2) {
         cout << "usage: " << argv[0] << " <directory of filter results>" << endl;
         return -1;
@@ -85,8 +84,7 @@ int main(int argc, char *argv[]) {
     std::map<std::string, std::list<std::string> > scenarios;
 
     // Open each .txt file and extract a metric
-    for (std::vector<std::string>::iterator it = paths.begin();
-         it != paths.end(); ++it) {
+    for (std::vector<std::string>::iterator it = paths.begin(); it != paths.end(); ++it) {
 
         std::string filename = *it;
 
@@ -124,14 +122,15 @@ int main(int argc, char *argv[]) {
         cout << "====================================================" << endl;
         cout << "Choose an outcome number: " << endl;
         cout << "----------------------------------------------------" << endl;
-        for (auto &i : headings) {
+        for (auto& i : headings) {
             cout << std::left << std::setw(col_wid) << i;
         }
         cout << endl;
         cout << "----------------------------------------------------" << endl;
         int i = 0;
         for (std::map<std::string, std::list<std::string> >::iterator it = scenarios.begin();
-             it != scenarios.end(); ++it) {
+             it != scenarios.end();
+             ++it) {
             name_2_index[i] = it->first;
             std::string select_str = "[" + std::to_string(i) + "]";
             cout << std::left << std::setw(col_wid) << select_str;
@@ -147,7 +146,8 @@ int main(int argc, char *argv[]) {
     cout << "Playing back: " << name_2_index[choose_num] << endl;
 
     for (std::list<std::string>::iterator it = scenarios[name_2_index[choose_num]].begin();
-         it != scenarios[name_2_index[choose_num]].end(); /* no inc */) {
+         it != scenarios[name_2_index[choose_num]].end();
+         /* no inc */) {
 
         cout << "Mission: " << *it << endl;
 

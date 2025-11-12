@@ -30,8 +30,9 @@
  *
  */
 
-#include <scrimmage/pubsub/MessageBase.h>
 #include <cmath>
+
+#include <scrimmage/pubsub/MessageBase.h>
 
 #if ENABLE_PYTHON_BINDINGS == 1
 // namespace py = pybind11;
@@ -52,5 +53,4 @@ namespace scrimmage {
 // }
 #endif
 
-
-} // namespace scrimmage
+}  // namespace scrimmage

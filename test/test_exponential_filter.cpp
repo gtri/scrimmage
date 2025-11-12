@@ -30,15 +30,15 @@
  *
  */
 
+#include <cmath>
+
 #include <gtest/gtest.h>
 #include <scrimmage/common/ExponentialFilter.h>
-
-#include <cmath>
 
 namespace sc = scrimmage;
 
 TEST(test_quaternion, rotation) {
-    const std::vector<double> tau_vec {0.1, 1, 10};
+    const std::vector<double> tau_vec{0.1, 1, 10};
     const double dt = 0.001;
 
     for (double tau : tau_vec) {

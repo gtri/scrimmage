@@ -32,16 +32,16 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_
+#include <map>
+#include <string>
+#include <tuple>
+
 #include <scrimmage/common/CSV.h>
 #include <scrimmage/common/PID.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/motion/MotionModel.h>
 #include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
-
-#include <map>
-#include <string>
-#include <tuple>
 
 namespace scrimmage {
 namespace motion {
@@ -77,13 +77,13 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase {
 
     virtual std::tuple<int, int, int> version();
 
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
+        override;
     bool step(double time, double dt) override;
 
-    void teleport(StatePtr &state) override;
+    void teleport(StatePtr& state) override;
 
-    void model(const vector_t &x, vector_t &dxdt, double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
     enum LaunchState { PRELAUNCH = 0, LAUNCH, POSTLAUNCH };
 

@@ -30,6 +30,9 @@
  *
  */
 
+#include <iostream>
+
+#include <boost/filesystem.hpp>
 #include <fcntl.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
@@ -45,9 +48,6 @@
 #include <scrimmage/proto/Visual.pb.h>
 #include <scrimmage/pubsub/Message.h>
 #include <unistd.h>
-
-#include <boost/filesystem.hpp>
-#include <iostream>
 namespace fs = boost::filesystem;
 
 using std::cout;
@@ -113,7 +113,8 @@ bool Log::init(const std::string& dir, Log::Mode mode) {
 }
 
 bool Log::write_ascii(const std::string& str) {
-    if (!enable_log_) return true;
+    if (!enable_log_)
+        return true;
 
     if (!ascii_output_.is_open()) {
         ascii_output_.open(ascii_filename_.c_str(), std::ios::out | std::ios::in | std::ios::trunc);
@@ -145,19 +146,33 @@ bool Log::save_contact_visual(
     return writeDelimitedTo(*contact_visual, contact_visual_output_);
 }
 
-std::string Log::frames_filename() { return frames_name_; }
+std::string Log::frames_filename() {
+    return frames_name_;
+}
 
-std::string Log::shapes_filename() { return shapes_name_; }
+std::string Log::shapes_filename() {
+    return shapes_name_;
+}
 
-std::string Log::utm_terrain_filename() { return utm_terrain_name_; }
+std::string Log::utm_terrain_filename() {
+    return utm_terrain_name_;
+}
 
-std::string Log::contact_visual_filename() { return contact_visual_name_; }
+std::string Log::contact_visual_filename() {
+    return contact_visual_name_;
+}
 
-std::string Log::msgs_filename() { return msgs_name_; }
+std::string Log::msgs_filename() {
+    return msgs_name_;
+}
 
-void Log::set_enable_log(bool enable) { enable_log_ = enable; }
+void Log::set_enable_log(bool enable) {
+    enable_log_ = enable;
+}
 
-void Log::set_drop_bin_logging(bool enable) { drop_bin_logging_ = enable; }
+void Log::set_drop_bin_logging(bool enable) {
+    drop_bin_logging_ = enable;
+}
 
 bool Log::parse(std::string dir) {
     if (!fs::is_directory(dir)) {
@@ -256,7 +271,8 @@ bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
     do {
         std::shared_ptr<scrimmage_proto::Frame> frame = std::make_shared<scrimmage_proto::Frame>();
         success = this->readDelimitedFrom(filename, input, frame, clean_eof);
-        if (clean_eof || !success) break;
+        if (clean_eof || !success)
+            break;
         frames_.push_back(frame);
         scrimmage_frames_.push_back(proto_2_frame(*frame));
     } while (success);
@@ -274,7 +290,8 @@ bool Log::parse_shapes(std::string filename, ZeroCopyInputStreamPtr input) {
         std::shared_ptr<scrimmage_proto::Shapes> shapes =
             std::make_shared<scrimmage_proto::Shapes>();
         success = this->readDelimitedFrom(filename, input, shapes, clean_eof);
-        if (clean_eof || !success) break;
+        if (clean_eof || !success)
+            break;
         shapes_.push_back(shapes);
     } while (success);
 
@@ -291,7 +308,8 @@ bool Log::parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input) 
         std::shared_ptr<scrimmage_proto::UTMTerrain> utm_terrain =
             std::make_shared<scrimmage_proto::UTMTerrain>();
         success = this->readDelimitedFrom(filename, input, utm_terrain, clean_eof);
-        if (clean_eof || !success) break;
+        if (clean_eof || !success)
+            break;
         utm_terrain_.push_back(utm_terrain);
     } while (success);
 
@@ -308,7 +326,8 @@ bool Log::parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr inpu
         std::shared_ptr<scrimmage_proto::ContactVisual> contact_visual =
             std::make_shared<scrimmage_proto::ContactVisual>();
         success = this->readDelimitedFrom(filename, input, contact_visual, clean_eof);
-        if (clean_eof || !success) break;
+        if (clean_eof || !success)
+            break;
         contact_visual_.push_back(contact_visual);
     } while (success);
 
@@ -330,8 +349,9 @@ bool Log::writeDelimitedTo(
 
     // Write the size.
     const size_t raw_size = message.ByteSizeLong();
-    if(raw_size > std::numeric_limits<int>::max()) {
-        std::cerr << __FILE__ << "(" << __LINE__ << "): Message size larger than max integer value" << std::endl;
+    if (raw_size > std::numeric_limits<int>::max()) {
+        std::cerr << __FILE__ << "(" << __LINE__ << "): Message size larger than max integer value"
+                  << std::endl;
         return false;
     }
     const int size = static_cast<int>(raw_size);
@@ -426,18 +446,28 @@ bool Log::close_log() {
     return true;
 }
 
-std::list<Frame>& Log::scrimmage_frames() { return scrimmage_frames_; }
+std::list<Frame>& Log::scrimmage_frames() {
+    return scrimmage_frames_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::Frame>>& Log::frames() { return frames_; }
+std::list<std::shared_ptr<scrimmage_proto::Frame>>& Log::frames() {
+    return frames_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::Shapes>>& Log::shapes() { return shapes_; }
+std::list<std::shared_ptr<scrimmage_proto::Shapes>>& Log::shapes() {
+    return shapes_;
+}
 
-std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& Log::utm_terrain() { return utm_terrain_; }
+std::list<std::shared_ptr<scrimmage_proto::UTMTerrain>>& Log::utm_terrain() {
+    return utm_terrain_;
+}
 
 std::list<std::shared_ptr<scrimmage_proto::ContactVisual>>& Log::contact_visual() {
     return contact_visual_;
 }
 
-std::string Log::log_dir() { return log_dir_; }
+std::string Log::log_dir() {
+    return log_dir_;
+}
 
 }  // namespace scrimmage

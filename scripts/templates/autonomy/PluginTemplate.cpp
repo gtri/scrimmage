@@ -31,36 +31,38 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/autonomy/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
+#include <iostream>
+#include <limits>
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-
-#include <iostream>
-#include <limits>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Autonomy,
+    scrimmage::autonomy::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
+void(>>> PLUGIN_NAME < < <)::init(std::map<std::string, std::string>& params) {
     initial_speed_ = sc::get<double>("initial_speed", params, initial_speed_);
 
-    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
+    desired_alt_idx_ =
+        vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
 }
 
-bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
+bool(>>> PLUGIN_NAME < < <)::step_autonomy(double t, double dt) {
     // Find nearest entity on other team. Loop through each contact, calculate
     // distance to entity, save the ID of the entity that is closest.
     double min_dist = std::numeric_limits<double>::infinity();
@@ -88,8 +90,8 @@ bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
         sc::StatePtr ent_state = contacts_->at(follow_id_).state();
 
         // Calculate the required heading to follow the other entity
-        double heading = atan2(ent_state->pos()(1) - state_->pos()(1),
-                               ent_state->pos()(0) - state_->pos()(0));
+        double heading =
+            atan2(ent_state->pos()(1) - state_->pos()(1), ent_state->pos()(0) - state_->pos()(0));
         vars_.output(desired_heading_idx_, heading);
 
         // Match entity's altitude
@@ -100,5 +102,5 @@ bool (>>>PLUGIN_NAME<<<)::step_autonomy(double t, double dt) {
     }
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

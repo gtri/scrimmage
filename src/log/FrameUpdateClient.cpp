@@ -35,16 +35,15 @@
 #include <scrimmage/proto/Scrimmage.grpc.pb.h>
 #endif
 
-#include <scrimmage/log/FrameUpdateClient.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
-
 #include <iostream>
 #include <memory>
 #include <string>
 
 #include <GeographicLib/LocalCartesian.hpp>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/log/FrameUpdateClient.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/Quaternion.h>
 
 #if ENABLE_GRPC == 1
 using grpc::Channel;
@@ -57,10 +56,10 @@ using std::endl;
 
 namespace scrimmage {
 
-FrameUpdateClient::FrameUpdateClient(const std::string &ip, int port) :
-    angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
+FrameUpdateClient::FrameUpdateClient(const std::string& ip, int port)
+    : angles_to_gps_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
 
-bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
+bool FrameUpdateClient::send_frame(scrimmage_proto::Frame& frame) {
 
     // Change from local x, y, z to GPS coordinates:
     for (int i = 0; i < frame.contact_size(); i++) {
@@ -119,7 +118,7 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame &frame) {
     return true;
 }
 
-void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian> &proj) {
+void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian>& proj) {
     proj_ = proj;
 }
-} // namespace scrimmage
+}  // namespace scrimmage

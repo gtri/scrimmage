@@ -33,10 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_
 
-#include <scrimmage/pubsub/Network.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/pubsub/Network.h>
 
 namespace sc = scrimmage;
 
@@ -47,17 +47,22 @@ class LocalNetwork : public scrimmage::Network {
  public:
     LocalNetwork();
 
-    bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params) override;
- protected:
-    bool is_reachable(const scrimmage::EntityPluginPtr &pub_plugin,
-                              const scrimmage::EntityPluginPtr &sub_plugin) override;
+    bool init(
+        std::map<std::string, std::string>& mission_params,
+        std::map<std::string, std::string>& plugin_params) override;
 
-    bool is_successful_transmission(const scrimmage::EntityPluginPtr &pub_plugin,
-                                            const scrimmage::EntityPluginPtr &sub_plugin) override;
+ protected:
+    bool is_reachable(
+        const scrimmage::EntityPluginPtr& pub_plugin,
+        const scrimmage::EntityPluginPtr& sub_plugin) override;
+
+    bool is_successful_transmission(
+        const scrimmage::EntityPluginPtr& pub_plugin,
+        const scrimmage::EntityPluginPtr& sub_plugin) override;
+
  protected:
  private:
 };
-} // namespace network
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_
+}  // namespace network
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_

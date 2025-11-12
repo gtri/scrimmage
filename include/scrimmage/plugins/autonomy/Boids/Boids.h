@@ -33,20 +33,20 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 namespace scrimmage {
 namespace autonomy {
 class Boids : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
-    void velocity_controller(Eigen::Vector3d &v);
+    void velocity_controller(Eigen::Vector3d& v);
 
     bool show_shapes_;
     double max_speed_;

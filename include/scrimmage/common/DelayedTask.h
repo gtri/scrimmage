@@ -32,8 +32,8 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 #define INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
 
-#include <utility>
 #include <functional>
+#include <utility>
 
 namespace scrimmage {
 
@@ -64,5 +64,5 @@ class DelayedTask {
     bool repeat_infinitely_;
     int repeats_left_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_

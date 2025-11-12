@@ -32,22 +32,21 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_
 
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-
 #include <Eigen/Dense>
-
 #include <map>
+#include <memory>
+#include <random>
 #include <string>
 #include <vector>
-#include <random>
-#include <memory>
+
+#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
 
 namespace scrimmage {
 namespace sensor {
 class LOSSensor : public RayTrace {
  public:
     LOSSensor();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  private:

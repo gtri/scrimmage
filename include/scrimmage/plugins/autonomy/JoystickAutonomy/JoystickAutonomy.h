@@ -33,22 +33,22 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_
 
+#include <map>
+#include <string>
+
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/plugins/controller/JoystickController/Joystick.h>
-
-#include <string>
-#include <map>
 
 namespace scrimmage {
 namespace autonomy {
 class JoystickAutonomy : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
     scrimmage::controller::Joystick joystick_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_

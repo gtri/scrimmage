@@ -32,11 +32,10 @@
 
 #ifndef INCLUDE_CMAKE_PROJECT_PLUGINS_AUTONOMY_EXAMPLEPLUGIN_EXAMPLEPLUGIN_H_
 #define INCLUDE_CMAKE_PROJECT_PLUGINS_AUTONOMY_EXAMPLEPLUGIN_EXAMPLEPLUGIN_H_
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <string>
 #include <map>
+#include <string>
 
+#include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/VariableIO.h>
 
 namespace scrimmage {
@@ -44,7 +43,7 @@ namespace autonomy {
 class ExamplePlugin : public scrimmage::Autonomy {
  public:
     ExamplePlugin();
-    virtual void init(std::map<std::string, std::string> &params);
+    virtual void init(std::map<std::string, std::string>& params);
     virtual bool step_autonomy(double t, double dt);
 
  protected:
@@ -59,6 +58,6 @@ class ExamplePlugin : public scrimmage::Autonomy {
     double desired_heading_ = 0;
     double desired_speed_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_CMAKE_PROJECT_PLUGINS_AUTONOMY_EXAMPLEPLUGIN_EXAMPLEPLUGIN_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_CMAKE_PROJECT_PLUGINS_AUTONOMY_EXAMPLEPLUGIN_EXAMPLEPLUGIN_H_

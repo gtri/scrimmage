@@ -31,19 +31,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_HARMONICOSCILLATOR_HARMONICOSCILLATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_HARMONICOSCILLATOR_HARMONICOSCILLATOR_H_
 
-#include <scrimmage/motion/MotionModel.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/motion/MotionModel.h>
 
 namespace scrimmage {
 namespace motion {
 class HarmonicOscillator : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
+        override;
     bool step(double time, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
  protected:
     uint8_t acceleration_z_idx_ = 0;
@@ -53,6 +53,6 @@ class HarmonicOscillator : public scrimmage::MotionModel {
 
  private:
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_HARMONICOSCILLATOR_HARMONICOSCILLATOR_H_
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_HARMONICOSCILLATOR_HARMONICOSCILLATOR_H_

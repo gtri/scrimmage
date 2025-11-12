@@ -33,19 +33,19 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_
 
-#include <scrimmage/sensor/Sensor.h>
-
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <scrimmage/sensor/Sensor.h>
 
 namespace scrimmage {
 
 namespace sensor {
 class SimpleINS : public scrimmage::Sensor {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step() override;
 
  protected:

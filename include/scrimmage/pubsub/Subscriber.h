@@ -33,23 +33,23 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
 
-#include <scrimmage/pubsub/SubscriberBase.h>
-#include <scrimmage/pubsub/Message.h>
-
 #include <string>
 
 #include <boost/type_index.hpp>
+#include <scrimmage/pubsub/Message.h>
+#include <scrimmage/pubsub/SubscriberBase.h>
 
 namespace scrimmage {
 template <class T, class CallbackFunc>
 class Subscriber : public SubscriberBase {
  public:
-    Subscriber(const std::string &topic, unsigned int &max_queue_size,
-               bool enable_queue_size, EntityPluginPtr plugin,
-               CallbackFunc callback)
-        : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin),
-        callback_(callback) {
-    }
+    Subscriber(
+        const std::string& topic,
+        unsigned int& max_queue_size,
+        bool enable_queue_size,
+        EntityPluginPtr plugin,
+        CallbackFunc callback)
+        : SubscriberBase(topic, max_queue_size, enable_queue_size, plugin), callback_(callback) {}
 
     void accept(scrimmage::MessageBasePtr msg) override {
         auto msg_cast = std::dynamic_pointer_cast<Message<T>>(msg);
@@ -63,5 +63,5 @@ class Subscriber : public SubscriberBase {
  protected:
     CallbackFunc callback_;
 };
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_

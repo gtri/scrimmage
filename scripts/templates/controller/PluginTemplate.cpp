@@ -31,33 +31,32 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/controller/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-
 #include <iostream>
 #include <limits>
+
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Controller,
+    scrimmage::controller::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &params) {
-}
+void(>>> PLUGIN_NAME < < <)::init(std::map<std::string, std::string>& params) {}
 
-bool (>>>PLUGIN_NAME<<<)::step(double t, double dt) {
+bool(>>> PLUGIN_NAME < < <)::step(double t, double dt) {
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage

@@ -29,22 +29,23 @@
  * A Long description goes here.
  *
  */
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
-
-#include <scrimmage/motion/MotionModel.h>
+#ifndef(>>> HEADER_GUARD < < <)
+#define(>>> HEADER_GUARD < < <)
 
 #include <map>
 #include <string>
 
+#include <scrimmage/motion/MotionModel.h>
+
 namespace scrimmage {
 namespace motion {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
+class(>>> PLUGIN_NAME < < <) : public scrimmage::MotionModel {
  public:
-    bool init(std::map<std::string, std::string> &info,
-              std::map<std::string, std::string> &params) override;
+    bool init(
+        std::map<std::string, std::string> & info,
+        std::map<std::string, std::string> & params) override;
     bool step(double time, double dt) override;
-    void model(const vector_t &x , vector_t &dxdt , double t) override;
+    void model(const vector_t& x, vector_t& dxdt, double t) override;
 
  protected:
     uint8_t speed_idx_ = 0;
@@ -57,6 +58,6 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::MotionModel {
 
  private:
 };
-} // namespace motion
-} // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+}  // namespace motion
+}  // namespace scrimmage
+#endif  // (>>>HEADER_GUARD<<<)

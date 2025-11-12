@@ -30,30 +30,30 @@
  *
  */
 
-#include <scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-
 #include <iostream>
 #include <limits>
+
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Controller,
-                scrimmage::controller::UUV6DOFLinearEnergy,
-                UUV6DOFLinearEnergy_plugin)
+REGISTER_PLUGIN(
+    scrimmage::Controller,
+    scrimmage::controller::UUV6DOFLinearEnergy,
+    UUV6DOFLinearEnergy_plugin)
 
 namespace scrimmage {
 namespace controller {
 
-void UUV6DOFLinearEnergy::init(std::map<std::string, std::string> &params) {
+void UUV6DOFLinearEnergy::init(std::map<std::string, std::string>& params) {
     energy_ = sc::get<double>("energy_initial", params, energy_);
     energy_max_ = sc::get<double>("energy_max", params, energy_max_);
     energy_min_ = sc::get<double>("energy_min", params, energy_min_);
@@ -81,5 +81,5 @@ bool UUV6DOFLinearEnergy::step(double t, double dt) {
 
     return true;
 }
-} // namespace controller
-} // namespace scrimmage
+}  // namespace controller
+}  // namespace scrimmage
