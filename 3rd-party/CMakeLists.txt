@@ -39,7 +39,6 @@ if (BUILD_BINARY_PACKAGES)
   set(TEMP_INSTALL_PREFIX "/${SCRIMMAGE_PREFIX_DIR}")
   set(DESTDIR "${CMAKE_CURRENT_BINARY_DIR}/installdir")
   set(PROTOBUF_DESTDIR "${DESTDIR}/protobuf")
-  set(PYBIND11_DESTDIR "${DESTDIR}/pybind11")
   set(JSBSIM_DESTDIR "${DESTDIR}/jsbsim")
   set(GRPC_INSTALL_PREFIX "${DESTDIR}/grpc/${SCRIMMAGE_PREFIX_DIR}")
   set(JSBSIM_INSTALL_PREFIX "${DESTDIR}/jsbsim/${SCRIMMAGE_PREFIX_DIR}")
@@ -52,7 +51,6 @@ elseif(BUILD_SOURCE_PACKAGES)
 
 else()
   set(PROTOBUF_DESTDIR "")
-  set(PYBIND11_DESTDIR "")
   set(JSBSIM_DESTDIR "")
   set(GRPC_INSTALL_PREFIX ${TEMP_INSTALL_PREFIX})
   set(JSBSIM_INSTALL_PREFIX ${TEMP_INSTALL_PREFIX})
@@ -143,20 +141,6 @@ ExternalProject_Add (
   INSTALL_COMMAND make install prefix=${GRPC_INSTALL_PREFIX}
   )
 
-########################################################
-# Download and build pybind11
-########################################################
-set(PYBIND11_GIT_REPOSITORY https://github.com/pybind/pybind11.git)
-set(PYBIND11_GIT_TAG v2.2.3)
-ExternalProject_Add(
-  pybind11
-  GIT_REPOSITORY    ${PYBIND11_GIT_REPOSITORY}
-  GIT_TAG           ${PYBIND11_GIT_TAG}
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}
-  CMAKE_ARGS -DPYBIND11_TEST:BOOL=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-  INSTALL_COMMAND make install DESTDIR=${PYBIND11_DESTDIR}
-  )
-
 set(OPENCV3_VERSION 3.4.0)
 set(OPENCV3_GIT_REPOSITORY https://github.com/opencv/opencv.git)
 set(OPENCV3_CONTRIB_GIT_REPOSITORY https://github.com/opencv/opencv_contrib.git)
@@ -187,11 +171,6 @@ if (BUILD_BINARY_PACKAGES)
     COMMAND ${FPM} --force -s dir -t ${PACKAGE_OUTPUT_TYPE} -n scrimmage-jsbsim -v 0.0.1 -C ${DESTDIR}/jsbsim -p scrimmage_jsbsim_VERSION_ARCH.${PACKAGE_OUTPUT_TYPE} ${SCRIMMAGE_PREFIX_DIR}
     )
 
-  add_custom_command(
-    TARGET pybind11
-    POST_BUILD
-    COMMAND ${FPM} --force -s dir -t ${PACKAGE_OUTPUT_TYPE} -n scrimmage-pybind11 -v 0.0.1 -C ${DESTDIR}/pybind11 -p scrimmage_pybind11_VERSION_ARCH.${PACKAGE_OUTPUT_TYPE} ${SCRIMMAGE_PREFIX_DIR}
-    )
 endif()
 
 
@@ -204,22 +183,6 @@ if (BUILD_SOURCE_PACKAGES)
   SET(GPG_KEY_ID "3951DA01" CACHE STRING "GPG Key ID on local system.")
   SET(DISTRIBUTIONS "xenial bionic focal jessie" CACHE STRING "Target Linux distributions.")
   SET(ARCHITECTURES "amd64 i386 armhf arm64" CACHE STRING "Possible build architectures.")
-
-  BuildDebSrcFromRepo(
-    NAME "scrimmage-pybind11"
-    DISTRIBUTIONS ${DISTRIBUTIONS}
-    ARCHITECTURES ${ARCHITECTURES}
-    PACKAGES_DIR ${CMAKE_SOURCE_DIR}/packages
-    GIT_REPOSITORY ${PYBIND11_GIT_REPOSITORY}
-    GIT_TAG ${PYBIND11_GIT_TAG}
-    SOURCE_VERSION 2.2.3
-    PPA_VERSION_NUMBER 7
-    PPA ${PPA}
-    GPG_KEY_ID ${GPG_KEY_ID}
-    UPDATE_COMMAND ""
-    PATCH_COMMAND ""
-    CONFIGURE_COMMAND ""
-    )
 
   BuildDebSrcFromRepo(
     NAME "scrimmage-protobuf3"

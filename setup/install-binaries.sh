@@ -44,27 +44,16 @@ OPTIONS
         if --external is passed, only install what is necessary for an external build
         (see EXTERNAL flag to project CMakeLists.txt). Otherwise do full
         installation.
-
-    --python <number>
-        install dependencies for python version <number>. This will install
-        dependencies from apt for this version of python (e.g.,
-        apt install python<number>-numpy). Options are "2, 3, a"
-        with "a" installing dependencies for both python 2 and 3.
-        The default is "a".
 EOF
 }
 
 ###################################################################
-# Process input parameters to assign state of external flag and
-# Python version variables
+# Process input parameters to assign state of external flag
 ###################################################################
 EXTERNAL=false
-PYTHON_VERSION="a"
 
 while (( "$#" )); do
-    if [[ "$1" = "--python" ]] && ([[ "$2" = "2" ]] || [[ "$2" = "3" ]]); then
-        PYTHON_VERSION="$2"
-    elif [[ "$1" = "--external" ]]; then
+    if [[ "$1" = "--external" ]]; then
 		EXTERNAL=true
     fi
 
@@ -115,7 +104,7 @@ if [ "$EXTERNAL" = false ]; then
 fi
 
 if [ "20.04" == ${UBUNTU_VERSION} ]; then
-    PYTHON_VERSION="3"  #Force Only Python 3 install for Focal
+    echo "Detected Ubuntu 20"
     DEPS_DPKG+=(
     libvtk6.3-qt
     libgrpc-dev
@@ -125,7 +114,6 @@ if [ "20.04" == ${UBUNTU_VERSION} ]; then
 fi
 if [ "22.04" == ${UBUNTU_VERSION} ]; then
     echo "Detected Ubuntu 22"
-    PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
     DEPS_DPKG+=(
     libvtk9-qt-dev
     libgrpc-dev
@@ -134,14 +122,12 @@ if [ "22.04" == ${UBUNTU_VERSION} ]; then
     libvtk9-dev
     protobuf-compiler
     protobuf-compiler-grpc
-    pybind11-dev
     libprotobuf-dev
     libgeographic-dev
     ) #GRPC Libraries for Jammy
 fi
 if [ "24.04" == ${UBUNTU_VERSION} ]; then
     echo "Detected Ubuntu 24"
-    PYTHON_VERSION="3"  #Force Only Python 3 install for Jammy
     DEPS_DPKG+=(
     libvtk9-qt-dev
     libgrpc-dev
@@ -149,38 +135,10 @@ if [ "24.04" == ${UBUNTU_VERSION} ]; then
     libvtk9-dev
     protobuf-compiler
     protobuf-compiler-grpc
-    pybind11-dev
     libprotobuf-dev
     libgeographiclib-dev
     ) #GRPC Libraries for Jammy
 
-fi
-
-if [[ "$PYTHON_VERSION" = "2" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    DEPS_DPKG+=(
-        python
-        python-setuptools
-        python-numpy
-        python-dev
-        python-pip
-        python-wxmpl
-        python-matplotlib
-        python-pandas
-        python-wxtools
-    )
-fi
-
-if [[ "$PYTHON_VERSION" -eq "3" ]] || [[ "$PYTHON_VERSION" = "a" ]]; then
-    DEPS_DPKG+=(
-        python3
-        python3-setuptools
-        python3-numpy
-        python3-dev
-        python3-pip
-        python3-venv
-        python3-matplotlib
-        python3-pandas
-    )
 fi
 
 #Require the script to be run as root
@@ -197,15 +155,6 @@ fi
 # Ubuntu
 if which apt-get &> /dev/null; then
     DEPENDENCIES=("${DEPS_COMMON[@]}" "${DEPS_DPKG[@]}")
-    if [ "14.04" == ${UBUNTU_VERSION} ]; then
-        DEPENDENCIES+=(python-wxgtk2.8)
-    elif [ "16.04" == ${UBUNTU_VERSION} ]; then
-        DEPENDENCIES+=(python-wxgtk3.0)
-    elif [ "18.04" == ${UBUNTU_VERSION} ]; then
-        DEPENDENCIES+=(python-wxgtk3.0)
-    elif [ "20.04" == ${UBUNTU_VERSION} ]; then
-        DEPENDENCIES+=(python-wxgtk3.0)
-    fi
     echo "This is Ubuntu. Using dpkg."
 
     # OpenSuse, Mandriva, Fedora, CentOs, ecc. (with rpm)
