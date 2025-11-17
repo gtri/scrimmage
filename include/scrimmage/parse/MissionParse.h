@@ -199,6 +199,7 @@ class MissionParse {
 
     EntityDesc_t entity_descs_;
 
+    bool use_exact_log_path_;
     std::string root_log_dir_;
     std::string log_dir_;
     std::string output_dir_trailer_;

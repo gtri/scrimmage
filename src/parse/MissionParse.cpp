@@ -43,16 +43,15 @@
 #include <scrimmage/parse/XMLParser/LibXML2Parser.h>
 #endif
 
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
+#include <GeographicLib/UTMUPS.hpp>
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <regex>  //NOLINT
 #include <string>
 #include <typeinfo>
-
-#include <GeographicLib/Geocentric.hpp>
-#include <GeographicLib/LocalCartesian.hpp>
-#include <GeographicLib/UTMUPS.hpp>
-#include <boost/algorithm/string.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -340,10 +339,12 @@ bool MissionParse::parse_mission() {
     set_lat_lon_alt_origin(latitude_origin_, longitude_origin_, altitude_origin_);
 
     // Handle log directory
+    use_exact_log_path_ = false;
     root_log_dir_ = expand_user("~/.scrimmage/logs");
     if (params_.count("log_dir") > 0) {
         // Get the dir attribute of the log node
         root_log_dir_ = expand_user(params_["log_dir"]);
+        use_exact_log_path_ = get<bool>("use_exact", attributes_["log_dir"], false);
     }
 
     // Is output_dir_trailer defined?
@@ -364,7 +365,11 @@ bool MissionParse::parse_mission() {
     strftime(time_buffer, 80, "%Y-%m-%d_%H-%M-%S", timeinfo);
     std::string name(time_buffer);
 
-    log_dir_ = root_log_dir_ + "/" + name;
+    if (!use_exact_log_path_) {
+        log_dir_ = root_log_dir_ + "/" + name;
+    } else {
+        log_dir_ = root_log_dir_ + "/";
+    }
 
     if (job_number_ != -1) {
         log_dir_ += "_job_" + std::to_string(job_number_);
@@ -742,7 +747,7 @@ bool MissionParse::create_log_dir() {
     while (!log_dir_created && attempts < 1e4) {
         log_dir_ = log_dir_original;
         // If the log directory already exists, append a number to it:
-        if (fs::exists(fs::path(log_dir_))) {
+        if (!use_exact_log_path_ && fs::exists(fs::path(log_dir_))) {
             int ct = 1;
             std::string log_dir_tmp;
             do {
@@ -758,8 +763,15 @@ bool MissionParse::create_log_dir() {
     }
 
     if (!log_dir_created) {
-        cout << "Unable to create log directory: " << log_dir_ << endl;
-        return false;
+        if (!use_exact_log_path_) {
+            cout << "Unable to create log directory: " << log_dir_ << endl;
+            return false;
+        } else {
+            cout << "Unable to guarantee that the directory for this run is unique and does not "
+                    "already contain scrimmage files that would be overwritten: "
+                 << log_dir_ << std::endl;
+            return false;
+        }
     }
 
     // Copy the input scenario xml file to the output directory
@@ -774,11 +786,12 @@ bool MissionParse::create_log_dir() {
 
     // Create the latest log directory by default. Don't create the latest
     // directory if the tag is defined in the mission file and it is set to
-    // false.
+    // false. Can't create latest dir with an exact path because our assumptions
+    // of where to put it are broken.
     bool create_latest_dir = not(
         params_.count("create_latest_dir") > 0 && str2bool(params_["create_latest_dir"]) == false);
 
-    if (create_latest_dir) {
+    if (create_latest_dir && !use_exact_log_path_) {
         boost::system::error_code ec;
         auto print_error = [&]() {
             cout << "Error code value: " << ec.value() << endl;
@@ -810,9 +823,7 @@ bool MissionParse::create_log_dir() {
     return true;
 }
 
-bool MissionParse::write(const std::string& file) {
-    return true;
-}
+bool MissionParse::write(const std::string& file) { return true; }
 
 double MissionParse::t0() {
     return t0_;
@@ -826,9 +837,7 @@ double MissionParse::dt() {
     return dt_;
 }
 
-void MissionParse::set_dt(const double& dt) {
-    dt_ = dt;
-}
+void MissionParse::set_dt(const double& dt) { dt_ = dt; }
 
 double MissionParse::motion_multiplier() {
     return motion_multiplier_;
@@ -842,15 +851,9 @@ bool MissionParse::start_paused() {
     return start_paused_;
 }
 
-const bool& MissionParse::full_screen() {
-    return full_screen_;
-}
-const unsigned& MissionParse::window_width() {
-    return window_width_;
-}
-const unsigned& MissionParse::window_height() {
-    return window_height_;
-}
+const bool& MissionParse::full_screen() { return full_screen_; }
+const unsigned& MissionParse::window_width() { return window_width_; }
+const unsigned& MissionParse::window_height() { return window_height_; }
 
 bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;
@@ -949,9 +952,7 @@ bool MissionParse::parse_terrain() {
     return false;
 }
 
-scrimmage_proto::Color& MissionParse::background_color() {
-    return background_color_;
-}
+scrimmage_proto::Color& MissionParse::background_color() { return background_color_; }
 
 std::string MissionParse::log_dir() {
     return log_dir_;
@@ -960,29 +961,19 @@ std::string MissionParse::root_log_dir() {
     return root_log_dir_;
 }
 
-void MissionParse::set_log_dir(const std::string& log_dir) {
-    log_dir_ = log_dir;
-}
+void MissionParse::set_log_dir(const std::string& log_dir) { log_dir_ = log_dir; }
 
-std::map<int, AttributeMap>& MissionParse::entity_attributes() {
-    return entity_attributes_;
-}
+std::map<int, AttributeMap>& MissionParse::entity_attributes() { return entity_attributes_; }
 
 std::map<int, std::map<std::string, std::string>>& MissionParse::entity_params() {
     return entity_params_;
 }
 
-std::map<int, int>& MissionParse::ent_id_to_block_id() {
-    return ent_id_to_block_id_;
-}
+std::map<int, int>& MissionParse::ent_id_to_block_id() { return ent_id_to_block_id_; }
 
-EntityDesc_t& MissionParse::entity_descriptions() {
-    return entity_descs_;
-}
+EntityDesc_t& MissionParse::entity_descriptions() { return entity_descs_; }
 
-std::map<std::string, int>& MissionParse::entity_tag_to_id() {
-    return entity_tag_to_id_;
-}
+std::map<std::string, int>& MissionParse::entity_tag_to_id() { return entity_tag_to_id_; }
 
 bool MissionParse::enable_gui() {
     return enable_gui_;
@@ -992,13 +983,9 @@ bool MissionParse::network_gui() {
     return network_gui_;
 }
 
-AttributeMap& MissionParse::attributes() {
-    return attributes_;
-}
+AttributeMap& MissionParse::attributes() { return attributes_; }
 
-std::map<std::string, std::string>& MissionParse::params() {
-    return params_;
-}
+std::map<std::string, std::string>& MissionParse::params() { return params_; }
 
 double MissionParse::longitude_origin() {
     return longitude_origin_;
@@ -1027,9 +1014,7 @@ void MissionParse::set_lat_lon_alt_origin(
         GeographicLib::Geocentric::WGS84());
 }
 
-std::map<int, TeamInfo>& MissionParse::team_info() {
-    return team_info_;
-}
+std::map<int, TeamInfo>& MissionParse::team_info() { return team_info_; }
 
 void MissionParse::set_task_number(int task_num) {
     task_number_ = task_num;
@@ -1043,29 +1028,21 @@ std::list<std::string> MissionParse::entity_interactions() {
     return entity_interactions_;
 }
 
-std::list<std::string>& MissionParse::network_names() {
-    return network_names_;
-}
+std::list<std::string>& MissionParse::network_names() { return network_names_; }
 
 std::list<std::string> MissionParse::metrics() {
     return metrics_;
 }
 
-std::map<int, GenerateInfo>& MissionParse::gen_info() {
-    return gen_info_;
-}
+std::map<int, GenerateInfo>& MissionParse::gen_info() { return gen_info_; }
 
-std::map<int, std::vector<double>>& MissionParse::next_gen_times() {
-    return next_gen_times_;
-}
+std::map<int, std::vector<double>>& MissionParse::next_gen_times() { return next_gen_times_; }
 
 std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() {
     return proj_;
 }
 
-std::shared_ptr<scrimmage_proto::UTMTerrain>& MissionParse::utm_terrain() {
-    return utm_terrain_;
-}
+std::shared_ptr<scrimmage_proto::UTMTerrain>& MissionParse::utm_terrain() { return utm_terrain_; }
 
 std::string MissionParse::get_mission_filename() {
     return mission_filename_;

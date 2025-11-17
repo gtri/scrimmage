@@ -107,6 +107,8 @@ and match between the two paradigms for a single entity.
 - ``log_dir`` : The log directory is the folder where scrimmage will save all
   log information from the simulation. This includes entity trajectory data,
   event data, and the random seed that was used during the simulation.
+  The "use_exact" param can be set to true to tell scrimmage to place results
+  in an exact folder instead of a timestamped folder inside log_dir
 
 - ``output_dir_trailer`` : If defined, this string will be appended as a
   trailing string to the simulation's output directory's name. Note: it will
@@ -328,7 +330,7 @@ and match between the two paradigms for a single entity.
   - ``start``: when to start taking screenshots
   - ``end``: when to stop taking screenshots.
 
-  A separate method for taking plugin event based screenshots can be implemented 
+  A separate method for taking plugin event based screenshots can be implemented
   through published messages on the take_screenshot topic. The following line
   should be added to the plugin's header file:
 
@@ -340,13 +342,13 @@ and match between the two paradigms for a single entity.
   #include <scrimmage/pubsub/Publisher.h>``
 
   Initialize the publisher in the init() method of the plugin's \*.cpp file. The
-  intialization creates a publisher in the "GlobalNetwork" with a topic name of 
+  intialization creates a publisher in the "GlobalNetwork" with a topic name of
   "take_screenshot".
 
   ``// Screenshot publisher initialization
   pub_screenshot_ = advertise("GlobalNetwork", "take_screenshot");``
 
-  A message can be published to take a screenshot by utilizing the code below. 
+  A message can be published to take a screenshot by utilizing the code below.
   A conditional can be placed around the publish message code to control when
   screenshots are executed.
 
@@ -357,7 +359,7 @@ and match between the two paradigms for a single entity.
   When a message is published, the ``takeSS`` subscriber callback is entered in
   the SimControl.cpp file. If the ``enable_gui`` XML tag has been set to true,
   a screenshot will be taken of the GUI at the specified condition surrounding the
-  publish message code. If the ``enable_gui`` XML tag has been set to false, no 
+  publish message code. If the ``enable_gui`` XML tag has been set to false, no
   screenshot will be taken.
 
 - ``multi_threaded``: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
@@ -371,23 +373,23 @@ and match between the two paradigms for a single entity.
 
 - ``scale``: the initial scale of the vehicles in the gui (``default = 1.0``)
 
-- ``no_bin_logging``: Disables binary logging in Scrimmage. Signifigantly reduces the size of mission outputs, but 
-  will not have entity trajectories logged. (``default = false``) 
+- ``no_bin_logging``: Disables binary logging in Scrimmage. Signifigantly reduces the size of mission outputs, but
+  will not have entity trajectories logged. (``default = false``)
 
 Combining XML Files
 ===================
 
 Splitting up components of Mission Files into their own files
-can aid in the management of large missions files and enable 
+can aid in the management of large missions files and enable
 easy reuse of simulation configurations across several missions.
 
-Mergeing of XML files is accomplsihed via `XInclude`, which enables the insertion 
-of other XML files, or even specific tags of XML files, into the primary XML Information Set. 
+Mergeing of XML files is accomplsihed via `XInclude`, which enables the insertion
+of other XML files, or even specific tags of XML files, into the primary XML Information Set.
 
 `XInclude` is enabled by defining the namespace ``xmlns:xi="http://www.w3.org/2001/XInclude``
 in the root node of the mission file. This is the ``runscript`` node.
 
-Full, well-formed XML files can then be included into the main XML file with the 
+Full, well-formed XML files can then be included into the main XML file with the
 tag ``<xi:include href="/path/to/file.xml" />``
 
 For example, the file ``entity1.xml`` contains the contents::
@@ -423,7 +425,7 @@ For example, the file ``entity1.xml`` contains the contents::
   </entity>
 
 and the primary mission file `straight_include.xml` contains::
-  
+
   <runscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       name="Straight Flying With XInclude">
@@ -476,7 +478,7 @@ Including Portions of Other Mission Files
 The optional `xpointer` attribute of the `XInclude` node can be used to
 include only portions or framents of other mission files. For example,
 if we wanted to include all ``entity_interaction`` nodes from
-the file ``straight.xml`` into our new mission file, we could include 
+the file ``straight.xml`` into our new mission file, we could include
 the tag ``<xi:include href="straight.xml" xpointer="xpointer(/*/entity_interaction)"/>``.
 The `xpointer` attribute specifies all ``entity_interaction`` tags that are direct children
 of the root node.
@@ -485,14 +487,14 @@ of the root node.
 Including ill-formed XML Tags
 -----------------------------
 
-It is ocassionaly useful to include a collection of XML nodes that don't share a 
+It is ocassionaly useful to include a collection of XML nodes that don't share a
 common parent between themselves and the root node. This is particularly common
 for parameters that define simulation-wide parameters, or a collection
 of similar tags (e.g. entities). The challenge is that without the root
 ``runscript`` node, these XML nodes would not create a well-formed XML file
 without modification, as there would be no root node in the resulting XML file.
-A solution to this would be to wrap all the individual node within a single 
-root node. For example, if the file ``sim_info.xml`` contained the following 
+A solution to this would be to wrap all the individual node within a single
+root node. For example, if the file ``sim_info.xml`` contained the following
 nodes related to simulation info::
 
   <multi_threaded num_threads="8">false</multi_threaded>
@@ -509,7 +511,7 @@ nodes related to simulation info::
   <network>LocalNetwork</network>
   <seed>2147483648</seed>
 
-the resulting XML file will be ill-formed, but the addition of the root node 
+the resulting XML file will be ill-formed, but the addition of the root node
 ``<sim_info>`` solves this issue, i.e. ``sim_info.xml`` now contains::
 
   <sim_info>
@@ -528,8 +530,8 @@ the resulting XML file will be ill-formed, but the addition of the root node
     <seed>2147483648</seed>
   </sim_info>
 
-However Scrimmage's XML parser expects most of these parameters to be direct 
-children of the ``runscript`` node. This is not the case anymore with 
+However Scrimmage's XML parser expects most of these parameters to be direct
+children of the ``runscript`` node. This is not the case anymore with
 the introduction of the ``<sim_info>`` tag. To fix this issue,
 we can utilize the optional ``xpointer`` attribute of the include statement.
 
@@ -544,7 +546,7 @@ Testing XInclude Nodes
 
 ``xmllint`` is a convient tool to quickly test if your `XInclude` nodes are properly formated.
 
-Run ``xmllint --xinclude /path/to/mission/file.xml`` to observe the complete 
+Run ``xmllint --xinclude /path/to/mission/file.xml`` to observe the complete
 XML file once all the inclusions are resolved. Unresolved inclusions remain
 untouched. This tool will also output any syntax errors in the XML files.
 
