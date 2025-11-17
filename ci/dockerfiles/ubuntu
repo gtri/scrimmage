@@ -1,0 +1,95 @@
+###############################################################################
+# Dockerfile to build SCRIMMAGE
+# uses the ubuntu version that the current branch targets
+###############################################################################
+FROM ubuntu:24.04 AS dependencies
+
+ENV DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-l", "-c"]
+
+# Install initial dependencies and setup .bashrc
+RUN apt-get update \
+  && apt-get install -y \
+    gnupg \
+    gnupg2 \
+    python3-pip \
+    python3-venv \
+    software-properties-common \
+    clang \
+    doxygen \
+    graphviz \
+    python3-sphinx \
+    sphinx-rtd-theme-common \
+    texlive-bibtex-extra \
+    ccache \
+    wget \
+  && python3 -m venv /root/scrimmage-venv \
+  && source /root/scrimmage-venv/bin/activate \
+  && pip install sphinx sphinx_git sphinx-rtd-theme
+
+# Install jekyll
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+  && add-apt-repository -y ppa:rael-gc/rvm \
+  && apt-get update \
+  && apt-get install -y rvm \
+  && groupadd rvm && usermod -a -G rvm root
+
+RUN rvm autolibs packages \
+  && rvm install ruby 3.1.0 \
+  && gem install bundler && gem install jekyll
+
+FROM dependencies AS builder
+
+# Copy setup scripts into image
+RUN mkdir -p /root/scrimmage/scrimmage/setup
+COPY ./setup /root/scrimmage/scrimmage/setup
+
+# Install anything that we need that we don't already have
+RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
+  && /root/scrimmage/scrimmage/setup/install-jsbsim.sh
+
+COPY ./ /root/scrimmage/scrimmage/
+
+# Test Plugin Generation
+WORKDIR /root/scrimmage/scrimmage/scripts
+RUN source /root/scrimmage-venv/bin/activate \
+  && python3 create-scrimmage-project.py my-scrimmage-plugins ~/scrimmage \
+  && ./generate-plugin.sh autonomy AutonomyTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh interaction InteractionTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh metrics MetricsTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh motion MotionTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh sensor SensorTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
+  && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
+
+# Build scrimmage core, plugins, and documentation
+WORKDIR /root/scrimmage/scrimmage
+RUN source /root/scrimmage-venv/bin/activate \
+  && mkdir -p build \
+  && cd build \
+  && rm -rf * \
+  && source ~/.bashrc \
+  && cmake .. -DBUILD_TESTS=ON \
+              -DBUILD_DOCS=ON \
+              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+  && source ~/.scrimmage/setup.bash \
+  && make -j24 \
+  && make docs website-docs
+
+
+# run tests
+WORKDIR /root/scrimmage/scrimmage/build
+RUN source /root/scrimmage-venv/bin/activate \
+  && source ~/.scrimmage/setup.bash \
+  && export SCRIMMAGE_MISSION_PATH=$SCRIMMAGE_MISSION_PATH:$PWD \
+  && export CTEST_OUTPUT_ON_FAILURE=1 \
+  && make test \
+  && scrimmage ../missions/straight-no-gui.xml \
+  && scrimmage ../missions/straight_jsbsim.xml
+
+WORKDIR /root/scrimmage/scrimmage
+RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
+
+# Setup the scrimmage docker image to run as an executable
+ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
+CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
