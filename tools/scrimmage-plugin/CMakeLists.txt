@@ -10,9 +10,6 @@ target_link_libraries(${APP_NAME}
   scrimmage-boost
   dl
   )
-if (ENABLE_PYTHON_BINDINGS)
-  target_link_libraries(${APP_NAME} scrimmage-python)
-endif()
 
 ##--------------------------------------------------------
 ## Library Creation
