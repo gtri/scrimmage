@@ -10,6 +10,7 @@ SHELL ["/bin/bash", "-l", "-c"]
 # Install initial dependencies and setup .bashrc
 RUN apt-get update \
   && apt-get install -y \
+    x11-apps \
     gnupg \
     gnupg2 \
     python3-pip \
@@ -22,6 +23,7 @@ RUN apt-get update \
     sphinx-rtd-theme-common \
     texlive-bibtex-extra \
     ccache \
+    libvtk9-dev \
     wget \
   && python3 -m venv /root/scrimmage-venv \
   && source /root/scrimmage-venv/bin/activate \
@@ -91,5 +93,5 @@ WORKDIR /root/scrimmage/scrimmage
 RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
 
 # Setup the scrimmage docker image to run as an executable
-ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
-CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
+ENTRYPOINT ["/bin/bash"]
+# CMD ["source ~/.scrimmage/setup.bash"]
