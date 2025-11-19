@@ -1607,9 +1607,9 @@ bool SimControl::run_entities() {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr& ent : ents_) {
             for (auto c : ent->controllers()) {
-                success &= exec_step(c, [&](auto c) {
-                    return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true;
-                });
+                success &= exec_step(c, [&](auto c){
+                  return c->step_loop_timer(dt_) ?
+                    c->step(temp_t, motion_dt) : true;});
             }
         }
 
