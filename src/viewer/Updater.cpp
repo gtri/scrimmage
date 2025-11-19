@@ -85,14 +85,20 @@
 #include <vtkVertexGlyphFilter.h>
 #include <vtkWindowToImageFilter.h>
 
-#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
+#if VTK_MAJOR_VERSION > 6
+#include <vtkCellLocator.h>
+#if VTK_MAJOR_VERSION < 9
+#include <vtkGeoJSONReader.h>
+#endif
 #include <vtkAppendPolyData.h>
 #include <vtkCellData.h>
-#include <vtkCellLocator.h>
 #include <vtkDoubleArray.h>
-#include <vtkGeoJSONReader.h>
 #include <vtkLinearExtrusionFilter.h>
 #include <vtkProperty.h>
+#endif
+
+#if VTK_MAJOR_VERSION > 8
+#include <vtkAutoInit.h>
 #endif
 
 #include <boost/filesystem.hpp>
@@ -105,6 +111,11 @@ namespace fs = boost::filesystem;
 
 namespace sp = scrimmage_proto;
 namespace sc = scrimmage;
+
+#if VTK_MAJOR_VERSION > 8
+VTK_MODULE_INIT(vtkRenderingOpenGL2)
+VTK_MODULE_INIT(vtkInteractionStyle)
+#endif
 
 namespace scrimmage {
 
@@ -1050,7 +1061,7 @@ bool Updater::update_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain>& u
         terrain_actor_->GetProperty()->SetColor(0, 0, 0);
 
         renderer_->AddActor(terrain_actor_);
-#if VTK_MAJOR_VERSION > 6 && VTK_MAJOR_VERSION < 9
+#if VTK_MAJOR_VERSION > 6
         if (utm->enable_extrusion())
             renderer_->AddActor(extrusion_actor_);
 #endif
