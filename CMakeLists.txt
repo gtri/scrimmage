@@ -88,11 +88,9 @@ GenerateSetEnv(
                    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/plugins
   PATH             ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${SCRIMMAGE_SCRIPTS_DIR} ${APPEND_TO_PATH}
   CONFIG_PATH      ${PROJECT_SOURCE_DIR}/config
-  DATA_PATH        ${PROJECT_SOURCE_DIR}/data
-                   )
+  DATA_PATH        ${PROJECT_SOURCE_DIR}/data)
 
 option(EXTERNAL "EXTERNAL" 0)
-
 
 ########################################################
 # Find Protobuf
@@ -187,10 +185,13 @@ if (${VTK_FOUND})
 			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
 	else()
     if (${VTK_MAJOR_VERSION} LESS 7)
-			set(OPENGL_MODULE vtkRenderingOpenGL)
-    else()
+        set(OPENGL_MODULE vtkRenderingOpenGL)
+    elseif(${VTK_MAJOR_VERSION} LESS 9)
         set(OPENGL_MODULE vtkRenderingOpenGL2)
-				set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+    else()
+        # in libvtk9-dev, the vtkIOGeoJSON module is not provided
+        set(OPENGL_MODULE vtkRenderingOpenGL2)
     endif()
 
     set(VTK_MODULES
