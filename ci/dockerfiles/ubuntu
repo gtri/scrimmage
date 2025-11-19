@@ -90,7 +90,7 @@ RUN source /root/scrimmage-venv/bin/activate \
   && scrimmage ../missions/straight_jsbsim.xml
 
 WORKDIR /root/scrimmage/scrimmage
-RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
+# RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
 
 # Setup the scrimmage docker image to run as an executable
 ENTRYPOINT ["/bin/bash"]

@@ -246,7 +246,7 @@ If you want to see the scrimmage mission on your host, you can do the following
 2. Run the mission in the docker container
 
    xhost +local:docker
-   docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
+   docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
    source ~/.scrimmage/setup.bash
    scrimmage ~/scrimmage/scrimmage/missions/straight.xml
 
