@@ -1,7 +1,5 @@
-SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
-
-FOREACH(subdir ${SUBDIRS})
-  ADD_SUBDIRECTORY(${subdir})
-ENDFOREACH()
+add_subdirectory(GlobalNetwork)
+add_subdirectory(LocalNetwork)
+add_subdirectory(SphereNetwork)
 
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)

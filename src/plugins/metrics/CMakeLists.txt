@@ -1,7 +1,7 @@
-SubDirList(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
-
-FOREACH(subdir ${SUBDIRS})
-  ADD_SUBDIRECTORY(${subdir})
-ENDFOREACH()
+add_subdirectory(CPA)
+add_subdirectory(FlagCaptureMetrics)
+add_subdirectory(OpenAIRewards)
+add_subdirectory(SimpleCaptureMetrics)
+add_subdirectory(SimpleCollisionMetrics)
 
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)
