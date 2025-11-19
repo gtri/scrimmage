@@ -11,7 +11,7 @@ target_link_libraries(${APP_NAME}
   scrimmage-boost
   )
 if (ENABLE_PYTHON_BINDINGS)
-  target_link_libraries(${APP_NAME} scrimmage-python)
+  target_link_libraries(${APP_NAME})
 endif()
 
 # Link executable to other libraries

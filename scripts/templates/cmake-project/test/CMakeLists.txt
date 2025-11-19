@@ -7,7 +7,6 @@ foreach(test_file ${test_files})
     gtest_main
     gmock_main
     scrimmage-core
-    scrimmage-python
     )
   add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()
