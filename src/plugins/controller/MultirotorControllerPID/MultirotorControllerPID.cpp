@@ -89,9 +89,10 @@ void MultirotorControllerPID::init(std::map<std::string, std::string>& params) {
 }
 
 bool MultirotorControllerPID::step(double t, double dt) {
-
-    Eigen::Vector3d des_vel_body = state_->quat().rotate_reverse(desired_state_->vel());
-    Eigen::Vector3d vel_body = state_->quat().rotate_reverse(state_->vel());
+    Eigen::Vector3d des_vel_body =
+        parent()->state_belief()->quat().rotate_reverse(desired_state_->vel());
+    Eigen::Vector3d vel_body =
+        parent()->state_belief()->quat().rotate_reverse(parent()->state_belief()->vel());
     Eigen::Vector3d vel_ctrl(0, 0, 0);
     for (int i = 0; i < 3; i++) {
         vel_pids_[i].set_setpoint(des_vel_body(i));

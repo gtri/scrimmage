@@ -86,7 +86,7 @@ bool JSBSimModelControllerHeadingPID::step(double t, double dt) {
     desired_yaw = ang::deg2rad(angles_to_jsbsim_.angle());
     desired_yaw = ang::angle_pi(desired_yaw);
 
-    double yaw = state_->quat().yaw();
+    double yaw = parent()->state_belief()->quat().yaw();
     angles_to_jsbsim_.set_angle(ang::rad2deg(yaw));
     yaw = ang::deg2rad(angles_to_jsbsim_.angle());
     yaw = ang::angle_pi(yaw);

@@ -81,15 +81,15 @@ bool RigidBody6DOFControllerPID::step(double t, double dt) {
     double desired_yaw = desired_state_->quat().yaw();
 
     heading_pid_.set_setpoint(desired_yaw);
-    double u_heading = heading_pid_.step(dt, state_->quat().yaw());
-    double roll_error = u_heading + state_->quat().roll();
+    double u_heading = heading_pid_.step(dt, parent()->state_belief()->quat().yaw());
+    double roll_error = u_heading + parent()->state_belief()->quat().roll();
 
     alt_pid_.set_setpoint(desired_state_->pos()(2));
-    double u_alt = alt_pid_.step(dt, state_->pos()(2));
-    double pitch_error = (-u_alt - state_->quat().pitch());
+    double u_alt = alt_pid_.step(dt, parent()->state_belief()->pos()(2));
+    double pitch_error = (-u_alt - parent()->state_belief()->quat().pitch());
 
     vel_pid_.set_setpoint(desired_state_->vel()(0));
-    double u_thrust = vel_pid_.step(dt, state_->vel().norm());
+    double u_thrust = vel_pid_.step(dt, parent()->state_belief()->vel().norm());
 
     (*u_) << u_thrust, roll_error, pitch_error, 0;
     return true;

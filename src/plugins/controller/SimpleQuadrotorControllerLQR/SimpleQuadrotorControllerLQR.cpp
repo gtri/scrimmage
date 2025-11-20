@@ -59,12 +59,12 @@ void SimpleQuadrotorControllerLQR::init(std::map<std::string, std::string>& para
 }
 
 bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
-    Eigen::Vector3d& des_pos = desired_state_->pos();
+    Eigen::Vector3d des_pos = desired_state_->pos();
     double des_yaw = desired_state_->quat().yaw();
 
-    Eigen::Vector3d& pos = state_->pos();
-    Eigen::Vector3d& vel = state_->vel();
-    double yaw = state_->quat().yaw();
+    Eigen::Vector3d pos = parent()->state_belief()->pos();
+    Eigen::Vector3d vel = parent()->state_belief()->vel();
+    double yaw = parent()->state_belief()->quat().yaw();
     double xy_speed = vel.head<2>().norm();
 
     double yaw_dot = std::isnan(prev_yaw_) ? 0 : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;

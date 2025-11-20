@@ -76,11 +76,11 @@ void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string>& 
 
 bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
     alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
-    double alt_u = alt_pid_.step(dt, state_->pos()(2));
+    double alt_u = alt_pid_.step(dt, parent()->state_belief()->pos_const()(2));
 
     double heading = vars_.input(desired_heading_idx_);
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double acc_u = speed_pid_.step(dt, state_->vel().norm());
+    double acc_u = speed_pid_.step(dt, parent()->state_belief()->vel().norm());
     Eigen::Vector2d dir;
     dir << cos(heading), sin(heading);
 
@@ -92,7 +92,7 @@ bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
     vars_.output(acc_z_idx_, alt_u);
 
     yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    double yaw_rate = yaw_pid_.step(dt, state_->quat().yaw());
+    double yaw_rate = yaw_pid_.step(dt, parent()->state_belief()->quat().yaw());
     vars_.output(turn_rate_idx_, yaw_rate);
 
     return true;
