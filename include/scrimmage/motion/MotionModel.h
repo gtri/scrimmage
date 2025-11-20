@@ -60,6 +60,7 @@ class MotionModel : public EntityPlugin {
     virtual StatePtr& state();
     virtual void set_state(StatePtr& state);
     virtual void teleport(StatePtr& state);
+    virtual void set_external_velocity(const Eigen::Vector3d& vel);
     virtual void set_external_force(const Eigen::Vector3d& force);
     virtual void set_external_moment(const Eigen::Vector3d& moment);
     virtual void set_mass(double mass) { mass_ = mass; }
@@ -76,6 +77,7 @@ class MotionModel : public EntityPlugin {
     vector_t x_;
 
     Eigen::Vector3d ext_force_;
+    Eigen::Vector3d ext_velocity_;
     Eigen::Vector3d ext_moment_;
     double mass_;
     double g_;
