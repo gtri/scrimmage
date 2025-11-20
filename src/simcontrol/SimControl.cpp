@@ -36,6 +36,12 @@
 #include <memory>
 #include <string>
 
+#include <GeographicLib/LocalCartesian.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/algorithm/for_each.hpp>
+#include <boost/range/numeric.hpp>
+#include <boost/thread.hpp>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Algorithm.h>
 #include <scrimmage/common/GlobalService.h>
@@ -72,26 +78,7 @@
 #include <scrimmage/simcontrol/SimControl.h>
 #include <scrimmage/simcontrol/SimUtils.h>
 
-#if ENABLE_PYTHON_BINDINGS == 1
-#include <pybind11/pybind11.h>
-#ifdef __clang__
-_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
-    _Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
-#endif
-#include <Python.h>
-#ifdef __clang__
-        _Pragma("clang diagnostic pop")
-#endif
-#endif
-
-#include <GeographicLib/LocalCartesian.hpp>
-#include <boost/range/adaptor/map.hpp>
-#include <boost/range/adaptor/transformed.hpp>
-#include <boost/range/algorithm/for_each.hpp>
-#include <boost/range/numeric.hpp>
-#include <boost/thread.hpp>
-
-            namespace sc = scrimmage;
+namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sm = scrimmage_msgs;
 namespace br = boost::range;
@@ -160,13 +147,6 @@ bool SimControl::setup_logging() {
 }
 
 bool SimControl::init(const std::string& mission_file, const bool& init_python) {
-#if ENABLE_PYTHON_BINDINGS == 1
-    if (init_python) {
-        Py_Initialize();
-        python_enabled_ = true;
-    }
-#endif
-
     ents_.clear();
     ent_inters_.clear();
     metrics_.clear();
@@ -325,7 +305,8 @@ bool SimControl::generate_entity(
 
         if (ct >= max_ct) {
             cout << "----------------------------------" << endl;
-            cout << "ERROR: Having difficulty finding collision-free location for entity at: "
+            cout << "ERROR: Having difficulty finding collision-free location for "
+                    "entity at: "
                  << "(" << x0 << "," << y0 << "," << z0 << ")" << endl
                  << "With variance: (" << pos(0) << "," << pos(1) << "," << pos(2) << ")" << endl;
             return false;
@@ -724,16 +705,6 @@ bool SimControl::start() {
     if (mp_->params().count("seed") > 0) {
         auto seed = std::stoul(mp_->params()["seed"]);
         random_->seed(seed);
-#if ENABLE_PYTHON_BINDINGS == 1
-        if (python_enabled_) {
-            pybind11::module::import("random").attr("seed")(seed);
-            try {
-                pybind11::module::import("numpy.random").attr("seed")(seed);
-            } catch (const pybind11::error_already_set&) {
-                // ignore. numpy not installed
-            }
-        }
-#endif
     } else {
         random_->seed();
     }
@@ -903,8 +874,8 @@ bool SimControl::start() {
     };
     sim_plugin_->subscribe<sm::GenerateEntity>("GlobalNetwork", "GenerateEntity", gen_ent_cb);
 
-    // Set subscriber / callback that allows plugins to take a screenshot of the GUI
-    // if the enable_gui XML tag is set to true
+    // Set subscriber / callback that allows plugins to take a screenshot of the
+    // GUI if the enable_gui XML tag is set to true
     auto takeSS = [&](auto& msg) {
         if (enable_gui()) {
             request_screenshot();
@@ -1107,20 +1078,6 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     }
 
     bool status = reset_pointers();
-
-#if ENABLE_PYTHON_BINDINGS == 1
-    // When running the GUI in a separate thread, Python throws the following
-    // exception during the Py_Finalize call:
-    //
-    // Exception KeyError: KeyError(140466908776576,) in <module 'threading'
-    // from '/usr/lib/python2.7/threading.pyc'> ignored
-    //
-    // To disable this warning, dont call Py_Finalize if running in a thread.
-    if (not running_in_thread_ && shutdown_python) {
-        Py_Finalize();
-        python_enabled_ = false;
-    }
-#endif
 
     return status;
 }

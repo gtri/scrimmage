@@ -10,10 +10,6 @@ target_link_libraries(${APP_NAME}
   scrimmage-core
   scrimmage-boost
   )
-if (ENABLE_PYTHON_BINDINGS)
-  target_link_libraries(${APP_NAME})
-endif()
-
 # Link executable to other libraries
 #target_link_libraries(${APP_NAME})
 
