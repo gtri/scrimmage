@@ -319,8 +319,6 @@ bool Entity::init(
             return false;
         } else if (status.status == PluginStatus<Controller>::loaded) {
             ControllerPtr controller = status.plugin;
-            controller->set_state(state_belief_);
-
             controller->set_parent(shared_from_this());
             controller->set_time(time_);
             controller->set_id_to_team_map(id_to_team_map);

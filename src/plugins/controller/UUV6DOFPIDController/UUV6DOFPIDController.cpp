@@ -77,24 +77,26 @@ void UUV6DOFPIDController::init(std::map<std::string, std::string>& params) {
 }
 
 bool UUV6DOFPIDController::step(double t, double dt) {
-
     heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-    double u_rudder = heading_pid_.step(time_->dt(), state_->quat().yaw());
+    double u_rudder = heading_pid_.step(time_->dt(), parent()->state_belief()->quat().yaw());
 
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double u_throttle = speed_pid_.step(time_->dt(), state_->vel().norm());
+    double u_throttle = speed_pid_.step(time_->dt(), parent()->state_belief()->vel().norm());
 
     // Reconstruct original velocity vector (close, but not exact)
     double x_vel =
         vars_.input(desired_speed_idx_) / sqrt(1 + pow(tan(vars_.input(desired_heading_idx_)), 2));
     double y_vel = x_vel * tan(vars_.input(desired_heading_idx_));
-    Eigen::Vector3d vel(x_vel, y_vel, vars_.input(desired_altitude_idx_) - state_->pos()(2));
+    Eigen::Vector3d vel(
+        x_vel,
+        y_vel,
+        vars_.input(desired_altitude_idx_) - parent()->state_belief()->pos()(2));
     vel = vel.normalized() * vars_.input(desired_speed_idx_);
 
     // Track desired pitch
     double desired_pitch = atan2(vel(2), vel.head<2>().norm());
     pitch_pid_.set_setpoint(desired_pitch);
-    double u_elevator = -pitch_pid_.step(time_->dt(), -state_->quat().pitch());
+    double u_elevator = -pitch_pid_.step(time_->dt(), -parent()->state_belief()->quat().pitch());
 
     vars_.output(rudder_idx_, u_rudder);
     vars_.output(elevator_idx_, u_elevator);

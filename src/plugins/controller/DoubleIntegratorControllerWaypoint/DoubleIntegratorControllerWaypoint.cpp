@@ -66,8 +66,8 @@ void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
-    Eigen::Vector3d acc =
-        -gain_(0) * (state_->pos() - desired_state_->pos()) - gain_(1) * state_->vel();
+    Eigen::Vector3d acc = -gain_(0) * (parent()->state_belief()->pos() - desired_state_->pos())
+                          - gain_(1) * parent()->state_belief()->vel();
 
     vars_.output(acc_x_idx_, acc(0));
     vars_.output(acc_y_idx_, acc(1));

@@ -81,20 +81,22 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string>& param
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
-    double u_roll_rate = use_roll_ ? -heading_pid_.step(dt, state_->quat().roll())
-                                   : heading_pid_.step(dt, state_->quat().yaw());
+    double u_roll_rate = use_roll_ ? -heading_pid_.step(dt, parent()->state_belief()->quat().roll())
+                                   : heading_pid_.step(dt, parent()->state_belief()->quat().yaw());
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
     double u_pitch_rate =
         use_glide_slope_ ? alt_pid_.step(
             dt,
             atan(
-                state_->vel()(2)
-                / sqrt(state_->vel()(0) * state_->vel()(0) + state_->vel()(1) * state_->vel()(1))))
-                         : -alt_pid_.step(dt, state_->pos()(2));
+                parent()->state_belief()->vel()(2)
+                / sqrt(
+                    parent()->state_belief()->vel()(0) * parent()->state_belief()->vel()(0)
+                    + parent()->state_belief()->vel()(1) * parent()->state_belief()->vel()(1))))
+                         : -alt_pid_.step(dt, parent()->state_belief()->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
-    double u_throttle = vel_pid_.step(dt, state_->vel().norm());
+    double u_throttle = vel_pid_.step(dt, parent()->state_belief()->vel().norm());
 
     vars_.output(output_roll_rate_idx_, u_roll_rate);
     vars_.output(output_pitch_rate_idx_, u_pitch_rate);

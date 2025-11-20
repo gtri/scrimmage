@@ -56,7 +56,7 @@ void SingleIntegratorControllerWaypoint::init(std::map<std::string, std::string>
 }
 
 bool SingleIntegratorControllerWaypoint::step(double t, double dt) {
-    const Eigen::Vector3d& p = state_->pos();
+    const Eigen::Vector3d& p = parent()->state_belief()->pos();
 
     const double des_x = vars_.input(input_pos_x_idx_);
     const double des_y = vars_.input(input_pos_y_idx_);
