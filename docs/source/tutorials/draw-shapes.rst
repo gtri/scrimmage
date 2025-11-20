@@ -97,6 +97,7 @@ the shape's persistence to false and call the ``draw_shape()`` function again:
 If you have not set shape persistence duration, you will also need to call
 ``set_persistent_duration(0.0)`` before calling ``draw_shape()`` to remove the
 shape.
+
 .. code-block:: c++
    :linenos:
 
