@@ -1015,6 +1015,10 @@ bool SimControl::finalize() {
         }
     }
 
+    // Update final progress bar. Do this before accounting for last timestep to
+    // have progress bar completed at 100%
+    sc::display_progress((tend_ == 0) ? 1.0 : t() / tend_);
+
     // account for last step
     set_time(t() - dt_);
 
@@ -1025,6 +1029,8 @@ bool SimControl::finalize() {
         pub_ent_pres_end_->publish(msg);
     }
 
+    run_networks();
+    run_metrics();
     run_logging();
 
     if (display_progress_)
