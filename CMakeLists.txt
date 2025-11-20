@@ -312,7 +312,12 @@ endif()
 
 option(BUILD_DOCS "Build documentation" OFF)
 if (BUILD_DOCS)
-  add_subdirectory(docs)
+  find_package(Python)
+  if (DEFINED Python_EXECUTABLE)
+    add_subdirectory(docs)
+  else()
+    message("Can't find a python executable, not building the docs")
+  endif()
 endif()
 
 ###################################################################
