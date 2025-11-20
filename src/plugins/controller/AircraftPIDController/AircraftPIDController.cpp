@@ -108,12 +108,13 @@ void AircraftPIDController::init(std::map<std::string, std::string>& params) {
 bool AircraftPIDController::step(double t, double dt) {
     // Desired altitude to desired pitch
     altitude_pid_.set_setpoint(vars_.input(desired_altitude_idx_));
-    double desired_pitch = -altitude_pid_.step(time_->dt(), state_->pos()(2));
+    double desired_pitch = -altitude_pid_.step(time_->dt(), parent()->state_belief()->pos()(2));
     desired_pitch = clamp(desired_pitch, -max_pitch_, max_pitch_);
 
     // Desired pitch to elevator
     pitch_pid_.set_setpoint(desired_pitch);
-    double elevator = clamp(pitch_pid_.step(time_->dt(), state_->quat().pitch()), -1.0, 1.0);
+    double elevator =
+        clamp(pitch_pid_.step(time_->dt(), parent()->state_belief()->quat().pitch()), -1.0, 1.0);
     vars_.output(elevator_idx_, elevator);
 
     double desired_roll;
@@ -122,18 +123,20 @@ bool AircraftPIDController::step(double t, double dt) {
     } else {
         // Desired heading to desired roll
         heading_pid_.set_setpoint(vars_.input(desired_heading_idx_));
-        desired_roll = -heading_pid_.step(time_->dt(), state_->quat().yaw());
+        desired_roll = -heading_pid_.step(time_->dt(), parent()->state_belief()->quat().yaw());
     }
     desired_roll = clamp(desired_roll, -max_roll_, max_roll_);
 
     // Desired roll to aileron
     roll_pid_.set_setpoint(desired_roll);
-    double aileron = clamp(roll_pid_.step(time_->dt(), state_->quat().roll()), -1.0, 1.0);
+    double aileron =
+        clamp(roll_pid_.step(time_->dt(), parent()->state_belief()->quat().roll()), -1.0, 1.0);
     vars_.output(aileron_idx_, aileron);
 
     // Speed to throttle PID
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));
-    double throttle = clamp(speed_pid_.step(time_->dt(), state_->vel().norm()), -1.0, 1.0);
+    double throttle =
+        clamp(speed_pid_.step(time_->dt(), parent()->state_belief()->vel().norm()), -1.0, 1.0);
     vars_.output(throttle_idx_, throttle);
 
     // Rudder is static for now
