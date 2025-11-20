@@ -224,7 +224,7 @@ bool MissionParse::parse_mission() {
         } else if (attr_str == "dt") {
             dt_ = parse_double(attr.value());
         } else if (attr_str == "motion_multiplier") {
-            motion_multiplier_ = parse_double(attr.value());
+            motion_multiplier_ = parse_int(attr.value());
         } else if (attr_str == "time_warp") {
             time_warp_ = parse_double(attr.value());
         } else if (attr_str == "enable_gui") {
@@ -839,7 +839,7 @@ double MissionParse::dt() {
 
 void MissionParse::set_dt(const double& dt) { dt_ = dt; }
 
-double MissionParse::motion_multiplier() {
+int MissionParse::motion_multiplier() {
     return motion_multiplier_;
 }
 

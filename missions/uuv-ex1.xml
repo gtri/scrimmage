@@ -4,7 +4,7 @@
     name="Straight flying">
 
   <run start="0.0" end="1000" dt="0.1"
-       motion_multiplier="12.5"
+       motion_multiplier="12"
        time_warp="20"
        enable_gui="true"
        network_gui="false"
