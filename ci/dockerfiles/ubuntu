@@ -37,7 +37,7 @@ RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A17
   && groupadd rvm && usermod -a -G rvm root
 
 RUN rvm autolibs packages \
-  && rvm install ruby 3.1.0 \
+  && rvm install ruby 3.3.9 \
   && gem install bundler && gem install jekyll
 
 FROM dependencies AS builder
