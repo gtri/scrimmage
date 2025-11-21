@@ -1,0 +1,64 @@
+FROM almalinux:8 AS dependencies
+
+SHELL ["/bin/bash", "-c"]
+
+# Setup directories to work in
+RUN mkdir -p /root/installs /root/rpms /root/3rd-party
+
+# Install basic dependencies
+RUN dnf -y update && dnf clean all && dnf -y install \
+    wget \
+    which \
+    tar \
+    xz \
+    gcc \
+    gcc-c++ \
+    bzip2 \
+    git \
+    dnf-utils \
+    bzip2-devel \
+    procps \
+    cmake \
+    python3-devel \
+    boost \
+    libX11-devel \
+    mesa-libGL \
+    mesa-libGL-devel \
+    libXt-devel \
+    libxml2
+
+#    eigen3-devel \
+#    GeographicLib \
+#    rapidxml-devel \
+#    pybind11-devel \
+#    protobuf-devel \
+#    grpc-devel \
+#    vtk-devel
+#
+ARG PKG_PREFIX=/opt/scrimmage
+RUN mkdir -p ${PKG_PREFIX}
+
+FROM dependencies AS builder
+
+################################################################################
+## Build SCRIMMAGE
+################################################################################
+WORKDIR /root/3rd-party
+RUN git clone -b rhel-build-wsyre https://github.com/gtri/scrimmage.git
+WORKDIR /root/3rd-party/scrimmage
+RUN git checkout minimal && git pull && git status && mkdir build
+WORKDIR ./build
+#RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+#             -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
+#             -DENABLE_LD_SO_CONF_INSTALL=OFF \
+#RUN make -j$(($(nproc)-1))
+
+## Build RPM package for scrimmage
+#WORKDIR /root/installs/scrimmage
+#RUN source /etc/profile.d/rvm.sh && fpm --force --input-type dir --output-type rpm \
+#           --name scrimmage --version 0.2.0 \
+#           --package scrimmage_VERSION_ARCH.rpm ./
+#
+## Run a scrimmage mission
+#RUN source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
+#    && scrimmage /opt/scrimmage/share/scrimmage/missions/straight-no-gui.xml

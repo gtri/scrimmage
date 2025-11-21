@@ -1,0 +1,220 @@
+FROM redhat/ubi8:latest AS credentials
+
+RUN useradd -r admin && usermod -aG wheel admin && dnf -y update && dnf clean all && dnf -y install \
+    openssh \
+    openssl \
+    openssh-server \
+    sudo && \
+    ssh-keygen -A && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    echo "admin:admin" | chpasswd
+EXPOSE 22
+EXPOSE 2222
+CMD ["/usr/sbin/init"]
+
+FROM credentials
+
+ENV DEBIAN_FRONTEND=noninteractive
+SHELL ["/bin/bash", "-c"]
+ARG PKG_PREFIX=/opt/scrimmage
+ENV username=scrimmage_user
+ENV PKG_CONFIG_PATH=${PKG_PREFIX}/lib/pkgconfig
+
+RUN useradd -r ${username} && mkdir -p /home/${username} && chown ${username} /home/${username}
+# Install basic dependencies
+RUN dnf -y update && dnf clean all && dnf -y install \
+    wget \
+    which \
+    tar \
+    xz \
+    gcc \
+    gcc-c++ \
+    bzip2 \
+    git \
+    dnf-utils \
+    bzip2-devel \
+    procps \
+    python3 \
+    python3-devel \
+    libX11-devel \
+    openssl \
+    openssl-devel \
+    vim \
+    cmake 
+
+USER ${username}
+RUN mkdir -p ~/sources ~/installs
+#############################################################################
+# Build Eigen
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.4/eigen-3.3.4.tar.bz2 \
+    && tar xvf eigen-3.3.4.tar.bz2 -C /home/${username}/sources/ \
+    && cd eigen-3.3.4/ && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} -DEIGEN_ROOT_DIR=./ \
+    && make -j $(($(nproc)-1)) && make DESTDIR=/home/${username}/installs/ install
+
+###############################################################################
+# Build GeographicLib
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN git clone https://github.com/geographiclib/geographiclib.git geographiclib
+WORKDIR /home/${username}/sources/geographiclib
+RUN git checkout tags/v1.45 -b release && mkdir build && cd build \
+    && cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+                -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64 \
+    && make -j $(($(nproc)-1)) && make DESTDIR=/home/${username}/installs/ install
+
+ENV CMAKE_MODULE_PATH="/home/scrimmage_user/installs/opt/scrimmage/lib/cmake"
+
+###############################################################################
+# RapidXML Package
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN git clone https://github.com/dwd/rapidxml.git && cd rapidxml \
+    && git checkout f0058ab9374643018c1db3de521e44d4d52b8f5d
+RUN rm -rf ./rapidxml/{.git,test}
+RUN mkdir -p /home/${username}/installs/${PKG_PREFIX}/include \
+    && cp -r ./rapidxml /home/${username}/installs/${PKG_PREFIX}/include
+
+###############################################################################
+# Build PyBind11
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN git clone https://github.com/pybind/pybind11.git && cd pybind11 \
+    && git checkout v2.10 && mkdir -p ./build \
+    && cd build && cmake .. -DPYBIND11_TEST:BOOL=OFF \
+             -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+    && make && make DESTDIR=/home/${username}/installs/ install
+
+###############################################################################
+# Build Protobuf
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN git clone -b v1.44.x https://github.com/grpc/grpc
+WORKDIR ./grpc
+RUN git submodule update --init --recursive
+
+WORKDIR ./third_party/protobuf
+RUN mkdir -p build
+WORKDIR ./build
+RUN cmake ../cmake \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_STANDARD=17 \
+  -Dprotobuf_BUILD_SHARED_LIBS=ON \
+  && make \
+  && make DESTDIR=/home/${username}/installs -j $(($(nproc)-1)) install
+ENV PATH=$PATH:/home/${username}/installs/opt/scrimmage/bin
+ENV CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}:/home/scrimmage_user/installs/opt/scrimmage/lib64/cmake"
+
+###############################################################################
+# Build GoogleTest
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN git clone https://github.com/google/googletest.git -b v1.14.0
+WORKDIR ./googletest
+RUN mkdir build          # Create a directory to hold the build output.
+WORKDIR build
+RUN cmake .. \
+    && make \
+    && make DESTDIR=/home/${username}/installs install    # Install in /usr/local/ by default
+
+###############################################################################
+# Build GRPC
+###############################################################################
+WORKDIR /home/${username}/sources/grpc
+ENV PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/scrimmage/lib64/pkgconfig/"
+ENV OPENSSL_ROOT_DIR=/usr/lib64/
+
+RUN mkdir -p cmake/build
+WORKDIR ./cmake/build
+RUN cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DgRPC_INSTALL=ON \
+  -DgRPC_BUILD_TESTS=OFF \
+  -DgRPC_SSL_PROVIDER=package \
+  -DCMAKE_INSTALL_PREFIX=/opt/scrimmage \
+  -DCMAKE_CXX_FLAGS=-std=c++17 \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE \
+  -DgRPC_PROTOBUF_PROVIDER=package \
+  -DProtobuf_PROTOC_LIBRARY='/home/scrimmage_user/installs/opt/scrimmage/lib64/libprotoc.so' \
+  -DProtobuf_INCLUDE_DIR='/home/scrimmage_user/installs/opt/scrimmage/include' \
+  -DProtobuf_LIBRARIES='/home/scrimmage_user/installs/opt/scrimmage/lib64' \
+  -DProtobuf_LIBRARY='/home/scrimmage_user/installs/opt/scrimmage/lib64/libprotobuf.so' \
+  -DProtobuf_FOUND=true \
+  ../.. \
+  && LD_LIBRARY_PATH=/home/${username}/installs/ make DESTDIR=/home/${username}/installs/ -j $(($(nproc)-1)) install
+
+###############################################################################
+# Build JSBsim
+###############################################################################
+WORKDIR /home/${username}/sources
+RUN git clone https://github.com/JSBSim-Team/jsbsim.git \
+    && cd jsbsim \
+    && git checkout tags/v1.2.0 -b release/v1.2 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/home/${username}/installs/${PKG_PREFIX} \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DBUILD_SHARED_LIBS=ON \
+    && make -j $(($(nproc)-1)) \
+    && make install
+
+###############################################################################
+# Provision JSON library
+###############################################################################
+# https://github.com/nlohmann/json.git
+
+###############################################################################
+# Build Boost
+###############################################################################
+WORKDIR /home/${username}/sources/
+RUN wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/1.85.0/boost_1_85_0.tar.gz
+RUN tar xvf boost_1_85_0.tar.gz -C ~/sources/
+WORKDIR /home/${username}/sources/boost_1_85_0
+
+RUN echo "using gcc : $(gcc -dumpfullversion) : $(which g++) : <linkflags>\"-Wl,-rpath,\\\\\$ORIGIN/../lib\" ;" >> ./tools/build/example/user-config.jam \
+    && cp ./tools/build/example/user-config.jam ./tools/build/src/user-config.jam \
+    && ./bootstrap.sh --prefix=/home/${username}/installs/ \
+    && ./b2 -d 2 \
+    && ./b2 install
+
+# Help other projects find boost
+ENV BOOST_ROOT={PKG_PREFIX}
+
+###############################################################################
+# Build SCRIMMAGE
+###############################################################################
+WORKDIR /home/${username}/
+RUN git clone -b rhel-build-wsyre https://github.com/gtri/scrimmage.git \
+    && cd scrimmage && git pull && git status && git pull && mkdir build \
+    && rm cmake/Modules/FindGeographicLib.cmake
+WORKDIR ./scrimmage/build
+#ENV BOOST_ROOT=${PKG_PREFIX}
+ENV CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}:/home/scrimmage_user/installs/opt/scrimmage/lib64/cmake"
+ENV CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}:/home/scrimmage_user/installs/opt/scrimmage/lib/cmake"
+ENV CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}:/home/scrimmage_user/installs/opt/scrimmage/share/cmake"
+ENV CMAKE_MODULE_PATH="${CMAKE_MODULE_PATH}:/home/scrimmage_user/installs/boost"
+ENV CMAKE_PREFIX_PATH="${CMAKE_MODULE_PATH}"
+ENV BOOST_ROOT="/home/scrimmage_user/installs/boost/"
+#RUN cmake .. -DCMAKE_INSTALL_PREFIX=${PKG_PREFIX} \
+#             -DCMAKE_INSTALL_RPATH=\$ORIGIN/../lib:\$ORIGIN/../lib64:\$ORIGIN/../lib/scrimmage/plugin_libs \
+#             -DENABLE_LD_SO_CONF_INSTALL=OFF \
+#             -DProtobuf_PROTOC_LIBRARY='/home/scrimmage_user/installs/opt/scrimmage/lib64/libprotoc.so' \
+#             -DProtobuf_INCLUDE_DIR='/home/scrimmage_user/installs/opt/scrimmage/include' \
+#             -DPROTOC='/home/scrimmage_user/installs/opt/scrimmage/bin/protoc' \
+#             -DPROTOBUF_INCLUDE='/home/scrimmage_user/installs/opt/scrimmage/include' \
+#             -DPROTOBUF_LIBS='/home/scrimmage_user/installs/opt/scrimmage/lib64' \
+#             -DProtobuf_LIBRARY='/home/scrimmage_user/installs/opt/scrimmage/lib64/libprotobuf.so' \
+#             -DJSBSIM_INCLUDE_DIR='/home/scrimmage_user/installs/opt/scrimmage/include/JSBSim/' \
+#             -DJSBSIM_LIBRARY='/home/scrimmage_user/installs/opt/scrimmage/lib/libJSBSim.so' \
+#             -DJSBSIM_LIBRARIES='/home/scrimmage_user/installs/opt/scrimmage/lib/libJSBSim.so' \
+#             -DBoost_NO_SYSTEM_PATHS=true \
+#             -DBOOST_LIBRARYDIR='/home/scrimmage_user/installs/boost/lib' \
+#             -DBOOST_INCLUDEDIR='/home/scrimmage_user/installs/boost/include'
+#RUN make -j$(($(nproc)-1)) 
+#ENV JSBSIM_ROOT=${PKG_PREFIX}/etc/JSBSim
+#
+## Run a scrimmage mission
+#RUN source /opt/scrimmage/etc/scrimmage/env/scrimmage-setenv \
+#    && scrimmage /opt/scrimmage/share/scrimmage/missions/straight-no-gui.xml
