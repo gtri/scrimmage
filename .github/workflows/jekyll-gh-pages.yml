@@ -32,10 +32,10 @@ jobs:
         uses: actions/configure-pages@v5
       - name: build_docker
         run: |
-          docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu .
+          docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/website .
       - name: copy website docs outside of container
         run: |
-           docker cp scrimmage:noble-${GITHUB_SHA}:/root/scrimmage/scrimmage/build/docs/ ./
+          docker cp scrimmage:noble-${GITHUB_SHA}:/root/scrimmage/scrimmage/build/docs/ ./
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
