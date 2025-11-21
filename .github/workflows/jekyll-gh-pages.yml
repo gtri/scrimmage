@@ -33,10 +33,13 @@ jobs:
       - name: build_docker
         run: |
           docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu .
+      - name: copy website docs outside of container
+        run: |
+           docker cp scrimmage:noble-${GITHUB_SHA}:/root/scrimmage/scrimmage/build/docs/ ./
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./docs/jekyll/
+          source: ./
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
