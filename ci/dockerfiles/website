@@ -19,7 +19,6 @@ RUN apt-get update \
     clang \
     doxygen \
     graphviz \
-    sphinx-rtd-theme-common \
     texlive-bibtex-extra \
     ccache \
     libvtk9-dev \
