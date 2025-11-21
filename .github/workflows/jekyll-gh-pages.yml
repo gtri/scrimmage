@@ -33,7 +33,9 @@ jobs:
       - name: build_docker
         run: |
           docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/website .
-          docker cp scrimmage:noble-${GITHUB_SHA}:/root/scrimmage/scrimmage/build/docs/ ./
+          docker create --name mycontainer scrimmage:noble-${GITHUB_SHA}
+          docker cp mycontainer:/root/scrimmage/scrimmage/build/docs/ ./
+          docker rm mycontainer
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
