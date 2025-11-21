@@ -17,11 +17,10 @@ jobs:
           docker create --name mycontainer scrimmage:noble-${GITHUB_SHA}
           docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output
           mkdir website/
-          cp -r ./doc_output/jekyll/* ./website/
-          cp -r ./doc_output/sphinx ./website/
-          cp -r ./doc_output/doxygen ./website/
-          # touch ./website/.nojekyll # Disable Jekyll
-          # ls
+          cp -r ./doc_output/jekyll/* ./website
+          cp -r ./doc_output/sphinx ./website
+          cp -r ./doc_output/doxygen ./website
+          touch ./website/.nojekyll # Disable Jekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
