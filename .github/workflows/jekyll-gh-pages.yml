@@ -13,7 +13,7 @@ jobs:
 
       - name: Build website in docker container
         run: |
-          docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/website .
+          docker build -t scrimmage:noble-${GITHUB_SHA} -f ./ci/dockerfiles/ubuntu --target website .
           docker create --name mycontainer scrimmage:noble-${GITHUB_SHA}
           docker cp mycontainer:/root/scrimmage/scrimmage/build/docs ./doc_output
           mkdir website/

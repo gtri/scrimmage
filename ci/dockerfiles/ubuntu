@@ -11,36 +11,11 @@ SHELL ["/bin/bash", "-l", "-c"]
 RUN apt-get update \
   && apt-get install -y \
     x11-apps \
-    gnupg \
-    gnupg2 \
     python3-pip \
     python3-venv \
-    software-properties-common \
     clang \
-    doxygen \
-    graphviz \
-    python3-sphinx \
-    sphinx-rtd-theme-common \
-    texlive-bibtex-extra \
     ccache \
-    libvtk9-dev \
-    wget \
-  && python3 -m venv /root/scrimmage-venv \
-  && source /root/scrimmage-venv/bin/activate \
-  && pip install sphinx sphinx_git sphinx-rtd-theme
-
-# Install jekyll
-RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
-  && add-apt-repository -y ppa:rael-gc/rvm \
-  && apt-get update \
-  && apt-get install -y rvm \
-  && groupadd rvm && usermod -a -G rvm root
-
-RUN rvm autolibs packages \
-  && rvm install ruby 3.3.9 \
-  && gem install bundler && gem install jekyll
-
-FROM dependencies AS builder
+  && python3 -m venv /root/scrimmage-venv
 
 # Copy setup scripts into image
 RUN mkdir -p /root/scrimmage/scrimmage/setup
@@ -51,6 +26,8 @@ RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
   && /root/scrimmage/scrimmage/setup/install-jsbsim.sh
 
 COPY ./ /root/scrimmage/scrimmage/
+
+FROM dependencies AS test_scripts
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -64,20 +41,49 @@ RUN source /root/scrimmage-venv/bin/activate \
   && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
   && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
+FROM dependencies AS builder
+
 # Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/scrimmage-venv/bin/activate \
-  && mkdir -p build \
-  && cd build \
-  && rm -rf * \
+  && mkdir -p build && cd build && rm -rf * \
   && source ~/.bashrc \
-  && cmake .. -DBUILD_TESTS=ON \
-              -DBUILD_DOCS=ON \
-              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+  && cmake .. -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
   && source ~/.scrimmage/setup.bash \
-  && make -j24 \
+  && make -j24
+
+FROM dependencies AS website
+
+RUN apt-get update \
+  && apt-get install -y \
+    gnupg \
+    gnupg2 \
+    software-properties-common \
+    clang \
+    doxygen \
+    graphviz \
+    texlive-bibtex-extra \
+  && source /root/scrimmage-venv/bin/activate \
+  && pip install sphinx sphinx_git sphinx-rtd-theme
+
+# Install jekyll
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+  && add-apt-repository -y ppa:rael-gc/rvm \
+  && apt-get update \
+  && apt-get install -y rvm \
+  && groupadd rvm && usermod -a -G rvm root
+
+RUN rvm autolibs packages \
+  && rvm install ruby 3.3.9 \
+  && gem install bundler -v 2.3.9 && gem install jekyll -v 4.4.1
+
+WORKDIR /root/scrimmage/scrimmage/build
+
+RUN source /root/scrimmage-venv/bin/activate \
+  && cmake .. -DBUILD_DOCS=ON \
   && make docs website-docs
 
+FROM builder AS tester
 
 # run tests
 WORKDIR /root/scrimmage/scrimmage/build
