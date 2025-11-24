@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="25,109,187,151"/>
-<area shape="rect" id="node5" href="$RayTrace_8h.html" title="Brief file description. " alt="" coords="212,109,403,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="81,5,336,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,196,133,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,59,44,80,15,109,8,128,15,147,26,161,39,174,71,192,68,197,36,178,22,165,10,149,3,128,10,107,41,76,80,55"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="282,196,341,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="338,49,385,71,405,87,423,107,430,128,423,149,409,166,392,180,355,198,353,194,389,176,406,163,418,147,425,128,418,109,402,91,382,76,335,54"/>
+<area shape="rect" id="Node000004" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="25,108,190,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,62,140,101,136,97,178,58"/>
+<area shape="rect" id="Node000031" href="$RayTrace_8h.html" title="Brief file description." alt="" coords="215,108,408,148"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="239,58,282,97,278,101,236,62"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="110,148,110,182,105,182,105,148"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="157,146,270,189,268,194,155,151"/>
+<area shape="poly" id="edge7_Node000031_Node000002" title=" " alt="" coords="263,151,146,195,144,190,261,146"/>
+<area shape="poly" id="edge8_Node000031_Node000003" title=" " alt="" coords="314,148,314,182,309,182,309,148"/>
 </map>

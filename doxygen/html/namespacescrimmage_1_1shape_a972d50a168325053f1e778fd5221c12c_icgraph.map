@@ -1,4 +1,5 @@
 <map id="scrimmage::shape::make_sphere" name="scrimmage::shape::make_sphere">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="239,5,409,47"/>
-<area shape="rect" id="node3" href="$TrailMS_8cpp.html#af86866f544ec4fc507b7f7d184acc9ac" title="REGISTER_PLUGIN" alt="" coords="255,71,393,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,383,45"/>
+<area shape="rect" id="Node000002" href="$ROSShapeViz_8cpp.html#a2e7d9118fb8adf84f4f8ae736c91cd24" title=" " alt="" coords="5,13,148,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,28,149,28,149,23,182,23"/>
 </map>

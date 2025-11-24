@@ -1,8 +1,44 @@
 <map id="scrimmage::Angles::angle" name="scrimmage::Angles::angle">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a9ddc96c53a338c4263524ce41935a966" title="scrimmage::Angles::\langle_180" alt="" coords="481,27,635,68"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff" title="scrimmage::Angles::\langle_2pi" alt="" coords="243,107,397,148"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b" title="scrimmage::Angles::\langle_pi" alt="" coords="481,122,635,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Angles.html#a264ec02ca8e76a591481b1056c18e3e3" title="scrimmage::Angles::\langle_360" alt="" coords="243,42,397,83"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title="scrimmage::FrameUpdateClient\l::send_frame" alt="" coords="207,224,433,266"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title="scrimmage::sensor::\lAirSimSensor::step" alt="" coords="243,290,397,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="688,331,843,371"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a9ddc96c53a338c4263524ce41935a966" title=" " alt="" coords="283,310,437,350"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="674,349,437,336,438,331,675,343"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff" title=" " alt="" coords="485,92,640,132"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="748,319,705,238,675,193,638,153,612,134,615,130,642,149,679,190,710,235,753,317"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b" title=" " alt="" coords="283,92,437,132"/>
+<area shape="poly" id="edge17_Node000001_Node000005" title=" " alt="" coords="757,318,747,263,725,197,710,164,690,133,667,105,639,82,610,69,580,61,548,60,516,62,455,76,404,95,402,90,453,71,515,57,548,54,581,56,612,64,641,78,670,101,695,130,714,161,730,195,752,262,763,317"/>
+<area shape="rect" id="Node000010" href="$JSBSimControlControllerHeadingPID_8cpp.html#a8a40712020f4aac8998a769265f3af8e" title=" " alt="" coords="49,100,191,125"/>
+<area shape="poly" id="edge21_Node000001_Node000010" title=" " alt="" coords="759,318,750,257,730,183,714,146,694,111,669,79,638,53,608,36,575,23,541,14,505,10,433,11,362,22,294,40,234,62,146,102,144,97,232,57,293,35,361,17,433,5,506,5,541,9,576,18,610,31,642,49,673,75,699,108,719,144,735,182,755,256,764,317"/>
+<area shape="rect" id="Node000011" href="$JSBSimModelControllerHeadingPID_8cpp.html#a53ad5e9faa92f0e50c60abcfce7e4591" title=" " alt="" coords="49,157,191,182"/>
+<area shape="poly" id="edge22_Node000001_Node000011" title=" " alt="" coords="732,323,690,289,639,260,581,238,520,220,397,194,283,180,191,174,192,168,284,175,398,189,521,215,582,233,641,255,693,285,735,319"/>
+<area shape="rect" id="Node000026" href="$classscrimmage_1_1Angles.html#a264ec02ca8e76a591481b1056c18e3e3" title=" " alt="" coords="485,359,640,399"/>
+<area shape="poly" id="edge6_Node000001_Node000026" title=" " alt="" coords="675,366,641,371,640,366,674,361"/>
+<area shape="rect" id="Node000029" href="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae" title=" " alt="" coords="283,375,437,415"/>
+<area shape="poly" id="edge24_Node000001_Node000029" title=" " alt="" coords="721,380,683,399,641,413,588,421,535,423,437,413,438,408,535,417,588,416,639,408,681,394,719,376"/>
+<area shape="rect" id="Node000030" href="$classscrimmage_1_1Angles.html#a0b9e5044fd6d73a0e2d569dcc5f9c5a2" title=" " alt="" coords="43,219,197,259"/>
+<area shape="poly" id="edge18_Node000001_Node000030" title=" " alt="" coords="717,327,680,308,639,293,520,267,400,251,288,244,198,241,198,236,289,238,400,246,521,262,641,288,682,303,720,322"/>
+<area shape="rect" id="Node000031" href="$FlightGearMultiplayer_8cpp.html#a9846357865f45c857fa00f302c27e685" title=" " alt="" coords="49,309,191,334"/>
+<area shape="poly" id="edge20_Node000001_Node000031" title=" " alt="" coords="674,331,640,324,540,307,462,297,383,295,283,300,192,311,191,306,282,295,383,290,462,292,541,302,640,319,675,326"/>
+<area shape="rect" id="Node000032" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title=" " alt="" coords="5,375,235,415"/>
+<area shape="poly" id="edge23_Node000001_Node000032" title=" " alt="" coords="730,381,689,408,641,428,582,441,521,448,460,450,400,448,289,435,198,418,199,412,290,430,401,442,460,444,521,443,581,436,639,423,687,403,727,377"/>
+<area shape="rect" id="Node000033" href="$classscrimmage_1_1autonomy_1_1ArduPilot.html#a5585fb419cb96cb2a83a09c4e17d6afc" title=" " alt="" coords="35,444,205,498"/>
+<area shape="poly" id="edge25_Node000001_Node000033" title=" " alt="" coords="739,383,696,423,670,441,641,455,585,472,526,485,467,492,408,496,297,495,205,486,205,481,297,489,407,491,466,487,525,479,583,467,639,450,667,436,693,418,736,380"/>
+<area shape="rect" id="Node000035" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f" title=" " alt="" coords="43,531,197,571"/>
+<area shape="poly" id="edge26_Node000001_Node000035" title=" " alt="" coords="748,384,705,442,675,471,641,495,585,519,526,538,466,551,405,559,291,565,197,561,198,556,291,559,405,554,465,545,525,533,583,514,639,490,672,467,701,439,744,381"/>
+<area shape="rect" id="Node000036" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title=" " alt="" coords="33,610,207,665"/>
+<area shape="poly" id="edge27_Node000001_Node000036" title=" " alt="" coords="756,385,739,424,715,470,683,515,642,552,589,582,533,605,475,622,415,634,302,645,207,646,207,641,302,640,415,628,473,616,531,599,587,577,638,547,679,511,711,467,734,422,751,383"/>
+<area shape="rect" id="Node000037" href="$classscrimmage_1_1Angles.html#a93ad6dcd2d448329dee57ab22a4c6650" title=" " alt="" coords="485,676,640,716"/>
+<area shape="poly" id="edge19_Node000001_Node000037" title=" " alt="" coords="761,385,748,442,725,515,691,591,668,627,642,659,618,678,615,674,638,656,664,624,686,588,720,513,743,441,756,384"/>
+<area shape="poly" id="edge3_Node000004_Node000005" title=" " alt="" coords="472,115,438,115,438,110,472,110"/>
+<area shape="poly" id="edge4_Node000005_Node000010" title=" " alt="" coords="269,115,192,115,192,110,269,110"/>
+<area shape="poly" id="edge5_Node000005_Node000011" title=" " alt="" coords="270,136,175,159,173,154,269,131"/>
+<area shape="poly" id="edge7_Node000026_Node000002" title=" " alt="" coords="471,359,437,351,439,346,473,354"/>
+<area shape="poly" id="edge8_Node000026_Node000029" title=" " alt="" coords="472,389,438,391,438,386,471,383"/>
+<area shape="poly" id="edge11_Node000029_Node000010" title=" " alt="" coords="285,368,281,363,263,334,256,306,255,278,258,251,260,224,259,198,251,172,233,146,214,132,191,122,193,117,216,127,237,142,256,170,265,197,266,225,263,251,260,278,261,305,268,332,285,360,289,364"/>
+<area shape="poly" id="edge12_Node000029_Node000011" title=" " alt="" coords="286,369,281,363,267,343,259,323,257,284,254,246,247,227,233,209,213,194,191,184,193,179,216,190,237,205,252,225,259,245,262,283,265,321,271,340,285,360,290,365"/>
+<area shape="poly" id="edge9_Node000029_Node000030" title=" " alt="" coords="290,370,281,364,265,347,256,330,248,315,233,298,204,278,172,261,175,257,206,273,236,294,252,312,261,328,269,344,284,360,293,366"/>
+<area shape="poly" id="edge10_Node000029_Node000031" title=" " alt="" coords="280,373,162,337,163,332,282,368"/>
+<area shape="poly" id="edge13_Node000029_Node000032" title=" " alt="" coords="269,398,235,398,235,392,269,392"/>
+<area shape="poly" id="edge14_Node000029_Node000033" title=" " alt="" coords="284,422,206,447,204,442,282,417"/>
+<area shape="poly" id="edge15_Node000029_Node000035" title=" " alt="" coords="334,427,291,470,236,512,191,533,189,528,233,507,287,466,331,423"/>
+<area shape="poly" id="edge16_Node000029_Node000036" title=" " alt="" coords="346,428,303,505,273,547,236,585,195,612,192,608,233,581,268,544,299,502,342,426"/>
 </map>

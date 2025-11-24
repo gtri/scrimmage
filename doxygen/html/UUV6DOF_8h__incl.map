@@ -1,7 +1,24 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="5,117,188,143"/>
-<area shape="rect" id="node3" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="263,199,503,225"/>
-<area shape="rect" id="node6" href="$Controller_8h.html" title="Brief file description. " alt="" coords="527,199,749,225"/>
-<area shape="rect" id="node7" href="$CSV_8h.html" title="Brief file description. " alt="" coords="773,199,972,225"/>
-<area shape="rect" id="node8" href="$RigidBody6DOFBase_8h.html" title="Brief file description. " alt="" coords="264,109,532,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="428,5,648,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="257,269,307,295"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="429,55,312,78,189,111,131,130,82,151,43,174,18,198,10,211,8,223,10,232,17,241,41,256,76,266,163,277,243,279,243,284,163,282,75,272,39,261,13,245,6,235,3,223,5,209,13,194,40,169,79,146,130,125,187,106,311,73,428,50"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="409,269,467,295"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="633,58,675,78,713,106,742,134,763,162,770,176,771,191,768,207,757,223,738,238,710,250,635,267,553,277,481,282,481,276,552,272,634,262,708,245,736,233,753,220,763,205,766,191,764,178,759,164,738,137,710,110,672,83,630,62"/>
+<area shape="rect" id="Node000004" href="$CSV_8h.html" title="Brief file description." alt="" coords="28,196,224,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="477,62,363,110,167,193,165,188,361,106,475,58"/>
+<area shape="rect" id="Node000009" href="$State_8h.html" title="Brief file description." alt="" coords="817,115,1000,141"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="643,57,851,109,850,115,642,63"/>
+<area shape="rect" id="Node000015" href="$Controller_8h.html" title="Brief file description." alt="" coords="249,196,473,221"/>
+<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="455,62,420,83,389,110,379,127,371,146,364,183,359,182,366,144,374,124,385,106,416,78,453,58"/>
+<area shape="rect" id="Node000044" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="496,196,743,221"/>
+<area shape="poly" id="edge10_Node000001_Node000044" title=" " alt="" coords="633,58,666,78,692,107,699,128,692,149,676,172,655,190,651,186,672,169,688,147,694,128,688,109,663,82,631,62"/>
+<area shape="rect" id="Node000045" href="$RigidBody6DOFBase_8h.html" title="Brief file description." alt="" coords="399,108,677,148"/>
+<area shape="poly" id="edge13_Node000001_Node000045" title=" " alt="" coords="541,60,541,94,535,94,535,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="152,219,245,261,243,266,150,224"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="177,219,396,268,395,274,176,224"/>
+<area shape="poly" id="edge8_Node000015_Node000002" title=" " alt="" coords="350,223,307,262,303,258,346,219"/>
+<area shape="poly" id="edge9_Node000015_Node000003" title=" " alt="" coords="375,219,417,258,413,262,371,223"/>
+<area shape="poly" id="edge11_Node000044_Node000002" title=" " alt="" coords="566,224,322,275,321,270,565,219"/>
+<area shape="poly" id="edge12_Node000044_Node000003" title=" " alt="" coords="591,224,481,267,479,262,589,219"/>
+<area shape="poly" id="edge14_Node000045_Node000044" title=" " alt="" coords="560,146,599,184,595,188,556,150"/>
 </map>

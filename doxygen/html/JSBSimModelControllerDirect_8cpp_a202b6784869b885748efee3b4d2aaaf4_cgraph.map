@@ -1,0 +1,17 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,205,148,230"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="238,5,409,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,203,97,173,121,133,154,91,195,55,224,40,226,45,197,60,158,94,125,136,101,176,86,206"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a79c30b0b24258c35463f9d3fcca513fb" title=" " alt="" coords="199,69,447,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="89,202,133,161,163,138,195,119,211,112,213,117,197,124,166,143,136,165,92,206"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="238,133,409,173"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="124,202,195,183,229,174,230,179,197,188,125,207"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="238,197,409,237"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="149,215,224,215,224,220,149,220"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a4cfed19c79ecef4dac916ff4e0689a2a" title=" " alt="" coords="196,261,451,301"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="125,228,197,247,230,255,229,261,195,252,124,233"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="245,326,401,351"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="92,228,135,270,165,292,197,311,232,324,231,329,195,316,162,297,132,274,88,232"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1VariableIO.html#a7605ae808a9ea0a55b6aab08e07a812d" title=" " alt="" coords="238,376,409,416"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="87,229,128,292,160,329,197,360,226,375,223,379,195,365,156,333,124,295,82,232"/>
+</map>

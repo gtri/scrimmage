@@ -1,0 +1,11 @@
+<map id="scrimmage::autonomy::BoundaryDefense::step_autonomy" name="scrimmage::autonomy::BoundaryDefense::step_autonomy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,188,135"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title=" " alt="" coords="239,5,412,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,77,235,41,260,32,262,37,237,46,153,82"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="240,55,411,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,92,226,87,227,92,189,97"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Contact.html#a331dc861313314e0f3cf704ebdea9198" title=" " alt="" coords="249,119,402,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="189,118,236,124,235,129,188,123"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1ID.html#a18038d66078eff64f5988cb036ef8042" title=" " alt="" coords="236,184,415,209"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="153,132,237,169,262,177,260,182,235,174,151,137"/>
+</map>

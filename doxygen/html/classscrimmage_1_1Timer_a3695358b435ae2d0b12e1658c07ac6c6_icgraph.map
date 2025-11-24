@@ -1,3 +1,5 @@
 <map id="scrimmage::Timer::inc_warp" name="scrimmage::Timer::inc_warp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a047ad42c8381ae19fb9b709c7cd94f67" title="scrimmage::SimControl\l::inc_warp" alt="" coords="255,5,428,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,13,435,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a047ad42c8381ae19fb9b709c7cd94f67" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,28,180,28,180,23,214,23"/>
 </map>

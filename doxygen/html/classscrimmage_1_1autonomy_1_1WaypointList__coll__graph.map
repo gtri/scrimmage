@@ -1,2 +1,5 @@
 <map id="scrimmage::autonomy::WaypointList" name="scrimmage::autonomy::WaypointList">
+<area shape="rect" id="Node000001" title=" " alt="" coords="10,148,171,368"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,176,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,86,93,132,88,132,88,86"/>
 </map>

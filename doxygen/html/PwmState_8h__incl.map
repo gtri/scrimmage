@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ArduPilot/PwmState.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ArduPilot/PwmState.h">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="87,109,269,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,243,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="11,181,114,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,62,43,83,22,109,19,125,23,140,42,170,38,173,18,142,14,125,18,107,39,79,66,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="145,181,223,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,58,209,79,230,107,234,125,230,143,209,173,205,170,225,140,229,125,226,109,205,83,179,62"/>
+<area shape="rect" id="Node000004" href="$State_8h.html" title="Brief file description." alt="" coords="33,108,215,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="127,60,127,94,121,94,121,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="116,135,84,173,80,169,112,132"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="136,132,168,169,163,173,132,135"/>
 </map>

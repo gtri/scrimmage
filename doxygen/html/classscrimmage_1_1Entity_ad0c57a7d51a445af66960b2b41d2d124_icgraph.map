@@ -1,3 +1,5 @@
 <map id="scrimmage::Entity::health_points" name="scrimmage::Entity::health_points">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Entity.html#a85eef59735bd4b15a44da561200f7a6f" title="scrimmage::Entity::\lset_health_points" alt="" coords="200,5,347,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="201,5,349,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#a85eef59735bd4b15a44da561200f7a6f" title=" " alt="" coords="5,5,153,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,28,154,28,154,23,187,23"/>
 </map>

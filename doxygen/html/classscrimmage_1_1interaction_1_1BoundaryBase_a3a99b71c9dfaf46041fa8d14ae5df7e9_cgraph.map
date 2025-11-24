@@ -1,4 +1,5 @@
 <map id="scrimmage::interaction::BoundaryBase::set_shape" name="scrimmage::interaction::BoundaryBase::set_shape">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7ccf6aa9cd926b9a8c02903fe2f1e4c4" title="scrimmage::interaction\l::BoundaryBase::set_visual" alt="" coords="251,5,445,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#afe415e9f44358e949b84bf9d6f113a14" title="scrimmage::interaction\l::BoundaryBase::shape" alt="" coords="263,71,433,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,204,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7c625caa01c1422982fd0d34289ee46e" title=" " alt="" coords="252,5,425,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,23,238,23,238,28,204,28"/>
 </map>

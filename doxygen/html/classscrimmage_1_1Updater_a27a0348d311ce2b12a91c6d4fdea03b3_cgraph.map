@@ -1,6 +1,9 @@
 <map id="scrimmage::Updater::quat_2_transform" name="scrimmage::Updater::quat_2_transform">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="224,5,397,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="234,71,387,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="224,136,397,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="208,202,413,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,160,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="226,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,67,227,46,228,52,156,72"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="226,69,401,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,87,212,87,212,92,161,92"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="208,134,419,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="161,107,209,119,247,128,245,133,207,124,159,112"/>
 </map>

@@ -1,5 +1,41 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h">
-<area shape="rect" id="node2" href="$Sensor_8h.html" title="Brief file description. " alt="" coords="263,117,465,143"/>
-<area shape="rect" id="node7" href="$Angles_8h.html" title="Brief file description. " alt="" coords="642,117,833,143"/>
-<area shape="rect" id="node8" href="$CSV_8h.html" title="Brief file description. " alt="" coords="39,117,238,143"/>
+<area shape="rect" id="Node000001" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages." alt="" coords="561,5,823,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,48,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="560,42,406,52,241,66,104,85,58,97,34,110,24,126,20,144,23,182,17,183,15,144,19,124,30,106,56,92,103,80,241,61,406,46,560,37"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="129,196,180,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="561,42,409,52,248,66,114,85,70,97,46,110,40,119,39,127,46,147,60,164,78,177,117,195,115,200,75,182,56,167,42,149,33,128,35,117,42,106,68,92,113,80,247,61,409,46,560,37"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="252,196,329,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="561,48,488,57,417,71,357,88,334,99,318,110,306,126,298,144,293,182,287,181,293,143,301,123,314,106,331,94,355,83,416,65,487,52,560,42"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="656,115,728,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="695,60,695,101,689,101,689,60"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="400,196,459,221"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="663,62,609,105,544,150,468,192,465,188,541,146,605,101,659,58"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="535,196,598,221"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="675,62,585,187,581,184,671,59"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="753,115,922,141"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="734,58,809,106,806,110,731,62"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="946,115,1113,141"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="788,57,976,109,974,114,786,63"/>
+<area shape="rect" id="Node000010" href="$CSV_8h.html" title="Brief file description." alt="" coords="57,115,253,141"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="561,59,235,116,234,110,560,54"/>
+<area shape="rect" id="Node000013" href="$Angles_8h.html" title="Brief file description." alt="" coords="1137,115,1330,141"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="824,54,1126,105,1155,110,1154,116,1125,111,823,59"/>
+<area shape="rect" id="Node000014" href="$Sensor_8h.html" title="Brief file description." alt="" coords="329,115,530,141"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="619,63,475,113,473,108,617,58"/>
+<area shape="rect" id="Node000038" title=" " alt="" coords="1354,115,1446,141"/>
+<area shape="poly" id="edge20_Node000001_Node000038" title=" " alt="" coords="824,39,1066,61,1206,80,1343,105,1356,109,1355,114,1342,111,1205,85,1066,66,823,44"/>
+<area shape="rect" id="Node000039" title=" " alt="" coords="1470,115,1597,141"/>
+<area shape="poly" id="edge21_Node000001_Node000039" title=" " alt="" coords="824,38,1116,61,1288,80,1459,105,1480,110,1479,115,1458,111,1287,85,1115,66,823,43"/>
+<area shape="rect" id="Node000040" title=" " alt="" coords="1621,108,1795,148"/>
+<area shape="poly" id="edge22_Node000001_Node000040" title=" " alt="" coords="824,38,1174,61,1389,80,1607,105,1606,110,1388,85,1174,66,823,43"/>
+<area shape="rect" id="Node000041" title=" " alt="" coords="1819,108,2042,148"/>
+<area shape="poly" id="edge23_Node000001_Node000041" title=" " alt="" coords="824,36,1256,59,1529,79,1806,105,1805,110,1528,85,1256,65,824,42"/>
+<area shape="poly" id="edge10_Node000010_Node000002" title=" " alt="" coords="137,143,59,191,56,186,134,139"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="157,141,157,182,152,182,152,141"/>
+<area shape="poly" id="edge12_Node000010_Node000004" title=" " alt="" coords="176,139,260,187,257,191,173,143"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="195,138,387,193,386,198,194,143"/>
+<area shape="poly" id="edge16_Node000014_Node000003" title=" " alt="" coords="390,143,194,199,192,194,389,138"/>
+<area shape="poly" id="edge17_Node000014_Node000004" title=" " alt="" coords="410,143,324,192,322,187,408,139"/>
+<area shape="poly" id="edge18_Node000014_Node000006" title=" " alt="" coords="432,141,432,182,427,182,427,141"/>
+<area shape="poly" id="edge19_Node000014_Node000007" title=" " alt="" coords="451,139,536,187,533,191,448,143"/>
 </map>

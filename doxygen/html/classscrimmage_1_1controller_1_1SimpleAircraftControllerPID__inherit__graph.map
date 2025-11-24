@@ -1,3 +1,5 @@
 <map id="scrimmage::controller::SimpleAircraftControllerPID" name="scrimmage::controller::SimpleAircraftControllerPID">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="26,5,190,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,208,513"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="27,5,186,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,144,109,178,104,178,104,144"/>
 </map>

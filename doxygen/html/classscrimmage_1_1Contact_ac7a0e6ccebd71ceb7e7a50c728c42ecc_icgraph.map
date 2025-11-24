@@ -1,3 +1,5 @@
 <map id="scrimmage::Contact::set_state" name="scrimmage::Contact::set_state">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title="scrimmage::proto_2\l_contact" alt="" coords="205,5,356,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="205,5,359,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title=" " alt="" coords="5,5,157,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,28,158,28,158,23,192,23"/>
 </map>

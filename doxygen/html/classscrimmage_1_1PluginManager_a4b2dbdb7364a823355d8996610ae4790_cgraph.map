@@ -1,4 +1,7 @@
 <map id="scrimmage::PluginManager::print_plugins" name="scrimmage::PluginManager::print_plugins">
-<area shape="rect" id="node2" href="$classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe" title="scrimmage::PluginManager\l::check_library" alt="" coords="249,5,445,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1FileSearch.html#ac4d4bc23721e01f4ff0ff1eaef0a63be" title="scrimmage::FileSearch\l::find_files" alt="" coords="263,71,431,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,205,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe" title=" " alt="" coords="253,5,453,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,42,239,37,240,43,206,47"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699" title=" " alt="" coords="268,69,439,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,68,255,74,254,79,205,73"/>
 </map>

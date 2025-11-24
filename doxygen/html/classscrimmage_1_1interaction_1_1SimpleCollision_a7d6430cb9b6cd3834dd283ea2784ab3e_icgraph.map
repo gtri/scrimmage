@@ -1,0 +1,5 @@
+<map id="scrimmage::interaction::SimpleCollision::step_entity_interaction" name="scrimmage::interaction::SimpleCollision::step_entity_interaction">
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,369,60"/>
+<area shape="rect" id="Node000002" href="$SimpleCollision_8cpp.html#a780b5c0512aaf6256c0895161073e3fb" title=" " alt="" coords="5,20,148,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,35,148,35,148,30,182,30"/>
+</map>

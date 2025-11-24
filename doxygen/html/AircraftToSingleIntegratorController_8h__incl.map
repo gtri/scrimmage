@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="57,124,279,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,336,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="88,196,139,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,77,69,98,49,124,46,141,53,157,66,173,83,186,80,190,62,176,48,160,41,141,44,122,66,94,93,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="197,196,256,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,73,276,94,297,122,301,142,293,160,278,177,260,191,257,187,274,173,288,158,295,141,292,124,272,98,245,77"/>
+<area shape="rect" id="Node000004" href="$Controller_8h.html" title="Brief file description." alt="" coords="59,123,283,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,75,173,109,168,109,168,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="163,150,133,187,129,183,159,147"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="182,147,211,184,207,187,178,150"/>
 </map>

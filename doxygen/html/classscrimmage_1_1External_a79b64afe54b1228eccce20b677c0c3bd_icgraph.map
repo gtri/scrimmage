@@ -1,5 +1,8 @@
 <map id="scrimmage::External::update_ents" name="scrimmage::External::update_ents">
-<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title="scrimmage::External\l::call_update_contacts" alt="" coords="208,5,373,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#a8959fc9d4cba22e720fc0bedea38e765" title="scrimmage::External\l::step" alt="" coords="421,35,576,76"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1External.html#a2b6fe8f4481aa9a75f8977d92f6a09ab" title="scrimmage::External\l::param_server" alt="" coords="213,123,368,164"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="425,35,583,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title=" " alt="" coords="211,5,377,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="411,44,377,40,378,34,412,39"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1External.html#a8959fc9d4cba22e720fc0bedea38e765" title=" " alt="" coords="5,35,163,75"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="412,59,377,60,211,60,163,59,163,54,211,55,377,55,412,54"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="197,42,163,46,162,41,196,36"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::mp" name="scrimmage::SimControl::mp">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title="scrimmage::run_test" alt="" coords="256,5,411,32"/>
+<area shape="rect" id="Node000001" title="Get the pointer to the MissionParser instance." alt="" coords="209,5,413,31"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title=" " alt="" coords="5,5,161,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,21,161,21,161,15,196,15"/>
 </map>

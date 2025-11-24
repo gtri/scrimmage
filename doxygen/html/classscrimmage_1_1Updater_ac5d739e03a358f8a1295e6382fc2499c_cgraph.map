@@ -1,3 +1,5 @@
 <map id="scrimmage::Updater::update_utm_terrain" name="scrimmage::Updater::update_utm_terrain">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title="scrimmage::find_terrain\l_files" alt="" coords="211,5,385,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,164,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title=" " alt="" coords="212,5,389,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,23,198,23,198,28,164,28"/>
 </map>

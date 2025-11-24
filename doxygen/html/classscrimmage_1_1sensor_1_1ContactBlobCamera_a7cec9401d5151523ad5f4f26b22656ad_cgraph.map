@@ -1,6 +1,25 @@
 <map id="scrimmage::sensor::ContactBlobCamera::init" name="scrimmage::sensor::ContactBlobCamera::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="232,5,385,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title="scrimmage::get_vec" alt="" coords="233,71,385,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="433,89,585,131"/>
-<area shape="rect" id="node5" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="247,173,370,199"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,276,187,316"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,275,118,230,145,171,183,109,207,81,233,55,239,50,243,55,236,59,210,84,187,113,149,174,122,232,106,277"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="248,70,403,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="104,274,123,238,151,192,188,146,233,106,245,99,248,103,236,110,192,149,156,195,128,241,109,277"/>
+<area shape="rect" id="Node000006" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="248,120,403,160"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="113,274,164,223,197,195,233,170,244,164,247,168,236,174,201,199,168,227,117,278"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title=" " alt="" coords="239,185,412,210"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="128,274,177,246,234,219,255,211,257,216,236,224,179,250,130,278"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1ID.html#a25211a234ba6e3de01db5063a7c498f6" title=" " alt="" coords="257,234,394,259"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="186,274,252,260,253,265,187,279"/>
+<area shape="rect" id="Node000011" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="264,283,387,309"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="187,293,250,293,250,299,187,299"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Contact.html#a9d3bb2620a1c1963273b20645a2dc98b" title=" " alt="" coords="249,333,402,373"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="177,313,236,328,235,333,176,319"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110" title=" " alt="" coords="235,398,415,453"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="127,314,177,348,236,383,249,390,246,394,233,388,174,352,124,318"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1Contact.html#a2ef13b5ef155f7e2a7db6470b0957c70" title=" " alt="" coords="249,477,402,517"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="111,315,160,386,196,427,236,462,247,469,245,473,233,466,192,430,156,390,107,318"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b" title=" " alt="" coords="249,541,402,581"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="106,315,123,359,150,416,188,475,211,503,236,527,243,532,239,536,233,531,207,507,184,479,145,418,118,361,101,317"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f" title=" " alt="" coords="235,605,416,645"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="104,316,117,370,142,444,160,484,181,523,207,559,237,591,242,596,238,600,233,595,202,563,176,525,155,486,137,446,112,371,98,317"/>
 </map>

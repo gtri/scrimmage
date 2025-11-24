@@ -1,5 +1,9 @@
 <map id="scrimmage::metrics::SimpleCollisionScore::score" name="scrimmage::metrics::SimpleCollisionScore::score">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#ae54f392ebc020d369d2c6c59bbee4da6" title="scrimmage::metrics\l::SimpleCollisionScore\l::flight_time_norm" alt="" coords="216,5,379,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#af33c5d56e7518a8a38adaec0c8aac0b6" title="scrimmage::metrics\l::SimpleCollisionScore\l::non_team_collisions" alt="" coords="216,85,379,141"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#a09c93f67c0b4279262b6c7d57d5deccb" title="scrimmage::metrics\l::SimpleCollisionScore\l::team_collisions" alt="" coords="216,165,379,221"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,84,172,139"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#ae54f392ebc020d369d2c6c59bbee4da6" title=" " alt="" coords="220,5,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,81,214,62,216,67,165,86"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#af33c5d56e7518a8a38adaec0c8aac0b6" title=" " alt="" coords="220,84,387,139"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="173,109,206,109,206,114,173,114"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#a09c93f67c0b4279262b6c7d57d5deccb" title=" " alt="" coords="220,163,387,217"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="165,136,216,155,214,160,163,141"/>
 </map>

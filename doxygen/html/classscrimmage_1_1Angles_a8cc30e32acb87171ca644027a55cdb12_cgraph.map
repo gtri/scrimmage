@@ -1,3 +1,5 @@
 <map id="scrimmage::Angles::angle_diff" name="scrimmage::Angles::angle_diff">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a264ec02ca8e76a591481b1056c18e3e3" title="scrimmage::Angles::\langle_360" alt="" coords="207,5,360,47"/>
+<area shape="rect" id="Node000001" title="shortest angle from ang2 to ang1" alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a264ec02ca8e76a591481b1056c18e3e3" title=" " alt="" coords="208,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
 </map>

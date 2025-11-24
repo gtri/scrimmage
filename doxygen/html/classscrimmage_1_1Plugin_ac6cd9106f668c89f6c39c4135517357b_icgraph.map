@@ -1,8 +1,34 @@
 <map id="scrimmage::Plugin::name" name="scrimmage::Plugin::name">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title="scrimmage::EntityPlugin\l::draw_shape" alt="" coords="239,5,415,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1EntityPlugin.html#ac93564294b680be752b48dfb9547f7b0" title="scrimmage::EntityPlugin\l::get_scoped_property\l_helper" alt="" coords="239,70,415,126"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1BulletCollision.html#aed9518f10ca6f42724a09a6142f5e055" title="scrimmage::interaction\l::BulletCollision::init" alt="" coords="241,149,412,191"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Plugin.html#a6f4056f3d481ba0805724c4724552d3b" title="scrimmage::Plugin::\lset_name" alt="" coords="253,215,401,256"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1EntityPlugin.html#a9355d0616a6ecde6d744651cc3175e5c" title="scrimmage::EntityPlugin\l::set_scoped_property" alt="" coords="239,280,415,321"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title="scrimmage::sensor::\lLOSSensor::step" alt="" coords="250,345,403,387"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,494,423,519"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="5,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="324,481,318,400,298,287,280,226,256,166,224,109,185,59,170,47,173,43,189,55,229,106,261,164,285,225,303,286,323,399,330,480"/>
+<area shape="rect" id="Node000026" href="$classscrimmage_1_1EntityPlugin.html#ac93564294b680be752b48dfb9547f7b0" title=" " alt="" coords="5,70,187,125"/>
+<area shape="poly" id="edge2_Node000001_Node000026" title=" " alt="" coords="322,481,310,414,286,323,268,274,245,226,218,180,185,139,170,127,173,123,189,135,222,177,250,223,273,272,291,321,315,413,327,480"/>
+<area shape="rect" id="Node000027" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289" title=" " alt="" coords="17,149,175,189"/>
+<area shape="poly" id="edge3_Node000001_Node000027" title=" " alt="" coords="320,481,305,424,280,349,262,310,240,271,215,235,185,203,168,192,172,187,188,199,219,232,245,268,266,308,285,347,311,422,325,480"/>
+<area shape="rect" id="Node000028" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title=" " alt="" coords="17,213,175,253"/>
+<area shape="poly" id="edge4_Node000001_Node000028" title=" " alt="" coords="317,482,299,436,271,378,233,319,210,292,185,267,167,256,170,251,188,263,214,288,237,316,276,376,304,434,322,480"/>
+<area shape="rect" id="Node000029" href="$classscrimmage_1_1motion_1_1Multirotor.html#a35db0017725fe49afb4e47d1dabbf88a" title=" " alt="" coords="17,277,175,317"/>
+<area shape="poly" id="edge5_Node000001_Node000029" title=" " alt="" coords="312,484,262,409,226,367,185,332,165,320,167,315,188,327,230,364,266,406,316,481"/>
+<area shape="rect" id="Node000030" href="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="11,341,181,381"/>
+<area shape="poly" id="edge6_Node000001_Node000030" title=" " alt="" coords="303,486,251,441,185,396,160,384,163,379,188,391,255,437,306,482"/>
+<area shape="rect" id="Node000031" href="$classscrimmage_1_1controller_1_1MotionBattery.html#a3622c154a2ef5397245f5285dbc81fbd" title=" " alt="" coords="13,405,179,445"/>
+<area shape="poly" id="edge7_Node000001_Node000031" title=" " alt="" coords="278,492,153,448,155,443,280,487"/>
+<area shape="rect" id="Node000032" href="$classscrimmage_1_1Print.html#a52c91a561088ff8fe8a5d24e716eb23f" title=" " alt="" coords="11,494,181,519"/>
+<area shape="poly" id="edge8_Node000001_Node000032" title=" " alt="" coords="221,509,182,509,182,504,221,504"/>
+<area shape="rect" id="Node000041" href="$FixedWing6DOFControllerROS_8cpp.html#a808c9886cf8c7d2a5e6e4149fec95040" title=" " alt="" coords="25,543,167,569"/>
+<area shape="poly" id="edge10_Node000001_Node000041" title=" " alt="" coords="255,525,157,546,156,541,254,520"/>
+<area shape="rect" id="Node000042" href="$RigidBody6DOFControllerROS_8cpp.html#a6afb343083638f37adaf16437dd42ea4" title=" " alt="" coords="25,593,167,618"/>
+<area shape="poly" id="edge11_Node000001_Node000042" title=" " alt="" coords="295,529,245,556,188,582,150,595,148,590,186,578,243,551,293,524"/>
+<area shape="rect" id="Node000043" href="$classscrimmage_1_1Plugin.html#a6f4056f3d481ba0805724c4724552d3b" title=" " alt="" coords="21,643,171,683"/>
+<area shape="poly" id="edge12_Node000001_Node000043" title=" " alt="" coords="308,531,256,581,223,608,188,632,161,645,159,640,185,627,220,604,253,577,304,528"/>
+<area shape="rect" id="Node000044" href="$classscrimmage_1_1EntityPlugin.html#a7a51a93ab6200645c3953d80f6e124f3" title=" " alt="" coords="5,707,187,747"/>
+<area shape="poly" id="edge13_Node000001_Node000044" title=" " alt="" coords="317,533,297,569,268,613,231,658,188,697,168,709,165,704,185,693,227,654,263,610,292,566,313,530"/>
+<area shape="rect" id="Node000045" href="$classscrimmage_1_1EntityPlugin.html#a9355d0616a6ecde6d744651cc3175e5c" title=" " alt="" coords="5,771,187,811"/>
+<area shape="poly" id="edge14_Node000001_Node000045" title=" " alt="" coords="322,534,305,582,277,643,239,706,215,735,188,761,170,773,167,768,185,757,211,731,234,703,272,640,300,580,317,532"/>
+<area shape="rect" id="Node000046" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title=" " alt="" coords="19,835,173,875"/>
+<area shape="poly" id="edge15_Node000001_Node000046" title=" " alt="" coords="325,533,312,593,286,670,268,712,246,753,220,791,188,825,172,837,168,832,185,821,215,787,241,750,263,709,281,668,307,591,320,532"/>
+<area shape="rect" id="Node000047" href="$classscrimmage_1_1EntityPlugin.html#a43b38347a19f8159e6dc46675cff615c" title=" " alt="" coords="5,899,187,939"/>
+<area shape="poly" id="edge16_Node000001_Node000047" title=" " alt="" coords="328,533,318,603,294,698,276,749,253,799,224,847,189,889,172,901,169,897,185,885,220,843,248,797,271,747,289,696,312,602,322,533"/>
+<area shape="poly" id="edge9_Node000032_Node000032" title=" " alt="" coords="138,485,127,476,96,473,71,475,58,480,55,485,62,492,58,496,50,486,54,476,70,470,96,467,129,471,141,481"/>
 </map>

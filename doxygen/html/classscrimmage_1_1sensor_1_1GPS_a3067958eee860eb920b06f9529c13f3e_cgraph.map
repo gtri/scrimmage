@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::GPS::step" name="scrimmage::sensor::GPS::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="207,13,375,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title=" " alt="" coords="208,13,376,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
 </map>

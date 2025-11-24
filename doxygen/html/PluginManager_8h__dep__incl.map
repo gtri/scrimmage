@@ -1,12 +1,25 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugin_manager/PluginManager.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugin_manager/PluginManager.h">
-<area shape="rect" id="node2" href="$EntityPluginHelper_8h.html" title="Brief file description. " alt="" coords="140,109,344,165"/>
-<area shape="rect" id="node3" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="5,221,209,262"/>
-<area shape="rect" id="node4" href="$MotorSchemas_8cpp.html" title="Brief file description. " alt="" coords="245,213,509,269"/>
-<area shape="rect" id="node5" href="$PluginHelper_8h.html" title="Brief file description. " alt="" coords="420,109,624,165"/>
-<area shape="rect" id="node6" href="$External_8cpp.html" title="Brief file description. " alt="" coords="648,117,852,158"/>
-<area shape="rect" id="node7" href="$PluginManager_8cpp.html" title="Brief file description. " alt="" coords="877,117,1154,158"/>
-<area shape="rect" id="node8" href="$AutonomyExecutor_8cpp.html" title="Brief file description. " alt="" coords="1179,109,1412,165"/>
-<area shape="rect" id="node9" href="$SingleIntegrator_8cpp.html" title="Brief file description. " alt="" coords="1436,109,1685,165"/>
-<area shape="rect" id="node10" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="1710,117,1929,158"/>
-<area shape="rect" id="node11" href="$SimUtils_8cpp.html" title="Brief file description. " alt="" coords="1953,117,2157,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="783,5,989,60"/>
+<area shape="rect" id="Node000002" href="$EntityPluginHelper_8h.html" title="Brief file description." alt="" coords="136,108,343,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="769,51,578,77,362,111,343,114,342,109,362,105,577,71,769,46"/>
+<area shape="rect" id="Node000003" href="$Entity_8cpp.html" title="Brief file description." alt="" coords="5,218,212,258"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="769,40,590,48,388,62,216,82,158,95,126,110,111,134,104,163,104,193,107,217,102,218,99,193,99,163,106,132,123,106,156,90,216,77,388,56,589,43,769,35"/>
+<area shape="rect" id="Node000004" href="$MotorSchemas_8cpp.html" title="Brief file description." alt="" coords="242,211,509,265"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="769,40,668,47,561,60,469,81,434,94,409,110,392,132,383,158,377,211,371,210,377,157,388,129,406,106,431,89,467,75,560,55,667,42,769,35"/>
+<area shape="rect" id="Node000005" href="$PluginHelper_8h.html" title="Brief file description." alt="" coords="419,108,625,163"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="779,66,618,111,616,105,777,61"/>
+<area shape="rect" id="Node000006" href="$External_8cpp.html" title="Brief file description." alt="" coords="649,115,856,155"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="842,71,780,117,776,113,839,66"/>
+<area shape="rect" id="Node000007" href="$PluginManager_8cpp.html" title="Brief file description." alt="" coords="880,115,1161,155"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="933,66,997,113,994,117,930,70"/>
+<area shape="rect" id="Node000008" href="$AutonomyExecutor_8cpp.html" title="Brief file description." alt="" coords="1186,108,1423,163"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="1003,59,1196,105,1195,111,1002,64"/>
+<area shape="rect" id="Node000009" href="$SingleIntegrator_8cpp.html" title="Brief file description." alt="" coords="1448,108,1703,163"/>
+<area shape="poly" id="edge10_Node000001_Node000009" title=" " alt="" coords="1003,45,1205,72,1436,105,1448,107,1448,113,1435,111,1205,77,1002,51"/>
+<area shape="rect" id="Node000010" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="1727,115,1949,155"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="1004,37,1326,61,1521,80,1716,105,1757,113,1756,118,1715,111,1520,85,1325,66,1003,43"/>
+<area shape="rect" id="Node000011" href="$SimUtils_8cpp.html" title="Brief file description." alt="" coords="1973,115,2180,155"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="1004,34,1188,40,1427,53,1693,74,1961,105,2001,113,2000,118,1960,111,1693,79,1427,58,1188,45,1003,39"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="196,173,135,220,132,216,193,169"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="287,169,341,208,338,213,284,173"/>
 </map>

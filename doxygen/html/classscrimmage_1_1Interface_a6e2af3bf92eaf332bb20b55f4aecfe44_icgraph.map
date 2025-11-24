@@ -1,5 +1,9 @@
 <map id="scrimmage::Interface::init_network" name="scrimmage::Interface::init_network">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Viewer.html#a59e743cccc26251586a3090c6adf8f0f" title="scrimmage::Viewer::run" alt="" coords="212,5,385,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a5c739acbcac3ed4ea5b18b05e915a4fd" title="scrimmage::Interface\l::set_port" alt="" coords="219,57,378,98"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="212,122,385,163"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="256,63,417,103"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#ac1d3c34d43faf4b86fa70074f90d0bef" title=" " alt="" coords="5,5,208,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,62,187,48,188,43,243,57"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Viewer.html#a59e743cccc26251586a3090c6adf8f0f" title=" " alt="" coords="18,70,195,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,85,196,85,196,80,242,80"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="19,120,194,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,109,188,123,187,117,242,103"/>
 </map>

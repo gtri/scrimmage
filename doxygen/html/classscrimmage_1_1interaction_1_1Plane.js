@@ -5,7 +5,7 @@ var classscrimmage_1_1interaction_1_1Plane =
     [ "Plane", "classscrimmage_1_1interaction_1_1Plane.html#a0bc9c1294d5fbb0ed0711c81b5aa18f4", null ],
     [ "compute_dots", "classscrimmage_1_1interaction_1_1Plane.html#a19ba250d4c4f9ba7f4d857e6b1069113", null ],
     [ "contains", "classscrimmage_1_1interaction_1_1Plane.html#a03993b01fe07ef633d44dd543076f30b", null ],
-    [ "points", "classscrimmage_1_1interaction_1_1Plane.html#ab76138c9557a4c3020980cd62dc4e208", null ],
+    [ "points", "classscrimmage_1_1interaction_1_1Plane.html#a6a4b254454d690d618439d704cffe850", null ],
     [ "set_points", "classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea", null ],
     [ "set_visual", "classscrimmage_1_1interaction_1_1Plane.html#af7f50bcb0b63cd85c888b6135f72c321", null ],
     [ "points_", "classscrimmage_1_1interaction_1_1Plane.html#a887770cbd48519478a03fb22c210d25c", null ],

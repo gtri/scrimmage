@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Multirotor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Multirotor.h">
-<area shape="rect" id="node2" href="$MultirotorControllerOmega_8h.html" title="Brief file description. " alt="" coords="5,109,265,180"/>
-<area shape="rect" id="node3" href="$MultirotorControllerPID_8h.html" title="Brief file description. " alt="" coords="289,109,523,180"/>
-<area shape="rect" id="node4" href="$Multirotor_8cpp.html" title="Brief file description. " alt="" coords="547,117,755,173"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="308,5,527,60"/>
+<area shape="rect" id="Node000002" href="$MultirotorControllerOmega_8h.html" title="Brief file description." alt="" coords="5,108,272,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="338,67,226,110,224,105,336,62"/>
+<area shape="rect" id="Node000005" href="$MultirotorControllerPID_8h.html" title="Brief file description." alt="" coords="296,108,539,177"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="420,74,420,108,415,108,415,74"/>
+<area shape="rect" id="Node000006" href="$Multirotor_8cpp.html" title="Brief file description." alt="" coords="563,115,778,170"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="493,63,610,113,608,118,491,68"/>
 </map>

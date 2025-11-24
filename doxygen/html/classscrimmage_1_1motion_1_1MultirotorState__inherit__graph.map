@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::MultirotorState" name="scrimmage::motion::MultirotorState">
-<area shape="rect" id="node2" href="$classscrimmage_1_1State.html" title="{scrimmage::State\n|+ output_precision\l# pos_\l# vel_\l# ang_vel_\l# quat_\l|+ State()\l+ State()\l+ ~State()\l+ pos()\l+ vel()\l+ ang_vel()\l+ pos()\l+ vel()\l+ ang_vel()\l+ quat()\l+ quat()\l+ pos_const()\l+ vel_const()\l+ ang_vel_const()\l+ quat_const()\l+ set_pos()\l+ set_vel()\l+ set_ang_vel()\l+ set_quat()\l+ InFieldOfView()\l+ rel_pos_local_frame()\l+ pos_offset()\l+ orient_global_frame()\l+ rel_az()\l+ tf_matrix()\l+ cast()\l}" alt="" coords="5,5,180,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,699,165,859"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html" title=" " alt="" coords="5,5,175,651"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,664,93,699,87,699,87,664"/>
 </map>

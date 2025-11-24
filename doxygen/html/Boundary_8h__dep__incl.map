@@ -1,10 +1,19 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Boundary.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Boundary.h">
-<area shape="rect" id="node2" href="$BoundaryDefense_8cpp.html" title="Brief file description. " alt="" coords="5,117,233,173"/>
-<area shape="rect" id="node3" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="258,117,477,173"/>
-<area shape="rect" id="node4" href="$TakeFlag_8cpp.html" title="Brief file description. " alt="" coords="501,117,724,173"/>
-<area shape="rect" id="node5" href="$Boundary_8cpp.html" title="Brief file description. " alt="" coords="748,117,952,173"/>
-<area shape="rect" id="node6" href="$CaptureInBoundaryInteraction_8cpp.html" title="Brief file description. " alt="" coords="976,109,1220,180"/>
-<area shape="rect" id="node7" href="$EnforceBoundaryInteraction_8cpp.html" title="Brief file description. " alt="" coords="1244,109,1475,180"/>
-<area shape="rect" id="node8" href="$FlagCaptureInteraction_8cpp.html" title="Brief file description. " alt="" coords="1499,109,1751,180"/>
-<area shape="rect" id="node9" href="$GPS_8cpp.html" title="Brief file description. " alt="" coords="1775,117,1979,173"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="867,5,1106,60"/>
+<area shape="rect" id="Node000002" href="$BoundaryDefense_8cpp.html" title="Brief file description." alt="" coords="5,115,237,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="854,44,575,67,412,86,250,111,215,118,214,113,249,105,411,80,574,61,853,38"/>
+<area shape="rect" id="Node000003" href="$Straight_8cpp.html" title="Brief file description." alt="" coords="261,115,483,170"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="854,52,682,77,495,111,464,118,463,113,494,105,682,72,853,47"/>
+<area shape="rect" id="Node000004" href="$TakeFlag_8cpp.html" title="Brief file description." alt="" coords="507,115,733,170"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="885,66,710,118,708,113,884,61"/>
+<area shape="rect" id="Node000005" href="$Boundary_8cpp.html" title="Brief file description." alt="" coords="758,115,965,170"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="947,72,894,117,890,113,944,67"/>
+<area shape="rect" id="Node000006" href="$CaptureInBoundaryInteraction_8cpp.html" title="Brief file description." alt="" coords="989,108,1237,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1030,67,1075,106,1072,110,1027,71"/>
+<area shape="rect" id="Node000007" href="$EnforceBoundaryInteraction_8cpp.html" title="Brief file description." alt="" coords="1261,108,1496,177"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1096,61,1262,107,1260,112,1094,66"/>
+<area shape="rect" id="Node000008" href="$FlagCaptureInteraction_8cpp.html" title="Brief file description." alt="" coords="1520,108,1779,177"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1120,47,1305,72,1508,105,1520,108,1519,113,1508,111,1304,77,1119,52"/>
+<area shape="rect" id="Node000009" href="$GPS_8cpp.html" title="Brief file description." alt="" coords="1803,115,2010,170"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1120,36,1260,44,1428,57,1610,77,1791,105,1823,113,1822,118,1790,111,1610,82,1428,62,1259,49,1120,41"/>
 </map>

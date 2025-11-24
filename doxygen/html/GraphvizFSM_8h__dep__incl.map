@@ -1,3 +1,5 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/GraphvizFSM/GraphvizFSM.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/GraphvizFSM/GraphvizFSM.h">
-<area shape="rect" id="node2" href="$GraphvizFSM_8cpp.html" title="Brief file description. " alt="" coords="33,109,255,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,288,60"/>
+<area shape="rect" id="Node000002" href="$GraphvizFSM_8cpp.html" title="Brief file description." alt="" coords="33,108,261,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,74,149,108,144,108,144,74"/>
 </map>

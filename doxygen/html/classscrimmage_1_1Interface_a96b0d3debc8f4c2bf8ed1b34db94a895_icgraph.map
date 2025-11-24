@@ -1,0 +1,8 @@
+<map id="scrimmage::Interface::gui_msg" name="scrimmage::Interface::gui_msg">
+<area shape="rect" id="Node000001" title=" " alt="" coords="424,35,585,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Interface.html#a7169583da8b2389c5208441078776271" title=" " alt="" coords="215,5,376,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="410,44,376,39,376,34,411,39"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Interface.html#a78d49145a76a3558fb04eddaefdae3c4" title=" " alt="" coords="5,35,167,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="410,60,376,60,215,60,167,59,167,54,215,55,376,55,410,54"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="201,41,167,46,166,41,200,36"/>
+</map>

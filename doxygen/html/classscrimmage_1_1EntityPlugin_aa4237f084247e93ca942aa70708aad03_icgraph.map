@@ -1,8 +1,68 @@
 <map id="scrimmage::EntityPlugin::advertise" name="scrimmage::EntityPlugin::advertise">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1GroundCollision.html#a1d313c65cddca8c27931dec7182e615e" title="scrimmage::interaction\l::GroundCollision::init" alt="" coords="265,5,436,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a42b67e32373457df760950817de23b6d" title="scrimmage::sensor::\lLOSSensor::init" alt="" coords="520,159,673,200"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1GPS.html#a738750849af109cd7f3b20be407c1c8a" title="scrimmage::sensor::\lGPS::init" alt="" coords="274,123,427,164"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1autonomy_1_1ScrimmageOpenAIAutonomy.html#ae1f953cddf1dc65d5b78ddfd0b20372a" title="scrimmage::autonomy\l::ScrimmageOpenAIAutonomy::init" alt="" coords="229,188,472,229"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title="scrimmage::sensor::\lRayTrace::init" alt="" coords="274,253,427,295"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title="scrimmage::sensor::\lAirSimSensor::init" alt="" coords="274,319,427,360"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="437,981,619,1021"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Boundary.html#ae8375eccd7dcc621b075afcf624cb412" title=" " alt="" coords="212,5,385,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="524,968,518,782,510,651,498,510,481,369,457,239,426,132,408,91,387,59,374,47,378,43,391,56,413,88,431,131,463,238,486,368,504,509,516,651,523,782,529,967"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1MapGen2D.html#aef3260f415adc19d9f51382a70601cda" title=" " alt="" coords="212,69,385,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="523,968,516,793,495,540,477,410,454,290,424,191,407,152,387,123,374,111,378,108,391,120,411,150,429,189,459,289,482,409,500,540,521,793,529,967"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1autonomy_1_1AuctionAssign.html#a5d45a48b536e7412f5d92147f6616b4a" title=" " alt="" coords="214,133,383,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="523,968,513,804,491,570,473,450,450,340,422,249,405,214,387,187,374,176,378,172,391,184,410,211,427,247,455,339,478,449,496,570,519,804,528,967"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a09e2ef502d0741172a0e80c5d9fb335b" title=" " alt="" coords="214,197,383,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="522,968,511,816,487,601,469,491,447,391,419,308,404,276,387,251,374,240,378,236,391,248,409,273,424,306,452,389,474,490,492,601,516,815,528,967"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="214,261,383,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="522,968,509,828,483,632,465,532,443,441,417,366,403,337,387,315,374,303,377,299,391,312,407,335,422,364,448,440,470,531,488,631,514,827,527,967"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1autonomy_1_1Predator.html#aa5da7b569f02041c3d8c37f32527fec3" title=" " alt="" coords="214,325,383,365"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="521,968,506,839,479,663,461,573,440,492,415,425,387,379,374,368,377,363,391,376,420,423,445,490,466,572,484,662,511,838,526,967"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1autonomy_1_1Straight.html#a289f932253e4bf2fb6012a3d275e4f5e" title=" " alt="" coords="214,389,383,429"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="520,968,503,851,475,694,457,615,436,543,413,484,387,443,374,432,377,428,391,440,417,481,441,541,462,613,480,693,509,850,525,967"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1controller_1_1MotionBattery.html#a3622c154a2ef5397245f5285dbc81fbd" title=" " alt="" coords="216,453,381,493"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="525,968,521,877,514,818,503,755,485,688,461,623,429,562,387,507,373,496,376,491,391,503,433,559,466,621,491,687,508,753,519,818,526,877,530,967"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title=" " alt="" coords="221,517,376,557"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="523,968,516,888,495,782,477,725,454,670,425,618,387,571,372,559,376,555,391,567,429,615,459,667,482,724,500,781,521,887,528,967"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="208,581,389,621"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="521,968,510,899,487,810,469,763,447,717,420,674,388,635,372,623,375,619,391,631,424,670,452,714,474,761,492,808,515,898,526,967"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1sensor_1_1GPS.html#a738750849af109cd7f3b20be407c1c8a" title=" " alt="" coords="221,645,376,685"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="517,969,502,913,476,843,438,770,415,736,388,706,361,688,364,683,391,702,419,733,443,767,481,841,507,911,522,967"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a42b67e32373457df760950817de23b6d" title=" " alt="" coords="5,796,160,836"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="517,969,503,917,478,856,460,825,440,796,416,771,388,750,342,730,302,728,260,736,209,751,156,772,113,798,110,793,154,767,207,745,259,731,302,722,343,725,391,746,419,767,444,793,465,822,482,853,508,915,523,967"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1sensor_1_1NoisyContacts.html#a83dcbeef9598e2bd9322c80628eb209f" title=" " alt="" coords="221,760,376,800"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="509,971,461,892,427,850,388,814,368,802,371,798,391,810,431,847,466,889,513,968"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1sensor_1_1NoisyState.html#aaa35becf0a5e3bd453037303eda5e8e0" title=" " alt="" coords="221,824,376,864"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="499,973,450,925,420,900,388,878,365,867,367,862,391,874,423,896,453,921,502,969"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title=" " alt="" coords="221,888,376,928"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="471,978,388,942,357,931,359,926,390,938,473,973"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#a8934fd24bd425ed9ae10564d7f0706e4" title=" " alt="" coords="221,952,376,992"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="423,991,376,984,376,979,424,985"/>
+<area shape="rect" id="Node000018" href="$CommandStringRelay_8cpp.html#af92327dbeb868271bc7983d6b559ef75" title=" " alt="" coords="227,1017,370,1042"/>
+<area shape="poly" id="edge18_Node000001_Node000018" title=" " alt="" coords="424,1017,370,1023,370,1018,423,1011"/>
+<area shape="rect" id="Node000019" href="$WaypointDispatcher_8cpp.html#a74c48fd13f13248ca5646da88b3c80eb" title=" " alt="" coords="227,1066,370,1091"/>
+<area shape="poly" id="edge19_Node000001_Node000019" title=" " alt="" coords="465,1029,390,1056,349,1068,347,1063,388,1051,463,1024"/>
+<area shape="rect" id="Node000020" href="$WaypointGenerator_8cpp.html#a1808fc35e4ef346121cb40afbcf4ef6c" title=" " alt="" coords="227,1115,370,1141"/>
+<area shape="poly" id="edge20_Node000001_Node000020" title=" " alt="" coords="496,1033,448,1070,391,1105,357,1118,355,1113,388,1100,445,1066,493,1028"/>
+<area shape="rect" id="Node000021" href="$BulletCollision_8cpp.html#a1164af45f662a3c09b13f232cbcf78c4" title=" " alt="" coords="227,1165,370,1190"/>
+<area shape="poly" id="edge21_Node000001_Node000021" title=" " alt="" coords="508,1035,459,1096,427,1127,391,1154,363,1167,361,1162,388,1150,423,1123,455,1092,504,1031"/>
+<area shape="rect" id="Node000022" href="$CaptureInBoundaryInteraction_8cpp.html#a49e934890c077cb82d0b4163e9a54264" title=" " alt="" coords="227,1214,370,1239"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="515,1036,496,1075,468,1120,433,1165,391,1204,367,1216,364,1212,388,1199,429,1161,464,1117,491,1072,510,1033"/>
+<area shape="rect" id="Node000023" href="$ExternalForceField_8cpp.html#ae5afa86d570d00d404da423e4676f6c0" title=" " alt="" coords="227,1263,370,1289"/>
+<area shape="poly" id="edge23_Node000001_Node000023" title=" " alt="" coords="520,1036,503,1084,476,1143,439,1202,417,1229,391,1253,369,1266,366,1261,388,1249,413,1225,435,1199,472,1140,498,1082,515,1034"/>
+<area shape="rect" id="Node000024" href="$FlagCaptureInteraction_8cpp.html#a4a6f2ba87680ef62a40e1ab66af6768f" title=" " alt="" coords="227,1313,370,1338"/>
+<area shape="poly" id="edge24_Node000001_Node000024" title=" " alt="" coords="523,1036,509,1093,484,1165,466,1202,445,1239,420,1272,391,1302,370,1315,368,1310,388,1298,416,1269,441,1236,462,1200,479,1163,504,1092,518,1034"/>
+<area shape="rect" id="Node000025" href="$GraphInteraction_8cpp.html#a166275603eca26d5296459ef9b6b2300" title=" " alt="" coords="227,1362,370,1387"/>
+<area shape="poly" id="edge25_Node000001_Node000025" title=" " alt="" coords="526,1036,514,1102,491,1187,473,1232,451,1275,424,1316,391,1351,371,1364,368,1360,388,1347,420,1312,447,1273,468,1229,486,1185,509,1101,521,1035"/>
+<area shape="rect" id="Node000026" href="$GroundCollision_8cpp.html#acac69546fb042df650b910892cdd8706" title=" " alt="" coords="227,1411,370,1437"/>
+<area shape="poly" id="edge26_Node000001_Node000026" title=" " alt="" coords="528,1036,519,1111,498,1209,480,1261,457,1312,428,1359,391,1401,372,1414,369,1409,388,1397,423,1356,452,1309,475,1259,492,1207,514,1110,522,1035"/>
+<area shape="rect" id="Node000027" href="$GRPCCommandString_8cpp.html#a6fb953111d3a0893eff6418aa743dc67" title=" " alt="" coords="227,1461,370,1486"/>
+<area shape="poly" id="edge27_Node000001_Node000027" title=" " alt="" coords="529,1035,524,1119,516,1172,504,1230,487,1289,463,1348,431,1402,391,1450,372,1463,369,1459,388,1446,427,1399,458,1345,482,1287,499,1229,511,1171,518,1118,524,1035"/>
+<area shape="rect" id="Node000028" href="$RandomAttrit_8cpp.html#a9081dab1642ad9d1a90688ec44aba6d0" title=" " alt="" coords="227,1510,370,1535"/>
+<area shape="poly" id="edge28_Node000001_Node000028" title=" " alt="" coords="531,1035,528,1127,521,1186,510,1251,493,1318,468,1384,435,1445,391,1499,372,1513,369,1508,388,1495,430,1442,464,1381,488,1316,505,1250,516,1186,522,1126,525,1035"/>
+<area shape="rect" id="Node000029" href="$SimpleCapture_8cpp.html#a013dd8b38454f9e811cd8b434fed7a82" title=" " alt="" coords="227,1559,370,1585"/>
+<area shape="poly" id="edge29_Node000001_Node000029" title=" " alt="" coords="525,1036,509,1150,481,1304,462,1381,441,1451,418,1509,391,1549,372,1562,369,1558,387,1545,413,1506,436,1449,457,1380,475,1303,504,1150,520,1035"/>
+<area shape="rect" id="Node000030" href="$SimpleCollision_8cpp.html#a780b5c0512aaf6256c0895161073e3fb" title=" " alt="" coords="227,1609,370,1634"/>
+<area shape="poly" id="edge30_Node000001_Node000030" title=" " alt="" coords="526,1035,511,1159,484,1327,466,1413,444,1490,420,1554,391,1598,372,1612,369,1607,387,1594,415,1552,439,1489,461,1411,479,1326,506,1158,521,1035"/>
+<area shape="rect" id="Node000031" href="$TerrainGenerator_8cpp.html#a1d06fa938b78e7e4191564a52e110671" title=" " alt="" coords="227,1658,370,1683"/>
+<area shape="poly" id="edge31_Node000001_Node000031" title=" " alt="" coords="527,1036,513,1169,487,1352,469,1445,447,1529,421,1599,407,1626,391,1647,372,1661,369,1657,387,1643,402,1623,417,1597,442,1528,464,1444,482,1351,508,1168,521,1035"/>
+<area shape="rect" id="Node000032" href="$AltitudeAboveTerrain_8cpp.html#abb9204b4b962869cad32a6fe77247c7f" title=" " alt="" coords="227,1707,370,1733"/>
+<area shape="poly" id="edge32_Node000001_Node000032" title=" " alt="" coords="527,1035,515,1177,490,1375,472,1476,450,1568,423,1644,408,1674,391,1697,372,1711,369,1706,387,1693,403,1671,418,1642,445,1567,467,1475,485,1374,510,1177,522,1035"/>
+<area shape="rect" id="Node000033" href="$RigidBody6DOFStateSensor_8cpp.html#aa336932d5a6ec110ef78b6d7a55d9b59" title=" " alt="" coords="227,1757,370,1782"/>
+<area shape="poly" id="edge33_Node000001_Node000033" title=" " alt="" coords="528,1035,517,1186,494,1399,476,1508,453,1607,425,1689,409,1721,391,1746,372,1760,369,1756,387,1742,405,1719,420,1687,448,1606,470,1507,488,1398,512,1186,522,1035"/>
+<area shape="poly" id="edge16_Node000016_Node000013" title=" " alt="" coords="225,886,207,878,122,839,124,834,209,874,227,881"/>
 </map>

@@ -1,2 +1,5 @@
 <map id="scrimmage::Frame" name="scrimmage::Frame">
+<area shape="rect" id="Node000001" title=" " alt="" coords="25,148,161,213"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,181,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,85,96,132,91,132,91,85"/>
 </map>

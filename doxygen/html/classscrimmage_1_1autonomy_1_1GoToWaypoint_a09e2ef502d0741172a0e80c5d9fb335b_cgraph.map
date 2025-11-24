@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::GoToWaypoint::init" name="scrimmage::autonomy::GoToWaypoint::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,175,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="227,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,41,213,36,214,41,175,46"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title=" " alt="" coords="223,70,412,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,62,209,67,209,72,175,68"/>
+</map>

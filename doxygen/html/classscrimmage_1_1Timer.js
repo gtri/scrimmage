@@ -3,6 +3,7 @@ var classscrimmage_1_1Timer =
     [ "start_overall_timer", "classscrimmage_1_1Timer.html#ae61f8e9544dce62cd918f10a2eb8b93e", null ],
     [ "elapsed_time", "classscrimmage_1_1Timer.html#a23ffd7e44c0376c4c5705838d122bb84", null ],
     [ "start_loop_timer", "classscrimmage_1_1Timer.html#aed02dee206e77743b4db99ea67caea14", null ],
+    [ "pause_loop_timer", "classscrimmage_1_1Timer.html#a5646e60545faed3b1e9626dab3654110", null ],
     [ "loop_wait", "classscrimmage_1_1Timer.html#a60f3954ff0536e7474c9a4d777a2b8e4", null ],
     [ "set_iterate_rate", "classscrimmage_1_1Timer.html#a58e06146f70f419098456beef9684d6c", null ],
     [ "set_time_warp", "classscrimmage_1_1Timer.html#a50e949171bfaf0093155d901353d71f7", null ],
@@ -14,10 +15,12 @@ var classscrimmage_1_1Timer =
     [ "time_warp_", "classscrimmage_1_1Timer.html#ad1411fcfffa6458679477e5acdfb874d", null ],
     [ "start_time_", "classscrimmage_1_1Timer.html#a1393a497317af5c0d71754e60e600102", null ],
     [ "actual_time_", "classscrimmage_1_1Timer.html#a208e4821c378f7bc1db0655aeaa32866", null ],
-    [ "actual_elapsed_time_", "classscrimmage_1_1Timer.html#a2cf081e219787f7d4e1d93b4d9bf426a", null ],
     [ "sim_time_", "classscrimmage_1_1Timer.html#ab5bdbdc604236b44006eca0adf494731", null ],
     [ "sim_elapsed_time_", "classscrimmage_1_1Timer.html#a8045f2756e9c4ade00478b758d1c84a5", null ],
     [ "loop_timer_", "classscrimmage_1_1Timer.html#a3c83f7c9f4f5b8a4c69af69abf445031", null ],
+    [ "loop_timer_running_", "classscrimmage_1_1Timer.html#a5d25292769cea70c480a45a3aa992cf1", null ],
+    [ "loop_end_time_", "classscrimmage_1_1Timer.html#abc384c8e0fed414f559c3c8f5d2b3764", null ],
     [ "iterate_period_", "classscrimmage_1_1Timer.html#a044c30e93966de77a262f370e6c59e72", null ],
+    [ "sim_time_period_", "classscrimmage_1_1Timer.html#a27add8d8a0217c709e540501a56239de", null ],
     [ "iterate_rate_", "classscrimmage_1_1Timer.html#affb91553c7b8fa16d7dd832d1540e961", null ]
 ];

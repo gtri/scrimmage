@@ -1,5 +1,13 @@
 <map id="scrimmage::motion::JSBSimControl::step" name="scrimmage::motion::JSBSimControl::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="208,5,361,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="208,71,361,112"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="223,137,346,163"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,163,173"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="224,5,379,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,131,152,93,209,55,222,49,225,53,212,60,155,97,109,135"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="211,69,392,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,131,219,111,221,116,153,136"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="216,133,387,173"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="163,151,202,151,202,156,163,156"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="224,197,379,237"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="153,171,221,191,219,196,152,176"/>
+<area shape="rect" id="Node000007" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="240,262,363,287"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="108,171,154,210,212,247,231,255,229,260,209,252,151,214,105,175"/>
 </map>

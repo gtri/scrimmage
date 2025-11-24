@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::AirSimLidarType" name="scrimmage::sensor::AirSimLidarType">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="59,5,146,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,148,197,268"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="62,5,141,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,71,104,132,99,132,99,71"/>
 </map>

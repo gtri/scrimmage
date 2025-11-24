@@ -1,4 +1,21 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Polyhedron.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Polyhedron.h">
-<area shape="rect" id="node2" href="$BoundaryBase_8h.html" title="Brief file description. " alt="" coords="350,109,565,151"/>
-<area shape="rect" id="node6" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="5,117,224,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="337,5,588,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="213,196,315,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="403,62,366,84,331,110,300,147,278,185,273,182,296,144,327,106,363,79,400,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="648,115,728,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="527,58,649,108,647,113,525,63"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="752,115,811,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="578,57,658,79,741,105,747,108,745,113,739,111,657,84,576,63"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="390,196,445,221"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="394,62,365,83,342,109,336,128,342,147,360,170,382,187,379,191,356,173,338,149,331,128,338,107,361,79,391,58"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="475,196,538,221"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="534,58,564,79,588,107,594,128,588,149,569,173,546,191,542,187,565,170,583,147,589,128,583,109,561,83,531,62"/>
+<area shape="rect" id="Node000007" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="5,115,227,141"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="366,63,172,114,171,109,364,57"/>
+<area shape="rect" id="Node000009" href="$BoundaryBase_8h.html" title="Brief file description." alt="" coords="353,108,573,148"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="465,60,465,94,460,94,460,60"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="139,138,231,187,229,192,137,143"/>
+<area shape="poly" id="edge9_Node000009_Node000002" title=" " alt="" coords="416,150,307,193,305,188,414,146"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="454,150,433,185,429,183,449,147"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="476,147,496,183,491,185,471,150"/>
 </map>

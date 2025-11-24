@@ -1,3 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Publisher.h" name="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Publisher.h">
-<area shape="rect" id="node2" href="$NetworkDevice_8h.html" title="Brief file description. " alt="" coords="59,109,260,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="167,5,373,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,92,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,63,89,113,87,108,207,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="173,196,250,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,62,179,83,158,109,152,128,158,147,170,168,187,185,183,189,166,171,153,149,147,128,153,107,176,79,205,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="298,196,357,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="374,43,434,53,493,67,542,84,561,95,573,106,582,120,585,132,583,143,577,154,556,170,524,183,446,200,371,208,371,202,445,195,522,178,553,166,573,150,578,142,579,132,577,122,569,110,557,99,540,89,492,72,433,58,373,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="397,115,559,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="330,58,441,107,439,112,327,62"/>
+<area shape="rect" id="Node000006" href="$NetworkDevice_8h.html" title="Brief file description." alt="" coords="167,108,373,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="273,60,273,94,267,94,267,60"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="258,150,231,186,226,183,254,147"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="286,147,313,183,309,186,282,150"/>
 </map>

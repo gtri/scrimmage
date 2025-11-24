@@ -1,3 +1,5 @@
 <map id="scrimmage::Autonomy::set_is_controlling" name="scrimmage::Autonomy::set_is_controlling">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#ab59d053c1174402139072bc090a76a7b" title="scrimmage::Autonomy\l::ready" alt="" coords="221,5,389,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,367,45"/>
+<area shape="rect" id="Node000002" href="$TrajectoryRecordPlayback_8cpp.html#aa62a0f5d0c820fed4f202353569cc469" title=" " alt="" coords="5,13,148,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,28,148,28,148,23,182,23"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::controller::UnicycleControllerPoint" name="scrimmage::controller::UnicycleControllerPoint">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="12,5,176,156"/>
+<area shape="rect" id="Node000001" title="implementation of" alt="" coords="5,179,180,439"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="13,5,172,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,145,95,178,90,178,90,145"/>
 </map>

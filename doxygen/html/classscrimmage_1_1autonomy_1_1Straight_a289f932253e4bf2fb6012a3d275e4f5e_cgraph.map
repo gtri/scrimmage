@@ -1,0 +1,11 @@
+<map id="scrimmage::autonomy::Straight::init" name="scrimmage::autonomy::Straight::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,175,141"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="223,5,404,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,99,222,55,240,48,242,53,224,60,131,104"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="228,69,399,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,107,214,101,215,106,175,112"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="223,133,404,173"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="175,131,210,136,209,141,174,136"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="251,198,375,223"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="129,139,224,183,249,191,247,196,222,188,127,144"/>
+</map>

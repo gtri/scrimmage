@@ -1,4 +1,7 @@
 <map id="scrimmage::print_err" name="scrimmage::print_err">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a3d525927fdbf197d7a418622dce9555c" title="scrimmage::SimControl\l::run_entities" alt="" coords="209,5,383,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a01b0d1d6a140019a4649d37cc0033e6e" title="scrimmage::SimControl\l::run_sensors" alt="" coords="209,71,383,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,45,387,70"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a3d525927fdbf197d7a418622dce9555c" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,46,180,41,181,36,215,41"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#a01b0d1d6a140019a4649d37cc0033e6e" title=" " alt="" coords="5,69,180,109"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="215,74,181,79,180,74,214,69"/>
 </map>

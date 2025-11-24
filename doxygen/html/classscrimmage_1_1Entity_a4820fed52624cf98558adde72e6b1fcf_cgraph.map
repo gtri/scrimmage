@@ -1,3 +1,5 @@
 <map id="scrimmage::Entity::set_mp" name="scrimmage::Entity::set_mp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Entity.html#a3f88dfbc5ff9a42fae837da0d48cf898" title="scrimmage::Entity::mp" alt="" coords="200,13,367,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#a3f88dfbc5ff9a42fae837da0d48cf898" title=" " alt="" coords="201,13,371,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,23,187,23,187,28,154,28"/>
 </map>

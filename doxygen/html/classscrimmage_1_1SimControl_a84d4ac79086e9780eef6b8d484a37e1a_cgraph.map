@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::run_metrics" name="scrimmage::SimControl::run_metrics">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="227,13,415,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title=" " alt="" coords="228,13,420,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::Waypoint::Waypoint" name="scrimmage::autonomy::Waypoint::Waypoint">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a19dcf8663ddf0446176f6c070cf8dbfd" title="scrimmage::autonomy\l::Waypoint::xyz" alt="" coords="220,5,387,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,175,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a712ec99a3a92f43b42f0a66e8e5ab1e0" title=" " alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
 </map>

@@ -1,0 +1,7 @@
+<map id="scrimmage::controller::Joystick::step" name="scrimmage::controller::Joystick::step">
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,30,388,70"/>
+<area shape="rect" id="Node000002" href="$JoystickController_8cpp.html#a019f7fd0f6ebf7e35a6b72210edf1b9b" title=" " alt="" coords="19,5,161,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,38,161,31,162,26,209,33"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1JoystickAutonomy.html#a64eb5fdacee62b193c256bedd19796f8" title=" " alt="" coords="5,55,175,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,67,175,72,174,67,209,62"/>
+</map>

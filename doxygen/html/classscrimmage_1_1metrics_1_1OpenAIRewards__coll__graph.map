@@ -1,3 +1,9 @@
 <map id="scrimmage::metrics::OpenAIRewards" name="scrimmage::metrics::OpenAIRewards">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Metrics.html" title="{scrimmage::Metrics\n|# print_team_summary_\l|+ Metrics()\l+ ~Metrics()\l+ init()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l+ team_metrics()\l+ headers()\l+ team_scores()\l+ get_print_team_summary()\l}" alt="" coords="5,5,219,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,333,409,493"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Metrics.html" title=" " alt="" coords="5,5,212,271"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,280,257,331,252,335,214,283"/>
+<area shape="rect" id="Node000028" title=" " alt="" coords="237,98,391,178"/>
+<area shape="poly" id="edge2_Node000001_Node000028" title=" " alt="" coords="317,178,317,317,311,317,311,178"/>
+<area shape="rect" id="Node000096" title=" " alt="" coords="416,95,607,181"/>
+<area shape="poly" id="edge3_Node000001_Node000096" title=" " alt="" coords="485,182,393,311,386,322,381,318,389,308,480,179"/>
 </map>

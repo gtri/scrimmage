@@ -1,0 +1,21 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,285,148,310"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="213,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,284,89,240,111,179,145,113,168,82,194,55,200,51,203,55,198,59,172,86,150,116,116,181,94,242,83,285"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#af7b6c3d6dcb8a70014a22a31c001d9ae" title=" " alt="" coords="196,70,400,125"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="82,283,123,214,155,172,194,135,202,130,205,134,198,139,159,176,127,217,86,286"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="213,149,383,189"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="89,282,133,242,163,219,195,199,208,192,211,197,197,204,166,223,137,246,92,286"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="213,213,383,253"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="121,282,214,255,216,260,122,287"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8" title=" " alt="" coords="207,277,389,317"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="148,295,194,295,194,300,148,300"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a" title=" " alt="" coords="223,341,373,381"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="122,308,216,335,214,340,121,313"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044" title=" " alt="" coords="221,405,375,445"/>
+<area shape="poly" id="edge7_Node000001_Node000017" title=" " alt="" coords="92,308,137,349,166,371,197,391,211,398,208,402,195,396,163,376,133,353,89,312"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3" title=" " alt="" coords="217,470,379,495"/>
+<area shape="poly" id="edge8_Node000001_Node000019" title=" " alt="" coords="86,309,101,339,125,379,158,420,198,455,210,462,208,467,194,460,154,424,121,382,97,342,81,311"/>
+<area shape="rect" id="Node000023" href="$classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#aeb6623951861d31a2877b3d90fedb043" title=" " alt="" coords="196,519,400,574"/>
+<area shape="poly" id="edge9_Node000001_Node000023" title=" " alt="" coords="84,309,98,347,121,399,154,455,175,481,198,505,204,510,201,514,194,509,171,485,150,458,116,402,93,349,79,311"/>
+</map>

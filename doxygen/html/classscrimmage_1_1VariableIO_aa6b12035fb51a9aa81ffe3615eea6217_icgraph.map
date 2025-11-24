@@ -1,5 +1,8 @@
 <map id="scrimmage::VariableIO::input_variable_index" name="scrimmage::VariableIO::input_variable_index">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647" title="scrimmage::connect" alt="" coords="220,5,373,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#a673bcb7974404e98eb0b02724f073063" title="scrimmage::External\l::create_entity" alt="" coords="421,49,576,90"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8" title="scrimmage::print_io\l_error" alt="" coords="222,107,371,149"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="411,5,581,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#ae7e71812f9964918bcf341d964af60b2" title=" " alt="" coords="5,5,163,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,25,363,24,211,24,163,25,163,20,211,19,363,19,397,19"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8" title=" " alt="" coords="211,33,363,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="397,41,363,46,362,41,397,36"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="197,44,162,39,163,34,197,38"/>
 </map>

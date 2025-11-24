@@ -1,2 +1,7 @@
 <map id="scrimmage::metrics::Score" name="scrimmage::metrics::Score">
+<area shape="rect" id="Node000001" title=" " alt="" coords="69,148,275,608"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,160,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,85,108,132,103,133,91,87"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="184,5,339,85"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="253,87,241,133,236,132,248,85"/>
 </map>

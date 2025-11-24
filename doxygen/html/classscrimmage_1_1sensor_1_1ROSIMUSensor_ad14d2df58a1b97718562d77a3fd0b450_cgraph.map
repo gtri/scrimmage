@@ -1,6 +1,19 @@
 <map id="scrimmage::sensor::ROSIMUSensor::step" name="scrimmage::sensor::ROSIMUSensor::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="224,5,397,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="224,71,397,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title="scrimmage::Quaternion::set" alt="" coords="210,137,411,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="208,187,413,214"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,231,160,271"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="231,5,415,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,230,102,190,127,138,161,86,182,62,206,41,217,34,220,39,210,45,186,66,165,89,131,141,107,192,93,232"/>
+<area shape="rect" id="Node000005" href="$classIMUErrorSimulator.html#a4f96e213191b4f52c781da838d61694f" title=" " alt="" coords="247,55,398,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="94,230,138,168,170,134,207,105,233,92,236,96,209,110,173,138,142,172,98,233"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a3505a5eda56bd651579788c5d5d73338" title=" " alt="" coords="237,120,408,175"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="119,229,207,185,225,177,227,182,209,190,121,234"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ade87f4f2b25d40cf707a21a6aa00d891" title=" " alt="" coords="208,199,437,239"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="160,238,194,234,195,239,161,244"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aacdf28a891ddc080f4bcb83ab49b7af7" title=" " alt="" coords="224,263,421,303"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="161,259,211,266,210,271,160,264"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a12127951fa6c1c0b45bf5efd3d035bf7" title=" " alt="" coords="223,327,422,367"/>
+<area shape="poly" id="edge6_Node000001_Node000016" title=" " alt="" coords="120,269,162,292,209,313,230,321,229,326,207,318,159,296,117,274"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title=" " alt="" coords="233,391,412,431"/>
+<area shape="poly" id="edge7_Node000001_Node000017" title=" " alt="" coords="100,270,145,323,175,352,209,377,222,384,219,388,207,382,172,357,141,327,96,273"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a98709dfae69e12159397e4c3723a0a29" title=" " alt="" coords="226,456,419,511"/>
+<area shape="poly" id="edge8_Node000001_Node000018" title=" " alt="" coords="94,271,111,307,136,353,169,400,210,441,217,447,214,451,206,445,165,404,131,356,106,310,89,273"/>
 </map>

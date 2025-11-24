@@ -1,3 +1,13 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="192,5,315,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,127,148,153"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="221,5,402,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,125,136,91,195,55,212,48,214,53,197,60,139,95,94,129"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="249,70,373,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="123,125,195,105,236,96,237,101,197,111,124,130"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1SimpleCapture.html#adf8e9b1d5f8f5521310331fc20772d4f" title=" " alt="" coords="225,120,398,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,137,211,137,211,143,148,143"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1interaction_1_1SimpleCapture.html#a9cb7940f0745cc3cc0d6ffe70154be09" title=" " alt="" coords="196,184,427,224"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="125,150,225,178,223,183,124,155"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1interaction_1_1SimpleCapture.html#af9e4374e4f2c939e8a1137cd26c623a0" title=" " alt="" coords="225,249,398,303"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="92,151,137,191,197,234,213,242,211,247,195,238,133,195,89,155"/>
 </map>

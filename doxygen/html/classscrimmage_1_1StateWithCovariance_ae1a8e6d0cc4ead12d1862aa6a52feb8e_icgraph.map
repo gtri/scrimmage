@@ -1,4 +1,7 @@
 <map id="scrimmage::StateWithCovariance::covariance" name="scrimmage::StateWithCovariance::covariance">
-<area shape="rect" id="node2" href="$classscrimmage_1_1StateWithCovariance.html#a39f6458d2a4cee5ae5bd217256058a89" title="scrimmage::StateWithCovariance\l::set_covariance" alt="" coords="288,5,523,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title="scrimmage::sensor::\lSimpleINS::step" alt="" coords="329,71,482,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="293,37,533,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1StateWithCovariance.html#a39f6458d2a4cee5ae5bd217256058a89" title=" " alt="" coords="5,5,245,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,45,245,41,246,36,280,40"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title=" " alt="" coords="48,69,203,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="280,75,203,83,203,78,279,70"/>
 </map>

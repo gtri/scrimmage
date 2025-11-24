@@ -1,5 +1,17 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage_1_1shape.html#a9b52864ead2155cfca7d16fa54b85338" title="scrimmage::shape::make\l_circle" alt="" coords="207,5,392,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="455,71,577,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage_1_1shape.html#a43bfaee741e0d9c0425e9558cfe251ad" title="scrimmage::shape::make_line" alt="" coords="192,122,407,149"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,249,148,275"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a79ea069a342ba5289db22324f46b62ce" title=" " alt="" coords="204,5,420,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,248,94,213,118,165,151,114,194,69,200,65,203,69,198,73,155,117,122,168,99,215,85,250"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a844792b88e00227b24cff1210079a3e3" title=" " alt="" coords="204,84,420,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="86,247,130,199,161,172,195,148,204,142,207,147,197,152,164,176,134,203,90,251"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#ac1d1ec8da179e0c4295fdc802c4a7ebc" title=" " alt="" coords="196,163,428,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="118,247,208,219,210,224,120,252"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="221,242,403,282"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="148,259,207,259,207,265,148,265"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b" title=" " alt="" coords="227,306,397,346"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="125,272,225,300,224,305,124,277"/>
+<area shape="rect" id="Node000011" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="251,371,373,396"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="92,273,135,314,165,337,197,356,238,370,236,375,195,360,162,341,132,318,88,277"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#af1b13d2bfac46662f016ad5705044365" title=" " alt="" coords="204,420,420,475"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="87,273,129,336,160,373,198,405,206,411,203,415,194,409,157,377,125,339,83,276"/>
 </map>

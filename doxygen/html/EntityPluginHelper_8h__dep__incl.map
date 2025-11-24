@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/entity/EntityPluginHelper.h" name="/root/scrimmage/scrimmage/include/scrimmage/entity/EntityPluginHelper.h">
-<area shape="rect" id="node2" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="5,117,209,158"/>
-<area shape="rect" id="node3" href="$MotorSchemas_8cpp.html" title="Brief file description. " alt="" coords="234,109,498,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="136,5,343,60"/>
+<area shape="rect" id="Node000002" href="$Entity_8cpp.html" title="Brief file description." alt="" coords="5,115,212,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,71,135,117,132,113,193,66"/>
+<area shape="rect" id="Node000003" href="$MotorSchemas_8cpp.html" title="Brief file description." alt="" coords="237,108,503,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,66,337,106,334,110,282,70"/>
 </map>

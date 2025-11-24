@@ -1,3 +1,5 @@
 <map id="scrimmage::metrics::SimpleCollisionScore::set_team_collisions" name="scrimmage::metrics::SimpleCollisionScore::set_team_collisions">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#a09c93f67c0b4279262b6c7d57d5deccb" title="scrimmage::metrics\l::SimpleCollisionScore\l::team_collisions" alt="" coords="216,5,379,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#a09c93f67c0b4279262b6c7d57d5deccb" title=" " alt="" coords="220,5,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
 </map>

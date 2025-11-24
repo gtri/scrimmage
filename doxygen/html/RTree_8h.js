@@ -1,7 +1,6 @@
 var RTree_8h =
 [
-    [ "rtree", "classboost_1_1geometry_1_1index_1_1rtree.html", null ],
-    [ "RTree", "classscrimmage_1_1RTree.html", "classscrimmage_1_1RTree" ],
+    [ "scrimmage::RTree", "classscrimmage_1_1RTree.html", "classscrimmage_1_1RTree" ],
     [ "point", "RTree_8h.html#ae678ed37ff7ba86bbec97c343bebbefc", null ],
     [ "point_id_t", "RTree_8h.html#a9d72d606c8d0895e34c16fc9e335d915", null ],
     [ "rtree_t", "RTree_8h.html#aaef0cc8232d6316275d32455150cc275", null ],

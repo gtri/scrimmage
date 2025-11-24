@@ -1,3 +1,5 @@
 <map id="scrimmage::Autonomy::set_rtree" name="scrimmage::Autonomy::set_rtree">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7" title="scrimmage::Autonomy\l::rtree" alt="" coords="221,5,389,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,176,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7" title=" " alt="" coords="224,5,395,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,23,210,23,210,28,176,28"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="scrimmage::remove_leading_spaces" name="scrimmage::remove_leading_spaces">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="282,5,434,47"/>
-<area shape="rect" id="node3" href="$structscrimmage_1_1PluginOverrides.html#a717341aa01796fdf90360ac8956a3aa3" title="scrimmage::PluginOverrides\l::PluginOverrides" alt="" coords="257,71,459,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,416,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
 </map>

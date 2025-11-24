@@ -1,5 +1,9 @@
 <map id="scrimmage::PID::set_parameters" name="scrimmage::PID::set_parameters">
-<area shape="rect" id="node2" href="$classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb" title="scrimmage::PID::kd" alt="" coords="204,5,351,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783" title="scrimmage::PID::ki" alt="" coords="207,56,348,83"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a" title="scrimmage::PID::kp" alt="" coords="204,107,351,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,159,87"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb" title=" " alt="" coords="207,5,356,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,46,216,31,217,37,159,51"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783" title=" " alt="" coords="209,55,354,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="159,65,195,65,195,70,159,70"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a" title=" " alt="" coords="207,104,356,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,84,217,98,216,103,158,89"/>
 </map>

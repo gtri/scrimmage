@@ -1,4 +1,8 @@
 <map id="scrimmage::proto_2_quat" name="scrimmage::proto_2_quat">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="242,5,393,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a2adb2ce6e987991388e5bae650e7547b" title="scrimmage::Updater\l::set_quat" alt="" coords="240,71,395,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,57,396,82"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title=" " alt="" coords="7,5,159,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,57,158,43,159,38,225,51"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1Updater.html#a2adb2ce6e987991388e5bae650e7547b" title=" " alt="" coords="5,93,160,133"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="225,87,161,100,160,95,224,82"/>
+<area shape="poly" id="edge3_Node000007_Node000007" title=" " alt="" coords="120,82,107,75,83,72,62,74,49,79,44,85,47,92,42,94,39,84,46,74,60,69,83,67,108,70,122,77"/>
 </map>

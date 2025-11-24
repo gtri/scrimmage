@@ -1,0 +1,9 @@
+<map id="scrimmage::autonomy::ShapeDraw::step_autonomy" name="scrimmage::autonomy::ShapeDraw::step_autonomy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,217,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1ShapeDraw.html#ad9963c768c63cf39d468bde2d4190cce" title=" " alt="" coords="265,5,459,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,67,269,46,271,51,191,72"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1ShapeDraw.html#af6a9189540dbfb526d413b3b67a1521a" title=" " alt="" coords="265,69,459,109"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="217,87,252,87,252,92,217,92"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1autonomy_1_1ShapeDraw.html#a471a717414f06264dfb80e6a757311d2" title=" " alt="" coords="269,133,455,173"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="191,107,271,127,269,133,190,112"/>
+</map>

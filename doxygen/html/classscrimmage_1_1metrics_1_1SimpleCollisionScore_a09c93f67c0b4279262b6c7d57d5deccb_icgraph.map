@@ -1,4 +1,7 @@
 <map id="scrimmage::metrics::SimpleCollisionScore::team_collisions" name="scrimmage::metrics::SimpleCollisionScore::team_collisions">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#aed3b57cc60c86c4da641cb0ac95fd0cd" title="scrimmage::metrics\l::SimpleCollisionScore\l::score" alt="" coords="216,5,379,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#abbacec26c0fc4c1ca17b4cee34008269" title="scrimmage::metrics\l::SimpleCollisionScore\l::set_team_collisions" alt="" coords="216,85,379,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,45,387,100"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#aed3b57cc60c86c4da641cb0ac95fd0cd" title=" " alt="" coords="5,5,172,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,57,172,51,173,46,207,52"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#abbacec26c0fc4c1ca17b4cee34008269" title=" " alt="" coords="5,84,172,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,93,173,99,172,94,206,88"/>
 </map>

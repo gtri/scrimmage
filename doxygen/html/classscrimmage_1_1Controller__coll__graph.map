@@ -1,3 +1,8 @@
 <map id="scrimmage::Controller" name="scrimmage::Controller">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html" title="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l# parent_\l# transform_\l# id_to_team_map_\l# id_to_ent_map_\l# pubsub_\l# time_\l&#45; param_server_\l&#45; loop_rate_\l&#45; loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}" alt="" coords="5,5,188,699"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="56,963,215,1088"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html" title=" " alt="" coords="207,133,381,913"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,872,190,914,169,963,164,961,185,912,200,870"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="5,5,180,71"/>
+<area shape="poly" id="edge3_Node000001_Node000018" title=" " alt="" coords="90,71,72,206,56,414,53,535,56,662,67,789,87,913,98,947,93,948,82,914,61,790,50,662,47,535,50,414,67,205,85,70"/>
+<area shape="poly" id="edge2_Node000002_Node000018" title=" " alt="" coords="135,69,164,98,190,132,202,154,197,156,185,135,160,101,131,73"/>
 </map>

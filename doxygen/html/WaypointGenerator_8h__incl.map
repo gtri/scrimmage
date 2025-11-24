@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h">
-<area shape="rect" id="node2" href="$WaypointList_8h.html" title="Brief file description. " alt="" coords="5,124,251,165"/>
-<area shape="rect" id="node3" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="325,124,488,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="134,5,357,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="32,211,83,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,55,100,65,68,79,38,99,14,124,8,142,12,162,23,181,37,199,33,202,19,184,7,164,3,142,10,121,35,95,65,74,99,60,133,50"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="127,211,185,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="275,74,288,95,297,118,299,141,292,164,273,185,249,200,199,218,197,213,247,196,269,181,287,161,294,141,292,119,283,97,271,77"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="214,130,277,155"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,75,248,116,243,116,243,75"/>
+<area shape="rect" id="Node000005" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="24,123,189,163"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="200,77,145,117,142,112,197,73"/>
+<area shape="rect" id="Node000032" href="$WaypointList_8h.html" title="Brief file description." alt="" coords="353,123,605,163"/>
+<area shape="poly" id="edge7_Node000001_Node000032" title=" " alt="" coords="325,72,423,115,421,120,322,77"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="97,164,74,200,70,198,92,161"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="121,161,144,198,139,200,116,164"/>
 </map>

@@ -1,5 +1,18 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MOOSAutonomy/MOOSAutonomy.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MOOSAutonomy/MOOSAutonomy.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="25,109,188,151"/>
-<area shape="rect" id="node5" href="$Angles_8h.html" title="Brief file description. " alt="" coords="263,117,454,143"/>
-<area shape="rect" id="node7" href="$MOOSNode_8h.html" title="Brief file description. " alt="" coords="567,117,675,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="118,5,444,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="22,196,73,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,63,57,83,32,96,15,110,9,127,11,146,20,166,31,184,27,187,15,169,6,148,3,126,11,106,29,92,55,79,126,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="286,196,345,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="289,60,313,182,308,183,284,61"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="214,115,278,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="274,61,258,103,253,101,269,59"/>
+<area shape="rect" id="Node000005" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="25,108,190,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="234,62,156,104,154,99,231,58"/>
+<area shape="rect" id="Node000032" href="$Angles_8h.html" title="Brief file description." alt="" coords="354,115,547,141"/>
+<area shape="poly" id="edge7_Node000001_Node000032" title=" " alt="" coords="330,58,419,106,417,111,327,62"/>
+<area shape="rect" id="Node000033" href="$MOOSNode_8h.html" title="Brief file description." alt="" coords="571,115,679,141"/>
+<area shape="poly" id="edge8_Node000001_Node000033" title=" " alt="" coords="382,58,560,105,573,109,572,114,559,111,380,63"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="95,150,67,187,63,183,91,147"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="158,146,275,189,273,194,157,151"/>
+<area shape="poly" id="edge9_Node000033_Node000003" title=" " alt="" coords="587,143,560,151,359,200,358,195,559,145,585,138"/>
 </map>

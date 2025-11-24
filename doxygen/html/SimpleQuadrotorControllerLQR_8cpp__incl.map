@@ -1,7 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.cpp">
-<area shape="rect" id="node2" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="5,139,224,165"/>
-<area shape="rect" id="node3" href="$Angles_8h.html" title="Brief file description. " alt="" coords="249,139,439,165"/>
-<area shape="rect" id="node4" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="463,139,678,165"/>
-<area shape="rect" id="node5" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="702,131,903,173"/>
-<area shape="rect" id="node6" href="$SimpleQuadrotorControllerLQR_8h.html" title="Brief file description. " alt="" coords="928,124,1163,180"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="559,5,812,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,203,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="559,64,395,91,215,125,163,137,162,132,214,120,394,86,558,59"/>
+<area shape="rect" id="Node000003" href="$Utilities_8h.html" title="Brief file description." alt="" coords="227,137,450,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="578,77,390,136,388,131,577,72"/>
+<area shape="rect" id="Node000008" href="$Angles_8h.html" title="Brief file description." alt="" coords="474,137,667,163"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="652,77,595,129,592,125,648,73"/>
+<area shape="rect" id="Node000009" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="692,137,908,163"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="723,73,779,125,775,129,719,77"/>
+<area shape="rect" id="Node000013" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="933,130,1137,170"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="795,72,961,123,959,128,793,77"/>
+<area shape="rect" id="Node000014" href="$SimpleQuadrotorControllerLQR_8h.html" title="Brief file description." alt="" coords="1161,123,1399,177"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="812,60,1148,120,1147,125,812,65"/>
 </map>

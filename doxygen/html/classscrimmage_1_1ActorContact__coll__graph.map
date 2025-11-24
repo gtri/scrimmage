@@ -1,3 +1,7 @@
 <map id="scrimmage::ActorContact" name="scrimmage::ActorContact">
-<area shape="rect" id="node3" title="STL class. " alt="" coords="217,13,303,90"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="85,148,263,313"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,188,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,84,136,132,131,134,111,86"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="212,13,291,78"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="240,79,217,134,212,132,236,77"/>
 </map>

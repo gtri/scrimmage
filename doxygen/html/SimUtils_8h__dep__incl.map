@@ -1,6 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/SimUtils.h" name="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/SimUtils.h">
-<area shape="rect" id="node2" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="5,109,209,151"/>
-<area shape="rect" id="node3" href="$External_8cpp.html" title="Brief file description. " alt="" coords="233,109,437,151"/>
-<area shape="rect" id="node4" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="462,109,681,151"/>
-<area shape="rect" id="node5" href="$SimUtils_8cpp.html" title="Brief file description. " alt="" coords="705,109,909,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="347,5,569,60"/>
+<area shape="rect" id="Node000002" href="$Entity_8cpp.html" title="Brief file description." alt="" coords="5,108,212,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="347,66,180,111,178,105,346,61"/>
+<area shape="rect" id="Node000003" href="$External_8cpp.html" title="Brief file description." alt="" coords="236,108,443,148"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="415,71,365,110,362,106,412,67"/>
+<area shape="rect" id="Node000004" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="467,108,689,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="505,67,555,106,552,110,501,71"/>
+<area shape="rect" id="Node000005" href="$SimUtils_8cpp.html" title="Brief file description." alt="" coords="713,108,920,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="573,61,745,105,744,111,571,66"/>
 </map>

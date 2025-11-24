@@ -1,29 +1,74 @@
 <map id="scrimmage::SimControl::run_single_step" name="scrimmage::SimControl::run_single_step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#af2d054de184bcd05aa384f6a473d7f49" title="Get the actual time warp of the simulation. " alt="" coords="237,5,411,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a0eb8fe6ab4f5df178ac59bb7666e5bd5" title="scrimmage::display\l_progress" alt="" coords="251,71,397,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#a1b035a3be479ef4a2f9a32812dbce9c2" title="Returns true if a simulation end condition has been met. " alt="" coords="235,253,413,295"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="470,294,657,321"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time. " alt="" coords="237,763,411,804"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660" title="scrimmage::SimControl\l::loop_wait" alt="" coords="237,828,411,869"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation. " alt="" coords="477,943,650,984"/>
-<area shape="rect" id="node9" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation. " alt="" coords="477,1008,650,1049"/>
-<area shape="rect" id="node10" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title="scrimmage::SimControl\l::request_screenshot" alt="" coords="237,945,411,987"/>
-<area shape="rect" id="node11" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="469,581,657,607"/>
-<area shape="rect" id="node12" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title="scrimmage::SimControl\l::run_check_network_msgs" alt="" coords="227,1063,421,1104"/>
-<area shape="rect" id="node13" href="$classscrimmage_1_1SimControl.html#a37204938bd08e3e2ee1196d04bbdead0" title="scrimmage::SimControl\l::single_step" alt="" coords="477,1096,650,1137"/>
-<area shape="rect" id="node14" href="$classscrimmage_1_1SimControl.html#a3d525927fdbf197d7a418622dce9555c" title="scrimmage::SimControl\l::run_entities" alt="" coords="237,632,411,673"/>
-<area shape="rect" id="node15" href="$classscrimmage_1_1SimControl.html#af0f4e3af5800a60a4002843489685545" title="scrimmage::SimControl\l::run_interaction_detection" alt="" coords="227,449,421,491"/>
-<area shape="rect" id="node16" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title="scrimmage::SimControl\l::run_logging" alt="" coords="237,1180,411,1221"/>
-<area shape="rect" id="node17" href="$classscrimmage_1_1SimControl.html#a84d4ac79086e9780eef6b8d484a37e1a" title="scrimmage::SimControl\l::run_metrics" alt="" coords="237,697,411,739"/>
-<area shape="rect" id="node18" href="$classscrimmage_1_1SimControl.html#a173f4fbd145c0414fa327cc559529491" title="scrimmage::SimControl\l::run_networks" alt="" coords="237,1245,411,1287"/>
-<area shape="rect" id="node19" href="$classscrimmage_1_1SimControl.html#aa1cff4f2252770f511ba2ee4918aba84" title="scrimmage::SimControl\l::run_remove_inactive" alt="" coords="237,319,411,360"/>
-<area shape="rect" id="node20" href="$classscrimmage_1_1SimControl.html#a0801c4576282cab8a5284b494e39c585" title="scrimmage::SimControl\l::run_send_contact_visuals" alt="" coords="227,1311,421,1352"/>
-<area shape="rect" id="node21" href="$classscrimmage_1_1SimControl.html#a972d59922baa24baae53b4b2badac6ce" title="Sends simulation shapes to visualizers and log files. " alt="" coords="237,384,411,425"/>
-<area shape="rect" id="node22" href="$classscrimmage_1_1SimControl.html#a01b0d1d6a140019a4649d37cc0033e6e" title="scrimmage::SimControl\l::run_sensors" alt="" coords="237,515,411,556"/>
-<area shape="rect" id="node23" href="$classscrimmage_1_1SimControl.html#a146c33d9af0d47719e06351eed067c45" title="scrimmage::SimControl\l::set_autonomy_contacts" alt="" coords="232,1376,416,1417"/>
-<area shape="rect" id="node24" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time. " alt="" coords="237,136,411,177"/>
-<area shape="rect" id="node25" href="$classscrimmage_1_1SimControl.html#a692a5a3eae47bf3fbc290420fb0e366e" title="scrimmage::SimControl\l::start_loop_timer" alt="" coords="237,1441,411,1483"/>
-<area shape="rect" id="node26" href="$classscrimmage_1_1SimControl.html#a30bc8fd66f50afb1f84517bc781f0545" title="Get the desired time warp of the simulation. " alt="" coords="237,1507,411,1548"/>
-<area shape="rect" id="node27" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title="scrimmage::DelayedTask\l::update" alt="" coords="233,1572,415,1613"/>
-<area shape="rect" id="node28" href="$classscrimmage_1_1SimControl.html#a72f6414df75ea339cbff259ba483cf8f" title="scrimmage::SimControl\l::wait_for_ready" alt="" coords="237,1637,411,1679"/>
+<area shape="rect" id="Node000001" title="Runs the scrimmage simulation by a single time step." alt="" coords="5,811,180,851"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#af2d054de184bcd05aa384f6a473d7f49" title="Get the actual time warp of the simulation." alt="" coords="240,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,810,100,663,122,437,140,318,162,209,191,118,207,83,226,56,229,52,233,56,230,59,212,85,196,120,167,210,145,319,127,437,106,663,97,811"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a0eb8fe6ab4f5df178ac59bb7666e5bd5" title=" " alt="" coords="252,69,403,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="92,810,103,674,126,467,144,359,166,259,193,176,209,144,226,120,238,109,242,113,230,123,213,147,198,178,171,260,149,360,131,467,108,674,98,811"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1SimControl.html#a1b035a3be479ef4a2f9a32812dbce9c2" title="Returns true if a simulation end condition has been met." alt="" coords="237,376,417,416"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="92,810,98,738,118,636,135,580,158,524,188,472,226,426,231,422,234,426,230,430,193,475,163,527,140,581,123,637,104,739,97,810"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="477,326,665,351"/>
+<area shape="poly" id="edge41_Node000001_Node000005" title=" " alt="" coords="94,810,109,714,137,578,155,509,176,446,200,395,226,362,258,341,293,327,329,317,367,312,440,312,505,321,504,326,440,318,367,318,330,322,294,332,260,346,230,366,204,398,181,448,160,510,142,579,115,714,99,811"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time." alt="" coords="240,440,415,480"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="93,810,103,749,126,663,143,616,165,571,193,528,226,490,231,486,234,490,230,494,197,531,170,573,148,619,131,664,109,750,99,811"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660" title=" " alt="" coords="240,811,415,851"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="180,828,227,828,227,833,180,833"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation." alt="" coords="483,923,658,963"/>
+<area shape="poly" id="edge9_Node000001_Node000012" title=" " alt="" coords="178,848,229,860,471,917,469,922,227,865,177,853"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation." alt="" coords="483,987,658,1027"/>
+<area shape="poly" id="edge11_Node000001_Node000015" title=" " alt="" coords="108,849,127,879,154,914,189,948,229,975,288,997,351,1009,413,1014,470,1014,470,1019,412,1020,350,1015,287,1002,227,980,186,952,150,917,123,882,103,852"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title=" " alt="" coords="240,925,415,965"/>
+<area shape="poly" id="edge12_Node000001_Node000016" title=" " alt="" coords="128,848,229,904,260,918,257,923,227,909,125,853"/>
+<area shape="rect" id="Node000017" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title=" " alt="" coords="475,633,667,658"/>
+<area shape="poly" id="edge15_Node000001_Node000017" title=" " alt="" coords="102,809,120,777,148,737,184,699,227,668,284,646,345,634,405,629,461,630,461,635,405,634,345,639,285,651,229,673,187,703,152,741,125,780,106,812"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title=" " alt="" coords="228,1040,427,1080"/>
+<area shape="poly" id="edge16_Node000001_Node000018" title=" " alt="" coords="106,850,124,886,152,931,187,978,230,1019,248,1031,246,1036,226,1023,183,981,147,934,120,888,101,852"/>
+<area shape="rect" id="Node000025" href="$classscrimmage_1_1SimControl.html#a37204938bd08e3e2ee1196d04bbdead0" title=" " alt="" coords="483,1072,658,1112"/>
+<area shape="poly" id="edge39_Node000001_Node000025" title=" " alt="" coords="100,850,111,902,135,969,152,1004,173,1037,199,1066,229,1090,259,1105,291,1115,359,1124,425,1122,485,1112,486,1118,426,1127,358,1130,290,1120,257,1110,227,1094,195,1070,169,1040,147,1006,130,971,106,903,95,851"/>
+<area shape="rect" id="Node000026" href="$classscrimmage_1_1SimControl.html#a3d525927fdbf197d7a418622dce9555c" title=" " alt="" coords="240,683,415,723"/>
+<area shape="poly" id="edge20_Node000001_Node000026" title=" " alt="" coords="116,808,165,770,227,732,242,725,244,730,229,737,168,775,119,813"/>
+<area shape="rect" id="Node000030" href="$classscrimmage_1_1SimControl.html#af0f4e3af5800a60a4002843489685545" title=" " alt="" coords="229,504,425,544"/>
+<area shape="poly" id="edge22_Node000001_Node000030" title=" " alt="" coords="96,810,109,759,134,690,173,617,197,584,226,554,232,549,235,554,230,558,201,587,177,620,139,692,114,760,101,811"/>
+<area shape="rect" id="Node000031" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title=" " alt="" coords="240,1155,415,1195"/>
+<area shape="poly" id="edge25_Node000001_Node000031" title=" " alt="" coords="100,850,112,906,137,981,154,1022,175,1063,200,1100,230,1134,245,1146,242,1150,226,1138,196,1104,170,1065,149,1025,132,983,107,907,95,851"/>
+<area shape="rect" id="Node000035" href="$classscrimmage_1_1SimControl.html#a84d4ac79086e9780eef6b8d484a37e1a" title=" " alt="" coords="240,747,415,787"/>
+<area shape="poly" id="edge26_Node000001_Node000035" title=" " alt="" coords="166,808,240,788,241,793,167,813"/>
+<area shape="rect" id="Node000036" href="$classscrimmage_1_1SimControl.html#a173f4fbd145c0414fa327cc559529491" title=" " alt="" coords="240,1219,415,1259"/>
+<area shape="poly" id="edge28_Node000001_Node000036" title=" " alt="" coords="98,851,106,918,126,1013,143,1065,166,1115,194,1163,230,1205,234,1209,231,1213,226,1209,190,1166,161,1118,138,1067,121,1015,101,919,93,851"/>
+<area shape="rect" id="Node000037" href="$classscrimmage_1_1SimControl.html#aa1cff4f2252770f511ba2ee4918aba84" title=" " alt="" coords="240,133,415,173"/>
+<area shape="poly" id="edge29_Node000001_Node000037" title=" " alt="" coords="93,810,105,684,130,496,148,399,169,309,195,235,210,206,226,184,229,180,233,184,230,187,215,209,200,237,175,310,153,400,135,497,110,684,98,810"/>
+<area shape="rect" id="Node000038" href="$classscrimmage_1_1SimControl.html#a0801c4576282cab8a5284b494e39c585" title=" " alt="" coords="229,1283,426,1323"/>
+<area shape="poly" id="edge31_Node000001_Node000038" title=" " alt="" coords="97,851,101,928,108,981,119,1040,135,1101,159,1162,190,1219,230,1269,234,1273,231,1277,226,1272,185,1222,154,1164,130,1103,114,1041,102,982,96,929,91,851"/>
+<area shape="rect" id="Node000039" href="$classscrimmage_1_1SimControl.html#a972d59922baa24baae53b4b2badac6ce" title="Sends simulation shapes to visualizers and log files." alt="" coords="240,197,415,237"/>
+<area shape="poly" id="edge32_Node000001_Node000039" title=" " alt="" coords="93,810,107,695,134,527,152,439,173,359,198,293,211,267,226,248,230,244,234,247,230,251,216,270,203,295,178,361,157,441,139,528,112,696,99,811"/>
+<area shape="rect" id="Node000040" href="$classscrimmage_1_1SimControl.html#a01b0d1d6a140019a4649d37cc0033e6e" title=" " alt="" coords="240,568,415,608"/>
+<area shape="poly" id="edge34_Node000001_Node000040" title=" " alt="" coords="100,809,118,771,145,721,182,670,226,625,245,612,248,616,230,629,186,673,150,724,123,773,105,811"/>
+<area shape="rect" id="Node000041" href="$classscrimmage_1_1SimControl.html#a146c33d9af0d47719e06351eed067c45" title=" " alt="" coords="235,1347,420,1387"/>
+<area shape="poly" id="edge36_Node000001_Node000041" title=" " alt="" coords="99,851,115,952,144,1097,162,1171,183,1239,205,1295,230,1333,234,1336,230,1340,226,1336,201,1298,178,1241,157,1173,138,1098,110,953,94,852"/>
+<area shape="rect" id="Node000042" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time." alt="" coords="240,261,415,301"/>
+<area shape="poly" id="edge37_Node000001_Node000042" title=" " alt="" coords="91,811,92,723,97,662,107,593,124,521,148,448,182,380,226,318,239,307,242,311,230,322,186,382,153,450,129,522,113,594,103,662,98,724,96,811"/>
+<area shape="rect" id="Node000043" href="$classscrimmage_1_1SimControl.html#a692a5a3eae47bf3fbc290420fb0e366e" title=" " alt="" coords="240,1411,415,1451"/>
+<area shape="poly" id="edge40_Node000001_Node000043" title=" " alt="" coords="99,851,113,963,140,1127,158,1212,179,1290,203,1354,230,1397,234,1401,230,1404,226,1400,198,1356,174,1292,153,1214,134,1128,108,964,94,851"/>
+<area shape="rect" id="Node000045" href="$classscrimmage_1_1SimControl.html#a30bc8fd66f50afb1f84517bc781f0545" title="Get the desired time warp of the simulation." alt="" coords="240,1475,415,1515"/>
+<area shape="poly" id="edge42_Node000001_Node000045" title=" " alt="" coords="98,851,110,974,136,1157,154,1253,175,1340,201,1412,215,1440,230,1461,233,1464,229,1468,226,1464,210,1443,196,1414,170,1342,148,1254,130,1158,105,974,93,851"/>
+<area shape="rect" id="Node000047" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title=" " alt="" coords="234,1539,421,1579"/>
+<area shape="poly" id="edge43_Node000001_Node000047" title=" " alt="" coords="98,851,108,985,132,1188,150,1293,172,1391,198,1471,214,1502,230,1525,233,1528,229,1532,226,1528,209,1504,194,1473,167,1392,144,1294,127,1188,103,985,93,851"/>
+<area shape="rect" id="Node000049" href="$classscrimmage_1_1SimControl.html#a72f6414df75ea339cbff259ba483cf8f" title=" " alt="" coords="240,1603,415,1643"/>
+<area shape="poly" id="edge44_Node000001_Node000049" title=" " alt="" coords="97,851,106,996,128,1218,146,1334,168,1441,196,1529,212,1563,230,1589,233,1592,229,1596,226,1592,208,1566,191,1531,163,1442,140,1335,123,1218,101,996,92,851"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="412,373,502,352,503,357,413,379"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="531,328,523,318,527,308,544,302,571,299,605,303,615,308,618,314,614,317,611,312,604,308,571,305,545,307,531,312,528,317,535,324"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="396,437,426,426,488,391,540,357,543,361,491,396,428,430,399,442"/>
+<area shape="poly" id="edge10_Node000012_Node000012" title=" " alt="" coords="525,923,523,913,530,904,546,898,571,896,599,899,614,906,612,911,597,904,571,901,547,903,533,908,528,914,531,922"/>
+<area shape="poly" id="edge13_Node000016_Node000012" title=" " alt="" coords="415,942,470,941,470,946,415,947"/>
+<area shape="poly" id="edge14_Node000016_Node000015" title=" " alt="" coords="408,963,478,981,477,986,407,968"/>
+<area shape="poly" id="edge17_Node000018_Node000012" title=" " alt="" coords="358,1038,411,1005,474,972,490,965,492,970,476,977,413,1010,360,1042"/>
+<area shape="poly" id="edge18_Node000018_Node000015" title=" " alt="" coords="418,1037,469,1026,470,1031,420,1043"/>
+<area shape="poly" id="edge19_Node000018_Node000025" title=" " alt="" coords="427,1070,470,1076,469,1081,427,1076"/>
+<area shape="poly" id="edge21_Node000026_Node000017" title=" " alt="" coords="412,680,502,659,503,664,413,685"/>
+<area shape="poly" id="edge24_Node000030_Node000005" title=" " alt="" coords="403,502,425,490,464,460,500,425,551,361,555,364,504,428,468,464,428,494,405,506"/>
+<area shape="poly" id="edge23_Node000030_Node000017" title=" " alt="" coords="399,542,428,554,491,588,543,623,540,627,488,593,426,558,396,547"/>
+<area shape="poly" id="edge27_Node000035_Node000017" title=" " alt="" coords="396,744,426,732,488,698,540,664,543,668,491,703,428,737,399,749"/>
+<area shape="poly" id="edge30_Node000037_Node000005" title=" " alt="" coords="405,171,428,183,468,214,504,249,555,313,551,317,500,252,464,218,425,188,403,176"/>
+<area shape="poly" id="edge33_Node000039_Node000005" title=" " alt="" coords="399,235,428,247,491,281,543,316,540,320,488,286,426,252,396,240"/>
+<area shape="poly" id="edge35_Node000040_Node000017" title=" " alt="" coords="413,605,503,627,502,632,412,611"/>
+<area shape="poly" id="edge38_Node000042_Node000005" title=" " alt="" coords="413,299,503,320,502,325,412,304"/>
 </map>

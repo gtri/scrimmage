@@ -1,2 +1,5 @@
 <map id="scrimmage::Quaternion" name="scrimmage::Quaternion">
+<area shape="rect" id="Node000001" title=" " alt="" coords="19,133,185,939"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,199,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,99,105,133,99,133,99,99"/>
 </map>

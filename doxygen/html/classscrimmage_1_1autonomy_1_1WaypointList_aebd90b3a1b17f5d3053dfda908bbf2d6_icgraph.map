@@ -1,0 +1,12 @@
+<map id="scrimmage::autonomy::WaypointList::waypoints" name="scrimmage::autonomy::WaypointList::waypoints">
+<area shape="rect" id="Node000001" title=" " alt="" coords="449,103,639,143"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098" title=" " alt="" coords="223,5,401,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="478,101,382,63,384,58,480,96"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1GoToWaypoint.html#aecbd6ed94b4a13f2a3807debf1397d79" title=" " alt="" coords="5,39,175,93"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="435,112,175,79,175,74,436,107"/>
+<area shape="rect" id="Node000004" href="$WaypointDispatcher_8cpp.html#a74c48fd13f13248ca5646da88b3c80eb" title=" " alt="" coords="241,136,383,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="436,138,384,144,383,138,435,133"/>
+<area shape="rect" id="Node000005" href="$WaypointGenerator_8cpp.html#a1808fc35e4ef346121cb40afbcf4ef6c" title=" " alt="" coords="241,185,383,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="476,150,402,175,360,188,358,183,401,170,474,145"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="209,51,175,56,175,51,208,46"/>
+</map>

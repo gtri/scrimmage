@@ -2,6 +2,7 @@ var classscrimmage_1_1Log =
 [
     [ "ZeroCopyInputStreamPtr", "classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385", null ],
     [ "ZeroCopyOutputStreamPtr", "classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423", null ],
+    [ "FileOutputStreamPtr", "classscrimmage_1_1Log.html#a71c04deb525e20304b256c4630c250fa", null ],
     [ "MessageLitePtr", "classscrimmage_1_1Log.html#a2709efa0e9f76bf5f2d4ef1738c556aa", null ],
     [ "FileType", "classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7", [
       [ "FRAMES", "classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a7ce916b1784fb3372296d2b1e1bf37ce", null ],
@@ -43,11 +44,15 @@ var classscrimmage_1_1Log =
     [ "contact_visual_filename", "classscrimmage_1_1Log.html#ad264d6db268bd399b2584b57c7c77ed3", null ],
     [ "msgs_filename", "classscrimmage_1_1Log.html#aaf72673a1bef2b2672c0af03cfca9242", null ],
     [ "set_enable_log", "classscrimmage_1_1Log.html#adeef13196bc62fc2fd6fd37a29efceb1", null ],
+    [ "set_drop_bin_logging", "classscrimmage_1_1Log.html#a5181d8e8843570a296bd294c8e5ed33e", null ],
     [ "init_network", "classscrimmage_1_1Log.html#a36f9d724b1066074d6adcb223867f4bc", null ],
     [ "open_file", "classscrimmage_1_1Log.html#afeec1f6ac065866ac39b40ed0b00493d", null ],
     [ "writeDelimitedTo", "classscrimmage_1_1Log.html#aa2de7df9ae5e25c00519af0dfd6faa0a", null ],
     [ "readDelimitedFrom", "classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2", null ],
+    [ "close_fileoutputstream", "classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710", null ],
+    [ "parse_proto", "classscrimmage_1_1Log.html#a39f2a496884d831996450569cb2a66ef", null ],
     [ "enable_log_", "classscrimmage_1_1Log.html#ac6df01ce6b4754839c2afc28bb7133b9", null ],
+    [ "drop_bin_logging_", "classscrimmage_1_1Log.html#a49103efd34399e17477c624e3ca3c054", null ],
     [ "mode_", "classscrimmage_1_1Log.html#aea083bd67bcf3eff786be5288a444881", null ],
     [ "frames_name_", "classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4", null ],
     [ "shapes_name_", "classscrimmage_1_1Log.html#a440a503b9147b9898a607b1ccf317229", null ],

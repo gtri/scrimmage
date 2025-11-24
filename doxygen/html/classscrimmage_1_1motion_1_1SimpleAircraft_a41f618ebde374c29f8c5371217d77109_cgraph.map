@@ -1,0 +1,5 @@
+<map id="scrimmage::motion::SimpleAircraft::teleport" name="scrimmage::motion::SimpleAircraft::teleport">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MotionModel.html#a37a0762207c6643b13a3015d2b866e13" title=" " alt="" coords="227,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+</map>

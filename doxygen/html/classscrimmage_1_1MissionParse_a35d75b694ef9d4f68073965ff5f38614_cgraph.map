@@ -1,4 +1,7 @@
 <map id="scrimmage::MissionParse::set_overrides" name="scrimmage::MissionParse::set_overrides">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35" title="scrimmage::remove_whitespace" alt="" coords="239,5,468,32"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="289,56,417,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,193,63"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35" title=" " alt="" coords="241,5,476,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,31,227,28,228,33,194,37"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title=" " alt="" coords="293,55,424,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,49,280,57,279,63,193,55"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::WaypointList::cycles" name="scrimmage::autonomy::WaypointList::cycles">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1WaypointList.html#a21fa6fabd55dd2f0cda8b643514359ab" title="scrimmage::autonomy\l::WaypointList::set\l_cycles" alt="" coords="220,5,387,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,13,392,53"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1WaypointList.html#a21fa6fabd55dd2f0cda8b643514359ab" title=" " alt="" coords="5,5,175,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,35,175,35,175,30,209,30"/>
 </map>

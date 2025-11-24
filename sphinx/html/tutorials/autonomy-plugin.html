@@ -1,89 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create an Autonomy Plugin &mdash; scrimmage 0.2.0-dev documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=dee240fc"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Draw Shapes in the Viewer" href="draw-shapes.html" />
     <link rel="prev" title="Create a SCRIMMAGE Plugins Project" href="create-project.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> scrimmage
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            scrimmage
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0-dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
@@ -112,7 +70,6 @@
 <li class="toctree-l2"><a class="reference internal" href="scrimmage-ros-integration.html">SCRIMMAGE / ROS Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="terrain.html">Create a Digital Terrain Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
@@ -124,72 +81,33 @@
 </li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">scrimmage</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-        
-      <li>Create an Autonomy Plugin</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Create an Autonomy Plugin</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/tutorials/autonomy-plugin.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="create-an-autonomy-plugin">
-<span id="autonomy-plugin"></span><h1>Create an Autonomy Plugin<a class="headerlink" href="#create-an-autonomy-plugin" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="create-an-autonomy-plugin">
+<span id="autonomy-plugin"></span><h1>Create an Autonomy Plugin<a class="headerlink" href="#create-an-autonomy-plugin" title="Link to this heading"></a></h1>
 <p>SCRIMMAGE ships with a script that generates an Autonomy plugin template. The
 developer needs to provide the name of the Autonomy plugin and the root
 directory of your SCRIMMAGE plugins project. We will use the plugins project we
@@ -211,57 +129,36 @@ $ make
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">100</span><span class="o">%</span><span class="p">]</span> <span class="n">Built</span> <span class="n">target</span> <span class="n">MyFollowBehavior_plugin</span>
 </pre></div>
 </div>
-<div class="section" id="examine-autonomy-plugin">
-<h2>Examine Autonomy Plugin<a class="headerlink" href="#examine-autonomy-plugin" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="autonomy-plugin-initialization">
-<h3>Autonomy Plugin Initialization<a class="headerlink" href="#autonomy-plugin-initialization" title="Permalink to this headline">¶</a></h3>
+<section id="examine-autonomy-plugin">
+<h2>Examine Autonomy Plugin<a class="headerlink" href="#examine-autonomy-plugin" title="Link to this heading"></a></h2>
+<section id="autonomy-plugin-initialization">
+<h3>Autonomy Plugin Initialization<a class="headerlink" href="#autonomy-plugin-initialization" title="Link to this heading"></a></h3>
 <p>Let’s take a look at the header file
 <code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/include/my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h</span></code>:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
- <span class="cp">#define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
- <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/autonomy/Autonomy.h&gt;</span><span class="cp"></span>
-
- <span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
- <span class="cp">#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp"></span>
-
- <span class="k">namespace</span> <span class="n">scrimmage</span> <span class="p">{</span>
- <span class="k">namespace</span> <span class="n">autonomy</span> <span class="p">{</span>
- <span class="k">class</span> <span class="nc">MyFollowBehavior</span> <span class="o">:</span> <span class="k">public</span> <span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span> <span class="p">{</span>
-  <span class="k">public</span><span class="o">:</span>
-     <span class="kt">void</span> <span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
-     <span class="kt">bool</span> <span class="nf">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="k">override</span><span class="p">;</span>
-
-  <span class="k">protected</span><span class="o">:</span>
-     <span class="kt">int</span> <span class="n">desired_alt_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-     <span class="kt">int</span> <span class="n">desired_speed_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-     <span class="kt">int</span> <span class="n">desired_heading_idx_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
- <span class="p">};</span>
- <span class="p">}</span> <span class="c1">// namespace autonomy</span>
- <span class="p">}</span> <span class="c1">// namespace scrimmage</span>
- <span class="cp">#endif </span><span class="c1">// INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="cp">#ifndef INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
+<span class="linenos"> 2</span><span class="w"> </span><span class="cp">#define INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
+<span class="linenos"> 3</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;scrimmage/autonomy/Autonomy.h&gt;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;map&gt;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">scrimmage</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 9</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">autonomy</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">10</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyFollowBehavior</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">11</span><span class="w">  </span><span class="k">public</span><span class="o">:</span>
+<span class="linenos">12</span><span class="w">     </span><span class="kt">void</span><span class="w"> </span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+<span class="linenos">13</span><span class="w">     </span><span class="kt">bool</span><span class="w"> </span><span class="nf">step_autonomy</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">  </span><span class="k">protected</span><span class="o">:</span>
+<span class="linenos">16</span><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">desired_alt_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">17</span><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">desired_speed_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">18</span><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">desired_heading_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">19</span><span class="w"> </span><span class="p">};</span>
+<span class="linenos">20</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace autonomy</span>
+<span class="linenos">21</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// namespace scrimmage</span>
+<span class="linenos">22</span><span class="w"> </span><span class="cp">#endif </span><span class="c1">// INCLUDE_MY_SCRIMMAGE_PLUGINS_PLUGINS_AUTONOMY_MYFOLLOWBEHAVIOR_MYFOLLOWBEHAVIOR_H_</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>Note that it inherits from the scrimmage base class <code class="docutils literal notranslate"><span class="pre">Autonomy.h</span></code> located at
 <code class="docutils literal notranslate"><span class="pre">scrimmage/include/scrimmage/autonomy/Autonomy.h</span></code> which provides a couple virtual methods,
 <code class="docutils literal notranslate"><span class="pre">init</span></code> and <code class="docutils literal notranslate"><span class="pre">step</span></code>,
@@ -272,105 +169,76 @@ on interacting with controllers, see <a class="reference internal" href="../over
 types of information that are available to the Autonomy developer. Use your
 favorite text editor to open the file at
 <code class="docutils literal notranslate"><span class="pre">~/scrimmage/my-scrimmage-plugins/src/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.cpp</span></code>:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="cp">#include</span> <span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span><span class="cp"></span>
-
- <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/plugin_manager/RegisterPlugin.h&gt;</span><span class="cp"></span>
- <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/entity/Entity.h&gt;</span><span class="cp"></span>
- <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/math/State.h&gt;</span><span class="cp"></span>
- <span class="cp">#include</span> <span class="cpf">&lt;scrimmage/parse/ParseUtils.h&gt;</span><span class="cp"></span>
-
- <span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
-
- <span class="k">namespace</span> <span class="n">sc</span> <span class="o">=</span> <span class="n">scrimmage</span><span class="p">;</span>
-
- <span class="n">REGISTER_PLUGIN</span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span><span class="p">,</span>
-                 <span class="n">scrimmage</span><span class="o">::</span><span class="n">autonomy</span><span class="o">::</span><span class="n">MyFollowBehavior</span><span class="p">,</span>
-                 <span class="n">MyFollowBehavior_plugin</span><span class="p">)</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;my-scrimmage-plugins/plugins/autonomy/MyFollowBehavior/MyFollowBehavior.h&gt;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;scrimmage/plugin_manager/RegisterPlugin.h&gt;</span>
+<span class="linenos"> 4</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;scrimmage/entity/Entity.h&gt;</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;scrimmage/math/State.h&gt;</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;scrimmage/parse/ParseUtils.h&gt;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w"> </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;limits&gt;</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">scrimmage</span><span class="p">;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w"> </span><span class="n">REGISTER_PLUGIN</span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">Autonomy</span><span class="p">,</span>
+<span class="linenos">13</span><span class="w">                 </span><span class="n">scrimmage</span><span class="o">::</span><span class="n">autonomy</span><span class="o">::</span><span class="n">MyFollowBehavior</span><span class="p">,</span>
+<span class="linenos">14</span><span class="w">                 </span><span class="n">MyFollowBehavior_plugin</span><span class="p">)</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>After the relevant header files are included, there is a <code class="docutils literal notranslate"><span class="pre">REGISTER_PLUGIN</span></code>
 macro that adds information to your source file so scrimmage can dynamically load it
 at runtime. The plugin’s <code class="docutils literal notranslate"><span class="pre">init</span></code> function is pasted below:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">params</span><span class="p">)</span> <span class="p">{</span>
-     <span class="kt">double</span> <span class="n">initial_speed</span> <span class="o">=</span> <span class="n">sc</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;initial_speed&quot;</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="mi">21</span><span class="p">);</span>
-     <span class="n">desired_alt_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_altitude</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
-     <span class="n">desired_speed_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_speed</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
-     <span class="n">desired_heading_idx_</span> <span class="o">=</span> <span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_heading</span><span class="p">,</span> <span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
-
-     <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_speed_idx_</span><span class="p">,</span> <span class="n">initial_speed</span><span class="p">);</span>
-     <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_alt_idx_</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
-     <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_heading_idx_</span><span class="p">,</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">());</span>
- <span class="p">}</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">MyFollowBehavior::init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 2</span><span class="w">     </span><span class="kt">double</span><span class="w"> </span><span class="n">initial_speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;initial_speed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="mi">21</span><span class="p">);</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="n">desired_alt_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_altitude</span><span class="p">,</span><span class="w"> </span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="n">desired_speed_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_speed</span><span class="p">,</span><span class="w"> </span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="n">desired_heading_idx_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vars_</span><span class="p">.</span><span class="n">declare</span><span class="p">(</span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">desired_heading</span><span class="p">,</span><span class="w"> </span><span class="n">VariableIO</span><span class="o">::</span><span class="n">Direction</span><span class="o">::</span><span class="n">Out</span><span class="p">);</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">     </span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_speed_idx_</span><span class="p">,</span><span class="w"> </span><span class="n">initial_speed</span><span class="p">);</span>
+<span class="linenos"> 8</span><span class="w">     </span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_alt_idx_</span><span class="p">,</span><span class="w"> </span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
+<span class="linenos"> 9</span><span class="w">     </span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_heading_idx_</span><span class="p">,</span><span class="w"> </span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">quat</span><span class="p">().</span><span class="n">yaw</span><span class="p">());</span>
+<span class="linenos">10</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>This is just setting up the VariableIO to interact with the controller. See
 <a class="reference internal" href="../overview/variableio.html#variableio"><span class="std std-ref">Variable IO</span></a> for more details.
 The <code class="docutils literal notranslate"><span class="pre">initial_speed</span></code> tag is in the <code class="docutils literal notranslate"><span class="pre">MyFollowBehavior.xml</span></code> file, which
 we get from the function <code class="docutils literal notranslate"><span class="pre">get</span></code> found in the <code class="docutils literal notranslate"><span class="pre">ParseUtils.h</span></code> header available
 from scrimmage:</p>
-<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
-<span class="nt">&lt;params&gt;</span>
-   <span class="nt">&lt;library&gt;</span>MyFollowBehavior_plugin<span class="nt">&lt;/library&gt;</span>
-   <span class="nt">&lt;initial_speed&gt;</span>24.3<span class="nt">&lt;/initial_speed&gt;</span>
-<span class="nt">&lt;/params&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="linenos">2</span><span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;http://gtri.gatech.edu&quot;?&gt;</span>
+<span class="linenos">3</span><span class="nt">&lt;params&gt;</span>
+<span class="linenos">4</span><span class="w">   </span><span class="nt">&lt;library&gt;</span>MyFollowBehavior_plugin<span class="nt">&lt;/library&gt;</span>
+<span class="linenos">5</span><span class="w">   </span><span class="nt">&lt;initial_speed&gt;</span>24.3<span class="nt">&lt;/initial_speed&gt;</span>
+<span class="linenos">6</span><span class="nt">&lt;/params&gt;</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>the <code class="docutils literal notranslate"><span class="pre">sc::get&lt;double&gt;()</span></code> function can convert the string value of
 <code class="docutils literal notranslate"><span class="pre">initial_speed</span></code> to a double value. The Autonomy plugin developer can add
 arbitrarly define tags in the Autonomy plugin’s XML file. The <code class="docutils literal notranslate"><span class="pre">sc::get</span></code>
 supports all standard C++ data types, such as <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>,
 <code class="docutils literal notranslate"><span class="pre">std::string</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>, etc.</p>
-</div>
-<div class="section" id="set-loop-rate">
-<h3>Set Loop Rate<a class="headerlink" href="#set-loop-rate" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="set-loop-rate">
+<h3>Set Loop Rate<a class="headerlink" href="#set-loop-rate" title="Link to this heading"></a></h3>
 <p>Normally, the loop rate for a plugin should be set with the <code class="docutils literal notranslate"><span class="pre">loop_rate</span></code>
 xml tag inside the plugin’s block of the mission file. Using this API the
 user doesn’t have to write any code to set the loop rate. However, it’s also
 possible to change the loop rate for a plugin dynamically during a simulation.
 This is done by calling the plugin’s <code class="docutils literal notranslate"><span class="pre">set_loop_rate()</span></code> method, which
 sets the plugin’s loop rate in Hz:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">void</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">update_loop_rate</span><span class="p">(</span><span class="kt">double</span> <span class="n">new_loop_rate</span><span class="p">)</span> <span class="p">{</span>
-     <span class="n">set_loop_rate</span><span class="p">(</span><span class="n">new_loop_rate</span><span class="p">);</span>
- <span class="p">}</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">MyFollowBehavior::update_loop_rate</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">new_loop_rate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">2</span><span class="w">     </span><span class="n">set_loop_rate</span><span class="p">(</span><span class="n">new_loop_rate</span><span class="p">);</span>
+<span class="linenos">3</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
-<p>The current loop rate can also be accessed with the <code class="docutils literal notranslate"><span class="pre">loop_rate()</span></code> function.</p>
 </div>
-<div class="section" id="step-autonomy">
-<h3>Step Autonomy<a class="headerlink" href="#step-autonomy" title="Permalink to this headline">¶</a></h3>
+<p>The current loop rate can also be accessed with the <code class="docutils literal notranslate"><span class="pre">loop_rate()</span></code> function.</p>
+</section>
+<section id="step-autonomy">
+<h3>Step Autonomy<a class="headerlink" href="#step-autonomy" title="Link to this heading"></a></h3>
 <p>The real work of the Autonomy plugin is typically implemented in the
 <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">step_autonomy</span></code> method takes the current simulation time, <code class="docutils literal notranslate"><span class="pre">t</span></code>, and the
@@ -384,95 +252,52 @@ implements the following simple behavior:</p>
 <li><p>Find the the closest contact that is not on my team.</p></li>
 <li><p>Head in the direction of the closest contact.</p></li>
 </ol>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="kt">bool</span> <span class="n">MyFollowBehavior</span><span class="o">::</span><span class="n">step_autonomy</span><span class="p">(</span><span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
-     <span class="c1">// Find nearest entity on other team. Loop through each contact, calculate</span>
-     <span class="c1">// distance to entity, save the ID of the entity that is closest.</span>
-     <span class="kt">int</span> <span class="n">follow_id_</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-     <span class="kt">double</span> <span class="n">min_dist</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">infinity</span><span class="p">();</span>
-     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span> <span class="o">*</span><span class="n">contacts_</span><span class="p">)</span> <span class="p">{</span>
-
-         <span class="kt">int</span> <span class="n">contact_id</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
-         <span class="n">sc</span><span class="o">::</span><span class="n">Contact</span> <span class="o">&amp;</span><span class="n">contact</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
-
-         <span class="c1">// Skip if this contact is on the same team</span>
-         <span class="k">if</span> <span class="p">(</span><span class="n">contact</span><span class="p">.</span><span class="n">id</span><span class="p">().</span><span class="n">team_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">parent_</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">().</span><span class="n">team_id</span><span class="p">())</span> <span class="p">{</span>
-             <span class="k">continue</span><span class="p">;</span>
-         <span class="p">}</span>
-
-         <span class="c1">// Calculate distance to entity</span>
-         <span class="kt">double</span> <span class="n">dist</span> <span class="o">=</span> <span class="p">(</span><span class="n">contact</span><span class="p">.</span><span class="n">state</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()</span> <span class="o">-</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()).</span><span class="n">norm</span><span class="p">();</span>
-
-         <span class="k">if</span> <span class="p">(</span><span class="n">dist</span> <span class="o">&lt;</span> <span class="n">min_dist</span><span class="p">)</span> <span class="p">{</span>
-             <span class="c1">// If this is the minimum distance, save distance and reference to</span>
-             <span class="c1">// entity</span>
-             <span class="n">min_dist</span> <span class="o">=</span> <span class="n">dist</span><span class="p">;</span>
-             <span class="n">follow_id_</span> <span class="o">=</span> <span class="n">contact_id</span><span class="p">;</span>
-         <span class="p">}</span>
-     <span class="p">}</span>
-
-     <span class="c1">// Head toward entity on other team</span>
-     <span class="k">if</span> <span class="p">(</span><span class="n">contacts_</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">(</span><span class="n">follow_id_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-         <span class="c1">// Get a reference to the entity&#39;s state.</span>
-         <span class="n">sc</span><span class="o">::</span><span class="n">StatePtr</span> <span class="n">ent_state</span> <span class="o">=</span> <span class="n">contacts_</span><span class="o">-&gt;</span><span class="n">at</span><span class="p">(</span><span class="n">follow_id_</span><span class="p">).</span><span class="n">state</span><span class="p">();</span>
-
-         <span class="c1">// Calculate the required heading to follow the other entity</span>
-         <span class="kt">double</span> <span class="n">heading</span> <span class="o">=</span> <span class="n">atan2</span><span class="p">(</span><span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">1</span><span class="p">),</span>
-                                <span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">));</span>
-
-         <span class="c1">// Set the heading</span>
-         <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_heading_idx_</span><span class="p">,</span> <span class="n">heading</span><span class="p">);</span>
-
-         <span class="c1">// Match entity&#39;s altitude</span>
-         <span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_alt_idx_</span><span class="p">,</span> <span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
-     <span class="p">}</span>
-
-     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
- <span class="p">}</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">MyFollowBehavior::step_autonomy</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 2</span><span class="w">     </span><span class="c1">// Find nearest entity on other team. Loop through each contact, calculate</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="c1">// distance to entity, save the ID of the entity that is closest.</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">follow_id_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="kt">double</span><span class="w"> </span><span class="n">min_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">infinity</span><span class="p">();</span>
+<span class="linenos"> 6</span><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">kv</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">contacts_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">         </span><span class="kt">int</span><span class="w"> </span><span class="n">contact_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+<span class="linenos"> 9</span><span class="w">         </span><span class="n">sc</span><span class="o">::</span><span class="n">Contact</span><span class="w"> </span><span class="o">&amp;</span><span class="n">contact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">         </span><span class="c1">// Skip if this contact is on the same team</span>
+<span class="linenos">12</span><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">contact</span><span class="p">.</span><span class="n">id</span><span class="p">().</span><span class="n">team_id</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">parent_</span><span class="o">-&gt;</span><span class="n">id</span><span class="p">().</span><span class="n">team_id</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">13</span><span class="w">             </span><span class="k">continue</span><span class="p">;</span>
+<span class="linenos">14</span><span class="w">         </span><span class="p">}</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">         </span><span class="c1">// Calculate distance to entity</span>
+<span class="linenos">17</span><span class="w">         </span><span class="kt">double</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">contact</span><span class="p">.</span><span class="n">state</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()).</span><span class="n">norm</span><span class="p">();</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">min_dist</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">20</span><span class="w">             </span><span class="c1">// If this is the minimum distance, save distance and reference to</span>
+<span class="linenos">21</span><span class="w">             </span><span class="c1">// entity</span>
+<span class="linenos">22</span><span class="w">             </span><span class="n">min_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist</span><span class="p">;</span>
+<span class="linenos">23</span><span class="w">             </span><span class="n">follow_id_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contact_id</span><span class="p">;</span>
+<span class="linenos">24</span><span class="w">         </span><span class="p">}</span>
+<span class="linenos">25</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span><span class="w">     </span><span class="c1">// Head toward entity on other team</span>
+<span class="linenos">28</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">contacts_</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">(</span><span class="n">follow_id_</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">29</span><span class="w">         </span><span class="c1">// Get a reference to the entity&#39;s state.</span>
+<span class="linenos">30</span><span class="w">         </span><span class="n">sc</span><span class="o">::</span><span class="n">StatePtr</span><span class="w"> </span><span class="n">ent_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contacts_</span><span class="o">-&gt;</span><span class="n">at</span><span class="p">(</span><span class="n">follow_id_</span><span class="p">).</span><span class="n">state</span><span class="p">();</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="w">         </span><span class="c1">// Calculate the required heading to follow the other entity</span>
+<span class="linenos">33</span><span class="w">         </span><span class="kt">double</span><span class="w"> </span><span class="n">heading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atan2</span><span class="p">(</span><span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">1</span><span class="p">),</span>
+<span class="linenos">34</span><span class="w">                                </span><span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">state_</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">0</span><span class="p">));</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">         </span><span class="c1">// Set the heading</span>
+<span class="linenos">37</span><span class="w">         </span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_heading_idx_</span><span class="p">,</span><span class="w"> </span><span class="n">heading</span><span class="p">);</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">         </span><span class="c1">// Match entity&#39;s altitude</span>
+<span class="linenos">40</span><span class="w">         </span><span class="n">vars_</span><span class="p">.</span><span class="n">output</span><span class="p">(</span><span class="n">desired_alt_idx_</span><span class="p">,</span><span class="w"> </span><span class="n">ent_state</span><span class="o">-&gt;</span><span class="n">pos</span><span class="p">()(</span><span class="mi">2</span><span class="p">));</span>
+<span class="linenos">41</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span><span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">44</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>Line 6 is a common way to iterate over all contacts
 using range-based for loops available from c++-11. In line 12, we ignore
 contacts that are on the same team by checking team IDs. <code class="docutils literal notranslate"><span class="pre">parent_</span></code> is a
@@ -499,140 +324,88 @@ algorithms, and many other algorithms associated with multi-robot problems. The
 contacts in this example are ground truth contacts without any noise. When you
 complete the Sensor plugin tutorial (<a class="reference internal" href="sensor-plugin.html"><span class="doc">Create a Sensor Plugin</span></a>), you will learn how
 to add noise and filter out contacts based on a sensor model.</p>
-</div>
-</div>
-<div class="section" id="running-the-plugin">
-<h2>Running the Plugin<a class="headerlink" href="#running-the-plugin" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="running-the-plugin">
+<h2>Running the Plugin<a class="headerlink" href="#running-the-plugin" title="Link to this heading"></a></h2>
 <p>In our project, open <code class="docutils literal notranslate"><span class="pre">missions/example.xml</span></code> and go to the second entity block.
 Change <code class="docutils literal notranslate"><span class="pre">count</span></code> to 1 and <code class="docutils literal notranslate"><span class="pre">autonomy</span></code> to <code class="docutils literal notranslate"><span class="pre">MyFollowBehavior</span></code> and save the file:</p>
-<div class="highlight-xml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="nt">&lt;entity&gt;</span>
-   <span class="nt">&lt;team_id&gt;</span>2<span class="nt">&lt;/team_id&gt;</span>
-   <span class="nt">&lt;color&gt;</span>255 0 0<span class="nt">&lt;/color&gt;</span>
-   <span class="nt">&lt;count&gt;</span>1<span class="nt">&lt;/count&gt;</span>
-   <span class="nt">&lt;health&gt;</span>1<span class="nt">&lt;/health&gt;</span>
-   <span class="nt">&lt;radius&gt;</span>2<span class="nt">&lt;/radius&gt;</span>
-
-   <span class="c">&lt;!--</span>
-<span class="c">   &lt;generate_rate&gt; 1 / 2 &lt;/generate_rate&gt;</span>
-<span class="c">   &lt;generate_count&gt;2&lt;/generate_count&gt;</span>
-<span class="c">   &lt;generate_start_time&gt;0&lt;/generate_start_time&gt;</span>
-<span class="c">   &lt;generate_time_variance&gt;0.10&lt;/generate_time_variance&gt;</span>
-<span class="c">   --&gt;</span>
-
-   <span class="nt">&lt;variance_x&gt;</span>20<span class="nt">&lt;/variance_x&gt;</span>
-   <span class="nt">&lt;variance_y&gt;</span>20<span class="nt">&lt;/variance_y&gt;</span>
-   <span class="nt">&lt;variance_z&gt;</span>20<span class="nt">&lt;/variance_z&gt;</span>
-
-   <span class="nt">&lt;x&gt;</span>50<span class="nt">&lt;/x&gt;</span>
-   <span class="nt">&lt;y&gt;</span>0<span class="nt">&lt;/y&gt;</span>
-   <span class="nt">&lt;z&gt;</span>200<span class="nt">&lt;/z&gt;</span>
-
-   <span class="nt">&lt;heading&gt;</span>180<span class="nt">&lt;/heading&gt;</span>
-   <span class="nt">&lt;altitude&gt;</span>200<span class="nt">&lt;/altitude&gt;</span>
-   <span class="nt">&lt;controller&gt;</span>SimpleAircraftControllerPID<span class="nt">&lt;/controller&gt;</span>
-   <span class="nt">&lt;motion_model&gt;</span>SimpleAircraft<span class="nt">&lt;/motion_model&gt;</span>
-   <span class="nt">&lt;visual_model&gt;</span>zephyr-red<span class="nt">&lt;/visual_model&gt;</span>
-   <span class="nt">&lt;autonomy&gt;</span>MyFollowBehavior<span class="nt">&lt;/autonomy&gt;</span>
-   <span class="nt">&lt;base&gt;</span>
-     <span class="nt">&lt;latitude&gt;</span>35.719961<span class="nt">&lt;/latitude&gt;</span>
-     <span class="nt">&lt;longitude&gt;</span>-120.767304<span class="nt">&lt;/longitude&gt;</span>
-     <span class="nt">&lt;altitude&gt;</span>300<span class="nt">&lt;/altitude&gt;</span>
-     <span class="nt">&lt;radius&gt;</span>25<span class="nt">&lt;/radius&gt;</span>
-   <span class="nt">&lt;/base&gt;</span>
- <span class="nt">&lt;/entity&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="nt">&lt;entity&gt;</span>
+<span class="linenos"> 2</span><span class="w">   </span><span class="nt">&lt;team_id&gt;</span>2<span class="nt">&lt;/team_id&gt;</span>
+<span class="linenos"> 3</span><span class="w">   </span><span class="nt">&lt;color&gt;</span>255<span class="w"> </span>0<span class="w"> </span>0<span class="nt">&lt;/color&gt;</span>
+<span class="linenos"> 4</span><span class="w">   </span><span class="nt">&lt;count&gt;</span>1<span class="nt">&lt;/count&gt;</span>
+<span class="linenos"> 5</span><span class="w">   </span><span class="nt">&lt;health&gt;</span>1<span class="nt">&lt;/health&gt;</span>
+<span class="linenos"> 6</span><span class="w">   </span><span class="nt">&lt;radius&gt;</span>2<span class="nt">&lt;/radius&gt;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">   </span><span class="cm">&lt;!--</span>
+<span class="linenos"> 9</span><span class="cm">   &lt;generate_rate&gt; 1 / 2 &lt;/generate_rate&gt;</span>
+<span class="linenos">10</span><span class="cm">   &lt;generate_count&gt;2&lt;/generate_count&gt;</span>
+<span class="linenos">11</span><span class="cm">   &lt;generate_start_time&gt;0&lt;/generate_start_time&gt;</span>
+<span class="linenos">12</span><span class="cm">   &lt;generate_time_variance&gt;0.10&lt;/generate_time_variance&gt;</span>
+<span class="linenos">13</span><span class="cm">   --&gt;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">   </span><span class="nt">&lt;variance_x&gt;</span>20<span class="nt">&lt;/variance_x&gt;</span>
+<span class="linenos">16</span><span class="w">   </span><span class="nt">&lt;variance_y&gt;</span>20<span class="nt">&lt;/variance_y&gt;</span>
+<span class="linenos">17</span><span class="w">   </span><span class="nt">&lt;variance_z&gt;</span>20<span class="nt">&lt;/variance_z&gt;</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">   </span><span class="nt">&lt;x&gt;</span>50<span class="nt">&lt;/x&gt;</span>
+<span class="linenos">20</span><span class="w">   </span><span class="nt">&lt;y&gt;</span>0<span class="nt">&lt;/y&gt;</span>
+<span class="linenos">21</span><span class="w">   </span><span class="nt">&lt;z&gt;</span>200<span class="nt">&lt;/z&gt;</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">   </span><span class="nt">&lt;heading&gt;</span>180<span class="nt">&lt;/heading&gt;</span>
+<span class="linenos">24</span><span class="w">   </span><span class="nt">&lt;altitude&gt;</span>200<span class="nt">&lt;/altitude&gt;</span>
+<span class="linenos">25</span><span class="w">   </span><span class="nt">&lt;controller&gt;</span>SimpleAircraftControllerPID<span class="nt">&lt;/controller&gt;</span>
+<span class="linenos">26</span><span class="w">   </span><span class="nt">&lt;motion_model&gt;</span>SimpleAircraft<span class="nt">&lt;/motion_model&gt;</span>
+<span class="linenos">27</span><span class="w">   </span><span class="nt">&lt;visual_model&gt;</span>zephyr-red<span class="nt">&lt;/visual_model&gt;</span>
+<span class="linenos">28</span><span class="w">   </span><span class="nt">&lt;autonomy&gt;</span>MyFollowBehavior<span class="nt">&lt;/autonomy&gt;</span>
+<span class="linenos">29</span><span class="w">   </span><span class="nt">&lt;base&gt;</span>
+<span class="linenos">30</span><span class="w">     </span><span class="nt">&lt;latitude&gt;</span>35.719961<span class="nt">&lt;/latitude&gt;</span>
+<span class="linenos">31</span><span class="w">     </span><span class="nt">&lt;longitude&gt;</span>-120.767304<span class="nt">&lt;/longitude&gt;</span>
+<span class="linenos">32</span><span class="w">     </span><span class="nt">&lt;altitude&gt;</span>300<span class="nt">&lt;/altitude&gt;</span>
+<span class="linenos">33</span><span class="w">     </span><span class="nt">&lt;radius&gt;</span>25<span class="nt">&lt;/radius&gt;</span>
+<span class="linenos">34</span><span class="w">   </span><span class="nt">&lt;/base&gt;</span>
+<span class="linenos">35</span><span class="w"> </span><span class="nt">&lt;/entity&gt;</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>Now we can run the simulation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scrimmage missions/example.xml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scrimmage<span class="w"> </span>missions/example.xml
 </pre></div>
 </div>
 <p>You can change the viewer by pressing <code class="docutils literal notranslate"><span class="pre">a</span></code> once, scrolling out and moving the picture
 so both vehicles are in view. You can additionally press <code class="docutils literal notranslate"><span class="pre">+</span></code> so that the vehicles
 are larger. You should see two vehicles approach each other and circle.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="draw-shapes.html" class="btn btn-neutral float-right" title="Draw Shapes in the Viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="create-project.html" class="btn btn-neutral float-left" title="Create a SCRIMMAGE Plugins Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="create-project.html" class="btn btn-neutral float-left" title="Create a SCRIMMAGE Plugins Project" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="draw-shapes.html" class="btn btn-neutral float-right" title="Draw Shapes in the Viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Kevin DeMarco
-
-    </p>
+    <p>&#169; Copyright 2020, Kevin DeMarco.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

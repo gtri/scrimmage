@@ -1,3 +1,5 @@
 <map id="scrimmage::interaction::Polyhedron::set_points" name="scrimmage::interaction::Polyhedron::set_points">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Polyhedron.html#adcde48c31dea4aa532c6f57c37ca8557" title="scrimmage::interaction\l::Polyhedron::compute_dots" alt="" coords="228,5,429,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,184,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Polyhedron.html#adcde48c31dea4aa532c6f57c37ca8557" title=" " alt="" coords="232,5,435,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,23,219,23,219,28,184,28"/>
 </map>

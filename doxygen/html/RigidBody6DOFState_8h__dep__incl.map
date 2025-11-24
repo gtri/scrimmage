@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h">
-<area shape="rect" id="node2" href="$ArduPilot_8h.html" title="Brief file description. " alt="" coords="5,109,231,165"/>
-<area shape="rect" id="node3" href="$RigidBody6DOFStateSensor_8cpp.html" title="Brief file description. " alt="" coords="255,109,592,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="109,5,439,60"/>
+<area shape="rect" id="Node000002" href="$ArduPilot_8h.html" title="Brief file description." alt="" coords="5,108,236,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,70,162,110,159,106,221,65"/>
+<area shape="rect" id="Node000004" href="$RigidBody6DOFStateSensor_8cpp.html" title="Brief file description." alt="" coords="261,108,597,163"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="327,65,390,106,387,110,324,70"/>
 </map>

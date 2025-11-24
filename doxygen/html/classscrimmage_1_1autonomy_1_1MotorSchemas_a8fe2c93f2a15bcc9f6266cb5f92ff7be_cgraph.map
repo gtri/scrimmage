@@ -1,0 +1,13 @@
+<map id="scrimmage::autonomy::MotorSchemas::init" name="scrimmage::autonomy::MotorSchemas::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,112,175,152"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="231,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,110,168,82,222,55,238,48,240,53,224,60,171,87,124,114"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="254,70,378,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="175,111,243,96,245,101,176,116"/>
+<area shape="rect" id="Node000006" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="239,119,393,145"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="175,129,225,129,225,135,175,135"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201" title=" " alt="" coords="223,169,409,209"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="170,149,224,163,223,169,169,155"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca" title=" " alt="" coords="231,233,401,273"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="118,150,166,185,224,219,238,226,236,231,221,224,163,189,115,154"/>
+</map>

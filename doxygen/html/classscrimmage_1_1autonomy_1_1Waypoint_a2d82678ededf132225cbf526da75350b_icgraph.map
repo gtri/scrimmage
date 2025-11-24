@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::Waypoint::set_position_tolerance" name="scrimmage::autonomy::Waypoint::set_position_tolerance">
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,23,401,77"/>
+<area shape="rect" id="Node000002" href="$MoveToGoalMS_8cpp.html#a3c243b06815d3c5e6359653de046c505" title=" " alt="" coords="19,5,161,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,38,161,31,162,26,209,32"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1GoToWaypoint.html#aecbd6ed94b4a13f2a3807debf1397d79" title=" " alt="" coords="5,55,175,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,67,175,72,175,67,208,62"/>
+</map>

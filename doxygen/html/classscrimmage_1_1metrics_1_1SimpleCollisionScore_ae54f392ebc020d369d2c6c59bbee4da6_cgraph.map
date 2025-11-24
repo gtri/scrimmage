@@ -1,4 +1,5 @@
 <map id="scrimmage::metrics::SimpleCollisionScore::flight_time_norm" name="scrimmage::metrics::SimpleCollisionScore::flight_time_norm">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#ac1d1f3c6c7ef03348dec1834a8404f0b" title="scrimmage::metrics\l::SimpleCollisionScore\l::flight_time" alt="" coords="216,5,379,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#aed3b57cc60c86c4da641cb0ac95fd0cd" title="scrimmage::metrics\l::SimpleCollisionScore\l::score" alt="" coords="216,85,379,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#ac1d1f3c6c7ef03348dec1834a8404f0b" title=" " alt="" coords="220,5,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
 </map>

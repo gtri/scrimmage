@@ -1,5 +1,10 @@
 <map id="scrimmage::Updater::update_contacts" name="scrimmage::Updater::update_contacts">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="429,5,552,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#ae38a0b019de32defb8c3aeea0608c50f" title="scrimmage::Updater\l::update_contact_visual" alt="" coords="208,27,381,69"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#a8a308ac9ef0eb1d3b8e3f4e2a8c1af94" title="scrimmage::Updater\l::update_trail" alt="" coords="217,93,372,134"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,26,160,66"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="432,5,555,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,23,208,11,318,5,419,9,418,14,318,11,208,17,150,29"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Updater.html#ae38a0b019de32defb8c3aeea0608c50f" title=" " alt="" coords="208,26,384,66"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,43,194,43,194,49,160,49"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1Updater.html#a8a308ac9ef0eb1d3b8e3f4e2a8c1af94" title=" " alt="" coords="219,90,373,130"/>
+<area shape="poly" id="edge4_Node000001_Node000015" title=" " alt="" coords="151,64,216,83,215,89,149,69"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="384,31,418,26,419,31,385,36"/>
 </map>

@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="25,124,187,165"/>
-<area shape="rect" id="node5" href="$Joystick_8h.html" title="Brief file description. " alt="" coords="212,124,419,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="106,5,321,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,211,132,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,62,55,86,33,103,15,124,8,142,15,161,26,176,39,188,71,207,68,211,36,193,22,180,10,164,3,142,10,121,29,99,53,81,105,57"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="291,211,350,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="322,51,356,61,388,75,417,95,441,121,449,142,441,164,426,183,406,197,364,215,362,210,404,192,422,179,437,161,444,142,437,124,414,99,385,80,354,66,321,56"/>
+<area shape="rect" id="Node000004" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="24,123,190,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,77,139,115,136,111,176,73"/>
+<area shape="rect" id="Node000031" href="$Joystick_8h.html" title="Brief file description." alt="" coords="214,123,426,163"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="252,73,292,111,288,115,248,77"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="110,163,110,197,104,197,104,163"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="159,160,279,204,277,209,157,165"/>
+<area shape="poly" id="edge7_Node000031_Node000002" title=" " alt="" coords="270,165,146,210,145,205,268,160"/>
+<area shape="poly" id="edge8_Node000031_Node000003" title=" " alt="" coords="323,163,323,197,318,197,318,163"/>
 </map>

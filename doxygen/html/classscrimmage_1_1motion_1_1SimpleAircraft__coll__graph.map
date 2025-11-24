@@ -1,4 +1,7 @@
 <map id="scrimmage::motion::SimpleAircraft" name="scrimmage::motion::SimpleAircraft">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MotionModel.html" title="{scrimmage::MotionModel\n|# state_\l# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}" alt="" coords="5,71,193,442"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="217,5,395,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="109,743,283,1123"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MotionModel.html" title=" " alt="" coords="5,85,187,571"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,584,167,742,162,743,136,585"/>
+<area shape="rect" id="Node000093" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="211,5,384,651"/>
+<area shape="poly" id="edge2_Node000001_Node000093" title=" " alt="" coords="246,651,233,727,228,726,241,651"/>
 </map>

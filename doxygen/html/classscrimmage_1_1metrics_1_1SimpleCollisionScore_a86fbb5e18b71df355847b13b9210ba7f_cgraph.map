@@ -1,3 +1,5 @@
 <map id="scrimmage::metrics::SimpleCollisionScore::set_entity_count" name="scrimmage::metrics::SimpleCollisionScore::set_entity_count">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#afb5d30bba28cb4ec6ffa33037af8ccea" title="scrimmage::metrics\l::SimpleCollisionScore\l::entity_count" alt="" coords="216,5,379,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,172,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCollisionScore.html#afb5d30bba28cb4ec6ffa33037af8ccea" title=" " alt="" coords="220,5,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,30,206,30,206,35,173,35"/>
 </map>

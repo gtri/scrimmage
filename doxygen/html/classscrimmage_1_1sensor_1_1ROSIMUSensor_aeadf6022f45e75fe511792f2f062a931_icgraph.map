@@ -1,0 +1,7 @@
+<map id="scrimmage::sensor::ROSIMUSensor::skew_sym" name="scrimmage::sensor::ROSIMUSensor::skew_sym">
+<area shape="rect" id="Node000001" title=" " alt="" coords="283,37,477,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ade87f4f2b25d40cf707a21a6aa00d891" title=" " alt="" coords="5,5,235,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,46,234,42,235,37,270,41"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aacdf28a891ddc080f4bcb83ab49b7af7" title=" " alt="" coords="21,69,219,109"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="269,74,219,80,218,75,269,68"/>
+</map>

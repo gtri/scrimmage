@@ -1,3 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/SimpleCaptureMetrics/SimpleCaptureMetrics.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/SimpleCaptureMetrics/SimpleCaptureMetrics.h">
-<area shape="rect" id="node2" href="$Metrics_8h.html" title="Brief file description. " alt="" coords="37,124,245,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="70,5,293,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,85,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,77,75,117,72,112,131,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="163,196,213,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,76,150,111,148,129,151,147,159,166,171,184,166,187,154,169,145,149,143,129,145,110,158,74"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="160,123,203,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,75,184,109,179,109,179,75"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="373,196,432,221"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="294,59,390,85,428,102,453,121,459,139,454,157,443,174,430,189,426,185,439,171,449,155,453,139,448,124,426,106,388,90,292,64"/>
+<area shape="rect" id="Node000006" href="$Metrics_8h.html" title="Brief file description." alt="" coords="226,123,438,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="237,73,303,113,300,118,234,77"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="310,150,225,192,223,187,308,146"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="346,146,384,184,380,188,342,150"/>
 </map>

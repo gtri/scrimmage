@@ -1,0 +1,6 @@
+<map id="scrimmage::autonomy::MOOSNode::ready" name="scrimmage::autonomy::MOOSNode::ready">
+<area shape="rect" id="Node000001" title=" " alt="" coords="236,29,405,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="359,18,345,11,321,8,299,10,286,15,281,21,284,28,279,30,276,20,283,10,298,5,321,3,347,6,361,13"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#a0a7275c0a982daffd0a7548e8127a261" title=" " alt="" coords="5,29,188,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="222,52,188,52,188,47,222,47"/>
+</map>

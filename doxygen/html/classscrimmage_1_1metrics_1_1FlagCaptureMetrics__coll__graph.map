@@ -1,3 +1,9 @@
 <map id="scrimmage::metrics::FlagCaptureMetrics" name="scrimmage::metrics::FlagCaptureMetrics">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Metrics.html" title="{scrimmage::Metrics\n|# print_team_summary_\l|+ Metrics()\l+ ~Metrics()\l+ init()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l+ team_metrics()\l+ headers()\l+ team_scores()\l+ get_print_team_summary()\l}" alt="" coords="5,5,219,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="234,348,423,508"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Metrics.html" title=" " alt="" coords="5,5,212,271"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,280,270,346,266,349,216,284"/>
+<area shape="rect" id="Node000096" title=" " alt="" coords="237,98,421,178"/>
+<area shape="poly" id="edge2_Node000001_Node000096" title=" " alt="" coords="331,178,331,332,326,332,326,178"/>
+<area shape="rect" id="Node000028" title=" " alt="" coords="445,98,599,178"/>
+<area shape="poly" id="edge3_Node000001_Node000028" title=" " alt="" coords="520,179,505,250,490,289,470,326,438,361,434,357,465,322,485,287,499,249,515,178"/>
 </map>

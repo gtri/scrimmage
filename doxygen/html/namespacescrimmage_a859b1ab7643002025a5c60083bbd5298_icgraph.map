@@ -1,3 +1,5 @@
 <map id="scrimmage::path_to_lines" name="scrimmage::path_to_lines">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c" title="scrimmage::sensor::\lContactBlobCamera::draw\l_frustum" alt="" coords="204,5,393,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="245,13,397,53"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c" title=" " alt="" coords="5,5,197,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,35,198,35,198,30,232,30"/>
 </map>

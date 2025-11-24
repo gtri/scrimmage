@@ -14,11 +14,8 @@ var namespacescrimmage_1_1sensor =
     [ "NoisyState", "classscrimmage_1_1sensor_1_1NoisyState.html", "classscrimmage_1_1sensor_1_1NoisyState" ],
     [ "RayTrace", "classscrimmage_1_1sensor_1_1RayTrace.html", "classscrimmage_1_1sensor_1_1RayTrace" ],
     [ "RigidBody6DOFStateSensor", "classscrimmage_1_1sensor_1_1RigidBody6DOFStateSensor.html", "classscrimmage_1_1sensor_1_1RigidBody6DOFStateSensor" ],
-    [ "RLConsensusSensor", "classscrimmage_1_1sensor_1_1RLConsensusSensor.html", "classscrimmage_1_1sensor_1_1RLConsensusSensor" ],
-    [ "RLSimpleSensor", "classscrimmage_1_1sensor_1_1RLSimpleSensor.html", "classscrimmage_1_1sensor_1_1RLSimpleSensor" ],
     [ "ROSAltimeter", "classscrimmage_1_1sensor_1_1ROSAltimeter.html", "classscrimmage_1_1sensor_1_1ROSAltimeter" ],
     [ "ROSCompass", "classscrimmage_1_1sensor_1_1ROSCompass.html", "classscrimmage_1_1sensor_1_1ROSCompass" ],
     [ "ROSIMUSensor", "classscrimmage_1_1sensor_1_1ROSIMUSensor.html", "classscrimmage_1_1sensor_1_1ROSIMUSensor" ],
-    [ "ScrimmageOpenAISensor", "classscrimmage_1_1sensor_1_1ScrimmageOpenAISensor.html", "classscrimmage_1_1sensor_1_1ScrimmageOpenAISensor" ],
     [ "SimpleINS", "classscrimmage_1_1sensor_1_1SimpleINS.html", "classscrimmage_1_1sensor_1_1SimpleINS" ]
 ];

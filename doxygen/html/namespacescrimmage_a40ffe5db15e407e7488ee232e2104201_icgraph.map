@@ -1,4 +1,5 @@
 <map id="scrimmage::parse_plugin_vector" name="scrimmage::parse_plugin_vector">
-<area shape="rect" id="node2" href="$structscrimmage_1_1PluginOverrides.html#a717341aa01796fdf90360ac8956a3aa3" title="scrimmage::PluginOverrides\l::PluginOverrides" alt="" coords="236,5,437,47"/>
-<area shape="rect" id="node3" href="$MotorSchemas_8cpp.html#a38222f1790fb36742b8e0122d669b153" title="REGISTER_PLUGIN" alt="" coords="267,71,406,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,5,409,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1MotorSchemas.html#a8fe2c93f2a15bcc9f6266cb5f92ff7be" title=" " alt="" coords="5,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,28,175,28,175,23,209,23"/>
 </map>

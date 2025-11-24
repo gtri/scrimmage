@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/SimpleCar/SimpleCar.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/SimpleCar/SimpleCar.h">
-<area shape="rect" id="node2" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="29,109,269,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="38,5,263,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,181,56,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,62,42,82,18,109,13,123,13,138,21,168,16,169,8,139,8,122,14,107,39,78,70,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="201,181,260,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,58,263,78,288,107,292,125,286,144,275,160,260,174,256,171,271,157,282,141,287,125,283,109,259,82,228,62"/>
+<area shape="rect" id="Node000004" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="27,108,274,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="153,60,153,94,148,94,148,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="133,136,64,176,61,172,130,131"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="165,131,209,170,206,174,162,135"/>
 </map>

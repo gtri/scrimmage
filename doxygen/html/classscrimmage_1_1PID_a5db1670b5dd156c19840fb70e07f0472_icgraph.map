@@ -1,3 +1,5 @@
 <map id="scrimmage::PID::setpoint" name="scrimmage::PID::setpoint">
-<area shape="rect" id="node2" href="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044" title="scrimmage::PID::set\l_setpoint" alt="" coords="236,5,387,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="207,13,393,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044" title=" " alt="" coords="5,5,159,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,28,159,28,159,23,193,23"/>
 </map>

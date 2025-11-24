@@ -1,6 +1,13 @@
 <map id="scrimmage::Angles::set_input_clock_direction" name="scrimmage::Angles::set_input_clock_direction">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a5a67e590a346d6703534c80b0bd20aa4" title="scrimmage::sensor::\lAirSimSensor::AirSimSensor" alt="" coords="253,5,457,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1JSBSimControlControllerHeadingPID.html#aa5f2d52117a52f704f4d2449bef1c65a" title="scrimmage::controller\l::JSBSimControlControllerHeading\lPID::init" alt="" coords="236,70,473,126"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a8991c03b249a622aeeb525177b696e66" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::init" alt="" coords="240,150,469,206"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e" title="scrimmage::motion::\lJSBSimControl::JSBSimControl" alt="" coords="247,229,462,271"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="307,133,493,173"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a5a67e590a346d6703534c80b0bd20aa4" title=" " alt="" coords="30,5,234,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,127,315,92,258,60,226,48,228,43,260,55,317,87,366,123"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e" title=" " alt="" coords="24,69,240,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="302,133,216,112,217,107,303,127"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#a476c674afd957cc878017fe86359fac9" title=" " alt="" coords="5,133,259,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="293,156,259,156,259,151,293,151"/>
+<area shape="rect" id="Node000005" href="$JSBSimControlControllerHeadingPID_8cpp.html#a8a40712020f4aac8998a769265f3af8e" title=" " alt="" coords="61,198,203,223"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="300,179,259,188,198,201,197,195,258,183,299,174"/>
+<area shape="rect" id="Node000006" href="$JSBSimModelControllerHeadingPID_8cpp.html#a53ad5e9faa92f0e50c60abcfce7e4591" title=" " alt="" coords="61,247,203,273"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="361,183,314,212,260,237,204,253,203,247,258,232,311,207,358,179"/>
 </map>

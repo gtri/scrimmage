@@ -1,3 +1,7 @@
 <map id="scrimmage::controller::FixedWing6DOFControllerROS" name="scrimmage::controller::FixedWing6DOFControllerROS">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="32,5,196,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,193,281,433"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="5,5,164,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,143,132,192,127,194,109,145"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="189,28,335,108"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="250,109,225,179,220,177,245,107"/>
 </map>

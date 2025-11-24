@@ -2,8 +2,8 @@ var classscrimmage_1_1sensor_1_1ContactBlobCamera =
 [
     [ "init", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad", null ],
     [ "step", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1", null ],
-    [ "contacts_to_bounding_boxes", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51307da3206e61e10fa3dae982353696", null ],
-    [ "add_false_positives", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aa2bb891e0c441a667e64d09d0ee0675e", null ],
+    [ "contacts_to_bounding_boxes", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aaf8260e1ceb21aa804201f713e3558c9", null ],
+    [ "add_false_positives", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a2bdd0ffa3903fceab2e86830ace6e59c", null ],
     [ "project_rel_3d_to_2d", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ac2560181d58f8cacf57ca48c9004ac2f", null ],
     [ "in_field_of_view", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a19a41bd989e5c29dc279d3c0e09c3cc9", null ],
     [ "draw_object_with_bounding_box", "classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a800830594b7b8464d4bbbf8cadce0731", null ],

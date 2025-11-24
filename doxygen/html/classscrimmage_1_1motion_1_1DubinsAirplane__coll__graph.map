@@ -1,4 +1,7 @@
 <map id="scrimmage::motion::DubinsAirplane" name="scrimmage::motion::DubinsAirplane">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MotionModel.html" title="{scrimmage::MotionModel\n|# state_\l# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}" alt="" coords="5,5,193,376"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html" title="{scrimmage::CSV\n|# next_row_\l|+ ~CSV()\l+ set_column_headers()\l+ set_column_headers()\l+ append()\l+ open_output()\l+ output_is_open()\l+ close_output()\l+ to_csv()\l+ read_csv()\l+ read_csv_from_string()\l+ set_no_value_string()\l+ to_string()\l+ rows()\l+ at()\l+ equals()\l# get_csv_line_elements()\l# write_headers()\l# write_row()\l&#45; headers_to_string()\l&#45; rows_to_string()\l&#45; row_to_string()\l}" alt="" coords="218,5,410,376"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="121,653,279,1013"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MotionModel.html" title=" " alt="" coords="5,55,187,541"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,554,168,653,162,654,143,555"/>
+<area shape="rect" id="Node000093" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="211,5,399,591"/>
+<area shape="poly" id="edge2_Node000001_Node000093" title=" " alt="" coords="250,592,241,638,236,637,245,590"/>
 </map>

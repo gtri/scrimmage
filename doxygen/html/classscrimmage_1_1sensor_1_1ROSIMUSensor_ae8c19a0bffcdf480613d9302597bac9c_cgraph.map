@@ -1,0 +1,9 @@
+<map id="scrimmage::sensor::ROSIMUSensor::init" name="scrimmage::sensor::ROSIMUSensor::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,160,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="213,5,381,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,67,216,47,217,52,151,72"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title=" " alt="" coords="208,69,387,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,87,194,87,194,92,161,92"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="219,133,375,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,107,217,127,216,132,150,112"/>
+</map>

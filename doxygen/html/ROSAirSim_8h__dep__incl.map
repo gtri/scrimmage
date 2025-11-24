@@ -1,3 +1,5 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h">
-<area shape="rect" id="node2" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="12,109,248,165"/>
+<area shape="rect" id="Node000001" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages." alt="" coords="5,5,260,60"/>
+<area shape="rect" id="Node000002" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages." alt="" coords="12,108,253,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,74,135,108,130,108,130,74"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::RayTrace::min_range" name="scrimmage::sensor::RayTrace::min_range">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title="scrimmage::sensor::\lLOSSensor::step" alt="" coords="209,5,363,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,367,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,161,28,161,23,194,23"/>
 </map>

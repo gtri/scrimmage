@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h">
-<area shape="rect" id="node2" href="$RigidBody6DOFControllerPID_8h.html" title="Brief file description. " alt="" coords="5,109,255,180"/>
-<area shape="rect" id="node3" href="$RigidBody6DOFControllerROS_8h.html" title="Brief file description. " alt="" coords="279,109,530,180"/>
-<area shape="rect" id="node4" href="$RigidBody6DOF_8cpp.html" title="Brief file description. " alt="" coords="555,117,772,173"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="270,5,565,60"/>
+<area shape="rect" id="Node000002" href="$RigidBody6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="5,108,264,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="337,67,224,110,222,105,335,62"/>
+<area shape="rect" id="Node000004" href="$RigidBody6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="288,108,547,177"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="420,74,420,108,415,108,415,74"/>
+<area shape="rect" id="Node000006" href="$RigidBody6DOF_8cpp.html" title="Brief file description." alt="" coords="571,115,795,170"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="495,63,619,113,617,118,493,68"/>
 </map>

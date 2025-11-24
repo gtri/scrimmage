@@ -1,5 +1,9 @@
 <map id="scrimmage::interaction::TerrainMap::clamp_height" name="scrimmage::interaction::TerrainMap::clamp_height">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a70d9e6590ae71854d1029de6c5ff29c0" title="scrimmage::interaction\l::TerrainMap::generate\l_linear" alt="" coords="248,5,419,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a5700d93adb8862cf279d7deacaf9a098" title="scrimmage::interaction\l::TerrainMap::generate\l_linear_walk" alt="" coords="248,85,419,141"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a521ec57145e226042a1b97123a722a9d" title="scrimmage::interaction\l::TerrainMap::generate\l_random_walk" alt="" coords="248,165,419,221"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,91,425,131"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a70d9e6590ae71854d1029de6c5ff29c0" title=" " alt="" coords="5,5,179,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="252,89,173,63,175,58,254,84"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a5700d93adb8862cf279d7deacaf9a098" title=" " alt="" coords="5,84,179,139"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="213,114,179,114,179,109,213,109"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a521ec57145e226042a1b97123a722a9d" title=" " alt="" coords="5,163,179,217"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="254,138,175,165,173,160,252,133"/>
 </map>

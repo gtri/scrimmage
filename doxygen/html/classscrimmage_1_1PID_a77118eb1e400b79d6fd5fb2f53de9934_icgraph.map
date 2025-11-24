@@ -1,3 +1,5 @@
 <map id="scrimmage::PID::integral_band" name="scrimmage::PID::integral_band">
-<area shape="rect" id="node2" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title="scrimmage::PID::set\l_integral_band" alt="" coords="272,5,423,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="207,13,429,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title=" " alt="" coords="5,5,159,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,28,159,28,159,23,193,23"/>
 </map>

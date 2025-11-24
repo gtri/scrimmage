@@ -1,4 +1,9 @@
 <map id="scrimmage::SimControl::time_warp" name="scrimmage::SimControl::time_warp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step. " alt="" coords="227,5,400,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title="scrimmage::SimControl\l::set_finished" alt="" coords="227,71,400,112"/>
+<area shape="rect" id="Node000001" title="Get the desired time warp of the simulation." alt="" coords="228,69,403,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step." alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,68,162,48,164,43,233,63"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title=" " alt="" coords="5,69,180,109"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="214,92,180,92,180,87,214,87"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1SimControl.html#a1390b96c4e0b0ea9c1abc7c404027b6b" title=" " alt="" coords="5,133,180,173"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="233,116,164,136,162,131,231,111"/>
 </map>

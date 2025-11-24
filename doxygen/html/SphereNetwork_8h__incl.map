@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/SphereNetwork/SphereNetwork.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/SphereNetwork/SphereNetwork.h">
-<area shape="rect" id="node2" href="$Network_8h.html" title="Brief file description. " alt="" coords="45,109,258,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,304,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="73,181,124,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,62,58,82,36,109,32,126,39,142,52,158,69,171,65,175,48,161,34,145,27,126,31,107,54,79,84,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="181,181,240,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,58,255,79,278,107,282,126,275,145,261,161,244,175,241,171,257,158,271,142,277,126,274,109,251,82,222,62"/>
+<area shape="rect" id="Node000004" href="$Network_8h.html" title="Brief file description." alt="" coords="46,108,263,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,60,157,94,152,94,152,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="148,135,118,172,114,169,143,132"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="166,132,195,169,191,172,162,135"/>
 </map>

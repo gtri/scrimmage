@@ -1,5 +1,14 @@
 <map id="scrimmage::autonomy::ROSAutonomy" name="scrimmage::autonomy::ROSAutonomy">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="198,145,409,633"/>
-<area shape="rect" id="node3" title="STL class. " alt="" coords="80,5,167,83"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}" alt="" coords="433,321,589,457"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="420,751,586,1111"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="200,133,406,659"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="409,671,438,750,433,751,404,673"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="33,5,112,71"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="64,72,36,176,22,247,12,327,8,411,14,496,32,580,47,619,65,657,96,703,134,744,176,780,222,812,317,863,405,898,403,903,315,868,220,817,173,785,130,748,92,706,61,660,42,621,27,581,9,497,3,411,6,326,17,246,31,175,59,70"/>
+<area shape="poly" id="edge2_Node000002_Node000006" title=" " alt="" coords="114,65,150,95,184,132,193,145,189,148,180,135,146,99,110,69"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="430,356,576,436"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="506,436,506,734,500,734,500,436"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="601,356,781,436"/>
+<area shape="poly" id="edge4_Node000001_Node000095" title=" " alt="" coords="680,437,574,736,569,734,675,435"/>
+<area shape="rect" id="Node000096" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title=" " alt="" coords="805,326,956,466"/>
+<area shape="poly" id="edge6_Node000001_Node000096" title=" " alt="" coords="868,467,841,561,820,612,796,660,754,720,705,775,652,824,602,865,598,861,649,820,701,771,750,717,791,657,816,610,836,559,863,465"/>
 </map>

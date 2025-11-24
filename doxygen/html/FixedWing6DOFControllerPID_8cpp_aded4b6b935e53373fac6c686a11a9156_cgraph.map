@@ -1,8 +1,17 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="403,5,556,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title="scrimmage::PID::set\l_integral_band" alt="" coords="404,71,555,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da" title="scrimmage::PID::set\l_is_angle" alt="" coords="404,137,555,179"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title="scrimmage::PID::set\l_parameters" alt="" coords="404,204,555,245"/>
-<area shape="rect" id="node6" href="$namespacescrimmage_1_1controller.html#a5b7141b6d663554901650d6519554648" title="scrimmage::controller\l::set_pid" alt="" coords="192,113,355,155"/>
-<area shape="rect" id="node7" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="415,274,543,301"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,205,148,230"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="238,5,409,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,203,97,173,121,133,154,91,195,55,224,40,226,45,197,60,158,94,125,136,101,176,86,206"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e" title=" " alt="" coords="199,69,447,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="89,202,133,161,163,138,195,119,211,112,213,117,197,124,166,143,136,165,92,206"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="238,133,409,173"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="124,202,195,183,229,174,230,179,197,188,125,207"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title=" " alt="" coords="247,197,400,237"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="149,215,233,215,233,220,149,220"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da" title=" " alt="" coords="247,261,400,301"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="125,228,197,247,234,256,233,262,195,252,124,233"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title=" " alt="" coords="247,325,400,365"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="92,229,136,270,166,292,197,311,234,326,232,330,195,316,163,296,133,274,89,233"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240" title=" " alt="" coords="196,389,451,429"/>
+<area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="86,229,101,259,125,299,158,340,198,375,207,381,204,385,194,379,154,344,121,302,97,262,81,231"/>
 </map>

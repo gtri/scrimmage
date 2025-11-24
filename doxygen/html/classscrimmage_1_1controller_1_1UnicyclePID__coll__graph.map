@@ -1,4 +1,9 @@
 <map id="scrimmage::controller::UnicyclePID" name="scrimmage::controller::UnicyclePID">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="5,181,169,332"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="193,5,371,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="191,757,360,1037"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="5,265,164,391"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,403,138,520,179,650,219,756,214,758,174,652,133,521,101,405"/>
+<area shape="rect" id="Node000094" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="189,5,362,651"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="278,651,278,741,273,741,273,651"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="386,295,567,361"/>
+<area shape="poly" id="edge3_Node000001_Node000095" title=" " alt="" coords="476,361,466,430,448,524,421,630,384,734,370,764,365,762,380,732,416,629,443,523,460,430,470,361"/>
 </map>

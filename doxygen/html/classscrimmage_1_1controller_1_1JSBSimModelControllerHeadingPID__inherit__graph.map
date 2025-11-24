@@ -1,3 +1,5 @@
 <map id="scrimmage::controller::JSBSimModelControllerHeadingPID" name="scrimmage::controller::JSBSimModelControllerHeadingPID">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="49,5,213,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,179,253,499"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="50,5,209,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,144,132,178,127,178,127,144"/>
 </map>

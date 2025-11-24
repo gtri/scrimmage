@@ -1,10 +1,40 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/ArduPilot/ArduPilot.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/ArduPilot/ArduPilot.cpp">
-<area shape="rect" id="node2" href="$ArduPilot_8h.html" title="Brief file description. " alt="" coords="5,109,217,151"/>
-<area shape="rect" id="node3" href="$Angles_8h.html" title="Brief file description. " alt="" coords="87,199,277,225"/>
-<area shape="rect" id="node4" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="292,109,493,151"/>
-<area shape="rect" id="node5" href="$Entity_8h.html" title="Brief file description. " alt="" coords="518,117,705,143"/>
-<area shape="rect" id="node6" href="$State_8h.html" title="Brief file description. " alt="" coords="729,117,912,143"/>
-<area shape="rect" id="node7" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="936,117,1151,143"/>
-<area shape="rect" id="node8" href="$MissionParse_8h.html" title="Brief file description. " alt="" coords="1175,117,1408,143"/>
-<area shape="rect" id="node9" href="$Sensor_8h.html" title="Brief file description. " alt="" coords="1433,117,1635,143"/>
+<area shape="rect" id="Node000001" title="Class to interface with ArduPilot SIL executable." alt="" coords="1239,5,1468,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,72,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1238,39,975,45,642,58,319,79,185,93,85,111,76,113,74,108,83,105,185,88,318,74,641,53,975,40,1238,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,115,170,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1238,40,994,48,690,62,396,82,275,96,183,111,172,113,171,108,182,105,274,90,396,77,690,56,994,42,1238,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="195,115,269,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1238,40,1014,49,738,64,473,84,365,97,282,111,271,113,270,108,281,105,364,91,473,79,738,59,1013,44,1238,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="293,115,373,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1239,36,1071,38,857,49,621,72,502,89,386,111,374,114,373,108,385,105,501,84,621,66,857,44,1071,33,1239,30"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="397,115,456,141"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1239,41,1052,51,830,66,620,86,534,97,469,111,462,113,460,108,467,105,533,92,619,80,830,60,1051,46,1239,36"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="480,115,723,141"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1239,50,735,111,694,116,694,111,734,105,1238,44"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="747,108,944,148"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1239,58,958,109,957,104,1238,52"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="969,115,1127,141"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1268,63,1099,114,1097,109,1267,58"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="1151,115,1355,141"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1327,62,1278,108,1274,104,1323,58"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="1379,115,1530,141"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1384,58,1433,104,1430,108,1380,62"/>
+<area shape="rect" id="Node000012" href="$Entity_8h.html" title="Brief file description." alt="" coords="1555,115,1744,141"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1437,58,1601,109,1599,114,1436,63"/>
+<area shape="rect" id="Node000029" href="$Angles_8h.html" title="Brief file description." alt="" coords="2226,196,2419,221"/>
+<area shape="poly" id="edge12_Node000001_Node000029" title=" " alt="" coords="1469,38,1536,46,1609,59,1685,79,1757,106,1773,116,1784,126,1794,137,1809,146,1884,165,1989,180,2213,199,2212,204,1988,185,1883,170,1807,150,1791,141,1780,130,1770,120,1755,110,1683,84,1608,65,1535,52,1468,43"/>
+<area shape="rect" id="Node000030" href="$State_8h.html" title="Brief file description." alt="" coords="1819,115,2002,141"/>
+<area shape="poly" id="edge13_Node000001_Node000030" title=" " alt="" coords="1469,50,1800,105,1831,110,1830,116,1800,111,1468,56"/>
+<area shape="rect" id="Node000035" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="2026,115,2262,141"/>
+<area shape="poly" id="edge14_Node000001_Node000035" title=" " alt="" coords="1468,43,1719,70,2015,105,2055,111,2054,116,2014,111,1719,75,1468,48"/>
+<area shape="rect" id="Node000037" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="2287,115,2503,141"/>
+<area shape="poly" id="edge15_Node000001_Node000037" title=" " alt="" coords="1468,38,1829,63,2051,82,2275,105,2314,111,2314,116,2274,111,2051,87,1828,68,1468,43"/>
+<area shape="rect" id="Node000038" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="2527,108,2731,148"/>
+<area shape="poly" id="edge16_Node000001_Node000038" title=" " alt="" coords="1468,35,1922,57,2215,77,2514,105,2513,111,2214,82,1922,62,1468,40"/>
+<area shape="rect" id="Node000039" href="$ArduPilot_8h.html" title="Brief file description." alt="" coords="2756,108,2972,148"/>
+<area shape="poly" id="edge17_Node000001_Node000039" title=" " alt="" coords="1468,34,1699,40,2014,53,2374,74,2742,105,2742,111,2373,79,2013,58,1699,45,1468,39"/>
+<area shape="rect" id="Node000063" href="$Sensor_8h.html" title="Brief file description." alt="" coords="2997,115,3198,141"/>
+<area shape="poly" id="edge19_Node000001_Node000063" title=" " alt="" coords="1468,32,1738,36,2114,47,2546,69,2767,85,2984,105,3023,110,3023,116,2984,111,2767,91,2546,74,2114,53,1738,41,1468,37"/>
+<area shape="poly" id="edge18_Node000039_Node000029" title=" " alt="" coords="2756,149,2744,151,2420,197,2419,192,2744,145,2755,144"/>
 </map>

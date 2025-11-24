@@ -1,3 +1,8 @@
 <map id="scrimmage::SimControl::add_tasks" name="scrimmage::SimControl::add_tasks">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="227,13,413,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,180,75"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="260,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,38,246,28,247,33,181,44"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="228,79,416,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,66,228,74,227,79,180,72"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="285,80,277,70,281,60,296,54,322,52,354,56,367,65,363,70,352,61,322,57,297,59,284,64,282,70,289,77"/>
 </map>

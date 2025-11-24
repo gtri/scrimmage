@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::run_threaded" name="scrimmage::SimControl::run_threaded">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread. " alt="" coords="227,13,429,39"/>
+<area shape="rect" id="Node000001" title="Runs the scrimmage simulation in a separate thread." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread." alt="" coords="228,13,432,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
 </map>

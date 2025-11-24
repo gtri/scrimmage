@@ -1,3 +1,5 @@
 <map id="scrimmage::Timer::loop_wait" name="scrimmage::Timer::loop_wait">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660" title="scrimmage::SimControl\l::loop_wait" alt="" coords="259,5,432,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,13,440,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,28,180,28,180,23,215,23"/>
 </map>

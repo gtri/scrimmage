@@ -1,3 +1,11 @@
 <map id="scrimmage::ConfigParse" name="scrimmage::ConfigParse">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="146,5,233,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="101,291,271,536"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="109,148,263,228"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,228,189,274,183,274,183,228"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="147,5,225,71"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="148,54,114,69,78,89,45,116,19,149,10,170,8,187,12,205,19,227,33,255,50,282,91,331,87,334,46,286,28,258,14,229,6,207,3,187,5,168,15,147,41,112,75,85,112,64,145,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="189,71,189,131,183,131,183,71"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="287,155,466,221"/>
+<area shape="poly" id="edge4_Node000008_Node000003" title=" " alt="" coords="227,62,270,93,331,142,328,146,267,97,224,67"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="352,222,284,302,280,298,348,219"/>
 </map>

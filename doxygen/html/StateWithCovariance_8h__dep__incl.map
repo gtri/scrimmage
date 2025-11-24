@@ -1,7 +1,13 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/math/StateWithCovariance.h" name="/root/scrimmage/scrimmage/include/scrimmage/math/StateWithCovariance.h">
-<area shape="rect" id="node2" href="$StateWithCovariance_8cpp.html" title="Brief file description. " alt="" coords="5,117,252,158"/>
-<area shape="rect" id="node3" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="277,109,495,165"/>
-<area shape="rect" id="node4" href="$NoisyContacts_8cpp.html" title="Brief file description. " alt="" coords="519,109,757,165"/>
-<area shape="rect" id="node5" href="$NoisyState_8cpp.html" title="Brief file description. " alt="" coords="781,109,996,165"/>
-<area shape="rect" id="node6" href="$SimpleINS_8cpp.html" title="Brief file description. " alt="" coords="1021,109,1231,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="543,5,750,60"/>
+<area shape="rect" id="Node000002" href="$StateWithCovariance_8cpp.html" title="Brief file description." alt="" coords="5,115,256,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="530,59,228,118,227,113,529,54"/>
+<area shape="rect" id="Node000003" href="$Straight_8cpp.html" title="Brief file description." alt="" coords="280,108,501,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,67,458,110,456,105,566,62"/>
+<area shape="rect" id="Node000004" href="$NoisyContacts_8cpp.html" title="Brief file description." alt="" coords="526,108,767,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="649,74,649,108,644,108,644,74"/>
+<area shape="rect" id="Node000005" href="$NoisyState_8cpp.html" title="Brief file description." alt="" coords="792,108,1011,163"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="727,62,836,105,834,110,725,67"/>
+<area shape="rect" id="Node000006" href="$SimpleINS_8cpp.html" title="Brief file description." alt="" coords="1035,108,1250,163"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="764,54,1023,105,1035,108,1034,113,1022,111,763,59"/>
 </map>

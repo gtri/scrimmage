@@ -1,5 +1,11 @@
 <map id="scrimmage::SimControl::setup_timer" name="scrimmage::SimControl::setup_timer">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a58e06146f70f419098456beef9684d6c" title="scrimmage::Timer::set\l_iterate_rate" alt="" coords="239,5,405,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Timer.html#a50e949171bfaf0093155d901353d71f7" title="scrimmage::Timer::set\l_time_warp" alt="" coords="239,71,405,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Timer.html#a638afb23bc05dd7ba152c36701047068" title="scrimmage::Timer::update\l_time_config" alt="" coords="227,136,417,177"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,180,141"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Timer.html#a58e06146f70f419098456beef9684d6c" title=" " alt="" coords="241,5,410,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,99,227,55,246,47,248,52,229,60,134,104"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Timer.html#a50e949171bfaf0093155d901353d71f7" title=" " alt="" coords="241,69,410,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,107,227,100,227,105,181,112"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#a30bc8fd66f50afb1f84517bc781f0545" title="Get the desired time warp of the simulation." alt="" coords="238,133,413,173"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="181,131,225,137,224,142,180,136"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Timer.html#a638afb23bc05dd7ba152c36701047068" title=" " alt="" coords="228,197,423,237"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="134,139,229,183,248,190,246,195,227,188,132,144"/>
 </map>

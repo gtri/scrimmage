@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/log/FrameUpdateClient.h" name="/root/scrimmage/scrimmage/include/scrimmage/log/FrameUpdateClient.h">
-<area shape="rect" id="node3" href="$fwd__decl_8h.html" title="Brief file description. " alt="" coords="291,109,455,136"/>
-<area shape="rect" id="node6" href="$Angles_8h.html" title="Brief file description. " alt="" coords="531,109,721,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="125,5,332,60"/>
+<area shape="rect" id="Node000002" href="$fwd__decl_8h.html" title="Brief file description." alt="" coords="23,108,191,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,62,136,102,133,98,190,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="15,181,92,207"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="125,46,93,55,63,68,35,86,13,109,8,124,11,140,33,170,28,173,7,142,3,124,9,107,32,82,60,63,92,50,124,41"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="131,181,190,207"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="227,61,219,96,205,135,181,172,177,169,200,132,214,95,222,60"/>
+<area shape="rect" id="Node000007" href="$Angles_8h.html" title="Brief file description." alt="" coords="266,108,460,133"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="271,58,335,98,332,103,268,62"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="484,108,695,133"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="332,56,529,102,528,108,331,61"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="100,135,72,172,68,169,96,132"/>
+<area shape="poly" id="edge3_Node000002_Node000005" title=" " alt="" coords="118,132,146,169,141,172,114,135"/>
 </map>

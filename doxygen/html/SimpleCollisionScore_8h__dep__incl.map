@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h">
-<area shape="rect" id="node2" href="$SimpleCollisionMetrics_8h.html" title="Brief file description. " alt="" coords="5,124,225,195"/>
-<area shape="rect" id="node3" href="$SimpleCollisionScore_8cpp.html" title="Brief file description. " alt="" coords="249,131,496,187"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="137,5,365,75"/>
+<area shape="rect" id="Node000002" href="$SimpleCollisionMetrics_8h.html" title="Brief file description." alt="" coords="5,123,233,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,86,160,124,156,120,201,82"/>
+<area shape="rect" id="Node000004" href="$SimpleCollisionScore_8cpp.html" title="Brief file description." alt="" coords="257,130,512,185"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="302,82,356,128,353,132,299,86"/>
 </map>

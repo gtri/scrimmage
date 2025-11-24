@@ -1,6 +1,12 @@
 <map id="scrimmage::Updater::set_quat" name="scrimmage::Updater::set_quat">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a9fd4fa629dc4a3aad9896aaf0df68698" title="scrimmage::Updater\l::draw_circle" alt="" coords="208,5,363,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a3a534262403a4ea2f1da30acd476e8ba" title="scrimmage::Updater\l::draw_cube" alt="" coords="208,71,363,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#ac94d9b8f11e19665110d950fff09c3e1" title="scrimmage::Updater\l::draw_ellipse" alt="" coords="208,136,363,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title="scrimmage::Updater\l::draw_mesh" alt="" coords="208,201,363,243"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,101,363,141"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="319,90,307,83,285,80,266,82,254,87,250,93,252,100,247,102,245,92,251,83,265,77,285,75,309,78,322,85"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#a9fd4fa629dc4a3aad9896aaf0df68698" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,97,159,60,132,48,134,43,161,55,236,92"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Updater.html#a3a534262403a4ea2f1da30acd476e8ba" title=" " alt="" coords="5,69,160,109"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="194,110,160,104,161,99,195,104"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1Updater.html#ac94d9b8f11e19665110d950fff09c3e1" title=" " alt="" coords="5,133,160,173"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="195,138,161,144,160,138,194,133"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title=" " alt="" coords="5,197,160,237"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="236,150,161,188,134,200,132,195,159,183,234,145"/>
 </map>

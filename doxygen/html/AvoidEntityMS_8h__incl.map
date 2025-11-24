@@ -1,3 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidEntityMS/AvoidEntityMS.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidEntityMS/AvoidEntityMS.h">
-<area shape="rect" id="node2" href="$BehaviorBase_8h.html" title="Brief file description. " alt="" coords="111,109,337,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="29,5,329,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,56,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,62,69,82,44,110,35,127,31,145,30,182,25,182,26,145,30,125,39,106,66,78,99,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="91,196,168,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,62,77,82,54,109,48,128,54,147,72,170,94,187,91,191,68,173,50,149,43,128,50,107,74,78,104,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="197,196,256,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="253,58,284,78,308,107,314,128,308,149,289,173,266,191,262,187,285,170,303,147,309,128,303,109,280,82,250,62"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="369,115,431,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="242,58,362,108,360,113,240,63"/>
+<area shape="rect" id="Node000006" href="$BehaviorBase_8h.html" title="Brief file description." alt="" coords="64,108,293,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="181,60,181,94,176,94,176,60"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="144,150,66,192,63,187,142,146"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="169,150,146,186,142,183,164,147"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="193,147,215,183,210,185,188,150"/>
 </map>

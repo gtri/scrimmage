@@ -1,4 +1,17 @@
 <map id="scrimmage::motion::JSBSimControl::init" name="scrimmage::motion::JSBSimControl::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="208,5,361,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="208,71,361,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,184,163,224"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="231,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,182,140,120,172,85,209,55,219,49,222,54,212,60,176,89,144,123,99,185"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="239,69,393,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="109,182,155,150,209,119,227,112,229,117,212,124,158,155,112,186"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="222,134,410,159"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="162,181,210,169,248,160,249,165,211,175,164,187"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="229,184,403,224"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="163,201,215,201,215,207,163,207"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="239,248,393,288"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="158,222,231,242,229,247,157,227"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="229,312,403,352"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="108,222,154,260,212,298,226,304,224,309,209,302,151,265,105,226"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="211,377,421,402"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="98,223,115,254,141,292,174,330,212,362,225,369,223,374,209,366,170,334,137,295,111,257,93,226"/>
 </map>

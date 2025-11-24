@@ -1,3 +1,11 @@
 <map id="scrimmage::Contact" name="scrimmage::Contact">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ID.html" title="{scrimmage::ID\n|# id_\l# sub_swarm_id_\l# team_id_\l|+ ID()\l+ ID()\l+ set_id()\l+ set_sub_swarm_id()\l+ set_team_id()\l+ id()\l+ sub_swarm_id()\l+ team_id()\l+ operator==()\l+ operator\&lt;()\l}" alt="" coords="5,5,169,244"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="308,353,453,779"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ID.html" title=" " alt="" coords="5,5,164,291"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,273,178,289,300,456,295,459,173,292,162,276"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="188,115,363,181"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,180,326,337,320,338,281,182"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="387,108,585,188"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="479,189,441,338,436,337,474,187"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="610,101,802,195"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="673,198,600,292,466,463,462,459,596,289,669,194"/>
 </map>

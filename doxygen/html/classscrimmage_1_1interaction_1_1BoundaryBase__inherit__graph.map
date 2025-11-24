@@ -1,6 +1,11 @@
 <map id="scrimmage::interaction::BoundaryBase" name="scrimmage::interaction::BoundaryBase">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Cuboid.html" title="{scrimmage::interaction\l::Cuboid\n|# points_\l# u\l# v\l# w\l# u_dot_P0\l# u_dot_P1\l# v_dot_P0\l# v_dot_P3\l# w_dot_P0\l# w_dot_P4\l|+ Cuboid()\l+ Cuboid()\l+ Cuboid()\l+ compute_dots()\l+ contains()\l+ points()\l+ set_points()\l+ set_visual()\l}" alt="" coords="5,336,176,663"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Plane.html" title="{scrimmage::interaction\l::Plane\n|# points_\l# u\l# w\l# v\l# s\l# r\l# normZ\l# normY\l# normX\l# u_dot_P0\l# w_dot_P0\l# r_dot_P3\l# v_dot_P2\l# s_dot_P1\l|+ Plane()\l+ Plane()\l+ Plane()\l+ compute_dots()\l+ contains()\l+ points()\l+ set_points()\l+ set_visual()\l}" alt="" coords="200,307,371,692"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Polyhedron.html" title="{scrimmage::interaction\l::Polyhedron\n|# points_\l# u\l# v\l# w\l# u_dot_P0\l# u_dot_P1\l# v_dot_P0\l# v_dot_P3\l# w_dot_P0\l# w_dot_P4\l# bounds_\l|+ Polyhedron()\l+ Polyhedron()\l+ compute_dots()\l+ contains()\l+ set_points()\l+ set_visual()\l+ get_bounds()\l}" alt="" coords="395,336,565,663"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1interaction_1_1Sphere.html" title="{scrimmage::interaction\l::Sphere\n|# radius_\l|+ Sphere()\l+ Sphere()\l+ Sphere()\l+ set_radius()\l+ set_center()\l+ radius()\l+ center()\l+ contains()\l+ set_visual()\l+ extents()\l}" alt="" coords="589,387,760,611"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="289,5,455,305"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Cuboid.html" title=" " alt="" coords="5,393,171,793"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,241,230,295,185,355,162,394,158,392,180,352,226,291,277,237"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Plane.html" title=" " alt="" coords="195,353,360,833"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="339,320,332,354,327,353,334,318"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1Polyhedron.html" title=" " alt="" coords="384,393,549,793"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="410,319,426,392,421,394,405,320"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1interaction_1_1Sphere.html" title=" " alt="" coords="573,463,739,723"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="467,237,518,291,564,352,593,406,618,462,613,464,589,408,559,355,514,295,463,241"/>
 </map>

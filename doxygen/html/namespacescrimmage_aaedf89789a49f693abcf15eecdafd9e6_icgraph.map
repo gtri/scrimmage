@@ -1,5 +1,7 @@
 <map id="scrimmage::create_frame" name="scrimmage::create_frame">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title="scrimmage::SimControl\l::run_logging" alt="" coords="241,5,415,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a4b364624ab3f64f5c5bee174f8204a90" title="scrimmage::Interface\l::send_frame" alt="" coords="249,71,407,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1External.html#a8959fc9d4cba22e720fc0bedea38e765" title="scrimmage::External\l::step" alt="" coords="251,136,405,177"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,45,419,70"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,45,180,40,180,35,218,40"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1External.html#a8959fc9d4cba22e720fc0bedea38e765" title=" " alt="" coords="14,69,171,109"/>
+<area shape="poly" id="edge2_Node000001_Node000011" title=" " alt="" coords="218,75,172,81,171,76,217,69"/>
 </map>

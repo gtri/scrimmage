@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::PwmState::set_pwm_min" name="scrimmage::motion::PwmState::set_pwm_min">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1PwmState.html#a6b33950b722a01a398cba4931adb66fc" title="scrimmage::motion::\lPwmState::pwm_min" alt="" coords="236,5,392,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,192,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1PwmState.html#a741f8f066d44556d11b128f43cfd025b" title=" " alt="" coords="240,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,23,226,23,226,28,192,28"/>
 </map>

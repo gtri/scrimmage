@@ -1,4 +1,7 @@
 <map id="scrimmage::sensor::RayTrace" name="scrimmage::sensor::RayTrace">
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1LOSSensor.html" title="{scrimmage::sensor::\lLOSSensor\n|&#45; sensor_id_\l&#45; last_update_time_\l&#45; range_sd_min_\l&#45; range_sd_per_unit_\l&#45; range_sd_oor_\l&#45; oor_return_\l&#45; probability_of_error_\l&#45; error_sd_\l&#45; probability_oor_error_\l&#45; use_flat_earth_\l&#45; new_data_\l&#45; range_\l&#45; oor_\l&#45; subscribed_\l&#45; generator_\l&#45; los_pub_\l|+ LOSSensor()\l+ init()\l+ step()\l}" alt="" coords="15,579,186,920"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html" title="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}" alt="" coords="27,5,174,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,219,191,619"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1sensor_1_1LOSSensor.html" title=" " alt="" coords="12,667,184,1087"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="101,633,101,666,95,666,95,633"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Sensor.html" title=" " alt="" coords="29,5,167,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,184,101,218,95,218,95,184"/>
 </map>

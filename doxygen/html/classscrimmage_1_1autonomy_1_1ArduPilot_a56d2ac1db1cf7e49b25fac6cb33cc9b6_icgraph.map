@@ -1,0 +1,8 @@
+<map id="scrimmage::autonomy::ArduPilot::start_receive" name="scrimmage::autonomy::ArduPilot::start_receive">
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,13,405,53"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1ArduPilot.html#a8105c8e15d5be4aba83dcb9f66499171" title=" " alt="" coords="5,5,175,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,44,175,44,175,39,209,39"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1ArduPilot.html#a5936380860cb4e6eb893224e0e7fb309" title=" " alt="" coords="5,85,175,125"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="239,59,154,87,152,82,237,54"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="189,21,223,21,223,26,189,26"/>
+</map>

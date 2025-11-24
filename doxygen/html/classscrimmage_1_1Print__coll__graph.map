@@ -1,0 +1,9 @@
+<map id="scrimmage::Print" name="scrimmage::Print">
+<area shape="rect" id="Node000001" title=" " alt="" coords="169,133,317,579"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,180,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,70,165,184,160,186,105,72"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="204,5,283,71"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="246,71,246,116,241,116,241,71"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="307,5,409,71"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="349,72,325,137,320,135,344,70"/>
+</map>

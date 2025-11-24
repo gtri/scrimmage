@@ -1,4 +1,4 @@
 var dir_74ecf2eb32d8fd25517f82fc2db49dfb =
 [
-    [ "DoubleIntegratorControllerVelYaw.cpp", "DoubleIntegratorControllerVelYaw_8cpp.html", null ]
+    [ "DoubleIntegratorControllerVelYaw.cpp", "DoubleIntegratorControllerVelYaw_8cpp.html", "DoubleIntegratorControllerVelYaw_8cpp" ]
 ];

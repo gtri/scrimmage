@@ -8,7 +8,7 @@ var classscrimmage_1_1interaction_1_1BoundaryBase =
     [ "set_shape", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a3a99b71c9dfaf46041fa8d14ae5df7e9", null ],
     [ "set_visual", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a7ccf6aa9cd926b9a8c02903fe2f1e4c4", null ],
     [ "center", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a7bb36e48c52b85178e140781eeee286f", null ],
-    [ "extents", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a23d94fd5b5a27ac0f36ba04eb3bdc5a7", null ],
+    [ "extents", "classscrimmage_1_1interaction_1_1BoundaryBase.html#af634fc94e688a1110686f2fd4999c54f", null ],
     [ "shape_", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a04f7111ee9b1248d249c7996d7e5cab5", null ],
     [ "shapes_", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a0600208d6af2205cfc06e8221000e26d", null ],
     [ "center_", "classscrimmage_1_1interaction_1_1BoundaryBase.html#a0aff329fb2cb67d61a1e729faee6f976", null ],

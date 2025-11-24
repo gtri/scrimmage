@@ -1,7 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.cpp">
-<area shape="rect" id="node2" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="5,139,224,165"/>
-<area shape="rect" id="node3" href="$State_8h.html" title="Brief file description. " alt="" coords="249,139,431,165"/>
-<area shape="rect" id="node4" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="455,139,670,165"/>
-<area shape="rect" id="node5" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="694,131,895,173"/>
-<area shape="rect" id="node6" href="$SimpleCarControllerHeading_8h.html" title="Brief file description. " alt="" coords="920,124,1139,180"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="448,5,687,75"/>
+<area shape="rect" id="Node000002" href="$Utilities_8h.html" title="Brief file description." alt="" coords="5,137,228,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="448,72,178,137,177,132,447,67"/>
+<area shape="rect" id="Node000007" href="$State_8h.html" title="Brief file description." alt="" coords="252,137,435,163"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="499,77,381,134,379,129,497,72"/>
+<area shape="rect" id="Node000013" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="459,137,675,163"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="570,75,570,123,565,123,565,75"/>
+<area shape="rect" id="Node000016" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="700,130,904,170"/>
+<area shape="poly" id="edge4_Node000001_Node000016" title=" " alt="" coords="641,72,750,122,748,127,639,77"/>
+<area shape="rect" id="Node000017" href="$SimpleCarControllerHeading_8h.html" title="Brief file description." alt="" coords="928,123,1151,177"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="688,66,915,118,914,123,686,71"/>
 </map>

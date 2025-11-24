@@ -1,5 +1,21 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/interaction/GraphInteraction/GraphUtils.cpp" name="/root/scrimmage/scrimmage/src/plugins/interaction/GraphInteraction/GraphUtils.cpp">
-<area shape="rect" id="node2" href="$GraphUtils_8h.html" title="Brief file description. " alt="" coords="5,109,221,151"/>
-<area shape="rect" id="node3" href="$EntityPlugin_8h.html" title="Brief file description. " alt="" coords="245,117,469,143"/>
-<area shape="rect" id="node5" href="$ProtoConversions_8h.html" title="Brief file description. " alt="" coords="727,117,987,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="569,5,804,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,80,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="569,43,346,65,219,84,93,111,83,113,81,108,91,105,218,79,346,60,569,38"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="104,115,179,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="569,47,390,70,290,88,191,111,182,113,181,108,190,105,289,83,389,65,569,42"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="203,108,357,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="573,63,371,109,369,104,572,57"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="381,108,547,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="625,63,522,105,520,100,623,58"/>
+<area shape="rect" id="Node000006" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="571,115,802,141"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="689,60,689,101,684,101,684,60"/>
+<area shape="rect" id="Node000033" title=" " alt="" coords="826,115,1035,141"/>
+<area shape="poly" id="edge6_Node000001_Node000033" title=" " alt="" coords="756,58,889,108,887,113,754,63"/>
+<area shape="rect" id="Node000034" href="$GraphUtils_8h.html" title="Brief file description." alt="" coords="1059,108,1279,148"/>
+<area shape="poly" id="edge7_Node000001_Node000034" title=" " alt="" coords="805,54,1059,103,1058,108,804,59"/>
+<area shape="rect" id="Node000038" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1303,115,1566,141"/>
+<area shape="poly" id="edge8_Node000001_Node000038" title=" " alt="" coords="805,45,1292,105,1336,111,1335,116,1292,111,804,51"/>
+<area shape="rect" id="Node000039" title=" " alt="" coords="1590,115,1799,141"/>
+<area shape="poly" id="edge9_Node000001_Node000039" title=" " alt="" coords="804,38,1152,63,1365,82,1579,105,1617,111,1616,116,1578,111,1365,87,1152,68,804,44"/>
 </map>

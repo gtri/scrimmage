@@ -1,9 +1,17 @@
 <map id="scrimmage::Updater::update" name="scrimmage::Updater::update">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#af33bfe5555a68437543449d7b774513b" title="scrimmage::Updater\l::draw_shapes" alt="" coords="210,5,365,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a694fd5e005fc053b4423427072900d97" title="scrimmage::Updater\l::update_camera" alt="" coords="210,71,365,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Updater.html#ac2a24759fd298cd7b86ee0cb6609101c" title="scrimmage::Updater\l::update_contacts" alt="" coords="210,136,365,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#a69b3806a6eab933a764cbdd548b3d444" title="scrimmage::Updater\l::update_scale" alt="" coords="210,201,365,243"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1Updater.html#aa50ff0581870aa78c4611286385b88e5" title="scrimmage::Updater\l::update_shapes" alt="" coords="210,267,365,308"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452" title="scrimmage::Updater\l::update_text_display" alt="" coords="208,332,367,373"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1Updater.html#ac5d739e03a358f8a1295e6382fc2499c" title="scrimmage::Updater\l::update_utm_terrain" alt="" coords="209,397,366,439"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,197,160,237"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#af33bfe5555a68437543449d7b774513b" title=" " alt="" coords="212,5,367,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,195,137,128,169,89,206,55,214,50,217,54,210,59,173,93,141,131,97,198"/>
+<area shape="rect" id="Node000039" href="$classscrimmage_1_1Updater.html#a694fd5e005fc053b4423427072900d97" title=" " alt="" coords="212,69,367,109"/>
+<area shape="poly" id="edge2_Node000001_Node000039" title=" " alt="" coords="104,195,150,158,207,119,218,113,221,117,209,124,153,162,108,199"/>
+<area shape="rect" id="Node000041" href="$classscrimmage_1_1Updater.html#ac2a24759fd298cd7b86ee0cb6609101c" title=" " alt="" coords="212,133,367,173"/>
+<area shape="poly" id="edge3_Node000001_Node000041" title=" " alt="" coords="147,195,211,175,212,180,149,200"/>
+<area shape="rect" id="Node000047" href="$classscrimmage_1_1Updater.html#a69b3806a6eab933a764cbdd548b3d444" title=" " alt="" coords="212,197,367,237"/>
+<area shape="poly" id="edge4_Node000001_Node000047" title=" " alt="" coords="161,215,198,215,198,220,161,220"/>
+<area shape="rect" id="Node000048" href="$classscrimmage_1_1Updater.html#aa50ff0581870aa78c4611286385b88e5" title=" " alt="" coords="212,261,367,301"/>
+<area shape="poly" id="edge5_Node000001_Node000048" title=" " alt="" coords="149,235,212,255,211,260,147,240"/>
+<area shape="rect" id="Node000049" href="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452" title=" " alt="" coords="208,325,371,365"/>
+<area shape="poly" id="edge6_Node000001_Node000049" title=" " alt="" coords="108,235,153,273,209,311,221,317,218,322,207,316,150,277,104,239"/>
+<area shape="rect" id="Node000050" href="$classscrimmage_1_1Updater.html#ac5d739e03a358f8a1295e6382fc2499c" title=" " alt="" coords="210,389,369,429"/>
+<area shape="poly" id="edge7_Node000001_Node000050" title=" " alt="" coords="97,236,141,304,173,342,210,375,217,380,214,385,206,379,169,345,137,307,93,239"/>
 </map>

@@ -1,7 +1,13 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h">
-<area shape="rect" id="node2" href="$FixedWing6DOF_8h.html" title="Brief file description. " alt="" coords="5,109,292,165"/>
-<area shape="rect" id="node3" href="$JSBSimControl_8h.html" title="Brief file description. " alt="" coords="317,109,591,165"/>
-<area shape="rect" id="node4" href="$Multirotor_8h.html" title="Brief file description. " alt="" coords="615,109,829,165"/>
-<area shape="rect" id="node5" href="$UUV6DOF_8h.html" title="Brief file description. " alt="" coords="853,109,1071,165"/>
-<area shape="rect" id="node6" href="$RigidBody6DOFStateSensor_8cpp.html" title="Brief file description. " alt="" coords="1096,109,1433,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="575,5,903,60"/>
+<area shape="rect" id="Node000002" href="$FixedWing6DOF_8h.html" title="Brief file description." alt="" coords="5,108,301,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="573,65,302,111,301,106,572,60"/>
+<area shape="rect" id="Node000007" href="$JSBSimControl_8h.html" title="Brief file description." alt="" coords="326,108,605,163"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="656,67,537,110,536,105,654,62"/>
+<area shape="rect" id="Node000009" href="$Multirotor_8h.html" title="Brief file description." alt="" coords="629,108,848,163"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="741,74,741,108,736,108,736,74"/>
+<area shape="rect" id="Node000015" href="$UUV6DOF_8h.html" title="Brief file description." alt="" coords="873,108,1093,163"/>
+<area shape="poly" id="edge4_Node000001_Node000015" title=" " alt="" coords="816,63,920,105,918,110,814,68"/>
+<area shape="rect" id="Node000017" href="$RigidBody6DOFStateSensor_8cpp.html" title="Brief file description." alt="" coords="1117,108,1453,163"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="895,60,1143,105,1142,111,894,65"/>
 </map>

@@ -1,8 +1,15 @@
 <map id="scrimmage::Metrics" name="scrimmage::Metrics">
-<area shape="rect" id="node3" href="$classscrimmage_1_1metrics_1_1CPA.html" title="{scrimmage::metrics::CPA\n|# params_\l# cpa_map_\l# csv_\l# initialized_\l# team_cpa_\l# team_id_\l# min_time_s_\l# max_time_s_\l|+ CPA()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="5,1121,201,1360"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html" title="{scrimmage::metrics\l::FlagCaptureMetrics\n|# scores_\l# team_flag_scores_\l# params_\l|+ FlagCaptureMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="225,1151,421,1331"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1metrics_1_1OpenAIRewards.html" title="{scrimmage::metrics\l::OpenAIRewards\n|# params_\l# rewards_\l|+ OpenAIRewards()\l+ init()\l+ step_metrics()\l+ print_team_summaries()\l+ calc_team_scores()\l}" alt="" coords="445,1158,641,1323"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html" title="{scrimmage::metrics\l::SimpleCaptureMetrics\n|# scores_\l# team_scores_map_\l# initialized_\l# teams_\l# params_\l|+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="665,1143,861,1338"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html" title="{scrimmage::metrics\l::SimpleCollisionMetrics\n|# scores_\l# team_coll_scores_\l# surviving_teams_\l# params_\l# initialized_\l# teams_\l|+ SimpleCollisionMetrics()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l}" alt="" coords="885,1129,1081,1353"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html" title="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l# parent_\l# transform_\l# id_to_team_map_\l# id_to_ent_map_\l# vars_\l# pubsub_\l# subs_\l# time_\l&#45; shapes_\l&#45; param_server_\l&#45; loop_rate_\l&#45; loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}" alt="" coords="452,5,635,743"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="423,1033,630,1379"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1metrics_1_1CPA.html" title=" " alt="" coords="5,1427,195,1712"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="413,1276,310,1345,257,1385,208,1429,197,1440,193,1437,205,1425,254,1381,307,1341,410,1271"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1metrics_1_1FlagCaptureMetrics.html" title=" " alt="" coords="219,1469,408,1669"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="421,1392,374,1471,369,1468,416,1389"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1metrics_1_1OpenAIRewards.html" title=" " alt="" coords="432,1479,621,1659"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="529,1392,529,1479,524,1479,524,1392"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html" title=" " alt="" coords="645,1459,835,1679"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="637,1389,678,1458,673,1461,633,1392"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html" title=" " alt="" coords="859,1439,1048,1699"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="643,1271,747,1341,799,1381,848,1425,861,1437,857,1441,845,1429,796,1385,743,1345,640,1276"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html" title=" " alt="" coords="439,5,614,985"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="529,999,529,1033,524,1033,524,999"/>
 </map>

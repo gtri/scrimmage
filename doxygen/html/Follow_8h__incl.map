@@ -1,3 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/follow/Follow.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/follow/Follow.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="48,109,211,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="217,5,424,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,196,83,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,48,156,58,95,71,45,89,27,99,15,109,8,127,12,147,23,167,38,184,34,188,19,170,7,149,3,127,10,107,24,94,43,84,94,66,155,52,217,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="127,196,186,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="424,33,527,41,578,49,624,60,660,75,683,94,689,107,689,120,683,134,672,150,647,163,600,174,468,191,319,202,200,208,200,203,318,197,467,185,599,168,645,158,668,146,679,132,683,119,683,108,679,98,657,80,622,65,577,55,527,47,424,39"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="215,115,427,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="323,60,323,101,318,101,318,60"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="451,115,657,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="387,58,514,108,512,113,385,63"/>
+<area shape="rect" id="Node000006" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="25,108,190,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="262,63,164,105,162,100,260,58"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="98,150,75,186,70,183,93,147"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="121,147,144,183,140,186,117,150"/>
 </map>

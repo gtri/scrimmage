@@ -1,5 +1,9 @@
 <map id="scrimmage::motion::UUV6DOF" name="scrimmage::motion::UUV6DOF">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOFBase.html" title="{scrimmage::motion::\lRigidBody6DOFBase\n|# linear_vel_body_\l# ang_vel_body_\l# linear_accel_body_\l# ang_accel_body_\l# wind_\l|+ RigidBody6DOFBase()\l+ linear_vel_body()\l+ ang_vel_body()\l+ linear_accel_body()\l+ ang_accel_body()\l+ wind()\l}" alt="" coords="5,189,181,413"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html" title="{scrimmage::CSV\n|# next_row_\l|+ ~CSV()\l+ set_column_headers()\l+ set_column_headers()\l+ append()\l+ open_output()\l+ output_is_open()\l+ close_output()\l+ to_csv()\l+ read_csv()\l+ read_csv_from_string()\l+ set_no_value_string()\l+ to_string()\l+ rows()\l+ at()\l+ equals()\l# get_csv_line_elements()\l# write_headers()\l# write_row()\l&#45; headers_to_string()\l&#45; rows_to_string()\l&#45; row_to_string()\l}" alt="" coords="205,115,397,486"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Quaternion.html" title="{scrimmage::Quaternion\n|+ output_precision\l|+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ operator=()\l+ operator=()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ set()\l+ set()\l+ set()\l+ roll()\l+ pitch()\l+ yaw()\l+ rotation_angle()\l+ rotate()\l+ rotate_reverse()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* operator=()\l* operator=()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* set()\l* set()\l* set()\l* roll()\l* pitch()\l* yaw()\l* rotation_angle()\l* rotate()\l* rotate_reverse()\l}" alt="" coords="421,5,595,596"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,873,369,2433"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1RigidBody6DOFBase.html" title=" " alt="" coords="5,278,179,538"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,551,207,1124,201,1124,112,552"/>
+<area shape="rect" id="Node000048" href="$classscrimmage_1_1Quaternion.html" title=" " alt="" coords="203,5,370,811"/>
+<area shape="poly" id="edge2_Node000001_Node000048" title=" " alt="" coords="289,811,289,857,284,857,284,811"/>
+<area shape="rect" id="Node000094" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="394,115,582,701"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="443,701,375,1126,369,1125,438,700"/>
 </map>

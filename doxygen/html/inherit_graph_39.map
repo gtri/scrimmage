@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structscrimmage_1_1GenerateInfo.html" title="scrimmage::GenerateInfo" alt="" coords="5,5,191,32"/>
+<area shape="rect" id="Node000000" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html" title=" " alt="" coords="5,101,179,141"/>
+<area shape="rect" id="Node000001" href="$classscrimmage_1_1interaction_1_1Cuboid.html" title=" " alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge133_Node000000_Node000001" title=" " alt="" coords="144,93,226,55,255,43,257,48,228,60,147,97"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Plane.html" title=" " alt="" coords="227,69,400,109"/>
+<area shape="poly" id="edge134_Node000000_Node000002" title=" " alt="" coords="192,104,226,99,227,104,193,109"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Polyhedron.html" title=" " alt="" coords="227,133,400,173"/>
+<area shape="poly" id="edge135_Node000000_Node000003" title=" " alt="" coords="193,133,227,138,226,143,192,138"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1Sphere.html" title=" " alt="" coords="227,197,400,237"/>
+<area shape="poly" id="edge136_Node000000_Node000004" title=" " alt="" coords="147,145,228,183,257,195,255,200,226,188,144,150"/>
 </map>

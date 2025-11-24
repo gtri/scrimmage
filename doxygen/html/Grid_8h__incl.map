@@ -1,2 +1,19 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/viewer/Grid.h" name="/root/scrimmage/scrimmage/include/scrimmage/viewer/Grid.h">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="369,5,610,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,48,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="369,42,225,63,62,96,61,91,225,58,368,37"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="72,93,160,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="400,48,174,95,173,90,399,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="185,93,311,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="432,48,297,92,296,86,431,43"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="335,93,470,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="470,48,428,86,424,82,467,44"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="495,93,657,119"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="512,44,555,82,551,86,509,48"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="682,93,790,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="549,43,688,87,686,92,548,48"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="814,93,927,119"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="581,43,802,88,801,93,580,48"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="952,93,1091,119"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="610,42,939,90,938,95,610,47"/>
 </map>

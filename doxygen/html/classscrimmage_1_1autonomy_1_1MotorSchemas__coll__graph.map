@@ -1,4 +1,16 @@
 <map id="scrimmage::autonomy::MotorSchemas" name="scrimmage::autonomy::MotorSchemas">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="212,160,423,648"/>
-<area shape="rect" id="node3" title="STL class. " alt="" coords="274,13,361,90"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="448,736,640,1036"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="221,148,426,673"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="434,659,441,672,471,734,466,737,436,674,430,661"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="284,13,363,78"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="285,54,240,64,189,82,140,110,119,128,102,150,61,220,31,286,14,349,8,410,14,472,32,535,61,601,102,672,132,712,169,746,210,776,254,801,346,839,432,863,431,869,344,844,252,806,207,781,165,750,128,715,97,675,56,603,27,536,9,473,3,410,8,348,26,284,56,218,97,146,115,124,137,105,186,77,238,59,283,49"/>
+<area shape="poly" id="edge2_Node000002_Node000006" title=" " alt="" coords="326,78,326,132,321,132,321,78"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="451,363,636,458"/>
+<area shape="poly" id="edge5_Node000094_Node000006" title=" " alt="" coords="364,59,402,78,436,108,475,165,504,229,524,292,537,347,531,348,519,293,499,231,470,168,432,111,399,83,362,63"/>
+<area shape="poly" id="edge4_Node000001_Node000094" title=" " alt="" coords="546,458,546,719,541,719,541,458"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="534,5,716,85"/>
+<area shape="poly" id="edge7_Node000001_Node000095" title=" " alt="" coords="658,84,669,109,669,124,670,279,673,400,670,520,650,674,638,721,633,720,645,673,664,520,668,400,665,279,664,124,664,110,653,86"/>
+<area shape="poly" id="edge6_Node000094_Node000095" title=" " alt="" coords="602,86,591,110,574,172,562,235,549,347,544,346,556,234,569,170,586,108,597,84"/>
+<area shape="rect" id="Node000096" title=" " alt="" coords="845,378,1026,443"/>
+<area shape="poly" id="edge8_Node000001_Node000096" title=" " alt="" coords="931,444,917,492,896,552,866,615,828,675,789,719,746,758,655,824,652,820,742,754,786,715,824,672,862,613,891,550,912,490,926,443"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/log/Frame.h" name="/root/scrimmage/scrimmage/include/scrimmage/log/Frame.h">
-<area shape="rect" id="node2" href="$Log_8h.html" title="Brief file description. " alt="" coords="5,117,215,158"/>
-<area shape="rect" id="node3" href="$ProtoConversions_8cpp.html" title="Brief file description. " alt="" coords="239,109,443,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="126,5,333,60"/>
+<area shape="rect" id="Node000002" href="$Log_8h.html" title="Brief file description." alt="" coords="5,115,219,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,71,136,117,132,113,186,67"/>
+<area shape="rect" id="Node000008" href="$ProtoConversions_8cpp.html" title="Brief file description." alt="" coords="243,108,450,163"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="272,67,318,106,314,110,269,71"/>
 </map>

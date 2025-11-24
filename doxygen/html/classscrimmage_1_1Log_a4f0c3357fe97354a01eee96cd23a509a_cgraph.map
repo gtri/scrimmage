@@ -1,4 +1,7 @@
 <map id="scrimmage::Log::parse_utm_terrain" name="scrimmage::Log::parse_utm_terrain">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2" title="scrimmage::Log::readDelimitedFrom" alt="" coords="223,5,479,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e" title="scrimmage::Log::utm\l_terrain" alt="" coords="271,57,430,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,176,67"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2" title=" " alt="" coords="224,5,484,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,35,226,30,226,35,177,41"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e" title=" " alt="" coords="274,55,434,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,54,261,63,260,68,176,59"/>
 </map>

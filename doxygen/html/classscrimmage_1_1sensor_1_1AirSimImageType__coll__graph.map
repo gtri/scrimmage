@@ -1,4 +1,8 @@
 <map id="scrimmage::sensor::AirSimImageType" name="scrimmage::sensor::AirSimImageType">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1CameraConfig.html" title="{scrimmage::sensor::\lCameraConfig\n|+ img_type\l+ img_type_number\l+ height\l+ width\l+ fov\l+ pixels_as_float\l|}" alt="" coords="172,175,325,340"/>
-<area shape="rect" id="node3" title="STL class. " alt="" coords="61,5,148,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,405,199,525"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1CameraConfig.html" title=" " alt="" coords="171,163,318,343"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,345,153,393,149,390,182,342"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="23,5,101,71"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="59,71,52,123,47,191,47,267,55,342,69,389,64,391,50,343,41,267,41,191,47,123,54,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="91,69,163,152,159,156,87,73"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::State::set_ang_vel" name="scrimmage::State::set_ang_vel">
-<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#aee7e678fb7188751bf812eb2c793bd05" title="scrimmage::State::ang_vel" alt="" coords="219,13,413,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,171,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html#aee7e678fb7188751bf812eb2c793bd05" title=" " alt="" coords="219,13,415,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,23,205,23,205,28,171,28"/>
 </map>

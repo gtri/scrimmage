@@ -1,7 +1,11 @@
 <map id="scrimmage::PID::init" name="scrimmage::PID::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="204,5,357,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title="scrimmage::PID::set\l_integral_band" alt="" coords="205,71,356,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da" title="scrimmage::PID::set\l_is_angle" alt="" coords="205,136,356,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title="scrimmage::PID::set\l_parameters" alt="" coords="205,201,356,243"/>
-<area shape="rect" id="node6" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="217,267,345,294"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,109,160,134"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="208,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,106,207,55,221,48,224,53,209,60,109,111"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title=" " alt="" coords="209,69,362,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,107,194,101,195,106,161,112"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da" title=" " alt="" coords="209,133,362,173"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="161,131,195,136,194,142,160,136"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title=" " alt="" coords="209,197,362,237"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="109,132,209,183,224,189,221,194,207,188,106,137"/>
 </map>

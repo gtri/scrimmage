@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/ColorMaps.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/ColorMaps.h">
-<area shape="rect" id="node2" href="$ColorMaps_8cpp.html" title="Brief file description. " alt="" coords="5,117,209,158"/>
-<area shape="rect" id="node3" href="$ProtoConversions_8cpp.html" title="Brief file description. " alt="" coords="233,109,437,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="118,5,329,60"/>
+<area shape="rect" id="Node000002" href="$ColorMaps_8cpp.html" title="Brief file description." alt="" coords="5,115,212,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,71,132,117,129,113,181,67"/>
+<area shape="rect" id="Node000003" href="$ProtoConversions_8cpp.html" title="Brief file description." alt="" coords="236,108,443,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,67,311,106,307,110,262,71"/>
 </map>

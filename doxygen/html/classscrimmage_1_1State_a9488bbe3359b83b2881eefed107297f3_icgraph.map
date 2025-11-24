@@ -1,0 +1,5 @@
+<map id="scrimmage::State::orient_global_frame" name="scrimmage::State::orient_global_frame">
+<area shape="rect" id="Node000001" title="returns the vector extending forward" alt="" coords="221,5,404,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html#a5d9c3abd6138641e326f8bdac9918448" title="return position offset by trailing_distance in the direction of velocity or orientation" alt="" coords="5,5,173,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,28,173,28,173,23,208,23"/>
+</map>

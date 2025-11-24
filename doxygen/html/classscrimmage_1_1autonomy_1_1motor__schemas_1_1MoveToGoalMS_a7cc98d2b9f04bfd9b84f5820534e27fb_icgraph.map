@@ -1,0 +1,5 @@
+<map id="scrimmage::autonomy::motor_schemas::MoveToGoalMS::MoveToGoalMS" name="scrimmage::autonomy::motor_schemas::MoveToGoalMS::MoveToGoalMS">
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,419,60"/>
+<area shape="rect" id="Node000002" href="$MoveToGoalMS_8cpp.html#a3c243b06815d3c5e6359653de046c505" title=" " alt="" coords="5,20,148,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,35,148,35,148,30,182,30"/>
+</map>

@@ -1,5 +1,21 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h">
-<area shape="rect" id="node2" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="24,109,264,136"/>
-<area shape="rect" id="node6" href="$PID_8h.html" title="Brief file description. " alt="" coords="338,109,530,136"/>
-<area shape="rect" id="node7" href="$Angles_8h.html" title="Brief file description. " alt="" coords="606,109,796,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="316,5,580,60"/>
+<area shape="rect" id="Node000002" href="$PID_8h.html" title="Brief file description." alt="" coords="5,108,200,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="343,63,163,107,161,102,342,57"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="208,181,267,207"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="384,62,344,84,306,110,276,140,254,171,249,168,272,137,302,106,341,79,382,58"/>
+<area shape="rect" id="Node000004" href="$Angles_8h.html" title="Brief file description." alt="" coords="646,108,839,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="539,58,691,102,690,107,537,63"/>
+<area shape="rect" id="Node000005" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="325,108,571,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="451,60,451,94,445,94,445,60"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="368,181,419,207"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="370,62,339,82,316,109,312,127,321,144,337,159,357,173,355,177,334,163,316,147,307,128,311,107,336,78,367,58"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="464,181,541,207"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="529,58,560,78,585,107,589,128,580,147,562,163,541,177,539,173,559,159,575,144,584,127,580,109,557,82,526,62"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="863,108,918,133"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="581,52,708,75,851,105,850,110,707,80,580,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="126,131,204,172,202,177,123,136"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="415,136,281,181,279,176,413,131"/>
+<area shape="poly" id="edge5_Node000005_Node000007" title=" " alt="" coords="441,135,413,172,408,169,437,132"/>
+<area shape="poly" id="edge6_Node000005_Node000008" title=" " alt="" coords="459,132,488,169,483,172,455,135"/>
 </map>

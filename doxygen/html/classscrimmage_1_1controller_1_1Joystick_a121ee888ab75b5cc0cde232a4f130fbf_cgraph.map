@@ -1,4 +1,7 @@
 <map id="scrimmage::controller::Joystick::init" name="scrimmage::controller::Joystick::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title="scrimmage::VariableIO\l::declare" alt="" coords="216,5,383,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="223,71,375,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,171,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="219,5,389,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,42,205,37,206,43,172,48"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="227,69,381,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="172,67,214,73,213,79,171,72"/>
 </map>

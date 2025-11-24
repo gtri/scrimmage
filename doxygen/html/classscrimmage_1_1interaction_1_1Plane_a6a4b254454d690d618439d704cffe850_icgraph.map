@@ -1,0 +1,8 @@
+<map id="scrimmage::interaction::Plane::points" name="scrimmage::interaction::Plane::points">
+<area shape="rect" id="Node000001" title=" " alt="" coords="448,5,621,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Plane.html#a338165114bcdb3f746dbec8bc2d96e6a" title=" " alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="434,25,400,24,227,24,179,25,179,20,227,19,400,19,434,19"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea" title=" " alt="" coords="227,33,400,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="435,41,401,45,400,40,434,35"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="213,43,179,39,179,34,213,38"/>
+</map>

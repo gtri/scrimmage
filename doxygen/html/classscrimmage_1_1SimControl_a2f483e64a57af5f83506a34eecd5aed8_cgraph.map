@@ -1,4 +1,8 @@
 <map id="scrimmage::SimControl::request_screenshot" name="scrimmage::SimControl::request_screenshot">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation. " alt="" coords="227,5,400,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation. " alt="" coords="227,71,400,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,61,180,101"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation." alt="" coords="228,29,403,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,66,214,61,215,66,181,71"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation." alt="" coords="228,93,403,133"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="181,91,215,96,214,102,180,97"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,30,271,20,278,10,293,5,315,3,341,6,355,13,353,18,340,11,315,8,294,10,281,15,277,21,279,28"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="scrimmage::sensor::AltitudeAboveTerrain::init" name="scrimmage::sensor::AltitudeAboveTerrain::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,383,45"/>
+<area shape="rect" id="Node000002" href="$AltitudeAboveTerrain_8cpp.html#abb9204b4b962869cad32a6fe77247c7f" title=" " alt="" coords="5,13,148,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,28,149,28,149,23,182,23"/>
+</map>

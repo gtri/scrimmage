@@ -1,3 +1,8 @@
 <map id="scrimmage::PluginOverrides" name="scrimmage::PluginOverrides">
-<area shape="rect" id="node3" title="STL class. " alt="" coords="63,5,149,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,291,204,356"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="65,5,144,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,71,98,148,98,228,102,274,96,275,93,228,93,148,99,70"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="161,148,315,228"/>
+<area shape="poly" id="edge3_Node000004_Node000002" title=" " alt="" coords="135,69,194,134,190,137,131,73"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="201,230,150,281,146,277,197,226"/>
 </map>

@@ -1,3 +1,7 @@
 <map id="scrimmage::motion::JSBSimModel::teleport" name="scrimmage::motion::JSBSimModel::teleport">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="217,5,371,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,172,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="237,5,391,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,223,36,224,41,173,48"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1MotionModel.html#a37a0762207c6643b13a3015d2b866e13" title=" " alt="" coords="220,69,408,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,67,207,71,206,77,172,72"/>
 </map>

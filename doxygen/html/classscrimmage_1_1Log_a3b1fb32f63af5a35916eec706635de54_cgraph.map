@@ -1,4 +1,7 @@
 <map id="scrimmage::Log::parse_frames" name="scrimmage::Log::parse_frames">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a03c589eaafef6bf7d9593a8fa6ec9d2a" title="scrimmage::proto_2\l_frame" alt="" coords="275,5,426,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2" title="scrimmage::Log::readDelimitedFrom" alt="" coords="223,71,479,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,176,75"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a03c589eaafef6bf7d9593a8fa6ec9d2a" title=" " alt="" coords="278,5,430,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,43,264,33,265,38,177,48"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2" title=" " alt="" coords="224,70,484,95"/>
+<area shape="poly" id="edge2_Node000001_Node000017" title=" " alt="" coords="177,61,221,66,221,71,176,66"/>
 </map>

@@ -1,4 +1,9 @@
 <map id="scrimmage::Viewer::run" name="scrimmage::Viewer::run">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Interface.html#a6e2af3bf92eaf332bb20b55f4aecfe44" title="scrimmage::Interface\l::init_network" alt="" coords="241,5,399,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="227,71,413,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,183,88"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="263,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,60,259,31,261,37,147,65"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Interface.html#a6e2af3bf92eaf332bb20b55f4aecfe44" title=" " alt="" coords="245,55,406,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,73,231,73,231,78,183,78"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title=" " alt="" coords="231,120,420,145"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="147,85,261,114,259,119,145,91"/>
 </map>

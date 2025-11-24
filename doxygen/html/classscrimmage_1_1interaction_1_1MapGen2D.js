@@ -2,7 +2,7 @@ var classscrimmage_1_1interaction_1_1MapGen2D =
 [
     [ "init", "classscrimmage_1_1interaction_1_1MapGen2D.html#aef3260f415adc19d9f51382a70601cda", null ],
     [ "step_entity_interaction", "classscrimmage_1_1interaction_1_1MapGen2D.html#ae36172104bdd235973a8cb5f53ab8c7a", null ],
-    [ "connect_points", "classscrimmage_1_1interaction_1_1MapGen2D.html#a77a3d2a2a6cf7576b14bdc305536ef15", null ],
+    [ "connect_points", "classscrimmage_1_1interaction_1_1MapGen2D.html#a0f039bcbab8eda681559d473249627ca", null ],
     [ "find_rectangles", "classscrimmage_1_1interaction_1_1MapGen2D.html#a23cc2f7f2b91aed176af9eb2b968cb24", null ],
     [ "img_xy_to_xyz", "classscrimmage_1_1interaction_1_1MapGen2D.html#ae073dd8b92d81541530ac2c553c5a269", null ],
     [ "show_map_debug_", "classscrimmage_1_1interaction_1_1MapGen2D.html#ab35cc9877318fd67c384679bbcef6956", null ],

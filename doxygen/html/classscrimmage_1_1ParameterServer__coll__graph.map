@@ -1,2 +1,5 @@
 <map id="scrimmage::ParameterServer" name="scrimmage::ParameterServer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="25,177,229,343"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,248,115"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,115,129,161,124,161,124,115"/>
 </map>

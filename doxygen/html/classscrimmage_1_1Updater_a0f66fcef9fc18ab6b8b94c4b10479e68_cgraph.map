@@ -1,6 +1,12 @@
 <map id="scrimmage::Updater::draw_mesh" name="scrimmage::Updater::draw_mesh">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#ab1f92a173b5bf65403dec94a57e7b17c" title="scrimmage::Updater\l::get_model_texture" alt="" coords="208,5,363,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title="scrimmage::Updater\l::quat_2_transform" alt="" coords="208,71,363,112"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da" title="scrimmage::scale" alt="" coords="218,137,353,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Updater.html#a2adb2ce6e987991388e5bae650e7547b" title="scrimmage::Updater\l::set_quat" alt="" coords="208,188,363,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,99,160,139"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#ab1f92a173b5bf65403dec94a57e7b17c" title=" " alt="" coords="208,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,96,207,55,222,48,224,53,209,60,125,101"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title=" " alt="" coords="208,69,363,109"/>
+<area shape="poly" id="edge2_Node000001_Node000012" title=" " alt="" coords="160,105,194,100,195,105,161,110"/>
+<area shape="rect" id="Node000016" href="$namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da" title=" " alt="" coords="217,134,354,159"/>
+<area shape="poly" id="edge3_Node000001_Node000016" title=" " alt="" coords="161,127,204,133,203,138,160,132"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1Updater.html#a2adb2ce6e987991388e5bae650e7547b" title=" " alt="" coords="208,208,363,248"/>
+<area shape="poly" id="edge4_Node000001_Node000017" title=" " alt="" coords="122,136,237,199,234,204,119,141"/>
+<area shape="poly" id="edge5_Node000017_Node000017" title=" " alt="" coords="247,208,245,198,251,189,265,183,285,181,309,184,322,192,319,196,307,189,285,187,266,189,254,193,250,199,252,207"/>
 </map>

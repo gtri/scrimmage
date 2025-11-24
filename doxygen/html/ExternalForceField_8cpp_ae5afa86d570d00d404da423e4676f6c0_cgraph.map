@@ -1,5 +1,19 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="224,5,347,32"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da" title="scrimmage::scale" alt="" coords="218,56,353,83"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="192,107,379,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,242,148,267"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="200,5,381,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,241,93,205,117,155,150,102,171,77,194,55,201,50,204,55,198,59,175,81,155,105,122,158,98,207,85,243"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1ExternalForceField.html#a436dce22b8cfbcdc7fe76e9db0a0336a" title=" " alt="" coords="204,70,377,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="86,240,130,190,160,160,194,134,201,129,204,134,198,138,164,164,133,194,90,244"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="229,149,353,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="95,239,140,212,195,184,219,175,221,180,197,189,142,217,98,244"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1interaction_1_1ExternalForceField.html#a2f3d205ed4e61282749862b43071bc4e" title=" " alt="" coords="201,199,380,239"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,240,187,233,188,239,149,245"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1interaction_1_1ExternalForceField.html#ab160bafd50031d6ac6023bb1718b3ef7" title=" " alt="" coords="204,263,377,318"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="149,264,191,271,190,276,148,269"/>
+<area shape="rect" id="Node000007" href="$namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da" title=" " alt="" coords="222,342,359,367"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="96,265,141,296,197,327,220,335,218,340,195,332,138,300,93,270"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1interaction_1_1ExternalForceField.html#a6f284656ceed8599c5dec4904f360178" title=" " alt="" coords="204,391,377,446"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="89,266,133,318,164,349,198,377,206,382,203,387,194,381,160,353,129,322,85,269"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title=" " alt="" coords="196,470,385,495"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="84,267,97,304,120,355,153,409,174,434,198,455,208,462,205,466,194,459,170,438,149,412,115,358,92,306,79,268"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::AirSimSensor::parse_imu_configs" name="scrimmage::sensor::AirSimSensor::parse_imu_configs">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title="scrimmage::sensor::\lAirSimSensor::init" alt="" coords="207,13,360,54"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,363,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title=" " alt="" coords="5,13,160,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,35,161,35,161,30,194,30"/>
 </map>

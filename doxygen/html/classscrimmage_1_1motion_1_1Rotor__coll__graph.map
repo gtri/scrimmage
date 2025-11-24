@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::Rotor" name="scrimmage::motion::Rotor">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Quaternion.html" title="{scrimmage::Quaternion\n|+ output_precision\l|+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ operator=()\l+ operator=()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ set()\l+ set()\l+ set()\l+ roll()\l+ pitch()\l+ yaw()\l+ rotation_angle()\l+ rotate()\l+ rotate_reverse()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* operator=()\l* operator=()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* set()\l* set()\l* set()\l* roll()\l* pitch()\l* yaw()\l* rotation_angle()\l* rotate()\l* rotate_reverse()\l}" alt="" coords="5,5,179,596"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="14,873,163,1173"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html" title=" " alt="" coords="5,5,172,811"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,811,91,857,86,857,86,811"/>
 </map>

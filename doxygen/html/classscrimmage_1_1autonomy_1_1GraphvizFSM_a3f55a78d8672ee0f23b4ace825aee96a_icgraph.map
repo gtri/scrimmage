@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::GraphvizFSM::update_state_info" name="scrimmage::autonomy::GraphvizFSM::update_state_info">
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,34,392,89"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="5,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,48,174,42,175,37,209,42"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a5ee1e0b2adc25cb8c4204cce00e1a31d" title=" " alt="" coords="5,70,175,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,80,175,86,174,81,209,75"/>
+</map>

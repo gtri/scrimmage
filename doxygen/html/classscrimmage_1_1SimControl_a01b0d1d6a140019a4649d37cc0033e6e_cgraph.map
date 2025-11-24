@@ -1,5 +1,9 @@
 <map id="scrimmage::SimControl::run_sensors" name="scrimmage::SimControl::run_sensors">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ab8f35fc7c6d88211822c220c0bf1ec13" title="scrimmage::SimControl\l::add_tasks" alt="" coords="234,5,407,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a9e2729b0cb5f270863d2ae0b31759b01" title="scrimmage::print_err" alt="" coords="243,71,399,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="227,122,415,149"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,180,103"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ab8f35fc7c6d88211822c220c0bf1ec13" title=" " alt="" coords="237,5,411,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,60,229,46,230,51,175,65"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a9e2729b0cb5f270863d2ae0b31759b01" title=" " alt="" coords="245,70,403,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="180,80,231,80,231,85,180,85"/>
+<area shape="rect" id="Node000006" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title=" " alt="" coords="228,119,420,145"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="181,99,251,114,250,119,180,104"/>
 </map>

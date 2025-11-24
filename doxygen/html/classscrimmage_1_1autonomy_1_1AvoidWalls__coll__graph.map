@@ -1,4 +1,7 @@
 <map id="scrimmage::autonomy::AvoidWalls" name="scrimmage::autonomy::AvoidWalls">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="5,5,216,493"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}" alt="" coords="241,181,397,317"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,593,290,733"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="5,5,211,531"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,543,194,593,189,594,176,544"/>
+<area shape="rect" id="Node000094" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title=" " alt="" coords="235,198,386,338"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="295,339,234,578,229,577,290,338"/>
 </map>

@@ -1,0 +1,11 @@
+<map id="scrimmage::autonomy::APITester::init" name="scrimmage::autonomy::APITester::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,175,141"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="223,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,99,222,55,238,48,240,53,224,60,132,103"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="224,69,392,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="175,106,210,101,211,106,176,112"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="230,133,386,173"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="176,131,217,137,216,143,175,136"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1autonomy_1_1APITester.html#a49cb0304641d9f68777a3cc392468004" title=" " alt="" coords="223,198,393,253"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="134,139,224,183,238,190,235,194,222,188,132,144"/>
+</map>

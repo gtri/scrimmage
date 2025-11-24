@@ -1,3 +1,5 @@
 <map id="scrimmage::controller::RigidBody6DOFControllerROS" name="scrimmage::controller::RigidBody6DOFControllerROS">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOF_1_1Controller.html" title="{scrimmage::motion::\lRigidBody6DOF::Controller\n||+ u()\l}" alt="" coords="19,5,208,97"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,220,333"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1RigidBody6DOF_1_1Controller.html" title=" " alt="" coords="19,5,206,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,99,115,133,110,133,110,99"/>
 </map>

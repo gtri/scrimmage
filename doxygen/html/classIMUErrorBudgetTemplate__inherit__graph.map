@@ -1,3 +1,5 @@
 <map id="IMUErrorBudgetTemplate" name="IMUErrorBudgetTemplate">
-<area shape="rect" id="node2" href="$classHG4930IMUBudget.html" title="{HG4930IMUBudget\n|+ localInRunBiasOption\l+ AccelFullScaleG\l+ AccelScaleFactorPPMStdDev\l+ AccelMisalignmentRadians\l+ AccelBiasRepeatabilityG\l+ AccelBiasInstabilityG\l+ AccelBiasTimeConstantSec\l+ AccelVRWGPerRtHz\l+ localAccelDeltaVQuantizationMPS\l+ GyroFullScaleDegPerSec\l+ GyroScaleFactorPPMStdDev\l+ GyroMisalignmentRadians\l+ GyroBiasRepeatabilityDeg\lPerHr\l+ GyroBiasInstabilityDegPerHr\l+ GyroBiasInstabilityTimeConstantSec\l+ GyroARWDegPerRtHr\l+ localGyroDeltaThetaQuantization\lRadians\l|+ HG4930IMUBudget()\l+ CalculateParameters()\l}" alt="" coords="13,1099,280,1455"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,285,1273"/>
+<area shape="rect" id="Node000002" href="$classHG4930IMUBudget.html" title=" " alt="" coords="12,1321,279,1756"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,1287,148,1321,143,1321,143,1287"/>
 </map>

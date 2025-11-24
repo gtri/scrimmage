@@ -1,0 +1,13 @@
+<map id="scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes" name="scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,148,220,203"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a800830594b7b8464d4bbbf8cadce0731" title=" " alt="" coords="269,5,472,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,145,203,107,267,69,278,63,280,68,269,74,206,112,151,150"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a19a41bd989e5c29dc279d3c0e09c3cc9" title=" " alt="" coords="285,84,457,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,146,271,133,272,138,221,151"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title=" " alt="" coords="287,163,455,188"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,173,273,173,273,178,220,178"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ac2560181d58f8cacf57ca48c9004ac2f" title=" " alt="" coords="268,212,473,267"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="221,199,255,208,254,213,219,205"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1State.html#a9a509fef76cd8b67fa4f1e161462acc9" title="convert the relative position to the local frame (the output vector will point to the other state)" alt="" coords="289,291,452,331"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="151,201,205,239,269,276,288,284,286,289,267,280,202,243,148,205"/>
+</map>

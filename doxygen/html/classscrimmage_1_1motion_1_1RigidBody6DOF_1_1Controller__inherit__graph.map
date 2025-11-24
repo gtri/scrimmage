@@ -1,5 +1,9 @@
 <map id="scrimmage::motion::RigidBody6DOF::Controller" name="scrimmage::motion::RigidBody6DOF::Controller">
-<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html" title="{scrimmage::controller\l::RigidBody6DOFControllerPID\n|# u_\l# heading_pid_\l# alt_pid_\l# vel_pid_\l|+ init()\l+ step()\l+ u()\l}" alt="" coords="5,351,216,517"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html" title="{scrimmage::controller\l::RigidBody6DOFControllerROS\n|# u_\l# nh_\l# cmd_vel_sub_\l# cmd_vel_\l|+ init()\l+ step()\l+ u()\l# cmd_vel_cb()\l}" alt="" coords="240,344,456,524"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="147,5,311,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="136,179,323,259"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html" title=" " alt="" coords="5,317,216,497"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="199,272,170,318,165,315,195,269"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html" title=" " alt="" coords="241,307,455,507"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="264,269,287,305,283,308,259,272"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="150,5,309,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,144,232,179,227,179,227,144"/>
 </map>

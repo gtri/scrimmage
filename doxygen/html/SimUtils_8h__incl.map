@@ -1,3 +1,23 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/SimUtils.h" name="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/SimUtils.h">
-<area shape="rect" id="node2" href="$fwd__decl_8h.html" title="Brief file description. " alt="" coords="121,109,285,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="196,5,419,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,92,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,63,97,106,95,101,227,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="117,108,159,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,62,173,105,171,100,254,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="195,181,246,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="294,62,267,109,235,170,230,168,262,107,290,59"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="282,181,359,207"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="291,61,275,96,272,114,275,133,285,152,299,169,295,173,281,155,270,134,267,114,270,94,286,59"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="578,108,621,133"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="397,58,565,107,564,112,396,63"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="389,181,447,207"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="408,58,441,78,467,107,472,124,468,142,445,173,441,170,463,140,467,124,462,109,437,82,405,62"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="475,181,599,207"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="401,58,445,78,486,106,512,136,529,167,524,170,508,139,483,110,443,83,398,62"/>
+<area shape="rect" id="Node000009" href="$fwd__decl_8h.html" title="Brief file description." alt="" coords="285,108,453,133"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="328,59,354,95,350,98,324,62"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="346,136,258,178,256,173,344,131"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="363,135,338,172,334,169,359,132"/>
+<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="379,132,404,169,400,172,375,135"/>
+<area shape="poly" id="edge12_Node000009_Node000008" title=" " alt="" coords="397,131,498,173,496,178,395,136"/>
 </map>

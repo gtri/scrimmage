@@ -1,4 +1,13 @@
 <map id="scrimmage::generate_chars" name="scrimmage::generate_chars">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a4b87dcb28c359d60a71c213a9790b0a1" title="scrimmage::SimControl\l::output_summary" alt="" coords="213,5,387,47"/>
-<area shape="rect" id="node3" href="$CPA_8cpp.html#ae31cae481441ae40f416b75d5a7d0a98" title="REGISTER_PLUGIN" alt="" coords="231,71,369,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="268,127,429,167"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a4b87dcb28c359d60a71c213a9790b0a1" title=" " alt="" coords="25,5,200,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="311,120,268,89,219,60,190,48,192,43,221,55,271,84,314,116"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1metrics_1_1CPA.html#a5a13dff7f66550e549d328d6ca133ea4" title=" " alt="" coords="5,69,220,109"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="254,126,195,112,196,107,255,121"/>
+<area shape="rect" id="Node000011" href="$FlagCaptureMetrics_8cpp.html#a529d991f8d714b8a810de124b1736a9d" title=" " alt="" coords="41,134,184,159"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="254,149,184,149,184,144,254,144"/>
+<area shape="rect" id="Node000012" href="$SimpleCaptureMetrics_8cpp.html#a4e13c655dc7211eba9dc60c3c6c7f345" title=" " alt="" coords="41,183,184,209"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="255,169,175,186,174,181,254,164"/>
+<area shape="rect" id="Node000013" href="$SimpleCollisionMetrics_8cpp.html#ac2c7718f85bd1ef3db36cb108a3560b7" title=" " alt="" coords="41,233,184,258"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="308,176,267,201,221,222,181,235,180,230,219,218,265,196,306,172"/>
 </map>

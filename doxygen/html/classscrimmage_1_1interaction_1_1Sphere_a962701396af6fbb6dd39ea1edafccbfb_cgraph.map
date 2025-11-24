@@ -1,3 +1,5 @@
 <map id="scrimmage::interaction::Sphere::set_center" name="scrimmage::interaction::Sphere::set_center">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Sphere.html#a40bd4938777281abee02a381650547a4" title="scrimmage::interaction\l::Sphere::center" alt="" coords="224,5,395,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Sphere.html#a40bd4938777281abee02a381650547a4" title=" " alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
 </map>

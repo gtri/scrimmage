@@ -1,3 +1,21 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/log/Log.h" name="/root/scrimmage/scrimmage/include/scrimmage/log/Log.h">
-<area shape="rect" id="node2" href="$Frame_8h.html" title="Brief file description. " alt="" coords="35,95,210,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="314,5,527,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,79,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="314,46,206,68,92,96,83,99,82,93,91,91,205,62,313,41"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="103,101,183,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="359,48,203,96,193,99,191,94,201,91,358,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="275,181,318,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="315,47,277,66,261,79,248,95,243,113,248,133,260,152,275,170,271,173,255,156,243,135,237,113,244,92,258,75,275,62,313,43"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="369,181,419,207"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="528,25,620,31,716,42,798,61,829,75,851,92,860,113,858,124,850,135,828,147,788,157,671,174,434,193,433,188,670,169,787,152,826,142,847,131,853,122,855,114,847,95,827,79,796,66,715,47,620,36,527,31"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="458,101,535,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="440,44,479,88,475,92,436,47"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="559,101,618,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="459,43,555,92,553,97,456,48"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="643,93,836,133"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="491,43,657,87,655,92,490,48"/>
+<area shape="rect" id="Node000009" href="$Frame_8h.html" title="Brief file description." alt="" coords="258,101,434,126"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="406,47,367,92,363,88,402,44"/>
+<area shape="poly" id="edge9_Node000009_Node000004" title=" " alt="" coords="341,128,313,171,309,168,336,125"/>
+<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="355,125,382,168,378,171,351,128"/>
 </map>

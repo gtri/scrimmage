@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/SphereNetwork/SphereNetwork.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/SphereNetwork/SphereNetwork.h">
-<area shape="rect" id="node2" href="$GlobalNetwork_8cpp.html" title="Brief file description. " alt="" coords="5,109,249,165"/>
-<area shape="rect" id="node3" href="$LocalNetwork_8cpp.html" title="Brief file description. " alt="" coords="274,109,511,165"/>
-<area shape="rect" id="node4" href="$SphereNetwork_8cpp.html" title="Brief file description. " alt="" coords="535,109,786,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="258,5,557,60"/>
+<area shape="rect" id="Node000002" href="$GlobalNetwork_8cpp.html" title="Brief file description." alt="" coords="5,108,260,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="324,67,205,110,203,105,322,62"/>
+<area shape="rect" id="Node000003" href="$LocalNetwork_8cpp.html" title="Brief file description." alt="" coords="284,108,531,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="410,74,410,108,405,108,405,74"/>
+<area shape="rect" id="Node000004" href="$SphereNetwork_8cpp.html" title="Brief file description." alt="" coords="555,108,812,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="493,62,612,105,611,110,491,67"/>
 </map>

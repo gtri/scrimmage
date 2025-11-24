@@ -1,5 +1,10 @@
 <map id="scrimmage::interaction::Plane::Plane" name="scrimmage::interaction::Plane::Plane">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7bb36e48c52b85178e140781eeee286f" title="scrimmage::interaction\l::BoundaryBase::center" alt="" coords="224,5,396,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Plane.html#ab76138c9557a4c3020980cd62dc4e208" title="scrimmage::interaction\l::Plane::points" alt="" coords="444,93,615,135"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea" title="scrimmage::interaction\l::Plane::set_points" alt="" coords="225,123,395,164"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,179,103"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a7bb36e48c52b85178e140781eeee286f" title=" " alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,60,222,46,223,51,170,65"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Plane.html#a6a4b254454d690d618439d704cffe850" title=" " alt="" coords="448,92,621,132"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,86,434,103,434,108,179,91"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1Plane.html#a8c79314d4c3fc423423162047bce9bea" title=" " alt="" coords="227,120,400,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,100,223,114,222,119,169,105"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="400,126,434,122,435,127,401,132"/>
 </map>

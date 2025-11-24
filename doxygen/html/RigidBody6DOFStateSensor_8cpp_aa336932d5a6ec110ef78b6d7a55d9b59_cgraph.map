@@ -1,4 +1,13 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title="scrimmage::get_vec" alt="" coords="213,5,365,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1motion_1_1RigidBody6DOFBase.html#af07b564b814792e0ee78d8a6b43ec008" title="scrimmage::motion::\lRigidBody6DOFBase::linear\l_vel_body" alt="" coords="192,56,387,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,127,148,153"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="224,5,405,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,125,136,90,195,55,213,47,215,52,197,60,139,95,94,129"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="237,70,392,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,125,195,105,238,96,239,101,197,111,123,130"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1sensor_1_1RigidBody6DOFStateSensor.html#ab8e6a53c4657bfb79b458daa153a15a9" title=" " alt="" coords="199,120,430,160"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="149,137,186,137,186,143,149,143"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1sensor_1_1RigidBody6DOFStateSensor.html#a2b2a04fb15367abd3a7f6231c3b7908d" title=" " alt="" coords="210,185,419,239"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="120,150,212,178,210,183,119,155"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1sensor_1_1RigidBody6DOFStateSensor.html#a1d538ac1d3c7e03c322f4d9f9e44f110" title=" " alt="" coords="196,264,433,304"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="90,151,133,198,164,225,197,248,214,256,211,261,195,253,160,230,130,202,86,154"/>
 </map>

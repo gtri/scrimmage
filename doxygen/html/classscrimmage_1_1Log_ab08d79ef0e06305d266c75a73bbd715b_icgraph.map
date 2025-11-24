@@ -1,3 +1,6 @@
 <map id="scrimmage::Log::parse" name="scrimmage::Log::parse">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Log.html#ac397f91db4d121d1c118aa87bcbe53e4" title="scrimmage::Log::init" alt="" coords="223,5,375,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,29,379,55"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="331,20,321,11,293,8,271,10,259,15,257,20,263,28,259,31,251,21,255,11,270,5,293,3,323,6,334,15"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Log.html#ac397f91db4d121d1c118aa87bcbe53e4" title=" " alt="" coords="5,29,160,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,45,160,45,160,39,195,39"/>
 </map>

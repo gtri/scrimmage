@@ -1,3 +1,6 @@
 <map id="scrimmage::Updater::set_quat" name="scrimmage::Updater::set_quat">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#abfa8ea0e50c30d7805dc374f73f03d69" title="scrimmage::proto_2_quat" alt="" coords="208,13,395,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,160,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="42,30,39,20,46,10,60,5,83,3,108,6,122,13,120,18,107,11,83,8,62,10,49,15,44,21,47,28"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#abfa8ea0e50c30d7805dc374f73f03d69" title=" " alt="" coords="208,37,396,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,47,194,47,194,52,160,52"/>
 </map>

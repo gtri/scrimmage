@@ -1,3 +1,5 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MultirotorControllerPID/MultirotorControllerPID.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MultirotorControllerPID/MultirotorControllerPID.h">
-<area shape="rect" id="node2" href="$MultirotorControllerPID_8cpp.html" title="Brief file description. " alt="" coords="21,124,225,195"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,248,75"/>
+<area shape="rect" id="Node000002" href="$MultirotorControllerPID_8cpp.html" title="Brief file description." alt="" coords="23,123,230,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,89,129,122,124,122,124,89"/>
 </map>

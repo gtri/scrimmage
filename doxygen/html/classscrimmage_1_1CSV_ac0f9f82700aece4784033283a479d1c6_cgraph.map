@@ -1,5 +1,7 @@
 <map id="scrimmage::CSV::read_csv_from_string" name="scrimmage::CSV::read_csv_from_string">
-<area shape="rect" id="node2" href="$classscrimmage_1_1CSV.html#a530aa1889d93e5c0dd4529be25314a8c" title="scrimmage::CSV::get\l_csv_line_elements" alt="" coords="255,5,414,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d" title="scrimmage::split" alt="" coords="497,42,625,69"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35" title="scrimmage::remove_whitespace" alt="" coords="220,122,449,149"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,171,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a530aa1889d93e5c0dd4529be25314a8c" title=" " alt="" coords="257,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,42,243,34,244,39,171,48"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35" title=" " alt="" coords="219,70,453,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,61,210,66,210,71,170,67"/>
 </map>

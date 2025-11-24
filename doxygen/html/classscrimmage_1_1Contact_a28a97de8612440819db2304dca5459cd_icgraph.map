@@ -1,3 +1,5 @@
 <map id="scrimmage::Contact::radius" name="scrimmage::Contact::radius">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Contact.html#a2ef13b5ef155f7e2a7db6470b0957c70" title="scrimmage::Contact\l::set_radius" alt="" coords="205,5,357,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="207,5,360,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Contact.html#a2ef13b5ef155f7e2a7db6470b0957c70" title=" " alt="" coords="5,5,159,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,28,159,28,159,23,193,23"/>
 </map>

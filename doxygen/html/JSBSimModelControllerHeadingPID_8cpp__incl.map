@@ -1,6 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.cpp">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="5,139,188,165"/>
-<area shape="rect" id="node3" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="212,139,427,165"/>
-<area shape="rect" id="node4" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="451,131,652,173"/>
-<area shape="rect" id="node5" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description. " alt="" coords="677,124,935,180"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="403,5,682,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,203,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="407,77,164,137,163,131,406,72"/>
+<area shape="rect" id="Node000003" href="$State_8h.html" title="Brief file description." alt="" coords="227,137,410,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="474,77,356,134,354,129,472,72"/>
+<area shape="rect" id="Node000010" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="435,137,651,163"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="545,75,545,123,540,123,540,75"/>
+<area shape="rect" id="Node000016" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="675,130,879,170"/>
+<area shape="poly" id="edge4_Node000001_Node000016" title=" " alt="" coords="617,72,725,122,723,127,615,77"/>
+<area shape="rect" id="Node000017" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description." alt="" coords="904,123,1168,177"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="683,69,904,117,903,122,681,74"/>
 </map>

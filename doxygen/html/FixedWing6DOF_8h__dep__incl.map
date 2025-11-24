@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h">
-<area shape="rect" id="node2" href="$FixedWingControllerPID_8h.html" title="Brief file description. " alt="" coords="5,109,256,180"/>
-<area shape="rect" id="node3" href="$FixedWing6DOFControllerROS_8h.html" title="Brief file description. " alt="" coords="281,109,533,180"/>
-<area shape="rect" id="node4" href="$FixedWing6DOF_8cpp.html" title="Brief file description. " alt="" coords="557,117,776,173"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="269,5,565,60"/>
+<area shape="rect" id="Node000002" href="$FixedWingControllerPID_8h.html" title="Brief file description." alt="" coords="5,108,264,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="337,67,224,110,222,105,335,62"/>
+<area shape="rect" id="Node000003" href="$FixedWing6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="288,108,547,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="420,74,420,108,415,108,415,74"/>
+<area shape="rect" id="Node000005" href="$FixedWing6DOF_8cpp.html" title="Brief file description." alt="" coords="570,115,795,170"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="495,63,619,113,617,118,493,68"/>
 </map>

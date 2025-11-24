@@ -5,7 +5,7 @@ var classscrimmage_1_1interaction_1_1Cuboid =
     [ "Cuboid", "classscrimmage_1_1interaction_1_1Cuboid.html#a940cbe3d3594b5625708c928326a99d3", null ],
     [ "compute_dots", "classscrimmage_1_1interaction_1_1Cuboid.html#a246b7f05f357c6d03e5c01cd57b523bd", null ],
     [ "contains", "classscrimmage_1_1interaction_1_1Cuboid.html#ab5b091aa7d7429e24162a3eb18a77c27", null ],
-    [ "points", "classscrimmage_1_1interaction_1_1Cuboid.html#ae2c1489e1f5e3a380fb9710b65315cb4", null ],
+    [ "points", "classscrimmage_1_1interaction_1_1Cuboid.html#a1c890862562e3f36caf533f191a94be1", null ],
     [ "set_points", "classscrimmage_1_1interaction_1_1Cuboid.html#a9693930076d4148ff2bb2d62c0560deb", null ],
     [ "set_visual", "classscrimmage_1_1interaction_1_1Cuboid.html#ad223f8621b6f9a4a8ed4a136a6f2fa1b", null ],
     [ "points_", "classscrimmage_1_1interaction_1_1Cuboid.html#a845f3591e1889ebeb909e8c19a132002", null ],

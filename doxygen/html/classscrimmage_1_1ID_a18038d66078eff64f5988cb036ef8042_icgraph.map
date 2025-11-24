@@ -1,0 +1,11 @@
+<map id="scrimmage::ID::team_id" name="scrimmage::ID::team_id">
+<area shape="rect" id="Node000001" title=" " alt="" coords="236,99,415,125"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f" title=" " alt="" coords="23,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,97,187,60,155,48,157,43,189,55,282,92"/>
+<area shape="rect" id="Node000004" href="$FlagCaptureInteraction_8cpp.html#a4a6f2ba87680ef62a40e1ab66af6768f" title=" " alt="" coords="25,70,168,95"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="222,101,168,94,169,89,223,96"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1ID.html#a78e83716223c905e7d747967a3b94c1d" title=" " alt="" coords="24,120,169,160"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="223,127,170,134,169,129,222,122"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1BoundaryDefense.html#ab087629d012c02406d2545ed82443b01" title=" " alt="" coords="5,185,188,239"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="284,133,161,187,159,182,281,128"/>
+</map>

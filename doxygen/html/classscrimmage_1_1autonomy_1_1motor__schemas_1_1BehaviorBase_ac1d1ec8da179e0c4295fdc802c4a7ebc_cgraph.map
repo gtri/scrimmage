@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::motor_schemas::BehaviorBase::configure_contacts" name="scrimmage::autonomy::motor_schemas::BehaviorBase::configure_contacts">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title="scrimmage::get_vec" alt="" coords="284,20,436,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,237,60"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="285,20,440,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,30,272,30,272,35,237,35"/>
 </map>

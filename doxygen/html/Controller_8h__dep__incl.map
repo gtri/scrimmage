@@ -1,37 +1,76 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/motion/Controller.h" name="/root/scrimmage/scrimmage/include/scrimmage/motion/Controller.h">
-<area shape="rect" id="node2" href="$EntityPluginHelper_8h.html" title="Brief file description. " alt="" coords="5,117,209,173"/>
-<area shape="rect" id="node3" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="31,243,235,284"/>
-<area shape="rect" id="node4" href="$External_8h.html" title="Brief file description. " alt="" coords="285,117,489,173"/>
-<area shape="rect" id="node5" href="$External_8cpp.html" title="Brief file description. " alt="" coords="355,243,559,284"/>
-<area shape="rect" id="node6" href="$AircraftPIDController_8h.html" title="Brief file description. " alt="" coords="565,109,783,180"/>
-<area shape="rect" id="node7" href="$AircraftToSingleIntegratorController_8h.html" title="Brief file description. " alt="" coords="807,109,1133,180"/>
-<area shape="rect" id="node8" href="$DirectController_8h.html" title="Brief file description. " alt="" coords="1157,109,1361,180"/>
-<area shape="rect" id="node9" href="$FixedWing6DOFControllerPID_8h.html" title="Brief file description. " alt="" coords="1386,109,1637,180"/>
-<area shape="rect" id="node10" href="$HarmonicOscillatorConstController_8h.html" title="Brief file description. " alt="" coords="1661,109,1981,180"/>
-<area shape="rect" id="node11" href="$JoystickController_8h.html" title="Brief file description. " alt="" coords="2005,109,2209,180"/>
-<area shape="rect" id="node12" href="$JSBSimControlControllerHeadingPID_8h.html" title="Brief file description. " alt="" coords="2233,109,2573,180"/>
-<area shape="rect" id="node13" href="$JSBSimModelControllerDirect_8h.html" title="Brief file description. " alt="" coords="2598,109,2873,180"/>
-<area shape="rect" id="node14" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description. " alt="" coords="2897,109,3187,180"/>
-<area shape="rect" id="node15" href="$MotionBattery_8h.html" title="Brief file description. " alt="" coords="3211,109,3415,180"/>
-<area shape="rect" id="node16" href="$MultirotorControllerPID_8h.html" title="Brief file description. " alt="" coords="5343,228,5578,299"/>
-<area shape="rect" id="node17" href="$SimpleAircraftControllerPID_8h.html" title="Brief file description. " alt="" coords="3490,109,3733,180"/>
-<area shape="rect" id="node18" href="$SimpleCarControllerHeading_8h.html" title="Brief file description. " alt="" coords="3757,109,4028,180"/>
-<area shape="rect" id="node19" href="$SingleIntegratorControllerSimple_8h.html" title="Brief file description. " alt="" coords="4053,109,4343,180"/>
-<area shape="rect" id="node20" href="$SingleIntegratorControllerWaypoint_8h.html" title="Brief file description. " alt="" coords="4368,109,4687,180"/>
-<area shape="rect" id="node21" href="$UnicycleControllerPoint_8h.html" title="Brief file description. " alt="" coords="4710,109,4947,180"/>
-<area shape="rect" id="node22" href="$UnicyclePID_8h.html" title="Brief file description. " alt="" coords="4972,117,5227,173"/>
-<area shape="rect" id="node23" href="$UUV6DOFLinearEnergy_8h.html" title="Brief file description. " alt="" coords="5251,109,5489,180"/>
-<area shape="rect" id="node24" href="$UUV6DOFPIDController_8h.html" title="Brief file description. " alt="" coords="5513,109,5750,180"/>
-<area shape="rect" id="node25" href="$DoubleIntegrator_8h.html" title="Brief file description. " alt="" coords="5774,117,6081,173"/>
-<area shape="rect" id="node26" href="$DubinsAirplane_8h.html" title="Brief file description. " alt="" coords="6105,117,6387,173"/>
-<area shape="rect" id="node27" href="$DubinsAirplane3D_8h.html" title="Brief file description. " alt="" coords="6411,117,6729,173"/>
-<area shape="rect" id="node28" href="$FixedWing6DOF_8h.html" title="Brief file description. " alt="" coords="6753,117,7040,173"/>
-<area shape="rect" id="node29" href="$JSBSimControl_8h.html" title="Brief file description. " alt="" coords="7065,117,7339,173"/>
-<area shape="rect" id="node30" href="$Multirotor_8h.html" title="Brief file description. " alt="" coords="7363,117,7577,173"/>
-<area shape="rect" id="node31" href="$RigidBody6DOF_8h.html" title="Brief file description. " alt="" coords="7601,117,7886,173"/>
-<area shape="rect" id="node32" href="$SimpleAircraft_8h.html" title="Brief file description. " alt="" coords="7909,117,8180,173"/>
-<area shape="rect" id="node33" href="$SimpleQuadrotor_8h.html" title="Brief file description. " alt="" coords="8203,117,8513,173"/>
-<area shape="rect" id="node34" href="$Unicycle3D_8h.html" title="Brief file description. " alt="" coords="8537,117,8771,173"/>
-<area shape="rect" id="node35" href="$UUV6DOF_8h.html" title="Brief file description. " alt="" coords="8795,117,9014,173"/>
-<area shape="rect" id="node36" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="9038,124,9257,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="4168,5,4375,60"/>
+<area shape="rect" id="Node000002" href="$EntityPluginHelper_8h.html" title="Brief file description." alt="" coords="5,115,212,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="4154,37,3335,42,2108,54,1483,63,924,76,488,91,334,101,232,111,194,118,193,113,231,105,334,95,488,86,924,70,1483,58,2108,48,3335,36,4154,32"/>
+<area shape="rect" id="Node000003" href="$Entity_8cpp.html" title="Brief file description." alt="" coords="89,240,296,280"/>
+<area shape="poly" id="edge36_Node000001_Node000003" title=" " alt="" coords="4154,37,3286,43,2003,56,1369,66,826,78,440,93,326,101,277,110,257,131,237,167,203,241,198,239,232,164,253,128,274,106,325,96,440,88,826,73,1369,60,2003,51,3286,38,4154,32"/>
+<area shape="rect" id="Node000005" href="$External_8h.html" title="Brief file description." alt="" coords="288,115,495,170"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="4154,37,3385,43,2248,55,1670,65,1154,77,751,93,609,101,514,111,477,118,476,113,514,105,609,96,751,87,1154,72,1670,60,2248,50,3385,37,4154,32"/>
+<area shape="rect" id="Node000006" href="$External_8cpp.html" title="Brief file description." alt="" coords="345,240,552,280"/>
+<area shape="poly" id="edge37_Node000001_Node000006" title=" " alt="" coords="4154,38,3341,45,2153,60,1066,82,709,95,604,103,558,110,464,241,460,238,555,106,603,98,709,90,1066,77,2153,55,3341,40,4154,32"/>
+<area shape="rect" id="Node000007" href="$AircraftPIDController_8h.html" title="Brief file description." alt="" coords="569,108,795,177"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="4154,37,3440,44,2394,58,1392,80,1023,94,893,102,806,111,795,112,795,107,806,105,893,97,1023,89,1391,74,2394,52,3439,39,4154,32"/>
+<area shape="rect" id="Node000009" href="$AircraftToSingleIntegratorController_8h.html" title="Brief file description." alt="" coords="818,108,1149,177"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="4154,37,3563,40,2697,51,2241,60,1811,73,1441,90,1161,111,1149,112,1149,107,1160,105,1440,84,1811,68,2240,55,2697,45,3563,35,4154,32"/>
+<area shape="rect" id="Node000011" href="$DirectController_8h.html" title="Brief file description." alt="" coords="1173,108,1380,177"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="4155,38,3549,46,2688,60,1870,82,1570,96,1393,111,1381,113,1380,108,1392,105,1570,90,1869,77,2688,55,3549,40,4154,33"/>
+<area shape="rect" id="Node000013" href="$FixedWing6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="1405,108,1663,177"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="4154,37,3650,40,2933,50,2559,60,2207,72,1904,89,1676,111,1664,112,1663,107,1675,105,1904,84,2207,67,2558,54,2933,45,3650,35,4154,32"/>
+<area shape="rect" id="Node000015" href="$HarmonicOscillatorConstController_8h.html" title="Brief file description." alt="" coords="1688,108,2015,177"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="4154,38,3711,45,3097,59,2480,81,2222,95,2028,111,2015,112,2014,107,2027,105,2222,89,2480,75,3097,54,3711,40,4154,33"/>
+<area shape="rect" id="Node000017" href="$JSBSimControlControllerHeadingPID_8h.html" title="Brief file description." alt="" coords="2039,108,2386,177"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="4154,36,3848,37,3413,46,3166,55,2910,68,2651,87,2398,111,2386,112,2386,107,2398,105,2651,81,2910,63,3166,50,3413,40,3848,31,4154,30"/>
+<area shape="rect" id="Node000019" href="$JSBSimModelControllerDirect_8h.html" title="Brief file description." alt="" coords="2411,108,2692,177"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="4154,36,3893,37,3533,46,3122,69,2911,87,2705,111,2693,112,2692,107,2704,105,2910,82,3121,64,3533,41,3893,32,4154,30"/>
+<area shape="rect" id="Node000021" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description." alt="" coords="2717,108,3013,177"/>
+<area shape="poly" id="edge12_Node000001_Node000021" title=" " alt="" coords="4154,38,3942,43,3661,55,3344,77,3183,92,3025,111,3013,112,3012,107,3024,105,3182,87,3344,71,3661,50,3942,38,4154,33"/>
+<area shape="rect" id="Node000023" href="$JoystickController_8h.html" title="Brief file description." alt="" coords="3037,108,3244,177"/>
+<area shape="poly" id="edge13_Node000001_Node000023" title=" " alt="" coords="4154,37,3979,42,3754,53,3505,75,3379,91,3256,111,3245,113,3244,108,3255,105,3378,86,3505,70,3754,48,3979,36,4154,32"/>
+<area shape="rect" id="Node000025" href="$MotionBattery_8h.html" title="Brief file description." alt="" coords="3268,108,3475,177"/>
+<area shape="poly" id="edge14_Node000001_Node000025" title=" " alt="" coords="4154,42,3854,63,3674,83,3494,111,3475,115,3474,109,3494,105,3673,78,3853,58,4154,36"/>
+<area shape="rect" id="Node000027" href="$MultirotorControllerPID_8h.html" title="Brief file description." alt="" coords="5446,225,5689,295"/>
+<area shape="poly" id="edge15_Node000001_Node000027" title=" " alt="" coords="4154,40,3981,48,3788,61,3624,82,3569,95,3540,110,3529,126,3525,143,3529,159,3540,175,3566,187,3622,198,3804,216,4058,230,4356,240,4977,252,5446,256,5446,261,4976,257,4356,246,4058,236,3804,222,3621,203,3565,192,3536,179,3524,161,3520,143,3524,124,3536,106,3567,90,3623,76,3787,56,3980,42,4154,35"/>
+<area shape="rect" id="Node000029" href="$SimpleAircraftControllerPID_8h.html" title="Brief file description." alt="" coords="3550,108,3798,177"/>
+<area shape="poly" id="edge16_Node000001_Node000029" title=" " alt="" coords="4155,53,3991,78,3811,111,3799,113,3798,108,3809,105,3990,73,4154,47"/>
+<area shape="rect" id="Node000031" href="$SimpleCarControllerHeading_8h.html" title="Brief file description." alt="" coords="3822,108,4099,177"/>
+<area shape="poly" id="edge17_Node000001_Node000031" title=" " alt="" coords="4184,67,4058,110,4056,105,4182,62"/>
+<area shape="rect" id="Node000033" href="$SingleIntegratorControllerSimple_8h.html" title="Brief file description." alt="" coords="4123,108,4419,177"/>
+<area shape="poly" id="edge18_Node000001_Node000033" title=" " alt="" coords="4274,74,4274,108,4269,108,4269,74"/>
+<area shape="rect" id="Node000035" href="$SingleIntegratorControllerWaypoint_8h.html" title="Brief file description." alt="" coords="4443,108,4771,177"/>
+<area shape="poly" id="edge19_Node000001_Node000035" title=" " alt="" coords="4367,62,4504,105,4502,110,4365,67"/>
+<area shape="rect" id="Node000037" href="$UUV6DOFLinearEnergy_8h.html" title="Brief file description." alt="" coords="4795,108,5038,177"/>
+<area shape="poly" id="edge20_Node000001_Node000037" title=" " alt="" coords="4389,45,4575,70,4784,105,4796,108,4795,113,4783,111,4574,75,4388,50"/>
+<area shape="rect" id="Node000039" href="$UUV6DOFPIDController_8h.html" title="Brief file description." alt="" coords="5062,108,5305,177"/>
+<area shape="poly" id="edge21_Node000001_Node000039" title=" " alt="" coords="4389,37,4690,59,4870,79,5050,105,5062,108,5061,113,5050,111,4870,84,4689,65,4389,42"/>
+<area shape="rect" id="Node000041" href="$UnicycleControllerPoint_8h.html" title="Brief file description." alt="" coords="5329,108,5574,177"/>
+<area shape="poly" id="edge22_Node000001_Node000041" title=" " alt="" coords="4388,33,4568,39,4800,51,5058,72,5317,105,5329,107,5328,113,5316,111,5058,78,4800,56,4568,44,4388,38"/>
+<area shape="rect" id="Node000043" href="$UnicyclePID_8h.html" title="Brief file description." alt="" coords="5598,115,5862,170"/>
+<area shape="poly" id="edge23_Node000001_Node000043" title=" " alt="" coords="4389,31,4611,35,4909,45,5246,68,5418,84,5586,105,5628,113,5627,118,5586,111,5418,90,5246,73,4909,51,4611,40,4388,37"/>
+<area shape="rect" id="Node000045" href="$DoubleIntegrator_8h.html" title="Brief file description." alt="" coords="5887,115,6197,170"/>
+<area shape="poly" id="edge24_Node000001_Node000045" title=" " alt="" coords="4388,31,4655,33,5023,43,5446,65,5663,83,5874,105,5923,113,5922,118,5874,111,5662,88,5446,71,5023,48,4655,38,4388,36"/>
+<area shape="rect" id="Node000051" href="$DubinsAirplane_8h.html" title="Brief file description." alt="" coords="6222,115,6513,170"/>
+<area shape="poly" id="edge25_Node000001_Node000051" title=" " alt="" coords="4389,33,4777,41,5302,55,5827,76,6045,90,6210,105,6256,113,6256,118,6210,111,6044,95,5826,82,5302,60,4777,46,4389,39"/>
+<area shape="rect" id="Node000053" href="$DubinsAirplane3D_8h.html" title="Brief file description." alt="" coords="6537,115,6864,170"/>
+<area shape="poly" id="edge26_Node000001_Node000053" title=" " alt="" coords="4389,33,4833,40,5450,54,6070,75,6329,89,6525,105,6576,113,6576,118,6524,111,6329,94,6070,81,5450,59,4833,45,4389,38"/>
+<area shape="rect" id="Node000055" href="$FixedWing6DOF_8h.html" title="Brief file description." alt="" coords="6889,115,7185,170"/>
+<area shape="poly" id="edge27_Node000001_Node000055" title=" " alt="" coords="4389,32,4894,36,5614,48,5990,57,6343,70,6647,86,6877,105,6925,113,6924,118,6876,111,6646,91,6342,75,5989,63,5614,53,4894,42,4389,37"/>
+<area shape="rect" id="Node000060" href="$JSBSimControl_8h.html" title="Brief file description." alt="" coords="7209,115,7488,170"/>
+<area shape="poly" id="edge28_Node000001_Node000060" title=" " alt="" coords="4388,31,4949,34,5761,43,6188,52,6589,65,6936,83,7197,105,7242,113,7242,118,7196,111,6935,88,6589,71,6188,58,5761,48,4949,39,4388,37"/>
+<area shape="rect" id="Node000062" href="$Multirotor_8h.html" title="Brief file description." alt="" coords="7513,115,7731,170"/>
+<area shape="poly" id="edge29_Node000001_Node000062" title=" " alt="" coords="4389,32,5060,39,6031,53,6959,75,7300,89,7501,105,7538,113,7537,118,7500,111,7299,95,6959,81,6031,59,5060,45,4389,38"/>
+<area shape="rect" id="Node000066" href="$RigidBody6DOF_8h.html" title="Brief file description." alt="" coords="7756,115,8051,170"/>
+<area shape="poly" id="edge31_Node000001_Node000066" title=" " alt="" coords="4389,31,5041,31,6012,39,6526,48,7010,61,7428,80,7601,92,7744,105,7792,113,7791,118,7743,111,7601,97,7428,85,7010,67,6526,53,6012,44,5041,37,4389,36"/>
+<area shape="rect" id="Node000072" href="$SimpleAircraft_8h.html" title="Brief file description." alt="" coords="8075,115,8351,170"/>
+<area shape="poly" id="edge32_Node000001_Node000072" title=" " alt="" coords="4389,32,5164,39,6312,54,7417,76,7823,90,8064,105,8109,113,8108,118,8063,111,7823,95,7417,81,6311,59,5164,45,4389,38"/>
+<area shape="rect" id="Node000074" href="$SimpleQuadrotor_8h.html" title="Brief file description." alt="" coords="8375,115,8685,170"/>
+<area shape="poly" id="edge33_Node000001_Node000074" title=" " alt="" coords="4388,32,5217,40,6459,54,7660,76,8102,90,8364,105,8414,113,8413,118,8363,111,8102,95,7660,81,6459,60,5217,45,4388,38"/>
+<area shape="rect" id="Node000078" href="$UUV6DOF_8h.html" title="Brief file description." alt="" coords="8709,115,8929,170"/>
+<area shape="poly" id="edge34_Node000001_Node000078" title=" " alt="" coords="4389,32,5278,35,6626,45,7316,55,7933,68,8415,84,8585,94,8698,105,8736,113,8735,118,8698,111,8585,100,8414,90,7933,73,7316,60,6626,51,5278,40,4389,37"/>
+<area shape="rect" id="Node000080" href="$Unicycle3D_8h.html" title="Brief file description." alt="" coords="8954,115,9194,170"/>
+<area shape="poly" id="edge35_Node000001_Node000080" title=" " alt="" coords="4389,32,5321,35,6746,46,7477,55,8131,68,8641,85,8822,94,8942,105,8983,113,8982,118,8942,111,8822,100,8641,90,8131,74,7477,61,6746,51,5321,40,4389,37"/>
+<area shape="rect" id="Node000082" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="9218,123,9439,163"/>
+<area shape="poly" id="edge38_Node000001_Node000082" title=" " alt="" coords="4388,31,5368,33,6876,42,7651,52,8345,65,8887,82,9079,93,9206,105,9272,120,9271,125,9206,111,9079,98,8887,88,8345,70,7651,57,6876,48,5368,39,4388,37"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="138,180,181,238,177,241,134,183"/>
+<area shape="poly" id="edge4_Node000005_Node000006" title=" " alt="" coords="413,181,442,239,437,241,408,183"/>
+<area shape="poly" id="edge30_Node000062_Node000027" title=" " alt="" coords="7523,176,7501,180,7337,199,7121,215,6601,239,6078,253,5689,260,5689,254,6078,248,6601,233,7121,210,7337,194,7500,175,7522,171"/>
 </map>

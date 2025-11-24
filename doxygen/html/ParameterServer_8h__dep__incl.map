@@ -1,8 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/ParameterServer.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/ParameterServer.h">
-<area shape="rect" id="node2" href="$EntityPlugin_8h.html" title="Brief file description. " alt="" coords="5,109,209,165"/>
-<area shape="rect" id="node3" href="$EntityPlugin_8cpp.html" title="Brief file description. " alt="" coords="75,213,279,255"/>
-<area shape="rect" id="node4" href="$ParameterServer_8cpp.html" title="Brief file description. " alt="" coords="284,117,531,158"/>
-<area shape="rect" id="node5" href="$MotorSchemas_8cpp.html" title="Brief file description. " alt="" coords="555,109,819,165"/>
-<area shape="rect" id="node6" href="$SimpleCollision_8cpp.html" title="Brief file description. " alt="" coords="844,109,1093,165"/>
-<area shape="rect" id="node7" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="1118,117,1337,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="445,5,655,60"/>
+<area shape="rect" id="Node000002" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="5,108,212,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="431,64,213,113,212,108,430,58"/>
+<area shape="rect" id="Node000249" href="$EntityPlugin_8cpp.html" title="Brief file description." alt="" coords="76,211,283,251"/>
+<area shape="poly" id="edge4_Node000001_Node000249" title=" " alt="" coords="432,52,352,74,313,90,277,110,258,127,236,155,194,212,190,209,231,151,254,124,274,106,311,85,350,69,430,46"/>
+<area shape="rect" id="Node000261" href="$ParameterServer_8cpp.html" title="Brief file description." alt="" coords="287,115,533,155"/>
+<area shape="poly" id="edge3_Node000001_Node000261" title=" " alt="" coords="504,70,438,117,435,113,501,66"/>
+<area shape="rect" id="Node000007" href="$MotorSchemas_8cpp.html" title="Brief file description." alt="" coords="557,108,823,163"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="599,66,655,106,652,110,596,70"/>
+<area shape="rect" id="Node000072" href="$SimpleCollision_8cpp.html" title="Brief file description." alt="" coords="847,108,1106,163"/>
+<area shape="poly" id="edge6_Node000001_Node000072" title=" " alt="" coords="669,59,866,105,865,111,668,64"/>
+<area shape="rect" id="Node000074" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="1130,115,1351,155"/>
+<area shape="poly" id="edge7_Node000001_Node000074" title=" " alt="" coords="669,44,879,70,1118,105,1157,113,1156,118,1118,111,878,75,669,49"/>
+<area shape="poly" id="edge2_Node000002_Node000249" title=" " alt="" coords="139,172,167,209,163,212,135,175"/>
 </map>

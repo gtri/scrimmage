@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TrailMS/TrailMS.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/TrailMS/TrailMS.h">
-<area shape="rect" id="node2" href="$BehaviorBase_8h.html" title="Brief file description. " alt="" coords="32,109,259,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="43,5,250,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,56,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,62,45,82,22,109,16,127,15,146,23,182,18,183,10,146,11,126,18,107,42,78,72,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,196,252,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,58,252,78,276,107,281,128,275,150,263,170,248,188,244,184,259,167,270,148,276,128,271,109,248,82,218,62"/>
+<area shape="rect" id="Node000004" href="$BehaviorBase_8h.html" title="Brief file description." alt="" coords="32,108,261,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,60,149,94,144,94,144,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="120,150,61,190,58,186,117,146"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="167,146,204,184,200,188,163,150"/>
 </map>

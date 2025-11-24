@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h">
-<area shape="rect" id="node2" href="$DoubleIntegrator_8h.html" title="Brief file description. " alt="" coords="38,124,297,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,340,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="86,211,137,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,77,54,97,32,124,26,142,32,161,51,185,76,203,73,207,47,189,28,164,21,142,28,121,51,94,80,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="205,211,263,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,73,295,94,318,121,324,142,318,164,299,188,275,206,271,202,295,184,313,161,319,142,313,124,291,97,263,77"/>
+<area shape="rect" id="Node000004" href="$DoubleIntegrator_8h.html" title="Brief file description." alt="" coords="42,123,303,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,75,175,108,170,108,170,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="160,165,131,201,127,198,156,161"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="190,161,219,198,214,201,185,165"/>
 </map>

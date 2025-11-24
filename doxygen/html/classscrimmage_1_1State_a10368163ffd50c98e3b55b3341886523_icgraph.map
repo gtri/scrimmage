@@ -1,11 +1,23 @@
 <map id="scrimmage::State::quat" name="scrimmage::State::quat">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title="scrimmage::autonomy\l::MOOSNode::OnNewMail" alt="" coords="237,5,420,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a2ae5038921a0f419c633756c27bb521b" title="scrimmage::operator\&lt;\&lt;" alt="" coords="239,71,418,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="253,123,404,164"/>
-<area shape="rect" id="node5" href="$TrajectoryRecordPlayback_8cpp.html#aa62a0f5d0c820fed4f202353569cc469" title="REGISTER_PLUGIN" alt="" coords="259,189,398,215"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1State.html#a1cacda8aee13ddd91d79848b266dd5c6" title="scrimmage::State::set_quat" alt="" coords="228,239,429,266"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1NoisyState.html#a0581360ca179f8826e5302c0e5907c95" title="scrimmage::sensor::\lNoisyState::step" alt="" coords="252,291,405,332"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title="scrimmage::sensor::\lSimpleINS::step" alt="" coords="252,356,405,397"/>
-<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title="scrimmage::sensor::\lContactBlobCamera::step" alt="" coords="235,421,422,463"/>
-<area shape="rect" id="node10" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title="scrimmage::autonomy\l::MOOSAutonomy::step\l_autonomy" alt="" coords="243,486,415,542"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="255,262,429,287"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9d53818c75624fe3f3ee53e812dfacc7" title=" " alt="" coords="13,5,199,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,250,312,208,285,157,250,104,205,59,186,48,189,43,208,55,254,101,290,154,317,206,334,248"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title=" " alt="" coords="30,69,182,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="324,252,276,188,243,153,205,124,181,111,183,106,208,119,246,149,280,184,328,249"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#a0c5a5040d383e6f7f333953c805883e9" title=" " alt="" coords="45,134,167,159"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="317,254,268,213,238,191,206,173,167,159,168,154,208,168,240,187,271,208,320,250"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#ae42181611e4e2947da3256bedabc3d1a" title=" " alt="" coords="45,183,167,209"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="299,259,206,223,166,211,167,206,208,217,301,254"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1State.html#a1cacda8aee13ddd91d79848b266dd5c6" title=" " alt="" coords="5,233,207,258"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="241,265,207,261,207,255,241,259"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title=" " alt="" coords="12,283,200,323"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="241,289,201,294,200,289,241,284"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1sensor_1_1NoisyState.html#a0581360ca179f8826e5302c0e5907c95" title=" " alt="" coords="29,347,183,387"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="303,296,208,337,174,349,173,344,206,332,301,291"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#abb88dadf975c125f555df7f9193911c7" title=" " alt="" coords="29,411,183,451"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="323,300,274,350,243,377,208,401,183,413,181,408,205,396,239,373,271,346,320,296"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title=" " alt="" coords="19,475,193,530"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="331,301,284,381,249,425,208,465,189,477,186,473,205,461,245,422,280,378,326,299"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1autonomy_1_1Straight.html#a2270acf5788a802d27d429b9094dc498" title=" " alt="" coords="11,555,201,595"/>
+<area shape="poly" id="edge10_Node000001_Node000015" title=" " alt="" coords="337,301,322,352,297,417,259,484,236,516,208,543,188,557,185,552,205,539,232,512,255,482,292,415,317,350,332,300"/>
 </map>

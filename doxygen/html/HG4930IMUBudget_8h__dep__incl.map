@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h">
-<area shape="rect" id="node2" href="$ROSIMUSensor_8h.html" title="Brief file description. " alt="" coords="5,109,287,165"/>
-<area shape="rect" id="node3" href="$HG4930IMUBudget_8cpp.html" title="Error budget generating IMU errors to emulate an HG4930 IMU. " alt="" coords="311,109,552,165"/>
+<area shape="rect" id="Node000001" title="Error budget generating IMU errors to emulate an HG4930 IMU." alt="" coords="135,5,446,60"/>
+<area shape="rect" id="Node000002" href="$ROSIMUSensor_8h.html" title="Brief file description." alt="" coords="5,108,288,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,70,186,110,183,106,240,66"/>
+<area shape="rect" id="Node000004" href="$HG4930IMUBudget_8cpp.html" title="Error budget generating IMU errors to emulate an HG4930 IMU." alt="" coords="313,108,557,163"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="341,66,398,106,395,110,338,70"/>
 </map>

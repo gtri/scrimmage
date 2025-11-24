@@ -1,3 +1,13 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/DirectController/DirectController.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/DirectController/DirectController.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="33,124,255,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="117,5,324,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,108,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,77,90,118,88,113,160,72"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="213,196,263,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,76,173,111,170,129,174,147,189,169,208,186,205,190,185,172,169,149,165,129,168,109,187,74"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="322,196,381,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="325,57,379,81,402,99,422,121,427,141,419,160,404,176,386,190,383,186,400,172,415,157,421,140,417,124,399,103,376,85,323,62"/>
+<area shape="rect" id="Node000005" href="$Controller_8h.html" title="Brief file description." alt="" coords="183,123,407,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="250,73,280,110,275,113,246,76"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="288,150,258,187,254,183,284,147"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="307,147,336,184,332,187,302,150"/>
 </map>

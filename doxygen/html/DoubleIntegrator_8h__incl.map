@@ -1,6 +1,22 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="5,109,188,136"/>
-<area shape="rect" id="node3" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="509,109,749,136"/>
-<area shape="rect" id="node6" href="$Controller_8h.html" title="Brief file description. " alt="" coords="263,109,485,136"/>
-<area shape="rect" id="node7" href="$PID_8h.html" title="Brief file description. " alt="" coords="773,109,965,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="365,5,675,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,64,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="365,60,83,111,78,112,77,106,82,105,364,55"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="236,181,287,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="365,46,291,55,221,68,164,86,143,97,129,110,122,122,124,133,132,144,145,153,183,170,223,182,222,187,181,175,143,158,128,147,119,135,117,121,125,106,140,93,162,81,220,63,290,50,364,41"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="607,181,665,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="676,46,735,56,790,69,836,85,865,106,875,129,869,149,849,163,820,174,749,188,679,194,679,189,748,183,819,169,847,159,864,146,870,130,861,110,833,90,789,74,734,61,675,51"/>
+<area shape="rect" id="Node000005" href="$PID_8h.html" title="Brief file description." alt="" coords="656,108,851,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="592,58,710,101,708,106,590,63"/>
+<area shape="rect" id="Node000006" href="$State_8h.html" title="Brief file description." alt="" coords="926,108,1109,133"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="672,57,938,103,937,108,671,63"/>
+<area shape="rect" id="Node000013" href="$Controller_8h.html" title="Brief file description." alt="" coords="408,108,632,133"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="523,60,523,94,517,94,517,60"/>
+<area shape="rect" id="Node000043" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="138,108,385,133"/>
+<area shape="poly" id="edge10_Node000001_Node000043" title=" " alt="" coords="442,63,309,106,308,101,440,58"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="736,136,668,176,666,172,733,131"/>
+<area shape="poly" id="edge8_Node000013_Node000003" title=" " alt="" coords="479,136,301,185,299,180,478,131"/>
+<area shape="poly" id="edge9_Node000013_Node000004" title=" " alt="" coords="540,131,607,172,604,176,537,136"/>
+<area shape="poly" id="edge11_Node000043_Node000003" title=" " alt="" coords="264,134,264,168,259,168,259,134"/>
+<area shape="poly" id="edge12_Node000043_Node000004" title=" " alt="" coords="322,131,594,182,593,187,321,136"/>
 </map>

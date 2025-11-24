@@ -24,7 +24,7 @@ var classscrimmage_1_1motion_1_1Multirotor =
     [ "init", "classscrimmage_1_1motion_1_1Multirotor.html#a35db0017725fe49afb4e47d1dabbf88a", null ],
     [ "step", "classscrimmage_1_1motion_1_1Multirotor.html#a375dc82fc2dfbaf749bbfa164b218e69", null ],
     [ "model", "classscrimmage_1_1motion_1_1Multirotor.html#a91fda0b9e453852581a9444026923ef9", null ],
-    [ "rotors", "classscrimmage_1_1motion_1_1Multirotor.html#a7ce4c1778d75ae83352a901cb8e41ca6", null ],
+    [ "rotors", "classscrimmage_1_1motion_1_1Multirotor.html#a4e6d60cd472c9e20a8b56e8155a4a455", null ],
     [ "omega_max", "classscrimmage_1_1motion_1_1Multirotor.html#aaf7c01b599fa71eda84719789877c203", null ],
     [ "omega_min", "classscrimmage_1_1motion_1_1Multirotor.html#ab3372b369a213af914ed5b4f17787910", null ],
     [ "c_T", "classscrimmage_1_1motion_1_1Multirotor.html#ac5ab8dec09a131280c9f6ba03bf19647", null ],

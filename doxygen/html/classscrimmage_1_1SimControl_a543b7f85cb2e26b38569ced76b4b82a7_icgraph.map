@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::find_available_id" name="scrimmage::SimControl::find_available_id">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad98e4c04edf155d6bfc185aa237bd9d9" title="Generate an entity given the entity description ID and parameters. " alt="" coords="227,5,400,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,5,403,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a66afa15c394f9a6676dcbaeba76f10d4" title="Generate an entity given the entity description ID, parameters, and plugin specific params...." alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,28,180,28,180,23,214,23"/>
 </map>

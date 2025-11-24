@@ -1,4 +1,8 @@
 <map id="scrimmage::SimControl::output_runtime" name="scrimmage::SimControl::output_runtime">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a23ffd7e44c0376c4c5705838d122bb84" title="scrimmage::Timer::elapsed_time" alt="" coords="227,5,459,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="249,56,436,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,180,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Timer.html#a23ffd7e44c0376c4c5705838d122bb84" title=" " alt="" coords="228,5,465,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,40,246,30,247,35,181,45"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="253,79,441,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,65,244,74,243,79,180,70"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="306,80,297,70,301,60,318,54,347,52,382,56,393,61,396,66,392,69,389,65,381,61,347,57,319,59,305,64,302,70,310,77"/>
 </map>

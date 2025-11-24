@@ -1,7 +1,26 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="5,109,188,136"/>
-<area shape="rect" id="node3" href="$MotionModel_8h.html" title="Brief file description. " alt="" coords="263,109,503,136"/>
-<area shape="rect" id="node6" href="$Controller_8h.html" title="Brief file description. " alt="" coords="527,109,749,136"/>
-<area shape="rect" id="node7" href="$PID_8h.html" title="Brief file description. " alt="" coords="1046,109,1238,136"/>
-<area shape="rect" id="node8" href="$CSV_8h.html" title="Brief file description. " alt="" coords="773,109,972,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="456,5,747,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,64,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="456,54,278,78,83,111,78,112,77,106,82,105,277,73,456,49"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="329,181,380,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="456,39,358,46,261,59,179,80,149,93,129,110,119,130,120,138,124,145,143,159,172,169,246,183,316,189,315,194,245,188,171,174,141,163,120,149,115,140,113,129,125,106,146,89,177,75,260,53,358,41,456,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="701,181,760,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="748,56,822,77,850,91,869,106,876,121,874,135,865,147,851,158,814,175,774,186,773,181,812,170,848,153,861,144,869,133,870,122,865,110,847,95,820,82,746,61"/>
+<area shape="rect" id="Node000005" href="$CSV_8h.html" title="Brief file description." alt="" coords="139,108,335,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="491,63,299,108,298,102,490,57"/>
+<area shape="rect" id="Node000010" href="$PID_8h.html" title="Brief file description." alt="" coords="928,108,1123,133"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="731,57,956,103,955,108,730,63"/>
+<area shape="rect" id="Node000011" href="$State_8h.html" title="Brief file description." alt="" coords="1147,108,1330,133"/>
+<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="747,51,1141,104,1140,109,746,56"/>
+<area shape="rect" id="Node000017" href="$Controller_8h.html" title="Brief file description." alt="" coords="360,108,584,133"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="563,62,502,103,499,98,560,58"/>
+<area shape="rect" id="Node000046" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="607,108,854,133"/>
+<area shape="poly" id="edge13_Node000001_Node000046" title=" " alt="" coords="642,58,703,98,700,103,639,62"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="258,131,325,172,322,176,255,136"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="317,131,688,184,688,189,316,136"/>
+<area shape="poly" id="edge8_Node000010_Node000004" title=" " alt="" coords="979,136,774,185,773,180,977,131"/>
+<area shape="poly" id="edge11_Node000017_Node000003" title=" " alt="" coords="455,136,387,176,384,172,452,131"/>
+<area shape="poly" id="edge12_Node000017_Node000004" title=" " alt="" coords="514,131,689,178,687,184,513,136"/>
+<area shape="poly" id="edge14_Node000046_Node000003" title=" " alt="" coords="671,136,394,188,393,183,670,131"/>
+<area shape="poly" id="edge15_Node000046_Node000004" title=" " alt="" coords="733,134,733,168,728,168,728,134"/>
 </map>

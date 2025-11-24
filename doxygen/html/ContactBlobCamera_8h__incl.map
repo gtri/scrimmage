@@ -1,4 +1,29 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h">
-<area shape="rect" id="node3" href="$Sensor_8h.html" title="Brief file description. " alt="" coords="234,124,437,151"/>
-<area shape="rect" id="node8" href="$Contact_8h.html" title="Brief file description. " alt="" coords="461,124,661,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="344,5,551,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,108,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="344,69,118,122,117,117,343,63"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="132,123,205,148"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="348,77,217,121,215,116,346,72"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="270,196,321,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="364,77,334,98,310,124,298,153,296,183,291,182,293,152,305,121,330,94,360,73"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="629,196,706,221"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="552,63,601,86,624,102,644,121,661,151,668,182,663,183,656,153,640,124,621,106,598,91,550,68"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="331,123,403,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="420,77,388,114,384,110,416,73"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="971,196,1030,221"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="551,44,709,54,886,70,1036,92,1088,105,1116,121,1123,133,1123,145,1117,157,1106,167,1077,184,1044,197,1042,192,1075,179,1103,162,1112,153,1118,144,1118,135,1112,125,1086,110,1035,97,885,75,709,59,551,49"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="447,196,509,221"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="363,77,339,92,322,109,315,127,322,147,344,169,373,185,404,196,434,201,433,207,402,201,371,190,341,174,317,149,310,127,318,106,336,88,360,73"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="705,123,875,148"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="552,67,735,116,734,122,550,72"/>
+<area shape="rect" id="Node000010" href="$Contact_8h.html" title="Brief file description." alt="" coords="899,123,1102,148"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="551,56,920,118,919,123,550,61"/>
+<area shape="rect" id="Node000016" href="$Sensor_8h.html" title="Brief file description." alt="" coords="428,123,629,148"/>
+<area shape="poly" id="edge12_Node000001_Node000016" title=" " alt="" coords="479,73,511,110,507,114,475,77"/>
+<area shape="poly" id="edge10_Node000010_Node000005" title=" " alt="" coords="948,151,720,199,719,194,947,145"/>
+<area shape="poly" id="edge11_Node000010_Node000007" title=" " alt="" coords="1003,148,1003,182,998,182,998,148"/>
+<area shape="poly" id="edge13_Node000016_Node000004" title=" " alt="" coords="492,151,335,198,334,193,490,145"/>
+<area shape="poly" id="edge14_Node000016_Node000005" title=" " alt="" coords="552,146,634,187,631,192,550,150"/>
+<area shape="poly" id="edge15_Node000016_Node000007" title=" " alt="" coords="605,145,958,198,957,204,604,151"/>
+<area shape="poly" id="edge16_Node000016_Node000008" title=" " alt="" coords="522,150,496,186,492,183,518,147"/>
 </map>

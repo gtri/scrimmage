@@ -1,4 +1,25 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/EntityInteraction.h" name="/root/scrimmage/scrimmage/include/scrimmage/simcontrol/EntityInteraction.h">
-<area shape="rect" id="node3" href="$fwd__decl_8h.html" title="Brief file description. " alt="" coords="347,109,511,136"/>
-<area shape="rect" id="node7" href="$EntityPlugin_8h.html" title="Brief file description. " alt="" coords="98,109,322,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="177,5,400,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,181,108,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,63,184,84,142,110,106,141,77,173,73,169,102,137,139,106,181,79,224,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="175,181,218,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,62,176,82,152,109,148,125,152,140,174,170,170,173,147,143,143,125,148,107,173,78,205,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="263,181,314,207"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,62,187,77,167,93,158,112,158,121,163,132,180,151,202,166,251,184,249,189,200,171,177,155,158,135,153,123,152,111,163,90,184,72,211,58"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="403,181,481,207"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="355,58,388,79,417,106,434,136,442,167,436,168,429,138,413,110,385,83,352,62"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="534,181,593,207"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="401,38,477,47,555,60,620,80,644,92,661,106,667,117,668,129,656,148,633,165,607,179,604,174,630,161,652,145,663,127,662,119,657,110,641,96,618,85,553,66,477,52,400,44"/>
+<area shape="rect" id="Node000007" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="173,108,404,133"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="291,60,291,94,286,94,286,60"/>
+<area shape="rect" id="Node000029" href="$fwd__decl_8h.html" title="Brief file description." alt="" coords="479,108,647,133"/>
+<area shape="poly" id="edge12_Node000001_Node000029" title=" " alt="" coords="373,58,514,101,513,106,372,63"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="252,136,108,180,106,175,251,131"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="276,135,224,175,221,171,272,131"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="291,134,291,168,286,168,286,134"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="314,131,406,173,404,178,312,136"/>
+<area shape="poly" id="edge11_Node000007_Node000006" title=" " alt="" coords="333,131,521,179,520,184,332,136"/>
+<area shape="poly" id="edge13_Node000029_Node000004" title=" " alt="" coords="520,136,328,185,327,180,519,131"/>
+<area shape="poly" id="edge14_Node000029_Node000005" title=" " alt="" coords="545,136,475,177,472,172,542,131"/>
+<area shape="poly" id="edge15_Node000029_Node000006" title=" " alt="" coords="566,134,566,168,561,168,561,134"/>
 </map>

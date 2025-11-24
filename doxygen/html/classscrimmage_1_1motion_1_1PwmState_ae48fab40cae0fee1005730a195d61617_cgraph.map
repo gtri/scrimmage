@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::PwmState::set_pwm_max" name="scrimmage::motion::PwmState::set_pwm_max">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1PwmState.html#a88604aab5b3534b13d6e90de092d3e65" title="scrimmage::motion::\lPwmState::pwm_max" alt="" coords="240,5,400,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,196,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1PwmState.html#ad5bfc01d5c34afd5fbc65a09b06a5262" title=" " alt="" coords="244,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,23,230,23,230,28,196,28"/>
 </map>

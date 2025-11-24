@@ -1,10 +1,25 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/MotionBattery/MotionBattery.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/MotionBattery/MotionBattery.cpp">
-<area shape="rect" id="node2" href="$MotionBattery_8h.html" title="Brief file description. " alt="" coords="5,109,228,151"/>
-<area shape="rect" id="node3" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="252,109,453,151"/>
-<area shape="rect" id="node4" href="$Entity_8h.html" title="Brief file description. " alt="" coords="478,117,665,143"/>
-<area shape="rect" id="node5" href="$State_8h.html" title="Brief file description. " alt="" coords="689,117,872,143"/>
-<area shape="rect" id="node6" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="897,117,1115,143"/>
-<area shape="rect" id="node7" href="$Time_8h.html" title="Brief file description. " alt="" coords="1139,117,1342,143"/>
-<area shape="rect" id="node8" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="1367,117,1581,143"/>
-<area shape="rect" id="node10" href="$Publisher_8h.html" title="Brief file description. " alt="" coords="1846,117,2065,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="854,5,1095,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,85,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="854,37,701,41,512,53,304,75,200,91,98,111,86,114,85,108,97,105,199,86,303,70,511,48,701,36,854,32"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,115,168,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="854,36,715,39,545,51,362,73,270,90,181,111,174,113,172,108,179,105,269,85,361,68,545,45,715,34,854,30"/>
+<area shape="rect" id="Node000004" href="$Time_8h.html" title="Brief file description." alt="" coords="192,115,397,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="854,51,410,111,376,116,376,110,409,105,853,46"/>
+<area shape="rect" id="Node000006" href="$Utilities_8h.html" title="Brief file description." alt="" coords="422,115,645,141"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="854,62,601,115,600,110,853,57"/>
+<area shape="rect" id="Node000011" href="$Entity_8h.html" title="Brief file description." alt="" coords="669,115,859,141"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="916,63,803,112,801,107,914,58"/>
+<area shape="rect" id="Node000024" href="$State_8h.html" title="Brief file description." alt="" coords="883,115,1066,141"/>
+<area shape="poly" id="edge6_Node000001_Node000024" title=" " alt="" coords="977,60,977,101,972,101,972,60"/>
+<area shape="rect" id="Node000028" title=" " alt="" coords="1091,115,1307,141"/>
+<area shape="poly" id="edge7_Node000001_Node000028" title=" " alt="" coords="1039,58,1160,108,1158,113,1037,63"/>
+<area shape="rect" id="Node000029" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1331,115,1547,141"/>
+<area shape="poly" id="edge8_Node000001_Node000029" title=" " alt="" coords="1096,55,1369,110,1368,115,1095,61"/>
+<area shape="rect" id="Node000030" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1571,108,1775,148"/>
+<area shape="poly" id="edge9_Node000001_Node000030" title=" " alt="" coords="1096,45,1558,105,1557,110,1095,51"/>
+<area shape="rect" id="Node000031" href="$MotionBattery_8h.html" title="Brief file description." alt="" coords="1800,108,2027,148"/>
+<area shape="poly" id="edge10_Node000001_Node000031" title=" " alt="" coords="1096,40,1405,66,1787,105,1786,111,1404,71,1095,45"/>
+<area shape="rect" id="Node000049" href="$Publisher_8h.html" title="Brief file description." alt="" coords="2051,115,2272,141"/>
+<area shape="poly" id="edge11_Node000001_Node000049" title=" " alt="" coords="1096,37,1513,60,1775,80,2039,105,2080,111,2079,116,2038,111,1775,85,1513,66,1095,42"/>
 </map>

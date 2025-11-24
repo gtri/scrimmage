@@ -1,3 +1,9 @@
 <map id="scrimmage::EntityPlugin::transform" name="scrimmage::EntityPlugin::transform">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title="scrimmage::sensor::\lLOSSensor::step" alt="" coords="229,5,383,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,69,423,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="9,5,190,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,68,172,48,173,43,246,63"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title=" " alt="" coords="5,69,193,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,92,193,92,193,87,227,87"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title=" " alt="" coords="22,133,177,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="246,116,173,136,172,131,245,110"/>
 </map>

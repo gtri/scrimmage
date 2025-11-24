@@ -1,5 +1,25 @@
 <map id="/root/scrimmage/scrimmage/src/parse/ConfigParse.cpp" name="/root/scrimmage/scrimmage/src/parse/ConfigParse.cpp">
-<area shape="rect" id="node2" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="5,95,224,121"/>
-<area shape="rect" id="node4" href="$FileSearch_8h.html" title="Brief file description. " alt="" coords="299,95,536,121"/>
-<area shape="rect" id="node5" href="$ConfigParse_8h.html" title="Brief file description. " alt="" coords="560,95,787,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="653,5,860,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,79,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="653,36,402,57,249,74,93,96,92,91,249,69,402,51,653,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="103,93,183,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="653,40,445,63,202,96,197,97,196,92,202,91,444,58,653,34"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="601,167,664,192"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="653,36,534,45,407,58,301,75,266,85,248,95,243,106,248,117,271,133,306,147,349,157,399,164,501,173,587,175,587,181,501,178,398,170,348,162,304,152,268,138,244,120,238,106,244,92,264,80,300,70,406,53,533,40,653,30"/>
+<area shape="rect" id="Node000005" href="$FileSearch_8h.html" title="Brief file description." alt="" coords="259,93,497,119"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="667,48,447,93,446,88,665,43"/>
+<area shape="rect" id="Node000010" href="$Utilities_8h.html" title="Brief file description." alt="" coords="521,93,744,119"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="728,48,664,88,661,84,725,43"/>
+<area shape="rect" id="Node000013" href="$ConfigParse_8h.html" title="Brief file description." alt="" coords="769,93,995,119"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="788,43,854,84,851,88,786,48"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="1020,93,1179,119"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="839,43,1037,88,1035,93,838,48"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="1203,93,1393,119"/>
+<area shape="poly" id="edge10_Node000001_Node000015" title=" " alt="" coords="861,39,1206,89,1205,94,860,44"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1418,93,1613,119"/>
+<area shape="poly" id="edge11_Node000001_Node000016" title=" " alt="" coords="860,35,1404,90,1404,96,860,40"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="1637,93,1807,119"/>
+<area shape="poly" id="edge12_Node000001_Node000017" title=" " alt="" coords="861,31,1195,54,1623,91,1623,96,1195,60,860,36"/>
+<area shape="poly" id="edge6_Node000010_Node000004" title=" " alt="" coords="635,119,635,153,630,153,630,119"/>
+<area shape="poly" id="edge8_Node000013_Node000004" title=" " alt="" coords="843,121,678,168,677,163,841,116"/>
 </map>

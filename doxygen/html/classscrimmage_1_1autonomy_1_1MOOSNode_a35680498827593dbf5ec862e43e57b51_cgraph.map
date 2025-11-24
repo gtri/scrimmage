@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::MOOSNode::OnStartUp" name="scrimmage::autonomy::MOOSNode::OnStartUp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a17bec1fb6297bfce4787ee9ee7e7c587" title="scrimmage::autonomy\l::MOOSNode::DoRegistrations" alt="" coords="233,5,447,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,184,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a17bec1fb6297bfce4787ee9ee7e7c587" title=" " alt="" coords="232,5,448,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,23,218,23,218,28,184,28"/>
 </map>

@@ -1,0 +1,5 @@
+<map id="scrimmage::State::rel_pos_local_frame" name="scrimmage::State::rel_pos_local_frame">
+<area shape="rect" id="Node000001" title="convert the relative position to the local frame (the output vector will point to the other state)" alt="" coords="5,5,168,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="216,5,391,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,23,203,23,203,28,168,28"/>
+</map>

@@ -1,4 +1,5 @@
 <map id="scrimmage::Updater::draw_arc" name="scrimmage::Updater::draw_arc">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="218,5,371,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a9ec30ec0f7abcce4258d19100533010d" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="208,71,381,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="208,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
 </map>

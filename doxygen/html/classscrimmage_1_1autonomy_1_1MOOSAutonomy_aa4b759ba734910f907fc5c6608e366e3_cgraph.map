@@ -1,11 +1,34 @@
 <map id="scrimmage::autonomy::MOOSAutonomy::step_autonomy" name="scrimmage::autonomy::MOOSAutonomy::step_autonomy">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="251,5,405,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html#a73422aca38ac7e58ad63461a256365d7" title="return euler angle pitch " alt="" coords="241,71,415,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="244,137,412,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="241,187,415,214"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="251,239,405,280"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1Quaternion.html#a5da2514ac6cd0b7f6ff1361e7899ae9d" title="return euler angle roll " alt="" coords="241,304,415,345"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title="scrimmage::Quaternion::set" alt="" coords="227,370,429,397"/>
-<area shape="rect" id="node9" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="247,421,409,447"/>
-<area shape="rect" id="node10" href="$classscrimmage_1_1Quaternion.html#ad98245590757323a5edb52a9c5cc2427" title="return euler angle yaw " alt="" coords="225,471,431,498"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,419,179,474"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034" title=" " alt="" coords="511,334,665,374"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,418,94,342,100,292,111,239,128,185,152,133,184,87,225,48,256,28,286,14,315,5,344,3,373,6,402,15,432,29,464,48,496,75,522,108,542,145,558,183,578,259,587,320,582,321,573,260,553,185,538,147,517,111,492,79,461,52,430,33,400,20,372,11,344,8,316,11,288,19,259,33,228,52,188,90,156,136,133,187,116,240,106,293,99,342,95,419"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="267,62,422,102"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="94,418,104,356,127,273,144,229,166,187,192,147,225,112,253,95,256,99,228,116,197,150,170,189,149,232,132,275,109,357,99,419"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a9cb83b0d85c0aca1b106816cde6e5acd" title=" " alt="" coords="245,126,445,166"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="97,418,111,367,136,301,173,234,197,203,225,176,232,171,235,176,228,180,201,207,178,237,141,303,116,368,102,420"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="259,190,430,230"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="101,418,119,378,146,330,181,281,225,240,245,229,248,233,228,244,185,285,150,333,124,380,106,420"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="257,254,432,294"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="110,417,158,360,190,330,225,304,243,295,245,300,228,309,193,334,162,363,114,421"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title=" " alt="" coords="261,319,429,344"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="125,416,171,384,226,355,251,346,252,351,228,359,174,388,128,421"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#aa5121c553502f7a221a06d17e7dc580b" title=" " alt="" coords="227,369,463,409"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="178,424,242,409,243,415,179,429"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title=" " alt="" coords="257,434,432,459"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="179,444,243,444,243,449,179,449"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="267,484,422,524"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="179,463,255,481,254,486,178,468"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="257,548,432,588"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="129,472,175,504,228,533,246,541,244,546,226,538,172,508,126,476"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title=" " alt="" coords="243,612,446,638"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="112,472,158,536,191,570,228,597,243,605,241,610,225,602,187,574,154,540,107,475"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae" title=" " alt="" coords="267,662,422,702"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="106,473,124,512,151,559,186,607,228,647,256,662,253,667,225,651,182,610,146,562,120,514,101,475"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8" title=" " alt="" coords="259,726,430,766"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="102,473,116,524,141,589,178,656,201,686,228,712,248,725,245,729,225,716,197,689,173,659,136,591,111,526,97,474"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title=" " alt="" coords="262,791,427,816"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="99,474,109,537,131,619,148,662,169,704,196,743,228,776,250,790,248,794,225,780,192,746,165,707,143,665,126,621,103,538,93,474"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="239,840,450,866"/>
+<area shape="poly" id="edge16_Node000001_Node000017" title=" " alt="" coords="97,474,104,545,124,641,141,691,163,741,192,786,228,826,236,831,232,835,225,830,188,790,159,743,136,693,119,642,99,546,92,474"/>
+<area shape="poly" id="edge13_Node000013_Node000002" title=" " alt="" coords="422,669,443,660,461,647,488,618,511,586,530,550,546,514,568,444,580,387,585,388,573,445,551,516,535,553,516,588,492,622,464,651,445,664,424,673"/>
 </map>

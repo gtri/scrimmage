@@ -1,0 +1,7 @@
+<map id="scrimmage::motion::UUV6DOF::model" name="scrimmage::motion::UUV6DOF::model">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,163,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="211,5,385,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,43,197,38,198,43,163,48"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="211,69,385,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,66,198,72,197,77,162,72"/>
+</map>

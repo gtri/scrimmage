@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::AvoidWalls::init" name="scrimmage::autonomy::AvoidWalls::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,175,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="223,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,42,209,37,210,42,176,48"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="223,69,393,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="176,67,210,72,209,77,175,72"/>
+</map>

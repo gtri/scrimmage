@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['zerocopyinputstreamptr_6529',['ZeroCopyInputStreamPtr',['../classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385',1,'scrimmage::Log']]],
-  ['zerocopyoutputstreamptr_6530',['ZeroCopyOutputStreamPtr',['../classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423',1,'scrimmage::Log']]]
+  ['value_5ftype_0',['value_type',['../classscrimmage_1_1XMLParserAttribute_1_1Iterator.html#ab1dc55195b50e3b5afbd59caac7a1e8d',1,'scrimmage::XMLParserAttribute::Iterator::value_type'],['../classscrimmage_1_1XMLParserNode_1_1ChildIterator.html#a7803fbd2a613e80bfa36dc4edad5aac1',1,'scrimmage::XMLParserNode::ChildIterator::value_type'],['../classscrimmage_1_1XMLParserNode_1_1RecursiveIterator.html#a816336aa2e8cf63702bef3476d867226',1,'scrimmage::XMLParserNode::RecursiveIterator::value_type']]],
+  ['variableioptr_1',['VariableIOPtr',['../namespacescrimmage.html#a4ef96c3af42e781c58e85845d0715fee',1,'scrimmage']]],
+  ['vector_5ft_2',['vector_t',['../classscrimmage_1_1MotionModel.html#a3a8e154efe36cf0353b54cc41ad14c2b',1,'scrimmage::MotionModel']]]
 ];

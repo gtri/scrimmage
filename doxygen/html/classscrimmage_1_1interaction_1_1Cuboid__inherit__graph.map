@@ -1,3 +1,5 @@
 <map id="scrimmage::interaction::Cuboid" name="scrimmage::interaction::Cuboid">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html" title="{scrimmage::interaction\l::BoundaryBase\n|# shape_\l# shapes_\l# center_\l# extents_\l|+ BoundaryBase()\l+ ~BoundaryBase()\l+ BoundaryBase()\l+ contains()\l+ shape()\l+ set_shape()\l+ set_visual()\l+ center()\l+ extents()\l}" alt="" coords="5,5,176,259"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,353,171,753"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html" title=" " alt="" coords="5,5,171,305"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,319,91,353,85,353,85,319"/>
 </map>

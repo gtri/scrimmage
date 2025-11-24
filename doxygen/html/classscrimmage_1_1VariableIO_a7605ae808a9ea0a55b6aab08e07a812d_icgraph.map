@@ -1,0 +1,13 @@
+<map id="scrimmage::VariableIO::type_map" name="scrimmage::VariableIO::type_map">
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,127,389,167"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289" title=" " alt="" coords="9,5,167,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,121,220,90,169,60,144,48,146,43,172,55,223,85,267,116"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1controller_1_1UnicyclePID.html#ad449848a5deedd389f5c9496f5163518" title=" " alt="" coords="5,69,171,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,126,163,112,165,107,215,120"/>
+<area shape="rect" id="Node000004" href="$JSBSimModelControllerDirect_8cpp.html#a202b6784869b885748efee3b4d2aaaf4" title=" " alt="" coords="17,134,159,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="205,149,160,149,160,144,205,144"/>
+<area shape="rect" id="Node000005" href="$JSBSimModelControllerHeadingPID_8cpp.html#a53ad5e9faa92f0e50c60abcfce7e4591" title=" " alt="" coords="17,183,159,209"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="205,172,145,186,144,181,204,167"/>
+<area shape="rect" id="Node000006" href="$SimpleAircraftControllerPID_8cpp.html#ab64ea1d760b91a491114aa9f3db89e3d" title=" " alt="" coords="17,233,159,258"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="260,176,172,222,137,235,135,230,170,218,258,172"/>
+</map>

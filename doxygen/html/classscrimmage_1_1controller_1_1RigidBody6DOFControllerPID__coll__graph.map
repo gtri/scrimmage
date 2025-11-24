@@ -1,4 +1,9 @@
 <map id="scrimmage::controller::RigidBody6DOFControllerPID" name="scrimmage::controller::RigidBody6DOFControllerPID">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOF_1_1Controller.html" title="{scrimmage::motion::\lRigidBody6DOF::Controller\n||+ u()\l}" alt="" coords="5,211,195,303"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="219,5,397,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="192,743,403,863"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1RigidBody6DOF_1_1Controller.html" title=" " alt="" coords="5,288,192,368"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,380,151,505,176,578,206,650,231,697,259,741,254,744,227,699,202,652,172,580,146,507,109,382"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="216,288,379,368"/>
+<area shape="poly" id="edge2_Node000001_Node000095" title=" " alt="" coords="300,368,300,726,295,726,295,368"/>
+<area shape="rect" id="Node000096" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="403,5,576,651"/>
+<area shape="poly" id="edge3_Node000001_Node000096" title=" " alt="" coords="405,624,393,652,350,730,345,727,388,649,400,622"/>
 </map>

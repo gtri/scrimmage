@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS =
 [
-    [ "init", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a827db8d34867c59932213881073ecc28", null ],
-    [ "step", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a05f52301a2c72d349d62cda650e83e34", null ],
+    [ "init", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a2b02db93592c29ac09c920b994a2c439", null ],
+    [ "step", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a600724dbe10db2b0fcbfe1ea3f85fc30", null ],
     [ "cmd_vel_cb", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3", null ],
     [ "u_", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a25f36754a8b3e3d6bbccf2cb5a4a53b3", null ],
     [ "nh_", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a81c708df5ac4cb11f70b3eb7cb357edf", null ],

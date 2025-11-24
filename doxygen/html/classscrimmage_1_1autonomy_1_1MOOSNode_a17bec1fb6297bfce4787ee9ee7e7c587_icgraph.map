@@ -1,4 +1,7 @@
 <map id="scrimmage::autonomy::MOOSNode::DoRegistrations" name="scrimmage::autonomy::MOOSNode::DoRegistrations">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a2f3a08813bf78e78a1ee0cbca6b7b911" title="scrimmage::autonomy\l::MOOSNode::OnConnectToServer" alt="" coords="267,5,507,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a35680498827593dbf5ec862e43e57b51" title="scrimmage::autonomy\l::MOOSNode::OnStartUp" alt="" coords="297,71,477,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="292,37,508,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a2f3a08813bf78e78a1ee0cbca6b7b911" title=" " alt="" coords="5,5,244,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,46,244,42,245,37,278,41"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1MOOSNode.html#a35680498827593dbf5ec862e43e57b51" title=" " alt="" coords="35,69,214,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="279,74,215,82,214,76,278,69"/>
 </map>

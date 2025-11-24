@@ -1,5 +1,24 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="105,124,268,165"/>
-<area shape="rect" id="node6" href="$Angles_8h.html" title="Brief file description. " alt="" coords="343,131,534,158"/>
-<area shape="rect" id="node7" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="559,131,777,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="377,5,615,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,168,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="377,73,177,122,176,117,376,68"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="221,211,272,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="377,63,320,87,294,104,271,124,261,141,254,160,249,197,243,197,249,159,256,139,267,121,291,99,317,82,375,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="316,211,393,236"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="378,62,325,86,302,103,284,124,277,142,284,161,300,184,322,201,318,205,296,188,279,164,272,142,279,121,299,99,322,81,375,57"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="441,211,500,236"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="494,75,477,197,472,197,489,75"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="534,130,751,155"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="547,73,616,120,613,125,544,77"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="775,130,902,155"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="611,72,787,124,786,129,610,77"/>
+<area shape="rect" id="Node000008" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="293,123,459,163"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="457,77,411,116,407,112,454,73"/>
+<area shape="rect" id="Node000034" href="$Angles_8h.html" title="Brief file description." alt="" coords="926,130,1119,155"/>
+<area shape="poly" id="edge11_Node000001_Node000034" title=" " alt="" coords="616,61,950,125,949,130,615,67"/>
+<area shape="rect" id="Node000035" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="1144,130,1365,155"/>
+<area shape="poly" id="edge12_Node000001_Node000035" title=" " alt="" coords="616,53,1132,120,1169,125,1168,131,1132,125,615,58"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="346,165,279,206,276,201,343,161"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="373,164,364,198,359,196,368,162"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="401,161,447,199,444,204,397,165"/>
 </map>

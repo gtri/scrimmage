@@ -1,9 +1,17 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/Shape.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/Shape.h">
-<area shape="rect" id="node2" href="$Shape_8cpp.html" title="Brief file description. " alt="" coords="5,117,209,158"/>
-<area shape="rect" id="node3" href="$AvoidEntityMS_8cpp.html" title="Brief file description. " alt="" coords="233,109,472,165"/>
-<area shape="rect" id="node4" href="$MotorSchemas_8cpp.html" title="Brief file description. " alt="" coords="497,109,761,165"/>
-<area shape="rect" id="node5" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="785,109,1003,165"/>
-<area shape="rect" id="node6" href="$TrailMS_8cpp.html" title="Brief file description. " alt="" coords="1027,109,1241,165"/>
-<area shape="rect" id="node7" href="$BulletCollision_8cpp.html" title="Brief file description. " alt="" coords="1265,109,1499,165"/>
-<area shape="rect" id="node8" href="$ROSShapeViz_8cpp.html" title="Brief file description. " alt="" coords="1523,109,1753,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="801,5,1011,60"/>
+<area shape="rect" id="Node000002" href="$Shape_8cpp.html" title="Brief file description." alt="" coords="5,115,212,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="787,45,528,70,375,88,224,111,186,118,185,113,223,105,375,83,527,65,787,40"/>
+<area shape="rect" id="Node000003" href="$AvoidEntityMS_8cpp.html" title="Brief file description." alt="" coords="236,108,480,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="788,57,493,111,481,113,480,108,492,105,787,52"/>
+<area shape="rect" id="Node000004" href="$MotorSchemas_8cpp.html" title="Brief file description." alt="" coords="505,108,771,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="824,67,709,110,707,105,823,62"/>
+<area shape="rect" id="Node000005" href="$Straight_8cpp.html" title="Brief file description." alt="" coords="795,108,1017,163"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="909,74,909,108,903,108,903,74"/>
+<area shape="rect" id="Node000006" href="$TrailMS_8cpp.html" title="Brief file description." alt="" coords="1041,108,1259,163"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="983,63,1087,105,1085,110,981,68"/>
+<area shape="rect" id="Node000007" href="$BulletCollision_8cpp.html" title="Brief file description." alt="" coords="1283,108,1529,163"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1025,55,1284,107,1283,112,1024,60"/>
+<area shape="rect" id="Node000008" href="$ROSShapeViz_8cpp.html" title="Brief file description." alt="" coords="1553,108,1784,163"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1025,42,1264,68,1541,105,1554,107,1553,113,1540,111,1263,73,1025,48"/>
 </map>

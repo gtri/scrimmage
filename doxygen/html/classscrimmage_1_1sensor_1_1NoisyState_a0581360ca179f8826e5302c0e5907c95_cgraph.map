@@ -1,5 +1,9 @@
 <map id="scrimmage::sensor::NoisyState::step" name="scrimmage::sensor::NoisyState::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title="scrimmage::State::pos" alt="" coords="210,5,378,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title="scrimmage::State::quat" alt="" coords="207,56,381,83"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title="scrimmage::State::vel" alt="" coords="213,107,375,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,160,87"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title=" " alt="" coords="211,5,379,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,47,226,31,227,37,161,52"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523" title=" " alt="" coords="208,55,383,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,65,194,65,194,70,160,70"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12" title=" " alt="" coords="213,104,378,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="161,83,227,98,226,103,160,88"/>
 </map>

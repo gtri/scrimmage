@@ -1,3 +1,5 @@
 <map id="scrimmage::Timer::dec_warp" name="scrimmage::Timer::dec_warp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#a638afb23bc05dd7ba152c36701047068" title="scrimmage::Timer::update\l_time_config" alt="" coords="260,5,451,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,216,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Timer.html#a638afb23bc05dd7ba152c36701047068" title=" " alt="" coords="264,5,459,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,23,250,23,250,28,216,28"/>
 </map>

@@ -1,0 +1,9 @@
+<map id="scrimmage::interaction::BoundaryBase::shape" name="scrimmage::interaction::BoundaryBase::shape">
+<area shape="rect" id="Node000001" title=" " alt="" coords="252,69,425,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a940cbe3d3594b5625708c928326a99d3" title=" " alt="" coords="18,5,191,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,68,178,48,179,43,252,63"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Plane.html#a0bc9c1294d5fbb0ed0711c81b5aa18f4" title=" " alt="" coords="18,69,191,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,92,192,92,192,87,238,87"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1BoundaryBase.html#a3a99b71c9dfaf46041fa8d14ae5df7e9" title=" " alt="" coords="5,133,204,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,116,179,136,178,131,251,110"/>
+</map>

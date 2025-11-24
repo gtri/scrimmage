@@ -1,0 +1,28 @@
+<map id="scrimmage::External::create_entity" name="scrimmage::External::create_entity">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,320,163,360"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a3bdaba914cd30bde518e6e5705e01b43" title=" " alt="" coords="231,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,319,97,267,119,196,136,158,156,121,180,86,209,55,217,49,221,53,212,59,184,89,160,123,140,160,124,198,102,268,91,320"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title=" " alt="" coords="233,69,399,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="89,319,104,277,128,223,163,168,185,142,209,119,219,112,222,117,212,123,189,145,168,171,133,226,109,279,94,321"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647" title=" " alt="" coords="239,134,393,159"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="92,319,110,286,135,245,169,204,209,170,224,161,227,166,212,174,173,208,140,248,114,288,97,321"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a775ab9a9f8a2f9a1e52cf1fc9b061b2a" title=" " alt="" coords="230,184,402,224"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="103,318,149,275,209,234,223,227,226,232,212,238,152,280,107,322"/>
+<area shape="rect" id="Node000011" href="$namespacescrimmage.html#a783262d74c3a9106368b68f3f5b58e2a" title=" " alt="" coords="216,249,416,274"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="125,317,210,283,237,275,238,280,212,288,127,322"/>
+<area shape="rect" id="Node000012" href="$namespacescrimmage.html#af68f063479d40a9401a8e48e3f702d1b" title=" " alt="" coords="211,298,421,323"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="163,327,202,322,203,328,163,333"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1FileSearch.html#a2f43920f05f0c385988681750cd81508" title="finds a mission file" alt="" coords="231,348,401,388"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="163,347,217,353,216,359,163,352"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1VariableIO.html#aa6b12035fb51a9aa81ffe3615eea6217" title=" " alt="" coords="469,435,640,475"/>
+<area shape="poly" id="edge8_Node000001_Node000017" title=" " alt="" coords="122,358,164,379,211,397,274,414,338,427,456,444,455,449,337,433,272,419,210,403,162,384,119,363"/>
+<area shape="rect" id="Node000018" href="$namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8" title=" " alt="" coords="240,463,392,503"/>
+<area shape="poly" id="edge9_Node000001_Node000018" title=" " alt="" coords="107,358,153,400,212,442,239,455,237,460,209,446,150,404,104,362"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1External.html#a14f5a54a9c3757a3071590c03d096989" title=" " alt="" coords="237,527,395,567"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="97,359,114,392,139,434,172,476,212,513,226,521,223,525,209,517,169,480,135,437,109,395,92,361"/>
+<area shape="rect" id="Node000020" href="$classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7" title=" " alt="" coords="237,591,395,631"/>
+<area shape="poly" id="edge12_Node000001_Node000020" title=" " alt="" coords="93,360,107,405,130,463,165,524,187,552,212,577,227,586,223,591,209,581,183,556,161,527,126,465,102,406,88,361"/>
+<area shape="rect" id="Node000022" href="$namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee" title=" " alt="" coords="237,655,395,695"/>
+<area shape="poly" id="edge13_Node000001_Node000022" title=" " alt="" coords="90,360,101,416,122,491,138,532,158,571,183,608,212,641,226,651,223,655,209,645,179,612,154,574,133,534,117,493,95,417,85,361"/>
+<area shape="poly" id="edge10_Node000018_Node000017" title=" " alt="" coords="392,471,455,464,456,469,392,476"/>
+</map>

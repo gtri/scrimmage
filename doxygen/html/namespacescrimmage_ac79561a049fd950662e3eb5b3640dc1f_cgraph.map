@@ -1,7 +1,16 @@
 <map id="scrimmage::proto_2_contact" name="scrimmage::proto_2_contact">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ID.html#a267790607275f65ffe38da2e61101bf5" title="scrimmage::ID::id" alt="" coords="222,5,357,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title="scrimmage::Contact::id" alt="" coords="204,56,375,83"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="214,107,365,149"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Contact.html#ac7a0e6ccebd71ceb7e7a50c728c42ecc" title="scrimmage::Contact\l::set_state" alt="" coords="213,173,365,214"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b" title="scrimmage::Contact\l::set_type" alt="" coords="213,238,365,279"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,134,157,174"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title=" " alt="" coords="205,5,379,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,132,142,86,172,61,204,40,218,33,220,38,207,44,175,65,146,90,101,136"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1ID.html#a25211a234ba6e3de01db5063a7c498f6" title=" " alt="" coords="223,55,361,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="118,131,204,90,229,82,230,87,206,95,120,136"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title=" " alt="" coords="216,105,368,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,141,202,134,203,140,158,146"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="427,141,549,167"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="158,153,205,154,379,154,412,153,413,159,379,159,205,159,158,159"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1Contact.html#ac7a0e6ccebd71ceb7e7a50c728c42ecc" title=" " alt="" coords="215,219,369,259"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="132,172,230,212,228,217,130,176"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Contact.html#af8d81d2b85f30d62c0cf65e3bfc1cb7b" title=" " alt="" coords="215,283,369,323"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="101,172,146,220,175,246,207,269,217,275,215,280,204,274,172,250,142,224,97,176"/>
+<area shape="poly" id="edge4_Node000004_Node000009" title=" " alt="" coords="368,133,414,140,413,145,368,139"/>
 </map>

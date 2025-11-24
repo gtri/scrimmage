@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1SimpleAircraftControllerPID =
 [
-    [ "init", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a61bed493c3b42d7b5a92d467b25b833a", null ],
-    [ "step", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a0a5e89cf6f0c9100ddd9ef2c008155b5", null ],
+    [ "init", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a5a4b8b8234b4c178381471e783f8615f", null ],
+    [ "step", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a2abe0765704d61561598c8c7f9904376", null ],
     [ "heading_pid_", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a5b631bfe96a78f77d59eaf5e21d34426", null ],
     [ "alt_pid_", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a3b231f660943cc04b566d8d93c07be3f", null ],
     [ "vel_pid_", "classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#ac71ae36169232c22826d71fd9241164d", null ],

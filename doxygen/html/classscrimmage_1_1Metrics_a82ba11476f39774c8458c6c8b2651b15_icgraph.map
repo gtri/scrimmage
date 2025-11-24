@@ -1,0 +1,9 @@
+<map id="scrimmage::Metrics::init" name="scrimmage::Metrics::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,47,347,87"/>
+<area shape="rect" id="Node000002" href="$FlagCaptureMetrics_8cpp.html#a529d991f8d714b8a810de124b1736a9d" title=" " alt="" coords="5,5,148,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,48,127,33,128,28,183,42"/>
+<area shape="rect" id="Node000003" href="$SimpleCaptureMetrics_8cpp.html#a4e13c655dc7211eba9dc60c3c6c7f345" title=" " alt="" coords="5,55,148,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,70,148,70,148,65,182,65"/>
+<area shape="rect" id="Node000004" href="$SimpleCollisionMetrics_8cpp.html#ac2c7718f85bd1ef3db36cb108a3560b7" title=" " alt="" coords="5,104,148,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,92,128,106,127,101,182,87"/>
+</map>

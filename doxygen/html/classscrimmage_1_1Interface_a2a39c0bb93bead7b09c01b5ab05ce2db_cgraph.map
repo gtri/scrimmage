@@ -1,4 +1,8 @@
 <map id="scrimmage::Interface::send_utm_terrain" name="scrimmage::Interface::send_utm_terrain">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1" title="scrimmage::Interface\l::push_utm_terrain" alt="" coords="212,5,371,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a8f06742fc6876704b15de6ecb5ca5daf" title="scrimmage::Interface\l::utm_terrain" alt="" coords="212,71,371,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,167,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1" title=" " alt="" coords="215,5,376,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,41,201,36,202,41,168,46"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0" title=" " alt="" coords="424,35,585,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="167,54,215,55,376,55,410,54,410,60,376,60,215,60,167,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="377,34,411,39,410,44,376,39"/>
 </map>

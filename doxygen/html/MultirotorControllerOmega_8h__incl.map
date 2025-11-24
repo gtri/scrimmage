@@ -1,4 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h">
-<area shape="rect" id="node2" href="$Multirotor_8h.html" title="Brief file description. " alt="" coords="41,124,233,165"/>
-<area shape="rect" id="node5" href="$MultirotorState_8h.html" title="Brief file description. " alt="" coords="307,124,506,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="125,5,392,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="37,211,88,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,57,94,67,63,81,36,100,14,124,8,143,13,163,26,182,41,200,37,203,21,185,8,165,3,143,9,121,33,96,61,77,92,62,124,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="340,211,417,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="281,73,337,161,363,198,359,201,332,164,276,76"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="140,211,198,236"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="259,76,251,119,234,164,218,186,199,204,195,200,214,182,229,161,246,118,254,75"/>
+<area shape="rect" id="Node000005" href="$Multirotor_8h.html" title="Brief file description." alt="" coords="24,123,220,163"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="214,77,160,117,157,112,211,73"/>
+<area shape="rect" id="Node000050" href="$MultirotorState_8h.html" title="Brief file description." alt="" coords="347,123,551,163"/>
+<area shape="poly" id="edge7_Node000001_Node000050" title=" " alt="" coords="324,73,403,114,400,119,321,77"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="110,165,82,201,77,198,106,161"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="136,162,157,197,153,200,131,164"/>
+<area shape="poly" id="edge8_Node000050_Node000003" title=" " alt="" coords="434,165,400,202,396,199,430,161"/>
 </map>

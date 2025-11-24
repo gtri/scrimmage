@@ -9,6 +9,6 @@ var classscrimmage_1_1interaction_1_1Sphere =
     [ "center", "classscrimmage_1_1interaction_1_1Sphere.html#a40bd4938777281abee02a381650547a4", null ],
     [ "contains", "classscrimmage_1_1interaction_1_1Sphere.html#a151933ff2a2048ea6f1eadd5211fca30", null ],
     [ "set_visual", "classscrimmage_1_1interaction_1_1Sphere.html#a566270d5ea26c84192505c0f1d38c30e", null ],
-    [ "extents", "classscrimmage_1_1interaction_1_1Sphere.html#ae9045272976aa9732396eda86f91d790", null ],
+    [ "extents", "classscrimmage_1_1interaction_1_1Sphere.html#a12d2c25d7156f3fab7e50badfaee47d8", null ],
     [ "radius_", "classscrimmage_1_1interaction_1_1Sphere.html#aea7129f3f46c7a287f42e72496faa5ec", null ]
 ];

@@ -1,0 +1,23 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,287,148,312"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="198,5,382,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,286,87,240,108,174,124,138,143,103,166,70,194,41,203,35,206,39,198,45,170,73,147,105,129,140,113,175,93,241,83,287"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="205,55,375,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="80,286,94,250,118,202,151,150,194,105,201,100,204,105,198,109,155,154,122,204,99,252,85,287"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1motion_1_1DubinsAirplane3D.html#a747ea5575a88b35dc244788dcf82aa17" title=" " alt="" coords="206,119,374,159"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="84,285,127,230,159,197,194,169,205,163,207,168,198,174,162,201,131,233,89,288"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="205,183,375,223"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="98,284,142,259,195,233,212,226,214,231,197,238,144,264,101,289"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1motion_1_1DubinsAirplane3D.html#a3987a79f1bb2d477dc210b89bf5c3e57" title=" " alt="" coords="196,247,384,287"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="148,286,182,281,183,286,149,291"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1MotionModel.html#ac517470af8e0f4c6d9a0442f064faa43" title=" " alt="" coords="196,311,384,351"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="149,307,183,313,182,318,148,313"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="206,375,374,415"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="101,310,144,335,197,361,214,368,212,373,195,366,142,340,98,315"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="203,439,377,479"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="89,311,131,365,162,397,198,425,207,431,205,436,194,430,159,401,127,369,84,314"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="212,503,368,543"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="85,311,99,346,122,394,155,445,198,489,204,494,201,498,194,493,151,448,118,397,94,349,80,313"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1motion_1_1DubinsAirplane3D.html#acfd118dfe27d6be9d03a1204ce5a533c" title=" " alt="" coords="203,567,377,607"/>
+<area shape="poly" id="edge10_Node000001_Node000018" title=" " alt="" coords="83,311,93,357,114,422,149,492,171,525,198,553,203,558,200,562,194,557,167,528,144,495,109,424,88,358,78,313"/>
+</map>

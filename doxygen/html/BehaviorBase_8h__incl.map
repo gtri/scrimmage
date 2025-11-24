@@ -1,4 +1,18 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="79,109,241,151"/>
-<area shape="rect" id="node6" href="$Contact_8h.html" title="Brief file description. " alt="" coords="265,117,465,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="11,5,309,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,56,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,62,81,83,57,109,41,146,34,183,29,182,36,145,52,107,77,79,106,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="121,196,199,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,62,87,83,68,109,62,128,68,147,88,171,115,188,112,192,85,175,63,149,57,128,63,107,83,79,108,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="339,196,397,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="310,48,365,58,415,71,457,87,483,106,492,127,484,149,469,167,451,181,412,199,410,195,448,176,466,163,479,147,486,128,479,110,454,91,414,76,364,63,309,53"/>
+<area shape="rect" id="Node000005" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="77,108,243,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="163,60,163,94,157,94,157,60"/>
+<area shape="rect" id="Node000031" href="$Contact_8h.html" title="Brief file description." alt="" coords="267,115,469,141"/>
+<area shape="poly" id="edge8_Node000001_Node000031" title=" " alt="" coords="220,58,331,107,329,112,217,62"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="130,150,63,191,60,187,127,146"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="163,148,163,182,157,182,157,148"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="211,146,327,189,325,194,209,151"/>
+<area shape="poly" id="edge9_Node000031_Node000003" title=" " alt="" coords="339,143,204,194,202,189,337,138"/>
+<area shape="poly" id="edge10_Node000031_Node000004" title=" " alt="" coords="371,141,371,182,365,182,365,141"/>
 </map>

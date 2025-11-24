@@ -1,4 +1,11 @@
 <map id="scrimmage::CSV::output_is_open" name="scrimmage::CSV::output_is_open">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title="scrimmage::sensor::\lAirSimSensor::init" alt="" coords="247,5,400,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#aa1e3c5238a9c9d4233224ad9e13b4e95" title="scrimmage::sensor::\lAirSimSensor::save_data" alt="" coords="232,71,415,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="237,101,416,141"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4" title=" " alt="" coords="20,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="272,98,188,60,158,48,159,43,190,55,274,93"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ae8c19a0bffcdf480613d9302597bac9c" title=" " alt="" coords="20,69,175,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,110,175,103,175,97,224,104"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a9c288b9d89bfc9d2cf0cc4c7e549945a" title=" " alt="" coords="5,133,189,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="224,138,190,143,189,138,223,133"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ad14d2df58a1b97718562d77a3fd0b450" title=" " alt="" coords="20,197,175,237"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="274,150,190,188,159,200,158,195,188,183,272,145"/>
 </map>

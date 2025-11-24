@@ -1,4 +1,14 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h">
-<area shape="rect" id="node2" href="$PID_8h.html" title="Brief file description. " alt="" coords="5,124,197,151"/>
-<area shape="rect" id="node4" href="$Controller_8h.html" title="Brief file description. " alt="" coords="272,124,493,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="70,5,348,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="34,196,85,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,75,39,96,13,124,8,139,12,155,22,171,36,185,32,188,18,174,7,157,3,139,8,121,35,92,69,71"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="254,196,313,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="234,73,261,122,280,181,275,183,256,124,230,76"/>
+<area shape="rect" id="Node000004" href="$PID_8h.html" title="Brief file description." alt="" coords="321,123,516,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="286,72,381,115,379,120,283,77"/>
+<area shape="rect" id="Node000005" href="$Controller_8h.html" title="Brief file description." alt="" coords="22,123,246,148"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="184,76,154,113,150,110,180,73"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="398,150,319,192,317,187,395,146"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="124,150,84,188,80,185,121,146"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="159,146,248,188,246,192,157,150"/>
 </map>

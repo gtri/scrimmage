@@ -1,3 +1,5 @@
 <map id="scrimmage::Subscriber&lt; T, CallbackFunc &gt;" name="scrimmage::Subscriber&lt; T, CallbackFunc &gt;">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SubscriberBase.html" title="{scrimmage::SubscriberBase\n||+ SubscriberBase()\l+ SubscriberBase()\l+ accept()\l# print_err()\l}" alt="" coords="5,5,208,127"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="21,179,184,279"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SubscriberBase.html" title=" " alt="" coords="5,5,200,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,144,105,178,100,178,100,144"/>
 </map>

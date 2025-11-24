@@ -1,0 +1,6 @@
+<map id="scrimmage::interaction::TerrainMap::shape" name="scrimmage::interaction::TerrainMap::shape">
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,29,369,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="317,18,305,11,283,8,263,10,251,15,247,21,249,28,244,30,242,20,248,11,262,5,283,3,307,6,320,13"/>
+<area shape="rect" id="Node000002" href="$TerrainGenerator_8cpp.html#a1d06fa938b78e7e4191564a52e110671" title=" " alt="" coords="5,37,148,62"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,52,148,52,148,47,182,47"/>
+</map>

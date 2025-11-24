@@ -1,6 +1,12 @@
 <map id="scrimmage::find_terrain_files" name="scrimmage::find_terrain_files">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title="scrimmage::ConfigParse\l::directory" alt="" coords="455,33,633,75"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="228,29,407,71"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title="scrimmage::ConfigParse\l::parse" alt="" coords="228,95,407,136"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3" title="scrimmage::ConfigParse\l::set_required" alt="" coords="228,160,407,201"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,60,183,100"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title=" " alt="" coords="457,32,636,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,58,174,33,230,14,280,5,320,3,410,14,471,26,470,31,409,19,319,8,280,10,231,19,176,38,128,62"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="231,28,409,68"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,65,217,60,218,65,183,70"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title=" " alt="" coords="231,92,409,132"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,90,218,95,217,100,183,95"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3" title=" " alt="" coords="231,156,409,196"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="136,98,232,142,250,149,248,154,230,147,134,103"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="396,89,457,73,458,78,397,95"/>
 </map>

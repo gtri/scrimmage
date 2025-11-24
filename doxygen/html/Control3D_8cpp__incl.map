@@ -1,6 +1,11 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/Control3D/Control3D.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/Control3D/Control3D.cpp">
-<area shape="rect" id="node2" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="5,109,207,151"/>
-<area shape="rect" id="node3" href="$Entity_8h.html" title="Brief file description. " alt="" coords="231,117,418,143"/>
-<area shape="rect" id="node4" href="$State_8h.html" title="Brief file description. " alt="" coords="443,117,625,143"/>
-<area shape="rect" id="node5" href="$Control3D_8h.html" title="Brief file description. " alt="" coords="649,109,861,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="306,5,531,60"/>
+<area shape="rect" id="Node000002" href="$Entity_8h.html" title="Brief file description." alt="" coords="5,115,195,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="330,63,153,114,151,109,328,57"/>
+<area shape="rect" id="Node000019" href="$State_8h.html" title="Brief file description." alt="" coords="219,115,402,141"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="390,62,337,108,333,104,386,58"/>
+<area shape="rect" id="Node000024" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="426,108,630,148"/>
+<area shape="poly" id="edge3_Node000001_Node000024" title=" " alt="" coords="451,58,497,97,494,101,448,62"/>
+<area shape="rect" id="Node000025" href="$Control3D_8h.html" title="Brief file description." alt="" coords="655,108,871,148"/>
+<area shape="poly" id="edge4_Node000001_Node000025" title=" " alt="" coords="516,57,681,102,680,107,515,63"/>
 </map>

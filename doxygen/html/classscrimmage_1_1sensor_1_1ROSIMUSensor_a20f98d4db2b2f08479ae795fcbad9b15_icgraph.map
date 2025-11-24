@@ -1,0 +1,7 @@
+<map id="scrimmage::sensor::ROSIMUSensor::ecef_to_ned_rotation" name="scrimmage::sensor::ROSIMUSensor::ecef_to_ned_rotation">
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,41,425,96"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a3505a5eda56bd651579788c5d5d73338" title=" " alt="" coords="19,5,189,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,56,189,48,190,43,238,51"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aacdf28a891ddc080f4bcb83ab49b7af7" title=" " alt="" coords="5,85,203,125"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="238,87,203,92,202,87,237,82"/>
+</map>

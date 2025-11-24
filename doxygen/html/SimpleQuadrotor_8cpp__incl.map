@@ -1,8 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.cpp" name="/root/scrimmage/scrimmage/src/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.cpp">
-<area shape="rect" id="node2" href="$SimpleQuadrotor_8h.html" title="Brief file description. " alt="" coords="5,109,265,151"/>
-<area shape="rect" id="node3" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="290,117,509,143"/>
-<area shape="rect" id="node4" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="533,117,748,143"/>
-<area shape="rect" id="node5" href="$Angles_8h.html" title="Brief file description. " alt="" coords="772,117,963,143"/>
-<area shape="rect" id="node6" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="987,109,1188,151"/>
-<area shape="rect" id="node7" href="$Entity_8h.html" title="Brief file description. " alt="" coords="1213,117,1399,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="548,5,808,60"/>
+<area shape="rect" id="Node000002" href="$Utilities_8h.html" title="Brief file description." alt="" coords="5,115,228,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="548,58,200,116,199,110,547,53"/>
+<area shape="rect" id="Node000007" href="$Entity_8h.html" title="Brief file description." alt="" coords="253,115,442,141"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="586,63,402,114,400,109,584,57"/>
+<area shape="rect" id="Node000021" href="$Angles_8h.html" title="Brief file description." alt="" coords="467,115,660,141"/>
+<area shape="poly" id="edge3_Node000001_Node000021" title=" " alt="" coords="647,62,590,108,587,104,644,58"/>
+<area shape="rect" id="Node000022" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="685,115,901,141"/>
+<area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="712,58,769,104,766,108,709,62"/>
+<area shape="rect" id="Node000023" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="925,108,1129,148"/>
+<area shape="poly" id="edge5_Node000001_Node000023" title=" " alt="" coords="777,57,944,102,943,107,776,63"/>
+<area shape="rect" id="Node000024" href="$SimpleQuadrotor_8h.html" title="Brief file description." alt="" coords="1154,108,1415,148"/>
+<area shape="poly" id="edge6_Node000001_Node000024" title=" " alt="" coords="809,51,1149,103,1148,109,808,57"/>
 </map>

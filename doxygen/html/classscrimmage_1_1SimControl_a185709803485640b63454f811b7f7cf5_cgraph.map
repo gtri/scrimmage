@@ -1,5 +1,13 @@
 <map id="scrimmage::SimControl::generate_entities" name="scrimmage::SimControl::generate_entities">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc" title="scrimmage::SimControl\l::create_rtree" alt="" coords="227,5,400,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID. " alt="" coords="227,71,400,112"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412" title="std::remove_if does not work with associative containers. " alt="" coords="231,137,396,163"/>
+<area shape="rect" id="Node000001" title="Generate entities based on the current time." alt="" coords="5,123,180,163"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc" title=" " alt="" coords="235,5,409,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,120,169,88,227,55,242,48,245,53,229,60,172,92,123,125"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID." alt="" coords="235,93,409,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,129,221,124,221,129,181,134"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412" title="std::remove_if does not work with associative containers." alt="" coords="237,158,407,183"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="181,151,224,156,223,161,180,156"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="228,231,416,257"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="140,160,280,223,278,228,138,165"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="279,94,277,84,283,74,299,69,322,67,349,70,363,77,361,82,347,75,322,72,300,74,287,79,282,85,284,92"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="285,233,277,223,281,213,296,207,322,205,354,209,367,218,363,222,352,213,322,210,297,212,284,217,282,222,289,229"/>
 </map>

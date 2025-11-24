@@ -1,3 +1,5 @@
 <map id="scrimmage::controller::MultirotorControllerOmega" name="scrimmage::controller::MultirotorControllerOmega">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1Multirotor_1_1Controller.html" title="{scrimmage::motion::\lMultirotor::Controller\n||+ u()\l}" alt="" coords="37,5,191,97"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,219,333"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1Multirotor_1_1Controller.html" title=" " alt="" coords="37,5,187,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,99,115,133,109,133,109,99"/>
 </map>

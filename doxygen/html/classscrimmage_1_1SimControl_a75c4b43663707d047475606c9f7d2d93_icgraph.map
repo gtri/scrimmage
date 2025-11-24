@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::start" name="scrimmage::SimControl::start">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread. " alt="" coords="227,13,429,39"/>
+<area shape="rect" id="Node000001" title="Starts the mission by generating entities and setting up logging." alt="" coords="257,5,432,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread." alt="" coords="5,13,209,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,28,209,28,209,23,244,23"/>
 </map>

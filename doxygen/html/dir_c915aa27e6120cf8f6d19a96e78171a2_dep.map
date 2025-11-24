@@ -1,57 +1,83 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller" name="/root/scrimmage/scrimmage/src/plugins/controller">
-<area shape="rect" id="node2" href="dir_3d6d181ce8bb8a7ef04c7d4f525eb63b.html" title="AircraftPIDController" alt="" coords="5563,63,5714,111"/>
-<area shape="rect" id="node28" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="2749,159,2821,207"/>
-<area shape="rect" id="edge19-headlabel" href="dir_000193_000002.html" title="8" alt="" coords="2835,182,2844,197"/>
-<area shape="rect" id="node3" href="dir_8c7362a38f944ccbebca438e522416c3.html" title="AircraftToSingleIntegratorController" alt="" coords="5293,63,5539,111"/>
-<area shape="rect" id="edge24-headlabel" href="dir_000194_000002.html" title="2" alt="" coords="2835,182,2845,197"/>
-<area shape="rect" id="node4" href="dir_cc43df678bd1d92f043d026f5e150eb1.html" title="DirectController" alt="" coords="5145,63,5268,111"/>
-<area shape="rect" id="edge26-headlabel" href="dir_000195_000002.html" title="7" alt="" coords="2835,182,2845,197"/>
-<area shape="rect" id="node5" href="dir_74ecf2eb32d8fd25517f82fc2db49dfb.html" title="DoubleIntegratorControllerVelYaw" alt="" coords="4885,63,5121,111"/>
-<area shape="rect" id="edge7-headlabel" href="dir_000196_000002.html" title="5" alt="" coords="2835,182,2844,197"/>
-<area shape="rect" id="node6" href="dir_da4098740d767669478e43386c71707b.html" title="DoubleIntegratorControllerWaypoint" alt="" coords="4609,63,4860,111"/>
-<area shape="rect" id="edge22-headlabel" href="dir_000197_000002.html" title="4" alt="" coords="2835,182,2844,197"/>
-<area shape="rect" id="node7" href="dir_0b492dd3a160f6043f7dabefe782681f.html" title="FixedWing6DOFControllerPID" alt="" coords="4383,63,4585,111"/>
-<area shape="rect" id="edge25-headlabel" href="dir_000198_000002.html" title="3" alt="" coords="2835,182,2844,197"/>
-<area shape="rect" id="node8" href="dir_8cbab75e397f067f588a6c008790360d.html" title="FixedWing6DOFControllerROS" alt="" coords="4149,63,4358,111"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000199_000002.html" title="2" alt="" coords="2835,183,2844,197"/>
-<area shape="rect" id="node9" href="dir_f47e3711f054f3b92fb77e57da84e5dc.html" title="HarmonicOscillatorConstController" alt="" coords="3881,63,4124,111"/>
-<area shape="rect" id="edge23-headlabel" href="dir_000200_000002.html" title="7" alt="" coords="2835,182,2845,197"/>
-<area shape="rect" id="node10" href="dir_dcef5d47f93f05b41cc849cd6b01939d.html" title="JoystickController" alt="" coords="3727,63,3857,111"/>
-<area shape="rect" id="edge18-headlabel" href="dir_000201_000002.html" title="10" alt="" coords="2831,183,2848,198"/>
-<area shape="rect" id="node11" href="dir_d20334e3e21c3cfc38c1b8635efe449f.html" title="JSBSimControlControllerHeadingPID" alt="" coords="3452,63,3703,111"/>
-<area shape="rect" id="edge13-headlabel" href="dir_000202_000002.html" title="5" alt="" coords="2835,183,2844,197"/>
-<area shape="rect" id="node12" href="dir_636a4c48df92a1cf3be2d15f6fcd7121.html" title="JSBSimModelControllerDirect" alt="" coords="3221,63,3427,111"/>
-<area shape="rect" id="edge21-headlabel" href="dir_000203_000002.html" title="3" alt="" coords="2835,180,2845,195"/>
-<area shape="rect" id="node13" href="dir_a798afbc8244e12404928c1539203cb9.html" title="JSBSimModelControllerHeadingPID" alt="" coords="2953,63,3196,111"/>
-<area shape="rect" id="edge12-headlabel" href="dir_000204_000002.html" title="4" alt="" coords="2837,165,2846,180"/>
-<area shape="rect" id="node14" href="dir_85580c75d4e779867e08e969d99f8484.html" title="MotionBattery" alt="" coords="2817,63,2929,111"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000205_000002.html" title="8" alt="" coords="2821,144,2830,158"/>
-<area shape="rect" id="node15" href="dir_7e0cce9722de74f5b9cf4a61669c60d1.html" title="MultirotorControllerOmega" alt="" coords="2601,63,2793,111"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000206_000002.html" title="8" alt="" coords="2753,132,2762,147"/>
-<area shape="rect" id="node16" href="dir_adeae49aea6bdaf894d0f15b3b3caa7f.html" title="MultirotorControllerPID" alt="" coords="2410,63,2577,111"/>
-<area shape="rect" id="edge10-headlabel" href="dir_000207_000002.html" title="7" alt="" coords="2728,155,2738,170"/>
-<area shape="rect" id="node17" href="dir_df97ac553abcb75044592fc417247610.html" title="RigidBody6DOFControllerPID" alt="" coords="2183,63,2385,111"/>
-<area shape="rect" id="edge20-headlabel" href="dir_000208_000002.html" title="3" alt="" coords="2727,163,2736,177"/>
-<area shape="rect" id="node18" href="dir_af75ebfe37083a6f08819ff998bb912e.html" title="RigidBody6DOFControllerROS" alt="" coords="1951,63,2159,111"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000209_000002.html" title="2" alt="" coords="2726,166,2736,181"/>
-<area shape="rect" id="node19" href="dir_d80b2761853da12015b9bb041a29f234.html" title="SimpleAircraftControllerPID" alt="" coords="1732,63,1927,111"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000210_000002.html" title="6" alt="" coords="2727,165,2736,179"/>
-<area shape="rect" id="node20" href="dir_1cc3e17ed558b1c1d2b8192c49a1d686.html" title="SimpleCarControllerHeading" alt="" coords="1505,63,1708,111"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000211_000002.html" title="5" alt="" coords="2726,165,2736,180"/>
-<area shape="rect" id="node21" href="dir_493ae186b74dcf5bb7869166c80f70c7.html" title="SimpleQuadrotorControllerLQR" alt="" coords="1263,63,1481,111"/>
-<area shape="rect" id="edge11-headlabel" href="dir_000212_000002.html" title="5" alt="" coords="2726,166,2736,180"/>
-<area shape="rect" id="node22" href="dir_25fc401c55beea1b89a7bc915a4e9a5c.html" title="SingleIntegratorControllerSimple" alt="" coords="1007,63,1238,111"/>
-<area shape="rect" id="edge14-headlabel" href="dir_000213_000002.html" title="3" alt="" coords="2726,166,2736,181"/>
-<area shape="rect" id="node23" href="dir_21a0a94f03a6149a0704f58397aeadd9.html" title="SingleIntegratorControllerWaypoint" alt="" coords="739,63,983,111"/>
-<area shape="rect" id="edge17-headlabel" href="dir_000214_000002.html" title="4" alt="" coords="2727,165,2736,180"/>
-<area shape="rect" id="node24" href="dir_3efb21d6727009f0cb198622befdb016.html" title="UnicycleControllerPoint" alt="" coords="546,63,715,111"/>
-<area shape="rect" id="edge16-headlabel" href="dir_000215_000002.html" title="3" alt="" coords="2726,166,2736,180"/>
-<area shape="rect" id="node25" href="dir_38ece28fc4c7dfae99838e289384af95.html" title="UnicyclePID" alt="" coords="425,63,521,111"/>
-<area shape="rect" id="edge9-headlabel" href="dir_000216_000002.html" title="8" alt="" coords="2726,165,2736,180"/>
-<area shape="rect" id="node26" href="dir_345a946d15cfb18163a1be0eeb4ea76a.html" title="UUV6DOFLinearEnergy" alt="" coords="231,63,401,111"/>
-<area shape="rect" id="edge8-headlabel" href="dir_000217_000002.html" title="6" alt="" coords="2726,166,2735,180"/>
-<area shape="rect" id="node27" href="dir_acfd113fbd73ac5d5e484cf32332439d.html" title="UUV6DOFPIDController" alt="" coords="38,63,207,111"/>
-<area shape="rect" id="edge15-headlabel" href="dir_000218_000002.html" title="7" alt="" coords="2726,166,2736,180"/>
-<area shape="rect" id="clust2" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html" alt="" coords="27,52,5832,121"/>
-<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,5843,132"/>
+<area shape="rect" id="node2" href="dir_3d6d181ce8bb8a7ef04c7d4f525eb63b.html" title="AircraftPIDController" alt="" coords="5413,70,5568,95"/>
+<area shape="rect" id="node28" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="2711,151,2780,176"/>
+<area shape="poly" id="edge1" href="dir_000002_000100.html" alt="" coords="5472,98,5440,114,5402,127,5266,137,4987,145,4179,156,2794,165,2794,159,4179,151,4987,139,5266,131,5401,121,5438,109,5470,93"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000002_000100.html" title="8" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node3" href="dir_8c7362a38f944ccbebca438e522416c3.html" title="AircraftToSingleIntegrator\lController" alt="" coords="5203,63,5389,103"/>
+<area shape="poly" id="edge2" href="dir_000004_000100.html" alt="" coords="5257,105,5226,117,5191,127,5067,135,4812,142,4072,154,2794,164,2794,159,4072,148,4812,137,5066,130,5190,121,5224,112,5255,100"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000004_000100.html" title="2" alt="" coords="2794,163,2803,177"/>
+<area shape="rect" id="node4" href="dir_cc43df678bd1d92f043d026f5e150eb1.html" title="DirectController" alt="" coords="5053,70,5179,95"/>
+<area shape="poly" id="edge3" href="dir_000050_000100.html" alt="" coords="5101,98,5074,114,5042,127,4926,137,4688,145,3997,156,2794,165,2794,159,3996,151,4688,139,4926,131,5041,121,5072,109,5098,93"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000050_000100.html" title="7" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node5" href="dir_74ecf2eb32d8fd25517f82fc2db49dfb.html" title="DoubleIntegratorController\lVelYaw" alt="" coords="4833,63,5029,103"/>
+<area shape="poly" id="edge4" href="dir_000055_000100.html" alt="" coords="4890,105,4857,117,4822,127,4688,139,4459,149,3841,160,3205,164,2794,165,2794,159,3205,159,3840,155,4459,143,4687,134,4821,121,4856,112,4889,100"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000055_000100.html" title="5" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node6" href="dir_da4098740d767669478e43386c71707b.html" title="DoubleIntegratorController\lWaypoint" alt="" coords="4613,63,4809,103"/>
+<area shape="poly" id="edge5" href="dir_000057_000100.html" alt="" coords="4670,105,4636,117,4600,127,4482,138,4280,147,3732,158,2794,165,2794,159,3732,153,4280,141,4481,133,4600,121,4635,112,4668,100"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000057_000100.html" title="4" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node7" href="dir_0b492dd3a160f6043f7dabefe782681f.html" title="FixedWing6DOFControllerPID" alt="" coords="4377,70,4588,95"/>
+<area shape="poly" id="edge6" href="dir_000071_000100.html" alt="" coords="4458,98,4415,114,4366,127,4263,136,4089,144,3615,156,2794,164,2794,159,3615,150,4089,139,4263,131,4365,121,4414,109,4456,93"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000071_000100.html" title="3" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node8" href="dir_8cbab75e397f067f588a6c008790360d.html" title="FixedWing6DOFControllerROS" alt="" coords="4137,70,4353,95"/>
+<area shape="poly" id="edge7" href="dir_000073_000100.html" alt="" coords="4220,98,4176,114,4126,127,4039,135,3893,142,3496,153,2794,164,2794,159,3495,148,3893,137,4039,130,4125,121,4175,109,4218,93"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000073_000100.html" title="2" alt="" coords="2794,163,2803,177"/>
+<area shape="rect" id="node9" href="dir_f47e3711f054f3b92fb77e57da84e5dc.html" title="HarmonicOscillatorConstController" alt="" coords="3865,70,4113,95"/>
+<area shape="poly" id="edge8" href="dir_000099_000100.html" alt="" coords="3959,98,3910,114,3854,127,3756,138,3626,147,3315,158,2794,165,2794,159,3315,153,3626,141,3755,133,3853,121,3909,109,3958,93"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000099_000100.html" title="7" alt="" coords="2794,163,2803,178"/>
+<area shape="rect" id="node10" href="dir_dcef5d47f93f05b41cc849cd6b01939d.html" title="JoystickController" alt="" coords="3703,70,3841,95"/>
+<area shape="poly" id="edge9" href="dir_000107_000100.html" alt="" coords="3756,98,3727,114,3693,127,3636,135,3541,142,3278,153,2794,164,2794,159,3278,147,3540,136,3636,129,3691,121,3725,109,3753,93"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000107_000100.html" title="10" alt="" coords="2790,162,2807,177"/>
+<area shape="rect" id="node11" href="dir_d20334e3e21c3cfc38c1b8635efe449f.html" title="JSBSimControlControllerHeadingPID" alt="" coords="3425,70,3679,95"/>
+<area shape="poly" id="edge10" href="dir_000111_000100.html" alt="" coords="3520,98,3470,113,3412,127,3235,149,3059,161,2905,165,2794,166,2794,160,2905,160,3058,156,3234,144,3412,121,3469,108,3519,93"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000111_000100.html" title="5" alt="" coords="2794,164,2803,179"/>
+<area shape="rect" id="node12" href="dir_636a4c48df92a1cf3be2d15f6fcd7121.html" title="JSBSimModelControllerDirect" alt="" coords="3189,70,3400,95"/>
+<area shape="poly" id="edge11" href="dir_000115_000100.html" alt="" coords="3268,98,3226,113,3178,127,3071,144,2965,156,2794,164,2794,159,2964,150,3071,139,3177,121,3225,108,3266,93"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000115_000100.html" title="3" alt="" coords="2794,163,2803,177"/>
+<area shape="rect" id="node13" href="dir_a798afbc8244e12404928c1539203cb9.html" title="JSBSimModelControllerHeadingPID" alt="" coords="2917,70,3165,95"/>
+<area shape="poly" id="edge12" href="dir_000117_000100.html" alt="" coords="3005,98,2906,127,2794,154,2793,149,2905,121,3004,93"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000117_000100.html" title="4" alt="" coords="2795,151,2805,166"/>
+<area shape="rect" id="node14" href="dir_85580c75d4e779867e08e969d99f8484.html" title="MotionBattery" alt="" coords="2779,70,2893,95"/>
+<area shape="poly" id="edge13" href="dir_000138_000100.html" alt="" coords="2824,98,2771,144,2767,140,2821,93"/>
+<area shape="rect" id="edge13-headlabel" href="dir_000138_000100.html" title="8" alt="" coords="2773,138,2783,152"/>
+<area shape="rect" id="node15" href="dir_7e0cce9722de74f5b9cf4a61669c60d1.html" title="MultirotorControllerOmega" alt="" coords="2557,70,2755,95"/>
+<area shape="poly" id="edge14" href="dir_000146_000100.html" alt="" coords="2671,94,2724,140,2720,144,2667,98"/>
+<area shape="rect" id="edge14-headlabel" href="dir_000146_000100.html" title="8" alt="" coords="2719,125,2729,139"/>
+<area shape="rect" id="node16" href="dir_adeae49aea6bdaf894d0f15b3b3caa7f.html" title="MultirotorControllerPID" alt="" coords="2361,70,2533,95"/>
+<area shape="poly" id="edge15" href="dir_000148_000100.html" alt="" coords="2472,93,2546,121,2625,140,2697,153,2696,158,2624,146,2545,127,2470,98"/>
+<area shape="rect" id="edge15-headlabel" href="dir_000148_000100.html" title="7" alt="" coords="2689,139,2698,154"/>
+<area shape="rect" id="node17" href="dir_df97ac553abcb75044592fc417247610.html" title="RigidBody6DOFControllerPID" alt="" coords="2125,70,2336,95"/>
+<area shape="poly" id="edge16" href="dir_000178_000100.html" alt="" coords="2259,93,2302,108,2350,121,2446,138,2541,149,2697,158,2697,164,2541,154,2445,143,2349,127,2300,113,2258,98"/>
+<area shape="rect" id="edge16-headlabel" href="dir_000178_000100.html" title="3" alt="" coords="2688,145,2697,160"/>
+<area shape="rect" id="node18" href="dir_af75ebfe37083a6f08819ff998bb912e.html" title="RigidBody6DOFControllerROS" alt="" coords="1886,70,2101,95"/>
+<area shape="poly" id="edge17" href="dir_000180_000100.html" alt="" coords="2022,93,2065,108,2114,121,2234,136,2399,146,2697,158,2697,163,2399,152,2233,141,2113,127,2063,113,2020,98"/>
+<area shape="rect" id="edge17-headlabel" href="dir_000180_000100.html" title="2" alt="" coords="2688,145,2697,159"/>
+<area shape="rect" id="node19" href="dir_d80b2761853da12015b9bb041a29f234.html" title="SimpleAircraftControllerPID" alt="" coords="1661,70,1861,95"/>
+<area shape="poly" id="edge18" href="dir_000211_000100.html" alt="" coords="1788,93,1828,109,1875,121,1950,132,2048,140,2286,151,2697,159,2697,164,2286,157,2048,145,1949,137,1874,127,1827,114,1786,98"/>
+<area shape="rect" id="edge18-headlabel" href="dir_000211_000100.html" title="6" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node20" href="dir_1cc3e17ed558b1c1d2b8192c49a1d686.html" title="SimpleCarControllerHeading" alt="" coords="1430,70,1637,95"/>
+<area shape="poly" id="edge19" href="dir_000219_000100.html" alt="" coords="1560,93,1602,109,1650,121,1746,134,1874,143,2181,155,2484,159,2697,160,2697,165,2484,165,2181,160,1874,149,1745,139,1649,127,1600,114,1559,98"/>
+<area shape="rect" id="edge19-headlabel" href="dir_000219_000100.html" title="5" alt="" coords="2687,146,2697,161"/>
+<area shape="rect" id="node21" href="dir_493ae186b74dcf5bb7869166c80f70c7.html" title="SimpleQuadrotorControllerLQR" alt="" coords="1183,70,1406,95"/>
+<area shape="poly" id="edge20" href="dir_000229_000100.html" alt="" coords="1323,93,1368,109,1419,121,1538,136,1696,146,2074,157,2444,161,2697,160,2697,165,2444,166,2074,163,1696,151,1537,141,1418,127,1366,114,1321,98"/>
+<area shape="rect" id="edge20-headlabel" href="dir_000229_000100.html" title="5" alt="" coords="2688,147,2697,161"/>
+<area shape="rect" id="node22" href="dir_25fc401c55beea1b89a7bc915a4e9a5c.html" title="SingleIntegratorController\lSimple" alt="" coords="969,63,1159,103"/>
+<area shape="poly" id="edge21" href="dir_000233_000100.html" alt="" coords="1106,100,1138,112,1172,121,1271,131,1440,139,1899,151,2697,159,2697,164,1899,156,1440,145,1271,137,1172,127,1136,117,1104,105"/>
+<area shape="rect" id="edge21-headlabel" href="dir_000233_000100.html" title="3" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node23" href="dir_21a0a94f03a6149a0704f58397aeadd9.html" title="SingleIntegratorController\lWaypoint" alt="" coords="754,63,945,103"/>
+<area shape="poly" id="edge22" href="dir_000235_000100.html" alt="" coords="891,100,923,112,958,121,1072,133,1265,141,1792,153,2697,159,2697,165,1792,158,1265,147,1071,138,957,127,922,117,889,105"/>
+<area shape="rect" id="edge22-headlabel" href="dir_000235_000100.html" title="4" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node24" href="dir_3efb21d6727009f0cb198622befdb016.html" title="UnicycleControllerPoint" alt="" coords="555,70,730,95"/>
+<area shape="poly" id="edge23" href="dir_000255_000100.html" alt="" coords="666,93,701,109,743,121,872,134,1091,144,1686,156,2298,159,2697,159,2697,165,2298,165,1686,161,1091,150,871,140,742,127,700,114,664,98"/>
+<area shape="rect" id="edge23-headlabel" href="dir_000255_000100.html" title="3" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node25" href="dir_38ece28fc4c7dfae99838e289384af95.html" title="UnicyclePID" alt="" coords="431,70,531,95"/>
+<area shape="poly" id="edge24" href="dir_000257_000100.html" alt="" coords="496,93,518,109,545,121,583,127,654,132,881,141,1543,152,2697,159,2697,165,1543,157,881,146,654,137,582,132,543,127,515,114,493,98"/>
+<area shape="rect" id="edge24-headlabel" href="dir_000257_000100.html" title="8" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node26" href="dir_345a946d15cfb18163a1be0eeb4ea76a.html" title="UUV6DOFLinearEnergy" alt="" coords="235,70,407,95"/>
+<area shape="poly" id="edge25" href="dir_000261_000100.html" alt="" coords="344,93,379,109,420,121,538,130,779,137,1480,148,2697,159,2697,164,1480,154,779,142,538,135,420,127,377,114,342,98"/>
+<area shape="rect" id="edge25-headlabel" href="dir_000261_000100.html" title="6" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="node27" href="dir_acfd113fbd73ac5d5e484cf32332439d.html" title="UUV6DOFPIDController" alt="" coords="37,70,211,95"/>
+<area shape="poly" id="edge26" href="dir_000263_000100.html" alt="" coords="147,93,183,109,224,121,353,130,616,138,1381,149,2697,159,2697,164,1381,154,616,143,352,135,224,127,181,114,145,98"/>
+<area shape="rect" id="edge26-headlabel" href="dir_000263_000100.html" title="7" alt="" coords="2688,146,2697,161"/>
+<area shape="rect" id="clust2" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html" alt="" coords="27,52,5688,113"/>
+<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,5699,124"/>
 </map>

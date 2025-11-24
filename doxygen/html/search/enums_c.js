@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['useglobalsensor_6549',['UseGlobalSensor',['../namespacescrimmage_1_1autonomy.html#acac5d0622cffc1e587dd4aaa6be21113',1,'scrimmage::autonomy']]]
+  ['viewmode_0',['ViewMode',['../classscrimmage_1_1Updater.html#a22ae824d412862aa4ebb747eca094e5b',1,'scrimmage::Updater']]]
 ];

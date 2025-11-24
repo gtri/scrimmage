@@ -1,3 +1,19 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h">
-<area shape="rect" id="node2" href="$EntityInteraction_8h.html" title="Brief file description. " alt="" coords="111,124,276,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="130,5,339,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,211,48,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,77,102,98,70,125,57,141,47,160,34,198,29,196,42,158,53,138,66,121,99,94,135,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="79,211,129,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,77,104,97,81,124,75,142,76,161,91,197,86,199,71,162,70,141,76,121,100,93,130,73"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="156,211,233,236"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,74,277,117,279,141,273,164,255,188,233,206,229,201,251,184,268,162,274,140,272,118,255,76"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="297,211,356,236"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="264,73,294,121,311,160,323,197,318,198,306,162,290,124,259,76"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="385,123,554,163"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="315,72,414,115,412,120,312,77"/>
+<area shape="rect" id="Node000007" href="$EntityInteraction_8h.html" title="Brief file description." alt="" coords="91,123,259,163"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="217,77,195,112,191,109,212,74"/>
+<area shape="poly" id="edge7_Node000007_Node000002" title=" " alt="" coords="140,165,62,207,59,202,138,160"/>
+<area shape="poly" id="edge8_Node000007_Node000003" title=" " alt="" coords="160,165,126,202,122,199,156,161"/>
+<area shape="poly" id="edge9_Node000007_Node000004" title=" " alt="" coords="182,162,191,196,186,198,177,164"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="212,160,293,202,290,206,210,165"/>
 </map>

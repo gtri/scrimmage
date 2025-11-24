@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1UnicycleControllerPoint =
 [
-    [ "init", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a07a1f204dee23b32a6062860925022da", null ],
-    [ "step", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#ae3218a31adc33d1658b8b936409d1c6d", null ],
+    [ "init", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a3b94227286dc95e49cb1d103776d4892", null ],
+    [ "step", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#acdced0422061dff613b32a6a4b1ca302", null ],
     [ "l_", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a87c807dd9c8cc309967922c5715a4245", null ],
     [ "gain_", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#af47f23cc397549712eb5139727b5ab7c", null ],
     [ "x_idx_in_", "classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a150c937dcf080d5febd83a159617e923", null ],

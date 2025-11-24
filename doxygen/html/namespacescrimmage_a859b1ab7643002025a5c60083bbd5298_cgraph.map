@@ -1,3 +1,5 @@
 <map id="scrimmage::path_to_lines" name="scrimmage::path_to_lines">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="204,13,327,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,157,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="205,13,328,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,23,191,23,191,28,157,28"/>
 </map>

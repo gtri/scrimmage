@@ -1,7 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion/SingleIntegrator/SingleIntegrator.cpp" name="/root/scrimmage/scrimmage/src/plugins/motion/SingleIntegrator/SingleIntegrator.cpp">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="5,117,188,143"/>
-<area shape="rect" id="node3" href="$Angles_8h.html" title="Brief file description. " alt="" coords="212,117,403,143"/>
-<area shape="rect" id="node4" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="427,109,628,151"/>
-<area shape="rect" id="node5" href="$PluginManager_8h.html" title="Brief file description. " alt="" coords="652,109,853,151"/>
-<area shape="rect" id="node6" href="$SingleIntegrator_8h.html" title="Brief file description. " alt="" coords="877,109,1124,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="381,5,636,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,68,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,50,235,74,157,90,80,111,74,113,72,108,79,105,156,85,234,68,381,45"/>
+<area shape="rect" id="Node000003" href="$Angles_8h.html" title="Brief file description." alt="" coords="92,115,285,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="419,63,241,114,240,109,418,57"/>
+<area shape="rect" id="Node000004" href="$State_8h.html" title="Brief file description." alt="" coords="309,115,492,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="480,62,427,108,423,104,476,58"/>
+<area shape="rect" id="Node000011" href="$PluginManager_8h.html" title="Brief file description." alt="" coords="516,108,720,148"/>
+<area shape="poly" id="edge4_Node000001_Node000011" title=" " alt="" coords="541,58,587,97,584,101,538,62"/>
+<area shape="rect" id="Node000024" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="744,108,948,148"/>
+<area shape="poly" id="edge5_Node000001_Node000024" title=" " alt="" coords="604,57,765,102,764,107,603,63"/>
+<area shape="rect" id="Node000025" href="$SingleIntegrator_8h.html" title="Brief file description." alt="" coords="972,108,1221,148"/>
+<area shape="poly" id="edge6_Node000001_Node000025" title=" " alt="" coords="637,51,965,103,964,108,636,57"/>
 </map>

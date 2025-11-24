@@ -1,3 +1,10 @@
 <map id="/root/scrimmage/scrimmage/src/common/GlobalService.cpp" name="/root/scrimmage/scrimmage/src/common/GlobalService.cpp">
-<area shape="rect" id="node2" href="$GlobalService_8h.html" title="Brief file description. " alt="" coords="5,95,264,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="15,5,241,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,91,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,47,72,85,68,82,107,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="183,167,241,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,45,141,80,157,117,172,138,189,155,185,159,168,141,152,120,136,81,128,46"/>
+<area shape="rect" id="Node000004" href="$GlobalService_8h.html" title="Brief file description." alt="" coords="166,93,429,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,43,261,85,259,90,167,48"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="285,121,238,160,235,156,282,117"/>
 </map>

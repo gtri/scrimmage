@@ -1,0 +1,25 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,319,148,345"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="233,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,318,86,269,106,198,121,159,141,121,165,86,194,55,218,40,221,45,198,59,169,89,145,124,126,162,111,200,91,270,82,319"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1PID.html#af0dfdaf6faa01780bec02a2f1605ce0c" title=" " alt="" coords="241,70,395,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="78,318,90,276,112,219,146,158,168,130,194,106,226,90,229,94,198,110,172,133,150,161,116,221,95,278,83,320"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a5a4b8b8234b4c178381471e783f8615f" title=" " alt="" coords="199,120,437,160"/>
+<area shape="poly" id="edge3_Node000001_Node000014" title=" " alt="" coords="81,318,97,288,121,248,154,206,194,170,205,164,207,168,198,174,158,209,126,251,101,290,86,321"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="233,184,403,224"/>
+<area shape="poly" id="edge4_Node000001_Node000015" title=" " alt="" coords="89,317,133,276,163,253,195,234,219,223,221,228,197,238,166,258,136,280,92,321"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="233,248,403,288"/>
+<area shape="poly" id="edge5_Node000001_Node000016" title=" " alt="" coords="124,317,195,297,227,289,228,294,197,303,125,322"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8" title=" " alt="" coords="227,312,409,352"/>
+<area shape="poly" id="edge6_Node000001_Node000017" title=" " alt="" coords="148,329,214,329,214,335,148,335"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044" title=" " alt="" coords="241,376,395,416"/>
+<area shape="poly" id="edge7_Node000001_Node000018" title=" " alt="" coords="125,342,197,361,228,370,227,375,195,367,124,347"/>
+<area shape="rect" id="Node000020" href="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3" title=" " alt="" coords="237,441,399,466"/>
+<area shape="poly" id="edge8_Node000001_Node000020" title=" " alt="" coords="92,343,135,384,165,407,197,426,225,436,223,441,195,430,162,411,132,388,88,347"/>
+<area shape="rect" id="Node000024" href="$classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a2abe0765704d61561598c8c7f9904376" title=" " alt="" coords="196,491,440,531"/>
+<area shape="poly" id="edge9_Node000001_Node000024" title=" " alt="" coords="87,343,128,407,160,444,198,475,210,483,208,487,194,480,156,447,124,410,82,346"/>
+<area shape="rect" id="Node000025" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="240,555,396,581"/>
+<area shape="poly" id="edge10_Node000001_Node000025" title=" " alt="" coords="84,344,96,383,118,437,152,493,173,519,197,540,228,556,226,561,195,545,169,523,147,497,113,439,91,385,79,346"/>
+<area shape="rect" id="Node000026" href="$classscrimmage_1_1VariableIO.html#a7605ae808a9ea0a55b6aab08e07a812d" title=" " alt="" coords="233,605,403,645"/>
+<area shape="poly" id="edge11_Node000001_Node000026" title=" " alt="" coords="83,345,92,391,113,458,128,494,147,529,170,562,198,590,221,605,218,609,194,594,166,565,143,532,123,496,108,460,87,393,77,346"/>
+</map>

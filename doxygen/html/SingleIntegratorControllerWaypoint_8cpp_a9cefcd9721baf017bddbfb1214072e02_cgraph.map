@@ -1,0 +1,15 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,189,148,214"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="210,5,381,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,187,124,124,157,87,194,55,204,49,207,54,198,59,160,91,129,128,87,190"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#ae66726ab32a036ea0cd39f986ac8f8f0" title=" " alt="" coords="196,70,395,125"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="99,186,195,135,210,128,213,133,197,140,101,191"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="210,149,381,189"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="148,188,196,181,197,186,149,194"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="210,213,381,253"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="149,209,197,216,196,222,148,214"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8" title=" " alt="" coords="205,277,386,317"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="100,212,144,237,197,263,215,270,213,275,195,268,142,242,97,216"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a94925cddee26c3afc5fa6c87820685ff" title=" " alt="" coords="196,342,395,397"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="89,213,132,267,163,299,198,327,207,333,204,338,194,331,159,303,128,271,85,216"/>
+</map>

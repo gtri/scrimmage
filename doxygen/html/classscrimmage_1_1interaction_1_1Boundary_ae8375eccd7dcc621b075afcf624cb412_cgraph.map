@@ -1,0 +1,19 @@
+<map id="scrimmage::interaction::Boundary::init" name="scrimmage::interaction::Boundary::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,205,179,245"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="227,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,204,149,132,184,91,225,55,234,50,237,54,228,59,188,95,154,135,106,207"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="227,69,408,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="113,203,163,161,225,119,238,113,241,117,228,124,166,166,117,207"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="255,134,379,159"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="137,203,226,168,250,160,252,166,228,173,139,208"/>
+<area shape="rect" id="Node000006" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="240,183,395,209"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="178,211,226,205,227,210,179,217"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="240,233,395,273"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="179,233,227,239,226,245,178,239"/>
+<area shape="rect" id="Node000012" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="256,298,379,323"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="135,243,228,283,254,292,252,297,226,288,133,248"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Plugin.html#a83e4f1983cc998530df754be6779aae1" title=" " alt="" coords="227,347,407,373"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="114,244,164,288,195,312,228,332,246,340,244,345,225,337,192,316,160,293,111,248"/>
+<area shape="rect" id="Node000014" href="$namespacescrimmage.html#aaad7545419d1346694d31a4aa5da440f" title=" " alt="" coords="232,397,403,422"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="107,244,154,312,188,350,228,382,241,389,239,394,225,386,185,354,150,316,103,247"/>
+</map>

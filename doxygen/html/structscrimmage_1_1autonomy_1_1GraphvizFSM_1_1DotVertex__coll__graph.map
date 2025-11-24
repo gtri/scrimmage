@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::GraphvizFSM::DotVertex" name="scrimmage::autonomy::GraphvizFSM::DotVertex">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="55,5,142,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,185,213"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="56,5,135,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,71,98,117,93,117,93,71"/>
 </map>

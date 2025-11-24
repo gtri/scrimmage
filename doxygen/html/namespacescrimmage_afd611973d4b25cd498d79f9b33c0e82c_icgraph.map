@@ -1,3 +1,5 @@
 <map id="scrimmage::get_version" name="scrimmage::get_version">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a8cd3b0a233bd4f47c0e064d21240c707" title="scrimmage::SimControl\l::output_git_summary" alt="" coords="229,5,403,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,13,407,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a8cd3b0a233bd4f47c0e064d21240c707" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,28,180,28,180,23,214,23"/>
 </map>

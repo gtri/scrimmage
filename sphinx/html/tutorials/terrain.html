@@ -1,89 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create a Digital Terrain Model &mdash; scrimmage 0.2.0-dev documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=dee240fc"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Optimizing Parameters in SCRIMMAGE" href="optimize.html" />
-    <link rel="prev" title="Create an OpenAI Plugin" href="openai-plugin.html" /> 
+    <link rel="prev" title="AirSimSensor Plugin Setup" href="airsim-plugin.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> scrimmage
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            scrimmage
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0-dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
@@ -103,7 +61,6 @@
 <li class="toctree-l2"><a class="reference internal" href="scrimmage-ros-integration.html">SCRIMMAGE / ROS Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Create a Digital Terrain Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
@@ -134,74 +91,35 @@
 </li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">scrimmage</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-        
-      <li>Create a Digital Terrain Model</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Create a Digital Terrain Model</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/tutorials/terrain.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="create-a-digital-terrain-model">
-<span id="terrain"></span><h1>Create a Digital Terrain Model<a class="headerlink" href="#create-a-digital-terrain-model" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="create-a-digital-terrain-model">
+<span id="terrain"></span><h1>Create a Digital Terrain Model<a class="headerlink" href="#create-a-digital-terrain-model" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <p>SCRIMMAGE is capable of displaying a digital terrain model as a stage for
 simulation. In order to do this, we create terrain data that covers the area of
 interest. This terrain data consists of an elevation file, which defines the
@@ -213,8 +131,8 @@ at Camp Roberts in California as a reference example, the procedure can be
 generalized to any area of interest. In addition, these procedures demonstrate
 how to create the digital terrain model with free, readily available software
 and source data.</p>
-<div class="section" id="prerequisites">
-<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
 <p>This tutorial relies on two geographic information system (GIS) software
 packages: QGIS and GRASS GIS. These software packages are free and support all
 major operating systems. The QGIS software, as well as installation
@@ -222,9 +140,9 @@ instructions, can be found at
 <a class="reference external" href="https://qgis.org/en/site/forusers/alldownloads.html">https://qgis.org/en/site/forusers/alldownloads.html</a>. GRASS GIS can be found at
 <a class="reference external" href="https://grass.osgeo.org">https://grass.osgeo.org</a>. For this tutorial, QGIS 2.18.17 and GRASS GIS 7.4.0
 were used on Ubuntu 18.04.</p>
-</div>
-<div class="section" id="data-source">
-<h3>Data Source<a class="headerlink" href="#data-source" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="data-source">
+<h3>Data Source<a class="headerlink" href="#data-source" title="Link to this heading"></a></h3>
 <p>The terrain in SCRIMMAGE is constructed from elevation data and aerial imagery.
 The United States Geological Survery (USGS) provides these data sets through
 <a class="reference external" href="https://www.usgs.gov/core-science-systems/ngp/tnm-delivery/gis-data-download">The National Map Data Download and Visualization Services</a>. Its best
@@ -240,12 +158,12 @@ property. Many cities provide GeoJSON files with building footprints, but these 
 might not have building heights. In this tutorial, we create a GeoJSON file that has a
 height property. Although not used in this tutorial, Microsoft provides building
 footprint data through the <a class="reference external" href="https://wiki.openstreetmap.org/wiki/Microsoft_Building_Footprint_Data">Microsoft Building Footprint Data</a> wiki.</p>
-</div>
-</div>
-<div class="section" id="instructions">
-<h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="step-1-setup-the-folder-structure">
-<h3>Step 1: Setup the folder structure<a class="headerlink" href="#step-1-setup-the-folder-structure" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Link to this heading"></a></h2>
+<section id="step-1-setup-the-folder-structure">
+<h3>Step 1: Setup the folder structure<a class="headerlink" href="#step-1-setup-the-folder-structure" title="Link to this heading"></a></h3>
 <p>Before starting the QGIS program, generate a folder structure to hold a QGIS
 project and its data. GIS operations are data-intensive and can generate a
 large number of files, so it helps to keep your data organized. The directory
@@ -253,10 +171,11 @@ structure used in this tutorial is shown below. The “Original” folders will
 contain the source data, and the “Clipped” and “Reprojected” folders will
 contain data that will be generated from the source data. We will save the
 final versions of our data to the “Output” folder.</p>
-<a class="reference internal image-reference" href="../_images/qgis_folder_structure.png"><img alt="../_images/qgis_folder_structure.png" class="align-center" src="../_images/qgis_folder_structure.png" style="width: 182.0px; height: 216.0px;" /></a>
-</div>
-<div class="section" id="step-2-obtain-the-national-map-tnm-data">
-<h3>Step 2: Obtain The National Map (TNM) Data<a class="headerlink" href="#step-2-obtain-the-national-map-tnm-data" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="../_images/qgis_folder_structure.png"><img alt="../_images/qgis_folder_structure.png" class="align-center" src="../_images/qgis_folder_structure.png" style="width: 182.0px; height: 216.0px;" />
+</a>
+</section>
+<section id="step-2-obtain-the-national-map-tnm-data">
+<h3>Step 2: Obtain The National Map (TNM) Data<a class="headerlink" href="#step-2-obtain-the-national-map-tnm-data" title="Link to this heading"></a></h3>
 <p>The USGS <a class="reference external" href="https://viewer.nationalmap.gov/tnmaccess/api/productsForm">TNM Access API</a> can be used to find the downloadURLs for GIS data.
 For the McMillan Airfield at Camp Roberts that is located at N35.718364,
 W120.768526,  the following filter inputs were used to find the downloadURLs
@@ -273,9 +192,9 @@ downloadURL for the elevation data is
 <a class="reference external" href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/ArcGrid/USGS_NED_13_n36w121_ArcGrid.zip">https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/ArcGrid/USGS_NED_13_n36w121_ArcGrid.zip</a>.
 The contents of this folder should be extracted to the ./Elevation/Original
 folder.</p>
-</div>
-<div class="section" id="step-3-create-a-qgis-project">
-<h3>Step 3: Create a QGIS Project<a class="headerlink" href="#step-3-create-a-qgis-project" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-3-create-a-qgis-project">
+<h3>Step 3: Create a QGIS Project<a class="headerlink" href="#step-3-create-a-qgis-project" title="Link to this heading"></a></h3>
 <p>The original data will require quite a bit of manipulation. It is in different
 projections, in file formats other than our desired ones, and covers a much
 larger area than we need. We will use QGIS to create a project, load the data,
@@ -311,16 +230,17 @@ CRS transformation” option. In the Filter field, type “UTM 10” to search f
 the “WGS 84 / UTM zone 10N” CRS. Select it from the list and press the OK
 button</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_crs.png"><img alt="../_images/qgis_crs.png" class="align-center" src="../_images/qgis_crs.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_crs.png"><img alt="../_images/qgis_crs.png" class="align-center" src="../_images/qgis_crs.png" style="width: 40%;" />
+</a>
 <ol class="arabic simple" start="5">
 <li><p>Finally, save the project by going to the menu bar and selecting “Project
 &gt; Save As…”. In the resulting dialog, navigate to your root folder from
 Step 1, enter a file name (e.g. “mcmillan.qgs”), and press the Save button.
 Be sure to save periodically throughout this tutorial.</p></li>
 </ol>
-</div>
-<div class="section" id="step-4-add-a-basemap-layer">
-<h3>Step 4: Add a Basemap Layer<a class="headerlink" href="#step-4-add-a-basemap-layer" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-4-add-a-basemap-layer">
+<h3>Step 4: Add a Basemap Layer<a class="headerlink" href="#step-4-add-a-basemap-layer" title="Link to this heading"></a></h3>
 <p>In this step, we will create a basemap layer. Note that this is not the actual
 imagery we will use as the texture for our terrain model. This will be used
 solely as an aid for locating and defining our area of interest.</p>
@@ -331,7 +251,8 @@ Search box, type “QuickMapServices”. Select the plugin from the results list
 and press the “Install plugin” button. After the plugin has finished
 installing, press the “Close” button to dismiss the Plugins dialog.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_plugin.png"><img alt="../_images/qgis_plugin.png" class="align-center" src="../_images/qgis_plugin.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_plugin.png"><img alt="../_images/qgis_plugin.png" class="align-center" src="../_images/qgis_plugin.png" style="width: 40%;" />
+</a>
 <ol class="arabic simple" start="2">
 <li><p>From the menu bar, select “Web &gt; QuickMapServices &gt; Search QMS” to bring
 up the Search QMS panel. Using this panel, search for “Google” and
@@ -341,9 +262,9 @@ the Miscellaneous group, drag-and-drop it there. Right-click on the layer,
 select “Rename”, and change the layer’s name to “Basemap: Google Hybrid”.
 Close the Search QMS panel, by clicking the X box in its top right corner.</p></li>
 </ol>
-</div>
-<div class="section" id="step-5-create-a-clipping-polygon">
-<h3>Step 5: Create a Clipping Polygon<a class="headerlink" href="#step-5-create-a-clipping-polygon" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-5-create-a-clipping-polygon">
+<h3>Step 5: Create a Clipping Polygon<a class="headerlink" href="#step-5-create-a-clipping-polygon" title="Link to this heading"></a></h3>
 <ol class="arabic simple">
 <li><p>Navigate to the area in which you’ll be working. You can use the panning
 tool (from the menu, select “View &gt; Pan Map”) to move around the map and
@@ -363,7 +284,8 @@ will prompt you to save the layer’s shapefile. In the Save Layer As dialog,
 navigate to “./Miscellaneous/ClippingRect” and save the shapefile as an ESRI
 Shapefile named “ClippingRect”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_shapefile.png"><img alt="../_images/qgis_shapefile.png" class="align-center" src="../_images/qgis_shapefile.png" style="width: 177.60000000000002px; height: 242.4px;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_shapefile.png"><img alt="../_images/qgis_shapefile.png" class="align-center" src="../_images/qgis_shapefile.png" style="width: 177.60000000000002px; height: 242.4px;" />
+</a>
 <ol class="arabic simple" start="3">
 <li><p>Right-click on the “ClippingRect” layer in the Layers Panel and select
 “Select Layer CRS”. Confirm that the CRS Selector dialog is using the
@@ -387,9 +309,9 @@ the ClippingRect layer is selected. From the menu bar, select “Layer &gt;
 Toggle Editing” to stop editing the layer. QGIS will ask you if you want to
 save the changes to the layer; select “Save”.</p></li>
 </ol>
-</div>
-<div class="section" id="step-6-process-and-export-the-aerial-imagery">
-<h3>Step 6: Process and Export the Aerial imagery<a class="headerlink" href="#step-6-process-and-export-the-aerial-imagery" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-6-process-and-export-the-aerial-imagery">
+<h3>Step 6: Process and Export the Aerial imagery<a class="headerlink" href="#step-6-process-and-export-the-aerial-imagery" title="Link to this heading"></a></h3>
 <p>Next, we will manipulate the aerial imagery. Our goal for this section is to
 create an image that is the size of the clipping rectangle and that is
 projected into the Project CRS.</p>
@@ -405,7 +327,8 @@ found in the CRS list as “Generated CRS” with a Authority ID of
 “USER:100000”.) See step 7 in the previous section for a reminder of how to
 do this.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_rect1.png"><img alt="../_images/qgis_rect1.png" class="align-center" src="../_images/qgis_rect1.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_rect1.png"><img alt="../_images/qgis_rect1.png" class="align-center" src="../_images/qgis_rect1.png" style="width: 40%;" />
+</a>
 <ol class="arabic simple" start="3">
 <li><p>If multiple files were added to span the area of the clipping rectangle,
 then the files must be merged before any reprojection or clip extraction.
@@ -440,7 +363,8 @@ marker detected: Psot=12”; if so, you can ignore it. Finally, press “Close�
 to dismiss the “Warp (Reproject)” dialog. With the original imagery layer
 hidden, the new “Reprojected” layer should appear as shown below.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_image_reproject.png"><img alt="../_images/qgis_image_reproject.png" class="align-center" src="../_images/qgis_image_reproject.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_image_reproject.png"><img alt="../_images/qgis_image_reproject.png" class="align-center" src="../_images/qgis_image_reproject.png" style="width: 40%;" />
+</a>
 <ol class="arabic simple" start="5">
 <li><p>If the new “Reprojected” layer looks washed out instead, right-click it in
 the Layer panel, select “Properties”, and go to the “Transparency” tab.
@@ -461,7 +385,8 @@ and “ClippingRect” layers to see the results. Once again, if the new image
 looks washed out, set its transparency to None as mentioned in the previous
 step.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_image_clipped.png"><img alt="../_images/qgis_image_clipped.png" class="align-center" src="../_images/qgis_image_clipped.png" style="width: 40%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_image_clipped.png"><img alt="../_images/qgis_image_clipped.png" class="align-center" src="../_images/qgis_image_clipped.png" style="width: 40%;" />
+</a>
 <ol class="arabic simple" start="7">
 <li><p>Finally, we will export the imagery. Our imagery is currently in a GeoTIFF
 format, but we need a JPEG image for the SCRIMMAGE simulator. From the
@@ -476,10 +401,11 @@ omits any others, such as transparency or infrared bands. Press “OK” to
 begin the operation. After completion, press “Close” to dismiss the dialog.
 The resulting JPEG image is suitable for use with SCRIMMAGE.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_jpeg_output_settings.png"><img alt="../_images/qgis_jpeg_output_settings.png" class="align-center" src="../_images/qgis_jpeg_output_settings.png" style="width: 40%;" /></a>
-</div>
-<div class="section" id="step-7-process-and-export-the-elevation-data">
-<h3>Step 7: Process and Export the Elevation Data<a class="headerlink" href="#step-7-process-and-export-the-elevation-data" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="../_images/qgis_jpeg_output_settings.png"><img alt="../_images/qgis_jpeg_output_settings.png" class="align-center" src="../_images/qgis_jpeg_output_settings.png" style="width: 40%;" />
+</a>
+</section>
+<section id="step-7-process-and-export-the-elevation-data">
+<h3>Step 7: Process and Export the Elevation Data<a class="headerlink" href="#step-7-process-and-export-the-elevation-data" title="Link to this heading"></a></h3>
 <p>The elevation preparation process will follow the same basic steps as the
 process for the aerial imagery.</p>
 <ol class="arabic simple">
@@ -513,7 +439,8 @@ button next to “Clipping extent field”, select “Calculate from Layer”, a
 then the clipping layer. When done, press “Close” to dismiss the
 Clipper dialog and then hide the other layers to see the results.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_elevation_clipped.png"><img alt="../_images/qgis_elevation_clipped.png" class="align-center" src="../_images/qgis_elevation_clipped.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_elevation_clipped.png"><img alt="../_images/qgis_elevation_clipped.png" class="align-center" src="../_images/qgis_elevation_clipped.png" style="width: 45%;" />
+</a>
 <ol class="arabic" start="4">
 <li><p>Finally, we will export the elevation data from its current GeoTIFF format
 to the VTK format expected by SCRIMMAGE. This step is a bit more involved
@@ -533,7 +460,8 @@ for Camp Roberts, enter the ID “32610” into the “EPSG code” field. This
 corresponds to the WGS84 UTM zone 10N reference system that we’ve been
 using throughout the tutorial. Press “Next”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/grass_crs.png"><img alt="../_images/grass_crs.png" class="align-center" src="../_images/grass_crs.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="../_images/grass_crs.png"><img alt="../_images/grass_crs.png" class="align-center" src="../_images/grass_crs.png" style="width: 45%;" />
+</a>
 <ol class="loweralpha simple" start="6">
 <li><p>Next, GRASS will ask you to select from a list of datum
 transformations. Select “0 - Do not apply any datum
@@ -542,7 +470,8 @@ GRASS Location. Press “Finish”.</p></li>
 <li><p>GRASS will ask you if you want to set the default region extents and
 resolution now. Select “Yes”. For Camp Roberts, set the following values:</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/grass_region.png"><img alt="../_images/grass_region.png" class="align-center" src="../_images/grass_region.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="../_images/grass_region.png"><img alt="../_images/grass_region.png" class="align-center" src="../_images/grass_region.png" style="width: 45%;" />
+</a>
 <ol class="loweralpha simple" start="8">
 <li><p>Create a new mapset called “Elevation”. Select it and then press
 “Start GRASS session”. The Layer Manager and Map Display windows
@@ -558,7 +487,8 @@ Display window. Press “Close” to dismiss the Import dialog. The elevation
 raster should now be visible on the Map Display window. Press “Close” to
 dismiss the Import dialog.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/grass_output_preview.png"><img alt="../_images/grass_output_preview.png" class="align-center" src="../_images/grass_output_preview.png" style="width: 45%;" /></a>
+<a class="reference internal image-reference" href="../_images/grass_output_preview.png"><img alt="../_images/grass_output_preview.png" class="align-center" src="../_images/grass_output_preview.png" style="width: 45%;" />
+</a>
 <ol class="loweralpha simple" start="10">
 <li><p>Before exporting, we must be sure that the red computational boundary box
 surrounds the image. To do this, click Settings &gt; Computational Region &gt; Set region.
@@ -584,24 +514,26 @@ and make sure the elevation file looks correct in 3D.</p></li>
 </ol>
 </li>
 </ol>
-</div>
-<div class="section" id="step-8-optional-create-building-data">
-<h3>Step 8 (Optional): Create Building Data<a class="headerlink" href="#step-8-optional-create-building-data" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="step-8-optional-create-building-data">
+<h3>Step 8 (Optional): Create Building Data<a class="headerlink" href="#step-8-optional-create-building-data" title="Link to this heading"></a></h3>
 <p>SCRIMMAGE will display ground-based polygon extrusions if the installed VTK library version is greater than or equal to 7. It obtains the location and height for these extrusions from a GeoJSON file. Thia GeoJSON file can be obtained from a data source or created with QGIS. If it is obtained from a data source, it will likely need to be processed with “Vector &gt; Geoprocessing Tools &gt; Clip”. The following steps show how to create the GeoJSON file with QGIS.</p>
 <ol class="arabic simple">
 <li><p>Enable the ClippedImagery layer and select “View &gt; Zoom to Layer”.</p></li>
 <li><p>Add a layer group between “Miscellaneous” and “Imagery”. Rename it to “Building”.</p></li>
 <li><p>Using Step 5.2 as a reference, add a new polygon shapefile layer to the “Building” group. When creating this shapefile, add a new field with the name “Height” and use “Project CRS”. Save this file to a ./Building folder and name it “Building”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_shapefile2.png"><img alt="../_images/qgis_shapefile2.png" class="align-center" src="../_images/qgis_shapefile2.png" style="width: 177.60000000000002px; height: 243.20000000000002px;" /></a>
+<a class="reference internal image-reference" href="../_images/qgis_shapefile2.png"><img alt="../_images/qgis_shapefile2.png" class="align-center" src="../_images/qgis_shapefile2.png" style="width: 177.60000000000002px; height: 243.20000000000002px;" />
+</a>
 <ol class="arabic simple">
 <li><p>Using Step 5.4 as a reference, add polygons to the shapefile. After creating each polygon, a prompt will ask for the “ID” and “Height” values. The “ID” value can be any arbitrary value. However, the “Height” value should be the building’s height in meters.</p></li>
 <li><p>Export the shapefile to a GeoJSON file. Select the Building shapefile in the layer’s pane. Select “Layer &gt; Save As” in the top menu bar. Set the format to “GeoJSON”. Set the output file name such that its path is the ./output folder. Set the CRS to “Project CRS”. Disable “Add saved file to map”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_geojson.png"><img alt="../_images/qgis_geojson.png" class="align-center" src="../_images/qgis_geojson.png" style="width: 244.4px; height: 311.20000000000005px;" /></a>
-</div>
-<div class="section" id="step-9-use-the-digital-terrain-model-in-scrimmmage">
-<h3>Step 9: Use the Digital Terrain Model in SCRIMMMAGE<a class="headerlink" href="#step-9-use-the-digital-terrain-model-in-scrimmmage" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="../_images/qgis_geojson.png"><img alt="../_images/qgis_geojson.png" class="align-center" src="../_images/qgis_geojson.png" style="width: 244.4px; height: 311.20000000000005px;" />
+</a>
+</section>
+<section id="step-9-use-the-digital-terrain-model-in-scrimmmage">
+<h3>Step 9: Use the Digital Terrain Model in SCRIMMMAGE<a class="headerlink" href="#step-9-use-the-digital-terrain-model-in-scrimmmage" title="Link to this heading"></a></h3>
 <p>SCRIMMAGE uses the digital terrain model, specified in its mission file. To be
 more precise, the mission file’s attribute value for “terrain” is used to
 select the digial terrain model that the simulation will use. SCRIMMAGE
@@ -610,57 +542,39 @@ variable for a xml file with a relative path
 “/gui/terrain/&lt;terrain_name&gt;/&lt;terrain_name&gt;.xml”, where &lt;terrain_name&gt; matches
 the  attribute value for “terrain”. SCRIMMAGE uses this xml to set the aerial
 imagery, elevation data, extrusion data, and CRS for the simulation. Please mimic the mcmillan terrain that is packaged with SCRIMMAGE to make your newly created terrain model accessible to SCRIMMAGE. After which, configure your mission file to load this terrain model and set the latitude and longitude parameters for the mission to be within the bounds of your terrain data.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="optimize.html" class="btn btn-neutral float-right" title="Optimizing Parameters in SCRIMMAGE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="openai-plugin.html" class="btn btn-neutral float-left" title="Create an OpenAI Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="airsim-plugin.html" class="btn btn-neutral float-left" title="AirSimSensor Plugin Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="optimize.html" class="btn btn-neutral float-right" title="Optimizing Parameters in SCRIMMAGE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Kevin DeMarco
-
-    </p>
+    <p>&#169; Copyright 2020, Kevin DeMarco.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -1,3 +1,5 @@
 <map id="scrimmage::interaction::SimpleCapture" name="scrimmage::interaction::SimpleCapture">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="13,5,220,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,159,220,379"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityInteraction.html" title=" " alt="" coords="11,5,214,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,124,115,158,110,158,110,124"/>
 </map>

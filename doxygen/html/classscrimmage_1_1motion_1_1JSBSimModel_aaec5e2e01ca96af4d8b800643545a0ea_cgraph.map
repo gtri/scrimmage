@@ -1,4 +1,9 @@
 <map id="scrimmage::motion::JSBSimModel::step" name="scrimmage::motion::JSBSimModel::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="208,5,361,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="208,71,361,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,69,163,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="219,5,373,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,67,215,47,217,52,152,72"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="211,69,381,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,87,197,87,197,92,163,92"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="219,133,373,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="152,107,217,127,215,132,150,112"/>
 </map>

@@ -1,8 +1,20 @@
 <map id="scrimmage::MissionParse::parse_terrain" name="scrimmage::MissionParse::parse_terrain">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MissionParse.html#a9e1df4ddc89066c8f5ebe1918da52b8e" title="scrimmage::MissionParse\l::altitude_origin" alt="" coords="239,5,424,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title="scrimmage::find_terrain\l_files" alt="" coords="244,71,419,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="472,100,651,141"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1MissionParse.html#afaa3f08542bc82c3e6280db78176da09" title="scrimmage::MissionParse\l::latitude_origin" alt="" coords="239,188,424,229"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1MissionParse.html#a7eb40f338af182d3d949e75517645dee" title="scrimmage::MissionParse\l::longitude_origin" alt="" coords="239,253,424,295"/>
-<area shape="rect" id="node7" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title="scrimmage::str2bool" alt="" coords="254,319,409,346"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,207,193,247"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MissionParse.html#a9e1df4ddc89066c8f5ebe1918da52b8e" title=" " alt="" coords="241,5,429,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,205,160,132,197,91,240,55,249,49,252,54,243,59,201,95,165,136,115,208"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title=" " alt="" coords="247,69,424,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,204,176,166,240,126,267,112,269,117,243,130,179,170,128,208"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="477,99,656,139"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="144,204,190,186,241,169,355,144,463,127,464,133,356,149,242,175,192,191,146,209"/>
+<area shape="rect" id="Node000012" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="273,185,397,210"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="193,212,259,204,260,209,194,218"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1MissionParse.html#afaa3f08542bc82c3e6280db78176da09" title=" " alt="" coords="241,235,429,275"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="194,235,228,239,227,245,193,240"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1MissionParse.html#a7eb40f338af182d3d949e75517645dee" title=" " alt="" coords="241,299,429,339"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="147,244,242,284,262,292,260,297,240,289,145,249"/>
+<area shape="rect" id="Node000015" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="274,363,397,389"/>
+<area shape="poly" id="edge8_Node000001_Node000015" title=" " alt="" coords="120,245,172,297,206,325,243,348,262,357,260,362,240,353,203,329,168,301,116,249"/>
+<area shape="rect" id="Node000016" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="257,413,413,438"/>
+<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="114,245,134,279,163,320,200,362,243,398,256,405,253,410,240,402,196,366,159,323,129,282,109,248"/>
+<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="425,98,464,103,463,108,424,103"/>
 </map>

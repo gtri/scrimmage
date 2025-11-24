@@ -1,4 +1,8 @@
 <map id="scrimmage::shape::make_arc" name="scrimmage::shape::make_arc">
-<area shape="rect" id="node2" href="$namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9" title="scrimmage::shape::make\l_shape" alt="" coords="265,5,451,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="499,42,621,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,219,67"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage_1_1shape.html#a58ba0e6ff11d2e59f9aa3312c2d597a9" title=" " alt="" coords="267,5,453,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,39,253,35,253,41,219,45"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="501,42,624,67"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="219,54,267,55,453,55,487,54,487,59,453,60,267,60,219,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="454,36,488,41,488,47,453,42"/>
 </map>

@@ -1,3 +1,22 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/LOSSensor/LOSSensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/LOSSensor/LOSSensor.h">
-<area shape="rect" id="node2" href="$RayTrace_8h.html" title="Brief file description. " alt="" coords="178,109,369,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="134,5,361,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,108,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,62,93,112,91,107,193,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="145,196,195,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="238,61,183,185,178,182,233,59"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="231,196,309,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="239,61,229,102,227,125,231,147,240,167,252,184,248,187,236,169,226,149,222,125,223,102,234,60"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="339,196,411,221"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="250,60,256,103,263,126,275,146,300,171,330,188,327,193,297,175,271,150,258,128,251,105,245,61"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="443,196,502,221"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="362,37,398,46,434,59,467,79,494,107,502,125,502,146,489,184,484,183,496,145,496,127,489,109,463,83,432,64,397,51,360,42"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="531,196,593,221"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="362,42,401,51,442,64,481,82,516,106,531,123,544,143,559,181,554,183,539,145,527,126,512,110,478,87,440,69,400,56,360,47"/>
+<area shape="rect" id="Node000008" href="$RayTrace_8h.html" title="Brief file description." alt="" coords="285,108,479,148"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="287,58,345,98,342,102,284,62"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="332,151,210,196,208,191,330,146"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="356,150,299,190,296,186,353,146"/>
+<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="383,148,380,182,375,182,378,148"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="406,146,451,185,447,189,402,150"/>
+<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="426,146,524,188,522,193,424,150"/>
 </map>

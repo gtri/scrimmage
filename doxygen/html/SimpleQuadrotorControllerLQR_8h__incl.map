@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h">
-<area shape="rect" id="node2" href="$SimpleQuadrotor_8h.html" title="Brief file description. " alt="" coords="24,124,284,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="21,5,288,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="68,211,118,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,77,36,97,14,124,8,142,14,161,33,185,58,203,54,207,29,189,9,164,3,142,9,121,32,94,61,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="186,211,245,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="248,73,277,94,299,121,306,142,300,164,281,188,256,206,253,202,277,184,295,161,301,142,295,124,273,97,244,77"/>
+<area shape="rect" id="Node000004" href="$SimpleQuadrotor_8h.html" title="Brief file description." alt="" coords="24,123,285,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,75,157,108,152,108,152,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="142,165,113,201,109,198,138,161"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="171,161,200,198,196,201,167,165"/>
 </map>

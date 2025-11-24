@@ -1,4 +1,13 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Subscriber.h" name="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Subscriber.h">
-<area shape="rect" id="node2" href="$SubscriberBase_8h.html" title="Brief file description. " alt="" coords="5,109,223,151"/>
-<area shape="rect" id="node4" href="$Message_8h.html" title="Brief file description. " alt="" coords="298,117,517,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="114,5,321,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="296,196,355,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,57,66,73,28,94,15,105,9,118,10,131,18,146,35,160,62,171,133,188,213,198,282,203,282,208,213,203,132,193,60,176,33,164,14,150,4,133,4,117,11,102,25,89,64,68,113,52"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="28,115,191,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,62,135,108,132,104,185,58"/>
+<area shape="rect" id="Node000004" href="$Message_8h.html" title="Brief file description." alt="" coords="215,115,435,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="250,58,303,104,299,108,246,62"/>
+<area shape="rect" id="Node000007" href="$SubscriberBase_8h.html" title="Brief file description." alt="" coords="460,108,679,148"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="317,57,486,102,485,107,316,63"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="328,141,328,182,323,182,323,141"/>
+<area shape="poly" id="edge6_Node000007_Node000002" title=" " alt="" coords="512,151,369,196,368,191,510,145"/>
 </map>

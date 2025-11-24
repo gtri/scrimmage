@@ -1,4 +1,7 @@
 <map id="scrimmage::interaction::Cuboid::set_points" name="scrimmage::interaction::Cuboid::set_points">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a246b7f05f357c6d03e5c01cd57b523bd" title="scrimmage::interaction\l::Cuboid::compute_dots" alt="" coords="224,5,399,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1Cuboid.html#ae2c1489e1f5e3a380fb9710b65315cb4" title="scrimmage::interaction\l::Cuboid::points" alt="" coords="226,71,397,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,179,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a246b7f05f357c6d03e5c01cd57b523bd" title=" " alt="" coords="227,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,42,213,37,213,43,179,48"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1Cuboid.html#a1c890862562e3f36caf533f191a94be1" title=" " alt="" coords="227,69,401,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,67,214,72,213,78,178,72"/>
 </map>

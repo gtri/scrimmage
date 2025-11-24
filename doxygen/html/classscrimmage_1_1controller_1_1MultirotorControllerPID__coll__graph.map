@@ -1,4 +1,12 @@
 <map id="scrimmage::controller::MultirotorControllerPID" name="scrimmage::controller::MultirotorControllerPID">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="5,181,169,332"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="193,5,371,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="234,916,423,1056"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="5,713,164,839"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,846,249,914,246,918,166,850"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="189,736,343,816"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="272,816,278,853,287,891,290,900,285,901,282,893,273,854,267,817"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="493,736,663,816"/>
+<area shape="poly" id="edge3_Node000001_Node000095" title=" " alt="" coords="533,818,426,907,423,903,529,814"/>
+<area shape="rect" id="Node000096" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="326,5,499,651"/>
+<area shape="poly" id="edge5_Node000001_Node000096" title=" " alt="" coords="403,651,391,791,375,893,373,901,368,900,370,891,386,791,397,651"/>
+<area shape="poly" id="edge4_Node000095_Node000096" title=" " alt="" coords="502,562,560,720,555,722,497,564"/>
 </map>

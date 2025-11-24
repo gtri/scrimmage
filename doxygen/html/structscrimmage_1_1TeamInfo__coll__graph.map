@@ -1,2 +1,7 @@
 <map id="scrimmage::TeamInfo" name="scrimmage::TeamInfo">
+<area shape="rect" id="Node000001" title=" " alt="" coords="125,148,279,233"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,199,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,69,167,133,163,136,121,72"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="223,5,381,71"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="283,72,241,136,237,133,279,69"/>
 </map>

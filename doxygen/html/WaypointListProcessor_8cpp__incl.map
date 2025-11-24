@@ -1,3 +1,7 @@
 <map id="/root/scrimmage/scrimmage/src/common/WaypointListProcessor.cpp" name="/root/scrimmage/scrimmage/src/common/WaypointListProcessor.cpp">
-<area shape="rect" id="node2" href="$WaypointListProcessor_8h.html" title="Brief file description. " alt="" coords="5,95,223,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="113,5,396,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,248,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,48,157,95,154,91,225,43"/>
+<area shape="rect" id="Node000003" href="$WaypointListProcessor_8h.html" title="Brief file description." alt="" coords="272,93,493,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,43,344,83,341,88,282,48"/>
 </map>

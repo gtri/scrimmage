@@ -106,7 +106,7 @@ var classscrimmage_1_1motion_1_1FixedWing6DOF =
     [ "launch_start_t_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a13d9f5eb3a56f6b85d82d5e154edcc80", null ],
     [ "launch_time_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a0ae75b4fc803819e291d4b889072cae1", null ],
     [ "launch_state_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88c72065664f0a8cbc002403dea3fae0", null ],
-    [ "launch_dir_NED_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#a1c5696511064732f3937868716672133", null ],
     [ "use_ground_model_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#ac4822647db554a51758bdce53630a15a", null ],
-    [ "rot_180_x_axis_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#afb51667b29bd12deff2a1b7c0718cf48", null ]
+    [ "rot_180_x_axis_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#afb51667b29bd12deff2a1b7c0718cf48", null ],
+    [ "skip_propagation_", "classscrimmage_1_1motion_1_1FixedWing6DOF.html#af9b545d5b2e215bfd2815d6e9f8afa06", null ]
 ];

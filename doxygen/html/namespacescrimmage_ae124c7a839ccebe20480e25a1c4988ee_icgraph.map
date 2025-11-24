@@ -1,4 +1,7 @@
 <map id="scrimmage::verify_io_connection" name="scrimmage::verify_io_connection">
-<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#a673bcb7974404e98eb0b02724f073063" title="scrimmage::External\l::create_entity" alt="" coords="213,5,368,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Entity.html#a742d2d316cf07a741002e9303bf090ce" title="scrimmage::Entity::init" alt="" coords="208,71,373,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,35,381,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#ae7e71812f9964918bcf341d964af60b2" title=" " alt="" coords="11,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,44,169,39,169,34,209,39"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#ad789c0b1940094ffd97ba9f655ba4802" title=" " alt="" coords="5,70,175,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,70,175,74,175,69,208,64"/>
 </map>

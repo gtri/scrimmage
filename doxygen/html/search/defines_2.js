@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['feet2meters_6713',['feet2meters',['../JSBSimControl_8cpp.html#a7b03e70182277c9db90bcf72753e921b',1,'feet2meters():&#160;JSBSimControl.cpp'],['../JSBSimModel_8cpp.html#a7b03e70182277c9db90bcf72753e921b',1,'feet2meters():&#160;JSBSimModel.cpp'],['../ROSAltimeter_8cpp.html#a7b03e70182277c9db90bcf72753e921b',1,'feet2meters():&#160;ROSAltimeter.cpp']]]
+  ['dll_5flocal_0',['DLL_LOCAL',['../Visibility_8h.html#aca98bf98711e4a9d473c86d0015d9303',1,'Visibility.h']]],
+  ['dll_5fpublic_1',['DLL_PUBLIC',['../Visibility_8h.html#a29047de4dfe891435d8254535634ac1d',1,'Visibility.h']]]
 ];

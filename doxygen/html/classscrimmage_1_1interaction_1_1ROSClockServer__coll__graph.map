@@ -1,3 +1,11 @@
 <map id="scrimmage::interaction::ROSClockServer" name="scrimmage::interaction::ROSClockServer">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,5,212,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="261,173,451,453"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityInteraction.html" title=" " alt="" coords="5,5,208,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,119,263,214,259,218,166,123"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="232,18,379,98"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="316,98,328,157,322,158,311,99"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="403,25,487,91"/>
+<area shape="poly" id="edge3_Node000001_Node000095" title=" " alt="" coords="431,92,410,136,402,159,397,157,406,134,426,90"/>
+<area shape="rect" id="Node000096" title=" " alt="" coords="573,25,657,91"/>
+<area shape="poly" id="edge4_Node000001_Node000096" title=" " alt="" coords="612,92,603,122,588,151,561,182,531,210,466,257,463,253,527,206,557,178,583,148,598,119,607,90"/>
 </map>

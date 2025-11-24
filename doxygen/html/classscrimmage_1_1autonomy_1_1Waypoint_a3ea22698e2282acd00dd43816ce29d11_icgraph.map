@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::Waypoint::id" name="scrimmage::autonomy::Waypoint::id">
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,37,469,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a7a4d1a5011b73bcd413a788754ca48ae" title=" " alt="" coords="44,5,213,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,48,213,39,214,33,287,42"/>
+<area shape="rect" id="Node000003" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="5,69,252,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,72,252,77,252,71,286,67"/>
+</map>

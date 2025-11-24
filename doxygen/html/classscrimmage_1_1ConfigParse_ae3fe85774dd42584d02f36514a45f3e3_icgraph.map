@@ -1,6 +1,11 @@
 <map id="scrimmage::ConfigParse::set_required" name="scrimmage::ConfigParse::set_required">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ab5ed97526cc1923d14a1236ad0338f3d" title="scrimmage::find_model\l_properties" alt="" coords="244,5,416,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title="scrimmage::find_terrain\l_files" alt="" coords="243,71,417,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1interaction_1_1MapGen2D.html#aef3260f415adc19d9f51382a70601cda" title="scrimmage::interaction\l::MapGen2D::init" alt="" coords="245,136,415,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1PluginManager.html#af1a2941fcb402b94129d55da0c3dd39d" title="scrimmage::PluginManager\l::make_plugin" alt="" coords="232,201,428,243"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="253,101,432,141"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ab5ed97526cc1923d14a1236ad0338f3d" title=" " alt="" coords="18,5,193,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,98,204,60,171,48,173,43,206,55,291,93"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a05456454f4473e05ad45e7175c130ff2" title=" " alt="" coords="17,69,194,109"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="240,110,194,104,194,99,240,105"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1interaction_1_1MapGen2D.html#aef3260f415adc19d9f51382a70601cda" title=" " alt="" coords="19,133,192,173"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="240,138,192,144,192,139,240,133"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1PluginManager.html#ab592c1ec4b23f5bdb1e1b1c0b0f3c163" title=" " alt="" coords="5,197,205,237"/>
+<area shape="poly" id="edge4_Node000001_Node000014" title=" " alt="" coords="291,150,206,188,173,200,171,195,204,183,289,145"/>
 </map>

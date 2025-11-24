@@ -1,0 +1,13 @@
+<map id="scrimmage::controller::MotionBattery::step" name="scrimmage::controller::MotionBattery::step">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,171,173"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75" title=" " alt="" coords="232,5,387,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,131,158,93,217,55,231,48,233,53,220,60,161,97,114,135"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd" title=" " alt="" coords="234,69,385,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,131,226,111,227,116,159,136"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="224,133,395,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,151,210,151,210,156,171,156"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="224,197,395,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="159,171,227,191,226,196,157,176"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8" title=" " alt="" coords="219,261,400,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="114,172,161,209,220,247,233,254,231,258,217,252,158,214,111,176"/>
+</map>

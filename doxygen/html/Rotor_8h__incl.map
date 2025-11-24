@@ -1,4 +1,10 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Rotor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/Multirotor/Rotor.h">
-<area shape="rect" id="node2" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="5,109,224,136"/>
-<area shape="rect" id="node4" href="$Angles_8h.html" title="Brief file description. " alt="" coords="299,109,490,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="18,5,224,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="118,181,220,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,62,35,77,17,94,8,113,9,122,14,132,32,151,54,166,105,183,103,188,52,170,28,155,9,135,4,123,3,112,12,91,32,73,57,58"/>
+<area shape="rect" id="Node000003" href="$Angles_8h.html" title="Brief file description." alt="" coords="24,108,218,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,60,124,94,118,94,118,60"/>
+<area shape="rect" id="Node000004" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="242,108,464,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="193,58,310,101,308,106,191,63"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="324,136,213,179,211,174,322,131"/>
 </map>

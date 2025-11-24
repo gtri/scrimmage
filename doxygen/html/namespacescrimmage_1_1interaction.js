@@ -22,5 +22,15 @@ var namespacescrimmage_1_1interaction =
     [ "SimpleCollision", "classscrimmage_1_1interaction_1_1SimpleCollision.html", "classscrimmage_1_1interaction_1_1SimpleCollision" ],
     [ "Sphere", "classscrimmage_1_1interaction_1_1Sphere.html", "classscrimmage_1_1interaction_1_1Sphere" ],
     [ "TerrainGenerator", "classscrimmage_1_1interaction_1_1TerrainGenerator.html", "classscrimmage_1_1interaction_1_1TerrainGenerator" ],
-    [ "TerrainMap", "classscrimmage_1_1interaction_1_1TerrainMap.html", "classscrimmage_1_1interaction_1_1TerrainMap" ]
+    [ "TerrainMap", "classscrimmage_1_1interaction_1_1TerrainMap.html", "classscrimmage_1_1interaction_1_1TerrainMap" ],
+    [ "NodePair", "namespacescrimmage_1_1interaction.html#ab6d133344d83ffcf5c5462ecdf890812", null ],
+    [ "NodePairColorMap", "namespacescrimmage_1_1interaction.html#a82b90f51b1e18c77b3bf6b5a214f1dc1", null ],
+    [ "NodePairShapeMap", "namespacescrimmage_1_1interaction.html#a555cada62bfcf26c416477a175979f6c", null ],
+    [ "NodeShapeMap", "namespacescrimmage_1_1interaction.html#a4a696ad0ab201818e735dea277015c5a", null ],
+    [ "DrawNodeLabels", "namespacescrimmage_1_1interaction.html#ac33c3ab34988b9e6c8670e4488302c77", [
+      [ "NO", "namespacescrimmage_1_1interaction.html#ac33c3ab34988b9e6c8670e4488302c77ac2f3f489a00553e7a01d369c103c7251", null ],
+      [ "YES", "namespacescrimmage_1_1interaction.html#ac33c3ab34988b9e6c8670e4488302c77a7469a286259799e5b37e5db9296f00b3", null ]
+    ] ],
+    [ "draw_graph", "namespacescrimmage_1_1interaction.html#a15212174b764dd7707dc47986cddac52", null ],
+    [ "nodes_idxs_to_pos_map", "namespacescrimmage_1_1interaction.html#a5663761abe47fd207e1469bcf925fbcc", null ]
 ];

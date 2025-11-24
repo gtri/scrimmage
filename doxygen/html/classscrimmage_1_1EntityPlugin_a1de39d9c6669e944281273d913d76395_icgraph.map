@@ -1,0 +1,7 @@
+<map id="scrimmage::EntityPlugin::subs" name="scrimmage::EntityPlugin::subs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,37,481,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="49,5,208,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,47,208,38,209,32,287,42"/>
+<area shape="rect" id="Node000003" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="5,69,252,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,73,252,77,252,72,286,67"/>
+</map>

@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple =
 [
-    [ "init", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a44d2e71c813cdbc942878e9566fca86c", null ],
-    [ "step", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a76256070b88c59ff30f2e6de5b40dea6", null ],
+    [ "init", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a0970056275e2420b48c54ce45a0acbac", null ],
+    [ "step", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#afa4aa75efc52c7659885a22d11ae105a", null ],
     [ "input_vel_x_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a70894966eeed18b1f60a7f7efa359e65", null ],
     [ "input_vel_y_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a27d5fb5d5ac3c16ea5c214ac37afa67d", null ],
     [ "input_vel_z_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a690b8c0b397d0f861acf9a5cccf3c883", null ],

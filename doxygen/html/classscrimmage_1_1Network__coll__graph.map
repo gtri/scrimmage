@@ -1,4 +1,17 @@
 <map id="scrimmage::Network" name="scrimmage::Network">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html" title="{scrimmage::EntityPlugin\n|+ print_err_on_exit\l# parent_\l# transform_\l# id_to_team_map_\l# id_to_ent_map_\l# pubsub_\l# time_\l&#45; param_server_\l&#45; loop_rate_\l&#45; loop_timer_\l|+ EntityPlugin()\l+ ~EntityPlugin()\l+ ready()\l+ close_plugin()\l+ close()\l+ set_parent()\l+ parent()\l+ set_scoped_property()\l+ get_scoped_property\l_helper()\l+ transform()\l+ set_id_to_team_map()\l+ set_id_to_ent_map()\l+ shapes()\l+ vars()\l+ subscribe()\l+ subscribe()\l+ advertise()\l+ advertise()\l+ set_pubsub()\l+ pubsub()\l+ subs()\l+ set_time()\l+ set_time()\l+ draw_shape()\l+ set_param_server()\l+ register_param()\l+ set_param()\l+ unregister_param()\l+ loop_rate()\l+ loop_timer()\l+ set_loop_rate()\l+ set_loop_timer()\l+ step_loop_timer()\l}" alt="" coords="5,5,188,699"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html" title="{scrimmage::CSV\n|# next_row_\l|+ ~CSV()\l+ set_column_headers()\l+ set_column_headers()\l+ append()\l+ open_output()\l+ output_is_open()\l+ close_output()\l+ to_csv()\l+ read_csv()\l+ read_csv_from_string()\l+ set_no_value_string()\l+ to_string()\l+ rows()\l+ at()\l+ equals()\l# get_csv_line_elements()\l# write_headers()\l# write_row()\l&#45; headers_to_string()\l&#45; rows_to_string()\l&#45; row_to_string()\l}" alt="" coords="213,167,405,537"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="603,863,819,1268"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html" title=" " alt="" coords="5,5,180,785"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,777,195,784,237,831,286,873,339,911,394,943,505,996,604,1032,602,1037,502,1001,391,948,336,915,283,877,234,835,191,787,186,781"/>
+<area shape="rect" id="Node000054" title=" " alt="" coords="205,363,381,428"/>
+<area shape="poly" id="edge2_Node000001_Node000054" title=" " alt="" coords="297,428,305,496,321,588,350,689,370,738,395,784,437,842,486,895,539,942,591,983,588,987,536,946,483,899,433,845,390,787,365,740,345,690,316,589,299,497,292,429"/>
+<area shape="rect" id="Node000046" title=" " alt="" coords="405,363,599,428"/>
+<area shape="poly" id="edge3_Node000001_Node000046" title=" " alt="" coords="513,427,554,582,614,785,634,846,629,848,609,786,549,583,507,429"/>
+<area shape="rect" id="Node000024" title=" " alt="" coords="623,355,799,435"/>
+<area shape="poly" id="edge4_Node000001_Node000024" title=" " alt="" coords="714,435,714,846,709,846,709,435"/>
+<area shape="rect" id="Node000093" title=" " alt="" coords="824,338,972,453"/>
+<area shape="poly" id="edge5_Node000001_Node000093" title=" " alt="" coords="890,454,859,605,814,786,795,848,790,846,809,785,854,604,885,453"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="997,355,1151,435"/>
+<area shape="poly" id="edge6_Node000001_Node000094" title=" " alt="" coords="1075,436,1068,505,1053,595,1027,693,1009,741,987,787,955,838,916,886,875,931,834,970,830,967,871,927,912,883,950,835,982,784,1004,739,1022,691,1048,593,1063,504,1069,435"/>
+<area shape="rect" id="Node000095" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="1176,103,1364,688"/>
+<area shape="poly" id="edge7_Node000001_Node000095" title=" " alt="" coords="1219,689,1195,740,1165,787,1131,827,1093,865,1051,899,1007,929,919,981,835,1021,833,1016,916,977,1005,925,1048,894,1089,861,1127,824,1161,784,1190,738,1214,687"/>
 </map>

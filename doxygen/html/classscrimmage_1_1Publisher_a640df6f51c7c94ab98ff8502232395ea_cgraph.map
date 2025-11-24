@@ -1,4 +1,7 @@
 <map id="scrimmage::Publisher::publish" name="scrimmage::Publisher::publish">
-<area shape="rect" id="node2" href="$classscrimmage_1_1NetworkDevice.html#a40a8c71a5c55cfb8e45b8ba65c456317" title="scrimmage::NetworkDevice\l::add_msg" alt="" coords="213,5,411,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Publisher.html#a7089981b517a4ccb051c0c40abaab440" title="scrimmage::Publisher\l::set_debug_info" alt="" coords="232,71,392,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,168,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1NetworkDevice.html#a40a8c71a5c55cfb8e45b8ba65c456317" title=" " alt="" coords="216,5,419,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,43,202,39,203,44,169,49"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Publisher.html#a7089981b517a4ccb051c0c40abaab440" title=" " alt="" coords="236,69,399,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,66,223,74,222,79,168,71"/>
 </map>

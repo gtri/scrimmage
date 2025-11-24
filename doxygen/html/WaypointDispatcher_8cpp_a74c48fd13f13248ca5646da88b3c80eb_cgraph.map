@@ -1,3 +1,19 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="192,5,315,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,249,148,274"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="200,5,381,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,247,93,210,116,158,150,103,171,78,194,55,201,50,204,55,198,59,175,81,154,106,121,161,98,212,84,249"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="200,69,381,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="83,247,125,186,157,150,194,119,204,113,207,118,198,123,161,154,130,190,88,250"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Autonomy.html#a2db7f633d6295aa0f409f88d0248ad6b" title=" " alt="" coords="205,133,376,173"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="93,246,138,216,195,183,211,176,213,181,197,188,141,220,96,251"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#ae9ef33a4e78d547302abb3b24a1e7eed" title=" " alt="" coords="206,198,375,253"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="148,247,192,239,193,245,149,252"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1autonomy_1_1WaypointList.html#a93f1ef5717ffcd590ea06f69cd1feae4" title=" " alt="" coords="206,277,375,317"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="149,271,193,278,192,283,148,276"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="229,342,352,367"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="98,272,142,299,197,327,221,336,219,341,195,332,140,304,95,277"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#ac83b6a4196de89cb9827050a840c4832" title=" " alt="" coords="206,391,375,446"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="90,272,134,322,164,351,198,376,207,383,204,387,194,381,161,355,130,326,86,276"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6" title=" " alt="" coords="196,471,385,511"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="85,273,99,309,122,358,155,410,175,434,198,455,206,461,203,466,194,459,171,438,151,413,118,361,94,311,80,275"/>
 </map>

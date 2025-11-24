@@ -1,4 +1,19 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/WaypointListProcessor.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/WaypointListProcessor.h">
-<area shape="rect" id="node3" href="$Waypoint_8h.html" title="Brief file description. " alt="" coords="191,109,420,136"/>
-<area shape="rect" id="node4" href="$State_8h.html" title="Brief file description. " alt="" coords="307,184,490,211"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="195,5,405,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,48,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,63,62,111,61,106,216,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="317,255,395,280"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="406,41,472,56,539,83,571,101,598,123,622,149,640,180,644,195,640,208,624,221,601,232,540,248,471,259,409,265,408,260,471,254,539,243,599,227,621,217,635,205,639,195,635,182,618,152,595,127,568,105,537,87,471,61,405,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="123,108,266,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="270,62,221,101,218,97,266,58"/>
+<area shape="rect" id="Node000005" href="$Waypoint_8h.html" title="Brief file description." alt="" coords="290,108,523,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="334,58,383,97,380,101,331,62"/>
+<area shape="rect" id="Node000008" href="$State_8h.html" title="Brief file description." alt="" coords="135,181,318,207"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="196,54,149,75,129,91,113,109,108,120,108,129,121,147,144,162,174,175,171,179,142,167,117,151,103,131,103,119,108,107,126,87,146,71,193,49"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="394,181,625,207"/>
+<area shape="poly" id="edge10_Node000001_Node000014" title=" " alt="" coords="406,37,443,46,479,59,511,79,538,107,545,122,543,140,529,171,524,169,538,138,539,123,534,109,508,83,476,64,441,51,405,42"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="404,135,385,182,366,242,361,240,380,180,399,133"/>
+<area shape="poly" id="edge6_Node000005_Node000008" title=" " alt="" coords="379,136,270,179,268,174,377,131"/>
+<area shape="poly" id="edge8_Node000005_Node000014" title=" " alt="" coords="425,131,483,171,480,175,422,136"/>
+<area shape="poly" id="edge7_Node000008_Node000003" title=" " alt="" coords="249,204,324,245,321,250,246,209"/>
 </map>

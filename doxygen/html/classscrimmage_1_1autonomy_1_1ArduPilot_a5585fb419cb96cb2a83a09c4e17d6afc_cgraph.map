@@ -1,0 +1,10 @@
+<map id="scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet" name="scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,26,175,81"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034" title=" " alt="" coords="441,5,596,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,27,222,19,329,13,427,15,427,21,329,18,223,24,175,32"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae" title=" " alt="" coords="231,33,385,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,51,217,51,217,56,175,56"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca" title=" " alt="" coords="223,97,393,137"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="176,76,227,91,225,96,174,81"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="385,40,427,35,428,40,386,46"/>
+</map>

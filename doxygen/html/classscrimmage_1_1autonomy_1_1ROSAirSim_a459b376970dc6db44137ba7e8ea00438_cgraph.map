@@ -1,0 +1,10 @@
+<map id="scrimmage::autonomy::ROSAirSim::init" name="scrimmage::autonomy::ROSAirSim::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,175,132"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#a7f16ca6c4cc92c82eade5120f0d2c0cc" title=" " alt="" coords="223,5,412,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,89,209,72,210,77,155,94"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#ab9ef135493c8b194ac660fae352fe96b" title=" " alt="" coords="460,49,691,103"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,103,446,83,447,88,175,108"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca" title=" " alt="" coords="232,149,403,189"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="171,129,225,143,224,149,169,135"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="413,51,447,55,446,61,412,56"/>
+</map>

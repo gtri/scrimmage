@@ -1,3 +1,10 @@
 <map id="scrimmage::interaction::BulletCollision::PointCloudDescription" name="scrimmage::interaction::BulletCollision::PointCloudDescription">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title="{scrimmage::sensor::\lRayTrace::PointCloud\n|+ max_range\l+ min_range\l+ max_sample_rate\l|+ PointCloud()\l+ get_rays()\l}" alt="" coords="5,5,161,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="107,336,302,431"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloud.html" title=" " alt="" coords="5,133,156,273"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,273,89,293,98,311,107,322,102,326,93,313,84,295,79,274"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="151,5,301,71"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="225,71,219,134,209,320,204,319,214,133,220,71"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="269,163,439,243"/>
+<area shape="poly" id="edge4_Node000010_Node000009" title=" " alt="" coords="253,69,316,149,311,152,249,72"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="323,245,256,325,252,321,319,242"/>
 </map>

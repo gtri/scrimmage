@@ -1,2 +1,9 @@
 <map id="scrimmage::interaction::TerrainMap" name="scrimmage::interaction::TerrainMap">
+<area shape="rect" id="Node000001" title=" " alt="" coords="179,163,371,683"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,155,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,99,173,224,169,227,102,101"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="179,13,370,93"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="277,93,277,146,272,146,272,93"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="394,5,574,100"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="460,101,381,240,377,237,455,99"/>
 </map>

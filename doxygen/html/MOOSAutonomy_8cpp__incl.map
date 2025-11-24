@@ -1,9 +1,19 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/MOOSAutonomy/MOOSAutonomy.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/MOOSAutonomy/MOOSAutonomy.cpp">
-<area shape="rect" id="node2" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="5,109,207,151"/>
-<area shape="rect" id="node3" href="$Entity_8h.html" title="Brief file description. " alt="" coords="231,117,418,143"/>
-<area shape="rect" id="node4" href="$State_8h.html" title="Brief file description. " alt="" coords="695,273,877,300"/>
-<area shape="rect" id="node5" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="493,117,708,143"/>
-<area shape="rect" id="node6" href="$MissionParse_8h.html" title="Brief file description. " alt="" coords="732,117,965,143"/>
-<area shape="rect" id="node7" href="$MOOSAutonomy_8h.html" title="Brief file description. " alt="" coords="989,109,1244,151"/>
-<area shape="rect" id="node8" href="$MOOSNode_8h.html" title="Brief file description. " alt="" coords="1063,199,1171,225"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="498,5,777,60"/>
+<area shape="rect" id="Node000002" href="$Entity_8h.html" title="Brief file description." alt="" coords="5,115,195,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="498,61,180,116,179,110,497,55"/>
+<area shape="rect" id="Node000019" href="$State_8h.html" title="Brief file description." alt="" coords="587,269,770,295"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="498,45,424,54,353,68,294,86,273,97,258,110,250,128,258,146,279,166,312,185,401,218,504,245,598,264,597,269,502,250,400,223,310,189,276,170,254,150,245,128,254,106,270,93,292,81,352,62,424,49,498,40"/>
+<area shape="rect" id="Node000024" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="269,115,505,141"/>
+<area shape="poly" id="edge3_Node000001_Node000024" title=" " alt="" coords="568,63,431,113,429,108,566,58"/>
+<area shape="rect" id="Node000026" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="529,115,745,141"/>
+<area shape="poly" id="edge4_Node000001_Node000026" title=" " alt="" coords="640,60,640,101,635,101,635,60"/>
+<area shape="rect" id="Node000027" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="770,108,974,148"/>
+<area shape="poly" id="edge5_Node000001_Node000027" title=" " alt="" coords="704,58,813,100,811,105,702,63"/>
+<area shape="rect" id="Node000028" href="$MOOSAutonomy_8h.html" title="Brief file description." alt="" coords="999,108,1255,148"/>
+<area shape="poly" id="edge6_Node000001_Node000028" title=" " alt="" coords="775,57,1015,103,1014,108,774,63"/>
+<area shape="rect" id="Node000048" href="$MOOSNode_8h.html" title="Brief file description." alt="" coords="1073,196,1181,221"/>
+<area shape="poly" id="edge9_Node000001_Node000048" title=" " alt="" coords="777,38,923,48,1076,62,1202,81,1245,93,1268,106,1276,117,1277,128,1269,149,1254,167,1236,180,1195,198,1193,193,1233,176,1250,163,1264,147,1272,127,1271,119,1265,110,1243,98,1201,86,1075,67,923,53,777,43"/>
+<area shape="poly" id="edge7_Node000028_Node000048" title=" " alt="" coords="1129,148,1129,182,1124,182,1124,148"/>
+<area shape="poly" id="edge8_Node000048_Node000019" title=" " alt="" coords="1073,221,765,270,764,265,1072,216"/>
 </map>

@@ -1,0 +1,9 @@
+<map id="scrimmage::FileSearch::find_files" name="scrimmage::FileSearch::find_files">
+<area shape="rect" id="Node000001" title=" " alt="" coords="253,69,424,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1FileSearch.html#abe9179a14dd0deff89f113870aed3a7b" title=" " alt="" coords="20,5,191,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,68,178,48,179,43,253,63"/>
+<area shape="rect" id="Node000022" href="$classscrimmage_1_1PluginManager.html#ab592c1ec4b23f5bdb1e1b1c0b0f3c163" title=" " alt="" coords="5,69,205,109"/>
+<area shape="poly" id="edge2_Node000001_Node000022" title=" " alt="" coords="239,92,206,92,206,87,239,87"/>
+<area shape="rect" id="Node000027" href="$classscrimmage_1_1PluginManager.html#a4b2dbdb7364a823355d8996610ae4790" title=" " alt="" coords="5,133,205,173"/>
+<area shape="poly" id="edge3_Node000001_Node000027" title=" " alt="" coords="253,116,179,136,178,131,251,110"/>
+</map>

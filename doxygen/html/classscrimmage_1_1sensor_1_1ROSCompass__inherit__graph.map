@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::ROSCompass" name="scrimmage::sensor::ROSCompass">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Sensor.html" title="{scrimmage::Sensor\n||+ init()\l+ type()\l+ step()\l+ sensor_msg()\l+ sense()\l+ sense()\l}" alt="" coords="9,5,155,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,219,152,399"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Sensor.html" title=" " alt="" coords="9,5,148,171"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,185,81,219,76,219,76,185"/>
 </map>

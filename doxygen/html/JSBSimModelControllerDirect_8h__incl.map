@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="33,124,255,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,287,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="63,196,114,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,77,45,98,24,124,21,141,28,157,41,173,58,186,55,190,38,176,23,160,16,141,20,122,41,94,68,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="173,196,231,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,73,251,94,272,122,276,142,268,160,253,177,236,191,232,187,250,173,264,158,271,141,268,124,247,98,221,77"/>
+<area shape="rect" id="Node000004" href="$Controller_8h.html" title="Brief file description." alt="" coords="34,123,258,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,75,149,109,143,109,143,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="139,150,109,187,105,183,134,147"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="157,147,187,184,182,187,153,150"/>
 </map>

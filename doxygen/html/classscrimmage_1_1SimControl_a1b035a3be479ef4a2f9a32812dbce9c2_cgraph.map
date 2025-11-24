@@ -1,3 +1,6 @@
 <map id="scrimmage::SimControl::end_condition_reached" name="scrimmage::SimControl::end_condition_reached">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="232,13,419,39"/>
+<area shape="rect" id="Node000001" title="Returns true if a simulation end condition has been met." alt="" coords="5,22,185,62"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="233,29,421,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,39,220,39,220,45,186,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="290,31,281,21,286,11,301,5,327,3,360,7,372,16,369,20,358,11,327,8,302,10,289,15,287,20,294,27"/>
 </map>

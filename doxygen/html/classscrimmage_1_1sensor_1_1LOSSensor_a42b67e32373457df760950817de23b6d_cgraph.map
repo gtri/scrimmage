@@ -1,4 +1,8 @@
 <map id="scrimmage::sensor::LOSSensor::init" name="scrimmage::sensor::LOSSensor::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="408,5,584,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title="scrimmage::sensor::\lRayTrace::init" alt="" coords="207,35,360,76"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="411,5,592,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,20,208,19,363,19,397,19,397,25,363,24,208,24,160,25"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title=" " alt="" coords="208,33,363,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,33,195,38,194,43,160,39"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="363,41,397,36,397,42,363,46"/>
 </map>

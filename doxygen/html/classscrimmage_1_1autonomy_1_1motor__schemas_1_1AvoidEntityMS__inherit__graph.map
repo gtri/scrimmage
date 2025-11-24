@@ -1,3 +1,5 @@
 <map id="scrimmage::autonomy::motor_schemas::AvoidEntityMS" name="scrimmage::autonomy::motor_schemas::AvoidEntityMS">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html" title="{scrimmage::autonomy\l::motor_schemas::BehaviorBase\n|# desired_vector_\l# gain_\l# max_vector_length_\l# use_truth_contacts_\l# use_noisy_contacts_\l# noisy_contacts_\l|+ BehaviorBase()\l+ desired_vector()\l+ set_gain()\l+ gain()\l+ set_max_vector_length()\l+ configure_contacts()\l}" alt="" coords="7,5,237,244"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,333,233,573"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html" title=" " alt="" coords="7,5,231,285"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,299,122,333,117,333,117,299"/>
 </map>

@@ -1,5 +1,10 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/viewer/Updater.h" name="/root/scrimmage/scrimmage/include/scrimmage/viewer/Updater.h">
-<area shape="rect" id="node2" href="$CameraInterface_8h.html" title="Brief file description. " alt="" coords="5,109,209,165"/>
-<area shape="rect" id="node3" href="$Viewer_8cpp.html" title="Brief file description. " alt="" coords="75,213,279,255"/>
-<area shape="rect" id="node4" href="$Updater_8cpp.html" title="Brief file description. " alt="" coords="285,117,489,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="147,5,353,60"/>
+<area shape="rect" id="Node000002" href="$CameraInterface_8h.html" title="Brief file description." alt="" coords="5,108,212,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,70,147,110,144,106,201,66"/>
+<area shape="rect" id="Node000004" href="$Viewer_8cpp.html" title="Brief file description." alt="" coords="76,211,283,251"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="249,74,241,118,227,164,213,190,198,212,193,209,209,187,222,162,236,117,244,73"/>
+<area shape="rect" id="Node000006" href="$Updater_8cpp.html" title="Brief file description." alt="" coords="288,115,495,155"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="300,66,366,113,363,117,296,70"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="139,172,167,209,163,212,135,175"/>
 </map>

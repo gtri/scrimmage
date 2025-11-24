@@ -1,4 +1,7 @@
 <map id="scrimmage::MissionParse::longitude_origin" name="scrimmage::MissionParse::longitude_origin">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MissionParse.html#a0d5c1b4d591072ae520dcfd93a8b597b" title="scrimmage::MissionParse\l::parse_terrain" alt="" coords="239,5,424,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1MissionParse.html#a259f9a01af8c2577d57804a5ed9a94b3" title="scrimmage::MissionParse\l::set_lat_lon_alt_origin" alt="" coords="239,71,424,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,37,429,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MissionParse.html#a0d5c1b4d591072ae520dcfd93a8b597b" title=" " alt="" coords="5,5,193,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,45,193,41,194,35,228,40"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1MissionParse.html#a259f9a01af8c2577d57804a5ed9a94b3" title=" " alt="" coords="5,69,193,109"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="228,75,194,79,193,74,227,69"/>
 </map>

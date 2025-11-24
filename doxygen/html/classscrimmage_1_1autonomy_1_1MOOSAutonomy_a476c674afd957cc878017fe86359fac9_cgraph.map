@@ -1,0 +1,11 @@
+<map id="scrimmage::autonomy::MOOSAutonomy::MOOSAutonomy" name="scrimmage::autonomy::MOOSAutonomy::MOOSAutonomy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,101,259,141"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#ad1c0d42f03eb731813c4867305981f7b" title=" " alt="" coords="311,5,498,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,99,306,55,328,47,330,52,308,60,187,104"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Angles.html#a43ecfa690f4a6e665708afabd1cb7935" title=" " alt="" coords="327,69,482,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="259,104,313,97,314,103,259,109"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Angles.html#aa5aa6a60ec497a3dbc9d659291b8f396" title=" " alt="" coords="307,133,503,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="259,134,293,138,293,143,259,139"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Angles.html#a8385e5631901ca76c53d9f8783f83a62" title=" " alt="" coords="325,197,485,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="187,139,308,183,330,191,328,196,306,188,185,144"/>
+</map>

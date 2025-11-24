@@ -1,5 +1,9 @@
 <map id="scrimmage::SimControl::run" name="scrimmage::SimControl::run">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title="scrimmage::run_test" alt="" coords="265,5,420,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#aa1df54240650f2d806514d67011886df" title="Runs the scrimmage simulation in a separate thread. " alt="" coords="256,57,429,98"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb" title="scrimmage::SimControl\l::worker" alt="" coords="256,122,429,163"/>
+<area shape="rect" id="Node000001" title="Runs the scrimmage simulation in the current thread." alt="" coords="228,63,432,88"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title=" " alt="" coords="15,5,171,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,62,145,33,147,28,264,57"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#aa1df54240650f2d806514d67011886df" title="Runs the scrimmage simulation in a separate thread." alt="" coords="5,55,180,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,78,180,78,180,73,214,73"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb" title=" " alt="" coords="5,119,180,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="269,94,168,122,167,117,268,89"/>
 </map>

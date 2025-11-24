@@ -1,3 +1,5 @@
 <map id="scrimmage::sensor::AirSimSensor::close" name="scrimmage::sensor::AirSimSensor::close">
-<area shape="rect" id="node2" href="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title="scrimmage::CSV::close\l_output" alt="" coords="207,5,377,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title=" " alt="" coords="208,5,379,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
 </map>

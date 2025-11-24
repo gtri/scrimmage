@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::dec_warp" name="scrimmage::SimControl::dec_warp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title="scrimmage::SimControl\l::run_check_network_msgs" alt="" coords="227,5,421,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="252,5,427,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title=" " alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,28,204,28,204,23,238,23"/>
 </map>

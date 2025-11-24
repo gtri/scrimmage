@@ -1,0 +1,16 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/parse/XMLParser/RapidXMLParser.h" name="/root/scrimmage/scrimmage/include/scrimmage/parse/XMLParser/RapidXMLParser.h">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="75,5,290,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,75,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,62,84,83,58,110,49,127,44,146,41,182,36,182,39,145,44,125,54,106,80,79,112,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="108,196,167,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="119,62,91,83,69,109,63,128,69,147,85,169,105,186,102,190,81,172,64,149,58,128,64,107,87,79,116,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="195,196,258,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="249,58,278,79,301,107,307,128,301,149,284,173,262,191,259,187,280,169,296,147,302,128,296,109,275,83,246,62"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="361,115,532,141"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="258,58,403,108,401,113,256,63"/>
+<area shape="rect" id="Node000006" href="$XMLParser_8h.html" title="Brief file description." alt="" coords="79,108,286,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="185,60,185,94,180,94,180,60"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="150,150,74,192,72,187,147,146"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="174,150,153,185,149,183,169,147"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="196,147,216,183,211,185,191,150"/>
+</map>

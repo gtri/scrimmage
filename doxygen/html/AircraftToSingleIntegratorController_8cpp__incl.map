@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.cpp">
-<area shape="rect" id="node2" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="5,131,207,173"/>
-<area shape="rect" id="node3" href="$AircraftToSingleIntegratorController_8h.html" title="Brief file description. " alt="" coords="231,124,493,180"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="96,5,377,75"/>
+<area shape="rect" id="Node000002" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="5,130,209,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,77,142,123,139,119,195,73"/>
+<area shape="rect" id="Node000004" href="$AircraftToSingleIntegratorController_8h.html" title="Brief file description." alt="" coords="234,123,501,177"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="279,73,326,112,323,116,276,77"/>
 </map>

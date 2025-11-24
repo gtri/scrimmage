@@ -1,0 +1,11 @@
+<map id="scrimmage::metrics::OpenAIRewards::calc_team_scores" name="scrimmage::metrics::OpenAIRewards::calc_team_scores">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,172,135"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="220,5,404,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,77,219,41,245,32,247,37,221,46,141,82"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title=" " alt="" coords="227,55,397,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="172,93,213,87,213,92,173,98"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="228,119,396,159"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="173,117,215,123,214,128,172,122"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="234,183,390,223"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="144,133,221,169,239,176,237,181,219,174,141,137"/>
+</map>

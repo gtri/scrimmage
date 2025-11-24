@@ -1,0 +1,23 @@
+<map id="scrimmage::Quaternion::rotate" name="scrimmage::Quaternion::rotate">
+<area shape="rect" id="Node000001" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="236,293,411,333"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#a7bfbbe6a19aa840241f98633f58fbeb9" title=" " alt="" coords="19,5,174,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="311,281,294,232,269,173,233,112,211,84,186,59,169,48,172,43,190,55,215,81,237,109,274,170,299,230,316,280"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Updater.html#a854bb35b4b42d64ea553d196266eb9a1" title=" " alt="" coords="19,69,174,109"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="305,282,285,245,259,203,226,160,186,123,167,112,170,107,190,119,230,157,263,200,290,243,310,279"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#ad15005a38942cab6b3a6a72cb610cc48" title=" " alt="" coords="10,133,183,173"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="295,285,248,235,218,210,187,188,164,176,166,171,189,183,221,206,251,232,299,281"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1motion_1_1Multirotor.html#a91fda0b9e453852581a9444026923ef9" title=" " alt="" coords="18,197,175,237"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="269,290,187,252,156,240,158,235,189,247,272,285"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#af3a22cd134ac998e4b40f06cc581100d" title=" " alt="" coords="18,261,175,301"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="221,302,175,295,176,290,222,296"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1State.html#a9488bbe3359b83b2881eefed107297f3" title="returns the vector extending forward" alt="" coords="5,325,188,365"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="223,330,188,335,188,330,222,325"/>
+<area shape="rect" id="Node000012" href="$BulletCollision_8cpp.html#a1164af45f662a3c09b13f232cbcf78c4" title=" " alt="" coords="25,390,168,415"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="273,342,189,380,150,393,148,387,187,375,271,337"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d" title=" " alt="" coords="17,440,177,480"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="295,345,247,388,189,429,162,442,160,438,187,424,244,383,291,341"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#a8bdd99dd217ea4468f4f6d71d7cc827f" title=" " alt="" coords="18,504,175,544"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="308,347,261,420,228,460,190,494,169,506,167,502,186,490,224,456,257,417,303,344"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1Updater.html#a694fd5e005fc053b4423427072900d97" title=" " alt="" coords="19,568,174,608"/>
+<area shape="poly" id="edge10_Node000001_Node000015" title=" " alt="" coords="315,348,297,394,271,451,236,508,214,535,190,558,171,570,168,566,186,554,210,531,231,505,267,448,293,392,310,346"/>
+</map>

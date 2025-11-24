@@ -1,8 +1,15 @@
 <map id="scrimmage::sensor::LOSSensor::step" name="scrimmage::sensor::LOSSensor::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a67eb291726653160901347002699a7d8" title="scrimmage::sensor::\lRayTrace::max_range" alt="" coords="228,5,388,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a10a72371eb6a4018c0f76f1a67039517" title="scrimmage::sensor::\lRayTrace::max_sample_rate" alt="" coords="207,71,409,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a525ca0137ba9bb963380b332c8bc7e4f" title="scrimmage::sensor::\lRayTrace::min_range" alt="" coords="230,136,386,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title="scrimmage::Plugin::name" alt="" coords="215,202,401,229"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a47e7eba3305f789061a6f6e72b07d3b6" title="scrimmage::sensor::\lRayTrace::step" alt="" coords="231,253,385,295"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f" title="scrimmage::EntityPlugin\l::transform" alt="" coords="220,319,396,360"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,163,160,203"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a67eb291726653160901347002699a7d8" title=" " alt="" coords="230,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,161,142,108,173,80,207,55,218,49,221,53,209,60,176,84,146,112,101,164"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a10a72371eb6a4018c0f76f1a67039517" title=" " alt="" coords="208,69,415,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="120,160,207,119,227,111,229,116,209,124,122,165"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a525ca0137ba9bb963380b332c8bc7e4f" title=" " alt="" coords="232,133,391,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,170,218,163,218,168,161,175"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="217,198,405,223"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="161,189,204,195,203,200,160,195"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a47e7eba3305f789061a6f6e72b07d3b6" title=" " alt="" coords="234,248,389,288"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="131,200,209,232,234,241,232,246,207,237,129,205"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f" title=" " alt="" coords="221,312,402,352"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="102,201,148,250,177,275,209,298,222,304,219,309,207,302,174,280,144,253,98,205"/>
 </map>

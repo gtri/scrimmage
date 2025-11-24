@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h">
-<area shape="rect" id="node2" href="$JSBSimControl_8cpp.html" title="Brief file description. " alt="" coords="5,109,244,165"/>
-<area shape="rect" id="node3" href="$FGOutputFGMod_8cpp.html" title="Brief file description. " alt="" coords="268,109,499,165"/>
-<area shape="rect" id="node4" href="$JSBSimModel_8cpp.html" title="Brief file description. " alt="" coords="523,109,753,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="247,5,534,60"/>
+<area shape="rect" id="Node000002" href="$JSBSimControl_8cpp.html" title="Brief file description." alt="" coords="5,108,248,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,67,196,110,195,105,308,62"/>
+<area shape="rect" id="Node000003" href="$FGOutputFGMod_8cpp.html" title="Brief file description." alt="" coords="273,108,509,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="393,74,393,108,388,108,388,74"/>
+<area shape="rect" id="Node000004" href="$JSBSimModel_8cpp.html" title="Brief file description." alt="" coords="533,108,769,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="472,62,584,105,582,110,470,67"/>
 </map>

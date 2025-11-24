@@ -1,2 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="9,5,215,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,56,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,77,52,114,48,110,81,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="81,123,143,148"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,75,115,109,109,109,109,75"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="167,123,337,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,73,225,113,222,117,161,77"/>
 </map>

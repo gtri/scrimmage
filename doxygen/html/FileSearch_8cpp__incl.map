@@ -1,4 +1,27 @@
 <map id="/root/scrimmage/scrimmage/src/common/FileSearch.cpp" name="/root/scrimmage/scrimmage/src/common/FileSearch.cpp">
-<area shape="rect" id="node2" href="$FileSearch_8h.html" title="Brief file description. " alt="" coords="5,102,243,129"/>
-<area shape="rect" id="node3" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="267,102,482,129"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="890,5,1097,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,85,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="890,28,735,30,537,39,317,60,206,76,98,96,86,99,85,94,97,91,205,71,316,55,536,34,735,25,890,23"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,101,224,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="890,33,595,51,415,70,236,96,218,100,217,95,236,91,415,64,594,46,890,27"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="249,93,415,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="890,39,681,62,430,96,429,90,681,56,889,34"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="439,101,598,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="890,46,610,96,586,101,585,95,609,91,889,41"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="622,101,813,126"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="934,48,768,99,766,94,932,43"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="837,101,979,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="976,47,931,92,928,89,973,44"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="1003,93,1157,133"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1014,44,1053,82,1049,85,1011,48"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="1181,93,1347,133"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1054,43,1192,87,1191,92,1052,48"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="1371,93,1538,133"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1097,42,1358,90,1357,96,1096,48"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="1563,101,1712,126"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="1097,34,1307,56,1551,91,1575,95,1574,100,1550,96,1307,62,1097,39"/>
+<area shape="rect" id="Node000012" href="$FileSearch_8h.html" title="Brief file description." alt="" coords="1737,101,1975,126"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="1097,32,1380,56,1724,91,1767,96,1766,101,1724,96,1380,61,1097,37"/>
+<area shape="rect" id="Node000017" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="2000,101,2216,126"/>
+<area shape="poly" id="edge12_Node000001_Node000017" title=" " alt="" coords="1097,28,1489,49,1738,67,1988,91,2029,96,2028,101,1988,96,1737,72,1488,54,1097,33"/>
 </map>

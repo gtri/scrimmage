@@ -1,3 +1,5 @@
 <map id="JSBSim::FGOutputFGMod::Print" name="JSBSim::FGOutputFGMod::Print">
-<area shape="rect" id="node2" href="$classJSBSim_1_1FGOutputFGMod.html#a85d76e9d0700038501ef819bf7dceb4b" title="JSBSim::FGOutputFGMod\l::SocketDataFillMod" alt="" coords="235,5,416,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,189,45"/>
+<area shape="rect" id="Node000002" href="$classJSBSim_1_1FGOutputFGMod.html#a941427f388c3fde84367a8de2a175f65" title=" " alt="" coords="237,5,421,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,23,223,23,223,28,190,28"/>
 </map>

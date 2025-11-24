@@ -1,0 +1,15 @@
+<map id="scrimmage::PluginManager::make_plugin" name="scrimmage::PluginManager::make_plugin">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,165,205,205"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699" title=" " alt="" coords="268,5,439,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,163,177,110,213,81,252,55,265,48,267,53,255,60,216,85,181,114,127,167"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1PluginManager.html#a7f367649e9d168b8851ef48f99c4337b" title=" " alt="" coords="253,69,453,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,163,252,119,273,111,275,116,254,124,151,168"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1PluginManager.html#a20f374b8a111d815d4286e4365879082" title=" " alt="" coords="253,133,453,173"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="205,170,239,165,240,171,206,175"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="264,197,443,237"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="206,196,251,201,250,207,205,201"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title=" " alt="" coords="264,261,443,301"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="151,203,254,247,275,254,273,259,252,252,149,208"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3" title=" " alt="" coords="264,325,443,365"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="127,204,181,257,216,286,255,311,267,317,265,322,252,316,213,290,177,261,123,207"/>
+</map>

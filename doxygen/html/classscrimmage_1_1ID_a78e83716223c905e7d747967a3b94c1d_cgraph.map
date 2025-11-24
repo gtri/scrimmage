@@ -1,3 +1,5 @@
 <map id="scrimmage::ID::set_team_id" name="scrimmage::ID::set_team_id">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ID.html#a1b30bd6ad973cf9b9df7a4fad807f12f" title="scrimmage::ID::team_id" alt="" coords="196,13,371,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,151,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ID.html#a18038d66078eff64f5988cb036ef8042" title=" " alt="" coords="199,13,377,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,23,185,23,185,28,151,28"/>
 </map>

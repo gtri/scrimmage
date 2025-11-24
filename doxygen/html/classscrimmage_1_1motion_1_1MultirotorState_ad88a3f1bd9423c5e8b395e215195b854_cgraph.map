@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::MultirotorState::set_prop_input" name="scrimmage::motion::MultirotorState::set_prop_input">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1MultirotorState.html#a522808bdd439e966ace95eb088b87cb3" title="scrimmage::motion::\lMultirotorState::prop_input" alt="" coords="208,13,403,54"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,163,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1MultirotorState.html#a628fc4565632ad97ba06de8999259ec7" title=" " alt="" coords="211,13,408,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,30,197,30,197,35,163,35"/>
 </map>

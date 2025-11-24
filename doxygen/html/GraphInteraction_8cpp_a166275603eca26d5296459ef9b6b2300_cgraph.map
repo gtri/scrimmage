@@ -1,7 +1,20 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage_1_1interaction.html#a15212174b764dd7707dc47986cddac52" title="scrimmage::interaction\l::draw_graph" alt="" coords="230,5,401,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="254,71,377,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage_1_1interaction.html#a5663761abe47fd207e1469bcf925fbcc" title="scrimmage::interaction\l::nodes_idxs_to_pos_map" alt="" coords="222,123,409,164"/>
-<area shape="rect" id="node5" href="$namespacescrimmage.html#a7462f2b4a0c25561b748f859aee112ca" title="scrimmage::parse_autonomy_data" alt="" coords="192,189,439,215"/>
-<area shape="rect" id="node6" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="254,239,377,266"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,223,148,249"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="233,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,222,94,189,118,143,152,96,172,74,194,55,219,42,222,46,198,60,176,78,156,99,123,146,99,191,85,224"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage_1_1interaction.html#a15212174b764dd7707dc47986cddac52" title=" " alt="" coords="237,69,411,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="87,221,131,175,161,149,195,126,224,112,227,116,197,130,164,153,134,179,91,225"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="500,106,623,131"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="95,221,140,194,195,169,271,149,349,134,486,119,487,125,350,139,273,154,197,175,142,199,98,225"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1interaction_1_1GraphInteraction.html#af28c9256301e1c0f2de1a29f2aeb9c92" title=" " alt="" coords="196,184,452,224"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,224,182,220,183,225,148,229"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1interaction_1_1GraphInteraction.html#aba4e631a48be268f38d0aab41340194d" title=" " alt="" coords="237,248,411,288"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="148,243,224,252,223,258,148,248"/>
+<area shape="rect" id="Node000007" href="$namespacescrimmage_1_1interaction.html#a5663761abe47fd207e1469bcf925fbcc" title=" " alt="" coords="229,312,419,352"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="99,246,143,272,197,298,220,305,218,311,195,302,141,277,96,251"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#a7462f2b4a0c25561b748f859aee112ca" title=" " alt="" coords="200,377,448,402"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="88,247,130,304,161,335,197,362,214,370,212,374,195,366,158,340,126,307,84,251"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1interaction_1_1GraphInteraction.html#a632f1a9bbaceb54a9db9d55c9584721e" title=" " alt="" coords="237,426,411,481"/>
+<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="85,248,100,281,124,325,157,371,198,411,225,427,222,432,194,415,153,375,119,328,95,283,81,250"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="411,97,487,107,486,112,410,103"/>
 </map>

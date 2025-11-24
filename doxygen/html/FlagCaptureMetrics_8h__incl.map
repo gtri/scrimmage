@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h">
-<area shape="rect" id="node2" href="$Metrics_8h.html" title="Brief file description. " alt="" coords="24,124,232,151"/>
-<area shape="rect" id="node5" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="256,124,471,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="146,5,352,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="105,196,156,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,52,109,62,73,76,40,97,14,124,9,136,10,146,16,157,27,166,58,183,93,195,91,200,56,187,24,170,12,160,5,148,3,135,9,121,37,93,70,71,107,57,145,47"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="340,196,398,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="353,47,391,56,429,71,463,92,491,121,497,135,496,148,489,159,477,170,447,186,412,199,411,194,444,181,474,165,485,156,491,146,492,136,487,124,460,96,426,76,389,61,352,52"/>
+<area shape="rect" id="Node000004" href="$Metrics_8h.html" title="Brief file description." alt="" coords="24,123,236,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="208,77,158,116,154,112,204,73"/>
+<area shape="rect" id="Node000030" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="261,123,477,148"/>
+<area shape="poly" id="edge6_Node000001_Node000030" title=" " alt="" coords="294,73,344,112,341,116,291,77"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="133,148,133,182,128,182,128,148"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="169,145,327,192,326,197,168,151"/>
+<area shape="poly" id="edge7_Node000030_Node000002" title=" " alt="" coords="331,151,169,199,168,193,330,145"/>
+<area shape="poly" id="edge8_Node000030_Node000003" title=" " alt="" coords="372,148,372,182,366,182,366,148"/>
 </map>

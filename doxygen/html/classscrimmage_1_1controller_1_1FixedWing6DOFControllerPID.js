@@ -4,7 +4,7 @@ var classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID =
     [ "step", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240", null ],
     [ "init", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e", null ],
     [ "step", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240", null ],
-    [ "u", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a059e76083e9d55d07748b751c675c44d", null ],
+    [ "u", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#acbd3f56f1896d249b629197fadec4f9c", null ],
     [ "heading_pid_", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a2f219fce2dd5114907315a8926647238", null ],
     [ "alt_pid_", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a7cb4fcd77491defc1d60274d9453a0ec", null ],
     [ "vel_pid_", "classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#ac1165bb66bd2b6a7d051aaeb6733a856", null ],

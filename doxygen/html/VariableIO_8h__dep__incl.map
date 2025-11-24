@@ -1,12 +1,23 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/VariableIO.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/VariableIO.h">
-<area shape="rect" id="node2" href="$EntityPlugin_8h.html" title="Brief file description. " alt="" coords="5,117,209,173"/>
-<area shape="rect" id="node3" href="$Joystick_8h.html" title="Brief file description. " alt="" coords="233,109,437,180"/>
-<area shape="rect" id="node4" href="$VariableIO_8cpp.html" title="Brief file description. " alt="" coords="461,124,665,165"/>
-<area shape="rect" id="node5" href="$WaypointGenerator_8cpp.html" title="Brief file description. " alt="" coords="689,117,931,173"/>
-<area shape="rect" id="node6" href="$DirectController_8cpp.html" title="Brief file description. " alt="" coords="955,117,1212,173"/>
-<area shape="rect" id="node7" href="$HarmonicOscillatorConstController_8cpp.html" title="Brief file description. " alt="" coords="1236,109,1509,180"/>
-<area shape="rect" id="node8" href="$SingleIntegratorControllerSimple_8cpp.html" title="Brief file description. " alt="" coords="1533,109,1794,180"/>
-<area shape="rect" id="node9" href="$SingleIntegratorControllerWaypoint_8cpp.html" title="Brief file description. " alt="" coords="1818,109,2093,180"/>
-<area shape="rect" id="node10" href="$HarmonicOscillator_8cpp.html" title="Brief file description. " alt="" coords="2117,117,2385,173"/>
-<area shape="rect" id="node11" href="$JSBSimModel_8cpp.html" title="Brief file description. " alt="" coords="2409,117,2640,173"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1138,5,1349,60"/>
+<area shape="rect" id="Node000002" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="5,115,212,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1124,37,948,42,723,53,473,75,347,91,224,111,191,118,190,113,223,105,346,86,473,70,723,48,948,36,1124,32"/>
+<area shape="rect" id="Node000261" href="$Joystick_8h.html" title="Brief file description." alt="" coords="236,108,443,177"/>
+<area shape="poly" id="edge2_Node000001_Node000261" title=" " alt="" coords="1124,41,987,48,819,62,636,82,454,111,443,113,442,108,454,105,636,77,819,56,987,43,1124,35"/>
+<area shape="rect" id="Node000262" href="$VariableIO_8cpp.html" title="Brief file description." alt="" coords="467,123,673,163"/>
+<area shape="poly" id="edge3_Node000001_Node000262" title=" " alt="" coords="1125,47,919,72,802,89,687,111,630,125,629,120,685,105,801,84,918,66,1124,42"/>
+<area shape="rect" id="Node000067" href="$WaypointGenerator_8cpp.html" title="Brief file description." alt="" coords="698,115,941,170"/>
+<area shape="poly" id="edge4_Node000001_Node000067" title=" " alt="" coords="1128,66,923,118,922,113,1126,61"/>
+<area shape="rect" id="Node000094" href="$DirectController_8cpp.html" title="Brief file description." alt="" coords="965,115,1228,170"/>
+<area shape="poly" id="edge5_Node000001_Node000094" title=" " alt="" coords="1198,71,1134,117,1131,113,1195,66"/>
+<area shape="rect" id="Node000098" href="$HarmonicOscillatorConstController_8cpp.html" title="Brief file description." alt="" coords="1252,108,1531,177"/>
+<area shape="poly" id="edge6_Node000001_Node000098" title=" " alt="" coords="1292,66,1346,105,1343,110,1289,70"/>
+<area shape="rect" id="Node000116" href="$SingleIntegratorControllerSimple_8cpp.html" title="Brief file description." alt="" coords="1555,108,1822,177"/>
+<area shape="poly" id="edge7_Node000001_Node000116" title=" " alt="" coords="1363,60,1556,107,1555,112,1362,65"/>
+<area shape="rect" id="Node000118" href="$SingleIntegratorControllerWaypoint_8cpp.html" title="Brief file description." alt="" coords="1846,108,2129,177"/>
+<area shape="poly" id="edge8_Node000001_Node000118" title=" " alt="" coords="1363,43,1582,69,1834,105,1846,107,1845,113,1834,111,1582,74,1362,48"/>
+<area shape="rect" id="Node000168" href="$HarmonicOscillator_8cpp.html" title="Brief file description." alt="" coords="2153,115,2427,170"/>
+<area shape="poly" id="edge9_Node000001_Node000168" title=" " alt="" coords="1363,36,1713,58,1927,78,2141,105,2182,113,2181,118,2140,111,1926,83,1712,63,1362,41"/>
+<area shape="rect" id="Node000170" href="$JSBSimModel_8cpp.html" title="Brief file description." alt="" coords="2452,115,2688,170"/>
+<area shape="poly" id="edge10_Node000001_Node000170" title=" " alt="" coords="1363,31,1567,35,1836,46,2137,68,2290,85,2440,105,2477,113,2476,118,2439,111,2289,90,2136,73,1835,51,1567,40,1363,37"/>
 </map>

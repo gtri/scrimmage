@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ShapeDraw/ShapeDraw.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ShapeDraw/ShapeDraw.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="53,109,215,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,264,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="9,196,60,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,62,62,83,42,109,36,127,33,146,33,182,28,182,27,146,31,126,38,107,58,79,84,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="165,196,224,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,58,212,79,232,107,237,128,233,149,215,186,210,183,228,147,231,128,227,109,208,83,183,62"/>
+<area shape="rect" id="Node000004" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="52,108,217,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,60,137,94,132,94,132,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="112,150,62,189,59,185,109,146"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="151,147,180,183,175,187,147,150"/>
 </map>

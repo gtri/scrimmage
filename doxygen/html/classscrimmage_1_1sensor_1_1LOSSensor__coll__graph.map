@@ -1,3 +1,8 @@
 <map id="scrimmage::sensor::LOSSensor" name="scrimmage::sensor::LOSSensor">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1RayTrace.html" title="{scrimmage::sensor::\lRayTrace\n|# gener_\l# ray_id_counter_\l# max_range_\l# min_range_\l# max_sample_rate_\l# auto_ray_tracing_\l# pub_\l|+ RayTrace()\l+ type()\l+ init()\l+ step()\l+ automatic_ray_tracing()\l+ rays()\l+ max_range()\l+ min_range()\l+ max_sample_rate()\l}" alt="" coords="5,5,196,303"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="52,503,224,903"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1RayTrace.html" title=" " alt="" coords="176,133,361,453"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,467,204,503,199,502,211,466"/>
+<area shape="rect" id="Node000099" title=" " alt="" coords="5,5,207,71"/>
+<area shape="poly" id="edge3_Node000001_Node000099" title=" " alt="" coords="105,71,101,133,94,293,95,363,101,453,104,486,98,486,95,454,90,364,89,293,95,133,100,71"/>
+<area shape="poly" id="edge2_Node000002_Node000099" title=" " alt="" coords="129,69,169,133,165,136,124,72"/>
 </map>

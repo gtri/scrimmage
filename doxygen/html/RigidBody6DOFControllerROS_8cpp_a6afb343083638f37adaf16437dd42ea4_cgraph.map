@@ -1,0 +1,11 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,121,148,147"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#ac9c00b21e8d13517f7102ea3932a5cc8" title=" " alt="" coords="214,5,437,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,119,142,95,195,70,216,62,218,67,197,75,145,100,101,124"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#af932a8598cb1415826bf966ed2e2bca4" title=" " alt="" coords="199,85,451,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,123,185,119,186,124,149,128"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="231,149,419,175"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,139,218,147,217,153,148,145"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a6b09772e42407b7b665df34f69d50045" title=" " alt="" coords="196,199,455,239"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="105,144,197,183,227,193,225,198,195,189,103,149"/>
+</map>

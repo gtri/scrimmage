@@ -1,7 +1,12 @@
 <map id="scrimmage::Updater::get_model_texture" name="scrimmage::Updater::get_model_texture">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="225,5,378,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title="scrimmage::ConfigParse\l::directory" alt="" coords="443,127,621,168"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="212,123,391,164"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title="scrimmage::ConfigParse\l::parse" alt="" coords="212,188,391,229"/>
-<area shape="rect" id="node6" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="208,254,395,281"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,61,160,101"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title=" " alt="" coords="445,33,624,73"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,59,155,34,207,15,260,5,302,3,398,15,459,27,458,32,397,20,302,9,261,10,209,20,158,39,114,64"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="213,29,392,69"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,68,199,62,200,67,160,73"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title=" " alt="" coords="213,93,392,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,90,200,96,199,101,160,95"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title=" " alt="" coords="208,158,397,183"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="120,99,162,122,209,143,235,152,233,157,207,148,159,127,117,104"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="380,91,443,74,444,80,382,96"/>
 </map>

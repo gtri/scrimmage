@@ -1,5 +1,11 @@
 <map id="scrimmage::motion::RigidBody6DOF" name="scrimmage::motion::RigidBody6DOF">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MotionModel.html" title="{scrimmage::MotionModel\n|# state_\l# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}" alt="" coords="5,115,193,486"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Quaternion.html" title="{scrimmage::Quaternion\n|+ output_precision\l|+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ operator=()\l+ operator=()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ Quaternion()\l+ set()\l+ set()\l+ set()\l+ roll()\l+ pitch()\l+ yaw()\l+ rotation_angle()\l+ rotate()\l+ rotate_reverse()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* operator=()\l* operator=()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* Quaternion()\l* set()\l* set()\l* set()\l* roll()\l* pitch()\l* yaw()\l* rotation_angle()\l* rotate()\l* rotate_reverse()\l}" alt="" coords="218,5,391,596"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1PID.html" title="{scrimmage::PID\n|# kp_\l# ki_\l# kd_\l# prev_error_\l# integral_\l# setpoint_\l# integral_band_\l# is_angle_\l# derivative_\l# error_\l# output_min_\l# output_max_\l# enable_output_limits_\l|+ PID()\l+ set_parameters()\l+ set_setpoint()\l+ set_integral_band()\l+ set_is_angle()\l+ set_output_limits()\l+ reset()\l+ setpoint()\l+ kp()\l+ ki()\l+ kd()\l+ integral_band()\l+ integral()\l+ error()\l+ previous_error()\l+ derivative()\l+ init()\l+ step()\l}" alt="" coords="416,49,593,552"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="319,903,468,1163"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MotionModel.html" title=" " alt="" coords="5,165,187,651"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,663,169,738,201,809,227,852,257,892,320,962,316,966,253,895,222,855,196,812,164,740,139,665"/>
+<area shape="rect" id="Node000093" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="211,85,384,731"/>
+<area shape="poly" id="edge2_Node000001_Node000093" title=" " alt="" coords="342,731,365,878,367,886,361,887,360,879,337,731"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="408,368,571,448"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="494,448,496,528,494,636,484,757,463,879,460,887,455,886,457,878,479,757,488,635,491,528,489,448"/>
+<area shape="rect" id="Node000047" href="$classscrimmage_1_1Quaternion.html" title=" " alt="" coords="595,5,762,811"/>
+<area shape="poly" id="edge4_Node000001_Node000047" title=" " alt="" coords="598,783,585,812,564,851,538,888,482,954,478,950,534,885,559,848,580,809,593,781"/>
 </map>

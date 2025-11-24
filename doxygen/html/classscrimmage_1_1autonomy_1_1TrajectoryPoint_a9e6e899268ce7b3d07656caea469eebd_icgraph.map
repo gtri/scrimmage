@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::TrajectoryPoint::state" name="scrimmage::autonomy::TrajectoryPoint::state">
+<area shape="rect" id="Node000001" title=" " alt="" coords="248,49,417,89"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#a574f304096b177f14b0b181b245f4fe5" title=" " alt="" coords="18,5,187,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,56,187,48,188,43,235,51"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#ae0a681d3cb580ebec27f92110d6fb233" title=" " alt="" coords="5,85,200,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,87,200,92,200,87,234,81"/>
+</map>

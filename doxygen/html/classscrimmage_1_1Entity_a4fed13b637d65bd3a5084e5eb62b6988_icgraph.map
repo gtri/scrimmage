@@ -1,0 +1,9 @@
+<map id="scrimmage::Entity::call_service" name="scrimmage::Entity::call_service">
+<area shape="rect" id="Node000001" title=" " alt="" coords="201,69,349,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#a68c2ca04bb77715c07bdcf97dc2b5c47" title=" " alt="" coords="5,5,153,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,68,140,48,142,43,202,63"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#acefe04e245487c4b8d58de48860003b8" title=" " alt="" coords="5,69,153,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,92,154,92,154,87,187,87"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Entity.html#acda926feae63401551d01674d7f158c2" title=" " alt="" coords="5,133,153,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,116,142,136,140,131,200,111"/>
+</map>

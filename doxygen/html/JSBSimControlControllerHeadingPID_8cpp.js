@@ -1,4 +1,4 @@
 var JSBSimControlControllerHeadingPID_8cpp =
 [
-    [ "ang", "JSBSimControlControllerHeadingPID_8cpp.html#abb0199d53cefdd9007fc868062d46298", null ]
+    [ "REGISTER_PLUGIN", "JSBSimControlControllerHeadingPID_8cpp.html#a8a40712020f4aac8998a769265f3af8e", null ]
 ];

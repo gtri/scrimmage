@@ -1,4 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MotionBattery/MotionBattery.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/MotionBattery/MotionBattery.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="123,124,345,151"/>
-<area shape="rect" id="node6" href="$Battery_8h.html" title="Brief file description. " alt="" coords="419,124,638,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="122,5,329,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,56,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,77,126,99,94,125,67,155,46,185,42,183,63,152,90,121,123,95,158,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="89,196,167,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,77,124,98,104,124,100,138,101,154,114,183,109,185,96,155,94,138,99,121,120,94,147,73"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="271,196,329,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="303,73,330,94,352,122,356,140,351,158,327,189,323,185,346,156,350,140,347,124,327,98,300,77"/>
+<area shape="rect" id="Node000005" href="$Battery_8h.html" title="Brief file description." alt="" coords="412,123,631,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="330,71,473,116,471,121,328,76"/>
+<area shape="rect" id="Node000006" href="$Controller_8h.html" title="Brief file description." alt="" coords="113,123,337,148"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="228,75,228,109,223,109,223,75"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="195,151,70,196,68,191,193,146"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="211,150,157,190,154,185,208,146"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="239,146,280,185,276,188,235,150"/>
 </map>

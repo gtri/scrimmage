@@ -1,0 +1,27 @@
+var classscrimmage_1_1XMLParserNode =
+[
+    [ "ChildIterator", "classscrimmage_1_1XMLParserNode_1_1ChildIterator.html", "classscrimmage_1_1XMLParserNode_1_1ChildIterator" ],
+    [ "RecursiveIterator", "classscrimmage_1_1XMLParserNode_1_1RecursiveIterator.html", "classscrimmage_1_1XMLParserNode_1_1RecursiveIterator" ],
+    [ "XMLAttribute", "classscrimmage_1_1XMLParserNode.html#a58eb6700be86e6a2252c50d6c9e010e1", null ],
+    [ "Attribute", "classscrimmage_1_1XMLParserNode.html#a91b3f31afa7bd8951727c8e7b0212801", null ],
+    [ "AttributeIterator", "classscrimmage_1_1XMLParserNode.html#a2c725d0447ca2bc6654ccd6d9d408cd6", null ],
+    [ "first_node", "classscrimmage_1_1XMLParserNode.html#af9f91e5a81f22dec5f732a0a2804098f", null ],
+    [ "first_node", "classscrimmage_1_1XMLParserNode.html#a2edb1b7c6f63210155416ccbc12de269", null ],
+    [ "next_sibling", "classscrimmage_1_1XMLParserNode.html#a04c125faff5555e3981c6d0550105c86", null ],
+    [ "next_sibling", "classscrimmage_1_1XMLParserNode.html#af7c01983202584309f527583b844aeb5", null ],
+    [ "prev_sibling", "classscrimmage_1_1XMLParserNode.html#a992d33c7db087eef064671a1fd4ce491", null ],
+    [ "prev_sibling", "classscrimmage_1_1XMLParserNode.html#a9852dae3ba4b86cce83de690f8f5eff6", null ],
+    [ "first_attribute", "classscrimmage_1_1XMLParserNode.html#a8286f173c84fda72158bd82b12fbfc29", null ],
+    [ "first_attribute", "classscrimmage_1_1XMLParserNode.html#aae2dc98db5f1bd1ed0c9a1dedc18b928", null ],
+    [ "name", "classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21", null ],
+    [ "value", "classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656", null ],
+    [ "child_begin", "classscrimmage_1_1XMLParserNode.html#a577e7e176d719f8dd9dcc9e9f52dc024", null ],
+    [ "child_end", "classscrimmage_1_1XMLParserNode.html#af34b3f52f536c49743de705f095bd463", null ],
+    [ "recur_begin", "classscrimmage_1_1XMLParserNode.html#ae27af31feaa53b35dce7e709119a80a2", null ],
+    [ "recur_end", "classscrimmage_1_1XMLParserNode.html#a07d6a83465314e6fec08f99edfeadbdc", null ],
+    [ "attr_begin", "classscrimmage_1_1XMLParserNode.html#a713626cb77732e805eafc836f7973f11", null ],
+    [ "attr_end", "classscrimmage_1_1XMLParserNode.html#a4d00609f58c81b15bd5b4be021d6f92e", null ],
+    [ "is_valid", "classscrimmage_1_1XMLParserNode.html#a7178f2b63a3f29da0b5f3ae7f8efe7d2", null ],
+    [ "operator==", "classscrimmage_1_1XMLParserNode.html#afb77e5cbda9edff8eca1a22255eafcef", null ],
+    [ "operator!=", "classscrimmage_1_1XMLParserNode.html#a28f38d2f68516b75efce7e8e67964981", null ]
+];

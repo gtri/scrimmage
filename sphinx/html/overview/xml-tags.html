@@ -1,89 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mission XML Tag Definitions &mdash; scrimmage 0.2.0-dev documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=dee240fc"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Variable IO" href="variableio.html" />
     <link rel="prev" title="Logging" href="logging.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> scrimmage
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            scrimmage
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0-dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Overview</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="intro.html">Description</a></li>
@@ -95,6 +53,13 @@
 <li class="toctree-l2"><a class="reference internal" href="core-plugins.html">Core Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Mission XML Tag Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#combining-xml-files">Combining XML Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#including-portions-of-other-mission-files">Including Portions of Other Mission Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#including-ill-formed-xml-tags">Including ill-formed XML Tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-xinclude-nodes">Testing XInclude Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="variableio.html">Variable IO</a></li>
 <li class="toctree-l2"><a class="reference internal" href="design-principles.html">Design Principles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html">Change Log</a></li>
@@ -103,72 +68,33 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">scrimmage</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="overview.html">Overview</a> &raquo;</li>
-        
-      <li>Mission XML Tag Definitions</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="overview.html">Overview</a></li>
+      <li class="breadcrumb-item active">Mission XML Tag Definitions</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/overview/xml-tags.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="mission-xml-tag-definitions">
-<span id="scrimmage-xml"></span><h1>Mission XML Tag Definitions<a class="headerlink" href="#mission-xml-tag-definitions" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="mission-xml-tag-definitions">
+<span id="scrimmage-xml"></span><h1>Mission XML Tag Definitions<a class="headerlink" href="#mission-xml-tag-definitions" title="Link to this heading"></a></h1>
 <p>Either the <code class="docutils literal notranslate"><span class="pre">latitude</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, and <code class="docutils literal notranslate"><span class="pre">altitude</span></code> tags must be used
 together or the <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> tags must be used together. Do not mix
 and match between the two paradigms for a single entity.</p>
@@ -264,7 +190,13 @@ will be grouped into similar plugin types (e.g. autonomy plugins, motion
 plugins, interaction plugins, sensors, controllers, etc.)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">log_dir</span></code> : The log directory is the folder where scrimmage will save all
 log information from the simulation. This includes entity trajectory data,
-event data, and the random seed that was used during the simulation.</p></li>
+event data, and the random seed that was used during the simulation.
+The “use_exact” param can be set to true to tell scrimmage to place results
+in an exact folder instead of a timestamped folder inside log_dir</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_dir_trailer</span></code> : If defined, this string will be appended as a
+trailing string to the simulation’s output directory’s name. Note: it will
+be truncated to 100 characters, and all occurrences of ‘/’ will be replaced
+with an underscore ‘_’.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">create_latest_dir</span></code> : If <code class="docutils literal notranslate"><span class="pre">true</span></code>, a symbolically linked directory named
 <code class="docutils literal notranslate"><span class="pre">latest</span></code> will be created that links to the most recent <code class="docutils literal notranslate"><span class="pre">log_dir</span></code>. This
 tag is <code class="docutils literal notranslate"><span class="pre">true</span></code> by default. When executing parallel runs, the user should set
@@ -474,6 +406,30 @@ specified in seconds.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">start</span></code>: when to start taking screenshots</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">end</span></code>: when to stop taking screenshots.</p></li>
 </ul>
+<p>A separate method for taking plugin event based screenshots can be implemented
+through published messages on the take_screenshot topic. The following line
+should be added to the plugin’s header file:</p>
+<p><code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Screenshot</span> <span class="pre">publisher</span>
+<span class="pre">scrimmage::PublisherPtr</span> <span class="pre">pub_screenshot_;</span></code></p>
+<p>Ensure the following headers are included in the plugin’s *.cpp file:
+<code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;scrimmage/pubsub/Message.h&gt;</span>
+<span class="pre">#include</span> <span class="pre">&lt;scrimmage/pubsub/Publisher.h&gt;</span></code></p>
+<p>Initialize the publisher in the init() method of the plugin’s *.cpp file. The
+intialization creates a publisher in the “GlobalNetwork” with a topic name of
+“take_screenshot”.</p>
+<p><code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Screenshot</span> <span class="pre">publisher</span> <span class="pre">initialization</span>
+<span class="pre">pub_screenshot_</span> <span class="pre">=</span> <span class="pre">advertise(&quot;GlobalNetwork&quot;,</span> <span class="pre">&quot;take_screenshot&quot;);</span></code></p>
+<p>A message can be published to take a screenshot by utilizing the code below.
+A conditional can be placed around the publish message code to control when
+screenshots are executed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">auto</span> <span class="pre">screenshot_msg</span> <span class="pre">=</span> <span class="pre">std::make_shared&lt;sc::Message&lt;bool&gt;&gt;();</span>
+<span class="pre">screenshot_msg-&gt;data</span> <span class="pre">=</span> <span class="pre">true;</span>
+<span class="pre">pub_screenshot_-&gt;publish(screenshot_msg);</span></code></p>
+<p>When a message is published, the <code class="docutils literal notranslate"><span class="pre">takeSS</span></code> subscriber callback is entered in
+the SimControl.cpp file. If the <code class="docutils literal notranslate"><span class="pre">enable_gui</span></code> XML tag has been set to true,
+a screenshot will be taken of the GUI at the specified condition surrounding the
+publish message code. If the <code class="docutils literal notranslate"><span class="pre">enable_gui</span></code> XML tag has been set to false, no
+screenshot will be taken.</p>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">multi_threaded</span></code>: allows scrimmage to run in multiple threads if the tag is set to true (default=``false``).
 The default is for scrimmage to run in a single thread. The attributes are:</p>
@@ -485,56 +441,213 @@ The default is for scrimmage to run in a single thread. The attributes are:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">sensor</span></code> : whether to enable or disable running sensor plugins in threads (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">true</span></code>)</p></li>
 </ul>
 </li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span></code>: the initial scale of the vehicles in the gui (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">1.0</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">no_bin_logging</span></code>: Disables binary logging in Scrimmage. Signifigantly reduces the size of mission outputs, but
+will not have entity trajectories logged. (<code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">=</span> <span class="pre">false</span></code>)</p></li>
 </ul>
+</section>
+<section id="combining-xml-files">
+<h1>Combining XML Files<a class="headerlink" href="#combining-xml-files" title="Link to this heading"></a></h1>
+<p>Splitting up components of Mission Files into their own files
+can aid in the management of large missions files and enable
+easy reuse of simulation configurations across several missions.</p>
+<p>Mergeing of XML files is accomplsihed via <cite>XInclude</cite>, which enables the insertion
+of other XML files, or even specific tags of XML files, into the primary XML Information Set.</p>
+<p><cite>XInclude</cite> is enabled by defining the namespace <code class="docutils literal notranslate"><span class="pre">xmlns:xi=&quot;http://www.w3.org/2001/XInclude</span></code>
+in the root node of the mission file. This is the <code class="docutils literal notranslate"><span class="pre">runscript</span></code> node.</p>
+<p>Full, well-formed XML files can then be included into the main XML file with the
+tag <code class="docutils literal notranslate"><span class="pre">&lt;xi:include</span> <span class="pre">href=&quot;/path/to/file.xml&quot;</span> <span class="pre">/&gt;</span></code></p>
+<p>For example, the file <code class="docutils literal notranslate"><span class="pre">entity1.xml</span></code> contains the contents:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;entity&gt;
+  &lt;name&gt;uav_entity&lt;/name&gt;
+  &lt;team_id&gt;1&lt;/team_id&gt;
+  &lt;color&gt;77 77 255&lt;/color&gt;
+  &lt;count&gt;${count=1}&lt;/count&gt;
+  &lt;health&gt;1&lt;/health&gt;
+  &lt;radius&gt;1&lt;/radius&gt;
+  &lt;variance_x&gt;20&lt;/variance_x&gt;
+  &lt;variance_y&gt;20&lt;/variance_y&gt;
+  &lt;variance_z&gt;10&lt;/variance_z&gt;
+  &lt;x&gt;-900&lt;/x&gt;
+  &lt;y&gt;0&lt;/y&gt;
+  &lt;z&gt;195&lt;/z&gt;
+  &lt;heading&gt;0&lt;/heading&gt;
+  &lt;controller&gt;SimpleAircraftControllerPID&lt;/controller&gt;
+  &lt;motion_model&gt;SimpleAircraft&lt;/motion_model&gt;
+
+  &lt;visual_model&gt;zephyr-blue&lt;/visual_model&gt;
+  &lt;autonomy show_text_label=&quot;true&quot;
+            generate_entities=&quot;false&quot;
+            enable_boundary_control=&quot;true&quot;&gt;Straight&lt;/autonomy&gt;
+
+  &lt;base&gt;
+    &lt;latitude&gt;35.721112&lt;/latitude&gt;
+    &lt;longitude&gt;-120.770305&lt;/longitude&gt;
+    &lt;altitude&gt;300&lt;/altitude&gt;
+    &lt;radius&gt;25&lt;/radius&gt;
+  &lt;/base&gt;
+&lt;/entity&gt;
+</pre></div>
 </div>
+<p>and the primary mission file <cite>straight_include.xml</cite> contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">runscript</span> <span class="n">xmlns</span><span class="p">:</span><span class="n">xsi</span><span class="o">=</span><span class="s2">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="n">xmlns</span><span class="p">:</span><span class="n">xi</span><span class="o">=</span><span class="s2">&quot;http://www.w3.org/2001/XInclude&quot;</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Straight Flying With XInclude&quot;</span><span class="o">&gt;</span>
+  <span class="o">...</span>
+<span class="o">&lt;</span><span class="n">xi</span><span class="p">:</span><span class="n">include</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;entity1.xml&quot;</span> <span class="o">/&gt;</span>
+  <span class="o">...</span>
+<span class="o">&lt;/</span><span class="n">runscript</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Then the resulting XML information set would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;runscript xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:xi=&quot;http://www.w3.org/2001/XInclude&quot;
+    name=&quot;Straight Flying With XInclude&quot;&gt;
+  ...
+&lt;entity&gt;
+  &lt;name&gt;uav_entity&lt;/name&gt;
+  &lt;team_id&gt;1&lt;/team_id&gt;
+  &lt;color&gt;77 77 255&lt;/color&gt;
+  &lt;count&gt;${count=1}&lt;/count&gt;
+  &lt;health&gt;1&lt;/health&gt;
+  &lt;radius&gt;1&lt;/radius&gt;
+  &lt;variance_x&gt;20&lt;/variance_x&gt;
+  &lt;variance_y&gt;20&lt;/variance_y&gt;
+  &lt;variance_z&gt;10&lt;/variance_z&gt;
+  &lt;x&gt;-900&lt;/x&gt;
+  &lt;y&gt;0&lt;/y&gt;
+  &lt;z&gt;195&lt;/z&gt;
+  &lt;heading&gt;0&lt;/heading&gt;
+  &lt;controller&gt;SimpleAircraftControllerPID&lt;/controller&gt;
+  &lt;motion_model&gt;SimpleAircraft&lt;/motion_model&gt;
+
+  &lt;visual_model&gt;zephyr-blue&lt;/visual_model&gt;
+  &lt;autonomy show_text_label=&quot;true&quot;
+            generate_entities=&quot;false&quot;
+            enable_boundary_control=&quot;true&quot;&gt;Straight&lt;/autonomy&gt;
+
+  &lt;base&gt;
+    &lt;latitude&gt;35.721112&lt;/latitude&gt;
+    &lt;longitude&gt;-120.770305&lt;/longitude&gt;
+    &lt;altitude&gt;300&lt;/altitude&gt;
+    &lt;radius&gt;25&lt;/radius&gt;
+  &lt;/base&gt;
+&lt;/entity&gt;
+  ...
+&lt;/runscript&gt;
+</pre></div>
+</div>
+<section id="including-portions-of-other-mission-files">
+<h2>Including Portions of Other Mission Files<a class="headerlink" href="#including-portions-of-other-mission-files" title="Link to this heading"></a></h2>
+<p>The optional <cite>xpointer</cite> attribute of the <cite>XInclude</cite> node can be used to
+include only portions or framents of other mission files. For example,
+if we wanted to include all <code class="docutils literal notranslate"><span class="pre">entity_interaction</span></code> nodes from
+the file <code class="docutils literal notranslate"><span class="pre">straight.xml</span></code> into our new mission file, we could include
+the tag <code class="docutils literal notranslate"><span class="pre">&lt;xi:include</span> <span class="pre">href=&quot;straight.xml&quot;</span> <span class="pre">xpointer=&quot;xpointer(/*/entity_interaction)&quot;/&gt;</span></code>.
+The <cite>xpointer</cite> attribute specifies all <code class="docutils literal notranslate"><span class="pre">entity_interaction</span></code> tags that are direct children
+of the root node.</p>
+</section>
+<section id="including-ill-formed-xml-tags">
+<h2>Including ill-formed XML Tags<a class="headerlink" href="#including-ill-formed-xml-tags" title="Link to this heading"></a></h2>
+<p>It is ocassionaly useful to include a collection of XML nodes that don’t share a
+common parent between themselves and the root node. This is particularly common
+for parameters that define simulation-wide parameters, or a collection
+of similar tags (e.g. entities). The challenge is that without the root
+<code class="docutils literal notranslate"><span class="pre">runscript</span></code> node, these XML nodes would not create a well-formed XML file
+without modification, as there would be no root node in the resulting XML file.
+A solution to this would be to wrap all the individual node within a single
+root node. For example, if the file <code class="docutils literal notranslate"><span class="pre">sim_info.xml</span></code> contained the following
+nodes related to simulation info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;multi_threaded num_threads=&quot;8&quot;&gt;false&lt;/multi_threaded&gt;
+&lt;stream_port&gt;50051&lt;/stream_port&gt;
+&lt;stream_ip&gt;localhost&lt;/stream_ip&gt;
+&lt;end_condition&gt;time, all_dead&lt;/end_condition&gt; &lt;!-- time, one_team, none--&gt;
+&lt;grid_spacing&gt;10&lt;/grid_spacing&gt;
+&lt;grid_size&gt;1000&lt;/grid_size&gt;
+&lt;terrain&gt;mcmillan&lt;/terrain&gt;
+&lt;background_color&gt;191 191 191&lt;/background_color&gt; &lt;!-- Red Green Blue --&gt;
+...
+&lt;enable_screenshots min_period=&quot;1.0&quot; start=&quot;8.3&quot; end=&quot;15.3&quot;&gt;false&lt;/enable_screenshots&gt;
+&lt;network&gt;GlobalNetwork&lt;/network&gt;
+&lt;network&gt;LocalNetwork&lt;/network&gt;
+&lt;seed&gt;2147483648&lt;/seed&gt;
+</pre></div>
+</div>
+<p>the resulting XML file will be ill-formed, but the addition of the root node
+<code class="docutils literal notranslate"><span class="pre">&lt;sim_info&gt;</span></code> solves this issue, i.e. <code class="docutils literal notranslate"><span class="pre">sim_info.xml</span></code> now contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;sim_info&gt;
+  &lt;multi_threaded num_threads=&quot;8&quot;&gt;false&lt;/multi_threaded&gt;
+  &lt;stream_port&gt;50051&lt;/stream_port&gt;
+  &lt;stream_ip&gt;localhost&lt;/stream_ip&gt;
+  &lt;end_condition&gt;time, all_dead&lt;/end_condition&gt; &lt;!-- time, one_team, none--&gt;
+  &lt;grid_spacing&gt;10&lt;/grid_spacing&gt;
+  &lt;grid_size&gt;1000&lt;/grid_size&gt;
+  &lt;terrain&gt;mcmillan&lt;/terrain&gt;
+  &lt;background_color&gt;191 191 191&lt;/background_color&gt; &lt;!-- Red Green Blue --&gt;
+  ...
+  &lt;enable_screenshots min_period=&quot;1.0&quot; start=&quot;8.3&quot; end=&quot;15.3&quot;&gt;false&lt;/enable_screenshots&gt;
+  &lt;network&gt;GlobalNetwork&lt;/network&gt;
+  &lt;network&gt;LocalNetwork&lt;/network&gt;
+  &lt;seed&gt;2147483648&lt;/seed&gt;
+&lt;/sim_info&gt;
+</pre></div>
+</div>
+<p>However Scrimmage’s XML parser expects most of these parameters to be direct
+children of the <code class="docutils literal notranslate"><span class="pre">runscript</span></code> node. This is not the case anymore with
+the introduction of the <code class="docutils literal notranslate"><span class="pre">&lt;sim_info&gt;</span></code> tag. To fix this issue,
+we can utilize the optional <code class="docutils literal notranslate"><span class="pre">xpointer</span></code> attribute of the include statement.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;xi:include</span> <span class="pre">href=&quot;sim_info.xml&quot;</span> <span class="pre">xpointer=&quot;xpointer(/sim_info/*)&quot;/&gt;</span></code></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">xpointer</span></code> attribute can be set to any valid xpointer, but here
+we are directing the <cite>XInclude</cite> statement to include all nodes that are
+children of the <cite>sim_info</cite> node.</p>
+</section>
+<section id="testing-xinclude-nodes">
+<h2>Testing XInclude Nodes<a class="headerlink" href="#testing-xinclude-nodes" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">xmllint</span></code> is a convient tool to quickly test if your <cite>XInclude</cite> nodes are properly formated.</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">xmllint</span> <span class="pre">--xinclude</span> <span class="pre">/path/to/mission/file.xml</span></code> to observe the complete
+XML file once all the inclusions are resolved. Unresolved inclusions remain
+untouched. This tool will also output any syntax errors in the XML files.</p>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>The folder <code class="docutils literal notranslate"><span class="pre">missions/straight_include/</span></code> contains an example
+of how the mission <code class="docutils literal notranslate"><span class="pre">straight.xml</span></code> could be composed using <cite>XInclude</cite></p></li>
+<li><p><cite>XInclude</cite>: <a class="reference external" href="https://www.w3.org/TR/xinclude-11/">https://www.w3.org/TR/xinclude-11/</a></p></li>
+<li><p><cite>XPointer</cite>: <a class="reference external" href="https://www.w3.org/TR/2003/REC-xptr-framework-20030325/">https://www.w3.org/TR/2003/REC-xptr-framework-20030325/</a></p></li>
+</ul>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="variableio.html" class="btn btn-neutral float-right" title="Variable IO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="logging.html" class="btn btn-neutral float-left" title="Logging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="logging.html" class="btn btn-neutral float-left" title="Logging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="variableio.html" class="btn btn-neutral float-right" title="Variable IO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Kevin DeMarco
-
-    </p>
+    <p>&#169; Copyright 2020, Kevin DeMarco.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

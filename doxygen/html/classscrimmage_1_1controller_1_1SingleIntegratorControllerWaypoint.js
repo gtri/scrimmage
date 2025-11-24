@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint =
 [
-    [ "init", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a23823e22c0b99a84420f499ac26476b0", null ],
-    [ "step", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a89bc4552ade0e1db67d34f62cc8e0b6d", null ],
+    [ "init", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#ae66726ab32a036ea0cd39f986ac8f8f0", null ],
+    [ "step", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a94925cddee26c3afc5fa6c87820685ff", null ],
     [ "input_pos_x_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a8c986882861b9a87b0f3c9c368e4b6cb", null ],
     [ "input_pos_y_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a6e4d02fea7005197418a8b56fde10151", null ],
     [ "input_pos_z_idx_", "classscrimmage_1_1controller_1_1SingleIntegratorControllerWaypoint.html#a0de1ad56dd1f9a7dd9b88e51cf22627e", null ],

@@ -1,0 +1,31 @@
+<map id="scrimmage::Quaternion::yaw" name="scrimmage::Quaternion::yaw">
+<area shape="rect" id="Node000001" title="return euler angle yaw" alt="" coords="283,413,493,438"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title=" " alt="" coords="41,5,199,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="381,400,369,331,343,239,324,190,299,142,269,98,233,59,216,48,198,39,200,35,219,43,236,55,273,95,304,140,328,188,348,237,374,330,386,399"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1motion_1_1SimpleAircraft.html#a887f053465094c21e3052f1009f43e27" title=" " alt="" coords="41,69,199,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="379,400,363,343,335,268,315,228,292,190,265,154,233,123,197,104,200,99,236,119,269,151,296,187,320,226,339,266,368,341,384,399"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#a60b051c77fa2f2aee76cb482ede3340b" title=" " alt="" coords="41,133,199,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="375,401,356,355,326,297,285,238,260,211,233,188,198,170,200,165,236,183,264,207,289,234,330,294,361,353,380,399"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title=" " alt="" coords="43,197,197,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="370,402,347,368,316,328,277,286,233,252,197,235,199,230,236,247,281,283,320,324,352,365,375,400"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles" alt="" coords="33,261,207,301"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="361,406,305,360,270,336,234,316,205,304,207,299,236,311,273,332,308,356,365,402"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1State.html#aecb34281d516d08025bad1ac0ccaa8b5" title=" " alt="" coords="28,326,212,351"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="346,410,234,367,186,354,188,349,235,361,348,405"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title=" " alt="" coords="5,376,235,416"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="269,415,234,411,235,406,270,410"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Quaternion.html#a68e715cafcf81018e1f6367b350589ce" title="set quaternion from euler angles" alt="" coords="19,441,221,466"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="269,440,222,445,221,440,269,435"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="33,491,207,531"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="338,445,235,480,192,493,191,488,234,475,337,440"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title=" " alt="" coords="26,555,214,595"/>
+<area shape="poly" id="edge10_Node000001_Node000019" title=" " alt="" coords="365,450,309,498,274,523,236,545,207,557,205,552,233,540,271,519,306,493,362,446"/>
+<area shape="rect" id="Node000020" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d" title=" " alt="" coords="40,619,200,659"/>
+<area shape="poly" id="edge11_Node000001_Node000020" title=" " alt="" coords="375,451,353,487,321,529,282,572,236,609,201,625,199,621,233,604,278,568,317,526,348,484,371,448"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#a8bdd99dd217ea4468f4f6d71d7cc827f" title=" " alt="" coords="41,683,199,723"/>
+<area shape="poly" id="edge12_Node000001_Node000021" title=" " alt="" coords="380,452,361,500,331,559,289,620,264,648,236,673,200,692,198,687,233,668,260,645,285,617,326,557,356,497,375,450"/>
+<area shape="rect" id="Node000022" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title=" " alt="" coords="33,747,207,802"/>
+<area shape="poly" id="edge13_Node000001_Node000022" title=" " alt="" coords="384,452,367,510,339,586,319,627,296,667,268,704,236,737,209,755,206,750,233,733,264,700,291,664,314,624,334,584,362,508,378,451"/>
+<area shape="rect" id="Node000023" href="$classscrimmage_1_1Updater.html#a15c578c9a497f8d1531abaa0f8657452" title=" " alt="" coords="39,827,201,867"/>
+<area shape="poly" id="edge14_Node000001_Node000023" title=" " alt="" coords="387,452,376,524,350,621,331,674,306,725,275,773,236,815,203,835,200,831,233,811,270,770,301,723,326,672,345,620,370,523,382,451"/>
+</map>

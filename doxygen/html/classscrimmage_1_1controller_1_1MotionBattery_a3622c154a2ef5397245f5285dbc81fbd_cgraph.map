@@ -1,0 +1,19 @@
+<map id="scrimmage::controller::MotionBattery::init" name="scrimmage::controller::MotionBattery::init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,241,171,281"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d" title=" " alt="" coords="237,5,388,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,240,111,201,138,151,173,100,217,55,224,50,227,55,220,59,177,103,142,154,116,203,99,242"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="222,69,403,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="101,240,148,181,181,148,217,119,227,113,230,118,220,124,184,152,152,184,105,243"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="227,133,398,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="118,239,164,211,218,183,234,176,236,181,220,188,167,215,121,243"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1controller_1_1MotionBattery.html#a7ab2555ebeedd55e066141068424655d" title=" " alt="" coords="230,198,395,253"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="170,246,216,238,217,243,171,251"/>
+<area shape="rect" id="Node000009" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="235,277,390,317"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="171,272,222,280,221,285,170,277"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="219,342,407,367"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="124,279,169,304,220,327,244,335,243,340,218,332,167,308,122,284"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1VariableIO.html#ac9f2fe245282bf5947807b515622da7a" title=" " alt="" coords="225,392,400,432"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="109,279,156,328,187,353,220,376,234,384,232,389,217,381,184,358,153,331,105,283"/>
+<area shape="rect" id="Node000014" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="235,457,391,482"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="100,281,118,316,144,360,178,404,220,442,232,449,229,453,217,446,175,408,140,363,113,318,96,283"/>
+</map>

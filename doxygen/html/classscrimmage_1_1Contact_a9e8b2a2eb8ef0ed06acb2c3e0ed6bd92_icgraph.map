@@ -1,6 +1,13 @@
 <map id="scrimmage::Contact::id" name="scrimmage::Contact::id">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1PyAutonomy.html#a0cbcaedddcb9c0b0608833989688da0e" title="scrimmage::autonomy\l::PyAutonomy::contact2py" alt="" coords="224,5,415,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title="scrimmage::proto_2\l_contact" alt="" coords="244,71,395,112"/>
-<area shape="rect" id="node4" href="$BoundaryDefense_8cpp.html#a8090351de828ace29ce05d4ef29112fd" title="REGISTER_PLUGIN" alt="" coords="250,137,389,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Contact.html#a2d4f297fc7946b87a3ef7919943f6dbf" title="scrimmage::Contact\l::set_id" alt="" coords="243,188,395,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,141,473,166"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="38,5,219,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="359,134,311,96,251,60,219,47,221,42,253,55,314,91,363,130"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title=" " alt="" coords="53,69,205,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="321,140,204,111,205,105,322,135"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1Contact.html#a2d4f297fc7946b87a3ef7919943f6dbf" title=" " alt="" coords="52,133,205,173"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="286,156,205,156,205,151,286,151"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1autonomy_1_1BoundaryDefense.html#ab087629d012c02406d2545ed82443b01" title=" " alt="" coords="37,198,220,253"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="328,172,221,202,219,197,327,167"/>
+<area shape="rect" id="Node000009" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="5,277,252,317"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="366,178,317,223,286,246,253,266,222,280,220,275,251,262,283,242,314,219,362,174"/>
 </map>

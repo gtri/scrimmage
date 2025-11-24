@@ -1,3 +1,7 @@
 <map id="scrimmage::Contact::set_type" name="scrimmage::Contact::set_type">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title="scrimmage::proto_2\l_contact" alt="" coords="205,5,356,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,37,388,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="5,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,47,186,41,187,36,222,41"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title=" " alt="" coords="20,69,172,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,73,173,81,172,75,221,68"/>
 </map>

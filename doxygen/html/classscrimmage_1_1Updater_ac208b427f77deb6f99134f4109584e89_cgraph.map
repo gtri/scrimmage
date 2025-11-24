@@ -1,3 +1,5 @@
 <map id="scrimmage::Updater::set_reset_camera" name="scrimmage::Updater::set_reset_camera">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a228e3db08d072667290708461b8e4a65" title="scrimmage::Updater\l::set_view_mode" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#a228e3db08d072667290708461b8e4a65" title=" " alt="" coords="208,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
 </map>

@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="55,124,276,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,332,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="86,196,137,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,77,67,98,47,124,44,141,51,157,64,173,81,186,78,190,60,176,46,160,39,141,42,122,64,94,91,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="195,196,254,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,73,274,94,295,122,299,142,291,160,276,177,258,191,255,187,272,173,286,158,293,141,290,124,270,98,243,77"/>
+<area shape="rect" id="Node000004" href="$Controller_8h.html" title="Brief file description." alt="" coords="57,123,281,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,75,171,109,166,109,166,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="161,150,131,187,127,183,157,147"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="180,147,209,184,205,187,176,150"/>
 </map>

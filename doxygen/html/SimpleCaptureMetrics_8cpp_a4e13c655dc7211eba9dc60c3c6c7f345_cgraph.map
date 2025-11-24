@@ -1,3 +1,13 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a" title="scrimmage::generate\l_chars" alt="" coords="192,5,352,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,156,148,181"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#a4fc3c5ad65fc36e4da07c0060ff81ebd" title=" " alt="" coords="199,5,374,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,154,134,114,195,70,206,64,208,69,197,75,138,118,93,158"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a" title=" " alt="" coords="206,85,367,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="119,153,206,126,208,131,120,158"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Metrics.html#a82ba11476f39774c8458c6c8b2651b15" title=" " alt="" coords="211,149,362,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,166,198,166,198,171,148,171"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#afacab377705e4cc069b83ff99fc83626" title=" " alt="" coords="196,213,377,268"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="115,179,195,206,193,211,114,184"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1metrics_1_1SimpleCaptureMetrics.html#a221491becc8c17f9c575a877e98ddadd" title=" " alt="" coords="199,292,374,347"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="91,180,135,226,165,253,198,277,207,283,204,288,194,282,162,257,131,230,87,183"/>
 </map>

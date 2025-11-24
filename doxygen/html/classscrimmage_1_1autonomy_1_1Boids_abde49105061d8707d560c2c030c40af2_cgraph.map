@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::Boids::velocity_controller" name="scrimmage::autonomy::Boids::velocity_controller">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,200,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b" title=" " alt="" coords="256,5,411,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,41,242,35,243,41,200,46"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="248,69,419,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="200,68,235,73,234,78,200,73"/>
+</map>

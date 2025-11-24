@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.cpp" name="/root/scrimmage/scrimmage/src/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.cpp">
-<area shape="rect" id="node2" href="$ConfigParse_8h.html" title="Brief file description. " alt="" coords="5,124,232,151"/>
-<area shape="rect" id="node3" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="257,124,471,151"/>
-<area shape="rect" id="node4" href="$SimpleCollisionScore_8h.html" title="Brief file description. " alt="" coords="496,109,691,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="237,5,491,60"/>
+<area shape="rect" id="Node000002" href="$ConfigParse_8h.html" title="Brief file description." alt="" coords="5,123,232,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,62,160,120,158,115,299,58"/>
+<area shape="rect" id="Node000006" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="256,123,472,148"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="367,60,367,109,361,109,361,60"/>
+<area shape="rect" id="Node000011" href="$SimpleCollisionScore_8h.html" title="Brief file description." alt="" coords="497,108,695,163"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="425,58,524,100,522,105,423,62"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::Network::get_transmission_delay" name="scrimmage::Network::get_transmission_delay">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Network.html#a2f8038f7d231ba3dcf0823cb0cab766a" title="scrimmage::Network\l::step" alt="" coords="235,5,389,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="212,5,397,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
 </map>

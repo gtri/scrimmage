@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classscrimmage_1_1interaction_1_1TerrainMap.html" title="scrimmage::interaction\l::TerrainMap" alt="" coords="5,5,176,47"/>
+<area shape="rect" id="Node000000" href="$classscrimmage_1_1MessageBase.html" title=" " alt="" coords="5,5,199,31"/>
+<area shape="rect" id="Node000001" href="$classscrimmage_1_1Message.html" title=" " alt="" coords="247,5,445,31"/>
+<area shape="poly" id="edge137_Node000000_Node000001" title=" " alt="" coords="212,15,246,15,246,21,212,21"/>
 </map>

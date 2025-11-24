@@ -1,0 +1,7 @@
+<map id="scrimmage::create_ent_inters" name="scrimmage::create_ent_inters">
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,37,400,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#ae7e71812f9964918bcf341d964af60b2" title=" " alt="" coords="14,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,46,171,39,172,34,214,40"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="5,69,180,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,74,180,79,180,74,214,69"/>
+</map>

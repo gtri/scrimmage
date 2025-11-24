@@ -3,7 +3,7 @@ var classscrimmage_1_1controller_1_1MultirotorControllerPID =
     [ "MultirotorControllerPID", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#a2e93bde0a41bed5381267b720e74f896", null ],
     [ "init", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ab9d9e992533a0f8a5c9c4878a85aa089", null ],
     [ "step", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ab7c3b4ba24a90c9fff4c82f5fb4e2977", null ],
-    [ "u", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#af30abd76d6517a9f1547ff72e72b618e", null ],
+    [ "u", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#aea7b48b4b44515880ff3c9d1c5cc185c", null ],
     [ "u_", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ad0b4cd9c53f5fa5e701ea590c17186ac", null ],
     [ "multirotor_", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ac1fb8dec128aafb9bf3f7df2c396dada", null ],
     [ "vel_pids_", "classscrimmage_1_1controller_1_1MultirotorControllerPID.html#ac66744afbe43d6a8f180418ff11abcaf", null ],

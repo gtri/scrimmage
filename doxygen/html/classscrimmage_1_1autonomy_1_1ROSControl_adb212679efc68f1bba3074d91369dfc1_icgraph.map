@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::ROSControl::zero_ctrls" name="scrimmage::autonomy::ROSControl::zero_ctrls">
+<area shape="rect" id="Node000001" title=" " alt="" coords="267,37,441,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1ROSControl.html#a8695d8cf2c2f956f5c5fb23a03018117" title=" " alt="" coords="27,5,197,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,47,197,39,197,34,254,41"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1ROSControl.html#a3f8e68a14bc2b8410d14fc7146cb6963" title=" " alt="" coords="5,69,219,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,73,219,78,219,73,253,68"/>
+</map>

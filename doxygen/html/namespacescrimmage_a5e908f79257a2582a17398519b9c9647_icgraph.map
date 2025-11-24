@@ -1,5 +1,7 @@
 <map id="scrimmage::connect" name="scrimmage::connect">
-<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#a673bcb7974404e98eb0b02724f073063" title="scrimmage::External\l::create_entity" alt="" coords="235,5,389,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Entity.html#a742d2d316cf07a741002e9303bf090ce" title="scrimmage::Entity::init" alt="" coords="229,71,395,98"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#a99f0d341a6e7c6540b5f3e4d78db883e" title="scrimmage::make_autonomy" alt="" coords="207,122,417,149"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,42,377,67"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#ae7e71812f9964918bcf341d964af60b2" title=" " alt="" coords="11,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,45,168,39,169,34,210,39"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#ad789c0b1940094ffd97ba9f655ba4802" title=" " alt="" coords="5,70,175,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,69,175,74,174,69,209,64"/>
 </map>

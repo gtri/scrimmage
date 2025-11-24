@@ -1,3 +1,38 @@
 <map id="scrimmage::EntityPlugin::parent" name="scrimmage::EntityPlugin::parent">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#a566cb14c271f441c743e3edb6391be28" title="scrimmage::EntityPlugin\l::set_parent" alt="" coords="229,5,405,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="235,417,416,457"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Print.html#a52c91a561088ff8fe8a5d24e716eb23f" title=" " alt="" coords="11,29,181,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="319,403,309,333,287,242,269,195,247,148,219,105,185,68,168,57,171,53,188,64,223,102,251,146,274,193,292,241,314,332,324,402"/>
+<area shape="rect" id="Node000011" href="$AircraftPIDController_8cpp.html#a6e9794e34a66cfa8cf965a4b4c5bf30d" title=" " alt="" coords="25,79,167,104"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="317,404,304,342,280,265,263,224,241,185,215,149,185,117,166,106,169,101,188,113,220,145,246,182,267,222,285,263,309,341,322,403"/>
+<area shape="rect" id="Node000012" href="$DoubleIntegratorControllerVelYaw_8cpp.html#abcb8ce669d56df2a24644548b400d209" title=" " alt="" coords="25,128,167,153"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="314,404,298,351,273,287,235,222,212,192,185,167,166,155,169,151,188,163,216,189,240,219,278,285,303,349,319,402"/>
+<area shape="rect" id="Node000013" href="$DoubleIntegratorControllerWaypoint_8cpp.html#ae972cd0954e37ce4053320757fafe0b0" title=" " alt="" coords="25,177,167,203"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="310,405,292,362,265,311,230,259,185,216,165,205,168,201,188,212,234,256,270,308,297,359,315,403"/>
+<area shape="rect" id="Node000014" href="$JSBSimControlControllerHeadingPID_8cpp.html#a8a40712020f4aac8998a769265f3af8e" title=" " alt="" coords="25,227,167,252"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="305,406,257,335,224,297,185,266,163,254,165,250,188,261,228,293,261,331,310,403"/>
+<area shape="rect" id="Node000015" href="$JSBSimModelControllerHeadingPID_8cpp.html#a53ad5e9faa92f0e50c60abcfce7e4591" title=" " alt="" coords="25,276,167,301"/>
+<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="296,408,248,360,218,336,185,315,159,304,161,299,188,310,221,331,251,356,300,404"/>
+<area shape="rect" id="Node000016" href="$MultirotorControllerPID_8cpp.html#ab727aa83e67a323de0affe0ad23eedd3" title=" " alt="" coords="25,325,167,351"/>
+<area shape="poly" id="edge8_Node000001_Node000016" title=" " alt="" coords="280,412,235,387,186,364,152,353,154,348,188,360,237,383,282,407"/>
+<area shape="rect" id="Node000017" href="$RigidBody6DOFControllerPID_8cpp.html#ae1f0ec64122df511e0f59013305b2e18" title=" " alt="" coords="25,375,167,400"/>
+<area shape="poly" id="edge9_Node000001_Node000017" title=" " alt="" coords="221,417,155,403,156,397,222,412"/>
+<area shape="rect" id="Node000018" href="$SimpleAircraftControllerPID_8cpp.html#ab64ea1d760b91a491114aa9f3db89e3d" title=" " alt="" coords="25,424,167,449"/>
+<area shape="poly" id="edge10_Node000001_Node000018" title=" " alt="" coords="221,439,167,439,167,434,221,434"/>
+<area shape="rect" id="Node000019" href="$SimpleCarControllerHeading_8cpp.html#af40ab452f8949f1ae92b5b4e91742e0e" title=" " alt="" coords="25,473,167,499"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="222,462,156,476,155,471,221,456"/>
+<area shape="rect" id="Node000020" href="$SimpleQuadrotorControllerLQR_8cpp.html#a32768e8603ddece060a5f3e1351ab0f8" title=" " alt="" coords="25,523,167,548"/>
+<area shape="poly" id="edge12_Node000001_Node000020" title=" " alt="" coords="281,466,236,490,188,512,150,525,149,520,186,508,234,485,278,461"/>
+<area shape="rect" id="Node000021" href="$SingleIntegratorControllerWaypoint_8cpp.html#a9cefcd9721baf017bddbfb1214072e02" title=" " alt="" coords="25,572,167,597"/>
+<area shape="poly" id="edge13_Node000001_Node000021" title=" " alt="" coords="300,469,251,516,221,541,188,562,158,574,155,570,185,557,217,536,247,512,296,465"/>
+<area shape="rect" id="Node000022" href="$UnicycleControllerPoint_8cpp.html#aeefa1b151c63044865a09721f82e70d4" title=" " alt="" coords="25,621,167,647"/>
+<area shape="poly" id="edge14_Node000001_Node000022" title=" " alt="" coords="309,470,261,541,227,579,188,611,162,624,160,619,185,606,223,575,257,538,305,467"/>
+<area shape="rect" id="Node000023" href="$UUV6DOFPIDController_8cpp.html#a91adc944c9bb27a48950f3003c3bb978" title=" " alt="" coords="25,671,167,696"/>
+<area shape="poly" id="edge15_Node000001_Node000023" title=" " alt="" coords="315,471,296,514,269,565,233,616,188,660,165,673,163,668,185,656,229,613,265,562,292,512,310,469"/>
+<area shape="rect" id="Node000024" href="$classscrimmage_1_1EntityPlugin.html#a566cb14c271f441c743e3edb6391be28" title=" " alt="" coords="5,721,187,761"/>
+<area shape="poly" id="edge16_Node000001_Node000024" title=" " alt="" coords="318,471,302,522,275,586,238,652,215,682,188,709,169,723,166,718,185,705,211,679,234,649,271,584,297,521,313,469"/>
+<area shape="rect" id="Node000025" href="$classscrimmage_1_1controller_1_1MotionBattery.html#ac7cf896e7f3ff679b42f12669e4f7c79" title=" " alt="" coords="13,785,179,825"/>
+<area shape="poly" id="edge17_Node000001_Node000025" title=" " alt="" coords="322,471,309,534,285,615,267,658,246,700,220,740,188,775,172,787,169,782,185,771,215,736,241,698,262,656,280,614,304,533,317,470"/>
+<area shape="rect" id="Node000026" href="$classscrimmage_1_1controller_1_1UnicyclePID.html#abcfbf9211ecb5a3cfba2357a9564cf52" title=" " alt="" coords="13,849,179,889"/>
+<area shape="poly" id="edge18_Node000001_Node000026" title=" " alt="" coords="325,471,315,546,293,644,276,696,253,747,224,796,189,839,173,851,170,846,185,835,220,792,248,745,271,694,288,642,310,545,319,470"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="137,20,126,11,96,8,71,10,58,15,56,20,63,27,59,31,51,21,55,11,70,5,96,3,128,7,141,16"/>
 </map>

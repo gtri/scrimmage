@@ -1,4 +1,7 @@
 <map id="scrimmage::SimControl::output_summary" name="scrimmage::SimControl::output_summary">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a" title="scrimmage::generate\l_chars" alt="" coords="233,5,393,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#ac890b7ccbca5f9bc8c332a36086e5866" title="Access the metrics plugins. " alt="" coords="227,71,400,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,180,77"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a" title=" " alt="" coords="235,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,42,221,36,221,41,181,47"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#ac890b7ccbca5f9bc8c332a36086e5866" title="Access the metrics plugins." alt="" coords="228,69,403,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,67,215,72,214,78,180,73"/>
 </map>

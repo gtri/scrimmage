@@ -1,4 +1,7 @@
 <map id="scrimmage::SubscriberBase" name="scrimmage::SubscriberBase">
-<area shape="rect" id="node3" href="$classscrimmage_1_1Subscriber.html" title="{scrimmage::Subscriber\l\&lt; T, CallbackFunc \&gt;\n|# callback_\l|+ Subscriber()\l+ accept()\l}" alt="" coords="27,784,197,891"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1NetworkDevice.html" title="{scrimmage::NetworkDevice\n|# topic_\l# max_queue_size_\l# enable_queue_size_\l# plugin_\l# msg_list_\l# mutex_\l# undelivered_msg_list_\l|+ NetworkDevice()\l+ NetworkDevice()\l+ NetworkDevice()\l+ ~NetworkDevice()\l+ NetworkDevice()\l+ get_topic()\l+ set_topic()\l+ set_msg_list()\l+ clear_msg_list()\l+ msg_list_size()\l+ undelivered_msg_list_size()\l+ set_max_queue_size()\l+ max_queue_size()\l+ enable_queue_size()\l+ enable_queue_size()\l+ enforce_queue_size()\l+ add_msg()\l+ add_undelivered_msg()\l+ deliver_undelivered_msg()\l+ deliver_undelivered_msg()\l+ pop_msgs()\l+ pop_msgs()\l+ pop_msgs()\l+ msgs()\l+ msgs()\l+ msgs()\l+ plugin()\l# print_str()\l}" alt="" coords="5,5,219,567"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,823,200,948"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Subscriber.html" title=" " alt="" coords="21,996,184,1096"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,962,105,996,100,996,100,962"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1NetworkDevice.html" title=" " alt="" coords="5,5,200,775"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,789,105,823,100,823,100,789"/>
 </map>

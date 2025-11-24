@@ -1,0 +1,27 @@
+<map id="scrimmage::Quaternion::roll" name="scrimmage::Quaternion::roll">
+<area shape="rect" id="Node000001" title="return euler angle roll" alt="" coords="283,355,457,395"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title=" " alt="" coords="41,5,199,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="362,342,349,281,326,205,309,165,288,126,263,91,233,59,217,48,198,40,200,35,219,43,236,55,267,87,292,124,313,163,331,203,354,280,367,341"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1motion_1_1SimpleAircraft.html#a887f053465094c21e3052f1009f43e27" title=" " alt="" coords="41,69,199,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="358,342,342,293,316,234,280,174,258,147,233,123,198,105,200,100,236,119,262,143,285,171,321,232,347,291,363,341"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#a60b051c77fa2f2aee76cb482ede3340b" title=" " alt="" coords="41,133,199,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="352,343,333,307,306,265,273,223,233,188,198,170,200,165,236,183,277,219,311,261,337,304,357,341"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Updater.html#a27a0348d311ce2b12a91c6d4fdea03b3" title=" " alt="" coords="43,197,197,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="342,346,295,297,265,273,233,252,197,236,199,231,236,247,268,268,298,293,346,343"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#af11717a984bb888cb51412aa84120233" title="set quaternion from euler angles" alt="" coords="33,261,207,301"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="316,351,234,316,198,304,199,299,236,311,318,346"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa" title=" " alt="" coords="5,325,235,365"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="269,365,235,361,235,356,269,360"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Quaternion.html#a68e715cafcf81018e1f6367b350589ce" title="set quaternion from euler angles" alt="" coords="19,390,221,415"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="269,389,222,394,221,389,269,383"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="33,440,207,480"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="308,402,236,429,194,442,192,437,234,424,306,397"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ab325b84c85a3d23a96479f34e06264a1" title=" " alt="" coords="26,504,214,544"/>
+<area shape="poly" id="edge9_Node000001_Node000018" title=" " alt="" coords="344,407,296,452,267,475,236,494,209,506,207,501,233,490,264,470,293,448,340,403"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1motion_1_1FixedWing6DOF.html#a88747115a8cec96099b6f47c54e6d46d" title=" " alt="" coords="40,568,200,608"/>
+<area shape="poly" id="edge10_Node000001_Node000019" title=" " alt="" coords="356,408,336,444,309,484,276,524,236,558,202,575,199,571,233,554,272,520,305,481,331,441,351,406"/>
+<area shape="rect" id="Node000020" href="$classscrimmage_1_1motion_1_1UUV6DOF.html#a8bdd99dd217ea4468f4f6d71d7cc827f" title=" " alt="" coords="41,632,199,672"/>
+<area shape="poly" id="edge11_Node000001_Node000020" title=" " alt="" coords="362,409,346,457,320,514,284,572,261,599,236,622,200,641,198,637,233,618,258,595,279,569,315,512,341,455,357,407"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3" title=" " alt="" coords="33,697,207,751"/>
+<area shape="poly" id="edge12_Node000001_Node000021" title=" " alt="" coords="366,409,352,468,328,542,290,619,265,654,236,686,208,705,205,700,233,682,261,651,286,616,323,540,347,466,361,408"/>
+</map>

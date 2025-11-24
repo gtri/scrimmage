@@ -1,58 +1,120 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/math/Angles.h" name="/root/scrimmage/scrimmage/include/scrimmage/math/Angles.h">
-<area shape="rect" id="node2" href="$FrameUpdateClient_8h.html" title="Brief file description. " alt="" coords="5,117,209,173"/>
-<area shape="rect" id="node3" href="$FrameUpdateClient_8cpp.html" title="Brief file description. " alt="" coords="17,235,240,277"/>
-<area shape="rect" id="node4" href="$ArduPilot_8h.html" title="Brief file description. " alt="" coords="284,117,509,173"/>
-<area shape="rect" id="node5" href="$ArduPilot_8cpp.html" title="Class to interface with ArduPilot SIL executable. " alt="" coords="359,228,583,284"/>
-<area shape="rect" id="node6" href="$FlightGearMultiplayer_8h.html" title="Brief file description. " alt="" coords="583,109,813,180"/>
-<area shape="rect" id="node7" href="$MOOSAutonomy_8h.html" title="Brief file description. " alt="" coords="837,117,1159,173"/>
-<area shape="rect" id="node8" href="$JSBSimControlControllerHeadingPID_8h.html" title="Brief file description. " alt="" coords="1184,109,1524,180"/>
-<area shape="rect" id="node9" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description. " alt="" coords="1548,109,1837,180"/>
-<area shape="rect" id="node10" href="$JSBSimControl_8h.html" title="Brief file description. " alt="" coords="1862,117,2137,173"/>
-<area shape="rect" id="node11" href="$JSBSimControl_8cpp.html" title="Brief file description. " alt="" coords="1921,228,2160,284"/>
-<area shape="rect" id="node12" href="$JSBSimModel_8h.html" title="Brief file description. " alt="" coords="2211,117,2470,173"/>
-<area shape="rect" id="node13" href="$JSBSimModel_8cpp.html" title="Brief file description. " alt="" coords="2308,228,2539,284"/>
-<area shape="rect" id="node14" href="$Rotor_8h.html" title="Brief file description. " alt="" coords="2545,117,2749,173"/>
-<area shape="rect" id="node15" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="2773,117,3036,173"/>
-<area shape="rect" id="node16" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="2873,228,3105,284"/>
-<area shape="rect" id="node17" href="$PID_8cpp.html" title="Brief file description. " alt="" coords="3112,124,3316,165"/>
-<area shape="rect" id="node18" href="$Entity_8cpp.html" title="Brief file description. " alt="" coords="3340,124,3544,165"/>
-<area shape="rect" id="node19" href="$Angles_8cpp.html" title="Brief file description. " alt="" coords="3568,124,3772,165"/>
-<area shape="rect" id="node20" href="$State_8cpp.html" title="Brief file description. " alt="" coords="3796,124,4000,165"/>
-<area shape="rect" id="node21" href="$ParseUtils_8cpp.html" title="Brief file description. " alt="" coords="4024,124,4228,165"/>
-<area shape="rect" id="node22" href="$Boids_8cpp.html" title="Brief file description. " alt="" coords="4252,117,4456,173"/>
-<area shape="rect" id="node23" href="$GoToWaypoint_8cpp.html" title="Brief file description. " alt="" coords="4481,117,4739,173"/>
-<area shape="rect" id="node24" href="$MOOSNode_8cpp.html" title="Brief file description. " alt="" coords="4763,117,5036,173"/>
-<area shape="rect" id="node25" href="$MotorSchemas_8cpp.html" title="Brief file description. " alt="" coords="5061,117,5325,173"/>
-<area shape="rect" id="node26" href="$Predator_8cpp.html" title="Brief file description. " alt="" coords="5349,117,5572,173"/>
-<area shape="rect" id="node27" href="$ROSAutonomy_8cpp.html" title="Brief file description. " alt="" coords="5596,117,5856,173"/>
-<area shape="rect" id="node28" href="$ROSControl_8cpp.html" title="Brief file description. " alt="" coords="5881,117,6121,173"/>
-<area shape="rect" id="node29" href="$ShapeDraw_8cpp.html" title="Brief file description. " alt="" coords="6145,117,6385,173"/>
-<area shape="rect" id="node30" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="6409,117,6627,173"/>
-<area shape="rect" id="node31" href="$TrailMS_8cpp.html" title="Brief file description. " alt="" coords="6651,117,6865,173"/>
-<area shape="rect" id="node32" href="$WaypointGenerator_8cpp.html" title="Brief file description. " alt="" coords="6889,117,7131,173"/>
-<area shape="rect" id="node33" href="$AircraftPIDController_8cpp.html" title="Brief file description. " alt="" coords="7155,109,7361,180"/>
-<area shape="rect" id="node34" href="$DoubleIntegratorControllerVelYaw_8cpp.html" title="Brief file description. " alt="" coords="7385,109,7651,180"/>
-<area shape="rect" id="node35" href="$FixedWing6DOFControllerPID_8cpp.html" title="Brief file description. " alt="" coords="7675,109,7910,180"/>
-<area shape="rect" id="node36" href="$RigidBody6DOFControllerPID_8cpp.html" title="Brief file description. " alt="" coords="7935,109,8168,180"/>
-<area shape="rect" id="node37" href="$SimpleAircraftControllerPID_8cpp.html" title="Brief file description. " alt="" coords="8193,109,8419,180"/>
-<area shape="rect" id="node38" href="$SimpleQuadrotorControllerLQR_8cpp.html" title="Brief file description. " alt="" coords="8444,109,8693,180"/>
-<area shape="rect" id="node39" href="$Ballistic_8cpp.html" title="Brief file description. " alt="" coords="8717,117,8921,173"/>
-<area shape="rect" id="node40" href="$DoubleIntegrator_8cpp.html" title="Brief file description. " alt="" coords="8945,117,9200,173"/>
-<area shape="rect" id="node41" href="$DubinsAirplane_8cpp.html" title="Brief file description. " alt="" coords="9225,117,9467,173"/>
-<area shape="rect" id="node42" href="$FixedWing6DOF_8cpp.html" title="Brief file description. " alt="" coords="9491,117,9710,173"/>
-<area shape="rect" id="node43" href="$HarmonicOscillator_8cpp.html" title="Brief file description. " alt="" coords="9735,117,10003,173"/>
-<area shape="rect" id="node44" href="$Multirotor_8cpp.html" title="Brief file description. " alt="" coords="10027,117,10235,173"/>
-<area shape="rect" id="node45" href="$RigidBody6DOF_8cpp.html" title="Brief file description. " alt="" coords="10260,117,10477,173"/>
-<area shape="rect" id="node46" href="$SimpleAircraft_8cpp.html" title="Brief file description. " alt="" coords="10502,117,10739,173"/>
-<area shape="rect" id="node47" href="$SimpleCar_8cpp.html" title="Brief file description. " alt="" coords="10763,117,10977,173"/>
-<area shape="rect" id="node48" href="$SimpleQuadrotor_8cpp.html" title="Brief file description. " alt="" coords="11001,117,11257,173"/>
-<area shape="rect" id="node49" href="$SingleIntegrator_8cpp.html" title="Brief file description. " alt="" coords="11281,117,11531,173"/>
-<area shape="rect" id="node50" href="$UUV6DOF_8cpp.html" title="Brief file description. " alt="" coords="11554,117,11765,173"/>
-<area shape="rect" id="node51" href="$ContactBlobCamera_8cpp.html" title="Brief file description. " alt="" coords="11789,117,12023,173"/>
-<area shape="rect" id="node52" href="$RayTrace_8cpp.html" title="Brief file description. " alt="" coords="12047,117,12251,173"/>
-<area shape="rect" id="node53" href="$ROSAltimeter_8cpp.html" title="Brief file description. " alt="" coords="12275,117,12505,173"/>
-<area shape="rect" id="node54" href="$ROSCompass_8cpp.html" title="Brief file description. " alt="" coords="12530,117,12762,173"/>
-<area shape="rect" id="node55" href="$ROSIMUSensor_8cpp.html" title="Brief file description. " alt="" coords="12787,117,13028,173"/>
-<area shape="rect" id="node56" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="13053,124,13271,165"/>
-<area shape="rect" id="node57" href="$Updater_8cpp.html" title="Brief file description. " alt="" coords="13296,124,13500,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="6381,5,6588,60"/>
+<area shape="rect" id="Node000002" href="$FrameUpdateClient_8h.html" title="Brief file description." alt="" coords="5,115,212,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="6368,37,5102,44,3106,59,1206,81,552,95,343,103,232,111,194,118,193,113,231,105,343,97,551,90,1206,76,3106,54,5102,39,6368,32"/>
+<area shape="rect" id="Node000003" href="$FrameUpdateClient_8cpp.html" title="Brief file description." alt="" coords="77,233,303,273"/>
+<area shape="poly" id="edge18_Node000001_Node000003" title=" " alt="" coords="6367,36,5079,36,3057,44,2041,52,1167,66,816,74,542,85,357,97,303,103,277,110,257,130,236,164,201,234,196,231,231,161,253,127,274,106,302,98,357,91,542,79,816,69,1166,60,2041,47,3057,38,5079,31,6367,31"/>
+<area shape="rect" id="Node000004" href="$ArduPilot_8h.html" title="Brief file description." alt="" coords="288,115,519,170"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="6368,37,5211,37,3384,45,2439,53,1591,67,928,85,694,97,538,111,497,118,496,113,538,105,693,92,928,80,1591,61,2439,48,3384,39,5211,32,6368,31"/>
+<area shape="rect" id="Node000005" href="$ArduPilot_8cpp.html" title="Class to interface with ArduPilot SIL executable." alt="" coords="349,225,578,280"/>
+<area shape="poly" id="edge22_Node000001_Node000005" title=" " alt="" coords="6368,37,5137,39,3218,48,2256,58,1427,71,836,88,660,99,609,104,583,110,565,124,555,139,546,158,532,179,490,227,486,223,528,176,541,155,550,137,561,120,581,106,608,99,660,93,835,83,1427,65,2256,52,3218,43,5137,34,6368,31"/>
+<area shape="rect" id="Node000006" href="$FlightGearMultiplayer_8h.html" title="Brief file description." alt="" coords="595,108,833,177"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="6368,37,5264,37,3534,45,2641,54,1839,67,1213,86,992,98,845,111,834,112,833,107,844,105,991,92,1213,81,1839,62,2641,49,3534,40,5264,32,6368,31"/>
+<area shape="rect" id="Node000008" href="$MOOSAutonomy_8h.html" title="Brief file description." alt="" coords="857,115,1184,170"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="6368,37,5326,42,3707,55,2873,65,2125,77,1541,92,1334,101,1197,111,1144,118,1143,113,1196,105,1334,96,1541,87,2125,72,2873,59,3707,50,5326,37,6367,32"/>
+<area shape="rect" id="Node000010" href="$JSBSimControlControllerHeadingPID_8h.html" title="Brief file description." alt="" coords="1209,108,1555,177"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="6367,37,5391,44,3889,58,2426,80,1886,94,1695,102,1568,111,1556,112,1555,107,1567,105,1694,97,1886,89,2426,74,3889,52,5391,38,6367,32"/>
+<area shape="rect" id="Node000012" href="$JSBSimModelControllerHeadingPID_8h.html" title="Brief file description." alt="" coords="1579,108,1875,177"/>
+<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="6368,37,5448,43,4047,56,3328,66,2686,78,2183,93,2006,102,1888,111,1876,112,1875,107,1887,105,2005,96,2183,88,2685,73,3328,61,4047,51,5448,38,6368,32"/>
+<area shape="rect" id="Node000014" href="$JSBSimControl_8h.html" title="Brief file description." alt="" coords="1900,115,2179,170"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="6368,37,5504,44,4200,58,2938,80,2473,94,2308,102,2198,111,2150,118,2149,113,2198,105,2307,97,2472,89,2938,74,4200,52,5504,38,6368,32"/>
+<area shape="rect" id="Node000015" href="$JSBSimControl_8cpp.html" title="Brief file description." alt="" coords="1959,225,2202,280"/>
+<area shape="poly" id="edge45_Node000001_Node000015" title=" " alt="" coords="6368,37,5452,44,4088,57,3411,67,2832,79,2419,94,2297,102,2243,110,2225,124,2216,141,2207,159,2192,179,2160,205,2128,227,2125,223,2157,201,2188,175,2203,156,2211,138,2221,121,2241,106,2296,97,2419,88,2832,74,3411,62,4088,52,5452,38,6368,32"/>
+<area shape="rect" id="Node000016" href="$JSBSimModel_8h.html" title="Brief file description." alt="" coords="2254,115,2518,170"/>
+<area shape="poly" id="edge11_Node000001_Node000016" title=" " alt="" coords="6367,37,5564,44,4367,58,3213,80,2788,94,2537,111,2491,118,2490,113,2536,105,2787,89,3213,75,4367,53,5564,39,6367,32"/>
+<area shape="rect" id="Node000017" href="$JSBSimModel_8cpp.html" title="Brief file description." alt="" coords="2352,225,2588,280"/>
+<area shape="poly" id="edge46_Node000001_Node000017" title=" " alt="" coords="6367,37,5517,45,4266,59,3648,69,3119,81,2742,95,2631,102,2582,110,2564,124,2554,139,2545,157,2532,179,2494,227,2490,224,2528,176,2541,155,2549,137,2560,120,2580,106,2630,97,2742,90,3118,76,3647,64,4266,54,5517,39,6367,32"/>
+<area shape="rect" id="Node000018" href="$Rotor_8h.html" title="Brief file description." alt="" coords="2593,115,2800,170"/>
+<area shape="poly" id="edge13_Node000001_Node000018" title=" " alt="" coords="6367,37,5614,42,4503,55,3939,64,3435,77,3043,92,2904,101,2812,111,2777,118,2776,113,2811,105,2904,96,3043,87,3435,71,3939,59,4503,49,5614,37,6367,32"/>
+<area shape="rect" id="Node000025" href="$AirSimSensor_8h.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages." alt="" coords="2824,115,3087,170"/>
+<area shape="poly" id="edge14_Node000001_Node000025" title=" " alt="" coords="6368,36,5731,36,4787,43,4288,52,3818,66,3412,85,3245,97,3106,111,3061,118,3060,113,3106,105,3244,92,3412,80,3817,60,4287,47,4787,38,5731,31,6368,31"/>
+<area shape="rect" id="Node000028" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages." alt="" coords="2922,225,3157,280"/>
+<area shape="poly" id="edge54_Node000001_Node000028" title=" " alt="" coords="6368,36,5643,37,4599,45,4082,54,3635,67,3308,86,3206,97,3152,110,3134,124,3124,139,3115,157,3102,179,3063,227,3059,223,3097,176,3110,155,3119,137,3130,120,3150,106,3205,92,3308,81,3635,62,4082,49,4599,40,5643,32,6368,31"/>
+<area shape="rect" id="Node000029" href="$PID_8cpp.html" title="Brief file description." alt="" coords="3163,123,3369,163"/>
+<area shape="poly" id="edge16_Node000001_Node000029" title=" " alt="" coords="6368,38,5720,45,4788,59,3900,81,3575,95,3382,111,3321,125,3320,120,3382,105,3574,89,3900,75,4788,54,5720,39,6368,32"/>
+<area shape="rect" id="Node000030" href="$Entity_8cpp.html" title="Brief file description." alt="" coords="3393,123,3600,163"/>
+<area shape="poly" id="edge17_Node000001_Node000030" title=" " alt="" coords="6368,38,5763,46,4904,61,4088,82,3789,96,3613,111,3552,125,3550,120,3612,105,3789,90,4088,77,4904,55,5763,40,6368,33"/>
+<area shape="rect" id="Node000031" href="$Angles_8cpp.html" title="Brief file description." alt="" coords="3624,123,3831,163"/>
+<area shape="poly" id="edge19_Node000001_Node000031" title=" " alt="" coords="6368,36,5856,36,5125,44,4743,53,4385,66,4076,85,3949,97,3844,111,3783,125,3782,120,3843,105,3948,92,4076,80,4385,61,4743,47,5125,38,5856,31,6368,31"/>
+<area shape="rect" id="Node000032" href="$State_8cpp.html" title="Brief file description." alt="" coords="3855,123,4061,163"/>
+<area shape="poly" id="edge20_Node000001_Node000032" title=" " alt="" coords="6367,36,5895,38,5232,47,4887,56,4563,69,4285,87,4074,111,4013,125,4012,120,4074,105,4284,82,4563,64,4886,51,5232,42,5895,33,6367,31"/>
+<area shape="rect" id="Node000033" href="$ParseUtils_8cpp.html" title="Brief file description." alt="" coords="4085,123,4292,163"/>
+<area shape="poly" id="edge21_Node000001_Node000033" title=" " alt="" coords="6368,37,5936,40,5340,50,5031,60,4742,72,4493,89,4305,111,4244,125,4243,120,4304,105,4493,84,4742,67,5031,54,5340,45,5936,35,6368,32"/>
+<area shape="rect" id="Node000034" href="$Boids_8cpp.html" title="Brief file description." alt="" coords="4316,115,4523,170"/>
+<area shape="poly" id="edge23_Node000001_Node000034" title=" " alt="" coords="6367,37,5977,42,5448,54,5175,63,4920,76,4701,91,4536,111,4501,118,4500,113,4535,105,4701,86,4920,70,5175,58,5448,48,5977,37,6367,32"/>
+<area shape="rect" id="Node000035" href="$GoToWaypoint_8cpp.html" title="Brief file description." alt="" coords="4547,115,4809,170"/>
+<area shape="poly" id="edge24_Node000001_Node000035" title=" " alt="" coords="6367,39,6030,48,5584,62,5144,83,4961,96,4822,111,4780,118,4779,113,4822,105,4961,91,5143,78,5584,57,6030,42,6367,34"/>
+<area shape="rect" id="Node000036" href="$MOOSNode_8cpp.html" title="Brief file description." alt="" coords="4833,115,5112,170"/>
+<area shape="poly" id="edge25_Node000001_Node000036" title=" " alt="" coords="6368,37,6138,40,5829,51,5479,73,5300,90,5125,111,5081,118,5081,113,5124,105,5299,84,5478,68,5829,46,6138,35,6367,31"/>
+<area shape="rect" id="Node000037" href="$MotorSchemas_8cpp.html" title="Brief file description." alt="" coords="5137,115,5403,170"/>
+<area shape="poly" id="edge26_Node000001_Node000037" title=" " alt="" coords="6367,39,6184,45,5947,58,5682,79,5417,111,5376,118,5375,113,5416,105,5682,74,5946,52,6183,40,6367,34"/>
+<area shape="rect" id="Node000038" href="$Predator_8cpp.html" title="Brief file description." alt="" coords="5428,115,5653,170"/>
+<area shape="poly" id="edge27_Node000001_Node000038" title=" " alt="" coords="6368,41,6226,49,6050,62,5858,82,5666,111,5632,118,5631,113,5666,105,5857,77,6049,57,6225,43,6367,36"/>
+<area shape="rect" id="Node000039" href="$ROSAutonomy_8cpp.html" title="Brief file description." alt="" coords="5677,115,5943,170"/>
+<area shape="poly" id="edge28_Node000001_Node000039" title=" " alt="" coords="6368,50,6175,75,5956,111,5919,118,5918,113,5955,105,6174,70,6367,45"/>
+<area shape="rect" id="Node000040" href="$ROSControl_8cpp.html" title="Brief file description." alt="" coords="5967,115,6211,170"/>
+<area shape="poly" id="edge29_Node000001_Node000040" title=" " alt="" coords="6376,66,6185,118,6184,113,6375,61"/>
+<area shape="rect" id="Node000041" href="$ShapeDraw_8cpp.html" title="Brief file description." alt="" coords="6235,115,6479,170"/>
+<area shape="poly" id="edge30_Node000001_Node000041" title=" " alt="" coords="6444,72,6390,117,6386,113,6441,67"/>
+<area shape="rect" id="Node000042" href="$Straight_8cpp.html" title="Brief file description." alt="" coords="6503,115,6725,170"/>
+<area shape="poly" id="edge31_Node000001_Node000042" title=" " alt="" coords="6529,67,6584,113,6581,117,6525,71"/>
+<area shape="rect" id="Node000043" href="$TrailMS_8cpp.html" title="Brief file description." alt="" coords="6749,115,6967,170"/>
+<area shape="poly" id="edge32_Node000001_Node000043" title=" " alt="" coords="6589,61,6768,113,6767,118,6588,66"/>
+<area shape="rect" id="Node000044" href="$WaypointGenerator_8cpp.html" title="Brief file description." alt="" coords="6991,115,7234,170"/>
+<area shape="poly" id="edge33_Node000001_Node000044" title=" " alt="" coords="6602,46,6781,71,6980,105,7013,113,7012,118,6979,111,6780,76,6601,51"/>
+<area shape="rect" id="Node000045" href="$AircraftPIDController_8cpp.html" title="Brief file description." alt="" coords="7258,108,7469,177"/>
+<area shape="poly" id="edge34_Node000001_Node000045" title=" " alt="" coords="6602,36,6896,58,7072,78,7246,105,7258,108,7257,113,7246,111,7071,83,6896,63,6602,42"/>
+<area shape="rect" id="Node000046" href="$DoubleIntegratorControllerVelYaw_8cpp.html" title="Brief file description." alt="" coords="7492,108,7763,177"/>
+<area shape="poly" id="edge35_Node000001_Node000046" title=" " alt="" coords="6602,34,6774,41,6993,54,7237,75,7481,105,7492,107,7491,112,7480,111,7236,80,6993,60,6773,47,6602,40"/>
+<area shape="rect" id="Node000047" href="$FixedWing6DOFControllerPID_8cpp.html" title="Brief file description." alt="" coords="7787,108,8030,177"/>
+<area shape="poly" id="edge36_Node000001_Node000047" title=" " alt="" coords="6602,31,6821,33,7113,44,7443,66,7611,83,7776,105,7788,107,7787,113,7775,111,7611,89,7443,72,7113,49,6821,39,6602,36"/>
+<area shape="rect" id="Node000048" href="$RigidBody6DOFControllerPID_8cpp.html" title="Brief file description." alt="" coords="8055,108,8296,177"/>
+<area shape="poly" id="edge37_Node000001_Node000048" title=" " alt="" coords="6602,34,6920,42,7335,57,7744,78,7913,91,8042,105,8055,107,8054,113,8042,111,7913,96,7744,83,7335,62,6919,48,6602,39"/>
+<area shape="rect" id="Node000049" href="$SimpleAircraftControllerPID_8cpp.html" title="Brief file description." alt="" coords="8320,108,8551,177"/>
+<area shape="poly" id="edge38_Node000001_Node000049" title=" " alt="" coords="6602,33,6969,39,7462,52,7951,74,8155,88,8309,105,8320,107,8319,112,8308,111,8154,93,7951,79,7462,58,6969,44,6602,38"/>
+<area shape="rect" id="Node000050" href="$SimpleQuadrotorControllerLQR_8cpp.html" title="Brief file description." alt="" coords="8575,108,8829,177"/>
+<area shape="poly" id="edge39_Node000001_Node000050" title=" " alt="" coords="6602,32,7015,38,7582,51,8149,72,8385,87,8564,105,8576,107,8575,112,8563,111,8384,93,8149,78,7582,56,7015,43,6602,38"/>
+<area shape="rect" id="Node000051" href="$Ballistic_8cpp.html" title="Brief file description." alt="" coords="8853,115,9060,170"/>
+<area shape="poly" id="edge40_Node000001_Node000051" title=" " alt="" coords="6602,31,7065,33,7712,42,8049,52,8364,65,8636,82,8841,105,8876,113,8875,118,8840,111,8635,88,8364,70,8049,57,7712,48,7064,38,6602,37"/>
+<area shape="rect" id="Node000052" href="$DoubleIntegrator_8cpp.html" title="Brief file description." alt="" coords="9084,115,9344,170"/>
+<area shape="poly" id="edge41_Node000001_Node000052" title=" " alt="" coords="6602,32,7105,35,7819,45,8193,54,8543,67,8845,84,9073,105,9115,113,9114,118,9072,111,8844,89,8543,72,8192,60,7819,50,7105,40,6602,37"/>
+<area shape="rect" id="Node000053" href="$DubinsAirplane_8cpp.html" title="Brief file description." alt="" coords="9368,115,9617,170"/>
+<area shape="poly" id="edge42_Node000001_Node000053" title=" " alt="" coords="6602,31,7153,32,7950,40,8369,49,8762,63,9101,81,9241,92,9357,105,9398,113,9397,118,9356,111,9241,98,9101,86,8762,68,8368,55,7950,46,7153,37,6602,36"/>
+<area shape="rect" id="Node000054" href="$FixedWing6DOF_8cpp.html" title="Brief file description." alt="" coords="9641,115,9867,170"/>
+<area shape="poly" id="edge43_Node000001_Node000054" title=" " alt="" coords="6602,32,7257,40,8202,54,9104,76,9435,90,9630,105,9668,113,9667,118,9630,111,9434,95,9104,82,8202,60,7257,45,6602,38"/>
+<area shape="rect" id="Node000055" href="$HarmonicOscillator_8cpp.html" title="Brief file description." alt="" coords="9891,115,10166,170"/>
+<area shape="poly" id="edge44_Node000001_Node000055" title=" " alt="" coords="6602,31,7241,30,8190,38,8692,46,9164,60,9572,79,9741,91,9880,105,9925,113,9924,118,9879,111,9740,97,9572,85,9164,65,8692,52,8190,43,7241,36,6602,36"/>
+<area shape="rect" id="Node000024" href="$Multirotor_8cpp.html" title="Brief file description." alt="" coords="10191,115,10405,170"/>
+<area shape="poly" id="edge47_Node000001_Node000024" title=" " alt="" coords="6602,32,7358,37,8476,50,9043,60,9550,72,9945,87,10085,96,10178,105,10215,113,10214,118,10178,111,10085,101,9945,92,9550,77,9043,65,8475,55,7358,43,6602,37"/>
+<area shape="rect" id="Node000056" href="$RigidBody6DOF_8cpp.html" title="Brief file description." alt="" coords="10430,115,10654,170"/>
+<area shape="poly" id="edge48_Node000001_Node000056" title=" " alt="" coords="6602,32,7402,37,8595,49,9202,59,9745,71,10169,87,10319,96,10418,105,10456,113,10455,118,10418,111,10318,101,10168,92,9745,77,9202,64,8595,55,7402,42,6602,37"/>
+<area shape="rect" id="Node000057" href="$SimpleAircraft_8cpp.html" title="Brief file description." alt="" coords="10678,115,10921,170"/>
+<area shape="poly" id="edge49_Node000001_Node000057" title=" " alt="" coords="6602,32,7447,37,8718,49,9366,59,9947,71,10399,87,10560,96,10666,105,10707,113,10706,118,10666,111,10559,101,10399,92,9946,77,9366,64,8717,55,7447,42,6602,37"/>
+<area shape="rect" id="Node000058" href="$SimpleCar_8cpp.html" title="Brief file description." alt="" coords="10945,115,11163,170"/>
+<area shape="poly" id="edge50_Node000001_Node000058" title=" " alt="" coords="6602,32,7496,35,8850,45,9544,55,10164,67,10648,84,10819,94,10933,105,10970,113,10969,118,10932,111,10819,99,10648,89,10164,73,9544,60,8850,51,7495,40,6602,37"/>
+<area shape="rect" id="Node000059" href="$SimpleQuadrotor_8cpp.html" title="Brief file description." alt="" coords="11187,115,11447,170"/>
+<area shape="poly" id="edge51_Node000001_Node000059" title=" " alt="" coords="6602,32,7538,36,8969,48,9703,57,10360,70,10873,86,11055,95,11176,105,11219,113,11218,118,11175,111,11055,100,10873,91,10360,75,9703,62,8969,53,7538,41,6602,37"/>
+<area shape="rect" id="Node000060" href="$SingleIntegrator_8cpp.html" title="Brief file description." alt="" coords="11471,115,11725,170"/>
+<area shape="poly" id="edge52_Node000001_Node000060" title=" " alt="" coords="6602,32,7589,35,9109,46,9891,55,10591,68,11137,84,11331,94,11460,105,11502,113,11501,118,11459,111,11331,100,11137,90,10591,73,9891,60,9109,51,7589,40,6602,37"/>
+<area shape="rect" id="Node000061" href="$UUV6DOF_8cpp.html" title="Brief file description." alt="" coords="11749,115,11964,170"/>
+<area shape="poly" id="edge53_Node000001_Node000061" title=" " alt="" coords="6602,31,7637,32,9246,39,10075,48,10817,62,11397,80,11602,92,11738,105,11775,113,11774,118,11738,111,11602,97,11397,86,10817,67,10075,54,9246,45,7637,37,6602,36"/>
+<area shape="rect" id="Node000062" href="$ContactBlobCamera_8cpp.html" title="Brief file description." alt="" coords="11989,115,12223,170"/>
+<area shape="poly" id="edge55_Node000001_Node000062" title=" " alt="" coords="6602,31,7679,32,9363,41,10231,50,11010,63,11619,81,11834,92,11977,105,12017,113,12016,118,11976,111,11834,98,11619,86,11010,68,10231,55,9363,46,7679,38,6602,37"/>
+<area shape="rect" id="Node000063" href="$ROSAltimeter_8cpp.html" title="Brief file description." alt="" coords="12247,115,12483,170"/>
+<area shape="poly" id="edge56_Node000001_Node000063" title=" " alt="" coords="6602,31,7725,32,9491,39,10402,48,11220,61,11859,80,12086,92,12236,105,12276,113,12275,118,12235,111,12085,97,11859,85,11220,67,10402,53,9491,44,7725,37,6602,36"/>
+<area shape="rect" id="Node000064" href="$ROSCompass_8cpp.html" title="Brief file description." alt="" coords="12506,115,12741,170"/>
+<area shape="poly" id="edge57_Node000001_Node000064" title=" " alt="" coords="6602,31,7770,31,9617,37,10573,46,11430,59,12101,79,12338,91,12496,105,12535,113,12534,118,12495,111,12338,96,12101,84,11430,65,10573,51,9617,43,7770,36,6602,36"/>
+<area shape="rect" id="Node000065" href="$ROSIMUSensor_8cpp.html" title="Brief file description." alt="" coords="12765,115,13009,170"/>
+<area shape="poly" id="edge58_Node000001_Node000065" title=" " alt="" coords="6602,31,7815,31,9744,37,10742,46,11639,59,12340,79,12589,91,12753,105,12795,113,12794,118,12752,111,12588,97,12340,84,11639,65,10742,51,9744,43,7815,36,6602,36"/>
+<area shape="rect" id="Node000066" href="$RayTrace_8cpp.html" title="Brief file description." alt="" coords="13033,115,13240,170"/>
+<area shape="poly" id="edge59_Node000001_Node000066" title=" " alt="" coords="6602,32,7918,38,10008,51,11070,61,12000,74,12686,88,12905,96,13022,105,13058,113,13057,118,13022,111,12905,102,12686,94,11999,79,11070,67,10008,57,7918,43,6602,37"/>
+<area shape="rect" id="Node000067" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="13265,123,13486,163"/>
+<area shape="poly" id="edge60_Node000001_Node000067" title=" " alt="" coords="6602,32,7961,38,10126,52,11228,62,12192,74,12904,89,13131,97,13253,105,13319,120,13317,125,13252,111,13131,102,12904,94,12192,80,11228,67,10126,57,7961,43,6602,37"/>
+<area shape="rect" id="Node000068" href="$Updater_8cpp.html" title="Brief file description." alt="" coords="13511,123,13717,163"/>
+<area shape="poly" id="edge61_Node000001_Node000068" title=" " alt="" coords="6602,32,8004,37,10250,50,11394,60,12395,72,13136,87,13372,96,13498,105,13561,120,13560,125,13498,111,13372,101,13136,93,12395,78,11394,65,10250,55,8004,42,6602,37"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="139,180,178,231,173,234,135,183"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="427,181,451,224,446,226,423,184"/>
+<area shape="poly" id="edge10_Node000014_Node000015" title=" " alt="" coords="2057,182,2073,224,2068,226,2052,184"/>
+<area shape="poly" id="edge12_Node000016_Node000017" title=" " alt="" coords="2417,180,2452,223,2447,227,2413,183"/>
+<area shape="poly" id="edge15_Node000025_Node000028" title=" " alt="" coords="2987,180,3021,223,3017,227,2982,183"/>
 </map>

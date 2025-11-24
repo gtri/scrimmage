@@ -1,3 +1,7 @@
 <map id="scrimmage::autonomy::TrailMS" name="scrimmage::autonomy::TrailMS">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html" title="{scrimmage::autonomy\l::motor_schemas::BehaviorBase\n|# desired_vector_\l# gain_\l# max_vector_length_\l# use_truth_contacts_\l# use_noisy_contacts_\l|+ BehaviorBase()\l+ desired_vector()\l+ set_gain()\l+ gain()\l+ set_max_vector_length()\l+ configure_contacts()\l}" alt="" coords="5,5,236,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="150,328,311,508"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html" title=" " alt="" coords="5,5,229,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,277,197,327,192,329,172,279"/>
+<area shape="rect" id="Node000097" title=" " alt="" coords="253,103,435,168"/>
+<area shape="poly" id="edge2_Node000001_Node000097" title=" " alt="" coords="334,169,275,314,270,312,329,167"/>
 </map>

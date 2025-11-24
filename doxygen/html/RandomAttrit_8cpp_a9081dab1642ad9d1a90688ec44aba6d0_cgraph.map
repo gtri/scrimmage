@@ -1,4 +1,17 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="207,5,329,32"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title="scrimmage::get_vec" alt="" coords="192,56,344,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,177,148,202"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="211,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,175,126,117,158,84,195,55,205,49,208,54,197,60,162,88,130,121,88,178"/>
+<area shape="rect" id="Node000003" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="240,70,364,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="90,175,135,139,195,104,226,93,227,98,197,109,138,144,94,179"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3" title=" " alt="" coords="225,119,379,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="123,174,195,155,233,145,234,151,197,160,125,179"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1interaction_1_1RandomAttrit.html#a3567708c88b50957a87fd12bfff86714" title=" " alt="" coords="215,169,389,209"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="148,187,201,187,201,192,148,192"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975" title=" " alt="" coords="196,233,408,273"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="123,200,218,227,217,232,122,205"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1Random.html#a51f2762e054db5ecd985e875ed9f22e0" title=" " alt="" coords="219,297,385,337"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="92,200,137,241,166,263,197,283,211,290,209,295,195,288,163,268,133,245,89,204"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1interaction_1_1RandomAttrit.html#ad0ea202ddcf0f1f203f8540f177f0c87" title=" " alt="" coords="203,362,401,417"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="86,201,127,270,159,311,198,347,205,353,202,357,194,351,155,315,123,273,82,203"/>
 </map>

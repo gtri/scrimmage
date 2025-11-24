@@ -2,7 +2,7 @@ var classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS =
 [
     [ "init", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#af932a8598cb1415826bf966ed2e2bca4", null ],
     [ "step", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a6b09772e42407b7b665df34f69d50045", null ],
-    [ "u", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a1bf0cd89396835588e90d095c2de0eb3", null ],
+    [ "u", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a6c6f915a352f112ffff5502b2e5ac1de", null ],
     [ "cmd_vel_cb", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#ac9c00b21e8d13517f7102ea3932a5cc8", null ],
     [ "u_", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a016aa4b0e67924dcffedfac3369ee4dd", null ],
     [ "nh_", "classscrimmage_1_1controller_1_1RigidBody6DOFControllerROS.html#a66cc25150c492d57d5699ee069e86322", null ],

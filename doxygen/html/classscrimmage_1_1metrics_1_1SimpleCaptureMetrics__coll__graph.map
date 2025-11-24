@@ -1,3 +1,11 @@
 <map id="scrimmage::metrics::SimpleCaptureMetrics" name="scrimmage::metrics::SimpleCaptureMetrics">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Metrics.html" title="{scrimmage::Metrics\n|# print_team_summary_\l|+ Metrics()\l+ ~Metrics()\l+ init()\l+ init()\l+ step_metrics()\l+ calc_team_scores()\l+ print_team_summaries()\l+ team_metrics()\l+ headers()\l+ team_scores()\l+ get_print_team_summary()\l}" alt="" coords="5,5,219,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="319,348,509,488"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Metrics.html" title=" " alt="" coords="5,5,212,271"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,267,226,269,321,347,317,351,223,273,221,270"/>
+<area shape="rect" id="Node000096" title=" " alt="" coords="237,98,421,178"/>
+<area shape="poly" id="edge2_Node000001_Node000096" title=" " alt="" coords="325,178,321,248,325,286,335,323,339,332,334,335,330,325,320,287,316,248,319,178"/>
+<area shape="rect" id="Node000099" title=" " alt="" coords="445,105,554,171"/>
+<area shape="poly" id="edge3_Node000001_Node000099" title=" " alt="" coords="501,171,493,243,485,284,473,325,469,334,464,332,467,323,479,283,488,242,495,171"/>
+<area shape="rect" id="Node000028" title=" " alt="" coords="578,98,733,178"/>
+<area shape="poly" id="edge4_Node000001_Node000028" title=" " alt="" coords="641,179,604,251,578,290,549,326,523,350,520,346,545,322,574,287,599,248,636,177"/>
 </map>

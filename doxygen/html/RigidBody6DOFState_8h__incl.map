@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h">
-<area shape="rect" id="node2" href="$State_8h.html" title="Brief file description. " alt="" coords="87,109,269,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,335,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="57,181,160,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,62,89,83,68,109,65,125,69,140,88,170,84,173,64,142,60,125,64,107,85,79,112,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="191,181,269,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,58,255,79,276,107,280,125,276,143,255,173,251,170,271,140,275,125,272,109,251,83,225,62"/>
+<area shape="rect" id="Node000004" href="$State_8h.html" title="Brief file description." alt="" coords="79,108,261,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,60,173,94,167,94,167,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="162,135,130,173,126,169,158,132"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="182,132,214,169,209,173,178,135"/>
 </map>

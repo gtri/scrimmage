@@ -1,3 +1,7 @@
 <map id="/root/scrimmage/scrimmage/src/common/ID.cpp" name="/root/scrimmage/scrimmage/src/common/ID.cpp">
-<area shape="rect" id="node2" href="$ID_8h.html" title="Brief file description. " alt="" coords="5,95,189,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="21,5,227,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,85,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,47,69,85,65,82,103,44"/>
+<area shape="rect" id="Node000003" href="$ID_8h.html" title="Brief file description." alt="" coords="109,93,296,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,44,183,82,179,85,141,47"/>
 </map>

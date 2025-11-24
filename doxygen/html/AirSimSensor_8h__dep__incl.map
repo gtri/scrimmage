@@ -1,5 +1,10 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h">
-<area shape="rect" id="node2" href="$ROSAirSim_8h.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="5,109,255,165"/>
-<area shape="rect" id="node3" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages. " alt="" coords="92,213,328,269"/>
-<area shape="rect" id="node4" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages. " alt="" coords="329,109,561,165"/>
+<area shape="rect" id="Node000001" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages." alt="" coords="167,5,429,60"/>
+<area shape="rect" id="Node000002" href="$ROSAirSim_8h.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages." alt="" coords="5,108,260,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,69,177,110,175,105,242,65"/>
+<area shape="rect" id="Node000003" href="$ROSAirSim_8cpp.html" title="Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages." alt="" coords="95,211,336,265"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="298,74,290,118,275,164,260,190,243,212,238,209,256,187,270,162,285,117,292,73"/>
+<area shape="rect" id="Node000004" href="$AirSimSensor_8cpp.html" title="Requests AirSim data over RPC and publishes it as SCRIMMAGE messages." alt="" coords="335,108,570,163"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="351,65,414,106,411,110,348,70"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="165,172,196,209,192,212,161,175"/>
 </map>

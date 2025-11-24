@@ -1,39 +1,56 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion" name="/root/scrimmage/scrimmage/src/plugins/motion">
-<area shape="rect" id="node2" href="dir_d4c97b73e0dba82e11f50eff0cb774cb.html" title="Ballistic" alt="" coords="2200,63,2272,111"/>
-<area shape="rect" id="node19" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="1061,159,1133,207"/>
-<area shape="rect" id="edge15-headlabel" href="dir_000242_000002.html" title="7" alt="" coords="1147,182,1156,197"/>
-<area shape="rect" id="node3" href="dir_07d223770655c40fe4a1d986886173ba.html" title="DoubleIntegrator" alt="" coords="2045,63,2176,111"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000243_000002.html" title="7" alt="" coords="1147,183,1156,198"/>
-<area shape="rect" id="node4" href="dir_6c3bfdc9d735e33a953469b4d063eec2.html" title="DubinsAirplane" alt="" coords="1903,63,2022,111"/>
-<area shape="rect" id="edge16-headlabel" href="dir_000244_000002.html" title="8" alt="" coords="1147,183,1157,197"/>
-<area shape="rect" id="node5" href="dir_3be9cb1dc2bdaa7a548b563094e198ee.html" title="DubinsAirplane3D" alt="" coords="1744,63,1880,111"/>
-<area shape="rect" id="edge11-headlabel" href="dir_000245_000002.html" title="7" alt="" coords="1147,181,1156,196"/>
-<area shape="rect" id="node6" href="dir_a98644b191c6934fc2579ae2b76aacb9.html" title="FixedWing6DOF" alt="" coords="1600,63,1720,111"/>
-<area shape="rect" id="edge10-headlabel" href="dir_000246_000002.html" title="9" alt="" coords="1147,180,1157,195"/>
-<area shape="rect" id="node7" href="dir_8ce1b1a0cf12dd1880e05e388c7fc2ed.html" title="HarmonicOscillator" alt="" coords="1433,63,1575,111"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000247_000002.html" title="8" alt="" coords="1148,180,1157,194"/>
-<area shape="rect" id="node8" href="dir_cdecd4250763778a3e00dde769955eb2.html" title="JSBSimControl" alt="" coords="1293,63,1408,111"/>
-<area shape="rect" id="edge7-headlabel" href="dir_000248_000002.html" title="10" alt="" coords="1144,172,1161,187"/>
-<area shape="rect" id="node9" href="dir_431909c9af97166d98fabe21958cbc32.html" title="JSBSimModel" alt="" coords="1163,63,1269,111"/>
-<area shape="rect" id="edge14-headlabel" href="dir_000249_000002.html" title="11" alt="" coords="1137,147,1154,161"/>
-<area shape="rect" id="node10" href="dir_d167b312f6d43a8054e5a4fe1ad1d27f.html" title="Multirotor" alt="" coords="1056,63,1139,111"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000250_000002.html" title="8" alt="" coords="1101,133,1110,148"/>
-<area shape="rect" id="node11" href="dir_4279a1d8fcf9d42f28315f3ce5752833.html" title="RigidBody6DOF" alt="" coords="914,63,1033,111"/>
-<area shape="rect" id="edge8-headlabel" href="dir_000117_000002.html" title="6" alt="" coords="1053,134,1062,148"/>
-<area shape="rect" id="node12" href="dir_0eb40c79ffb5396ab565664b961c6ec7.html" title="SimpleAircraft" alt="" coords="779,63,891,111"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000251_000002.html" title="7" alt="" coords="1040,157,1049,172"/>
-<area shape="rect" id="node13" href="dir_efee61d7bc32477b74fe8a22fce20ee1.html" title="SimpleCar" alt="" coords="667,63,755,111"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000252_000002.html" title="5" alt="" coords="1038,166,1048,181"/>
-<area shape="rect" id="node14" href="dir_a25c101132dce7efa3faad82650163e3.html" title="SimpleQuadrotor" alt="" coords="512,63,643,111"/>
-<area shape="rect" id="edge13-headlabel" href="dir_000253_000002.html" title="6" alt="" coords="1038,166,1048,181"/>
-<area shape="rect" id="node15" href="dir_f186921fadb548dec541032ea377296b.html" title="SingleIntegrator" alt="" coords="365,63,489,111"/>
-<area shape="rect" id="edge17-headlabel" href="dir_000254_000002.html" title="5" alt="" coords="1038,164,1048,179"/>
-<area shape="rect" id="node16" href="dir_b35e5772b4b7ed181d258d3cacc0e1d5.html" title="Unicycle" alt="" coords="267,63,341,111"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000255_000002.html" title="6" alt="" coords="1039,164,1048,179"/>
-<area shape="rect" id="node17" href="dir_602af855ca62af62f0ae6b10b2c320a7.html" title="Unicycle3D" alt="" coords="149,63,243,111"/>
-<area shape="rect" id="edge9-headlabel" href="dir_000256_000002.html" title="7" alt="" coords="1039,164,1048,179"/>
-<area shape="rect" id="node18" href="dir_9fc46bb599134c37052d486047f9a5fe.html" title="UUV6DOF" alt="" coords="38,63,125,111"/>
-<area shape="rect" id="edge12-headlabel" href="dir_000257_000002.html" title="7" alt="" coords="1039,165,1048,179"/>
-<area shape="rect" id="clust2" href="dir_5f8427e50c3373d6d1a638fa0a1c8683.html" alt="" coords="27,52,2379,121"/>
-<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,2389,132"/>
+<area shape="rect" id="node2" href="dir_d4c97b73e0dba82e11f50eff0cb774cb.html" title="Ballistic" alt="" coords="2248,63,2323,88"/>
+<area shape="rect" id="node19" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="1089,136,1159,161"/>
+<area shape="poly" id="edge1" href="dir_000026_000100.html" alt="" coords="2274,90,2257,102,2237,112,2170,123,2055,132,1741,143,1172,150,1172,145,1741,138,2055,126,2169,118,2235,107,2255,98,2271,86"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000026_000100.html" title="7" alt="" coords="1172,148,1182,163"/>
+<area shape="rect" id="node3" href="dir_07d223770655c40fe4a1d986886173ba.html" title="DoubleIntegrator" alt="" coords="2091,63,2223,88"/>
+<area shape="poly" id="edge2" href="dir_000053_000100.html" alt="" coords="2137,91,2110,102,2081,112,1998,125,1888,135,1624,146,1361,150,1173,150,1173,145,1361,145,1624,141,1888,129,1997,120,2079,107,2109,97,2135,86"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000053_000100.html" title="7" alt="" coords="1172,149,1182,164"/>
+<area shape="rect" id="node4" href="dir_6c3bfdc9d735e33a953469b4d063eec2.html" title="DubinsAirplane" alt="" coords="1946,63,2067,88"/>
+<area shape="poly" id="edge3" href="dir_000059_000100.html" alt="" coords="1987,91,1962,102,1934,112,1865,124,1775,133,1555,144,1335,149,1173,150,1173,145,1335,144,1555,139,1774,127,1865,118,1933,107,1960,97,1985,86"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000059_000100.html" title="8" alt="" coords="1173,149,1182,163"/>
+<area shape="rect" id="node5" href="dir_3be9cb1dc2bdaa7a548b563094e198ee.html" title="DubinsAirplane3D" alt="" coords="1783,63,1921,88"/>
+<area shape="poly" id="edge4" href="dir_000061_000100.html" alt="" coords="1831,90,1803,102,1771,112,1648,128,1478,139,1173,149,1173,144,1478,134,1647,123,1770,107,1801,97,1828,86"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000061_000100.html" title="7" alt="" coords="1173,148,1182,162"/>
+<area shape="rect" id="node6" href="dir_a98644b191c6934fc2579ae2b76aacb9.html" title="FixedWing6DOF" alt="" coords="1633,63,1759,88"/>
+<area shape="poly" id="edge5" href="dir_000069_000100.html" alt="" coords="1676,91,1622,112,1531,126,1406,137,1173,148,1172,143,1406,131,1531,121,1621,107,1674,86"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000069_000100.html" title="9" alt="" coords="1173,147,1182,161"/>
+<area shape="rect" id="node7" href="dir_8ce1b1a0cf12dd1880e05e388c7fc2ed.html" title="HarmonicOscillator" alt="" coords="1463,63,1609,88"/>
+<area shape="poly" id="edge6" href="dir_000097_000100.html" alt="" coords="1512,91,1451,112,1376,127,1300,138,1173,148,1172,143,1299,132,1375,122,1450,107,1510,86"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000097_000100.html" title="8" alt="" coords="1173,146,1182,161"/>
+<area shape="rect" id="node8" href="dir_cdecd4250763778a3e00dde769955eb2.html" title="JSBSimControl" alt="" coords="1324,63,1439,88"/>
+<area shape="poly" id="edge7" href="dir_000109_000100.html" alt="" coords="1362,90,1313,112,1240,131,1173,143,1172,138,1239,126,1311,107,1360,86"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000109_000100.html" title="10" alt="" coords="1169,141,1187,156"/>
+<area shape="rect" id="node9" href="dir_431909c9af97166d98fabe21958cbc32.html" title="JSBSimModel" alt="" coords="1191,63,1299,88"/>
+<area shape="poly" id="edge8" href="dir_000113_000100.html" alt="" coords="1227,90,1157,131,1154,127,1224,86"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000113_000100.html" title="11" alt="" coords="1155,127,1172,141"/>
+<area shape="rect" id="node10" href="dir_d167b312f6d43a8054e5a4fe1ad1d27f.html" title="Multirotor" alt="" coords="1081,63,1167,88"/>
+<area shape="poly" id="edge9" href="dir_000144_000100.html" alt="" coords="1127,88,1127,122,1121,122,1121,88"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000144_000100.html" title="8" alt="" coords="1128,110,1137,125"/>
+<area shape="rect" id="node11" href="dir_4279a1d8fcf9d42f28315f3ce5752833.html" title="RigidBody6DOF" alt="" coords="933,63,1057,88"/>
+<area shape="poly" id="edge10" href="dir_000176_000100.html" alt="" coords="1017,86,1092,127,1089,131,1014,90"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000176_000100.html" title="6" alt="" coords="1086,112,1096,127"/>
+<area shape="rect" id="node12" href="dir_0eb40c79ffb5396ab565664b961c6ec7.html" title="SimpleAircraft" alt="" coords="793,63,908,88"/>
+<area shape="poly" id="edge11" href="dir_000209_000100.html" alt="" coords="873,86,922,107,1003,127,1076,139,1076,144,1002,132,920,112,871,91"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000209_000100.html" title="7" alt="" coords="1068,125,1077,140"/>
+<area shape="rect" id="node13" href="dir_efee61d7bc32477b74fe8a22fce20ee1.html" title="SimpleCar" alt="" coords="679,63,769,88"/>
+<area shape="poly" id="edge12" href="dir_000217_000100.html" alt="" coords="741,86,782,107,861,127,941,138,1015,144,1076,145,1075,151,1015,149,941,144,860,132,780,112,739,91"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000217_000100.html" title="5" alt="" coords="1066,132,1076,147"/>
+<area shape="rect" id="node14" href="dir_a25c101132dce7efa3faad82650163e3.html" title="SimpleQuadrotor" alt="" coords="523,63,655,88"/>
+<area shape="poly" id="edge13" href="dir_000227_000100.html" alt="" coords="612,86,669,107,781,128,895,139,997,145,1075,146,1075,151,997,150,894,145,781,133,667,112,610,91"/>
+<area shape="rect" id="edge13-headlabel" href="dir_000227_000100.html" title="6" alt="" coords="1066,132,1076,147"/>
+<area shape="rect" id="node15" href="dir_f186921fadb548dec541032ea377296b.html" title="SingleIntegrator" alt="" coords="373,63,499,88"/>
+<area shape="poly" id="edge14" href="dir_000231_000100.html" alt="" coords="458,86,484,97,513,107,628,123,787,134,1076,144,1076,149,787,139,627,128,511,112,482,102,456,91"/>
+<area shape="rect" id="edge14-headlabel" href="dir_000231_000100.html" title="5" alt="" coords="1067,131,1076,145"/>
+<area shape="rect" id="node16" href="dir_b35e5772b4b7ed181d258d3cacc0e1d5.html" title="Unicycle" alt="" coords="270,63,349,88"/>
+<area shape="poly" id="edge15" href="dir_000251_000100.html" alt="" coords="325,86,342,98,362,107,405,114,480,121,685,132,1075,144,1075,149,685,137,479,126,405,120,361,112,340,102,322,90"/>
+<area shape="rect" id="edge15-headlabel" href="dir_000251_000100.html" title="6" alt="" coords="1066,130,1076,145"/>
+<area shape="rect" id="node17" href="dir_602af855ca62af62f0ae6b10b2c320a7.html" title="Unicycle3D" alt="" coords="149,63,245,88"/>
+<area shape="poly" id="edge16" href="dir_000253_000100.html" alt="" coords="215,86,236,98,259,107,310,114,396,121,633,132,1076,144,1076,149,633,137,395,126,309,120,258,112,234,102,213,91"/>
+<area shape="rect" id="edge16-headlabel" href="dir_000253_000100.html" title="7" alt="" coords="1066,131,1076,145"/>
+<area shape="rect" id="node18" href="dir_9fc46bb599134c37052d486047f9a5fe.html" title="UUV6DOF" alt="" coords="38,63,125,88"/>
+<area shape="poly" id="edge17" href="dir_000259_000100.html" alt="" coords="98,86,117,98,138,107,196,116,296,123,571,135,1076,144,1076,150,571,140,296,129,196,121,137,112,114,102,95,91"/>
+<area shape="rect" id="edge17-headlabel" href="dir_000259_000100.html" title="7" alt="" coords="1067,131,1076,146"/>
+<area shape="rect" id="clust2" href="dir_5f8427e50c3373d6d1a638fa0a1c8683.html" alt="" coords="27,52,2427,99"/>
+<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,2437,109"/>
 </map>

@@ -1,3 +1,22 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h">
-<area shape="rect" id="node2" href="$EntityInteraction_8h.html" title="Brief file description. " alt="" coords="37,124,203,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="196,5,437,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="15,211,58,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,61,140,73,87,87,43,104,16,124,9,141,9,160,24,197,19,199,4,161,4,140,12,121,40,100,85,82,139,67,195,56"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="107,211,158,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="290,77,208,165,161,204,157,200,204,161,286,73"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="319,130,383,155"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="331,74,345,116,340,118,326,76"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="408,130,471,155"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="360,73,416,119,413,123,356,77"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="229,211,287,236"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="308,76,268,198,263,197,303,74"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="495,130,559,155"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="389,73,492,122,490,127,386,77"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="583,130,821,155"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="438,70,645,124,644,129,437,75"/>
+<area shape="rect" id="Node000009" href="$EntityInteraction_8h.html" title="Brief file description." alt="" coords="26,123,194,163"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="248,77,162,119,160,114,246,73"/>
+<area shape="poly" id="edge9_Node000009_Node000002" title=" " alt="" coords="94,165,59,202,55,199,90,161"/>
+<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="118,162,128,197,123,198,113,164"/>
+<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="147,160,225,202,223,206,144,165"/>
 </map>

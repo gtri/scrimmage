@@ -1,89 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publishers and Subscribers &mdash; scrimmage 0.2.0-dev documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=dee240fc"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Generate Entities at Run-Time" href="gen-entities.html" />
     <link rel="prev" title="Plugin Parameters" href="parameters.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../index.html" class="icon icon-home"> scrimmage
           
-
-          
+          <a href="../index.html" class="icon icon-home">
+            scrimmage
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.2.0-dev
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
@@ -109,7 +67,6 @@
 <li class="toctree-l2"><a class="reference internal" href="scrimmage-ros-integration.html">SCRIMMAGE / ROS Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ros-plugin.html">Create a ROS Node</a></li>
 <li class="toctree-l2"><a class="reference internal" href="airsim-plugin.html">AirSimSensor Plugin Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="openai-plugin.html">Create an OpenAI Plugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="terrain.html">Create a Digital Terrain Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimize.html">Optimizing Parameters in SCRIMMAGE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="open-grid.html">Multiple Runs with Open Grid Engine</a></li>
@@ -121,78 +78,39 @@
 </li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">scrimmage</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
-        
-      <li>Publishers and Subscribers</li>
-    
-    
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Publishers and Subscribers</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../_sources/tutorials/pub-sub.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="publishers-and-subscribers">
-<span id="pub-sub"></span><h1>Publishers and Subscribers<a class="headerlink" href="#publishers-and-subscribers" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="publishers-and-subscribers">
+<span id="pub-sub"></span><h1>Publishers and Subscribers<a class="headerlink" href="#publishers-and-subscribers" title="Link to this heading"></a></h1>
 <p>SCRIMMAGE provides a light-weight publish-and-subscribe system that allows for
 arbitrary data to be transmitted between plugins. In order to setup a publisher
 or a subscriber, the developer needs to identify the data type of the message,
 the topic name (std::string), and the network name (std::string).</p>
-<div class="section" id="network-plugins">
-<h2>Network Plugins<a class="headerlink" href="#network-plugins" title="Permalink to this headline">¶</a></h2>
+<section id="network-plugins">
+<h2>Network Plugins<a class="headerlink" href="#network-plugins" title="Link to this heading"></a></h2>
 <p>The network name refers to Network plugin that must be specified in the mission
 xml file.</p>
 <ul class="simple">
@@ -217,25 +135,25 @@ same mission.</p>
 <span class="nt">&lt;network&gt;</span>SphereNetwork<span class="nt">&lt;/network&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="create-a-publisher">
-<h2>Create a Publisher<a class="headerlink" href="#create-a-publisher" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="create-a-publisher">
+<h2>Create a Publisher<a class="headerlink" href="#create-a-publisher" title="Link to this heading"></a></h2>
 <p>Creating a SCRIMMAGE publisher is easy. First, declare a publisher in your
 plugin’s header file:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">::</span><span class="n">PublisherPtr</span> <span class="n">pub_boundary_</span><span class="p">;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">::</span><span class="n">PublisherPtr</span><span class="w"> </span><span class="n">pub_boundary_</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>Now, intialize the publisher in the init() method of the plugin’s *.cpp
 file. In this case, we are creating a publisher in the “GlobalNetwork” with a
 topic name of “Boundary”.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">pub_boundary_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">pub_boundary_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boundary&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>We can publish a message by creating a scrimmage::Message (templated with the
 data type that we want to publish), filling in any data that is required, and
 calling the <code class="docutils literal notranslate"><span class="pre">publish</span></code> method.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">BoundaryInfo</span><span class="o">&gt;&gt;</span><span class="p">();</span>
-<span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">BoundaryInfo</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">Cuboid</span><span class="p">;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">sc</span><span class="o">::</span><span class="n">Message</span><span class="o">&lt;</span><span class="n">BoundaryInfo</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BoundaryInfo</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">Cuboid</span><span class="p">;</span>
 <span class="n">pub_boundary_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -244,7 +162,7 @@ the BoundaryInfo class. See the <a class="reference external" href="https://gith
 entity interaction plugin for the complete example.</p>
 <p>If you wanted to limit the number of messages in the publisher output queue,
 you can call the advertise method with a maximum queue size argument.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">pub_boundary_</span> <span class="o">=</span> <span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">pub_boundary_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">advertise</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boundary&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -258,17 +176,17 @@ need:</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="create-a-subscriber">
-<h2>Create a Subscriber<a class="headerlink" href="#create-a-subscriber" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="create-a-subscriber">
+<h2>Create a Subscriber<a class="headerlink" href="#create-a-subscriber" title="Link to this heading"></a></h2>
 <p>We need to setup a callback function that will be called when a SCRIMMAGE
 plugin receives a new message. This callback can be a class method, a static
 function, or a lambda function. In this example, we will use a lambda function
 due to its simplicity. Define the lambda callback function in the init() method
 of your plugin:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">callback</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">MessagePtr</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span> <span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Time: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">time_</span><span class="o">-&gt;</span><span class="n">t</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Received a boundary info message!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span><span class="w"> </span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">]</span><span class="w"> </span><span class="p">(</span><span class="n">scrimmage</span><span class="o">::</span><span class="n">MessagePtr</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">time_</span><span class="o">-&gt;</span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Received a boundary info message!&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span>
 <span class="p">};</span>
 </pre></div>
 </div>
@@ -277,7 +195,7 @@ BoundaryInfo class. This lambda function has access to the plugin’s member
 variables because its closure was declared with <code class="docutils literal notranslate"><span class="pre">[&amp;]</span></code>. Thus, the lambda
 function can access plugin member variables, such as the <code class="docutils literal notranslate"><span class="pre">time_</span></code> member
 variable. Finally, you need to initialize the subscriber:</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boundary&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The subscriber is templated with the message data type. This subscriber will
@@ -285,7 +203,7 @@ listen to the “Boundary” topic on the “GlobalNetwork” network. The name 
 lambda callback function was also passed to the subscribe method. If you wanted
 to limit the number of messages in the receive queue, you can call the
 subscribe method with a maximum queue size argument.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;Boundary&quot;</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">sci</span><span class="o">::</span><span class="n">BoundaryInfo</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;GlobalNetwork&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Boundary&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>In this case, only the 10 most recent messages will remain in the queue if more
@@ -303,9 +221,9 @@ were successfully delivered to the subscribers’ input queues are delivered
 to their respective callback functions. This allows for complete determinism
 in the publishing and receiving of messages.</p>
 </div>
-</div>
-<div class="section" id="subscribing-to-another-entity-s-localnetwork">
-<h2>Subscribing to Another Entity’s LocalNetwork<a class="headerlink" href="#subscribing-to-another-entity-s-localnetwork" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="subscribing-to-another-entity-s-localnetwork">
+<h2>Subscribing to Another Entity’s LocalNetwork<a class="headerlink" href="#subscribing-to-another-entity-s-localnetwork" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">LocalNetwork</span></code> is often used to keep sensor data and internal state
 information isolated between entities. This can be an issue if a metrics or
 entity interaction plugin wants to subscribe to a topic in the <code class="docutils literal notranslate"><span class="pre">LocalNetwork</span></code>
@@ -325,129 +243,78 @@ added to the entity’s autonomies list. The empty autonomy plugin is used to
 create a subscriber on the entity’s <code class="docutils literal notranslate"><span class="pre">LocalNetwork</span></code>. When the callback
 function is called, the entity’s ID is used as the key of a map to store the
 received data.</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">MyInteractionPlugin</span><span class="o">::</span><span class="n">step_entity_interaction</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">EntityPtr</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">ents</span><span class="p">,</span>
-                                                  <span class="kt">double</span> <span class="n">t</span><span class="p">,</span> <span class="kt">double</span> <span class="n">dt</span><span class="p">)</span> <span class="p">{</span>
- <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">sub_setup_</span><span class="p">)</span> <span class="p">{</span>
-     <span class="c1">// Only setup the subscribers one time.</span>
-     <span class="n">sub_setup_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
-     <span class="c1">// For all entities in the simulation</span>
-     <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">kv</span> <span class="p">:</span> <span class="o">*</span><span class="n">id_to_ent_map_</span><span class="p">)</span> <span class="p">{</span>
-         <span class="c1">// Construct an empty plugin that we will use to create a</span>
-         <span class="c1">// subscriber to a specific entity&#39;s LocalNetwork.</span>
-         <span class="n">AutonomyPtr</span> <span class="n">plugin</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Autonomy</span><span class="o">&gt;</span><span class="p">();</span>
-
-         <span class="c1">// In order for plugins to communicate on the LocalNetwork they</span>
-         <span class="c1">// need the same parent and pubsub pointers.</span>
-         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_parent</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
-         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_pubsub</span><span class="p">(</span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pubsub</span><span class="p">());</span>
-
-         <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span> <span class="c1">// The ID is used in the lambda callback</span>
-
-         <span class="c1">// Create the subscriber in the LocalNetwork</span>
-         <span class="k">auto</span> <span class="n">state_cb</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">,</span> <span class="n">id</span><span class="p">](</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">msg</span><span class="p">)</span> <span class="p">{</span>
-             <span class="c1">// Save the most recent published data in a map that can be</span>
-             <span class="c1">// used later. The entity ID is the map&#39;s key.</span>
-             <span class="n">states_with_covs_</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
-         <span class="p">};</span>
-         <span class="n">plugin</span><span class="o">-&gt;</span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">StateWithCovariance</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LocalNetwork&quot;</span><span class="p">,</span> <span class="s">&quot;StateWithCovariance&quot;</span><span class="p">,</span> <span class="n">state_cb</span><span class="p">);</span>
-
-         <span class="c1">// Add the empty plugin that we created to the entity&#39;s autonomies</span>
-         <span class="c1">// list, so that the simulation controller calls its callbacks when</span>
-         <span class="c1">// messages are received.</span>
-         <span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">autonomies</span><span class="p">().</span><span class="n">push_back</span><span class="p">(</span><span class="n">plugin</span><span class="p">);</span>
-     <span class="p">}</span>
- <span class="p">}</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kt">bool</span><span class="w"> </span><span class="nf">MyInteractionPlugin::step_entity_interaction</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">EntityPtr</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ents</span><span class="p">,</span>
+<span class="linenos"> 2</span><span class="w">                                                  </span><span class="kt">double</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">sub_setup_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="c1">// Only setup the subscribers one time.</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="n">sub_setup_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">     </span><span class="c1">// For all entities in the simulation</span>
+<span class="linenos"> 8</span><span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">kv</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">*</span><span class="n">id_to_ent_map_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 9</span><span class="w">         </span><span class="c1">// Construct an empty plugin that we will use to create a</span>
+<span class="linenos">10</span><span class="w">         </span><span class="c1">// subscriber to a specific entity&#39;s LocalNetwork.</span>
+<span class="linenos">11</span><span class="w">         </span><span class="n">AutonomyPtr</span><span class="w"> </span><span class="n">plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">Autonomy</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">         </span><span class="c1">// In order for plugins to communicate on the LocalNetwork they</span>
+<span class="linenos">14</span><span class="w">         </span><span class="c1">// need the same parent and pubsub pointers.</span>
+<span class="linenos">15</span><span class="w">         </span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_parent</span><span class="p">(</span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+<span class="linenos">16</span><span class="w">         </span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">set_pubsub</span><span class="p">(</span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">pubsub</span><span class="p">());</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="w">         </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kv</span><span class="p">.</span><span class="n">first</span><span class="p">;</span><span class="w"> </span><span class="c1">// The ID is used in the lambda callback</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">         </span><span class="c1">// Create the subscriber in the LocalNetwork</span>
+<span class="linenos">21</span><span class="w">         </span><span class="k">auto</span><span class="w"> </span><span class="n">state_cb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">](</span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">22</span><span class="w">             </span><span class="c1">// Save the most recent published data in a map that can be</span>
+<span class="linenos">23</span><span class="w">             </span><span class="c1">// used later. The entity ID is the map&#39;s key.</span>
+<span class="linenos">24</span><span class="w">             </span><span class="n">states_with_covs_</span><span class="p">[</span><span class="n">id</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msg</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+<span class="linenos">25</span><span class="w">         </span><span class="p">};</span>
+<span class="linenos">26</span><span class="w">         </span><span class="n">plugin</span><span class="o">-&gt;</span><span class="n">subscribe</span><span class="o">&lt;</span><span class="n">StateWithCovariance</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;LocalNetwork&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;StateWithCovariance&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">state_cb</span><span class="p">);</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">         </span><span class="c1">// Add the empty plugin that we created to the entity&#39;s autonomies</span>
+<span class="linenos">29</span><span class="w">         </span><span class="c1">// list, so that the simulation controller calls its callbacks when</span>
+<span class="linenos">30</span><span class="w">         </span><span class="c1">// messages are received.</span>
+<span class="linenos">31</span><span class="w">         </span><span class="n">kv</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">autonomies</span><span class="p">().</span><span class="n">push_back</span><span class="p">(</span><span class="n">plugin</span><span class="p">);</span>
+<span class="linenos">32</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">33</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>In the plugin’s header file, the following member variables were declared:</p>
-<div class="highlight-c++ notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">sub_setup_</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">StateWithCovariance</span><span class="o">&gt;</span> <span class="n">states_with_covs_</span><span class="p">;</span>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kt">bool</span><span class="w"> </span><span class="n">sub_setup_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="linenos">2</span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">StateWithCovariance</span><span class="o">&gt;</span><span class="w"> </span><span class="n">states_with_covs_</span><span class="p">;</span>
 </pre></div>
-</td></tr></table></div>
 </div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="gen-entities.html" class="btn btn-neutral float-right" title="Generate Entities at Run-Time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="parameters.html" class="btn btn-neutral float-left" title="Plugin Parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parameters.html" class="btn btn-neutral float-left" title="Plugin Parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gen-entities.html" class="btn btn-neutral float-right" title="Generate Entities at Run-Time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Kevin DeMarco
-
-    </p>
+    <p>&#169; Copyright 2020, Kevin DeMarco.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

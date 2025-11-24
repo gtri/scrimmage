@@ -1,6 +1,11 @@
 <map id="scrimmage::CSV::to_csv" name="scrimmage::CSV::to_csv">
-<area shape="rect" id="node2" href="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title="scrimmage::CSV::close\l_output" alt="" coords="245,5,415,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title="scrimmage::CSV::open\l_output" alt="" coords="245,71,415,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#a11061841f294a317e056f2ad2f7eb71f" title="scrimmage::CSV::write\l_headers" alt="" coords="247,136,413,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1CSV.html#aa1002daa5038ac83ca36ae856f5f8b6a" title="scrimmage::CSV::write_row" alt="" coords="232,202,428,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,109,184,134"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title=" " alt="" coords="247,5,417,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,106,231,55,251,47,253,52,233,60,122,111"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="248,69,416,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,107,234,100,235,105,184,112"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1CSV.html#a11061841f294a317e056f2ad2f7eb71f" title=" " alt="" coords="247,133,417,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,131,234,137,233,143,184,136"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1CSV.html#aa1002daa5038ac83ca36ae856f5f8b6a" title=" " alt="" coords="232,198,432,223"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="121,132,172,157,233,183,261,192,259,197,231,188,169,162,118,136"/>
 </map>

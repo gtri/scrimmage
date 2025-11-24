@@ -1,0 +1,19 @@
+<map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,237,148,263"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="236,5,360,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,236,91,197,114,144,148,88,170,62,194,40,221,26,224,31,198,44,174,66,152,91,119,146,96,199,84,238"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe" title=" " alt="" coords="196,55,400,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="85,235,128,181,159,148,194,120,204,114,207,118,198,124,163,152,132,184,89,239"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8" title=" " alt="" coords="207,134,389,174"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="97,235,142,210,195,184,213,176,215,181,197,188,144,214,100,240"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd" title=" " alt="" coords="221,198,375,238"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="148,237,207,228,208,234,149,242"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57" title=" " alt="" coords="221,262,375,302"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="149,258,208,266,207,272,148,263"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1PID.html#a464c074ecb43e3ab40e76466b9d7e044" title=" " alt="" coords="221,326,375,366"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="100,260,144,286,197,312,215,319,213,324,195,316,142,290,97,265"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1PID.html#afffffbed0d99e3bf8449b37a97b7a0b3" title=" " alt="" coords="217,391,379,416"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="88,261,130,317,161,349,197,376,213,383,210,388,195,380,158,353,126,321,84,264"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b" title=" " alt="" coords="196,440,400,495"/>
+<area shape="poly" id="edge8_Node000001_Node000017" title=" " alt="" coords="86,262,101,295,125,338,158,384,198,425,205,431,202,435,194,429,154,388,121,341,96,297,81,264"/>
+</map>

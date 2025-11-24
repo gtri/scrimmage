@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/APITester/APITester.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/APITester/APITester.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="25,109,187,151"/>
-<area shape="rect" id="node5" href="$CSV_8h.html" title="Brief file description. " alt="" coords="212,117,411,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="95,5,325,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,196,133,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,55,50,76,31,91,15,109,8,128,15,147,26,161,39,174,71,192,68,197,36,178,22,165,10,149,3,128,10,107,27,87,47,71,93,50"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="283,196,342,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="327,45,354,54,381,67,405,85,425,107,433,128,426,149,412,167,394,181,356,199,354,194,391,176,408,163,421,147,428,128,421,109,402,89,379,72,352,59,325,50"/>
+<area shape="rect" id="Node000004" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="25,108,190,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,62,140,101,136,97,179,58"/>
+<area shape="rect" id="Node000031" href="$CSV_8h.html" title="Brief file description." alt="" coords="215,115,411,141"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="241,58,291,104,288,108,237,62"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="110,148,110,182,105,182,105,148"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="157,146,271,189,269,194,155,151"/>
+<area shape="poly" id="edge7_Node000031_Node000002" title=" " alt="" coords="284,143,146,195,144,190,282,138"/>
+<area shape="poly" id="edge8_Node000031_Node000003" title=" " alt="" coords="315,141,315,182,310,182,310,141"/>
 </map>

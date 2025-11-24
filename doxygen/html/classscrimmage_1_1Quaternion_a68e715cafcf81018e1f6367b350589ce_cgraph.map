@@ -1,0 +1,9 @@
+<map id="scrimmage::Quaternion::set" name="scrimmage::Quaternion::set">
+<area shape="rect" id="Node000001" title="set quaternion from euler angles" alt="" coords="5,77,208,102"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="274,5,449,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,74,267,46,268,51,159,79"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="274,69,449,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,87,260,87,260,92,208,92"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="256,134,467,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,99,292,128,290,134,163,105"/>
+</map>

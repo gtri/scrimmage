@@ -1,6 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.cpp">
-<area shape="rect" id="node2" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="5,131,207,173"/>
-<area shape="rect" id="node3" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="231,139,450,165"/>
-<area shape="rect" id="node4" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="475,139,689,165"/>
-<area shape="rect" id="node5" href="$DoubleIntegratorControllerWaypoint_8h.html" title="Brief file description. " alt="" coords="714,124,981,180"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="321,5,609,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,85,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,67,211,92,98,125,79,133,77,128,96,120,210,87,320,62"/>
+<area shape="rect" id="Node000003" href="$Utilities_8h.html" title="Brief file description." alt="" coords="110,137,333,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="391,77,261,134,259,129,388,72"/>
+<area shape="rect" id="Node000008" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="357,137,573,163"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="468,75,468,123,463,123,463,75"/>
+<area shape="rect" id="Node000012" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="598,130,802,170"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="539,72,648,122,646,127,537,77"/>
+<area shape="rect" id="Node000013" href="$DoubleIntegratorControllerWaypoint_8h.html" title="Brief file description." alt="" coords="826,123,1099,177"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="610,70,829,117,828,122,609,75"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Cuboid.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/Boundary/Cuboid.h">
-<area shape="rect" id="node2" href="$Straight_8cpp.html" title="Brief file description. " alt="" coords="5,109,224,165"/>
-<area shape="rect" id="node3" href="$Boundary_8cpp.html" title="Brief file description. " alt="" coords="249,109,453,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="123,5,346,60"/>
+<area shape="rect" id="Node000002" href="$Straight_8cpp.html" title="Brief file description." alt="" coords="5,108,227,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,71,149,110,145,106,192,67"/>
+<area shape="rect" id="Node000003" href="$Boundary_8cpp.html" title="Brief file description." alt="" coords="251,108,458,163"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="278,67,325,106,322,110,275,71"/>
 </map>

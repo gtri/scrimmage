@@ -1,0 +1,19 @@
+<map id="scrimmage::ID::id" name="scrimmage::ID::id">
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,220,437,245"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6" title=" " alt="" coords="33,5,224,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="357,208,342,170,320,126,289,82,250,46,223,32,226,27,254,41,293,79,324,123,347,168,362,206"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="38,55,219,95"/>
+<area shape="poly" id="edge2_Node000001_Node000013" title=" " alt="" coords="349,210,309,159,281,132,251,110,219,95,221,90,253,105,285,128,312,155,354,207"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1Entity.html#a0f933e41855d10195a40d4300acb119f" title=" " alt="" coords="55,119,203,159"/>
+<area shape="poly" id="edge3_Node000001_Node000014" title=" " alt="" coords="334,215,295,194,251,174,202,158,204,153,253,169,297,189,336,211"/>
+<area shape="rect" id="Node000016" href="$namespacescrimmage.html#ac79561a049fd950662e3eb5b3640dc1f" title=" " alt="" coords="53,183,205,223"/>
+<area shape="poly" id="edge4_Node000001_Node000016" title=" " alt="" coords="286,225,205,215,205,210,287,220"/>
+<area shape="rect" id="Node000020" href="$FlagCaptureInteraction_8cpp.html#a4a6f2ba87680ef62a40e1ab66af6768f" title=" " alt="" coords="57,248,200,273"/>
+<area shape="poly" id="edge5_Node000001_Node000020" title=" " alt="" coords="287,245,200,255,200,250,286,240"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1ID.html#a9895adc7050c16c76f2a7064a886c91f" title=" " alt="" coords="47,297,211,323"/>
+<area shape="poly" id="edge6_Node000001_Node000021" title=" " alt="" coords="332,254,253,287,205,300,204,295,251,282,330,249"/>
+<area shape="rect" id="Node000022" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="5,347,252,387"/>
+<area shape="poly" id="edge7_Node000001_Node000022" title=" " alt="" coords="349,258,307,298,253,336,223,350,221,345,251,332,304,294,345,254"/>
+<area shape="rect" id="Node000023" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title=" " alt="" coords="50,411,207,451"/>
+<area shape="poly" id="edge8_Node000001_Node000023" title=" " alt="" coords="359,259,343,292,320,330,290,369,254,402,232,414,209,422,207,417,230,409,250,397,286,365,316,327,338,289,354,257"/>
+</map>

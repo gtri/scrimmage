@@ -1,4 +1,12 @@
 <map id="scrimmage::Viewer" name="scrimmage::Viewer">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="16,5,102,83"/>
-<area shape="rect" id="node4" title="STL class. " alt="" coords="300,167,392,245"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="252,320,445,665"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,155,204,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,221,115,258,130,295,153,329,180,360,240,416,237,419,176,364,148,332,125,297,110,259,104,222"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="235,155,319,221"/>
+<area shape="poly" id="edge2_Node000001_Node000020" title=" " alt="" coords="277,221,277,257,281,296,282,303,277,304,275,296,271,257,272,221"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="531,148,686,228"/>
+<area shape="poly" id="edge3_Node000001_Node000021" title=" " alt="" coords="577,230,459,368,455,364,573,226"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="404,5,483,71"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="442,71,428,172,406,297,404,304,399,303,401,295,423,171,437,70"/>
+<area shape="poly" id="edge4_Node000021_Node000005" title=" " alt="" coords="481,69,555,135,551,139,477,73"/>
 </map>

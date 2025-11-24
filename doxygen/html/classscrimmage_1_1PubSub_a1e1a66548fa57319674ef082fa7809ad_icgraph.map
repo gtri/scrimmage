@@ -1,4 +1,7 @@
 <map id="scrimmage::PubSub::find_devices" name="scrimmage::PubSub::find_devices">
-<area shape="rect" id="node2" href="$classscrimmage_1_1PubSub.html#a2fcf4dfd720823de6760bd6898f6f7be" title="scrimmage::PubSub::\lfind_pubs" alt="" coords="212,5,371,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1PubSub.html#a4725d638cace9ad073c58ec5dce4d2e5" title="scrimmage::PubSub::\lfind_subs" alt="" coords="212,71,371,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="212,37,371,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1PubSub.html#a2fcf4dfd720823de6760bd6898f6f7be" title=" " alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,46,164,40,164,35,199,40"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1PubSub.html#a4725d638cace9ad073c58ec5dce4d2e5" title=" " alt="" coords="5,69,164,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,74,164,80,164,74,198,69"/>
 </map>

@@ -6,6 +6,7 @@ var classscrimmage_1_1CameraInterface =
     [ "OnLeftButtonDown", "classscrimmage_1_1CameraInterface.html#af87eddbe09df21e9caab90fb9a21c9df", null ],
     [ "OnLeftButtonUp", "classscrimmage_1_1CameraInterface.html#a87e88a2abc72ff30b5d61f21d2e04b07", null ],
     [ "Rotate", "classscrimmage_1_1CameraInterface.html#abd71e7e457deeeddb87f8f85ebd661fe", null ],
+    [ "OnMiddleButtonUp", "classscrimmage_1_1CameraInterface.html#af9952a8d0eff293d25e7158acf4f3272", null ],
     [ "Pan", "classscrimmage_1_1CameraInterface.html#a2172d4548bee6ddac356457f881630b2", null ],
     [ "Dolly", "classscrimmage_1_1CameraInterface.html#a1e2ad981b9c8bd9554fc3e96b27b23bc", null ],
     [ "set_updater", "classscrimmage_1_1CameraInterface.html#a44052fb85432537290aeab69b5c3dacb", null ],

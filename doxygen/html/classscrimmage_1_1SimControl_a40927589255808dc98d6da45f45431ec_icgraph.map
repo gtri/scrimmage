@@ -1,4 +1,7 @@
 <map id="scrimmage::SimControl::force_exit" name="scrimmage::SimControl::force_exit">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title="scrimmage::SimControl\l::run_check_network_msgs" alt="" coords="227,5,421,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title="scrimmage::run_test" alt="" coords="247,71,401,98"/>
+<area shape="rect" id="Node000001" title="Force a threaded simulation to exit." alt="" coords="252,35,427,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ae0cea01fc6bd2de0c0aa12604018dcdd" title=" " alt="" coords="5,5,204,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,45,204,40,205,35,238,39"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1" title=" " alt="" coords="27,70,183,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="239,69,183,76,183,71,238,64"/>
 </map>

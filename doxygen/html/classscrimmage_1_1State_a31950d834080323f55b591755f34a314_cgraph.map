@@ -1,0 +1,7 @@
+<map id="scrimmage::State::InFieldOfView" name="scrimmage::State::InFieldOfView">
+<area shape="rect" id="Node000001" title="Returns true if other state is in field&#45;of&#45;view." alt="" coords="5,27,193,67"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044" title=" " alt="" coords="241,5,409,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,33,228,28,228,33,194,38"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1State.html#a9a509fef76cd8b67fa4f1e161462acc9" title="convert the relative position to the local frame (the output vector will point to the other state)" alt="" coords="244,55,407,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,56,231,61,230,66,193,62"/>
+</map>

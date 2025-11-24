@@ -1,7 +1,7 @@
 var classscrimmage_1_1controller_1_1JSBSimModelControllerDirect =
 [
-    [ "init", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a01480611fd46e6d319f19566dbe9baae", null ],
-    [ "step", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a7bd0778435e1223cb06ba0b1cda0f289", null ],
+    [ "init", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a79c30b0b24258c35463f9d3fcca513fb", null ],
+    [ "step", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a4cfed19c79ecef4dac916ff4e0689a2a", null ],
     [ "use_pitch_", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a382aa24d7facb5767be94cce508766cf", null ],
     [ "input_vel_idx_", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#aacb869acd4579958a7df431425032614", null ],
     [ "input_roll_idx_", "classscrimmage_1_1controller_1_1JSBSimModelControllerDirect.html#a00fb7d2c061bf28bf34977ff69f41815", null ],

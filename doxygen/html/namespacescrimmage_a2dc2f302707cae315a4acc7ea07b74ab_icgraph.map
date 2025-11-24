@@ -1,4 +1,7 @@
 <map id="scrimmage::results_to_neighbors" name="scrimmage::results_to_neighbors">
-<area shape="rect" id="node2" href="$classscrimmage_1_1RTree.html#a42940d6860eab96f6bfdecea42fa1355" title="scrimmage::RTree::nearest\l_n_neighbors" alt="" coords="206,5,401,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1RTree.html#a54705b0189de015249aaab1f3b2e9b8a" title="scrimmage::RTree::neighbors\l_in_range" alt="" coords="199,71,408,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="264,37,411,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1RTree.html#afba3789a25f03a53d7de6a1c2f473a94" title=" " alt="" coords="13,5,208,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,48,208,42,208,36,251,42"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1RTree.html#a800639920a1f9cffd7bb16fb27d63eb5" title=" " alt="" coords="5,69,216,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="251,72,217,77,216,72,250,67"/>
 </map>

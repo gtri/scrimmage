@@ -1,5 +1,13 @@
 <map id="scrimmage::autonomy::TrajectoryRecordPlayback" name="scrimmage::autonomy::TrajectoryRecordPlayback">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="254,145,465,633"/>
-<area shape="rect" id="node3" title="STL class. " alt="" coords="316,5,403,83"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1CSV.html" title="{scrimmage::CSV\n|# next_row_\l|+ ~CSV()\l+ set_column_headers()\l+ set_column_headers()\l+ append()\l+ open_output()\l+ output_is_open()\l+ close_output()\l+ to_csv()\l+ read_csv()\l+ read_csv_from_string()\l+ set_no_value_string()\l+ to_string()\l+ rows()\l+ at()\l+ equals()\l# get_csv_line_elements()\l# write_headers()\l# write_row()\l&#45; headers_to_string()\l&#45; rows_to_string()\l&#45; row_to_string()\l}" alt="" coords="489,204,681,575"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="355,796,572,956"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="222,163,428,689"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="413,701,442,795,437,797,408,703"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="286,5,364,71"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="286,43,233,49,171,63,140,75,111,91,85,111,63,135,50,157,39,185,22,255,11,337,8,426,12,514,22,596,39,666,63,717,89,748,119,775,153,798,189,816,265,844,340,860,338,866,264,849,187,821,150,802,116,779,85,752,59,720,34,668,17,597,6,515,3,426,6,337,16,254,34,184,45,155,59,132,81,107,108,86,138,70,169,58,232,43,285,38"/>
+<area shape="poly" id="edge2_Node000002_Node000006" title=" " alt="" coords="328,71,328,147,322,147,322,71"/>
+<area shape="rect" id="Node000096" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="452,133,640,719"/>
+<area shape="poly" id="edge6_Node000096_Node000006" title=" " alt="" coords="366,48,403,66,438,93,457,118,453,121,434,97,401,70,364,53"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="664,386,871,466"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="762,467,747,520,725,585,694,655,655,720,623,758,587,792,584,788,619,754,651,717,690,653,720,584,742,518,757,466"/>
+<area shape="poly" id="edge5_Node000001_Node000096" title=" " alt="" coords="495,719,484,780,479,779,490,718"/>
 </map>

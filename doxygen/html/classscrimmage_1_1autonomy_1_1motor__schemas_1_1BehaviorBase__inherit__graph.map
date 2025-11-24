@@ -1,6 +1,11 @@
 <map id="scrimmage::autonomy::motor_schemas::BehaviorBase" name="scrimmage::autonomy::motor_schemas::BehaviorBase">
-<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html" title="{scrimmage::autonomy\l::motor_schemas::AvoidEntityMS\n|# sphere_of_influence_\l# minimum_range_\l# avoid_non_team_\l# circle_shape_\l# line_shape_\l# show_shapes_\l|+ AvoidEntityMS()\l+ init()\l+ step_autonomy()\l# avoidance_vectors()\l}" alt="" coords="5,843,239,1052"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html" title="{scrimmage::autonomy\l::motor_schemas::MoveToGoalMS\n|# wp_\l# wp_local_\l# speed_pid_\l|+ MoveToGoalMS()\l+ init()\l+ step_autonomy()\l}" alt="" coords="263,872,503,1023"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1autonomy_1_1TrailMS.html" title="{scrimmage::autonomy\l::TrailMS\n|# trail_id_\l# trail_range_\l# show_track_point_\l# aa_angle_az_\l# aa_angle_elev_\l# sphere_shape_\l|+ init()\l+ step_autonomy()\l}" alt="" coords="528,857,695,1037"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# logging_msg_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="278,5,489,508"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="193,699,417,979"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1TrailMS.html" title=" " alt="" coords="5,1047,167,1247"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="199,992,159,1048,155,1045,195,989"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html" title=" " alt="" coords="191,1027,419,1267"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="307,992,307,1026,302,1026,302,992"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html" title=" " alt="" coords="443,1067,678,1227"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="428,983,497,1065,492,1068,424,986"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="202,5,407,651"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,664,307,698,302,698,302,664"/>
 </map>

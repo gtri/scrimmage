@@ -1,2 +1,13 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/proto/ProtoConversions.h" name="/root/scrimmage/scrimmage/include/scrimmage/proto/ProtoConversions.h">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="135,5,341,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,108,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,62,94,105,92,100,181,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="133,108,175,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,62,177,100,173,96,210,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="199,108,277,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="241,60,241,94,235,94,235,60"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="301,108,425,133"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="278,58,337,98,334,102,275,62"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="449,108,512,133"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="313,58,437,101,435,106,311,63"/>
 </map>

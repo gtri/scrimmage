@@ -1,4 +1,7 @@
 <map id="scrimmage::motion::SimpleQuadrotor::Controller" name="scrimmage::motion::SimpleQuadrotor::Controller">
-<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html" title="{scrimmage::controller\l::SimpleQuadrotorControllerLQR\n|# u_\l# vel_pid_\l# prev_yaw_\l# max_vel_\l|+ init()\l+ step()\l+ u()\l}" alt="" coords="5,344,232,509"/>
-<area shape="rect" id="node2" href="$classscrimmage_1_1Controller.html" title="{scrimmage::Controller\n|# state_\l# desired_state_\l|+ init()\l+ step()\l+ set_state()\l+ set_desired_state()\l+ close()\l}" alt="" coords="37,5,201,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="19,179,215,259"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html" title=" " alt="" coords="5,307,228,487"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="119,273,119,307,114,307,114,273"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Controller.html" title=" " alt="" coords="37,5,196,131"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,144,119,179,114,179,114,144"/>
 </map>

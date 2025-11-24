@@ -1,0 +1,17 @@
+<map id="auction_assign.AuctionAssign.step_autonomy" name="auction_assign.AuctionAssign.step_autonomy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,154,252,194"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Contact.html#a9e8b2a2eb8ef0ed06acb2c3e0ed6bd92" title=" " alt="" coords="309,5,482,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,152,212,96,254,66,299,40,316,32,318,37,301,44,257,70,215,100,152,156"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#a7a364cceb809cd85528056f33b15be73" title=" " alt="" coords="315,55,475,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,151,227,120,299,89,322,81,324,86,301,94,229,125,167,156"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1ID.html#a25211a234ba6e3de01db5063a7c498f6" title=" " alt="" coords="327,104,464,129"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="222,151,322,130,323,135,223,157"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a3ea22698e2282acd00dd43816ce29d11" title=" " alt="" coords="311,154,480,194"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="252,171,297,171,297,177,252,177"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1PubSub.html#ad2561d24e9da845171ccf7f88718bc11" title=" " alt="" coords="300,219,491,244"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="223,191,323,213,322,218,222,197"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1EntityPlugin.html#a1de39d9c6669e944281273d913d76395" title=" " alt="" coords="305,269,486,309"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="170,192,301,253,323,262,321,266,299,258,168,197"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1PubSub.html#a8eadc2b16383c8ecdee202f43d726e43" title=" " alt="" coords="301,333,490,359"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="150,192,213,255,255,289,301,318,319,326,317,331,299,323,252,293,209,259,146,196"/>
+</map>

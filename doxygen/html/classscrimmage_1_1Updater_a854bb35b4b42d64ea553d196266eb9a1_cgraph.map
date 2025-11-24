@@ -1,6 +1,12 @@
 <map id="scrimmage::Updater::draw_plane" name="scrimmage::Updater::draw_plane">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title="scrimmage::ConfigParse\l::directory" alt="" coords="435,32,613,73"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title="scrimmage::ConfigParse\l::params" alt="" coords="208,28,387,69"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title="scrimmage::ConfigParse\l::parse" alt="" coords="208,93,387,135"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Quaternion.html#a9ec30ec0f7abcce4258d19100533010d" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="211,159,384,200"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,59,160,99"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2" title=" " alt="" coords="435,31,613,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,57,155,32,207,12,270,4,333,5,393,13,446,25,445,30,392,18,333,10,270,9,209,17,158,37,114,61"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="208,27,387,67"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,65,194,60,195,65,161,70"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6" title=" " alt="" coords="208,91,387,131"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="161,88,195,93,194,98,160,93"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="210,155,385,195"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="121,96,209,140,226,147,224,152,207,145,119,101"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="373,88,434,72,435,77,375,93"/>
 </map>

@@ -1,4 +1,13 @@
 <map id="scrimmage::motion::FixedWing6DOF::init" name="scrimmage::motion::FixedWing6DOF::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b" title="scrimmage::Angles::\langle_pi" alt="" coords="208,5,361,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a604a2c79cd3d0003809edf0fc6a4699c" title="scrimmage::get_vec\l_of_vecs" alt="" coords="209,71,361,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,133,163,173"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="213,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,131,152,93,209,55,222,49,224,53,212,60,155,98,109,135"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="221,69,375,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="151,131,217,111,218,116,152,136"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="214,133,382,173"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="163,151,200,151,200,156,163,156"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="211,197,385,237"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="152,171,218,191,217,196,151,176"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="220,261,376,301"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="109,172,155,209,212,247,224,253,222,258,209,252,152,213,106,176"/>
 </map>

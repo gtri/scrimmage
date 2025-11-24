@@ -1,5 +1,24 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title="scrimmage::get" alt="" coords="224,5,347,32"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title="scrimmage::str2container" alt="" coords="192,56,379,83"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#aaad7545419d1346694d31a4aa5da440f" title="scrimmage::vec2eigen" alt="" coords="202,107,369,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,299,148,325"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="233,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,299,87,252,108,186,124,151,143,116,166,83,194,55,218,40,221,45,198,59,170,87,147,119,128,153,113,188,92,254,83,300"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="233,69,415,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="80,298,93,262,117,214,150,163,171,139,194,119,219,105,221,110,198,124,175,143,155,166,121,216,98,264,85,300"/>
+<area shape="rect" id="Node000005" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="262,134,386,159"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="83,298,124,235,156,200,195,170,220,158,247,150,249,156,222,163,197,174,160,203,128,239,87,301"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1interaction_1_1TerrainGenerator.html#a7b7f6ce43427b75eeee796637ff882f8" title=" " alt="" coords="237,184,411,224"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="93,297,137,265,195,234,223,223,225,228,197,238,140,270,96,301"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a6c1203ebbd6cce7521df931ed5b9a0a5" title=" " alt="" coords="237,248,411,288"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="148,297,223,283,224,288,149,302"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#ac13bd8c7f6551605a39436ac4761cb0e" title=" " alt="" coords="237,336,411,376"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="149,322,224,336,223,341,148,327"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1interaction_1_1TerrainGenerator.html#a963924903fa0e5dd9e77bfb20ea4a4b5" title=" " alt="" coords="237,401,411,455"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="96,323,141,354,197,386,225,397,223,402,195,390,138,358,93,327"/>
+<area shape="rect" id="Node000011" href="$namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb" title=" " alt="" coords="229,479,419,505"/>
+<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="86,324,102,353,126,392,158,432,197,464,217,474,215,479,195,469,154,435,121,395,97,356,81,326"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1interaction_1_1TerrainGenerator.html#a7c3ef531ce94319d1c584159ae53278b" title=" " alt="" coords="196,529,452,569"/>
+<area shape="poly" id="edge10_Node000001_Node000013" title=" " alt="" coords="84,324,97,362,120,413,153,468,174,493,198,514,207,520,204,525,194,518,170,496,149,471,115,416,92,364,79,326"/>
+<area shape="rect" id="Node000014" href="$namespacescrimmage.html#aaad7545419d1346694d31a4aa5da440f" title=" " alt="" coords="239,594,409,619"/>
+<area shape="poly" id="edge11_Node000001_Node000014" title=" " alt="" coords="82,325,91,374,110,443,126,481,145,517,169,551,198,579,227,595,225,600,194,583,165,554,140,520,121,483,105,445,86,375,77,326"/>
+<area shape="poly" id="edge7_Node000009_Node000009" title=" " alt="" coords="278,336,276,326,283,317,299,311,324,309,353,312,368,319,366,324,351,317,324,315,300,317,286,321,281,327,283,335"/>
 </map>

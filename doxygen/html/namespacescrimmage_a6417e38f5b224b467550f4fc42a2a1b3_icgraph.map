@@ -1,8 +1,25 @@
 <map id="scrimmage::get_vec" name="scrimmage::get_vec">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#ac1d1ec8da179e0c4295fdc802c4a7ebc" title="scrimmage::autonomy\l::motor_schemas::BehaviorBase\l::configure_contacts" alt="" coords="205,5,436,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1NoisyState.html#aaa35becf0a5e3bd453037303eda5e8e0" title="scrimmage::sensor::\lNoisyState::init" alt="" coords="244,85,397,126"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#a8934fd24bd425ed9ae10564d7f0706e4" title="scrimmage::sensor::\lSimpleINS::init" alt="" coords="244,150,397,191"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title="scrimmage::sensor::\lContactBlobCamera::init" alt="" coords="231,215,410,257"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title="scrimmage::sensor::\lRayTrace::init" alt="" coords="244,281,397,322"/>
-<area shape="rect" id="node7" href="$AutonomyExecutor_8cpp.html#ab7e242829b3aa3025778f519e989f77e" title="REGISTER_PLUGIN" alt="" coords="251,347,390,373"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="285,348,440,373"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#ac1d1ec8da179e0c4295fdc802c4a7ebc" title=" " alt="" coords="5,5,237,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="355,335,343,281,321,211,286,138,263,104,236,75,219,62,222,58,239,71,267,101,290,135,326,209,348,279,360,334"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1Boundary.html#ae8375eccd7dcc621b075afcf624cb412" title=" " alt="" coords="35,85,208,125"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="352,335,337,292,313,239,279,185,259,160,236,139,207,123,210,118,239,135,263,156,284,182,318,236,342,290,357,334"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1autonomy_1_1AutonomyExecutor.html#a5f9872b0e87bacb14ce994a31699db16" title=" " alt="" coords="30,149,213,189"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="346,337,303,270,272,233,236,203,212,190,214,185,239,198,276,230,308,266,351,334"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1MotorSchemas.html#a8fe2c93f2a15bcc9f6266cb5f92ff7be" title=" " alt="" coords="37,213,206,253"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="336,340,292,303,236,267,205,254,207,249,239,262,295,298,340,336"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a7cec9401d5151523ad5f4f26b22656ad" title=" " alt="" coords="31,277,212,317"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="300,347,197,319,198,314,301,342"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1sensor_1_1NoisyContacts.html#a83dcbeef9598e2bd9322c80628eb209f" title=" " alt="" coords="44,341,199,381"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="272,363,199,363,199,358,272,358"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1sensor_1_1NoisyState.html#aaa35becf0a5e3bd453037303eda5e8e0" title=" " alt="" coords="44,405,199,445"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="301,380,198,407,197,402,300,374"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a0d4c5907e9d79f66cc48fadc1431247c" title=" " alt="" coords="44,469,199,509"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="340,385,295,423,239,459,200,474,198,469,236,454,292,419,336,381"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1sensor_1_1SimpleINS.html#a8934fd24bd425ed9ae10564d7f0706e4" title=" " alt="" coords="44,533,199,573"/>
+<area shape="poly" id="edge9_Node000001_Node000012" title=" " alt="" coords="351,387,308,455,276,492,239,523,200,541,198,536,236,518,272,488,303,452,346,384"/>
+<area shape="rect" id="Node000013" href="$RandomAttrit_8cpp.html#a9081dab1642ad9d1a90688ec44aba6d0" title=" " alt="" coords="50,597,193,623"/>
+<area shape="poly" id="edge10_Node000001_Node000013" title=" " alt="" coords="357,388,343,431,319,486,285,541,263,565,239,587,217,599,194,607,192,602,215,594,236,582,259,562,280,537,314,483,338,429,352,386"/>
+<area shape="rect" id="Node000014" href="$RigidBody6DOFStateSensor_8cpp.html#aa336932d5a6ec110ef78b6d7a55d9b59" title=" " alt="" coords="50,647,193,672"/>
+<area shape="poly" id="edge11_Node000001_Node000014" title=" " alt="" coords="360,387,348,440,326,508,310,543,291,577,267,609,239,636,217,649,194,657,192,652,215,644,236,632,263,605,286,574,305,541,321,506,343,439,355,386"/>
 </map>

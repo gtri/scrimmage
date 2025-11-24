@@ -1,3 +1,5 @@
 <map id="scrimmage::Timer::set_iterate_rate" name="scrimmage::Timer::set_iterate_rate">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a1390b96c4e0b0ea9c1abc7c404027b6b" title="scrimmage::SimControl\l::setup_timer" alt="" coords="220,5,393,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,5,397,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a1390b96c4e0b0ea9c1abc7c404027b6b" title=" " alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,28,180,28,180,23,215,23"/>
 </map>

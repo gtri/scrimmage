@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/Battery.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/Battery.h">
-<area shape="rect" id="node2" href="$MotionBattery_8h.html" title="Brief file description. " alt="" coords="5,109,209,180"/>
-<area shape="rect" id="node3" href="$Battery_8cpp.html" title="Brief file description. " alt="" coords="233,124,437,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="118,5,329,60"/>
+<area shape="rect" id="Node000002" href="$MotionBattery_8h.html" title="Brief file description." alt="" coords="5,108,212,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,72,146,110,143,106,183,68"/>
+<area shape="rect" id="Node000004" href="$Battery_8cpp.html" title="Brief file description." alt="" coords="236,123,443,163"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="264,68,321,121,317,124,260,72"/>
 </map>

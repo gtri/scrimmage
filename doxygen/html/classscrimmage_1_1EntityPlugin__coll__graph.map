@@ -1,4 +1,25 @@
 <map id="scrimmage::EntityPlugin" name="scrimmage::EntityPlugin">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Plugin.html" title="{scrimmage::Plugin\n|# name_set_\l|+ Plugin()\l+ ~Plugin()\l+ set_name()\l+ name()\l+ type()\l}" alt="" coords="5,130,145,266"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1VariableIO.html" title="{scrimmage::VariableIO\n|# next_input_variable\l_index_\l# input_\l# output_\l|+ VariableIO()\l+ output_variable_index()\l+ input_variable_index()\l+ add_input_variable()\l+ add_output_variable()\l+ declare()\l+ declare()\l+ input()\l+ output()\l+ output()\l+ exists()\l+ exists()\l+ declared_input_variables()\l+ declared_output_variables()\l+ type_map()\l+ input()\l+ output()\l+ set_input()\l+ set_output()\l}" alt="" coords="349,5,564,391"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="953,508,1128,1288"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Plugin.html" title=" " alt="" coords="5,153,140,298"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,311,115,380,132,413,155,444,199,489,246,532,349,610,459,678,572,735,683,783,786,821,954,873,952,878,785,826,681,788,570,740,457,683,346,615,243,537,195,493,151,447,128,416,110,382,86,312"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="165,193,343,258"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="265,257,298,346,324,397,357,444,424,514,498,579,576,639,656,693,810,784,940,849,937,854,808,789,653,698,573,643,495,583,420,518,353,447,320,400,293,349,260,259"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="368,193,543,258"/>
+<area shape="poly" id="edge3_Node000001_Node000017" title=" " alt="" coords="468,257,502,345,527,396,558,444,601,500,649,555,751,658,852,748,942,821,938,825,849,752,747,662,645,559,597,504,553,447,523,398,497,347,463,259"/>
+<area shape="rect" id="Node000082" title=" " alt="" coords="567,178,727,273"/>
+<area shape="poly" id="edge4_Node000001_Node000082" title=" " alt="" coords="666,272,699,354,742,444,790,529,843,614,946,765,942,768,839,616,786,532,737,447,694,356,661,274"/>
+<area shape="rect" id="Node000084" title=" " alt="" coords="751,178,911,273"/>
+<area shape="poly" id="edge5_Node000001_Node000084" title=" " alt="" coords="848,272,951,601,946,602,843,274"/>
+<area shape="rect" id="Node000086" href="$classscrimmage_1_1VariableIO.html" title=" " alt="" coords="935,5,1146,445"/>
+<area shape="poly" id="edge6_Node000001_Node000086" title=" " alt="" coords="1043,446,1043,492,1038,492,1038,446"/>
+<area shape="rect" id="Node000065" title=" " alt="" coords="1170,193,1359,258"/>
+<area shape="poly" id="edge7_Node000001_Node000065" title=" " alt="" coords="1257,259,1136,621,1131,619,1252,257"/>
+<area shape="rect" id="Node000089" title=" " alt="" coords="1384,185,1561,265"/>
+<area shape="poly" id="edge8_Node000001_Node000089" title=" " alt="" coords="1460,266,1423,351,1374,447,1318,536,1257,624,1140,779,1136,776,1253,621,1313,533,1369,444,1419,348,1455,264"/>
+<area shape="rect" id="Node000090" title=" " alt="" coords="1585,185,1747,265"/>
+<area shape="poly" id="edge9_Node000001_Node000090" title=" " alt="" coords="1658,266,1628,353,1605,401,1576,447,1527,508,1474,566,1358,673,1244,764,1143,835,1140,831,1240,760,1355,669,1470,563,1523,504,1572,444,1600,399,1623,351,1653,265"/>
+<area shape="rect" id="Node000091" title=" " alt="" coords="1771,185,1921,265"/>
+<area shape="poly" id="edge10_Node000001_Node000091" title=" " alt="" coords="1841,266,1830,307,1814,354,1791,403,1761,447,1692,521,1614,590,1531,651,1446,707,1362,755,1282,797,1144,859,1142,855,1279,792,1359,750,1443,702,1528,647,1611,585,1688,518,1757,444,1787,400,1809,352,1825,305,1836,265"/>
+<area shape="rect" id="Node000079" title=" " alt="" coords="1945,185,2139,265"/>
+<area shape="poly" id="edge11_Node000001_Node000079" title=" " alt="" coords="2034,266,2019,307,1999,355,1971,404,1936,447,1843,530,1740,605,1631,670,1521,726,1413,775,1312,815,1145,871,1143,866,1310,810,1411,770,1519,722,1629,665,1737,600,1839,526,1932,443,1966,401,1994,353,2014,305,2029,265"/>
 </map>

@@ -1,5 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="23,124,244,151"/>
-<area shape="rect" id="node5" href="$PID_8h.html" title="Brief file description. " alt="" coords="319,124,511,151"/>
-<area shape="rect" id="node6" href="$Angles_8h.html" title="Brief file description. " alt="" coords="536,124,726,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="195,5,542,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="35,196,86,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,63,137,74,83,87,40,104,13,124,8,139,12,155,23,171,37,185,33,189,19,174,7,157,3,139,9,121,38,100,82,82,136,69,194,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="339,196,398,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="542,45,618,56,652,64,680,75,701,89,712,106,712,126,699,150,679,165,649,177,571,195,485,204,412,209,411,203,485,199,570,189,647,172,676,160,695,146,707,125,707,107,697,92,678,80,650,69,617,61,542,50"/>
+<area shape="rect" id="Node000004" href="$PID_8h.html" title="Brief file description." alt="" coords="271,123,466,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="371,75,371,109,366,109,366,75"/>
+<area shape="rect" id="Node000005" href="$Angles_8h.html" title="Brief file description." alt="" coords="491,123,684,148"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="449,72,549,115,547,120,446,77"/>
+<area shape="rect" id="Node000006" href="$Controller_8h.html" title="Brief file description." alt="" coords="23,123,247,148"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="285,77,178,120,176,115,283,72"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="371,148,371,182,366,182,366,148"/>
+<area shape="poly" id="edge7_Node000006_Node000002" title=" " alt="" coords="125,150,84,188,81,185,121,146"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="173,145,327,192,325,197,172,151"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="scrimmage::autonomy::WaypointListProcessor::process" name="scrimmage::autonomy::WaypointListProcessor::process">
-<area shape="rect" id="node2" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a583617dde094595fa4d1e17c7c5809e2" title="scrimmage::autonomy\l::Waypoint::is_within\l_tolerance" alt="" coords="230,5,397,61"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1WaypointListProcessor.html#a800ad394e0623a160e4335af695d4667" title="scrimmage::autonomy\l::WaypointListProcessor\l::next_waypoint" alt="" coords="227,85,400,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,183,100"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1Waypoint.html#a583617dde094595fa4d1e17c7c5809e2" title=" " alt="" coords="235,5,404,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,54,221,47,222,53,183,60"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1WaypointListProcessor.html#a800ad394e0623a160e4335af695d4667" title=" " alt="" coords="231,84,408,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,85,218,91,217,96,182,90"/>
 </map>

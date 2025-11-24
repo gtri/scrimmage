@@ -1,4 +1,7 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/viewer/Grid.h" name="/root/scrimmage/scrimmage/include/scrimmage/viewer/Grid.h">
-<area shape="rect" id="node2" href="$Grid_8cpp.html" title="Brief file description. " alt="" coords="5,95,209,136"/>
-<area shape="rect" id="node3" href="$Updater_8cpp.html" title="Brief file description. " alt="" coords="233,95,437,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="103,5,344,45"/>
+<area shape="rect" id="Node000002" href="$Grid_8cpp.html" title="Brief file description." alt="" coords="5,93,212,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,56,136,95,132,91,185,52"/>
+<area shape="rect" id="Node000003" href="$Updater_8cpp.html" title="Brief file description." alt="" coords="236,93,443,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,52,315,91,312,95,258,56"/>
 </map>

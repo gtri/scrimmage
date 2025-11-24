@@ -1,5 +1,15 @@
 <map id="scrimmage::motion::JSBSimModel::init" name="scrimmage::motion::JSBSimModel::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title="scrimmage::Angles::\ldeg2rad" alt="" coords="209,5,362,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="209,71,362,112"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title="scrimmage::str2bool" alt="" coords="208,137,363,163"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,156,163,196"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e" title=" " alt="" coords="219,5,390,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,154,146,105,176,78,209,55,221,49,224,53,212,60,180,83,150,109,104,157"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb" title=" " alt="" coords="227,69,382,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="128,153,210,119,229,112,231,117,212,124,130,158"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="211,134,399,159"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="162,163,197,158,197,164,163,168"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title=" " alt="" coords="227,184,382,224"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="163,183,214,190,213,195,162,189"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="227,249,383,274"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="124,194,212,234,238,242,236,247,210,238,122,199"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1VariableIO.html#a7605ae808a9ea0a55b6aab08e07a812d" title=" " alt="" coords="219,299,390,339"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="106,194,152,238,212,283,226,291,224,295,209,288,148,243,102,198"/>
 </map>

@@ -1,4 +1,8 @@
 <map id="scrimmage::Log::init" name="scrimmage::Log::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Log.html#afeec1f6ac065866ac39b40ed0b00493d" title="scrimmage::Log::open_file" alt="" coords="205,5,396,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b" title="scrimmage::Log::parse" alt="" coords="216,56,385,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,43,160,68"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Log.html#afeec1f6ac065866ac39b40ed0b00493d" title=" " alt="" coords="208,5,401,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,40,215,30,216,36,159,45"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b" title=" " alt="" coords="219,79,390,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,65,213,74,212,79,160,70"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="269,80,261,70,265,60,280,54,305,52,335,56,348,65,344,69,333,61,305,57,281,59,268,64,266,70,273,77"/>
 </map>

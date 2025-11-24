@@ -1,9 +1,17 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/network/Interface.h" name="/root/scrimmage/scrimmage/include/scrimmage/network/Interface.h">
-<area shape="rect" id="node2" href="$External_8cpp.html" title="Brief file description. " alt="" coords="5,117,209,158"/>
-<area shape="rect" id="node3" href="$Interface_8cpp.html" title="Brief file description. " alt="" coords="233,117,437,158"/>
-<area shape="rect" id="node4" href="$BulletCollision_8cpp.html" title="Brief file description. " alt="" coords="461,109,695,165"/>
-<area shape="rect" id="node5" href="$SimControl_8cpp.html" title="Brief file description. " alt="" coords="719,117,938,158"/>
-<area shape="rect" id="node6" href="$SimUtils_8cpp.html" title="Brief file description. " alt="" coords="963,117,1167,158"/>
-<area shape="rect" id="node7" href="$Updater_8cpp.html" title="Brief file description. " alt="" coords="1191,117,1395,158"/>
-<area shape="rect" id="node8" href="$Viewer_8cpp.html" title="Brief file description. " alt="" coords="1419,117,1623,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="744,5,951,60"/>
+<area shape="rect" id="Node000002" href="$External_8cpp.html" title="Brief file description." alt="" coords="5,115,212,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="730,47,496,72,224,111,187,118,186,113,223,105,495,67,730,42"/>
+<area shape="rect" id="Node000003" href="$Interface_8cpp.html" title="Brief file description." alt="" coords="236,115,443,155"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="731,58,456,111,422,118,420,113,455,105,730,52"/>
+<area shape="rect" id="Node000004" href="$BulletCollision_8cpp.html" title="Brief file description." alt="" coords="467,108,713,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="769,67,658,110,656,105,767,62"/>
+<area shape="rect" id="Node000005" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="737,115,958,155"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="850,74,850,115,845,115,845,74"/>
+<area shape="rect" id="Node000006" href="$SimUtils_8cpp.html" title="Brief file description." alt="" coords="983,115,1189,155"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="923,63,1042,113,1040,118,921,68"/>
+<area shape="rect" id="Node000007" href="$Updater_8cpp.html" title="Brief file description." alt="" coords="1213,115,1420,155"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="965,55,1203,105,1235,113,1234,118,1201,111,964,60"/>
+<area shape="rect" id="Node000008" href="$Viewer_8cpp.html" title="Brief file description." alt="" coords="1444,115,1651,155"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="965,43,1183,68,1433,105,1470,113,1469,118,1432,111,1182,73,964,48"/>
 </map>

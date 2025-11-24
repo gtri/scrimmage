@@ -1,3 +1,5 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.cpp" name="/root/scrimmage/scrimmage/src/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.cpp">
-<area shape="rect" id="node2" href="$IMUErrorSimulator_8h.html" title="Class for simulating randomized IMU error. " alt="" coords="5,109,260,151"/>
+<area shape="rect" id="Node000001" title="Class for simulating randomized IMU error." alt="" coords="13,5,257,60"/>
+<area shape="rect" id="Node000002" href="$IMUErrorSimulator_8h.html" title="Class for simulating randomized IMU error." alt="" coords="5,108,264,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,60,137,94,132,94,132,60"/>
 </map>

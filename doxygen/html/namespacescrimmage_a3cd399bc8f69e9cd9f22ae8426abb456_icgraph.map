@@ -1,8 +1,57 @@
 <map id="scrimmage::get" name="scrimmage::get">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad98e4c04edf155d6bfc185aa237bd9d9" title="Generate an entity given the entity description ID and parameters. " alt="" coords="204,5,377,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe" title="scrimmage::controller\l::SimpleQuadrotorController\lLQR::init" alt="" coords="190,70,391,126"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1controller_1_1JSBSimModelControllerHeadingPID.html#a8991c03b249a622aeeb525177b696e66" title="scrimmage::controller\l::JSBSimModelControllerHeading\lPID::init" alt="" coords="176,150,405,206"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1interaction_1_1GroundCollision.html#a1d313c65cddca8c27931dec7182e615e" title="scrimmage::interaction\l::GroundCollision::init" alt="" coords="205,229,376,271"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#ae813a8f4e98ffd378df9ca81c9588422" title="scrimmage::motion::\lRigidBody6DOF::init" alt="" coords="213,295,368,336"/>
-<area shape="rect" id="node7" href="$AutonomyExecutor_8cpp.html#ab7e242829b3aa3025778f519e989f77e" title="REGISTER_PLUGIN" alt="" coords="221,361,360,387"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,810,365,835"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ab8f35fc7c6d88211822c220c0bf1ec13" title=" " alt="" coords="12,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="299,796,295,646,280,425,267,311,248,205,223,118,208,85,191,59,178,47,182,43,195,56,213,82,228,117,253,204,272,310,286,425,300,646,304,796"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1SimControl.html#a66afa15c394f9a6676dcbaeba76f10d4" title="Generate an entity given the entity description ID, parameters, and plugin specific params...." alt="" coords="12,69,187,109"/>
+<area shape="poly" id="edge2_Node000001_Node000011" title=" " alt="" coords="299,796,293,657,277,456,263,351,244,256,221,177,207,146,191,123,178,111,182,107,195,120,211,144,226,175,250,255,268,351,282,455,298,657,304,796"/>
+<area shape="rect" id="Node000012" href="$namespacescrimmage.html#a5363ee82ee8f87e45c1e5332c074fbbd" title=" " alt="" coords="22,134,177,159"/>
+<area shape="poly" id="edge3_Node000001_Node000012" title=" " alt="" coords="299,796,292,665,276,478,262,381,243,293,220,221,206,193,191,173,175,160,178,156,195,169,211,191,225,219,249,292,267,380,281,477,298,665,304,796"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Entity.html#ad789c0b1940094ffd97ba9f655ba4802" title=" " alt="" coords="15,183,184,209"/>
+<area shape="poly" id="edge4_Node000001_Node000013" title=" " alt="" coords="298,796,290,674,272,502,258,414,240,333,218,267,205,242,191,223,175,211,178,207,195,219,210,239,223,265,245,332,263,413,277,501,296,673,304,796"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1motion_1_1RigidBody6DOF.html#ae813a8f4e98ffd378df9ca81c9588422" title=" " alt="" coords="21,233,178,273"/>
+<area shape="poly" id="edge5_Node000001_Node000014" title=" " alt="" coords="297,797,287,687,267,534,253,456,235,385,215,327,191,287,176,275,180,271,195,284,220,325,240,384,258,455,272,533,292,686,303,796"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1motion_1_1SimpleAircraft.html#a887f053465094c21e3052f1009f43e27" title=" " alt="" coords="21,297,178,337"/>
+<area shape="poly" id="edge6_Node000001_Node000015" title=" " alt="" coords="297,797,285,699,263,565,248,498,232,436,213,386,191,351,177,339,180,335,195,348,217,383,237,434,254,496,268,564,290,698,302,796"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1interaction_1_1Boundary.html#ae8375eccd7dcc621b075afcf624cb412" title=" " alt="" coords="13,361,186,401"/>
+<area shape="poly" id="edge7_Node000001_Node000016" title=" " alt="" coords="300,796,298,722,285,620,271,565,252,511,226,460,191,415,177,403,180,399,195,411,230,457,257,509,276,564,290,619,304,721,306,796"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1autonomy_1_1AutonomyExecutor.html#a5f9872b0e87bacb14ce994a31699db16" title=" " alt="" coords="8,425,191,465"/>
+<area shape="poly" id="edge8_Node000001_Node000017" title=" " alt="" coords="299,797,293,733,277,648,263,603,245,558,221,516,191,479,176,467,180,463,195,475,226,513,250,556,268,601,282,647,298,732,304,796"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1autonomy_1_1Boids.html#a3f9725e5e79ed5a54cb81d673b633a40" title=" " alt="" coords="15,489,184,529"/>
+<area shape="poly" id="edge9_Node000001_Node000018" title=" " alt="" coords="297,797,287,744,269,676,238,605,217,572,192,543,176,532,179,527,195,539,221,569,243,602,274,674,293,743,302,796"/>
+<area shape="rect" id="Node000019" href="$classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="15,553,184,593"/>
+<area shape="poly" id="edge10_Node000001_Node000019" title=" " alt="" coords="293,797,281,756,260,705,231,652,212,628,192,607,174,596,177,591,195,603,216,625,235,649,265,702,286,754,298,796"/>
+<area shape="rect" id="Node000020" href="$classscrimmage_1_1autonomy_1_1MotorSchemas.html#a8fe2c93f2a15bcc9f6266cb5f92ff7be" title=" " alt="" coords="15,617,184,657"/>
+<area shape="poly" id="edge11_Node000001_Node000020" title=" " alt="" coords="288,799,251,735,224,701,192,671,172,660,175,655,195,667,228,697,255,732,293,796"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1autonomy_1_1Straight.html#a289f932253e4bf2fb6012a3d275e4f5e" title=" " alt="" coords="15,681,184,721"/>
+<area shape="poly" id="edge12_Node000001_Node000021" title=" " alt="" coords="278,802,239,768,192,736,167,724,169,719,195,731,242,764,281,798"/>
+<area shape="rect" id="Node000022" href="$classscrimmage_1_1MissionParse.html#a0d5c1b4d591072ae520dcfd93a8b597b" title=" " alt="" coords="5,745,193,785"/>
+<area shape="poly" id="edge13_Node000001_Node000022" title=" " alt="" coords="244,809,170,788,172,783,245,804"/>
+<area shape="rect" id="Node000024" href="$MoveToGoalMS_8cpp.html#a3c243b06815d3c5e6359653de046c505" title=" " alt="" coords="28,810,171,835"/>
+<area shape="poly" id="edge14_Node000001_Node000024" title=" " alt="" coords="227,825,171,825,171,820,227,820"/>
+<area shape="rect" id="Node000025" href="$JSBSimModelControllerHeadingPID_8cpp.html#a53ad5e9faa92f0e50c60abcfce7e4591" title=" " alt="" coords="28,859,171,885"/>
+<area shape="poly" id="edge15_Node000001_Node000025" title=" " alt="" coords="238,841,153,862,152,857,236,836"/>
+<area shape="rect" id="Node000026" href="$SimpleQuadrotorControllerLQR_8cpp.html#a32768e8603ddece060a5f3e1351ab0f8" title=" " alt="" coords="28,909,171,934"/>
+<area shape="poly" id="edge16_Node000001_Node000026" title=" " alt="" coords="278,846,240,873,194,898,159,911,158,906,192,894,237,868,275,842"/>
+<area shape="rect" id="Node000027" href="$BulletCollision_8cpp.html#a1164af45f662a3c09b13f232cbcf78c4" title=" " alt="" coords="28,958,171,983"/>
+<area shape="poly" id="edge17_Node000001_Node000027" title=" " alt="" coords="289,849,250,899,224,925,195,948,167,960,165,956,192,943,221,921,246,895,285,845"/>
+<area shape="rect" id="Node000028" href="$ExternalForceField_8cpp.html#ae5afa86d570d00d404da423e4676f6c0" title=" " alt="" coords="28,1007,171,1033"/>
+<area shape="poly" id="edge18_Node000001_Node000028" title=" " alt="" coords="295,850,280,883,259,923,230,963,195,997,171,1010,169,1005,192,993,226,959,254,920,276,881,290,848"/>
+<area shape="rect" id="Node000029" href="$GroundCollision_8cpp.html#acac69546fb042df650b910892cdd8706" title=" " alt="" coords="28,1057,171,1082"/>
+<area shape="poly" id="edge19_Node000001_Node000029" title=" " alt="" coords="299,849,287,892,267,945,237,1000,217,1024,195,1046,172,1060,169,1055,192,1042,213,1021,232,997,262,943,282,891,294,848"/>
+<area shape="rect" id="Node000030" href="$RandomAttrit_8cpp.html#a9081dab1642ad9d1a90688ec44aba6d0" title=" " alt="" coords="28,1106,171,1131"/>
+<area shape="poly" id="edge20_Node000001_Node000030" title=" " alt="" coords="302,849,293,901,274,968,243,1036,221,1068,195,1095,172,1109,170,1105,192,1091,217,1064,238,1034,269,966,287,900,297,849"/>
+<area shape="rect" id="Node000031" href="$SimpleCapture_8cpp.html#a013dd8b38454f9e811cd8b434fed7a82" title=" " alt="" coords="28,1155,171,1181"/>
+<area shape="poly" id="edge21_Node000001_Node000031" title=" " alt="" coords="304,850,297,910,281,989,267,1031,248,1073,225,1111,195,1145,172,1159,169,1155,192,1141,220,1108,243,1070,262,1030,275,988,292,909,298,849"/>
+<area shape="rect" id="Node000032" href="$SimpleCollision_8cpp.html#a780b5c0512aaf6256c0895161073e3fb" title=" " alt="" coords="28,1205,171,1230"/>
+<area shape="poly" id="edge22_Node000001_Node000032" title=" " alt="" coords="305,849,302,918,287,1010,273,1060,254,1108,228,1154,195,1194,172,1209,169,1204,192,1190,224,1151,249,1106,268,1058,282,1009,296,917,300,849"/>
+<area shape="rect" id="Node000033" href="$TerrainGenerator_8cpp.html#a1d06fa938b78e7e4191564a52e110671" title=" " alt="" coords="28,1254,171,1279"/>
+<area shape="poly" id="edge23_Node000001_Node000033" title=" " alt="" coords="301,849,288,938,266,1055,234,1169,216,1213,195,1243,172,1258,169,1254,191,1239,211,1210,229,1167,260,1054,283,937,296,849"/>
+<area shape="rect" id="Node000034" href="$SingleIntegrator_8cpp.html#a008ce0121da22c435289356804bc13aa" title=" " alt="" coords="28,1303,171,1329"/>
+<area shape="poly" id="edge24_Node000001_Node000034" title=" " alt="" coords="302,850,290,947,269,1080,254,1147,237,1208,218,1258,195,1293,173,1308,170,1303,191,1289,213,1256,232,1206,249,1145,264,1079,285,946,297,849"/>
+<area shape="rect" id="Node000035" href="$classscrimmage_1_1Viewer.html#a59e743cccc26251586a3090c6adf8f0f" title=" " alt="" coords="11,1353,188,1378"/>
+<area shape="poly" id="edge25_Node000001_Node000035" title=" " alt="" coords="303,850,292,957,272,1104,258,1179,240,1247,220,1303,195,1342,178,1355,175,1350,191,1338,215,1301,235,1245,253,1177,267,1103,287,956,297,849"/>
+<area shape="rect" id="Node000036" href="$classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7" title=" " alt="" coords="21,1403,178,1443"/>
+<area shape="poly" id="edge26_Node000001_Node000036" title=" " alt="" coords="303,849,293,965,274,1126,259,1209,242,1285,221,1347,195,1391,179,1405,176,1401,191,1388,216,1345,237,1283,254,1208,268,1125,288,964,298,849"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="12,1467,187,1507"/>
+<area shape="poly" id="edge27_Node000001_Node000009" title=" " alt="" coords="304,850,296,977,278,1158,264,1251,246,1336,223,1407,210,1435,195,1456,182,1468,178,1464,191,1453,205,1432,218,1405,241,1335,259,1250,273,1157,291,976,298,849"/>
 </map>

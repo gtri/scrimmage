@@ -1,0 +1,7 @@
+<map id="scrimmage::sensor::ContactBlobCamera::draw_object_with_bounding_box" name="scrimmage::sensor::ContactBlobCamera::draw_object_with_bounding_box">
+<area shape="rect" id="Node000001" title=" " alt="" coords="268,45,471,100"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a2bdd0ffa3903fceab2e86830ace6e59c" title=" " alt="" coords="21,5,205,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,57,204,50,205,44,255,52"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aaf8260e1ceb21aa804201f713e3558c9" title=" " alt="" coords="5,84,220,139"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="255,93,221,98,220,93,254,87"/>
+</map>

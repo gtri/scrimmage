@@ -1,4 +1,11 @@
 <map id="scrimmage::State::ang_vel" name="scrimmage::State::ang_vel">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title="scrimmage::proto_2\l_state" alt="" coords="255,5,406,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1State.html#abc7260c6264b969db40b38c0b6b4afee" title="scrimmage::State::set\l_ang_vel" alt="" coords="248,71,413,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,95,415,121"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#adca769e1c193154a44129cff2d419b50" title=" " alt="" coords="12,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,93,144,48,145,43,269,88"/>
+<area shape="rect" id="Node000007" href="$namespacescrimmage.html#a0c5a5040d383e6f7f333953c805883e9" title=" " alt="" coords="27,70,149,95"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="204,98,150,92,150,87,205,93"/>
+<area shape="rect" id="Node000008" href="$namespacescrimmage.html#ae42181611e4e2947da3256bedabc3d1a" title=" " alt="" coords="27,119,149,145"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="205,122,150,128,150,123,204,117"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1State.html#abc7260c6264b969db40b38c0b6b4afee" title=" " alt="" coords="5,169,171,209"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="268,128,146,172,144,167,266,123"/>
 </map>

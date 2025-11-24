@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::Ballistic" name="scrimmage::motion::Ballistic">
-<area shape="rect" id="node2" href="$classscrimmage_1_1MotionModel.html" title="{scrimmage::MotionModel\n|# state_\l# ext_force_\l# ext_moment_\l# mass_\l# g_\l|+ MotionModel()\l+ type()\l+ init()\l+ step()\l+ posthumous()\l+ state()\l+ set_state()\l+ teleport()\l+ set_external_force()\l+ set_external_moment()\l+ set_mass()\l+ mass()\l+ gravity_magnitude()\l+ full_state_vector()\l+ close()\l# ode_step()\l# model()\l}" alt="" coords="5,5,193,376"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="21,539,171,659"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MotionModel.html" title=" " alt="" coords="5,5,187,491"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,504,99,539,93,539,93,504"/>
 </map>

@@ -1,4 +1,7 @@
 <map id="scrimmage::metrics::Score::flags_taken" name="scrimmage::metrics::Score::flags_taken">
-<area shape="rect" id="node2" href="$classscrimmage_1_1metrics_1_1Score.html#a77567c78688536cad9e30ff887d6b96d" title="scrimmage::metrics\l::Score::score" alt="" coords="216,5,367,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1metrics_1_1Score.html#a00031c8ded9cccfff685e495ad698e49" title="scrimmage::metrics\l::Score::set_flags_taken" alt="" coords="204,71,379,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,37,380,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1metrics_1_1Score.html#a77567c78688536cad9e30ff887d6b96d" title=" " alt="" coords="17,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,46,169,39,169,34,215,41"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1metrics_1_1Score.html#a00031c8ded9cccfff685e495ad698e49" title=" " alt="" coords="5,69,180,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,73,181,79,180,73,214,68"/>
 </map>

@@ -1,3 +1,5 @@
 <map id="scrimmage::Battery::add_charge" name="scrimmage::Battery::add_charge">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Battery.html#a1fc71bd1fc2faeaf1724d36d36e955c2" title="scrimmage::Battery\l::Battery" alt="" coords="203,5,352,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,5,369,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1controller_1_1MotionBattery.html#a3622c154a2ef5397245f5285dbc81fbd" title=" " alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,28,171,28,171,23,205,23"/>
 </map>

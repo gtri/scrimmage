@@ -1,3 +1,5 @@
 <map id="scrimmage::Updater::quat_2_transform" name="scrimmage::Updater::quat_2_transform">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title="scrimmage::Updater\l::draw_mesh" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,363,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#a0f66fcef9fc18ab6b8b94c4b10479e68" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,161,28,161,23,194,23"/>
 </map>

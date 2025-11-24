@@ -1,3 +1,5 @@
 <map id="scrimmage::MessageBase" name="scrimmage::MessageBase">
-<area shape="rect" id="node2" title="STL class. " alt="" coords="57,5,144,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,148,191,233"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="59,5,137,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,71,101,132,95,132,95,71"/>
 </map>

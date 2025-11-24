@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h">
-<area shape="rect" id="node2" href="$Autonomy_8h.html" title="Brief file description. " alt="" coords="48,124,211,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="11,5,250,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,211,56,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,77,56,98,38,124,29,161,29,197,24,197,24,160,34,122,52,95,75,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="161,211,220,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,73,210,95,228,122,232,142,229,163,211,200,206,198,224,162,227,142,223,124,206,98,183,77"/>
+<area shape="rect" id="Node000004" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="48,123,213,163"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,75,133,108,128,108,128,75"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="108,165,58,204,55,200,105,161"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="147,161,176,198,171,201,143,165"/>
 </map>

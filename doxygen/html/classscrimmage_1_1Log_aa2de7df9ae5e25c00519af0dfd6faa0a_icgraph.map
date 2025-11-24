@@ -1,6 +1,11 @@
 <map id="scrimmage::Log::writeDelimitedTo" name="scrimmage::Log::writeDelimitedTo">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Log.html#a36d3389cd561a9635fa1ba7ee96d7b14" title="scrimmage::Log::save\l_contact_visual" alt="" coords="292,5,455,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Log.html#a569bf845a5de2ceae915b966b9532109" title="scrimmage::Log::save\l_frame" alt="" coords="292,71,455,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Log.html#a2826b7ca9c40c19166fe967936d9ddf6" title="scrimmage::Log::save\l_shapes" alt="" coords="292,136,455,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Log.html#af87cc269cd4ce95369ae3a953dc18264" title="scrimmage::Log::save\l_utm_terrain" alt="" coords="292,201,455,243"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,109,464,134"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Log.html#a36d3389cd561a9635fa1ba7ee96d7b14" title=" " alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="293,106,141,48,143,43,295,101"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Log.html#a569bf845a5de2ceae915b966b9532109" title=" " alt="" coords="5,69,171,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,110,171,102,171,97,227,104"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Log.html#a2826b7ca9c40c19166fe967936d9ddf6" title=" " alt="" coords="5,133,171,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,138,171,146,171,140,227,133"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Log.html#af87cc269cd4ce95369ae3a953dc18264" title=" " alt="" coords="5,197,171,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="295,141,143,200,141,195,293,136"/>
 </map>

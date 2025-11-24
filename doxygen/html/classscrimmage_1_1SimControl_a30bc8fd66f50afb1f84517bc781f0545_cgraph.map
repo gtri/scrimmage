@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::time_warp" name="scrimmage::SimControl::time_warp">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Timer.html#af320c0a9bb47762998e1f49f6c9c26cc" title="scrimmage::Timer::time_warp" alt="" coords="227,13,439,39"/>
+<area shape="rect" id="Node000001" title="Get the desired time warp of the simulation." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Timer.html#af320c0a9bb47762998e1f49f6c9c26cc" title=" " alt="" coords="228,13,447,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
 </map>

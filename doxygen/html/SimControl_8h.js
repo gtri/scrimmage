@@ -1,7 +1,7 @@
 var SimControl_8h =
 [
-    [ "SimControl", "classscrimmage_1_1SimControl.html", "classscrimmage_1_1SimControl" ],
-    [ "Task", "structscrimmage_1_1SimControl_1_1Task.html", "structscrimmage_1_1SimControl_1_1Task" ],
+    [ "scrimmage::SimControl", "classscrimmage_1_1SimControl.html", "classscrimmage_1_1SimControl" ],
+    [ "scrimmage::SimControl::Task", "structscrimmage_1_1SimControl_1_1Task.html", "structscrimmage_1_1SimControl_1_1Task" ],
     [ "ContactVisualPtr", "SimControl_8h.html#a637d8eba2adf7a614b29e78232a5d383", null ],
     [ "EndConditionFlags", "SimControl_8h.html#ae9311f019876a2543ab3b83f7ef68291", [
       [ "TIME", "SimControl_8h.html#ae9311f019876a2543ab3b83f7ef68291a346ff32eaa3c09983fb2ec057816d352", null ],

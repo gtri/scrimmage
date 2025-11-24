@@ -1,4 +1,8 @@
 <map id="scrimmage::Angles::angle_pi" name="scrimmage::Angles::angle_pi">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034" title="scrimmage::Angles::\langle" alt="" coords="408,5,561,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff" title="scrimmage::Angles::\langle_2pi" alt="" coords="207,35,360,76"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034" title=" " alt="" coords="411,5,565,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,20,208,19,363,19,397,19,397,25,363,24,208,24,160,25"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff" title=" " alt="" coords="208,33,363,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,33,195,38,194,43,160,39"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="362,40,396,35,397,41,363,45"/>
 </map>

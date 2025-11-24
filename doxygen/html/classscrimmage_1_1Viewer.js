@@ -20,5 +20,7 @@ var classscrimmage_1_1Viewer =
     [ "local_ip_", "classscrimmage_1_1Viewer.html#a5a47288e083e75f21f27b1b8ab5c9fd5", null ],
     [ "local_port_", "classscrimmage_1_1Viewer.html#af8c00a5af53a7162c825452e8717cc7b", null ],
     [ "remote_ip_", "classscrimmage_1_1Viewer.html#a026f6e53828624c819fce1f560141ef6", null ],
-    [ "remote_port_", "classscrimmage_1_1Viewer.html#a782f8f6986d0eb131f8492ff57fd21c2", null ]
+    [ "remote_port_", "classscrimmage_1_1Viewer.html#a782f8f6986d0eb131f8492ff57fd21c2", null ],
+    [ "init_scale_", "classscrimmage_1_1Viewer.html#a6d35692d306b3c2d5dfe0d36d917ad98", null ],
+    [ "full_screen_", "classscrimmage_1_1Viewer.html#ac6f25d0f28e28b63cb7b888f446c6400", null ]
 ];

@@ -1,3 +1,5 @@
 <map id="scrimmage::interaction::TerrainMap::generate_random_walk" name="scrimmage::interaction::TerrainMap::generate_random_walk">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a38920abebd75a11cc78ae4de079881c9" title="scrimmage::interaction\l::TerrainMap::generate" alt="" coords="224,13,395,54"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,5,400,60"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1TerrainMap.html#a38920abebd75a11cc78ae4de079881c9" title=" " alt="" coords="5,13,179,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,35,179,35,179,30,213,30"/>
 </map>

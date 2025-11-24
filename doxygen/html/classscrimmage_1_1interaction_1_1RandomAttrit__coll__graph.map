@@ -1,5 +1,13 @@
 <map id="scrimmage::interaction::RandomAttrit" name="scrimmage::interaction::RandomAttrit">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,93,212,200"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Random.html" title="{scrimmage::Random\n|# seed_\l# gener_\l# rng_normal_\l# rng_uniform_\l|+ Random()\l+ get_seed()\l+ seed()\l+ seed()\l+ rng_uniform()\l+ rng_uniform()\l+ rng_normal()\l+ rng_normal()\l+ rng_uniform_int()\l+ make_rng_normal()\l+ rng_discrete_int()\l+ gener()\l}" alt="" coords="237,5,399,288"/>
-<area shape="rect" id="node4" title="STL class. " alt="" coords="424,108,511,185"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="327,393,516,633"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityInteraction.html" title=" " alt="" coords="5,115,208,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,231,183,280,222,329,274,383,328,432,325,436,270,387,218,332,179,283,144,234"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="233,135,311,201"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="272,201,273,279,280,325,294,368,319,410,314,413,290,370,275,326,268,280,267,201"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="347,135,477,201"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="416,201,420,377,415,377,410,201"/>
+<area shape="rect" id="Node000048" href="$classscrimmage_1_1Random.html" title=" " alt="" coords="502,5,658,331"/>
+<area shape="poly" id="edge4_Node000001_Node000048" title=" " alt="" coords="555,332,540,370,527,394,522,391,535,368,550,330"/>
+<area shape="rect" id="Node000095" title=" " alt="" coords="682,135,883,201"/>
+<area shape="poly" id="edge5_Node000001_Node000095" title=" " alt="" coords="767,203,727,265,673,332,604,395,532,448,528,443,601,390,669,329,722,262,762,200"/>
 </map>

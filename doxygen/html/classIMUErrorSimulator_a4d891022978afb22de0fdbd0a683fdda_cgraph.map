@@ -1,4 +1,7 @@
 <map id="IMUErrorSimulator::IMUErrorSimulator" name="IMUErrorSimulator::IMUErrorSimulator">
-<area shape="rect" id="node2" href="$classIMUErrorSimulator.html#a55f06d003d4e5141a395181e08b0b39c" title="IMUErrorSimulator::\lCalculateParametersForFixed\lDeltaT" alt="" coords="200,5,409,61"/>
-<area shape="rect" id="node3" href="$classIMUErrorSimulator.html#af05b3be81f1b5c574a5a8ef83e5a6e0b" title="IMUErrorSimulator::\lPerformInitialRandomDraws" alt="" coords="205,85,404,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,49,156,89"/>
+<area shape="rect" id="Node000002" href="$classIMUErrorSimulator.html#a55f06d003d4e5141a395181e08b0b39c" title=" " alt="" coords="204,5,415,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,54,190,49,191,54,156,60"/>
+<area shape="rect" id="Node000004" href="$classIMUErrorSimulator.html#af05b3be81f1b5c574a5a8ef83e5a6e0b" title=" " alt="" coords="206,85,413,125"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="156,78,193,84,192,89,156,83"/>
 </map>

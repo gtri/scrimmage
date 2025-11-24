@@ -1,5 +1,15 @@
 <map id="scrimmage::Autonomy::state" name="scrimmage::Autonomy::state">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#ab59d053c1174402139072bc090a76a7b" title="scrimmage::Autonomy\l::ready" alt="" coords="448,30,616,71"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1autonomy_1_1PyAutonomy.html#a6fec9afcd39e8118c081f120044e0d00" title="scrimmage::autonomy\l::PyAutonomy::set_state" alt="" coords="221,26,400,67"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Autonomy.html#a1424f06d0e86d26fc69aaa28ec399dfa" title="scrimmage::Autonomy\l::set_state" alt="" coords="227,91,395,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="264,165,435,205"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1AutonomyExecutor.html#a5f9872b0e87bacb14ce994a31699db16" title=" " alt="" coords="19,5,202,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,156,275,107,246,81,215,60,190,48,193,43,217,55,249,77,279,103,326,153"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1MotorSchemas.html#a8fe2c93f2a15bcc9f6266cb5f92ff7be" title=" " alt="" coords="26,69,195,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="298,162,215,124,182,112,183,107,217,119,300,157"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#a459b376970dc6db44137ba7e8ea00438" title=" " alt="" coords="26,133,195,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="249,175,195,167,196,162,250,169"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Autonomy.html#a1424f06d0e86d26fc69aaa28ec399dfa" title=" " alt="" coords="25,197,196,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="250,201,197,209,196,203,250,196"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1autonomy_1_1ArduPilot.html#a5585fb419cb96cb2a83a09c4e17d6afc" title=" " alt="" coords="26,262,195,317"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="298,214,217,252,187,264,185,259,215,247,295,209"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#a4526b0a13052f832776c40e70ba80fd3" title=" " alt="" coords="5,341,216,381"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="329,218,282,275,251,305,217,330,191,344,189,339,215,326,248,301,278,271,325,215"/>
 </map>

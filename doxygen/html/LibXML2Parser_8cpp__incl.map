@@ -1,0 +1,29 @@
+<map id="/root/scrimmage/scrimmage/src/parse/XMLParser/LibXML2Parser.cpp" name="/root/scrimmage/scrimmage/src/parse/XMLParser/LibXML2Parser.cpp">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="323,5,605,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,75,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="323,47,207,67,87,96,80,98,78,93,86,91,206,62,322,42"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="99,101,173,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="373,48,282,69,186,96,178,98,177,93,185,91,281,64,372,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="197,101,277,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="415,48,281,98,279,93,413,43"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="301,101,376,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="438,48,368,95,365,91,435,43"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="404,181,463,207"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="460,46,448,94,438,168,433,167,443,93,455,45"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="498,181,561,207"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="469,45,477,86,492,132,514,169,509,172,487,134,472,87,464,46"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="590,181,695,207"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="595,43,673,63,704,76,723,92,730,102,731,113,724,135,705,159,682,177,678,172,701,155,719,132,726,112,725,104,719,95,701,81,671,68,594,48"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="835,101,970,126"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="567,43,817,91,838,95,837,100,815,96,566,48"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="722,181,867,207"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="606,34,678,55,713,71,744,91,761,108,774,128,791,167,786,169,769,130,757,111,741,95,710,75,676,60,605,39"/>
+<area shape="rect" id="Node000011" href="$LibXML2Parser_8h.html" title="Brief file description." alt="" coords="502,93,709,133"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="496,43,564,84,561,89,494,48"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="994,101,1153,126"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="606,39,786,62,983,91,1009,95,1008,101,982,96,785,67,606,45"/>
+<area shape="poly" id="edge11_Node000011_Node000006" title=" " alt="" coords="565,136,472,178,470,173,563,131"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="589,135,552,173,548,169,585,132"/>
+<area shape="poly" id="edge13_Node000011_Node000008" title=" " alt="" coords="617,132,634,168,629,170,612,135"/>
+<area shape="poly" id="edge14_Node000011_Node000010" title=" " alt="" coords="652,131,755,173,753,178,650,136"/>
+</map>

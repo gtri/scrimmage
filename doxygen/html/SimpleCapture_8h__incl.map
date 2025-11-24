@@ -1,3 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h">
-<area shape="rect" id="node2" href="$EntityInteraction_8h.html" title="Brief file description. " alt="" coords="108,124,273,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="90,5,297,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,211,48,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,77,115,99,89,124,61,163,40,200,35,197,56,160,85,121,111,95,140,73"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="83,211,133,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,77,117,98,100,124,95,142,94,161,101,197,96,198,89,161,89,141,95,122,113,95,136,73"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="224,211,283,236"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="251,73,274,95,292,122,296,143,293,164,274,201,269,198,288,162,291,143,287,124,270,98,247,77"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="352,130,467,155"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="267,72,373,122,371,127,265,77"/>
+<area shape="rect" id="Node000006" href="$EntityInteraction_8h.html" title="Brief file description." alt="" coords="109,123,277,163"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="196,75,196,108,191,108,191,75"/>
+<area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="155,165,62,209,60,204,152,160"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="174,165,133,203,129,199,171,161"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="210,161,238,198,234,201,206,165"/>
 </map>

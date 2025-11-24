@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::Rotor::set_offset" name="scrimmage::motion::Rotor::set_offset">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1Rotor.html#abca4fecdb1b50d310d76360ebbefdc9f" title="scrimmage::motion::\lRotor::offset" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,163,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1Rotor.html#a25d8b4860007b8bac0b6f5b376452182" title=" " alt="" coords="211,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,23,197,23,197,28,163,28"/>
 </map>

@@ -1,4 +1,16 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h">
-<area shape="rect" id="node2" href="$Controller_8h.html" title="Brief file description. " alt="" coords="23,124,244,151"/>
-<area shape="rect" id="node5" href="$PID_8h.html" title="Brief file description. " alt="" coords="319,124,511,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="174,5,417,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,123,108,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,77,100,120,98,115,208,72"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="195,196,246,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,77,194,98,174,124,170,140,175,156,198,185,194,189,170,158,165,140,169,122,190,94,217,73"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="415,196,474,221"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="366,73,396,94,422,121,437,151,444,182,439,183,432,153,417,124,392,98,363,77"/>
+<area shape="rect" id="Node000005" href="$PID_8h.html" title="Brief file description." alt="" coords="482,123,677,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="399,72,533,116,531,121,397,77"/>
+<area shape="rect" id="Node000006" href="$Controller_8h.html" title="Brief file description." alt="" coords="183,123,407,148"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="298,75,298,109,293,109,293,75"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="559,150,480,192,478,187,556,146"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="285,150,245,188,241,185,282,146"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="320,146,409,188,407,192,318,150"/>
 </map>

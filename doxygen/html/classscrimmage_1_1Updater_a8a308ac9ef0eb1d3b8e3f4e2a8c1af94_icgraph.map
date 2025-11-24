@@ -1,3 +1,5 @@
 <map id="scrimmage::Updater::update_trail" name="scrimmage::Updater::update_trail">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Updater.html#ac2a24759fd298cd7b86ee0cb6609101c" title="scrimmage::Updater\l::update_contacts" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,363,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Updater.html#ac2a24759fd298cd7b86ee0cb6609101c" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,161,28,161,23,194,23"/>
 </map>

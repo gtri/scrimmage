@@ -1,3 +1,9 @@
 <map id="scrimmage::GlobalService::call_service" name="scrimmage::GlobalService::call_service">
-<area shape="rect" id="node2" href="$classscrimmage_1_1GlobalService.html#a781a3ef38f7b7e38921188cfbe5594c2" title="scrimmage::GlobalService\l::call_service" alt="" coords="243,5,432,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="247,69,440,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GlobalService.html#a781a3ef38f7b7e38921188cfbe5594c2" title=" " alt="" coords="5,5,199,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,68,177,48,179,43,255,63"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1GlobalService.html#aa91e305c40c5cdeb61d09b0b9ab3cc8e" title=" " alt="" coords="5,69,199,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,92,199,92,199,87,233,87"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1GlobalService.html#a846bcb136d76eac96cfe2814431d7fa9" title=" " alt="" coords="5,133,199,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="255,115,179,136,177,131,254,110"/>
 </map>

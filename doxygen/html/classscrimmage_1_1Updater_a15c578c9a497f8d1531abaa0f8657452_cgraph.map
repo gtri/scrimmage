@@ -1,3 +1,5 @@
 <map id="scrimmage::Updater::update_text_display" name="scrimmage::Updater::update_text_display">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d" title="scrimmage::Angles::\lrad2deg" alt="" coords="212,5,365,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="216,13,427,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,23,202,23,202,28,168,28"/>
 </map>

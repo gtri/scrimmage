@@ -1,3 +1,5 @@
 <map id="scrimmage::motion::Multirotor" name="scrimmage::motion::Multirotor">
-<area shape="rect" id="node2" href="$classscrimmage_1_1motion_1_1RigidBody6DOFBase.html" title="{scrimmage::motion::\lRigidBody6DOFBase\n|# linear_vel_body_\l# ang_vel_body_\l# linear_accel_body_\l# ang_accel_body_\l# wind_\l|+ RigidBody6DOFBase()\l+ linear_vel_body()\l+ ang_vel_body()\l+ linear_accel_body()\l+ ang_accel_body()\l+ wind()\l}" alt="" coords="5,5,181,229"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="17,313,167,813"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1motion_1_1RigidBody6DOFBase.html" title=" " alt="" coords="5,5,179,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,279,95,313,89,313,89,279"/>
 </map>

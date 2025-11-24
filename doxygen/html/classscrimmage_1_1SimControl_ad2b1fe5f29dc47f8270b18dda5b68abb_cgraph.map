@@ -1,4 +1,7 @@
 <map id="scrimmage::SimControl::worker" name="scrimmage::SimControl::worker">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread. " alt="" coords="227,5,429,32"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="234,56,422,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,180,63"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread." alt="" coords="228,5,432,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,31,214,28,215,33,180,37"/>
+<area shape="rect" id="Node000019" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title=" " alt="" coords="234,55,426,80"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="180,49,221,54,220,59,180,55"/>
 </map>

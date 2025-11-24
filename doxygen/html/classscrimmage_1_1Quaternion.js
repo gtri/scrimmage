@@ -14,10 +14,11 @@ var classscrimmage_1_1Quaternion =
     [ "set", "classscrimmage_1_1Quaternion.html#a68e715cafcf81018e1f6367b350589ce", null ],
     [ "roll", "classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44", null ],
     [ "pitch", "classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd", null ],
+    [ "pitch_safe", "classscrimmage_1_1Quaternion.html#af52babcf6d84dae3e0014d6d5771802d", null ],
     [ "yaw", "classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7", null ],
     [ "rotation_angle", "classscrimmage_1_1Quaternion.html#a251949e95ab2ad689fb7788b65164426", null ],
     [ "rotate", "classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9", null ],
     [ "rotate_reverse", "classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09", null ],
-    [ "operator<<", "classscrimmage_1_1Quaternion.html#a9dc71eaedf4486dc005fa9a67c6da866", null ],
+    [ "operator<<", "classscrimmage_1_1Quaternion.html#a2da180d301577cd15c3869079ae73256", null ],
     [ "output_precision", "classscrimmage_1_1Quaternion.html#aa97ecd72494f6705fed35db9d901aabf", null ]
 ];

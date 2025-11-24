@@ -1,5 +1,5 @@
 <map id="scrimmage::Interface::send_frame" name="scrimmage::Interface::send_frame">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6" title="scrimmage::create_frame" alt="" coords="212,5,400,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a036769ec6f8914c9463885060da2db92" title="scrimmage::Interface\l::push_frame" alt="" coords="227,57,385,98"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Interface.html#a3d107a205df49c852fc91be46283efa2" title="scrimmage::Interface\l::send_frame" alt="" coords="227,122,385,163"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,167,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Interface.html#a036769ec6f8914c9463885060da2db92" title=" " alt="" coords="215,5,376,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,23,201,23,201,28,167,28"/>
 </map>

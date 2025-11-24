@@ -1,3 +1,8 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JoystickController/AxisScale.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JoystickController/AxisScale.h">
-<area shape="rect" id="node2" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="5,124,224,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,212,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="79,196,138,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,76,64,111,60,129,63,147,73,167,87,184,83,187,69,170,58,149,55,129,59,109,77,74"/>
+<area shape="rect" id="Node000003" href="$Utilities_8h.html" title="Brief file description." alt="" coords="72,123,295,148"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,73,168,110,163,113,134,76"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="173,150,133,188,129,185,170,146"/>
 </map>

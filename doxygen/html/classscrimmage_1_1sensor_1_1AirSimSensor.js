@@ -4,7 +4,7 @@ var classscrimmage_1_1sensor_1_1AirSimSensor =
     [ "init", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a7390e0790ff7e7713af27d728d3f37d4", null ],
     [ "step", "classscrimmage_1_1sensor_1_1AirSimSensor.html#aa65e7303f2b2e489b2f5f8772616775f", null ],
     [ "close", "classscrimmage_1_1sensor_1_1AirSimSensor.html#abbf73cef6d356f0e9feca8164f29aba9", null ],
-    [ "save_data", "classscrimmage_1_1sensor_1_1AirSimSensor.html#aa1e3c5238a9c9d4233224ad9e13b4e95", null ],
+    [ "save_data", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a9c288b9d89bfc9d2cf0cc4c7e549945a", null ],
     [ "parse_camera_configs", "classscrimmage_1_1sensor_1_1AirSimSensor.html#a780d6bdfd278a9034d2fa85b97c04431", null ],
     [ "request_images", "classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681", null ],
     [ "parse_lidar_configs", "classscrimmage_1_1sensor_1_1AirSimSensor.html#ad3cee57a295b7338fe54eb377e8c9355", null ],

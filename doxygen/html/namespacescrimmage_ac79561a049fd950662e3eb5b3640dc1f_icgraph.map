@@ -1,3 +1,5 @@
 <map id="scrimmage::proto_2_contact" name="scrimmage::proto_2_contact">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#a03c589eaafef6bf7d9593a8fa6ec9d2a" title="scrimmage::proto_2\l_frame" alt="" coords="204,5,355,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="205,5,357,45"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#a03c589eaafef6bf7d9593a8fa6ec9d2a" title=" " alt="" coords="5,5,157,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,28,158,28,158,23,191,23"/>
 </map>

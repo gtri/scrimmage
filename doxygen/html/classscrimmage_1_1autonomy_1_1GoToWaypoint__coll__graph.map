@@ -1,4 +1,11 @@
 <map id="scrimmage::autonomy::GoToWaypoint" name="scrimmage::autonomy::GoToWaypoint">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html" title="{scrimmage::Autonomy\n|# proj_\l# state_\l# desired_state_\l# contacts_\l# rtree_\l# need_reset_\l# is_controlling_\l|+ Autonomy()\l+ type()\l+ step_autonomy()\l+ posthumous()\l+ init()\l+ ready()\l+ init()\l+ close()\l+ need_reset()\l+ desired_state()\l+ set_desired_state()\l+ get_contacts()\l+ get_contacts_raw()\l+ set_contacts()\l+ set_contacts_from_plugin()\l+ set_projection()\l+ rtree()\l+ set_rtree()\l+ state()\l+ set_state()\l+ logging_msg()\l+ get_is_controlling()\l+ set_is_controlling()\l}" alt="" coords="5,5,216,493"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1autonomy_1_1WaypointList.html" title="{scrimmage::autonomy\l::WaypointList\n|# mode_\l# cycles_\l|+ WaypointList()\l+ waypoints()\l+ set_mode()\l+ mode()\l+ set_cycles()\l+ cycles()\l+ size()\l}" alt="" coords="449,152,615,347"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="333,593,494,713"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="5,5,211,531"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,525,225,529,249,554,276,576,334,612,331,617,273,580,245,558,221,532,217,528"/>
+<area shape="rect" id="Node000094" href="$classscrimmage_1_1autonomy_1_1WaypointList.html" title=" " alt="" coords="235,158,397,378"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="346,378,397,577,392,578,341,379"/>
+<area shape="rect" id="Node000097" title=" " alt="" coords="421,235,600,301"/>
+<area shape="poly" id="edge3_Node000001_Node000097" title=" " alt="" coords="513,301,503,422,489,497,468,570,464,580,459,578,463,568,484,495,497,421,507,301"/>
+<area shape="rect" id="Node000098" title=" " alt="" coords="625,235,826,301"/>
+<area shape="poly" id="edge4_Node000001_Node000098" title=" " alt="" coords="720,302,706,350,684,410,654,473,614,532,591,556,565,578,510,613,507,608,562,574,588,553,610,529,649,471,679,408,701,348,715,300"/>
 </map>

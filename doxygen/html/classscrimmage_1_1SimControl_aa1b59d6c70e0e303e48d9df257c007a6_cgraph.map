@@ -1,3 +1,5 @@
 <map id="scrimmage::SimControl::set_outgoing_interface" name="scrimmage::SimControl::set_outgoing_interface">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a7c77719d940f3222754feb9aba8848ea" title="Get the outgoing interface. " alt="" coords="229,5,403,47"/>
+<area shape="rect" id="Node000001" title="Set the outgoing interface for communication to external visualizers." alt="" coords="5,5,184,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a7c77719d940f3222754feb9aba8848ea" title="Get the outgoing interface." alt="" coords="232,5,407,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,23,218,23,218,28,184,28"/>
 </map>

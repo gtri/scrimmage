@@ -1,12 +1,23 @@
 <map id="scrimmage::sensor::AirSimSensor::init" name="scrimmage::sensor::AirSimSensor::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title="scrimmage::EntityPlugin\l::advertise" alt="" coords="219,5,395,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title="scrimmage::CSV::open\l_output" alt="" coords="222,71,391,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title="scrimmage::CSV::output\l_is_open" alt="" coords="217,136,396,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a780d6bdfd278a9034d2fa85b97c04431" title="scrimmage::sensor::\lAirSimSensor::parse\l_camera_configs" alt="" coords="230,201,383,257"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a02a85d538538bbe6c1fc4f88dffc4b4e" title="scrimmage::sensor::\lAirSimSensor::parse\l_imu_configs" alt="" coords="230,281,383,337"/>
-<area shape="rect" id="node7" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ad3cee57a295b7338fe54eb377e8c9355" title="scrimmage::sensor::\lAirSimSensor::parse\l_lidar_configs" alt="" coords="230,361,383,417"/>
-<area shape="rect" id="node8" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681" title="scrimmage::sensor::\lAirSimSensor::request\l_images" alt="" coords="223,441,390,497"/>
-<area shape="rect" id="node9" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7013d3c477e24caa49e5b2dd8f40c280" title="scrimmage::sensor::\lAirSimSensor::request_imu" alt="" coords="208,520,405,561"/>
-<area shape="rect" id="node10" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a3e94a829acfbd4d499c2f4fb9e7a3b3a" title="scrimmage::sensor::\lAirSimSensor::request_lidar" alt="" coords="207,585,407,627"/>
-<area shape="rect" id="node11" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title="scrimmage::CSV::set\l_column_headers" alt="" coords="228,651,385,692"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,324,160,364"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="219,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,323,95,270,117,198,133,160,153,122,177,86,206,55,212,51,215,55,210,59,182,90,158,125,138,162,122,200,100,271,90,324"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed" title=" " alt="" coords="225,69,393,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="87,323,102,280,126,226,161,169,182,142,206,119,213,114,216,119,210,123,186,146,165,172,131,228,107,282,92,324"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1CSV.html#ab3699a668414bdc7ad299138e95751f1" title=" " alt="" coords="220,133,399,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="92,322,136,254,168,216,206,183,216,177,219,182,210,187,172,220,140,258,97,325"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a780d6bdfd278a9034d2fa85b97c04431" title=" " alt="" coords="232,198,387,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="110,322,155,292,207,262,218,256,221,261,209,266,157,296,113,326"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a02a85d538538bbe6c1fc4f88dffc4b4e" title=" " alt="" coords="232,277,387,331"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="160,328,218,317,219,323,161,333"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ad3cee57a295b7338fe54eb377e8c9355" title=" " alt="" coords="232,355,387,410"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="161,355,219,365,218,370,160,360"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#ab2eb9276fe84581027d8ca971c691681" title=" " alt="" coords="226,434,393,489"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="115,362,159,390,209,419,224,426,222,431,207,424,156,395,112,367"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a7013d3c477e24caa49e5b2dd8f40c280" title=" " alt="" coords="210,513,409,553"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="97,363,141,429,173,466,210,498,221,505,219,510,206,502,169,470,137,432,93,366"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1sensor_1_1AirSimSensor.html#a3e94a829acfbd4d499c2f4fb9e7a3b3a" title=" " alt="" coords="208,577,411,617"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="92,364,107,405,131,459,165,515,186,541,210,563,216,568,213,572,206,567,182,544,161,518,126,462,102,407,87,365"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8" title=" " alt="" coords="231,641,387,681"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="90,364,101,416,122,487,138,525,158,562,182,597,210,627,221,636,218,640,206,631,177,600,153,565,133,528,117,489,95,418,84,365"/>
 </map>

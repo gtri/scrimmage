@@ -1,3 +1,5 @@
 <map id="scrimmage::ID::set_sub_swarm_id" name="scrimmage::ID::set_sub_swarm_id">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ID.html#a000c6c57132487b9809d684755784175" title="scrimmage::ID::sub\l_swarm_id" alt="" coords="196,5,343,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,151,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ID.html#ac326decc4da5a1c16f05e28ee233f094" title=" " alt="" coords="199,5,347,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,23,185,23,185,28,151,28"/>
 </map>

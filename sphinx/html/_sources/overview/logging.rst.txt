@@ -7,11 +7,15 @@ simulation. A user can specify a SCRIMMAGE root logging directory in a
 SCRIMMAGE mission file with the ``log_dir`` XML tag. By default, the root
 logging directory is set to ~/.scrimmage/logs. Every time a new simulation is
 run, a new directory is created under the root logging directory based on the
-current time stamp (e.g., YYYY-MM-DD_HH-MM-SS). A SCRIMMAGE plugin can gain
-access to the current simulation's logging directory through the MissionParse
-class' ``log_dir()`` method and access to the root log directory though the
-``root_log_dir()`` method. For example, from within a plugin, the log
-directories are accessed through the following statements:
+current time stamp (e.g., YYYY-MM-DD_HH-MM-SS). If the "use_exact" param in
+the log_dir tag is set to "true" however, the exact log dir specified will be used
+and no new directory will be created.
+
+A SCRIMMAGE plugin can gain access to the current simulation's logging directory
+through the MissionParse class' ``log_dir()`` method and access to the
+root log directory though the ``root_log_dir()`` method.
+For example, from within a plugin, the log directories are accessed
+through the following statements:
 
 .. code-block:: c++
    :linenos:

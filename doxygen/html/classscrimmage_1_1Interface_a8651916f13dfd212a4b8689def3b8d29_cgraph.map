@@ -1,4 +1,7 @@
 <map id="scrimmage::Interface::send_cached" name="scrimmage::Interface::send_cached">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5" title="scrimmage::Interface\l::send_contact_visual" alt="" coords="212,5,371,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db" title="scrimmage::Interface\l::send_utm_terrain" alt="" coords="212,71,371,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,167,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5" title=" " alt="" coords="215,5,377,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,42,201,37,202,42,167,48"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db" title=" " alt="" coords="215,69,377,109"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="167,67,202,72,201,78,166,72"/>
 </map>

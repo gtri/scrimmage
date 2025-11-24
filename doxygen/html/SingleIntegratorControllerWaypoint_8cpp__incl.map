@@ -1,6 +1,11 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.cpp">
-<area shape="rect" id="node2" href="$VariableIO_8h.html" title="Brief file description. " alt="" coords="5,139,241,165"/>
-<area shape="rect" id="node3" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="265,131,467,173"/>
-<area shape="rect" id="node4" href="$SingleIntegratorControllerWaypoint_8h.html" title="Brief file description. " alt="" coords="491,124,751,180"/>
-<area shape="rect" id="node5" href="$State_8h.html" title="Brief file description. " alt="" coords="775,139,957,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="326,5,609,75"/>
+<area shape="rect" id="Node000002" href="$VariableIO_8h.html" title="Brief file description." alt="" coords="5,137,244,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="362,77,175,136,173,131,360,72"/>
+<area shape="rect" id="Node000008" href="$State_8h.html" title="Brief file description." alt="" coords="268,137,451,163"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="436,77,383,129,379,126,432,73"/>
+<area shape="rect" id="Node000013" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="475,130,679,170"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="503,73,549,118,545,122,499,77"/>
+<area shape="rect" id="Node000014" href="$SingleIntegratorControllerWaypoint_8h.html" title="Brief file description." alt="" coords="703,123,970,177"/>
+<area shape="poly" id="edge4_Node000001_Node000014" title=" " alt="" coords="583,72,735,116,733,121,581,77"/>
 </map>

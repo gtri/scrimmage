@@ -1,4 +1,9 @@
 <map id="scrimmage::SimControl::generate_entity" name="scrimmage::SimControl::generate_entity">
-<area shape="rect" id="node2" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time. " alt="" coords="227,5,400,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging. " alt="" coords="448,35,621,76"/>
+<area shape="rect" id="Node000001" title="Generate an entity given the entity description ID." alt="" coords="451,35,625,75"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="576,23,562,16,538,13,517,15,504,20,499,26,502,34,497,35,494,25,501,16,516,10,538,8,564,11,578,18"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time." alt="" coords="228,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="437,44,402,39,403,34,437,39"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#a75c4b43663707d047475606c9f7d2d93" title="Starts the mission by generating entities and setting up logging." alt="" coords="5,35,180,75"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="437,60,403,60,228,60,180,59,180,54,228,55,403,55,437,54"/>
+<area shape="poly" id="edge2_Node000002_Node000008" title=" " alt="" coords="215,41,180,46,180,41,214,36"/>
 </map>

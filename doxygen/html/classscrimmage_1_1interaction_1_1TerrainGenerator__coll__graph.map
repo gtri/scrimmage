@@ -1,4 +1,11 @@
 <map id="scrimmage::interaction::TerrainGenerator" name="scrimmage::interaction::TerrainGenerator">
-<area shape="rect" id="node2" href="$classscrimmage_1_1EntityInteraction.html" title="{scrimmage::EntityInteraction\n||+ init()\l+ step_entity_interaction()\l+ collision_exists()\l}" alt="" coords="5,174,212,281"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1interaction_1_1TerrainMap.html" title="{scrimmage::interaction\l::TerrainMap\n|# rng_\l# gener_\l# technique_\l# center_\l# x_length_\l# y_length_\l# x_resolution_\l# y_resolution_\l# z_min_\l# z_max_\l# color_\l# num_x_cols_\l# num_y_rows_\l|+ TerrainMap()\l+ TerrainMap()\l+ TerrainMap()\l+ shape()\l+ proto()\l+ height_at()\l# generate()\l# generate_random_walk()\l# generate_linear()\l# generate_linear_walk()\l# center_height_adjust()\l# clamp_height()\l# get_neighbor_avg()\l}" alt="" coords="236,5,432,449"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="344,588,533,708"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityInteraction.html" title=" " alt="" coords="5,213,208,318"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,331,140,377,161,428,188,478,222,524,249,549,280,572,345,608,343,613,277,577,246,554,218,527,183,481,156,430,135,379,120,332"/>
+<area shape="rect" id="Node000094" href="$classscrimmage_1_1interaction_1_1TerrainMap.html" title=" " alt="" coords="232,5,424,525"/>
+<area shape="poly" id="edge2_Node000001_Node000094" title=" " alt="" coords="406,525,420,571,414,573,401,526"/>
+<area shape="rect" id="Node000097" title=" " alt="" coords="449,233,650,298"/>
+<area shape="poly" id="edge3_Node000001_Node000097" title=" " alt="" coords="544,299,515,416,472,565,469,573,464,572,467,563,510,415,539,298"/>
+<area shape="rect" id="Node000047" title=" " alt="" coords="675,233,869,298"/>
+<area shape="poly" id="edge4_Node000001_Node000047" title=" " alt="" coords="768,299,756,347,735,407,705,470,686,500,665,527,639,552,610,573,550,608,547,603,607,569,636,548,661,524,682,497,701,467,730,405,751,346,763,298"/>
 </map>

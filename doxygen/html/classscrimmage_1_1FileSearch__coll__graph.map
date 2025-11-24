@@ -1,2 +1,5 @@
 <map id="scrimmage::FileSearch" name="scrimmage::FileSearch">
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,207,187,332"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,205,144"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,144,108,190,103,190,103,144"/>
 </map>

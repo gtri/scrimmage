@@ -1,4 +1,8 @@
 <map id="scrimmage::SimControl::run_interaction_detection" name="scrimmage::SimControl::run_interaction_detection">
-<area shape="rect" id="node2" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title="scrimmage::run_callbacks" alt="" coords="247,5,435,32"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time. " alt="" coords="247,56,434,83"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,201,75"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4" title=" " alt="" coords="249,5,441,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,38,249,30,249,35,202,43"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="251,79,439,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,67,247,74,246,79,201,73"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="306,80,298,70,302,60,318,54,345,52,379,56,392,65,389,70,377,61,345,57,320,59,306,64,303,70,310,77"/>
 </map>

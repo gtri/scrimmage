@@ -1,4 +1,25 @@
 <map id="scrimmage::motion::FixedWing6DOF::step" name="scrimmage::motion::FixedWing6DOF::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b" title="scrimmage::Angles::\langle_pi" alt="" coords="209,5,363,47"/>
-<area shape="rect" id="node3" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title="scrimmage::set" alt="" coords="225,71,347,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,311,165,351"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="227,5,411,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,311,97,257,119,184,136,145,156,107,181,72,212,41,220,35,223,39,215,45,186,75,161,110,141,147,124,186,103,258,92,312"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="228,55,409,95"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="90,310,105,268,130,213,165,155,187,128,212,105,219,100,222,104,215,109,191,132,169,158,134,215,110,270,95,312"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="233,119,404,159"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="95,309,140,241,173,202,212,169,221,163,224,168,215,173,177,206,144,244,100,312"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1MotionModel.html#ac517470af8e0f4c6d9a0442f064faa43" title=" " alt="" coords="225,183,413,223"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="107,309,153,271,212,233,228,226,230,231,215,238,156,275,110,313"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="231,247,406,287"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="158,309,231,288,233,294,160,314"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="231,311,406,351"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="165,329,217,329,217,334,165,334"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="231,375,406,415"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="160,349,233,369,231,374,158,354"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="231,439,406,479"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="110,350,156,388,215,425,230,432,228,437,212,430,153,392,107,354"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title=" " alt="" coords="217,504,420,529"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="99,350,117,381,143,419,176,457,215,489,229,497,226,501,212,494,172,461,139,422,113,384,95,353"/>
+<area shape="rect" id="Node000015" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="257,553,380,579"/>
+<area shape="poly" id="edge10_Node000001_Node000015" title=" " alt="" coords="95,351,111,391,136,442,170,495,191,518,215,538,245,554,243,558,212,543,188,522,166,498,131,445,106,393,91,353"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="213,603,424,628"/>
+<area shape="poly" id="edge11_Node000001_Node000016" title=" " alt="" coords="93,351,105,400,128,464,164,531,188,562,215,588,224,594,221,598,212,592,184,565,160,534,124,466,100,401,88,352"/>
 </map>

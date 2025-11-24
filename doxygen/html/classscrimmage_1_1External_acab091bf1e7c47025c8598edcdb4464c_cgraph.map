@@ -1,4 +1,7 @@
 <map id="scrimmage::External::call_update_contacts" name="scrimmage::External::call_update_contacts">
-<area shape="rect" id="node2" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title="scrimmage::DelayedTask\l::update" alt="" coords="219,5,401,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title="scrimmage::External\l::update_ents" alt="" coords="233,71,387,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,172,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title=" " alt="" coords="220,5,407,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,206,38,207,43,172,48"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title=" " alt="" coords="235,69,392,109"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="172,67,221,74,221,79,172,72"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="scrimmage::Angles::angle_diff_rad" name="scrimmage::Angles::angle_diff_rad">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Angles.html#a4bd7cb4def305e8bb95ff0963ec6e19c" title="scrimmage::Angles::\langle_avg_rad" alt="" coords="231,5,384,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Angles.html#a604beb077f461f7a04eb973f7383bacb" title="returns whether ang is within the wedge between ang1 and ang2 where the wedge is less than PI radians..." alt="" coords="231,71,384,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1State.html#abf9c98bc172c599a9340fcd857145770" title="scrimmage::State::rel_az" alt="" coords="216,137,399,163"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b" title="scrimmage::controller\l::SimpleQuadrotorController\lLQR::step" alt="" coords="207,187,408,243"/>
+<area shape="rect" id="Node000001" title="shortest angle from ang2 to ang1 (radians)" alt="" coords="237,69,392,109"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Angles.html#a4bd7cb4def305e8bb95ff0963ec6e19c" title=" " alt="" coords="20,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="232,68,165,48,167,43,234,63"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Angles.html#a604beb077f461f7a04eb973f7383bacb" title="returns whether ang is within the wedge between ang1 and ang2 where the wedge is less than PI radians" alt="" coords="20,69,175,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,92,175,92,175,87,224,87"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1State.html#aecb34281d516d08025bad1ac0ccaa8b5" title=" " alt="" coords="5,134,189,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="226,115,147,136,146,131,225,110"/>
 </map>

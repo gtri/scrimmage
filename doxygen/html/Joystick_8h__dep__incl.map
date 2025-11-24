@@ -1,5 +1,9 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JoystickController/Joystick.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/controller/JoystickController/Joystick.h">
-<area shape="rect" id="node2" href="$JoystickAutonomy_8h.html" title="Brief file description. " alt="" coords="5,124,213,195"/>
-<area shape="rect" id="node3" href="$JoystickController_8h.html" title="Brief file description. " alt="" coords="238,124,442,195"/>
-<area shape="rect" id="node4" href="$Joystick_8cpp.html" title="Brief file description. " alt="" coords="467,131,680,187"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="244,5,451,75"/>
+<area shape="rect" id="Node000002" href="$JoystickAutonomy_8h.html" title="Brief file description." alt="" coords="5,123,220,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,83,182,125,180,120,266,78"/>
+<area shape="rect" id="Node000004" href="$JoystickController_8h.html" title="Brief file description." alt="" coords="244,123,451,192"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="350,89,350,122,345,122,345,89"/>
+<area shape="rect" id="Node000006" href="$Joystick_8cpp.html" title="Brief file description." alt="" coords="475,130,697,185"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="430,78,533,128,531,132,428,83"/>
 </map>

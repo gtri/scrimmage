@@ -1,4 +1,5 @@
 <map id="scrimmage::sensor::RayTrace::init" name="scrimmage::sensor::RayTrace::init">
-<area shape="rect" id="node2" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a42b67e32373457df760950817de23b6d" title="scrimmage::sensor::\lLOSSensor::init" alt="" coords="207,5,360,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1sensor_1_1RayTrace.html#a83d799b4e8c7b5d90b78729748d6496b" title="scrimmage::sensor::\lRayTrace::type" alt="" coords="207,71,360,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,363,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1LOSSensor.html#a42b67e32373457df760950817de23b6d" title=" " alt="" coords="5,5,160,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,161,28,161,23,194,23"/>
 </map>

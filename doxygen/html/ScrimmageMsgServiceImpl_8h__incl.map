@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h">
-<area shape="rect" id="node2" href="$EntityPlugin_8h.html" title="Brief file description. " alt="" coords="5,131,229,158"/>
-<area shape="rect" id="node4" href="$GRPCCommandString_8h.html" title="Brief file description. " alt="" coords="304,124,627,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="173,5,414,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="25,211,103,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,64,75,90,37,106,14,124,8,143,13,162,26,182,42,200,38,203,22,185,8,165,3,142,10,121,35,102,74,85,172,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="509,211,571,236"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="294,75,299,120,307,142,321,161,339,177,359,190,406,208,453,217,495,220,494,226,452,222,404,213,357,195,336,181,317,164,303,144,294,121,289,75"/>
+<area shape="rect" id="Node000004" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="25,130,255,155"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,77,171,125,168,120,240,73"/>
+<area shape="rect" id="Node000030" title=" " alt="" coords="331,130,600,155"/>
+<area shape="poly" id="edge5_Node000001_Node000030" title=" " alt="" coords="352,73,435,121,433,125,350,77"/>
+<area shape="rect" id="Node000031" href="$GRPCCommandString_8h.html" title="Brief file description." alt="" coords="625,123,949,163"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="415,63,681,117,680,123,413,68"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="131,157,87,203,83,199,127,154"/>
+<area shape="poly" id="edge7_Node000031_Node000003" title=" " alt="" coords="728,165,585,211,583,205,727,160"/>
 </map>

@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/LocalNetwork/LocalNetwork.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/LocalNetwork/LocalNetwork.h">
-<area shape="rect" id="node2" href="$Network_8h.html" title="Brief file description. " alt="" coords="36,109,249,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,283,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="63,181,113,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,62,47,82,25,109,22,126,28,142,41,158,58,171,55,175,38,161,24,145,16,126,20,107,44,79,74,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="171,181,229,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,58,244,79,268,107,272,126,264,145,250,161,233,175,230,171,247,158,260,142,266,126,263,109,241,82,211,62"/>
+<area shape="rect" id="Node000004" href="$Network_8h.html" title="Brief file description." alt="" coords="35,108,253,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="147,60,147,94,141,94,141,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="137,135,108,172,103,169,133,132"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="155,132,185,169,180,172,151,135"/>
 </map>

@@ -1,10 +1,27 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/TrailMS/TrailMS.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/TrailMS/TrailMS.cpp">
-<area shape="rect" id="node2" href="$TrailMS_8h.html" title="Brief file description. " alt="" coords="5,109,217,151"/>
-<area shape="rect" id="node3" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="241,109,443,151"/>
-<area shape="rect" id="node4" href="$Entity_8h.html" title="Brief file description. " alt="" coords="467,117,654,143"/>
-<area shape="rect" id="node5" href="$State_8h.html" title="Brief file description. " alt="" coords="616,199,799,225"/>
-<area shape="rect" id="node6" href="$Shape_8h.html" title="Brief file description. " alt="" coords="728,117,940,143"/>
-<area shape="rect" id="node8" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="1015,117,1229,143"/>
-<area shape="rect" id="node9" href="$ProtoConversions_8h.html" title="Brief file description. " alt="" coords="1253,117,1513,143"/>
-<area shape="rect" id="node10" href="$Angles_8h.html" title="Brief file description. " alt="" coords="1537,117,1728,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="514,5,731,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,85,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="514,45,319,69,208,87,98,111,87,114,86,108,97,105,207,82,318,63,513,40"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,115,168,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="514,49,358,73,272,90,187,111,179,113,177,108,186,105,271,85,357,67,513,44"/>
+<area shape="rect" id="Node000004" href="$Shape_8h.html" title="Brief file description." alt="" coords="242,115,454,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="546,63,395,114,393,109,545,58"/>
+<area shape="rect" id="Node000011" href="$State_8h.html" title="Brief file description." alt="" coords="146,196,329,221"/>
+<area shape="poly" id="edge8_Node000001_Node000011" title=" " alt="" coords="514,42,431,50,347,63,276,83,250,95,233,110,224,126,222,145,230,183,225,184,217,145,219,125,229,106,247,91,274,78,346,58,430,45,513,37"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="369,196,578,221"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="575,62,545,84,518,110,496,147,482,184,477,182,491,144,514,106,541,79,572,58"/>
+<area shape="rect" id="Node000015" href="$Entity_8h.html" title="Brief file description." alt="" coords="528,115,717,141"/>
+<area shape="poly" id="edge6_Node000001_Node000015" title=" " alt="" coords="625,60,625,101,620,101,620,60"/>
+<area shape="rect" id="Node000028" href="$Angles_8h.html" title="Brief file description." alt="" coords="742,115,935,141"/>
+<area shape="poly" id="edge7_Node000001_Node000028" title=" " alt="" coords="684,58,801,108,799,112,682,63"/>
+<area shape="rect" id="Node000029" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="960,115,1176,141"/>
+<area shape="poly" id="edge9_Node000001_Node000029" title=" " alt="" coords="732,54,1000,110,999,115,731,59"/>
+<area shape="rect" id="Node000030" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1201,108,1405,148"/>
+<area shape="poly" id="edge10_Node000001_Node000030" title=" " alt="" coords="732,45,1187,105,1186,110,731,50"/>
+<area shape="rect" id="Node000031" href="$TrailMS_8h.html" title="Brief file description." alt="" coords="1429,108,1645,148"/>
+<area shape="poly" id="edge11_Node000001_Node000031" title=" " alt="" coords="732,39,1035,65,1416,105,1415,110,1035,70,731,45"/>
+<area shape="rect" id="Node000049" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1670,115,1933,141"/>
+<area shape="poly" id="edge12_Node000001_Node000049" title=" " alt="" coords="732,37,1139,62,1397,82,1658,105,1707,111,1706,116,1657,111,1397,87,1139,68,731,42"/>
+<area shape="poly" id="edge4_Node000004_Node000011" title=" " alt="" coords="333,143,267,190,264,186,330,139"/>
+<area shape="poly" id="edge5_Node000004_Node000014" title=" " alt="" coords="368,139,445,186,442,191,365,143"/>
 </map>

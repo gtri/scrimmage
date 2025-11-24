@@ -1,0 +1,7 @@
+<map id="scrimmage::State::rel_pos_local_frame" name="scrimmage::State::rel_pos_local_frame">
+<area shape="rect" id="Node000001" title="convert the relative position to the local frame (the output vector will point to the other state)" alt="" coords="268,49,431,89"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aaf8260e1ceb21aa804201f713e3558c9" title=" " alt="" coords="5,5,220,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,57,220,52,221,46,254,52"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1State.html#a31950d834080323f55b591755f34a314" title="Returns true if other state is in field&#45;of&#45;view." alt="" coords="19,85,207,125"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="254,86,207,93,206,88,254,80"/>
+</map>

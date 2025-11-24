@@ -1,3 +1,5 @@
 <map id="IMUErrorSimulator::CalculateParametersForFixedDeltaT" name="IMUErrorSimulator::CalculateParametersForFixedDeltaT">
-<area shape="rect" id="node2" href="$classIMUErrorSimulator.html#a4d891022978afb22de0fdbd0a683fdda" title="IMUErrorSimulator::\lIMUErrorSimulator" alt="" coords="263,13,409,54"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,5,415,60"/>
+<area shape="rect" id="Node000002" href="$classIMUErrorSimulator.html#a4d891022978afb22de0fdbd0a683fdda" title=" " alt="" coords="5,13,156,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,35,156,35,156,30,190,30"/>
 </map>

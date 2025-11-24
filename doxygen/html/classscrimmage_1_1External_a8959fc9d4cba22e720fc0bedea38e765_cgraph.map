@@ -1,7 +1,14 @@
 <map id="scrimmage::External::step" name="scrimmage::External::step">
-<area shape="rect" id="node2" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title="scrimmage::External\l::call_update_contacts" alt="" coords="219,5,385,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title="scrimmage::External\l::update_ents" alt="" coords="444,35,599,76"/>
-<area shape="rect" id="node4" href="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6" title="scrimmage::create_frame" alt="" coords="208,122,396,149"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3" title="scrimmage::External\l::send_messages" alt="" coords="225,173,379,215"/>
-<area shape="rect" id="node6" href="$classscrimmage_1_1External.html#a29e7e608f669a481aa9ba07b4e034524" title="scrimmage::External\l::shape_queue_max_size" alt="" coords="211,239,393,280"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,113,163,153"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c" title=" " alt="" coords="223,5,389,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,111,209,62,239,48,241,53,212,66,121,115"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd" title=" " alt="" coords="449,35,607,75"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="162,115,210,105,435,67,436,72,211,111,163,120"/>
+<area shape="rect" id="Node000007" href="$namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6" title=" " alt="" coords="211,121,401,146"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="163,131,197,131,197,136,163,136"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3" title=" " alt="" coords="227,171,385,211"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="163,151,215,165,214,170,161,156"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1External.html#ad9f28a3b4997fb5c4b51281ce7edd3a4" title=" " alt="" coords="213,235,399,275"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="111,151,156,186,212,220,226,227,224,232,209,225,153,190,107,155"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="390,34,436,40,435,45,389,39"/>
 </map>

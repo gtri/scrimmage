@@ -1,0 +1,7 @@
+<map id="scrimmage::autonomy::ShapeDraw::draw_ellipse" name="scrimmage::autonomy::ShapeDraw::draw_ellipse">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,199,75"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="247,5,428,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,40,232,36,233,41,199,45"/>
+<area shape="rect" id="Node000004" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="276,70,399,95"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="199,64,262,71,262,76,199,69"/>
+</map>

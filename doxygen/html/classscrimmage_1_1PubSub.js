@@ -2,8 +2,8 @@ var classscrimmage_1_1PubSub =
 [
     [ "TopicMap", "classscrimmage_1_1PubSub.html#af10cf378bac2709c413fc6ce236fc281", null ],
     [ "PubSub", "classscrimmage_1_1PubSub.html#aea14bd9ebf4967c45ad8e0806f7fabaa", null ],
-    [ "pubs", "classscrimmage_1_1PubSub.html#a3c9111108441358c50bf0ac79987997b", null ],
-    [ "subs", "classscrimmage_1_1PubSub.html#a2bbc8c4319af7444b2bb3195aac0fb53", null ],
+    [ "pubs", "classscrimmage_1_1PubSub.html#ad2561d24e9da845171ccf7f88718bc11", null ],
+    [ "subs", "classscrimmage_1_1PubSub.html#a8eadc2b16383c8ecdee202f43d726e43", null ],
     [ "add_network_name", "classscrimmage_1_1PubSub.html#a7d05f11a77489c2ef5bd6a07133c80d3", null ],
     [ "find_devices", "classscrimmage_1_1PubSub.html#a1e1a66548fa57319674ef082fa7809ad", null ],
     [ "find_pubs", "classscrimmage_1_1PubSub.html#a2fcf4dfd720823de6760bd6898f6f7be", null ],

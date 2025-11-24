@@ -1,3 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Message.h" name="/root/scrimmage/scrimmage/include/scrimmage/pubsub/Message.h">
-<area shape="rect" id="node2" href="$MessageBase_8h.html" title="Brief file description. " alt="" coords="49,109,255,151"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="58,5,265,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,196,83,221"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,62,70,83,48,109,41,127,38,146,41,182,35,182,33,145,36,125,43,107,66,79,95,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="203,196,261,221"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,58,257,79,280,107,285,128,280,150,269,170,256,187,252,184,265,167,275,148,279,128,275,109,253,83,225,62"/>
+<area shape="rect" id="Node000004" href="$MessageBase_8h.html" title="Brief file description." alt="" coords="57,108,265,148"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,60,164,94,159,94,159,60"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="134,150,74,191,71,186,131,146"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="180,146,214,184,210,188,176,150"/>
 </map>

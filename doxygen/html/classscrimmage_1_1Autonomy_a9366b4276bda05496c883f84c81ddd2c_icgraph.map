@@ -1,4 +1,7 @@
 <map id="scrimmage::Autonomy::desired_state" name="scrimmage::Autonomy::desired_state">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Autonomy.html#ab59d053c1174402139072bc090a76a7b" title="scrimmage::Autonomy\l::ready" alt="" coords="437,5,605,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Autonomy.html#a38bec77450b2ddb93c0d18f211f287c5" title="scrimmage::Autonomy\l::set_desired_state" alt="" coords="221,35,389,76"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="224,27,395,67"/>
+<area shape="rect" id="Node000002" href="$TrajectoryRecordPlayback_8cpp.html#aa62a0f5d0c820fed4f202353569cc469" title=" " alt="" coords="19,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,37,162,30,163,25,211,31"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Autonomy.html#a38bec77450b2ddb93c0d18f211f287c5" title=" " alt="" coords="5,55,176,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,63,177,67,176,62,210,57"/>
 </map>

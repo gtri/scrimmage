@@ -1,0 +1,9 @@
+<map id="scrimmage::autonomy::AutonomyExecutor::call_init" name="scrimmage::autonomy::AutonomyExecutor::call_init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,62,175,117"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7" title=" " alt="" coords="227,5,397,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,62,228,47,229,52,176,68"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1VariableIO.html#ac9f2fe245282bf5947807b515622da7a" title=" " alt="" coords="225,69,399,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,87,211,87,211,92,175,92"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b" title=" " alt="" coords="223,133,401,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="176,111,229,127,228,132,174,116"/>
+</map>

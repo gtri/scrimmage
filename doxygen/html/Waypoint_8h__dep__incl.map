@@ -1,10 +1,23 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/Waypoint.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/Waypoint.h">
-<area shape="rect" id="node2" href="$WaypointListProcessor_8h.html" title="Brief file description. " alt="" coords="5,117,213,173"/>
-<area shape="rect" id="node3" href="$MoveToGoalMS_8h.html" title="Brief file description. " alt="" coords="237,117,544,173"/>
-<area shape="rect" id="node4" href="$WaypointDispatcher_8h.html" title="Brief file description. " alt="" coords="293,228,515,299"/>
-<area shape="rect" id="node5" href="$WaypointList_8h.html" title="Brief file description. " alt="" coords="669,109,888,180"/>
-<area shape="rect" id="node6" href="$BoundaryDefense_8cpp.html" title="Brief file description. " alt="" coords="539,235,767,291"/>
-<area shape="rect" id="node7" href="$TakeFlag_8cpp.html" title="Brief file description. " alt="" coords="791,235,1014,291"/>
-<area shape="rect" id="node8" href="$WaypointGenerator_8cpp.html" title="Brief file description. " alt="" coords="1038,235,1279,291"/>
-<area shape="rect" id="node9" href="$Waypoint_8cpp.html" title="Brief file description. " alt="" coords="1014,124,1218,165"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="608,5,819,60"/>
+<area shape="rect" id="Node000002" href="$WaypointListProcessor_8h.html" title="Brief file description." alt="" coords="5,115,216,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="594,51,421,75,229,111,199,118,198,113,227,105,420,70,594,45"/>
+<area shape="rect" id="Node000004" href="$MoveToGoalMS_8h.html" title="Brief file description." alt="" coords="240,115,552,170"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="624,67,474,118,472,113,622,62"/>
+<area shape="rect" id="Node000006" href="$WaypointDispatcher_8h.html" title="Brief file description." alt="" coords="295,225,521,295"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="683,72,630,125,566,179,525,205,484,228,481,223,522,201,562,175,627,121,679,68"/>
+<area shape="rect" id="Node000008" href="$WaypointList_8h.html" title="Brief file description." alt="" coords="677,108,899,177"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="742,70,767,106,762,109,737,73"/>
+<area shape="rect" id="Node000013" href="$BoundaryDefense_8cpp.html" title="Brief file description." alt="" coords="545,233,777,287"/>
+<area shape="poly" id="edge10_Node000001_Node000013" title=" " alt="" coords="686,72,668,109,661,141,658,175,660,232,655,232,653,174,656,140,663,107,681,70"/>
+<area shape="rect" id="Node000014" href="$TakeFlag_8cpp.html" title="Brief file description." alt="" coords="801,233,1028,287"/>
+<area shape="poly" id="edge11_Node000001_Node000014" title=" " alt="" coords="833,51,878,72,898,88,914,107,928,138,933,172,930,205,925,233,920,232,925,204,927,172,923,139,910,109,894,92,875,77,831,55"/>
+<area shape="rect" id="Node000012" href="$WaypointGenerator_8cpp.html" title="Brief file description." alt="" coords="1052,233,1295,287"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="833,60,887,80,940,106,963,123,979,140,993,157,1015,175,1064,205,1113,230,1111,235,1061,210,1012,179,990,161,975,143,960,127,937,110,885,85,831,65"/>
+<area shape="rect" id="Node000015" href="$Waypoint_8cpp.html" title="Brief file description." alt="" coords="1025,123,1231,163"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="831,61,1006,105,1061,120,1059,125,1005,111,830,66"/>
+<area shape="poly" id="edge5_Node000008_Node000006" title=" " alt="" coords="665,184,520,228,518,223,663,179"/>
+<area shape="poly" id="edge6_Node000008_Node000013" title=" " alt="" coords="742,189,692,235,688,231,739,185"/>
+<area shape="poly" id="edge7_Node000008_Node000014" title=" " alt="" coords="837,185,888,231,884,235,834,189"/>
+<area shape="poly" id="edge8_Node000008_Node000012" title=" " alt="" coords="913,178,1086,230,1085,235,912,184"/>
 </map>

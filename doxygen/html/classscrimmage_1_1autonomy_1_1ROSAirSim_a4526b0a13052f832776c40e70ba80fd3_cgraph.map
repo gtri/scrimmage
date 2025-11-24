@@ -1,0 +1,10 @@
+<map id="scrimmage::autonomy::ROSAirSim::step_autonomy" name="scrimmage::autonomy::ROSAirSim::step_autonomy">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,216,132"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#a7f16ca6c4cc92c82eade5120f0d2c0cc" title=" " alt="" coords="264,5,453,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,89,250,69,251,74,181,95"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1autonomy_1_1ROSAirSim.html#ab9ef135493c8b194ac660fae352fe96b" title=" " alt="" coords="501,49,732,103"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="216,102,487,82,487,88,216,107"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca" title=" " alt="" coords="273,149,444,189"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="198,129,261,144,259,149,197,135"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="454,51,488,55,487,61,453,56"/>
+</map>

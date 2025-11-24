@@ -1,37 +1,53 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/interaction" name="/root/scrimmage/scrimmage/src/plugins/interaction">
-<area shape="rect" id="node2" href="dir_da3cbff1a3a098e3ec978e4a9dc54185.html" title="Boundary" alt="" coords="2443,63,2525,111"/>
-<area shape="rect" id="node18" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="1133,159,1205,207"/>
-<area shape="rect" id="edge10-headlabel" href="dir_000220_000002.html" title="14" alt="" coords="1215,182,1233,197"/>
-<area shape="rect" id="node3" href="dir_3e40db7e4bd024af5423e1c1f81d9f54.html" title="BulletCollision" alt="" coords="2307,63,2418,111"/>
-<area shape="rect" id="edge16-headlabel" href="dir_000221_000002.html" title="17" alt="" coords="1215,182,1233,196"/>
-<area shape="rect" id="node4" href="dir_036589151d75860ca19b92e426662b5c.html" title="CaptureInBoundaryInteraction" alt="" coords="2069,63,2283,111"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000222_000002.html" title="12" alt="" coords="1215,182,1233,196"/>
-<area shape="rect" id="node5" href="dir_3477232c73cdc3a7b598834a0ed43738.html" title="EnforceBoundaryInteraction" alt="" coords="1846,63,2045,111"/>
-<area shape="rect" id="edge9-headlabel" href="dir_000223_000002.html" title="7" alt="" coords="1219,181,1229,195"/>
-<area shape="rect" id="node6" href="dir_18358441837f4cb0340af973a5a22b69.html" title="ExternalForceField" alt="" coords="1683,63,1821,111"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000224_000002.html" title="11" alt="" coords="1215,180,1233,194"/>
-<area shape="rect" id="node7" href="dir_718b39571096dbe4377b99f98d4283fc.html" title="FlagCaptureInteraction" alt="" coords="1491,63,1658,111"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000225_000002.html" title="10" alt="" coords="1216,178,1233,193"/>
-<area shape="rect" id="node8" href="dir_95784d0a9e255c8407d69e2add6d3b22.html" title="GraphInteraction" alt="" coords="1338,63,1467,111"/>
-<area shape="rect" id="edge11-headlabel" href="dir_000226_000002.html" title="15" alt="" coords="1217,168,1234,183"/>
-<area shape="rect" id="node9" href="dir_eb4275ae0aaa8f2972eabe86548b9ef7.html" title="GroundCollision" alt="" coords="1193,63,1314,111"/>
-<area shape="rect" id="edge7-headlabel" href="dir_000227_000002.html" title="8" alt="" coords="1204,143,1213,158"/>
-<area shape="rect" id="node10" href="dir_f5941608f0d3d417e3bbbe056116b6fd.html" title="GRPCCommandString" alt="" coords="1005,63,1168,111"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000228_000002.html" title="10" alt="" coords="1135,132,1152,147"/>
-<area shape="rect" id="node11" href="dir_26200c6c07d216a83ecb4fa0b7270762.html" title="MapGen2D" alt="" coords="888,63,981,111"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000229_000002.html" title="11" alt="" coords="1108,156,1126,171"/>
-<area shape="rect" id="node12" href="dir_859d2a45fcb4be9170509f12f1e95f92.html" title="RandomAttrit" alt="" coords="757,63,864,111"/>
-<area shape="rect" id="edge14-headlabel" href="dir_000230_000002.html" title="7" alt="" coords="1111,163,1120,178"/>
-<area shape="rect" id="node13" href="dir_96611f5cacff0a6864252084f13edc83.html" title="ROSClockServer" alt="" coords="608,63,733,111"/>
-<area shape="rect" id="edge12-headlabel" href="dir_000231_000002.html" title="6" alt="" coords="1110,166,1120,181"/>
-<area shape="rect" id="node14" href="dir_d7837813ef4e20c56d8851f2cab455ea.html" title="ROSShapeViz" alt="" coords="475,63,584,111"/>
-<area shape="rect" id="edge8-headlabel" href="dir_000232_000002.html" title="6" alt="" coords="1111,164,1120,179"/>
-<area shape="rect" id="node15" href="dir_d115b7084c85df9a9245c167f249b956.html" title="SimpleCapture" alt="" coords="333,63,451,111"/>
-<area shape="rect" id="edge15-headlabel" href="dir_000233_000002.html" title="9" alt="" coords="1110,165,1120,180"/>
-<area shape="rect" id="node16" href="dir_705538788f98f066347d6b2b3389a224.html" title="SimpleCollision" alt="" coords="191,63,310,111"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000234_000002.html" title="11" alt="" coords="1106,166,1123,181"/>
-<area shape="rect" id="node17" href="dir_2c8806f7955fd6d091d1531a736337a3.html" title="TerrainGenerator" alt="" coords="37,63,168,111"/>
-<area shape="rect" id="edge13-headlabel" href="dir_000235_000002.html" title="10" alt="" coords="1106,166,1123,181"/>
-<area shape="rect" id="clust2" href="dir_00cc353c998af5f011e8667e057a10ee.html" alt="" coords="27,52,2651,121"/>
-<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,2661,132"/>
+<area shape="rect" id="node2" href="dir_da3cbff1a3a098e3ec978e4a9dc54185.html" title="Boundary" alt="" coords="2483,63,2567,88"/>
+<area shape="rect" id="node18" href="dir_d44c64559bbebec7f509842c48db8b23.html" title="include" alt="" coords="1152,136,1221,161"/>
+<area shape="poly" id="edge1" href="dir_000030_000100.html" alt="" coords="2513,90,2495,102,2473,112,2394,124,2259,133,1891,144,1505,149,1235,150,1235,145,1504,144,1891,139,2259,128,2393,119,2471,107,2492,98,2510,86"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000030_000100.html" title="14" alt="" coords="1231,148,1249,163"/>
+<area shape="rect" id="node3" href="dir_3e40db7e4bd024af5423e1c1f81d9f54.html" title="BulletCollision" alt="" coords="2343,63,2459,88"/>
+<area shape="poly" id="edge2" href="dir_000034_000100.html" alt="" coords="2384,90,2360,102,2333,112,2263,121,2144,129,1820,140,1235,150,1235,144,1820,134,2144,123,2262,116,2331,107,2358,97,2381,86"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000034_000100.html" title="17" alt="" coords="1231,148,1248,163"/>
+<area shape="rect" id="node4" href="dir_036589151d75860ca19b92e426662b5c.html" title="CaptureInBoundaryInteraction" alt="" coords="2102,63,2319,88"/>
+<area shape="poly" id="edge3" href="dir_000036_000100.html" alt="" coords="2177,91,2090,112,1909,128,1661,139,1235,149,1235,144,1661,134,1908,123,2089,107,2176,85"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000036_000100.html" title="12" alt="" coords="1231,148,1248,162"/>
+<area shape="rect" id="node5" href="dir_3477232c73cdc3a7b598834a0ed43738.html" title="EnforceBoundaryInteraction" alt="" coords="1875,63,2077,88"/>
+<area shape="poly" id="edge4" href="dir_000063_000100.html" alt="" coords="1944,91,1863,112,1733,126,1554,137,1235,149,1235,143,1554,131,1732,121,1862,107,1943,85"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000063_000100.html" title="7" alt="" coords="1235,147,1244,162"/>
+<area shape="rect" id="node6" href="dir_18358441837f4cb0340af973a5a22b69.html" title="ExternalForceField" alt="" coords="1707,63,1850,88"/>
+<area shape="poly" id="edge5" href="dir_000067_000100.html" alt="" coords="1756,91,1695,112,1566,134,1437,146,1322,151,1235,151,1235,146,1322,145,1437,141,1566,129,1694,107,1754,86"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000067_000100.html" title="11" alt="" coords="1231,150,1248,164"/>
+<area shape="rect" id="node7" href="dir_718b39571096dbe4377b99f98d4283fc.html" title="FlagCaptureInteraction" alt="" coords="1512,63,1683,88"/>
+<area shape="poly" id="edge6" href="dir_000075_000100.html" alt="" coords="1569,91,1501,112,1429,126,1356,136,1235,147,1235,142,1356,131,1428,120,1499,107,1568,86"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000075_000100.html" title="10" alt="" coords="1231,145,1249,160"/>
+<area shape="rect" id="node8" href="dir_95784d0a9e255c8407d69e2add6d3b22.html" title="GraphInteraction" alt="" coords="1357,63,1488,88"/>
+<area shape="poly" id="edge7" href="dir_000089_000100.html" alt="" coords="1400,90,1346,112,1236,140,1234,135,1345,107,1398,86"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000089_000100.html" title="15" alt="" coords="1233,138,1250,153"/>
+<area shape="rect" id="node9" href="dir_eb4275ae0aaa8f2972eabe86548b9ef7.html" title="GroundCollision" alt="" coords="1208,63,1333,88"/>
+<area shape="poly" id="edge8" href="dir_000093_000100.html" alt="" coords="1259,90,1213,129,1209,125,1255,86"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000093_000100.html" title="8" alt="" coords="1215,123,1224,138"/>
+<area shape="rect" id="node10" href="dir_f5941608f0d3d417e3bbbe056116b6fd.html" title="GRPCCommandString" alt="" coords="1021,63,1184,88"/>
+<area shape="poly" id="edge9" href="dir_000095_000100.html" alt="" coords="1118,86,1164,125,1161,129,1114,90"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000095_000100.html" title="10" alt="" coords="1156,110,1173,125"/>
+<area shape="rect" id="node11" href="dir_26200c6c07d216a83ecb4fa0b7270762.html" title="MapGen2D" alt="" coords="902,63,997,88"/>
+<area shape="poly" id="edge10" href="dir_000125_000100.html" alt="" coords="968,86,1010,107,1077,126,1139,138,1138,143,1075,131,1008,112,966,90"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000125_000100.html" title="11" alt="" coords="1127,124,1144,139"/>
+<area shape="rect" id="node12" href="dir_859d2a45fcb4be9170509f12f1e95f92.html" title="RandomAttrit" alt="" coords="768,63,877,88"/>
+<area shape="poly" id="edge11" href="dir_000172_000100.html" alt="" coords="843,86,892,107,957,123,1024,133,1139,143,1138,149,1024,139,956,128,890,112,841,91"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000172_000100.html" title="7" alt="" coords="1129,130,1139,145"/>
+<area shape="rect" id="node13" href="dir_96611f5cacff0a6864252084f13edc83.html" title="ROSClockServer" alt="" coords="617,63,743,88"/>
+<area shape="poly" id="edge12" href="dir_000190_000100.html" alt="" coords="702,86,757,107,862,127,968,139,1064,144,1138,145,1138,151,1064,149,968,144,861,132,755,112,700,90"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000190_000100.html" title="6" alt="" coords="1129,132,1139,147"/>
+<area shape="rect" id="node14" href="dir_d7837813ef4e20c56d8851f2cab455ea.html" title="ROSShapeViz" alt="" coords="483,63,592,88"/>
+<area shape="poly" id="edge13" href="dir_000198_000100.html" alt="" coords="557,86,580,97,606,107,652,116,714,123,864,134,1138,144,1138,149,864,140,714,129,652,121,605,112,578,102,555,91"/>
+<area shape="rect" id="edge13-headlabel" href="dir_000198_000100.html" title="6" alt="" coords="1129,131,1138,145"/>
+<area shape="rect" id="node15" href="dir_d115b7084c85df9a9245c167f249b956.html" title="SimpleCapture" alt="" coords="339,63,458,88"/>
+<area shape="poly" id="edge14" href="dir_000213_000100.html" alt="" coords="420,86,444,97,471,107,531,117,609,126,800,137,1139,144,1138,150,800,142,609,131,530,122,470,112,442,102,418,91"/>
+<area shape="rect" id="edge14-headlabel" href="dir_000213_000100.html" title="9" alt="" coords="1129,131,1138,146"/>
+<area shape="rect" id="node16" href="dir_705538788f98f066347d6b2b3389a224.html" title="SimpleCollision" alt="" coords="192,63,315,88"/>
+<area shape="poly" id="edge15" href="dir_000221_000100.html" alt="" coords="275,86,300,97,329,107,401,119,498,128,732,139,967,144,1138,145,1138,150,967,149,732,145,498,133,401,124,327,112,298,102,273,91"/>
+<area shape="rect" id="edge15-headlabel" href="dir_000221_000100.html" title="11" alt="" coords="1125,132,1142,146"/>
+<area shape="rect" id="node17" href="dir_2c8806f7955fd6d091d1531a736337a3.html" title="TerrainGenerator" alt="" coords="37,63,168,88"/>
+<area shape="poly" id="edge16" href="dir_000245_000100.html" alt="" coords="125,86,151,98,181,107,268,120,384,130,663,142,941,146,1138,145,1138,150,941,151,663,147,383,136,267,126,179,112,150,102,123,91"/>
+<area shape="rect" id="edge16-headlabel" href="dir_000245_000100.html" title="10" alt="" coords="1125,132,1142,147"/>
+<area shape="rect" id="clust2" href="dir_00cc353c998af5f011e8667e057a10ee.html" alt="" coords="27,52,2695,99"/>
+<area shape="rect" id="clust1" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html" title="plugins" alt="" coords="16,16,2705,109"/>
 </map>

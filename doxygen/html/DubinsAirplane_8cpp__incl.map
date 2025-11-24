@@ -1,10 +1,22 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion/DubinsAirplane/DubinsAirplane.cpp" name="/root/scrimmage/scrimmage/src/plugins/motion/DubinsAirplane/DubinsAirplane.cpp">
-<area shape="rect" id="node2" href="$DubinsAirplane_8h.html" title="Brief file description. " alt="" coords="5,109,240,151"/>
-<area shape="rect" id="node3" href="$State_8h.html" title="Brief file description. " alt="" coords="109,199,291,225"/>
-<area shape="rect" id="node4" href="$Utilities_8h.html" title="Brief file description. " alt="" coords="315,117,533,143"/>
-<area shape="rect" id="node5" href="$Angles_8h.html" title="Brief file description. " alt="" coords="558,117,749,143"/>
-<area shape="rect" id="node6" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="773,117,987,143"/>
-<area shape="rect" id="node7" href="$MissionParse_8h.html" title="Brief file description. " alt="" coords="1011,117,1245,143"/>
-<area shape="rect" id="node8" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="1269,109,1470,151"/>
-<area shape="rect" id="node9" href="$Entity_8h.html" title="Brief file description. " alt="" coords="1495,117,1681,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="795,5,1045,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,203,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="795,47,528,73,215,111,181,116,180,111,214,105,527,68,795,42"/>
+<area shape="rect" id="Node000003" href="$Utilities_8h.html" title="Brief file description." alt="" coords="227,115,450,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="796,57,424,116,423,111,795,51"/>
+<area shape="rect" id="Node000008" href="$Entity_8h.html" title="Brief file description." alt="" coords="475,115,664,141"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="822,63,626,114,625,109,821,57"/>
+<area shape="rect" id="Node000022" href="$Angles_8h.html" title="Brief file description." alt="" coords="689,115,882,141"/>
+<area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="884,62,815,110,812,105,881,58"/>
+<area shape="rect" id="Node000023" href="$State_8h.html" title="Brief file description." alt="" coords="1271,196,1454,221"/>
+<area shape="poly" id="edge5_Node000001_Node000023" title=" " alt="" coords="921,60,925,105,933,127,947,146,968,160,998,171,1078,188,1170,198,1258,203,1258,208,1169,203,1077,193,997,176,966,164,944,150,929,130,920,106,915,61"/>
+<area shape="rect" id="Node000027" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="957,115,1193,141"/>
+<area shape="poly" id="edge6_Node000001_Node000027" title=" " alt="" coords="965,58,1045,106,1043,111,962,62"/>
+<area shape="rect" id="Node000029" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1217,115,1433,141"/>
+<area shape="poly" id="edge7_Node000001_Node000029" title=" " alt="" coords="1035,57,1263,110,1262,115,1033,63"/>
+<area shape="rect" id="Node000030" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1458,108,1662,148"/>
+<area shape="poly" id="edge8_Node000001_Node000030" title=" " alt="" coords="1045,48,1444,105,1444,110,1044,53"/>
+<area shape="rect" id="Node000031" href="$DubinsAirplane_8h.html" title="Brief file description." alt="" coords="1687,108,1927,148"/>
+<area shape="poly" id="edge9_Node000001_Node000031" title=" " alt="" coords="1045,42,1328,68,1673,105,1673,111,1328,73,1045,47"/>
+<area shape="poly" id="edge10_Node000031_Node000023" title=" " alt="" coords="1701,151,1442,196,1441,191,1700,145"/>
 </map>

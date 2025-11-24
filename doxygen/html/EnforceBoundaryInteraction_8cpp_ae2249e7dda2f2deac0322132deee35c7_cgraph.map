@@ -1,3 +1,9 @@
 <map id="REGISTER_PLUGIN" name="REGISTER_PLUGIN">
-<area shape="rect" id="node2" href="$classscrimmage_1_1interaction_1_1Boundary.html#a0a17bd11b5a7ee052e2deeec470e4386" title="scrimmage::interaction\l::Boundary::make_boundary" alt="" coords="192,5,395,47"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,148,117"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a51dae9ab18aa626e1ec8cc6133a4e830" title=" " alt="" coords="211,5,421,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,89,211,61,213,66,121,95"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a1ca4457a0e3907251588dee156e1eac0" title=" " alt="" coords="196,85,436,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,102,182,102,182,107,148,107"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a9e94fad9ddcb800588475c6a7e0ee1a5" title=" " alt="" coords="211,149,421,204"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="121,115,213,143,211,148,119,120"/>
 </map>

@@ -1,6 +1,16 @@
 <map id="scrimmage::Log::parse" name="scrimmage::Log::parse">
-<area shape="rect" id="node2" href="$classscrimmage_1_1Log.html#a56d5dd45d78ce923b55279cb90472fc5" title="scrimmage::Log::parse\l_contact_visual" alt="" coords="223,5,392,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1Log.html#a3b1fb32f63af5a35916eec706635de54" title="scrimmage::Log::parse\l_frames" alt="" coords="223,71,392,112"/>
-<area shape="rect" id="node4" href="$classscrimmage_1_1Log.html#a39e5fcf33939b3444bcb5840916760e1" title="scrimmage::Log::parse\l_shapes" alt="" coords="223,136,392,177"/>
-<area shape="rect" id="node5" href="$classscrimmage_1_1Log.html#a4f0c3357fe97354a01eee96cd23a509a" title="scrimmage::Log::parse\l_utm_terrain" alt="" coords="223,201,392,243"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,163,176,189"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Log.html#a56d5dd45d78ce923b55279cb90472fc5" title=" " alt="" coords="224,5,395,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,161,151,111,185,81,223,55,234,49,236,54,225,60,188,86,154,115,105,165"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Log.html#a3b1fb32f63af5a35916eec706635de54" title=" " alt="" coords="224,69,395,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="123,161,244,112,246,117,125,166"/>
+<area shape="rect" id="Node000006" href="$namespacescrimmage.html#a03c589eaafef6bf7d9593a8fa6ec9d2a" title=" " alt="" coords="443,99,595,139"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="176,162,429,128,429,133,176,167"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1Log.html#a39f2a496884d831996450569cb2a66ef" title=" " alt="" coords="224,184,395,224"/>
+<area shape="poly" id="edge4_Node000001_Node000021" title=" " alt="" coords="176,184,211,189,210,194,176,190"/>
+<area shape="rect" id="Node000022" href="$classscrimmage_1_1Log.html#a39e5fcf33939b3444bcb5840916760e1" title=" " alt="" coords="224,248,395,288"/>
+<area shape="poly" id="edge5_Node000001_Node000022" title=" " alt="" coords="120,186,225,234,242,240,240,245,223,238,117,191"/>
+<area shape="rect" id="Node000024" href="$classscrimmage_1_1Log.html#a4f0c3357fe97354a01eee96cd23a509a" title=" " alt="" coords="224,312,395,352"/>
+<area shape="poly" id="edge6_Node000001_Node000024" title=" " alt="" coords="105,187,154,240,188,270,225,298,236,304,233,308,223,302,185,275,150,244,101,191"/>
+<area shape="poly" id="edge3_Node000005_Node000006" title=" " alt="" coords="395,99,430,104,429,109,394,104"/>
 </map>

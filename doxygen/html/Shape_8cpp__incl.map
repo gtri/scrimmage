@@ -1,4 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/common/Shape.cpp" name="/root/scrimmage/scrimmage/src/common/Shape.cpp">
-<area shape="rect" id="node2" href="$Shape_8h.html" title="Brief file description. " alt="" coords="5,95,217,121"/>
-<area shape="rect" id="node4" href="$ProtoConversions_8h.html" title="Brief file description. " alt="" coords="291,95,551,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="189,5,395,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,85,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,48,95,92,93,87,232,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="177,167,239,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,48,178,67,163,79,150,95,146,111,152,127,164,142,180,156,177,160,161,146,147,129,141,111,146,92,159,76,175,62,211,43"/>
+<area shape="rect" id="Node000004" href="$Shape_8h.html" title="Brief file description." alt="" coords="447,93,659,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="355,43,503,87,501,92,354,48"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="519,167,729,192"/>
+<area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="396,28,476,34,558,46,628,64,654,77,673,92,679,109,675,127,665,144,651,159,647,155,660,141,670,125,674,109,669,95,652,81,626,69,557,51,475,40,395,33"/>
+<area shape="rect" id="Node000015" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="161,93,423,119"/>
+<area shape="poly" id="edge5_Node000001_Node000015" title=" " alt="" coords="295,46,295,79,289,79,289,46"/>
+<area shape="poly" id="edge4_Node000004_Node000014" title=" " alt="" coords="567,117,605,155,601,159,563,121"/>
+<area shape="poly" id="edge6_Node000015_Node000003" title=" " alt="" coords="280,121,234,160,231,155,277,117"/>
 </map>

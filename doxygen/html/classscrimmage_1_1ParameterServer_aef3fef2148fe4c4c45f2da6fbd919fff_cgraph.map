@@ -1,4 +1,7 @@
 <map id="scrimmage::ParameterServer::unregister_param" name="scrimmage::ParameterServer::unregister_param">
-<area shape="rect" id="node2" href="$classscrimmage_1_1ParameterServer.html#a081abee198fdf41ddb1bd52f068e2bf0" title="scrimmage::ParameterServer\l::find_name_type" alt="" coords="265,5,477,47"/>
-<area shape="rect" id="node3" href="$classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05" title="scrimmage::ParameterServer\l::remove_if_owner" alt="" coords="265,71,477,112"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,217,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1ParameterServer.html#ae85b299c360c46afc04ba1eb152c7d66" title=" " alt="" coords="265,5,477,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,42,251,37,252,43,218,47"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05" title=" " alt="" coords="265,69,477,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,68,252,72,251,77,217,73"/>
 </map>

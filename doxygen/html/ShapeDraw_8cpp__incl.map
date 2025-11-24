@@ -1,10 +1,26 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/ShapeDraw/ShapeDraw.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/ShapeDraw/ShapeDraw.cpp">
-<area shape="rect" id="node2" href="$ShapeDraw_8h.html" title="Brief file description. " alt="" coords="5,109,217,151"/>
-<area shape="rect" id="node3" href="$RegisterPlugin_8h.html" title="Brief file description. " alt="" coords="241,109,443,151"/>
-<area shape="rect" id="node4" href="$Entity_8h.html" title="Brief file description. " alt="" coords="467,117,654,143"/>
-<area shape="rect" id="node5" href="$State_8h.html" title="Brief file description. " alt="" coords="679,117,861,143"/>
-<area shape="rect" id="node6" href="$Quaternion_8h.html" title="Brief file description. " alt="" coords="725,199,943,225"/>
-<area shape="rect" id="node7" href="$Angles_8h.html" title="Brief file description. " alt="" coords="937,117,1128,143"/>
-<area shape="rect" id="node8" href="$ParseUtils_8h.html" title="Brief file description. " alt="" coords="1152,117,1367,143"/>
-<area shape="rect" id="node10" href="$ProtoConversions_8h.html" title="Brief file description. " alt="" coords="1624,117,1884,143"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="645,5,889,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,85,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="644,42,528,49,391,63,243,83,98,111,87,113,86,108,97,105,243,77,390,57,528,44,644,36"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="109,115,168,141"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="645,41,543,49,426,62,302,82,181,111,174,113,173,108,179,105,301,77,425,57,543,44,644,36"/>
+<area shape="rect" id="Node000004" href="$Entity_8h.html" title="Brief file description." alt="" coords="192,115,381,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="645,60,359,115,358,110,644,55"/>
+<area shape="rect" id="Node000021" href="$Angles_8h.html" title="Brief file description." alt="" coords="406,115,599,141"/>
+<area shape="poly" id="edge4_Node000001_Node000021" title=" " alt="" coords="693,63,549,113,547,108,692,58"/>
+<area shape="rect" id="Node000022" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="591,196,812,221"/>
+<area shape="poly" id="edge5_Node000001_Node000022" title=" " alt="" coords="713,62,687,83,666,109,662,128,665,148,685,184,680,186,660,149,657,128,662,107,683,79,710,58"/>
+<area shape="rect" id="Node000025" href="$State_8h.html" title="Brief file description." alt="" coords="675,115,858,141"/>
+<area shape="poly" id="edge6_Node000001_Node000025" title=" " alt="" coords="769,60,769,101,764,101,764,60"/>
+<area shape="rect" id="Node000027" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="883,115,1099,141"/>
+<area shape="poly" id="edge8_Node000001_Node000027" title=" " alt="" coords="831,58,952,108,950,113,829,63"/>
+<area shape="rect" id="Node000028" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1123,108,1327,148"/>
+<area shape="poly" id="edge9_Node000001_Node000028" title=" " alt="" coords="890,56,1120,103,1119,108,888,61"/>
+<area shape="rect" id="Node000029" href="$ShapeDraw_8h.html" title="Brief file description." alt="" coords="1352,108,1568,148"/>
+<area shape="poly" id="edge10_Node000001_Node000029" title=" " alt="" coords="889,46,1339,105,1338,110,888,51"/>
+<area shape="rect" id="Node000046" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1593,115,1855,141"/>
+<area shape="poly" id="edge11_Node000001_Node000046" title=" " alt="" coords="889,41,1203,68,1580,105,1627,111,1627,116,1580,111,1202,73,889,46"/>
+<area shape="rect" id="Node000047" title=" " alt="" coords="1879,115,2089,141"/>
+<area shape="poly" id="edge12_Node000001_Node000047" title=" " alt="" coords="889,36,1322,59,1594,79,1868,105,1907,111,1906,116,1868,111,1594,84,1322,64,889,41"/>
+<area shape="poly" id="edge7_Node000025_Node000022" title=" " alt="" coords="759,143,722,187,718,183,755,139"/>
 </map>
