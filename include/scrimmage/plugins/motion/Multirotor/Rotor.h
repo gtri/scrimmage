@@ -56,7 +56,13 @@ class Rotor {
     }
     void set_quat(scrimmage::Quaternion quat) { quat_ = quat; }
 
-    Direction& direction() { return dir_; }
+    int direction() {
+        if (dir_ == Direction::CW) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
     Eigen::Vector3d& offset() { return offset_; }
     scrimmage::Quaternion& quat() { return quat_; }
     double offset_length() { return offset_length_; }

@@ -44,7 +44,7 @@ IF( ${WIN32} )
    #---------------------------------------------
    IF(MSVC)
       # Flags for Microsoft Visual Studio
-      SET( WALL_ON OFF CACHE BOOL 
+      SET( WALL_ON OFF CACHE BOOL
          "tell me about all compiler warnings (-Wall) ")
       IF(WALL_ON)
          SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -63,13 +63,13 @@ ELSE( ${WIN32} )
    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -g")
    IF(CMAKE_COMPILER_IS_GNUCXX)
       # Flags for the GNU C++ Compiler
-      SET( WALL_ON OFF CACHE BOOL 
+      SET( WALL_ON OFF CACHE BOOL
          "tell me about all compiler warnings (-Wall) ")
       IF(WALL_ON)
          SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall" -C++11)
       ENDIF( WALL_ON)
    ELSE(CMAKE_COMPILER_IS_GNUCXX)
-    
+
    ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 ENDIF( ${WIN32} )
@@ -86,7 +86,7 @@ SET (LIB_RELEASE 1)
 SET(SRCS MOOSAutonomy.cpp MOOSNode.cpp )
 
 
-ADD_LIBRARY(${LIBRARY_NAME} SHARED 
+ADD_LIBRARY(${LIBRARY_NAME} SHARED
   ${SRCS}
   )
 
@@ -102,8 +102,8 @@ TARGET_LINK_LIBRARIES(${LIBRARY_NAME}
 
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-set_target_properties(${LIBRARY_NAME} PROPERTIES 
-  SOVERSION ${LIB_MAJOR} 
+set_target_properties(${LIBRARY_NAME} PROPERTIES
+  SOVERSION ${LIB_MAJOR}
   VERSION ${_soversion}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_PLUGIN_LIBS_DIR}
   )
