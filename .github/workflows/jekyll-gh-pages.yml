@@ -1,5 +1,8 @@
 name: Deploy Sphinx Docs to GitHub Pages
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: ["Ubuntu-24.04"]
@@ -22,9 +25,15 @@ jobs:
           cp -r ./doc_output/doxygen ./website
           touch ./website/.nojekyll # Disable Jekyll
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website
-          publish_branch: gh-pages # Or your chosen publishing branch
+          folder: website # The folder the action should deploy.
+
+
+      # - name: Deploy to GitHub Pages
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./website
+      #     publish_branch: gh-pages # Or your chosen publishing branch
