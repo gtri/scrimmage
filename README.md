@@ -252,8 +252,8 @@ If you want to see the scrimmage mission on your host, you can do the following
 
 ## Building SCRIMMAGE for CentOS or RedHat
 
-This repository contains a Dockerfile that builds a compiler with C++14
-support, SCRIMMAGE's dependencies, and SCRIMMAGE for CentOS6 or RedHat6. RPMs
+This repository contains a Dockerfile that builds a compiler with C++20
+support, SCRIMMAGE's dependencies, and SCRIMMAGE for CentOS8 or RedHat8. RPMs
 are built inside of the docker image and they can be extracted and install on a
 CentOS or RedHat system. The user can change the package install prefix for all
 RPMs by specifying the `PKG_PREFIX` docker build argument. Building the docker
@@ -262,7 +262,7 @@ image can take several hours:
     cd /path/to/scrimmage/ci/dockerfiles
     docker build --build-arg PKG_PREFIX=/opt/scrimmage \
                    --tag scrimmage/centos6:latest \
-                   --file centos6 .
+                   --file almalinux8 .
 
 Extract the RPMs that were built to the host's `rpms` folder:
 
