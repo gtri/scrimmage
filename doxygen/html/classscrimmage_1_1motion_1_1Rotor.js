@@ -8,7 +8,7 @@ var classscrimmage_1_1motion_1_1Rotor =
     [ "set_direction", "classscrimmage_1_1motion_1_1Rotor.html#a388421091a837cf422f787e11a7dc4df", null ],
     [ "set_offset", "classscrimmage_1_1motion_1_1Rotor.html#ad0de739d4e2020c164c4cce5b8d90559", null ],
     [ "set_quat", "classscrimmage_1_1motion_1_1Rotor.html#af94568b9d7217e3afa7883fef39f5694", null ],
-    [ "direction", "classscrimmage_1_1motion_1_1Rotor.html#a4622e7a76379075a82f64aca4a497c52", null ],
+    [ "direction", "classscrimmage_1_1motion_1_1Rotor.html#afbc8c7778c1fd5197552f57d2313d949", null ],
     [ "offset", "classscrimmage_1_1motion_1_1Rotor.html#a25d8b4860007b8bac0b6f5b376452182", null ],
     [ "quat", "classscrimmage_1_1motion_1_1Rotor.html#a0d85309beadb2795334ebe3b7682edfa", null ],
     [ "offset_length", "classscrimmage_1_1motion_1_1Rotor.html#a91118b5dd6397c1b74319adf216d927a", null ],

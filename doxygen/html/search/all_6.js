@@ -74,7 +74,7 @@ var searchData=
   ['directcontroller_71',['DirectController',['../classscrimmage_1_1controller_1_1DirectController.html',1,'scrimmage::controller']]],
   ['directcontroller_2ecpp_72',['DirectController.cpp',['../DirectController_8cpp.html',1,'']]],
   ['directcontroller_2eh_73',['DirectController.h',['../DirectController_8h.html',1,'']]],
-  ['direction_74',['direction',['../classscrimmage_1_1motion_1_1Rotor.html#a4622e7a76379075a82f64aca4a497c52',1,'scrimmage::motion::Rotor::direction()'],['../classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2',1,'scrimmage::VariableIO::Direction'],['../classscrimmage_1_1motion_1_1Rotor.html#a4cf593640fcffc5b8ccc3e0cff650499',1,'scrimmage::motion::Rotor::Direction']]],
+  ['direction_74',['direction',['../classscrimmage_1_1motion_1_1Rotor.html#afbc8c7778c1fd5197552f57d2313d949',1,'scrimmage::motion::Rotor::direction()'],['../classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2',1,'scrimmage::VariableIO::Direction'],['../classscrimmage_1_1motion_1_1Rotor.html#a4cf593640fcffc5b8ccc3e0cff650499',1,'scrimmage::motion::Rotor::Direction']]],
   ['directory_75',['directory',['../classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2',1,'scrimmage::ConfigParse']]],
   ['disable_76',['disable',['../classscrimmage_1_1DelayedTask.html#a0281739bec9a330e301e4e169dbbcbe1',1,'scrimmage::DelayedTask']]],
   ['disable_5foutgoing_5finterfaces_77',['disable_outgoing_interfaces',['../classscrimmage_1_1External.html#a9b0213011d5254342a8661ec58d7e7cf',1,'scrimmage::External']]],

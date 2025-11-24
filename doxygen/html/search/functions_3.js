@@ -15,7 +15,7 @@ var searchData=
   ['derivative_12',['derivative',['../classscrimmage_1_1PID.html#acc9920c18485e342ee491a3398958d83',1,'scrimmage::PID']]],
   ['desired_5fstate_13',['desired_state',['../classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c',1,'scrimmage::Autonomy::desired_state()'],['../classscrimmage_1_1autonomy_1_1MOOSNode.html#a9cb83b0d85c0aca1b106816cde6e5acd',1,'scrimmage::autonomy::MOOSNode::desired_state()'],['../classscrimmage_1_1autonomy_1_1TrajectoryPoint.html#afd27ed481317ea5f8cb02d30c1a5acde',1,'scrimmage::autonomy::TrajectoryPoint::desired_state()']]],
   ['desired_5fvector_14',['desired_vector',['../classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#aab21bca405d3a0a102b0bef96036c4c1',1,'scrimmage::autonomy::motor_schemas::BehaviorBase']]],
-  ['direction_15',['direction',['../classscrimmage_1_1motion_1_1Rotor.html#a4622e7a76379075a82f64aca4a497c52',1,'scrimmage::motion::Rotor']]],
+  ['direction_15',['direction',['../classscrimmage_1_1motion_1_1Rotor.html#afbc8c7778c1fd5197552f57d2313d949',1,'scrimmage::motion::Rotor']]],
   ['directory_16',['directory',['../classscrimmage_1_1ConfigParse.html#aede39478d5a5571a786867f699fbb5d2',1,'scrimmage::ConfigParse']]],
   ['disable_5foutgoing_5finterfaces_17',['disable_outgoing_interfaces',['../classscrimmage_1_1External.html#a9b0213011d5254342a8661ec58d7e7cf',1,'scrimmage::External']]],
   ['display_5fprogress_18',['display_progress',['../classscrimmage_1_1SimControl.html#a4302a97b7177dfda984a733340cdba2f',1,'scrimmage::SimControl::display_progress()'],['../namespacescrimmage.html#a0eb8fe6ab4f5df178ac59bb7666e5bd5',1,'scrimmage::display_progress()']]],
