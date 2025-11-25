@@ -25,9 +25,11 @@ COPY ./setup /root/scrimmage/scrimmage/setup
 RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
   && /root/scrimmage/scrimmage/setup/install-jsbsim.sh
 
+FROM dependencies AS copy
+
 COPY ./ /root/scrimmage/scrimmage/
 
-FROM dependencies AS test_scripts
+FROM copy AS test_scripts
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -41,18 +43,18 @@ RUN source /root/scrimmage-venv/bin/activate \
   && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
   && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
-FROM dependencies AS builder
+FROM copy AS builder
 
 # Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/scrimmage-venv/bin/activate \
   && mkdir -p build && cd build && rm -rf * \
   && source ~/.bashrc \
-  && cmake .. -DBUILD_TESTS=ON -DBUILD_DOCS=ON -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+  && cmake .. -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="-Werror" \
   && source ~/.scrimmage/setup.bash \
   && make -j24
 
-FROM dependencies AS website
+FROM copy AS website
 
 RUN apt-get update \
   && apt-get install -y \
