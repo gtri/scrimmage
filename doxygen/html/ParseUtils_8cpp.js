@@ -9,6 +9,7 @@ var ParseUtils_8cpp =
     [ "get_vec", "ParseUtils_8cpp.html#a5363ee82ee8f87e45c1e5332c074fbbd", null ],
     [ "vec2eigen", "ParseUtils_8cpp.html#aaad7545419d1346694d31a4aa5da440f", null ],
     [ "remove_whitespace", "ParseUtils_8cpp.html#ab0fc1cef0fb3d9c9884661c683108d35", null ],
+    [ "trim", "ParseUtils_8cpp.html#a43a5d387369d1eeb4410f730459427b0", null ],
     [ "get_vec_of_vecs", "ParseUtils_8cpp.html#a61fa914805bfcc0d3d8e06dbdeb86c9d", null ],
     [ "split", "ParseUtils_8cpp.html#aa4fc7e90a63d5191c27c81b3f856166d", null ],
     [ "set_pid_gains", "ParseUtils_8cpp.html#a2fa35a2c7a8826d63f0af21074149b6a", null ],

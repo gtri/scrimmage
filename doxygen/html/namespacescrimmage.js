@@ -199,6 +199,7 @@ var namespacescrimmage =
     [ "get", "namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456", null ],
     [ "split", "namespacescrimmage.html#aa4fc7e90a63d5191c27c81b3f856166d", null ],
     [ "remove_whitespace", "namespacescrimmage.html#ab0fc1cef0fb3d9c9884661c683108d35", null ],
+    [ "trim", "namespacescrimmage.html#a43a5d387369d1eeb4410f730459427b0", null ],
     [ "str2container", "namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb", null ],
     [ "str2container", "namespacescrimmage.html#a38b1f36322be72f62e73e9c1f57072b4", null ],
     [ "str2vec", "namespacescrimmage.html#acd6e20eb5c09d0f11954bd4eff86d7b7", null ],

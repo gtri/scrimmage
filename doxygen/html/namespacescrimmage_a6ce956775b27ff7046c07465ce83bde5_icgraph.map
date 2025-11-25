@@ -1,5 +1,7 @@
 <map id="scrimmage::remove_leading_spaces" name="scrimmage::remove_leading_spaces">
-<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,416,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,35,416,75"/>
 <area shape="rect" id="Node000002" href="$namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d" title=" " alt="" coords="5,5,160,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,28,160,28,160,23,194,23"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,42,160,38,161,33,195,37"/>
+<area shape="rect" id="Node000018" href="$namespacescrimmage.html#a43a5d387369d1eeb4410f730459427b0" title=" " alt="" coords="17,70,148,95"/>
+<area shape="poly" id="edge2_Node000001_Node000018" title=" " alt="" coords="195,72,148,77,148,72,194,66"/>
 </map>

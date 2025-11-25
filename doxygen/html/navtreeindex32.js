@@ -1,5 +1,7 @@
 var NAVTREEINDEX32 =
 {
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a363c8e09aa18ceb5d41f5ded596909e5":[2,0,8,6,4,0,22],
+"classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a4f1c9c52b375ce01a306ac9b6b5b9204":[3,0,4,5,4,0,7],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a4f1c9c52b375ce01a306ac9b6b5b9204":[2,0,8,6,4,0,7],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a85932fea446ecd12d64bc56d4b751108":[2,0,8,6,4,0,1],
 "classscrimmage_1_1motion_1_1FixedWing6DOF.html#aa3daf9de0c640506c2c65249c9d502b3a85932fea446ecd12d64bc56d4b751108":[3,0,4,5,4,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX32 =
 "classscrimmage_1_1motion_1_1MultirotorState.html#af90e2897349a8e67c4a80c6d43b67468ab30e12168661b3546b61fbd528abc524":[3,0,4,5,9,0,0],
 "classscrimmage_1_1motion_1_1MultirotorState.html#af90e2897349a8e67c4a80c6d43b67468af4403de04ced2fc432a28e5d71d74a3b":[2,0,8,6,9,0,1],
 "classscrimmage_1_1motion_1_1MultirotorState.html#af90e2897349a8e67c4a80c6d43b67468af4403de04ced2fc432a28e5d71d74a3b":[3,0,4,5,9,0,1],
-"classscrimmage_1_1motion_1_1MultirotorState.html#afd8447934fb03d0c00a83be0d1277a53":[3,0,4,5,9,1],
-"classscrimmage_1_1motion_1_1MultirotorState.html#afd8447934fb03d0c00a83be0d1277a53":[2,0,8,6,9,1],
-"classscrimmage_1_1motion_1_1Multirotor_1_1Controller.html":[3,0,4,5,8,0]
+"classscrimmage_1_1motion_1_1MultirotorState.html#afd8447934fb03d0c00a83be0d1277a53":[3,0,4,5,9,1]
 };
