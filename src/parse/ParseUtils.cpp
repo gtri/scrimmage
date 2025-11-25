@@ -261,10 +261,20 @@ std::string remove_whitespace(const std::string& str) {
     return result;
 }
 
+std::string trim(const std::string& str) {
+    std::string result(str);
+
+    remove_leading_spaces(result);
+    remove_trailing_spaces(result);
+
+    return result;
+}
+
 bool get_vec_of_vecs(
     const std::string& str,
     std::vector<std::vector<std::string>>& out,
     const std::string& delims) {
+
     // Of the form...
     // [a b c d]
     // [e f g h]

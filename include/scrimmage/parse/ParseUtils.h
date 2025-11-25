@@ -93,6 +93,8 @@ void split(std::vector<std::string>& tokens, const std::string& str, const std::
 
 std::string remove_whitespace(const std::string& str);
 
+std::string trim(const std::string& str);
+
 template <typename T>
 T str2container(const std::string& str, const std::string& delims) {
     T out;
