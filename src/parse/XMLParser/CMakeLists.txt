@@ -3,7 +3,7 @@ set(LIB_MAJOR 0)
 set(LIB_MINOR 0)
 set(LIB_RELEASE 0)
 
-set(SRCS 
+set(SRCS
   RapidXMLParser.cpp
   #  XMLParser.cpp
 )
@@ -22,13 +22,14 @@ else()
    set(DEFINITIONS ${DEFINITIONS} -DENABLE_LIBXML2_PARSER=1)
 endif()
 
-add_library(${LIBRARY_NAME} 
+add_library(${LIBRARY_NAME}
   SHARED
   ${SRCS}
 )
 
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
+  scrimmage-boost
   ${PUBLIC_LIBS}
   # TinyXML is a header-only library, so we don't need to link it
 )

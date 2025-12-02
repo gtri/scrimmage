@@ -180,6 +180,7 @@ if (${VTK_FOUND})
 					IOLegacy
 					RenderingAnnotation
 					RenderingCore
+          CommonCore
 					${OPENGL_MODULE}
 					${EXTRUSION_MODULES})
 			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
@@ -203,6 +204,7 @@ if (${VTK_FOUND})
         vtkIOLegacy
         vtkRenderingAnnotation
         vtkRenderingCore
+        vtkCommonCore
         ${OPENGL_MODULE}
         ${EXTRUSION_MODULES})
 
@@ -212,7 +214,7 @@ endif()
 
 if (${VTK_FOUND})
   message(STATUS "Found VTK Version: ${VTK_MAJOR_VERSION}.${VTK_MINOR_VERSION}.${VTK_BUILD_VERSION}")
-  include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
+  # include_directories(SYSTEM ${VTK_INCLUDE_DIRS})
   if(${VTK_MAJOR_VERSION} LESS 9)
       ## VTK_USE_FILE is deprecated in vtk9
       include(${VTK_USE_FILE})
