@@ -143,6 +143,15 @@ using ControllerPtr = std::shared_ptr<Controller>;
 class Sensor;
 using SensorPtr = std::shared_ptr<Sensor>;
 
+class GPUController;
+using GPUControllerPtr = std::shared_ptr<GPUController>;
+
+class GPUMotionModel;
+using GPUMotionModelPtr = std::shared_ptr<GPUMotionModel>;
+
+class GPUNetwork;
+using GPUNetworkPtr = std::shared_ptr<GPUNetwork>;
+
 class Log;
 
 class Interface;

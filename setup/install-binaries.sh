@@ -51,10 +51,15 @@ EOF
 # Process input parameters to assign state of external flag
 ###################################################################
 EXTERNAL=false
+GPU=false
 
 while (( "$#" )); do
     if [[ "$1" = "--external" ]]; then
 		EXTERNAL=true
+    fi
+
+    if [[ "$1" = "--gpu" ]]; then
+		GPU=true
     fi
 
     shift
@@ -100,6 +105,15 @@ if [ "$EXTERNAL" = false ]; then
         graphviz
         doxygen
         libopencv-dev
+    )
+fi
+
+if [ "$GPU" = true ]; then
+    DEPS_DPKG+=(
+        clinfo
+        opencl-headers
+        pocl-opencl-icd
+        ocl-icd-opencl-dev
     )
 fi
 

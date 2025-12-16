@@ -159,7 +159,8 @@ testing::AssertionResult AreNodesEqual(Actual actual, Expected expected) {
         return s;
     };
 
-    // We can sometimes get differences in whitespace. We don't really care about that
+    // We can sometimes get differences in whitespace. We don't really care about
+    // that
     std::string a_name = remove_whitespace(actual.name());
     std::string a_value = remove_whitespace(actual.value());
     std::string e_name = remove_whitespace(expected.name());

@@ -142,7 +142,7 @@ TEST(rtree_test, nearest_n_neighbors) {
 
     // Find the nearest neighbors the slow, but sure way:
     // 1. Sort the distance vector
-    std::vector<std::pair<int, double> > id_dists;
+    std::vector<std::pair<int, double>> id_dists;
     for (sc::Contact& c : contacts) {
         double dist = (own.state()->pos() - c.state()->pos()).norm();
         id_dists.push_back(std::make_pair(c.id().id(), dist));
@@ -152,7 +152,7 @@ TEST(rtree_test, nearest_n_neighbors) {
     // 2. Get the first n distances only
     unsigned int n = 0;
     std::vector<sc::ID> slow_neighbors;
-    for (std::vector<std::pair<int, double> >::iterator it = id_dists.begin();
+    for (std::vector<std::pair<int, double>>::iterator it = id_dists.begin();
          it != id_dists.end() && n < num_neighbors;
          it++, n++) {
         sc::ID id;

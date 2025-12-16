@@ -259,6 +259,7 @@ bool create_networks(
             // If the name was overridden, use the override.
             std::string name = get<std::string>("name", config_parse.params(), network_name);
             network->parent()->set_printer(info.printer);
+            network->parent()->set_gpu_controller(info.gpu);
             network->set_name(name);
             network->set_mission_parse(info.mp);
             network->set_time(info.time);

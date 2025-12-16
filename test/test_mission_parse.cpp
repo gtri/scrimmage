@@ -30,7 +30,6 @@
  */
 
 #include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <scrimmage/parse/MissionParse.h>
 
 class MissionParseTest : public testing::TestWithParam<std::string> {

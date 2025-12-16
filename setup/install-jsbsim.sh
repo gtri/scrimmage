@@ -28,23 +28,25 @@ if [ ! -d "${JSBSIM_TMP}" ];
 then
   mkdir -p ${JSBSIM_TMP} || { echo "Failed to create ${JSBSIM_TMP}. Are you root?"; exit 1; }
 else
-    echo "Temporary directory ${JSBSIM_TMP} already exists. Please remove 
-    to proceed with installation of JSBSIM" 
+    echo "Temporary directory ${JSBSIM_TMP} already exists. Please remove
+    to proceed with installation of JSBSIM"
     exit 1
 fi
+
+apt-get install wget
 
 # Install jsbsim & jsbsim-devl from deb packages
 for JSBSIM_DEP in "${!DEPS[@]}";
 do
   printf "Installing ${JSBSIM_DEP}...\n"
-  if which apt-get &> /dev/null; 
+  if which apt-get &> /dev/null;
   then
     DEB=${DEPS[$JSBSIM_DEP]}
     if [[ ! `dpkg -l | grep -w "ii  ${JSBSIM_DEP} "` ]];
     then
       printf "${DEB} \n"
       wget "${JSBSIM_RELEASE_URL}/${DEB}" -nv --directory-prefix=${JSBSIM_TMP}
-      apt-get install "${JSBSIM_TMP}/${DEB}" 
+      apt-get install "${JSBSIM_TMP}/${DEB}"
     else
       printf "${DEB} is already installed on this system!\n"
     fi
@@ -53,11 +55,11 @@ do
 done
 
 # Cleanup tmp dir.
-if [ -f ${JSBSIM_TMP}/${JSBSIM_DEVEL} ]; then 
+if [ -f ${JSBSIM_TMP}/${JSBSIM_DEVEL} ]; then
   rm ${JSBSIM_TMP}/${JSBSIM_DEVEL}
 fi
 
-if [ -f ${JSBSIM_TMP}/${JSBSIM_BIN} ]; then 
+if [ -f ${JSBSIM_TMP}/${JSBSIM_BIN} ]; then
   rm ${JSBSIM_TMP}/${JSBSIM_BIN}
 fi
 

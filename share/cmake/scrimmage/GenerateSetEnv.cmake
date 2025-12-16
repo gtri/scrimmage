@@ -3,7 +3,7 @@ include(CMakeParseArguments)
 function(GenerateSetEnv)
   set(options)
   set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE JSBSIM_ROOT)
-  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH)
+  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH KERNEL_PATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
   if (ARG_SETUP_LOCAL_CONFIG_DIR)
@@ -41,6 +41,11 @@ function(GenerateSetEnv)
     string(REPLACE ";" ":" ARG_DATA_PATH "${ARG_DATA_PATH}")
     if (NOT "${ARG_DATA_PATH}" STREQUAL "")
       string(CONCAT ARG_DATA_PATH ":" "${ARG_DATA_PATH}")
+    endif()
+
+    string(REPLACE ";" ":" ARG_KERNEL_PATH "${ARG_KERNEL_PATH}")
+    if (NOT "${ARG_KERNEL_PATH}" STREQUAL "")
+      string(CONCAT ARG_KERNEL_PATH ":" "${ARG_KERNEL_PATH}")
     endif()
 
     # Write the project-setenv file

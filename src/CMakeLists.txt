@@ -41,29 +41,14 @@ set(SRCS
 
 add_subdirectory(parse/XMLParser)
 
-set(PUBLIC_LIBS
-    scrimmage-protos
-    scrimmage-msgs
-    scrimmage-xml
-    ${GeographicLib_LIBRARIES}
-    ${CMAKE_DL_LIBS}
-)
-
-set(CORE_LIBS
-    Boost::boost
-    Boost::filesystem
-    Boost::program_options
-    Boost::date_time
-    Boost::graph
-    Boost::thread
-    Boost::chrono
-)
-
-set(INCLUDE_DIRS
-    ${EIGEN3_INCLUDE_DIR}
-    ${GeographicLib_INCLUDE_DIRS}
-    "$<INSTALL_INTERFACE:include>"
-    "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
+set(BOOST_LIBS
+  Boost::boost
+  Boost::filesystem
+  Boost::program_options
+  Boost::date_time
+  Boost::graph
+  Boost::thread
+  Boost::chrono
 )
 
 if (GRPC_FOUND)
@@ -87,12 +72,34 @@ add_dependencies(${LIBRARY_NAME}
 )
 target_link_libraries(${LIBRARY_NAME}
   PUBLIC
-    ${PUBLIC_LIBS}
+  scrimmage-protos
+  scrimmage-msgs
+  scrimmage-xml
+  ${GeographicLib_LIBRARIES}
+  ${CMAKE_DL_LIBS}
   PRIVATE
-    ${CORE_LIBS}
+  ${BOOST_LIBS}
 )
 
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
+
+#message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")
+if (ENABLE_GPU_ACCELERATION) 
+    target_sources(${LIBRARY_NAME} 
+      PRIVATE
+      gpu/GPUController.cpp
+      gpu/OpenCLUtils.cpp
+      gpu/GPUMotionModel.cpp
+    )
+    target_link_libraries(${LIBRARY_NAME} 
+      PRIVATE
+      OpenCL::OpenCL
+    )
+    target_compile_definitions(${LIBRARY_NAME} 
+      PUBLIC # These defs should be consistent across the project 
+      CL_HPP_MINIMUM_OPENCL_VERSION=120
+      CL_HPP_TARGET_OPENCL_VERSION=120)
+endif()
 
 set(_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
@@ -106,7 +113,10 @@ set_target_properties(
 
 target_include_directories(${LIBRARY_NAME}
   PUBLIC
-    ${INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
+  ${GeographicLib_INCLUDE_DIRS}
+  "$<INSTALL_INTERFACE:include>"
+  "$<BUILD_INTERFACE:${SCRIMMAGE_INC_DIR}>"
 )
 
 install(TARGETS ${LIBRARY_NAME}

@@ -30,20 +30,9 @@
  *
  */
 
-#include <chrono>  // NOLINT
-#include <future>  // NOLINT
-#include <iostream>
-#include <memory>
-#include <string>
-
-#include <GeographicLib/LocalCartesian.hpp>
-#include <boost/range/adaptor/map.hpp>
-#include <boost/range/adaptor/transformed.hpp>
-#include <boost/range/algorithm/for_each.hpp>
-#include <boost/range/numeric.hpp>
-#include <boost/thread.hpp>
 #include <scrimmage/autonomy/Autonomy.h>
 #include <scrimmage/common/Algorithm.h>
+#include <scrimmage/common/CSV.h>
 #include <scrimmage/common/GlobalService.h>
 #include <scrimmage/common/ParameterServer.h>
 #include <scrimmage/common/RTree.h>
@@ -54,17 +43,33 @@
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/log/Log.h>
 #include <scrimmage/log/Print.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/motion/Controller.h>
 #include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/network/Interface.h>
 #include <scrimmage/parse/ConfigParse.h>
 #include <scrimmage/parse/MissionParse.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/PluginManager.h>
+#include <scrimmage/sensor/Sensor.h>
+#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <scrimmage/simcontrol/SimControl.h>
+#include <scrimmage/simcontrol/SimUtils.h>
+
+#if ENABLE_GPU_ACCELERATION == 1
+#include <scrimmage/gpu/GPUController.h>
+#include <scrimmage/gpu/GPUMotionModel.h>
+#endif
+
+#include <chrono>  // NOLINT
+#include <future>  // NOLINT
+#include <iostream>
+#include <memory>
+#include <string>
+
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Event.pb.h>
 #include <scrimmage/proto/Frame.pb.h>
 #include <scrimmage/proto/ProtoConversions.h>
 #include <scrimmage/proto/Visual.pb.h>
@@ -73,12 +78,27 @@
 #include <scrimmage/pubsub/PubSub.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/simcontrol/SimUtils.h>
 
-namespace sc = scrimmage;
+#if ENABLE_PYTHON_BINDINGS == 1
+#include <pybind11/pybind11.h>
+#ifdef __clang__
+_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wmacro-redefined\"")
+    _Pragma("clang diagnostic ignored \"-Wdeprecated-register\"")
+#endif
+#include <Python.h>
+#ifdef __clang__
+        _Pragma("clang diagnostic pop")
+#endif
+#endif
+
+#include <GeographicLib/LocalCartesian.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/algorithm/for_each.hpp>
+#include <boost/range/numeric.hpp>
+#include <boost/thread.hpp>
+
+            namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sm = scrimmage_msgs;
 namespace br = boost::range;
@@ -106,6 +126,7 @@ SimControl::SimControl()
       plugin_manager_(std::make_shared<PluginManager>()),
       networks_(std::make_shared<std::map<std::string, NetworkPtr>>()),
       pubsub_(std::make_shared<PubSub>()),
+      gpu_(nullptr),
       file_search_(std::make_shared<FileSearch>()),
       rtree_(std::make_shared<scrimmage::RTree>()),
       sim_plugin_(std::make_shared<EntityPlugin>()),
@@ -147,6 +168,13 @@ bool SimControl::setup_logging() {
 }
 
 bool SimControl::init(const std::string& mission_file, const bool& init_python) {
+#if ENABLE_PYTHON_BINDINGS == 1
+    if (init_python) {
+        Py_Initialize();
+        python_enabled_ = true;
+    }
+#endif
+
     ents_.clear();
     ent_inters_.clear();
     metrics_.clear();
@@ -156,13 +184,19 @@ bool SimControl::init(const std::string& mission_file, const bool& init_python) 
     networks_->clear();
     pubsub_->pubs().clear();
     pubsub_->subs().clear();
+    gpu_motion_models_.clear();
 
     if (!mp_->parse(mission_file)) {
         cout << "Failed to parse file: " << mission_file << endl;
         return false;
     }
 
-    // Start with the simulation paused? Can be overriden by
+#if ENABLE_GPU_ACCELERATION == 1
+    // Needs to be done after parsing mission file
+    init_gpu();
+#endif
+
+    // Start with the simulation paused? Can be overridden by
     // SimControl::pause()
     if (mp_->start_paused()) {
         pause(true);
@@ -176,7 +210,42 @@ bool SimControl::init(const std::string& mission_file, const bool& init_python) 
         cout << "Missing JSBSIM_ROOT env variable, using ./" << endl;
     }
 #endif
+
     return true;
+}
+
+void SimControl::init_gpu() {
+#if ENABLE_GPU_ACCELERATION == 1
+    gpu_ = std::make_shared<scrimmage::GPUController>();
+    gpu_->init(mp_);
+
+    // Build Motion Models for our Entities
+    const std::map<std::string, GPUPluginBuildParams>& plugin_params = gpu_->get_plugin_params();
+    for (const auto& kv : mp_->entity_descriptions()) {
+        const std::map<std::string, std::string>& ent_desc = kv.second;
+        const bool uses_gpu_motion_model = ent_desc.count("gpu_motion_model") > 0;
+
+        if (uses_gpu_motion_model) {
+            const std::string& motion_model_kernel_name = ent_desc.at("gpu_motion_model");
+            const bool motion_model_built = gpu_motion_models_.count(motion_model_kernel_name) > 0;
+            const bool kernel_exists = plugin_params.count(motion_model_kernel_name) > 0;
+
+            if (!kernel_exists) {
+                std::cerr << "GPU Motion Model Kernel \'" << motion_model_kernel_name
+                          << "\' is not defined in mission!" << std::endl;
+            } else if (!motion_model_built) {
+                const GPUPluginBuildParams& plugin_param =
+                    plugin_params.at(motion_model_kernel_name);
+                gpu_motion_models_[motion_model_kernel_name] =
+                    GPUMotionModel::build_motion_model(plugin_param);
+            }
+        }
+    }
+#else
+    std::cout << "GPU Acceleration Disabled. Using CPU for motion updates.\n"
+                 "Enable GPU Motion Updates by compiling with "
+                 "-DENABLE_GPU_ACCELERATION \n";
+#endif
 }
 
 void SimControl::request_screenshot() {
@@ -206,7 +275,6 @@ bool SimControl::generate_entities(const double& t) {
         // reached
         int gen_count = 0;
         for (double& gen_time : mp_->next_gen_times()[ent_desc_id]) {
-
             GenerateInfo& gen_info = mp_->gen_info()[ent_desc_id];
             if (t < gen_time || gen_info.total_count <= 0) {
                 continue;
@@ -333,26 +401,38 @@ bool SimControl::generate_entity(
 
     int id = find_available_id(params);
 
-    bool ent_status = ent->init(
-        plugin_attr_map,
-        params,
-        id_to_team_map_,
-        id_to_ent_map_,
-        contacts_,
-        mp_,
-        proj_,
-        id,
-        ent_desc_id,
-        plugin_manager_,
-        file_search_,
-        rtree_,
-        pubsub_,
-        printer_,
-        time_,
-        param_server_,
-        global_services_,
-        std::set<std::string>{},
-        [](std::map<std::string, std::string>&) {});
+    SimUtilsInfo info;
+    info.mp = mp_;
+    info.plugin_manager = plugin_manager_;
+    info.file_search = file_search_;
+    info.rtree = rtree_;
+    info.pubsub = pubsub_;
+    info.printer = printer_;
+    info.time = time_;
+    info.param_server = param_server_;
+    info.random = random_;
+    info.id_to_team_map = id_to_team_map_;
+    info.id_to_ent_map = id_to_ent_map_;
+    info.proj = proj_;
+    info.global_services = global_services_;
+    info.contacts = contacts_;
+    info.gpu = gpu_;
+
+    EntityInitParams init_params;
+    init_params.overrides = plugin_attr_map;
+    init_params.info = params;
+    init_params.id = id;
+    init_params.ent_desc_id = ent_desc_id;
+    init_params.param_override_func = [](std::map<std::string, std::string>&) {};
+    init_params.plugin_tags = std::set<std::string>{};
+
+    if (params.count("gpu_motion_model") > 0) {
+        std::string name = params["gpu_motion_model"];
+        init_params.gpu_motion_model = gpu_motion_models_[name];
+    }
+
+    bool ent_status = ent->init(info, init_params);
+
     contacts_mutex_.unlock();
 
     if (!ent_status) {
@@ -400,6 +480,10 @@ MissionParsePtr SimControl::mp() {
 
 bool SimControl::enable_gui() {
     return mp_->enable_gui();
+}
+
+void SimControl::set_enable_gui(bool enable) {
+    mp_->set_enable_gui(false);
 }
 
 void SimControl::display_progress(const bool& enable) {
@@ -456,7 +540,6 @@ bool SimControl::run_networks() {
 }
 
 bool SimControl::run_interaction_detection() {
-
     auto run_interaction = [&](auto ent_inter) {
         bool result = ent_inter->step_entity_interaction(ents_, t_, dt_);
         if (!result && ent_inter->print_err_on_exit) {
@@ -537,6 +620,7 @@ void SimControl::run_remove_inactive() {
                 id_to_ent_map_->erase(it_id_ent);
             }
 
+            // Remove from gpu motion model
         } else {
             ++it;
         }
@@ -555,6 +639,14 @@ bool SimControl::run_single_step(const int& loop_number) {
 
     run_callbacks(sim_plugin_);
 
+    // Sync the motion model with sim execution so all values are properly
+    // initialized prior to stepping
+#if ENABLE_GPU_ACCELERATION == 1
+    for (auto gpu_motion_model_pair : gpu_motion_models_) {
+        gpu_motion_model_pair.second->init_new_entities(t);
+    }
+#endif
+
     if (screenshot_task_.update(t_).first) {
         request_screenshot();
     }
@@ -565,12 +657,10 @@ bool SimControl::run_single_step(const int& loop_number) {
         }
         return false;
     }
-
     // Wait loop timer.
     // Stay in loop if currently paused.
     bool exit_loop = false;
     do {
-
         // Were we told to exit, externally?
         exit_mutex_.lock();
         if (exit_) {
@@ -705,6 +795,16 @@ bool SimControl::start() {
     if (mp_->params().count("seed") > 0) {
         auto seed = std::stoul(mp_->params()["seed"]);
         random_->seed(seed);
+#if ENABLE_PYTHON_BINDINGS == 1
+        if (python_enabled_) {
+            pybind11::module::import("random").attr("seed")(seed);
+            try {
+                pybind11::module::import("numpy.random").attr("seed")(seed);
+            } catch (const pybind11::error_already_set&) {
+                // ignore. numpy not installed
+            }
+        }
+#endif
     } else {
         random_->seed();
     }
@@ -733,7 +833,6 @@ bool SimControl::start() {
     }
 
     if (mp_->params().count("stream_port") > 0 && mp_->params().count("stream_ip") > 0) {
-
         if (mp_->network_gui()) {
             outgoing_interface_->init_network(
                 Interface::client,
@@ -798,6 +897,7 @@ bool SimControl::start() {
     info.random = random_;
     info.id_to_team_map = id_to_team_map_;
     info.id_to_ent_map = id_to_ent_map_;
+    info.gpu = gpu_;
 
     networks_ = std::make_shared<NetworkMap>();
     if (!create_networks(info, *networks_))
@@ -997,7 +1097,8 @@ bool SimControl::run() {
     int loop_number = 0;
     while (run_single_step(loop_number++)) {
     }
-    return finalize();
+    bool result = finalize();
+    return result;
 }
 
 bool SimControl::finalize() {
@@ -1015,10 +1116,6 @@ bool SimControl::finalize() {
         }
     }
 
-    // Update final progress bar. Do this before accounting for last timestep to
-    // have progress bar completed at 100%
-    sc::display_progress((tend_ == 0) ? 1.0 : t() / tend_);
-
     // account for last step
     set_time(t() - dt_);
 
@@ -1029,8 +1126,6 @@ bool SimControl::finalize() {
         pub_ent_pres_end_->publish(msg);
     }
 
-    run_networks();
-    run_metrics();
     run_logging();
 
     if (display_progress_)
@@ -1084,6 +1179,20 @@ bool SimControl::shutdown(const bool& shutdown_python) {
     }
 
     bool status = reset_pointers();
+
+#if ENABLE_PYTHON_BINDINGS == 1
+    // When running the GUI in a separate thread, Python throws the following
+    // exception during the Py_Finalize call:
+    //
+    // Exception KeyError: KeyError(140466908776576,) in <module 'threading'
+    // from '/usr/lib/python2.7/threading.pyc'> ignored
+    //
+    // To disable this warning, dont call Py_Finalize if running in a thread.
+    if (not running_in_thread_ && shutdown_python) {
+        Py_Finalize();
+        python_enabled_ = false;
+    }
+#endif
 
     return status;
 }
@@ -1165,7 +1274,6 @@ bool SimControl::wait_for_ready() {
 }
 
 bool SimControl::end_condition_reached() {
-
     if (end_conditions_.count(EndConditionFlags::TIME) && t() > mp_->tend() - dt_ / 2.0) {
         auto msg = std::make_shared<Message<sm::EndTime>>();
         pub_end_time_->publish(msg);
@@ -1177,7 +1285,6 @@ bool SimControl::end_condition_reached() {
         pub_no_teams_->publish(msg);
         if (end_conditions_.count(EndConditionFlags::ALL_DEAD)
             || end_conditions_.count(EndConditionFlags::ONE_TEAM)) {
-
             std::cout << std::endl << "End of Simulation: No Entities Remaining" << std::endl;
             return true;
         }
@@ -1205,12 +1312,48 @@ std::list<MetricsPtr>& SimControl::metrics() {
     return metrics_;
 }
 
-PluginManagerPtr& SimControl::plugin_manager() {
+PluginManagerPtr SimControl::plugin_manager() const {
     return plugin_manager_;
 }
 
-FileSearchPtr& SimControl::file_search() {
+FileSearchPtr SimControl::file_search() const {
     return file_search_;
+}
+
+PubSubPtr SimControl::pubsub() const {
+    return pubsub_;
+}
+
+PrintPtr SimControl::printer() const {
+    return printer_;
+}
+
+GlobalServicePtr SimControl::global_services() const {
+    return global_services_;
+}
+
+TimePtr SimControl::time() const {
+    return time_;
+}
+
+ContactMapPtr SimControl::contacts() const {
+    return contacts_;
+}
+
+RTreePtr SimControl::rtree() const {
+    return rtree_;
+}
+
+std::shared_ptr<GeographicLib::LocalCartesian> SimControl::proj() const {
+    return proj_;
+}
+
+ParameterServerPtr SimControl::param_server() const {
+    return param_server_;
+}
+
+MissionParsePtr SimControl::mp() const {
+    return mp_;
 }
 
 bool SimControl::take_step() {
@@ -1570,20 +1713,30 @@ bool SimControl::run_entities() {
         // run controllers in a single thread since they are serially connected
         for (EntityPtr& ent : ents_) {
             for (auto c : ent->controllers()) {
-                success &= exec_step(c, [&](auto c){
-                  return c->step_loop_timer(dt_) ?
-                    c->step(temp_t, motion_dt) : true;});
+                success &= exec_step(c, [&](auto c) {
+                    return c->step_loop_timer(dt_) ? c->step(t_, dt_) : true;
+                });
             }
         }
+    }
+#if ENABLE_GPU_ACCELERATION == 1
+    for (auto gpu_motion_model_pair : gpu_motion_models_) {
+        GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
+        gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
+    }
+#endif
 
+    for (int i = 0; i < mp_->motion_multiplier(); i++) {
         // run motion model
         auto step_all = [&](Task::Type type, auto getter) {
             if (entity_thread_types_.count(type)) {
                 success &= add_tasks(type, temp_t, motion_dt);
             } else {
                 for (EntityPtr& ent : ents_) {
-                    auto step = [&](auto p) { return p->step(temp_t, motion_dt); };
-                    success &= exec_step(getter(ent), step);
+                    if (!ent->using_gpu_motion_model()) {
+                        auto step = [&](auto p) { return p->step(temp_t, motion_dt); };
+                        success &= exec_step(getter(ent), step);
+                    }
                 }
             }
         };
@@ -1626,7 +1779,9 @@ bool SimControl::run_entities() {
         };
         br::for_each(ent->autonomies(), add_shapes);
         br::for_each(ent->controllers(), add_shapes);
-        add_shapes(ent->motion());
+        if (ent->motion() != nullptr) {
+            add_shapes(ent->motion());
+        }
     }
     return success;
 }
@@ -1735,7 +1890,6 @@ bool SimControl::output_summary() {
 
     // Loop over each team and generate csv output
     for (auto const& team_str_double : team_metrics) {
-
         // Each line starts with team_id,score
         csv_str += std::to_string(team_str_double.first);
         csv_str += "," + std::to_string(team_scores[team_str_double.first]);
@@ -1795,12 +1949,15 @@ EntityPluginPtr SimControl::plugin() {
     return sim_plugin_;
 }
 
-std::shared_ptr<std::unordered_map<int, EntityPtr>> SimControl::id_to_entity_map() {
+std::shared_ptr<std::unordered_map<int, EntityPtr>> SimControl::id_to_entity_map() const {
     return id_to_ent_map_;
 }
 
-int SimControl::find_available_id(const std::map<std::string, std::string>& params) {
+std::shared_ptr<std::unordered_map<int, int>> SimControl::id_to_team_map() const {
+    return id_to_team_map_;
+}
 
+int SimControl::find_available_id(const std::map<std::string, std::string>& params) {
     // Use the mission file specified ID, if it exists, otherwise, find the
     // next available ID from the back of the ids_used_ std::set.
     int id = 0;

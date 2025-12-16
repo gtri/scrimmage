@@ -10,6 +10,7 @@ SHELL ["/bin/bash", "-l", "-c"]
 # Install initial dependencies and setup .bashrc
 RUN apt-get update \
   && apt-get install -y \
+    software-properties-common \
     x11-apps \
     python3-pip \
     python3-venv \
@@ -25,7 +26,17 @@ COPY ./setup /root/scrimmage/scrimmage/setup
 RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
   && /root/scrimmage/scrimmage/setup/install-jsbsim.sh
 
-FROM dependencies AS copy
+FROM dependencies AS gpu_dependencies
+
+RUN apt-get update \
+  && apt-get install -y \
+    clinfo \
+    opencl-headers \
+    pocl-opencl-icd \
+    ocl-icd-opencl-dev \
+    nvidia-opencl-dev
+
+FROM gpu_dependencies AS copy
 
 COPY ./ /root/scrimmage/scrimmage/
 
@@ -50,7 +61,7 @@ WORKDIR /root/scrimmage/scrimmage
 RUN source /root/scrimmage-venv/bin/activate \
   && mkdir -p build && cd build && rm -rf * \
   && source ~/.bashrc \
-  && cmake .. -DBUILD_TESTS=ON -DCMAKE_CXX_FLAGS="-Werror" \
+  && cmake .. -DBUILD_TESTS=ON -DENABLE_GPU_TESTS=OFF -DCMAKE_CXX_FLAGS="-Werror" \
   && source ~/.scrimmage/setup.bash \
   && make -j24
 
@@ -82,7 +93,7 @@ RUN rvm autolibs packages \
 WORKDIR /root/scrimmage/scrimmage/build
 
 RUN source /root/scrimmage-venv/bin/activate \
-  && cmake .. -DBUILD_DOCS=ON \
+  && cmake .. -DBUILD_DOCS=ON -DENABLE_GPU_TESTS=OFF \
   && make docs website-docs
 
 FROM builder AS tester
