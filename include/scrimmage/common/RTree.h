@@ -44,8 +44,8 @@
 #include <boost/geometry/geometries/point.hpp>  // for model::point
 #include <boost/geometry/index/detail/exception.hpp>
 #include <boost/geometry/index/indexable.hpp>
-#include <boost/geometry/index/parameters.hpp>  // for dynamic_rstar definition
 #include <boost/geometry/strategies/default_strategy.hpp>
+#include <boost/geometry/index/parameters.hpp>  // for dynamic_rstar definition
 #include <boost/tuple/tuple.hpp>
 #include <scrimmage/common/ID.h>
 
