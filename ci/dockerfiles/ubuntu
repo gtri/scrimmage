@@ -10,40 +10,13 @@ SHELL ["/bin/bash", "-l", "-c"]
 # Install initial dependencies and setup .bashrc
 RUN apt-get update \
   && apt-get install -y \
-    gnupg \
-    gnupg2 \
-  && apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 \
-  && apt-get update \
-  && apt-get install -y \
+    software-properties-common \
+    x11-apps \
     python3-pip \
     python3-venv \
     clang \
-    build-essential \
-    software-properties-common \
-    doxygen \
-    graphviz \
-    python3-sphinx \
-    sphinx-rtd-theme-common \
-    texlive-bibtex-extra \
     ccache \
-    libvtk9-dev \
-    wget \
-  && python3 -m venv /root/scrimmage-venv \
-  && source /root/scrimmage-venv/bin/activate \
-  && pip install sphinx sphinx_git sphinx-rtd-theme
-
-# Install jekyll
-RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
-  && add-apt-repository -y ppa:rael-gc/rvm \
-  && apt-get update \
-  && apt-get install -y rvm \
-  && groupadd rvm && usermod -a -G rvm root
-
-RUN rvm autolibs packages \
-  && rvm install ruby 3.1.0 \
-  && gem install bundler && gem install jekyll
-
-FROM dependencies AS builder
+  && python3 -m venv /root/scrimmage-venv
 
 # Copy setup scripts into image
 RUN mkdir -p /root/scrimmage/scrimmage/setup
@@ -53,7 +26,21 @@ COPY ./setup /root/scrimmage/scrimmage/setup
 RUN /root/scrimmage/scrimmage/setup/install-binaries.sh \
   && /root/scrimmage/scrimmage/setup/install-jsbsim.sh
 
+FROM dependencies AS gpu_dependencies
+
+RUN apt-get update \
+  && apt-get install -y \
+    clinfo \
+    opencl-headers \
+    pocl-opencl-icd \
+    ocl-icd-opencl-dev \
+    nvidia-opencl-dev
+
+FROM gpu_dependencies AS copy
+
 COPY ./ /root/scrimmage/scrimmage/
+
+FROM copy AS test_scripts
 
 # Test Plugin Generation
 WORKDIR /root/scrimmage/scrimmage/scripts
@@ -67,20 +54,49 @@ RUN source /root/scrimmage-venv/bin/activate \
   && ./generate-plugin.sh controller ControllerTest ~/scrimmage/my-scrimmage-plugins \
   && ./generate-plugin.sh network NetworkTest ~/scrimmage/my-scrimmage-plugins
 
+FROM copy AS builder
+
 # Build scrimmage core, plugins, and documentation
 WORKDIR /root/scrimmage/scrimmage
 RUN source /root/scrimmage-venv/bin/activate \
-  && mkdir -p build \
-  && cd build \
-  && rm -rf * \
+  && mkdir -p build && cd build && rm -rf * \
   && source ~/.bashrc \
-  && cmake .. -DBUILD_TESTS=ON \
-              -DBUILD_DOCS=ON \
-              -DCMAKE_CXX_FLAGS="-Werror -Wno-error=deprecated-copy" \
+  && cmake .. -DBUILD_TESTS=ON -DENABLE_GPU_TESTS=OFF -DCMAKE_CXX_FLAGS="-Werror" \
   && source ~/.scrimmage/setup.bash \
-  && make -j24 \
+  && make -j24
+
+FROM copy AS website
+
+RUN apt-get update \
+  && apt-get install -y \
+    gnupg \
+    gnupg2 \
+    software-properties-common \
+    clang \
+    doxygen \
+    graphviz \
+    texlive-bibtex-extra \
+  && source /root/scrimmage-venv/bin/activate \
+  && pip install sphinx sphinx_git sphinx-rtd-theme
+
+# Install jekyll
+RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB \
+  && add-apt-repository -y ppa:rael-gc/rvm \
+  && apt-get update \
+  && apt-get install -y rvm \
+  && groupadd rvm && usermod -a -G rvm root
+
+RUN rvm autolibs packages \
+  && rvm install ruby 3.3.9 \
+  && gem install bundler -v 2.3.9 && gem install jekyll -v 4.4.1
+
+WORKDIR /root/scrimmage/scrimmage/build
+
+RUN source /root/scrimmage-venv/bin/activate \
+  && cmake .. -DBUILD_DOCS=ON -DENABLE_GPU_TESTS=OFF \
   && make docs website-docs
 
+FROM builder AS tester
 
 # run tests
 WORKDIR /root/scrimmage/scrimmage/build
@@ -93,8 +109,8 @@ RUN source /root/scrimmage-venv/bin/activate \
   && scrimmage ../missions/straight_jsbsim.xml
 
 WORKDIR /root/scrimmage/scrimmage
-RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
+# RUN /bin/bash -c "source /root/scrimmage-venv/bin/activate && source ~/.scrimmage/setup.bash"
 
 # Setup the scrimmage docker image to run as an executable
-ENTRYPOINT ["/root/scrimmage/scrimmage/ci/scripts/scrimmage-wrapper.sh"]
-CMD ["/root/scrimmage/scrimmage/missions/straight-no-gui.xml"]
+ENTRYPOINT ["/bin/bash"]
+# CMD ["source ~/.scrimmage/setup.bash"]

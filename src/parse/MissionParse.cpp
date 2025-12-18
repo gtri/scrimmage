@@ -256,6 +256,7 @@ bool MissionParse::parse_mission() {
     parse_tags("entity_interaction", entity_interactions_);
     parse_tags("network", network_names_);
     parse_tags("metrics", metrics_);
+    parse_tags("gpu_kernel", kernel_names_);
 
     // param_common name: tag: value
     std::map<std::string, std::map<std::string, std::string>> param_common;
@@ -284,13 +285,15 @@ bool MissionParse::parse_mission() {
             auto attr = node.first_attribute("name");
             std::string name = (!attr.is_valid()) ? node.value() : attr.value();
 
-            std::string nm2 = nm == "entity_interaction" ? name : nm;
-            std::string nm3 = nm == "metrics" ? name : nm;
-            std::string nm4 = nm == "network" ? name : nm;
+            std::string nm2 = (nm == "entity_interaction") ? name : nm;
+            std::string nm3 = (nm == "metrics") ? name : nm;
+            std::string nm4 = (nm == "network") ? name : nm;
+            std::string nm5 = (nm == "gpu_kernel") ? name : nm;
 
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node.value();
+            attributes_[nm5]["ORIGINAL_PLUGIN_NAME"] = node.value();
 
             // Loop through each node's attributes:
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
@@ -300,11 +303,13 @@ bool MissionParse::parse_mission() {
                         attributes_[nm2][kv.first] = kv.second;
                         attributes_[nm3][kv.first] = kv.second;
                         attributes_[nm4][kv.first] = kv.second;
+                        attributes_[nm5][kv.first] = kv.second;
                     }
                 } else {
                     attributes_[nm2][attr.name()] = attr.value();
                     attributes_[nm3][attr.name()] = attr.value();
                     attributes_[nm4][attr.name()] = attr.value();
+                    attributes_[nm5][attr.name()] = attr.value();
                 }
             }
         }
@@ -346,6 +351,14 @@ bool MissionParse::parse_mission() {
         // Get the dir attribute of the log node
         root_log_dir_ = expand_user(params_["log_dir"]);
         use_exact_log_path_ = get<bool>("use_exact", attributes_["log_dir"], false);
+    }
+
+    const char* env_kernel_path = std::getenv("SCRIMMAGE_KERNEL_PATH");
+    if (env_kernel_path != nullptr) {
+        kernel_dir_ = env_kernel_path;
+    }
+    if (params_.count("kernel_dir") > 0) {
+        kernel_dir_ = expand_user(params_["kernel_dir"]);
     }
 
     // Is output_dir_trailer defined?
@@ -973,6 +986,9 @@ std::string MissionParse::log_dir() {
 std::string MissionParse::root_log_dir() {
     return root_log_dir_;
 }
+std::string MissionParse::kernel_dir() const {
+    return kernel_dir_;
+}
 
 void MissionParse::set_log_dir(const std::string& log_dir) {
     log_dir_ = log_dir;
@@ -1059,6 +1075,10 @@ std::list<std::string> MissionParse::entity_interactions() {
 
 std::list<std::string>& MissionParse::network_names() {
     return network_names_;
+}
+
+const std::list<std::string>& MissionParse::kernel_names() const {
+    return kernel_names_;
 }
 
 std::list<std::string> MissionParse::metrics() {

@@ -1,7 +1,7 @@
 #--------------------------------------------------------
 # Library Creation
 #--------------------------------------------------------
-if (NOT EXTERNAL AND JSBSIM_FOUND)
+if (NOT EXTERNAL)
   SET (LIBRARY_NAME JSBSimControl_plugin)
   SET (LIB_MAJOR 0)
   SET (LIB_MINOR 0)
