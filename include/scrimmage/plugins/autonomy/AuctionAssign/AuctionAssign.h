@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-
+#include <limits>
 #include <map>
 #include <string>
-#include <limits>
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 namespace scrimmage {
 namespace autonomy {
 class AuctionAssign : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -65,6 +65,6 @@ class AuctionAssign : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUCTIONASSIGN_AUCTIONASSIGN_H_

@@ -30,14 +30,13 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <scrimmage/common/Utilities.h>
-
-#include <vector>
 #include <map>
-#include <unordered_set>
 #include <set>
+#include <unordered_set>
+#include <vector>
+
+#include <gtest/gtest.h>
+#include <scrimmage/common/Utilities.h>
 
 using Eigen::Vector3d;
 namespace sc = scrimmage;

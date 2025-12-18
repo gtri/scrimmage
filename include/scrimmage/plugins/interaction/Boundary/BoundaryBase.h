@@ -33,15 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYBASE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARYBASE_H_
 
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-
 #include <Eigen/Dense>
-
 #include <list>
 #include <memory>
 #include <tuple>
 #include <vector>
+
+#include <scrimmage/proto/ProtoConversions.h>
+#include <scrimmage/proto/Shape.pb.h>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -51,18 +50,16 @@ namespace interaction {
 
 class BoundaryBase {
  public:
-    BoundaryBase()
-        : center_(0, 0, 0) {}
+    BoundaryBase() : center_(0, 0, 0) {}
     virtual ~BoundaryBase() {}
-    explicit BoundaryBase(const Eigen::Vector3d &center)
-        : center_(center) {}
+    explicit BoundaryBase(const Eigen::Vector3d& center) : center_(center) {}
     virtual bool contains(Eigen::Vector3d p) = 0;
     const sc::ShapePtr shape() const { return shape_; }
-    void set_shape(const sc::ShapePtr &shape) { shape_ = shape; }
+    void set_shape(const sc::ShapePtr& shape) { shape_ = shape; }
     virtual void set_visual(int R, int G, int B, double opacity) = 0;
     virtual Eigen::Vector3d center() { return center_; }
 
-    virtual const std::vector<std::tuple<double, double>> &extents() { return extents_; }
+    virtual const std::vector<std::tuple<double, double>>& extents() { return extents_; }
 
  protected:
     sc::ShapePtr shape_;

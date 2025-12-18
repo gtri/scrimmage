@@ -30,10 +30,11 @@
  *
  */
 
+#include <Eigen/Dense>
+
 #include <gtest/gtest.h>
 #include <scrimmage/common/Shape.h>
 #include <scrimmage/proto/Shape.pb.h>
-#include <Eigen/Dense>
 #define _USE_MATH_DEFINES
 #include <cmath>
 
@@ -76,8 +77,8 @@ TEST(test_shape, defaults) {
     auto plane = sc::shape::make_plane();
     shape_defaults(plane);
 
-    auto pc = sc::shape::make_pointcloud(std::list<Eigen::Vector3d>{},
-                                         std::list<Eigen::Vector3d>{});
+    auto pc =
+        sc::shape::make_pointcloud(std::list<Eigen::Vector3d>{}, std::list<Eigen::Vector3d>{});
     shape_defaults(pc);
 
     auto polydata = sc::shape::make_polydata(std::list<Eigen::Vector3d>{});

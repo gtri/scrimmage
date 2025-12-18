@@ -33,11 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_IMUERRORSIMULATOR_H_
 
-#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
-
+#include <random>
 #include <unsupported/Eigen/MatrixFunctions>
 
-#include <random>
+#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
 
 struct NoisyIMUData {
     Eigen::Vector3d noisyDeltaV;
@@ -98,16 +97,18 @@ class IMUErrorSimulator {
     explicit IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget);
 
     // generate a 3d vector with the passed in random distribution and generator
-    Eigen::Vector3d RandomVector(std::normal_distribution<double>& distribution,
-                                 std::mt19937& generator);
+    Eigen::Vector3d RandomVector(
+        std::normal_distribution<double>& distribution,
+        std::mt19937& generator);
 
     void PerformInitialRandomDraws(IMUErrorBudgetTemplate& errorBudget);
 
     void CalculateParametersForFixedDeltaT(IMUErrorBudgetTemplate& errorBudget);
 
-    NoisyIMUData EachCycle(IMUErrorBudgetTemplate& errorBudget,
-                           Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
-                           Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
+    NoisyIMUData EachCycle(
+        IMUErrorBudgetTemplate& errorBudget,
+        Eigen::Vector3d InputDeltaVBodyWRTInertialInBody,
+        Eigen::Vector3d InputDeltaThetaBodyWRTInertialInBody);
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

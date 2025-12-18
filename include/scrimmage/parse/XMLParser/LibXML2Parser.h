@@ -31,13 +31,12 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
 #define INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_
 
-#include <scrimmage/parse/XMLParser/XMLParser.h>
+#include <string>
+#include <vector>
 
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
-
-#include <string>
-#include <vector>
+#include <scrimmage/parse/XMLParser/XMLParser.h>
 
 namespace scrimmage {
 
@@ -56,13 +55,15 @@ class LibXML2ParserAttribute : public XMLParserAttribute<LibXML2ParserAttribute>
 
     bool is_valid_attribute() const;
 
-    friend inline bool operator==(const LibXML2ParserAttribute& lhs,
-                                  const LibXML2ParserAttribute& rhs) {
+    friend inline bool operator==(
+        const LibXML2ParserAttribute& lhs,
+        const LibXML2ParserAttribute& rhs) {
         return lhs.attribute_ == rhs.attribute_;
     }
 
-    friend inline bool operator!=(const LibXML2ParserAttribute& lhs,
-                                  const LibXML2ParserAttribute& rhs) {
+    friend inline bool operator!=(
+        const LibXML2ParserAttribute& lhs,
+        const LibXML2ParserAttribute& rhs) {
         return !(lhs == rhs);
     }
 

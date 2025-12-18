@@ -43,15 +43,16 @@
 #include <scrimmage/parse/XMLParser/LibXML2Parser.h>
 #endif
 
-#include <GeographicLib/Geocentric.hpp>
-#include <GeographicLib/LocalCartesian.hpp>
-#include <GeographicLib/UTMUPS.hpp>
-#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <regex>  //NOLINT
 #include <string>
 #include <typeinfo>
+
+#include <GeographicLib/Geocentric.hpp>
+#include <GeographicLib/LocalCartesian.hpp>
+#include <GeographicLib/UTMUPS.hpp>
+#include <boost/algorithm/string.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -823,25 +824,47 @@ bool MissionParse::create_log_dir() {
     return true;
 }
 
-bool MissionParse::write(const std::string& file) { return true; }
+bool MissionParse::write(const std::string& file) {
+    return true;
+}
 
-double MissionParse::t0() { return t0_; }
+double MissionParse::t0() {
+    return t0_;
+}
 
-double MissionParse::tend() { return tend_; }
+double MissionParse::tend() {
+    return tend_;
+}
 
-double MissionParse::dt() { return dt_; }
+double MissionParse::dt() {
+    return dt_;
+}
 
-void MissionParse::set_dt(const double& dt) { dt_ = dt; }
+void MissionParse::set_dt(const double& dt) {
+    dt_ = dt;
+}
 
-double MissionParse::motion_multiplier() { return motion_multiplier_; }
+double MissionParse::motion_multiplier() {
+    return motion_multiplier_;
+}
 
-double MissionParse::time_warp() { return time_warp_; }
+double MissionParse::time_warp() {
+    return time_warp_;
+}
 
-bool MissionParse::start_paused() { return start_paused_; }
+bool MissionParse::start_paused() {
+    return start_paused_;
+}
 
-const bool& MissionParse::full_screen() { return full_screen_; }
-const unsigned& MissionParse::window_width() { return window_width_; }
-const unsigned& MissionParse::window_height() { return window_height_; }
+const bool& MissionParse::full_screen() {
+    return full_screen_;
+}
+const unsigned& MissionParse::window_width() {
+    return window_width_;
+}
+const unsigned& MissionParse::window_height() {
+    return window_height_;
+}
 
 bool MissionParse::parse_terrain() {
     ConfigParse terrain_parse;
@@ -940,38 +963,68 @@ bool MissionParse::parse_terrain() {
     return false;
 }
 
-scrimmage_proto::Color& MissionParse::background_color() { return background_color_; }
+scrimmage_proto::Color& MissionParse::background_color() {
+    return background_color_;
+}
 
-std::string MissionParse::log_dir() { return log_dir_; }
-std::string MissionParse::root_log_dir() { return root_log_dir_; }
+std::string MissionParse::log_dir() {
+    return log_dir_;
+}
+std::string MissionParse::root_log_dir() {
+    return root_log_dir_;
+}
 
-void MissionParse::set_log_dir(const std::string& log_dir) { log_dir_ = log_dir; }
+void MissionParse::set_log_dir(const std::string& log_dir) {
+    log_dir_ = log_dir;
+}
 
-std::map<int, AttributeMap>& MissionParse::entity_attributes() { return entity_attributes_; }
+std::map<int, AttributeMap>& MissionParse::entity_attributes() {
+    return entity_attributes_;
+}
 
 std::map<int, std::map<std::string, std::string>>& MissionParse::entity_params() {
     return entity_params_;
 }
 
-std::map<int, int>& MissionParse::ent_id_to_block_id() { return ent_id_to_block_id_; }
+std::map<int, int>& MissionParse::ent_id_to_block_id() {
+    return ent_id_to_block_id_;
+}
 
-EntityDesc_t& MissionParse::entity_descriptions() { return entity_descs_; }
+EntityDesc_t& MissionParse::entity_descriptions() {
+    return entity_descs_;
+}
 
-std::map<std::string, int>& MissionParse::entity_tag_to_id() { return entity_tag_to_id_; }
+std::map<std::string, int>& MissionParse::entity_tag_to_id() {
+    return entity_tag_to_id_;
+}
 
-bool MissionParse::enable_gui() { return enable_gui_; }
+bool MissionParse::enable_gui() {
+    return enable_gui_;
+}
 
-bool MissionParse::network_gui() { return network_gui_; }
+bool MissionParse::network_gui() {
+    return network_gui_;
+}
 
-AttributeMap& MissionParse::attributes() { return attributes_; }
+AttributeMap& MissionParse::attributes() {
+    return attributes_;
+}
 
-std::map<std::string, std::string>& MissionParse::params() { return params_; }
+std::map<std::string, std::string>& MissionParse::params() {
+    return params_;
+}
 
-double MissionParse::longitude_origin() { return longitude_origin_; }
+double MissionParse::longitude_origin() {
+    return longitude_origin_;
+}
 
-double MissionParse::latitude_origin() { return latitude_origin_; }
+double MissionParse::latitude_origin() {
+    return latitude_origin_;
+}
 
-double MissionParse::altitude_origin() { return altitude_origin_; }
+double MissionParse::altitude_origin() {
+    return altitude_origin_;
+}
 
 void MissionParse::set_lat_lon_alt_origin(
     const double& latitude_origin,
@@ -988,37 +1041,69 @@ void MissionParse::set_lat_lon_alt_origin(
         GeographicLib::Geocentric::WGS84());
 }
 
-std::map<int, TeamInfo>& MissionParse::team_info() { return team_info_; }
+std::map<int, TeamInfo>& MissionParse::team_info() {
+    return team_info_;
+}
 
-void MissionParse::set_task_number(int task_num) { task_number_ = task_num; }
+void MissionParse::set_task_number(int task_num) {
+    task_number_ = task_num;
+}
 
-void MissionParse::set_job_number(int job_num) { job_number_ = job_num; }
+void MissionParse::set_job_number(int job_num) {
+    job_number_ = job_num;
+}
 
-std::list<std::string> MissionParse::entity_interactions() { return entity_interactions_; }
+std::list<std::string> MissionParse::entity_interactions() {
+    return entity_interactions_;
+}
 
-std::list<std::string>& MissionParse::network_names() { return network_names_; }
+std::list<std::string>& MissionParse::network_names() {
+    return network_names_;
+}
 
-std::list<std::string> MissionParse::metrics() { return metrics_; }
+std::list<std::string> MissionParse::metrics() {
+    return metrics_;
+}
 
-std::map<int, GenerateInfo>& MissionParse::gen_info() { return gen_info_; }
+std::map<int, GenerateInfo>& MissionParse::gen_info() {
+    return gen_info_;
+}
 
-std::map<int, std::vector<double>>& MissionParse::next_gen_times() { return next_gen_times_; }
+std::map<int, std::vector<double>>& MissionParse::next_gen_times() {
+    return next_gen_times_;
+}
 
-std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() { return proj_; }
+std::shared_ptr<GeographicLib::LocalCartesian> MissionParse::projection() {
+    return proj_;
+}
 
-std::shared_ptr<scrimmage_proto::UTMTerrain>& MissionParse::utm_terrain() { return utm_terrain_; }
+std::shared_ptr<scrimmage_proto::UTMTerrain>& MissionParse::utm_terrain() {
+    return utm_terrain_;
+}
 
-std::string MissionParse::get_mission_filename() { return mission_filename_; }
+std::string MissionParse::get_mission_filename() {
+    return mission_filename_;
+}
 
-bool MissionParse::get_no_bin_logging() { return no_bin_logging_; }
+bool MissionParse::get_no_bin_logging() {
+    return no_bin_logging_;
+}
 
-void MissionParse::set_enable_gui(bool enable) { enable_gui_ = enable; }
+void MissionParse::set_enable_gui(bool enable) {
+    enable_gui_ = enable;
+}
 
-void MissionParse::set_time_warp(double warp) { time_warp_ = warp; }
+void MissionParse::set_time_warp(double warp) {
+    time_warp_ = warp;
+}
 
-void MissionParse::set_network_gui(bool enable) { network_gui_ = enable; }
+void MissionParse::set_network_gui(bool enable) {
+    network_gui_ = enable;
+}
 
-void MissionParse::set_start_paused(bool paused) { start_paused_ = paused; }
+void MissionParse::set_start_paused(bool paused) {
+    start_paused_ = paused;
+}
 
 bool MissionParse::output_required() {
     // If the output_types set is empty, no output is required

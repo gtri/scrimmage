@@ -33,11 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_PWMSTATE_H_
 
-#include <scrimmage/math/State.h>
-
 #include <Eigen/Dense>
-
 #include <memory>
+
+#include <scrimmage/math/State.h>
 
 namespace scrimmage {
 namespace motion {
@@ -46,12 +45,12 @@ class PwmState : public scrimmage::State {
  public:
     void set_pwm_input(Eigen::VectorXd pwm_input) { pwm_input_ = pwm_input; }
 
-    Eigen::VectorXd &pwm_input() { return pwm_input_; }
+    Eigen::VectorXd& pwm_input() { return pwm_input_; }
 
     void set_pwm_min(double pwm_min) { pwm_min_ = pwm_min; }
     void set_pwm_max(double pwm_max) { pwm_max_ = pwm_max; }
-    double &pwm_min() { return pwm_min_; }
-    double &pwm_max() { return pwm_max_; }
+    double& pwm_min() { return pwm_min_; }
+    double& pwm_max() { return pwm_max_; }
 
  protected:
     Eigen::VectorXd pwm_input_;

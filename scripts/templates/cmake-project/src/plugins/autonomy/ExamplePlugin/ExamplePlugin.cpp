@@ -31,36 +31,33 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/autonomy/ExamplePlugin/ExamplePlugin.h>
+#include <iostream>
+#include <limits>
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/common/VariableIO.h>
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/common/VariableIO.h>
-
-#include <iostream>
-#include <limits>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::ExamplePlugin,
-                ExamplePlugin_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::ExamplePlugin, ExamplePlugin_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-ExamplePlugin::ExamplePlugin() : follow_id_(-1) {
-}
+ExamplePlugin::ExamplePlugin() : follow_id_(-1) {}
 
-void ExamplePlugin::init(std::map<std::string, std::string> &params) {
+void ExamplePlugin::init(std::map<std::string, std::string>& params) {
     initial_speed_ = sc::get<double>("initial_speed", params, 21);
 
     // VariableIO
-    desired_altitude_idx_ = vars_.declare("desired_altitude", scrimmage::VariableIO::Direction::Out);
+    desired_altitude_idx_ =
+        vars_.declare("desired_altitude", scrimmage::VariableIO::Direction::Out);
     desired_heading_idx_ = vars_.declare("desired_heading", scrimmage::VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare("desired_speed", scrimmage::VariableIO::Direction::Out);
 }
@@ -94,22 +91,22 @@ bool ExamplePlugin::step_autonomy(double t, double dt) {
         sc::StatePtr ent_state = contacts_->at(follow_id_).state();
 
         // Calculate the required heading to follow the other entity
-        desired_heading_ = atan2(ent_state->pos()(1) - state_->pos()(1),
-                           ent_state->pos()(0) - state_->pos()(0));
+        desired_heading_ =
+            atan2(ent_state->pos()(1) - state_->pos()(1), ent_state->pos()(0) - state_->pos()(0));
 
         // Match entity's altitude
         desired_altitude_ = ent_state->pos()(2);
 
-				// Match entity's speed
+        // Match entity's speed
         desired_speed_ = ent_state->vel()(0);
     }
 
-		// set VariableIO desired values
+    // set VariableIO desired values
     vars_.output(desired_altitude_idx_, desired_altitude_);
     vars_.output(desired_heading_idx_, desired_heading_);
     vars_.output(desired_speed_idx_, desired_speed_);
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

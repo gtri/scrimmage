@@ -33,11 +33,10 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTORSTATE_H_
 
-#include <scrimmage/math/State.h>
-
 #include <Eigen/Dense>
-
 #include <memory>
+
+#include <scrimmage/math/State.h>
 
 namespace scrimmage {
 namespace motion {
@@ -50,9 +49,9 @@ class MultirotorState : public scrimmage::State {
 
     void set_prop_input(Eigen::VectorXd prop_input) { prop_input_ = prop_input; }
 
-    InputType &input_type() { return input_type_; }
+    InputType& input_type() { return input_type_; }
 
-    Eigen::VectorXd &prop_input() { return prop_input_; }
+    Eigen::VectorXd& prop_input() { return prop_input_; }
 
  protected:
     Eigen::VectorXd prop_input_;

@@ -30,6 +30,10 @@
  *
  */
 
+#include <iostream>
+#include <limits>
+#include <memory>
+
 #include <scrimmage/common/ID.h>
 #include <scrimmage/common/RTree.h>
 #include <scrimmage/common/Random.h>
@@ -42,10 +46,6 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
-
-#include <iostream>
-#include <limits>
-#include <memory>
 
 using std::cout;
 using std::endl;
@@ -70,7 +70,8 @@ bool LocalNetwork::is_reachable(
     const scrimmage::EntityPluginPtr& pub_plugin,
     const scrimmage::EntityPluginPtr& sub_plugin) {
     // Never reachable if plugin's entity was destroyed
-    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr) return false;
+    if (pub_plugin->parent() == nullptr || sub_plugin->parent() == nullptr)
+        return false;
     // If the publisher and subscriber have the same parent, it is reachable
     return (pub_plugin->parent() == sub_plugin->parent());
 }

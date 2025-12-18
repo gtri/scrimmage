@@ -30,37 +30,39 @@
  *
  */
 
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/msgs/Collision.pb.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/RTree.h>
-
-#include <scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h>
-
 #include <limits>
 #include <memory>
 
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/common/ParameterServer.h>
+#include <scrimmage/common/RTree.h>
+#include <scrimmage/common/Time.h>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/msgs/Collision.pb.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h>
+#include <scrimmage/pubsub/Message.h>
+
 namespace sm = scrimmage_msgs;
 
-REGISTER_PLUGIN(scrimmage::EntityInteraction, scrimmage::interaction::SimpleCollision, SimpleCollision_plugin)
+REGISTER_PLUGIN(
+    scrimmage::EntityInteraction,
+    scrimmage::interaction::SimpleCollision,
+    SimpleCollision_plugin)
 
 namespace scrimmage {
 namespace interaction {
 
-bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
-                           std::map<std::string, std::string> &plugin_params) {
+bool SimpleCollision::init(
+    std::map<std::string, std::string>& mission_params,
+    std::map<std::string, std::string>& plugin_params) {
     collision_range_ = get("collision_range", plugin_params, 0.0);
 
     // If startup_collision_range isn't defined, default to the collision_range
-    startup_collision_range_ = get("startup_collision_range",
-                                       plugin_params, collision_range_);
+    startup_collision_range_ = get("startup_collision_range", plugin_params, collision_range_);
 
     startup_collisions_only_ = get("startup_collisions_only", plugin_params, false);
 
@@ -76,9 +78,7 @@ bool SimpleCollision::init(std::map<std::string, std::string> &mission_params,
     return true;
 }
 
-
-bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
-                                              double t, double dt) {
+bool SimpleCollision::step_entity_interaction(std::list<EntityPtr>& ents, double t, double dt) {
     if (startup_collisions_only_) {
         return true;
     }
@@ -88,17 +88,18 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
         Eigen::Vector3d p1 = ent1->state_truth()->pos();
         for (EntityPtr ent2 : ents) {
             // ignore distance between itself
-            if (ent1->id().id() == ent2->id().id()) continue;
+            if (ent1->id().id() == ent2->id().id())
+                continue;
 
             // ignore collisions that have already occurred this time-step
-            if (!ent1->is_alive() || !ent2->is_alive()) continue;
+            if (!ent1->is_alive() || !ent2->is_alive())
+                continue;
 
             Eigen::Vector3d p2 = ent2->state_truth()->pos();
 
             double dist = (p1 - p2).norm();
             if (dist < collision_range_) {
-                if (enable_team_collisions_ &&
-                    ent1->id().team_id() == ent2->id().team_id()) {
+                if (enable_team_collisions_ && ent1->id().team_id() == ent2->id().team_id()) {
 
                     ent1->collision();
                     ent2->collision();
@@ -108,8 +109,8 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
                     msg->data.set_entity_id_2(ent2->id().id());
                     team_collision_pub_->publish(msg);
 
-                } else if (enable_non_team_collisions_ &&
-                           ent1->id().team_id() != ent2->id().team_id()) {
+                } else if (
+                    enable_non_team_collisions_ && ent1->id().team_id() != ent2->id().team_id()) {
                     ent1->collision();
                     ent2->collision();
 
@@ -124,15 +125,13 @@ bool SimpleCollision::step_entity_interaction(std::list<EntityPtr> &ents,
     return true;
 }
 
-bool SimpleCollision::collision_exists(std::list<EntityPtr> &ents,
-                                       Eigen::Vector3d &p) {
+bool SimpleCollision::collision_exists(std::list<EntityPtr>& ents, Eigen::Vector3d& p) {
     if (ents.empty()) {
         return false;
     } else {
         if (init_alt_deconflict_) {
             for (EntityPtr ent : ents) {
-                if (std::abs(p(2) - ent->state_truth()->pos()(2)) <=
-                    startup_collision_range_) {
+                if (std::abs(p(2) - ent->state_truth()->pos()(2)) <= startup_collision_range_) {
                     return true;
                 }
             }
@@ -149,5 +148,5 @@ bool SimpleCollision::collision_exists(std::list<EntityPtr> &ents,
     }
     return false;
 }
-} // namespace interaction
-} // namespace scrimmage
+}  // namespace interaction
+}  // namespace scrimmage

@@ -32,14 +32,13 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_STRAIGHT_STRAIGHT_H_
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-
 #include <Eigen/Dense>
-
 #include <map>
 #include <memory>
 #include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
+#include <scrimmage/entity/Contact.h>
 
 namespace scrimmage {
 
@@ -50,7 +49,7 @@ class BoundaryBase;
 namespace autonomy {
 class Straight : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:

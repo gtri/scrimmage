@@ -31,37 +31,32 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/motion/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 
 #include <boost/algorithm/clamp.hpp>
+#include <scrimmage/common/Utilities.h>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::MotionModel,
-                scrimmage::motion::(>>>PLUGIN_NAME<<<),
-                (>>>PLUGIN_NAME<<<)_plugin)
+REGISTER_PLUGIN(
+    scrimmage::MotionModel,
+    scrimmage::motion::(>>> PLUGIN_NAME < < <),
+    (>>> PLUGIN_NAME < < <) _plugin)
 
 using boost::algorithm::clamp;
 
 namespace scrimmage {
 namespace motion {
 
-enum ModelParams {
-    X = 0,
-    Y,
-    Z,
-    YAW,
-    PITCH,
-    MODEL_NUM_ITEMS
-};
+enum ModelParams { X = 0, Y, Z, YAW, PITCH, MODEL_NUM_ITEMS };
 
-bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
-                     std::map<std::string, std::string> &params) {
+bool(>>> PLUGIN_NAME < < <)::init(
+    std::map<std::string, std::string>& info,
+    std::map<std::string, std::string>& params) {
     // Declare variables for controllers
     speed_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::In);
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::In);
@@ -77,7 +72,7 @@ bool (>>>PLUGIN_NAME<<<)::init(std::map<std::string, std::string> &info,
     return true;
 }
 
-bool (>>>PLUGIN_NAME<<<)::step(double time, double dt) {
+bool(>>> PLUGIN_NAME < < <)::step(double time, double dt) {
     // Get inputs and saturate
     velocity_ = clamp(vars_.input(speed_idx_), -1.0, 1.0);
     turn_rate_ = clamp(vars_.input(turn_rate_idx_), -1.0, 1.0);
@@ -106,8 +101,7 @@ bool (>>>PLUGIN_NAME<<<)::step(double time, double dt) {
     return true;
 }
 
-void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt ,
-                                double t) {
+void(>>> PLUGIN_NAME < < <)::model(const vector_t& x, vector_t& dxdt, double t) {
     double xy_speed = velocity_ * cos(x[PITCH]);
     dxdt[X] = xy_speed * cos(x[YAW]);
     dxdt[Y] = xy_speed * sin(x[YAW]);
@@ -115,5 +109,5 @@ void (>>>PLUGIN_NAME<<<)::model(const vector_t &x , vector_t &dxdt ,
     dxdt[YAW] = turn_rate_;
     dxdt[PITCH] = pitch_rate_;
 }
-} // namespace motion
-} // namespace scrimmage
+}  // namespace motion
+}  // namespace scrimmage

@@ -33,22 +33,21 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERROS_RIGIDBODY6DOFCONTROLLERROS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERROS_RIGIDBODY6DOFCONTROLLERROS_H_
 
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h>
-
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
-
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
+
+#include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
+#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h>
 
 namespace scrimmage {
 namespace controller {
 class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    std::shared_ptr<Eigen::Vector4d> u() override {return u_;}
+    std::shared_ptr<Eigen::Vector4d> u() override { return u_; }
 
  protected:
     std::shared_ptr<Eigen::Vector4d> u_;
@@ -58,6 +57,6 @@ class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Cont
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERROS_RIGIDBODY6DOFCONTROLLERROS_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERROS_RIGIDBODY6DOFCONTROLLERROS_H_

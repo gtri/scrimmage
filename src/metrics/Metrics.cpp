@@ -30,10 +30,10 @@
  *
  */
 
+#include <limits>
+
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/proto/Frame.pb.h>
-
-#include <limits>
 
 namespace scrimmage {
 
@@ -43,19 +43,26 @@ Metrics::~Metrics() {}
 
 void Metrics::init() {}
 
-void Metrics::init(std::map<std::string, std::string> &params) {}
+void Metrics::init(std::map<std::string, std::string>& params) {}
 
-bool Metrics::step_metrics(double t, double dt) { return false; }
+bool Metrics::step_metrics(double t, double dt) {
+    return false;
+}
 
 void Metrics::calc_team_scores() {}
 
 void Metrics::print_team_summaries() {}
 
-std::map<int, std::map<std::string, double> > &Metrics::team_metrics()
-{ return team_metrics_; }
+std::map<int, std::map<std::string, double> >& Metrics::team_metrics() {
+    return team_metrics_;
+}
 
-std::list<std::string> &Metrics::headers() { return headers_; }
+std::list<std::string>& Metrics::headers() {
+    return headers_;
+}
 
-std::map<int, double> &Metrics::team_scores() { return team_scores_; }
+std::map<int, double>& Metrics::team_scores() {
+    return team_scores_;
+}
 
-} // namespace scrimmage
+}  // namespace scrimmage

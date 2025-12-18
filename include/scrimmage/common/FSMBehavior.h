@@ -33,11 +33,11 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_FSMBEHAVIOR_H_
 #define INCLUDE_SCRIMMAGE_COMMON_FSMBEHAVIOR_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 namespace scrimmage {
 namespace common {
@@ -46,10 +46,11 @@ class FSMBehavior : public scrimmage::Autonomy {
     virtual void entered() {}
     virtual void step_inactive() {}
     virtual void exited() {}
+
  protected:
 };
 using FSMBehaviorPtr = std::shared_ptr<FSMBehavior>;
-} // namespace common
-} // namespace scrimmage
+}  // namespace common
+}  // namespace scrimmage
 
-#endif // INCLUDE_SCRIMMAGE_COMMON_FSMBEHAVIOR_H_
+#endif  // INCLUDE_SCRIMMAGE_COMMON_FSMBEHAVIOR_H_

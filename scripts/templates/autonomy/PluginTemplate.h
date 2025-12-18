@@ -30,18 +30,18 @@
  *
  */
 
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
-#include <scrimmage/autonomy/Autonomy.h>
-
-#include <string>
+#ifndef(>>> HEADER_GUARD < < <)
+#define(>>> HEADER_GUARD < < <)
 #include <map>
+#include <string>
+
+#include <scrimmage/autonomy/Autonomy.h>
 
 namespace scrimmage {
 namespace autonomy {
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
+class(>>> PLUGIN_NAME < < <) : public scrimmage::Autonomy {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string> & params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -52,6 +52,6 @@ class (>>>PLUGIN_NAME<<<) : public scrimmage::Autonomy {
     uint8_t desired_alt_idx_ = 0;
     uint8_t desired_speed_idx_ = 0;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // (>>>HEADER_GUARD<<<)

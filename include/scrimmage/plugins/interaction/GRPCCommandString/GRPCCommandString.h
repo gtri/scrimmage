@@ -33,16 +33,15 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <list>
+#include <map>
+#include <mutex>  // NOLINT
+#include <queue>
+#include <string>
+#include <thread>  // NOLINT
 
 #include <scrimmage/msgs/Command.pb.h>
-
-#include <map>
-#include <list>
-#include <string>
-#include <queue>
-#include <thread> // NOLINT
-#include <mutex> // NOLINT
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 namespace sc = scrimmage;
 
@@ -52,13 +51,13 @@ namespace interaction {
 class GRPCCommandString : public scrimmage::EntityInteraction {
  public:
     GRPCCommandString();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<sc::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(
+        std::map<std::string, std::string>& mission_params,
+        std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) override;
     void run_server();
 
-    void push_msg(const scrimmage_msgs::CommandString &msg);
+    void push_msg(const scrimmage_msgs::CommandString& msg);
 
  protected:
     std::string ip_ = "localhost";
@@ -72,6 +71,6 @@ class GRPCCommandString : public scrimmage::EntityInteraction {
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_

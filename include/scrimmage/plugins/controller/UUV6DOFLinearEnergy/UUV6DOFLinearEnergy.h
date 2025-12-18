@@ -33,17 +33,17 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_
 
-#include <scrimmage/motion/Controller.h>
-
 #include <map>
 #include <string>
+
+#include <scrimmage/motion/Controller.h>
 
 namespace scrimmage {
 namespace controller {
 
 class UUV6DOFLinearEnergy : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -61,6 +61,6 @@ class UUV6DOFLinearEnergy : public scrimmage::Controller {
     double energy_max_ = 5000;
     double energy_min_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFLINEARENERGY_UUV6DOFLINEARENERGY_H_

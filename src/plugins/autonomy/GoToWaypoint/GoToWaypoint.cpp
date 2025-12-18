@@ -30,32 +30,29 @@
  *
  */
 
-#include <scrimmage/plugins/autonomy/GoToWaypoint/GoToWaypoint.h>
-
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/pubsub/Publisher.h>
 #include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
+#include <scrimmage/entity/Entity.h>
+#include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
+#include <scrimmage/parse/ParseUtils.h>
+#include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/GoToWaypoint/GoToWaypoint.h>
+#include <scrimmage/pubsub/Publisher.h>
 
 using std::cout;
 using std::endl;
 
 namespace sc = scrimmage;
 
-REGISTER_PLUGIN(scrimmage::Autonomy,
-                scrimmage::autonomy::GoToWaypoint,
-                GoToWaypoint_plugin)
+REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::GoToWaypoint, GoToWaypoint_plugin)
 
 namespace scrimmage {
 namespace autonomy {
 
-void GoToWaypoint::init(std::map<std::string, std::string> &params) {
+void GoToWaypoint::init(std::map<std::string, std::string>& params) {
     waypoint_status_ = str2container(params["waypoint"], " ", waypoint_);
 
     waypoint_list_pub_ = advertise("LocalNetwork", "WaypointList");
@@ -66,23 +63,23 @@ bool GoToWaypoint::step_autonomy(double t, double dt) {
 
         sc::State ns = *(parent_->state_belief());
 
-        double lat = (waypoint_[2] == "X") ? ns.pos()(0): stod(waypoint_[2]);
-        double lon = (waypoint_[3] == "Y") ? ns.pos()(1): stod(waypoint_[3]);
-        double alt = (waypoint_[4] == "Z") ? ns.pos()(2): stod(waypoint_[4]);
+        double lat = (waypoint_[2] == "X") ? ns.pos()(0) : stod(waypoint_[2]);
+        double lon = (waypoint_[3] == "Y") ? ns.pos()(1) : stod(waypoint_[3]);
+        double alt = (waypoint_[4] == "Z") ? ns.pos()(2) : stod(waypoint_[4]);
 
         std::string type = waypoint_[0];
         if (type != "XYZ" && type != "GPS") {
-            std::cout<< "Invalid waypoint type: " << type << std::endl;
+            std::cout << "Invalid waypoint type: " << type << std::endl;
         } else if (type == "XYZ") {
-            parent_->projection()->Reverse(lat, lon, alt,
-                                               lat, lon, alt);
+            parent_->projection()->Reverse(lat, lon, alt, lat, lon, alt);
         }
 
         Waypoint wp(lat, lon, alt);
         wp.set_time(std::stod(waypoint_[1]));
-        scrimmage::Quaternion quat(sc::Angles::deg2rad(std::stod(waypoint_[5])),
-                                   sc::Angles::deg2rad(std::stod(waypoint_[6])),
-                                   sc::Angles::deg2rad(std::stod(waypoint_[7])));
+        scrimmage::Quaternion quat(
+            sc::Angles::deg2rad(std::stod(waypoint_[5])),
+            sc::Angles::deg2rad(std::stod(waypoint_[6])),
+            sc::Angles::deg2rad(std::stod(waypoint_[7])));
         wp.set_quat(quat);
         wp.set_position_tolerance(std::stod(waypoint_[8]));
         wp.set_quat_tolerance(std::stod(waypoint_[9]));
@@ -118,5 +115,5 @@ void GoToWaypoint::publish_waypoint(double t) {
     }
 }
 
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

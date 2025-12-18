@@ -30,17 +30,17 @@
  *
  */
 
+#include <limits>
+
 #include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
 #include <scrimmage/math/Angles.h>
+#include <scrimmage/math/State.h>
 #include <scrimmage/msgs/Capture.pb.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
+#include <scrimmage/plugins/autonomy/Predator/Predator.h>
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/plugins/autonomy/Predator/Predator.h>
-
-#include <limits>
 
 namespace sm = scrimmage_msgs;
 
@@ -49,7 +49,7 @@ REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Predator, Predator_plu
 namespace scrimmage {
 namespace autonomy {
 
-void Predator::init(std::map<std::string, std::string> &params) {
+void Predator::init(std::map<std::string, std::string>& params) {
     max_speed_ = get<double>("max_speed", params, 21);
     capture_range_ = get<double>("capture_range", params, 5);
     prey_team_id_ = get<int>("prey_team_id", params, 1);
@@ -64,7 +64,8 @@ void Predator::init(std::map<std::string, std::string> &params) {
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
     pitch_rate_idx_ = vars_.declare(VariableIO::Type::pitch_rate, VariableIO::Direction::Out);
 
-    desired_heading_idx_ = vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
+    desired_heading_idx_ =
+        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::Out);
     desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::Out);
 }
 
@@ -80,7 +81,8 @@ bool Predator::step_autonomy(double t, double dt) {
         for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
             // Skip if this contact isn't on team 1 (prey)
             // if (it->second.id().team_id() == parent_->id().team_id()) continue;
-            if (it->second.id().team_id() != prey_team_id_) continue;
+            if (it->second.id().team_id() != prey_team_id_)
+                continue;
 
             // Calculate distance to entity
             double dist = (it->second.state()->pos() - state_->pos()).norm();
@@ -97,7 +99,8 @@ bool Predator::step_autonomy(double t, double dt) {
     // message
     for (auto it = contacts_->begin(); it != contacts_->end(); it++) {
         // Skip if this contact is on the same team
-        if (it->second.id().team_id() == parent_->id().team_id()) continue;
+        if (it->second.id().team_id() == parent_->id().team_id())
+            continue;
 
         // Calculate distance to entity
         double dist = (it->second.state()->pos() - state_->pos()).norm();
@@ -132,5 +135,5 @@ bool Predator::step_autonomy(double t, double dt) {
 
     return true;
 }
-} // namespace autonomy
-} // namespace scrimmage
+}  // namespace autonomy
+}  // namespace scrimmage

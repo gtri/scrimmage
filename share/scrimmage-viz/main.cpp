@@ -30,19 +30,17 @@
  *
  */
 
-#include <scrimmage/viewer/Viewer.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
-
 #include <map>
 
 #include <boost/program_options.hpp>
+#include <scrimmage/network/Interface.h>
+#include <scrimmage/parse/MissionParse.h>
+#include <scrimmage/viewer/Viewer.h>
 
 namespace sc = scrimmage;
 namespace po = boost::program_options;
 
-void set_param(po::variables_map &vm,
-               std::map<std::string, std::string> &params, std::string str) {
+void set_param(po::variables_map& vm, std::map<std::string, std::string>& params, std::string str) {
     if (vm.count(str)) {
         params[str] = vm[str].as<std::string>();
     }
@@ -52,14 +50,22 @@ int main(int argc, char* argv[]) {
 
     // Declare the supported options.
     po::options_description desc("Allowed options");
-    desc.add_options()
-        ("help,h", "produce help message")
-        ("local_ip,i", po::value<std::string>(), "The local IP address where this viewer will run.")
-        ("local_port,p", po::value<std::string>(), "The local port where this viewer will listen.")
-        ("remote_ip,r", po::value<std::string>(), "The remote IP address where SCRIMMAGE is running.")
-        ("remote_port,o", po::value<std::string>(), "The remote port where SCRIMMAGE is running.")
-        ("pos", po::value<std::string>(), "camera position")
-        ("focal_point", po::value<std::string>(), "camera focal point");
+    desc.add_options()("help,h", "produce help message")(
+        "local_ip,i",
+        po::value<std::string>(),
+        "The local IP address where this viewer will run.")(
+        "local_port,p",
+        po::value<std::string>(),
+        "The local port where this viewer will listen.")(
+        "remote_ip,r",
+        po::value<std::string>(),
+        "The remote IP address where SCRIMMAGE is running.")(
+        "remote_port,o",
+        po::value<std::string>(),
+        "The remote port where SCRIMMAGE is running.")(
+        "pos",
+        po::value<std::string>(),
+        "camera position")("focal_point", po::value<std::string>(), "camera focal point");
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);

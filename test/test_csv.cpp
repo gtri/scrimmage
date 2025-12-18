@@ -30,14 +30,13 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/parse/ParseUtils.h>
-
+#include <cmath>
 #include <string>
 #include <vector>
-#include <cmath>
+
+#include <gtest/gtest.h>
+#include <scrimmage/common/CSV.h>
+#include <scrimmage/parse/ParseUtils.h>
 
 namespace sc = scrimmage;
 
@@ -45,7 +44,7 @@ class CSVTest : public ::testing::Test {
  protected:
     void SetUp() override {
         // Construct the CSV string
-        for (auto &line : csv_lines) {
+        for (auto& line : csv_lines) {
             csv_str += line + "\n";
         }
     }
@@ -59,14 +58,16 @@ class CSVTest : public ::testing::Test {
         "0,2,3.200000,98.987000"};
 };
 
-std::list<sc::CSV::Pairs> construct_list_of_pairs(const std::vector<std::string> &csv_lines) {
+std::list<sc::CSV::Pairs> construct_list_of_pairs(const std::vector<std::string>& csv_lines) {
     EXPECT_GT(csv_lines.size(), static_cast<unsigned int>(0));
 
     // Use the csv_lines list of strings to append to the CSV object
     std::list<sc::CSV::Pairs> list_of_pairs;
-    std::vector<std::string> headers = sc::str2container<std::vector<std::string>>(csv_lines[0], ",");
+    std::vector<std::string> headers =
+        sc::str2container<std::vector<std::string>>(csv_lines[0], ",");
     for (unsigned int i = 1; i < csv_lines.size(); i++) {
-        std::vector<std::string> items = sc::str2container<std::vector<std::string>>(csv_lines[i], ",");
+        std::vector<std::string> items =
+            sc::str2container<std::vector<std::string>>(csv_lines[i], ",");
         EXPECT_EQ(headers.size(), items.size());
 
         sc::CSV::Pairs pairs;
@@ -103,11 +104,11 @@ TEST_F(CSVTest, from_append) {
     std::string filename("from_append.csv");
     sc::CSV csv;
     csv.open_output(filename);
-    csv.set_column_headers(csv_lines[0]); // Write the column headers
+    csv.set_column_headers(csv_lines[0]);  // Write the column headers
 
     // Create a list of pairs to pass to CSV
     auto list_of_pairs = construct_list_of_pairs(csv_lines);
-    for (auto &pairs : list_of_pairs) {
+    for (auto& pairs : list_of_pairs) {
         csv.append(pairs, true, true);
     }
     csv.close_output();

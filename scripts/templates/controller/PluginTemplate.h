@@ -30,24 +30,24 @@
  *
  */
 
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
-
-#include <scrimmage/motion/Controller.h>
+#ifndef(>>> HEADER_GUARD < < <)
+#define(>>> HEADER_GUARD < < <)
 
 #include <map>
 #include <string>
 
+#include <scrimmage/motion/Controller.h>
+
 namespace scrimmage {
 namespace controller {
 
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Controller {
+class(>>> PLUGIN_NAME < < <) : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string> & params) override;
     bool step(double t, double dt) override;
 
  protected:
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // (>>>HEADER_GUARD<<<)

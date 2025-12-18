@@ -33,13 +33,13 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include <list>
+#include <map>
+#include <string>
+
 #include <scrimmage/entity/Entity.h>
 #include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
-
-#include <map>
-#include <list>
-#include <string>
+#include <scrimmage/simcontrol/EntityInteraction.h>
 
 namespace scrimmage {
 namespace interaction {
@@ -47,10 +47,11 @@ namespace interaction {
 class TerrainGenerator : public scrimmage::EntityInteraction {
  public:
     TerrainGenerator();
-    bool init(std::map<std::string, std::string> &mission_params,
-              std::map<std::string, std::string> &plugin_params) override;
-    bool step_entity_interaction(std::list<scrimmage::EntityPtr> &ents,
-                                 double t, double dt) override;
+    bool init(
+        std::map<std::string, std::string>& mission_params,
+        std::map<std::string, std::string>& plugin_params) override;
+    bool step_entity_interaction(std::list<scrimmage::EntityPtr>& ents, double t, double dt)
+        override;
 
  protected:
     TerrainMap map_;
@@ -60,6 +61,6 @@ class TerrainGenerator : public scrimmage::EntityInteraction {
 
  private:
 };
-} // namespace interaction
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_
+}  // namespace interaction
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_

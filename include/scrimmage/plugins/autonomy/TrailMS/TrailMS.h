@@ -32,16 +32,16 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
-
-#include <string>
 #include <map>
+#include <string>
+
+#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
 
 namespace scrimmage {
 namespace autonomy {
 class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step_autonomy(double t, double dt) override;
 
  protected:
@@ -54,6 +54,6 @@ class TrailMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     scrimmage_proto::ShapePtr sphere_shape_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAILMS_TRAILMS_H_

@@ -31,6 +31,7 @@
  */
 
 #include <cmath>
+
 #include <scrimmage/pubsub/MessageBase.h>
 
-namespace scrimmage {} // namespace scrimmage
+namespace scrimmage {}  // namespace scrimmage

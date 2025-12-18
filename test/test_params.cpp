@@ -30,20 +30,18 @@
  *
  */
 
-#include <gtest/gtest.h>
-
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/common/ParameterServer.h>
-
-#include <memory>
 #include <cmath>
 #include <iostream>
+#include <memory>
+
+#include <gtest/gtest.h>
+#include <scrimmage/common/ParameterServer.h>
+#include <scrimmage/entity/EntityPlugin.h>
 
 namespace sc = scrimmage;
 
 TEST(test_params, single_set_get) {
-    std::shared_ptr<sc::ParameterServer> param_server
-        = std::make_shared<sc::ParameterServer>();
+    std::shared_ptr<sc::ParameterServer> param_server = std::make_shared<sc::ParameterServer>();
 
     std::shared_ptr<sc::EntityPlugin> one = std::make_shared<sc::EntityPlugin>();
     one->set_param_server(param_server);
@@ -68,7 +66,7 @@ TEST(test_params, single_set_get) {
     EXPECT_TRUE(one->unregister_param<double>(param_name));
 
     // Set the parameter from a different plugin
-    EXPECT_TRUE(two->set_param(param_name, param_value+1));
+    EXPECT_TRUE(two->set_param(param_name, param_value + 1));
 
     // The local variable shouldn't have changed this time
     EXPECT_NEAR(one_param, param_value, 1e-1);
@@ -79,12 +77,12 @@ TEST(test_params, single_set_get) {
 }
 
 TEST(test_params, multiple_sets) {
-    std::shared_ptr<sc::ParameterServer> param_server
-        = std::make_shared<sc::ParameterServer>();
+    std::shared_ptr<sc::ParameterServer> param_server = std::make_shared<sc::ParameterServer>();
 
     int num_plugins = 10;
     std::vector<std::shared_ptr<sc::EntityPlugin>> plugins(
-        num_plugins, std::make_shared<sc::EntityPlugin>());
+        num_plugins,
+        std::make_shared<sc::EntityPlugin>());
 
     std::string param_name = "my_param";
     double value = 0;

@@ -33,18 +33,18 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include <scrimmage/common/PID.h>
 #include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
-
-#include <map>
-#include <vector>
-#include <string>
 
 namespace scrimmage {
 namespace controller {
 class DoubleIntegratorControllerVelYaw : public scrimmage::Controller {
  public:
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
 
  protected:
@@ -62,6 +62,6 @@ class DoubleIntegratorControllerVelYaw : public scrimmage::Controller {
     int acc_z_idx_ = 0;
     int turn_rate_idx_ = 0;
 };
-} // namespace controller
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_
+}  // namespace controller
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERVELYAW_DOUBLEINTEGRATORCONTROLLERVELYAW_H_

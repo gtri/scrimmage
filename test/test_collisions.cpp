@@ -30,12 +30,10 @@
  *
  */
 
+#include <boost/optional.hpp>
 #include <gtest/gtest.h>
-
 #include <scrimmage/common/CSV.h>
 #include <scrimmage/simcontrol/SimUtils.h>
-
-#include <boost/optional.hpp>
 
 namespace sc = scrimmage;
 
@@ -45,14 +43,16 @@ TEST(test_collisions, collisions) {
 
     bool success = log_dir ? true : false;
     EXPECT_TRUE(success);
-    if (!log_dir) return;
+    if (!log_dir)
+        return;
 
     sc::CSV csv;
     bool summary_found = csv.read_csv(*log_dir + "/summary.csv");
     EXPECT_TRUE(summary_found);
-    if (!summary_found) return;
+    if (!summary_found)
+        return;
 
     const int row = csv.rows() - 1;
     double collisions = csv.at(row, "team_coll");
-    EXPECT_GT(collisions, 0); // expect collisions
+    EXPECT_GT(collisions, 0);  // expect collisions
 }

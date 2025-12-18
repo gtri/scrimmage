@@ -30,34 +30,39 @@
  *
  */
 
-#ifndef (>>>HEADER_GUARD<<<)
-#define (>>>HEADER_GUARD<<<)
-
-#include <scrimmage/pubsub/Network.h>
+#ifndef(>>> HEADER_GUARD < < <)
+#define(>>> HEADER_GUARD < < <)
 
 #include <map>
 #include <string>
+
+#include <scrimmage/pubsub/Network.h>
 
 namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace network {
 
-class (>>>PLUGIN_NAME<<<) : public scrimmage::Network {
+class(>>> PLUGIN_NAME < < <) : public scrimmage::Network {
  public:
-    (>>>PLUGIN_NAME<<<)();
+    (>>> PLUGIN_NAME < < <)();
 
-    virtual bool init(std::map<std::string, std::string> &mission_params,
-                      std::map<std::string, std::string> &plugin_params);
+    virtual bool init(
+        std::map<std::string, std::string> & mission_params,
+        std::map<std::string, std::string> & plugin_params);
+
  protected:
-    virtual bool is_reachable(const scrimmage::PluginPtr &pub_plugin,
-                              const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_reachable(
+        const scrimmage::PluginPtr& pub_plugin,
+        const scrimmage::PluginPtr& sub_plugin);
 
-    virtual bool is_successful_transmission(const scrimmage::PluginPtr &pub_plugin,
-                                            const scrimmage::PluginPtr &sub_plugin);
+    virtual bool is_successful_transmission(
+        const scrimmage::PluginPtr& pub_plugin,
+        const scrimmage::PluginPtr& sub_plugin);
+
  protected:
  private:
 };
-} // namespace network
-} // namespace scrimmage
-#endif // (>>>HEADER_GUARD<<<)
+}  // namespace network
+}  // namespace scrimmage
+#endif  // (>>>HEADER_GUARD<<<)

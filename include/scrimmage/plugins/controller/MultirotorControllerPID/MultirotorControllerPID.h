@@ -33,14 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLERPID_MULTIROTORCONTROLLERPID_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MULTIROTORCONTROLLERPID_MULTIROTORCONTROLLERPID_H_
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <scrimmage/common/PID.h>
+#include <scrimmage/motion/Controller.h>
+#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
 
 namespace scrimmage {
 namespace controller {
@@ -48,9 +48,9 @@ namespace controller {
 class MultirotorControllerPID : public scrimmage::Controller {
  public:
     MultirotorControllerPID();
-    void init(std::map<std::string, std::string> &params) override;
+    void init(std::map<std::string, std::string>& params) override;
     bool step(double t, double dt) override;
-    virtual Eigen::VectorXd &u() { return u_; }
+    virtual Eigen::VectorXd& u() { return u_; }
 
  protected:
     Eigen::VectorXd u_;

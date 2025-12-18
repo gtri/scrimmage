@@ -30,10 +30,9 @@
  *
  */
 
+#include <boost/optional.hpp>
 #include <gtest/gtest.h>
 #include <scrimmage/common/FileSearch.h>
-
-#include <boost/optional.hpp>
 
 namespace sc = scrimmage;
 

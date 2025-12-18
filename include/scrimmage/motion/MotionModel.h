@@ -33,14 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
 #define INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/fwd_decl.h>
-
 #include <Eigen/Dense>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <scrimmage/entity/EntityPlugin.h>
+#include <scrimmage/fwd_decl.h>
 
 namespace scrimmage {
 

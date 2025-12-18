@@ -33,10 +33,6 @@
 #ifndef INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_
 #define INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/proto/Color.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
-
 #include <Eigen/Dense>
 #include <list>
 #include <map>
@@ -44,6 +40,10 @@
 #include <set>
 #include <string>
 #include <vector>
+
+#include <scrimmage/fwd_decl.h>
+#include <scrimmage/proto/Color.pb.h>
+#include <scrimmage/proto/Visual.pb.h>
 
 namespace sp = scrimmage_proto;
 

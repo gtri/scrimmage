@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_MATH_STATE_H_
 #define INCLUDE_SCRIMMAGE_MATH_STATE_H_
 
-#include <scrimmage/math/Quaternion.h>
-
 #include <Eigen/Dense>
 #include <iosfwd>
 #include <memory>
 #include <typeinfo>
+
+#include <scrimmage/math/Quaternion.h>
 
 namespace scrimmage {
 

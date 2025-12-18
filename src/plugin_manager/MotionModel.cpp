@@ -30,10 +30,10 @@
  *
  */
 
-#include <scrimmage/motion/MotionModel.h>
+#include <functional>
 
 #include <boost/numeric/odeint.hpp>
-#include <functional>
+#include <scrimmage/motion/MotionModel.h>
 
 namespace pl = std::placeholders;
 
@@ -42,7 +42,9 @@ namespace scrimmage {
 MotionModel::MotionModel()
     : ext_force_(0, 0, 0), ext_velocity_(0, 0, 0), ext_moment_(0, 0, 0), mass_(1.0), g_(9.81) {}
 
-std::string MotionModel::type() { return std::string("MotionModel"); }
+std::string MotionModel::type() {
+    return std::string("MotionModel");
+}
 
 bool MotionModel::init(
     std::map<std::string, std::string>& info,
@@ -50,15 +52,25 @@ bool MotionModel::init(
     return false;
 }
 
-bool MotionModel::step(double time, double dt) { return true; }
+bool MotionModel::step(double time, double dt) {
+    return true;
+}
 
-bool MotionModel::posthumous(double t) { return true; }
+bool MotionModel::posthumous(double t) {
+    return true;
+}
 
-StatePtr& MotionModel::state() { return state_; }
+StatePtr& MotionModel::state() {
+    return state_;
+}
 
-void MotionModel::set_state(StatePtr& state) { state_ = state; }
+void MotionModel::set_state(StatePtr& state) {
+    state_ = state;
+}
 
-void MotionModel::teleport(StatePtr& state) { state_ = state; }
+void MotionModel::teleport(StatePtr& state) {
+    state_ = state;
+}
 
 void MotionModel::ode_step(double dt) {
     auto sys = std::bind(&MotionModel::model, this, pl::_1, pl::_2, pl::_3);
@@ -68,11 +80,19 @@ void MotionModel::ode_step(double dt) {
 
 void MotionModel::model(const MotionModel::vector_t& x, MotionModel::vector_t& dxdt, double t) {}
 
-void MotionModel::set_external_force(const Eigen::Vector3d& force) { ext_force_ = force; }
+void MotionModel::set_external_force(const Eigen::Vector3d& force) {
+    ext_force_ = force;
+}
 
-void MotionModel::set_external_velocity(const Eigen::Vector3d& vel) { ext_velocity_ = vel; }
+void MotionModel::set_external_velocity(const Eigen::Vector3d& vel) {
+    ext_velocity_ = vel;
+}
 
-void MotionModel::set_external_moment(const Eigen::Vector3d& moment) { ext_moment_ = moment; }
+void MotionModel::set_external_moment(const Eigen::Vector3d& moment) {
+    ext_moment_ = moment;
+}
 
-void MotionModel::close(double t) { state_ = nullptr; }
+void MotionModel::close(double t) {
+    state_ = nullptr;
+}
 }  // namespace scrimmage
