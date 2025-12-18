@@ -23,6 +23,7 @@ var dir_5aacfe0deb1b51de3b8a4437197fbda8 =
     [ "ROSAutonomy", "dir_93084db43082c4847e8136da9198f632.html", "dir_93084db43082c4847e8136da9198f632" ],
     [ "ROSControl", "dir_b639ea7873a0280720439ad8ea0165c6.html", "dir_b639ea7873a0280720439ad8ea0165c6" ],
     [ "ShapeDraw", "dir_3d88e5e1949d7134819d09456e6e0efc.html", "dir_3d88e5e1949d7134819d09456e6e0efc" ],
+    [ "SimplePubSub", "dir_77ee7b7f755e6f0fe88f863f46ed135a.html", "dir_77ee7b7f755e6f0fe88f863f46ed135a" ],
     [ "Straight", "dir_0dc95097b01e595275e773fb9657ceaa.html", "dir_0dc95097b01e595275e773fb9657ceaa" ],
     [ "TakeFlag", "dir_2015d23bc2161195678e4a17011a5b23.html", "dir_2015d23bc2161195678e4a17011a5b23" ],
     [ "TrailMS", "dir_19b20a58ac24b781a3d265d8d2c872f7.html", "dir_19b20a58ac24b781a3d265d8d2c872f7" ],

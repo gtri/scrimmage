@@ -1,5 +1,9 @@
 <map id="scrimmage::Network::get_transmission_delay" name="scrimmage::Network::get_transmission_delay">
-<area shape="rect" id="Node000001" title=" " alt="" coords="212,5,397,45"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="5,5,164,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="248,85,433,125"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a2773a3a88fc0e02af097ec61a26b0b12" title=" " alt="" coords="13,5,192,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,83,191,62,193,57,261,78"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="23,85,182,125"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="234,107,182,107,182,102,234,102"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a9dc1493f1550f765868066ca7668b9d6" title=" " alt="" coords="5,149,200,189"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="253,131,178,151,177,146,252,126"/>
 </map>

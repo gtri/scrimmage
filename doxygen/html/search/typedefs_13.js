@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['zerocopyinputstreamptr_0',['ZeroCopyInputStreamPtr',['../classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385',1,'scrimmage::Log']]],
-  ['zerocopyoutputstreamptr_1',['ZeroCopyOutputStreamPtr',['../classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423',1,'scrimmage::Log']]]
+  ['xmlattribute_0',['XMLAttribute',['../classscrimmage_1_1XMLParserNode.html#a58eb6700be86e6a2252c50d6c9e010e1',1,'scrimmage::XMLParserNode']]],
+  ['xmlnode_1',['XMLNode',['../classscrimmage_1_1XMLParserDocument.html#ae9447f97f9554993d2c0e996cebacd52',1,'scrimmage::XMLParserDocument']]]
 ];

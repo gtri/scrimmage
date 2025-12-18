@@ -20,11 +20,12 @@ var searchData=
   ['use_5froll_5f_17',['use_roll_',['../classscrimmage_1_1controller_1_1SimpleAircraftControllerPID.html#a1955ca42a9d1fe794034bb4fd3f07b83',1,'scrimmage::controller::SimpleAircraftControllerPID']]],
   ['use_5froll_5fcontrol_5f_18',['use_roll_control_',['../classscrimmage_1_1controller_1_1AircraftPIDController.html#a6549e9d649a58ff0ad27401b2e00bda1',1,'scrimmage::controller::AircraftPIDController']]],
   ['use_5ftruth_5fcontacts_5f_19',['use_truth_contacts_',['../classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html#a098c099d91aa58435a1faf7b3df79955',1,'scrimmage::autonomy::motor_schemas::BehaviorBase']]],
-  ['utm_5fterrain_5f_20',['utm_terrain_',['../classscrimmage_1_1Log.html#ab131ff290ae95ab4b142ca1692ddb5d9',1,'scrimmage::Log::utm_terrain_'],['../classscrimmage_1_1MissionParse.html#a90918fd48a5a78ab11f9df5854659cf0',1,'scrimmage::MissionParse::utm_terrain_']]],
-  ['utm_5fterrain_5fcache_5f_21',['utm_terrain_cache_',['../classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d',1,'scrimmage::Interface']]],
-  ['utm_5fterrain_5ffd_5f_22',['utm_terrain_fd_',['../classscrimmage_1_1Log.html#af62ed9e9b69e919347e63c65abe8307d',1,'scrimmage::Log']]],
-  ['utm_5fterrain_5flist_5f_23',['utm_terrain_list_',['../classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d',1,'scrimmage::Interface']]],
-  ['utm_5fterrain_5fmutex_24',['utm_terrain_mutex',['../classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831',1,'scrimmage::Interface']]],
-  ['utm_5fterrain_5fname_5f_25',['utm_terrain_name_',['../classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51',1,'scrimmage::Log']]],
-  ['utm_5fterrain_5foutput_5f_26',['utm_terrain_output_',['../classscrimmage_1_1Log.html#ab2792c446543c81ade28757875af58b0',1,'scrimmage::Log']]]
+  ['utils_5f_20',['utils_',['../classscrimmage_1_1network_1_1GPUSphereNetwork.html#ad91eb4d689a1a491cda603c0de468cec',1,'scrimmage::network::GPUSphereNetwork']]],
+  ['utm_5fterrain_5f_21',['utm_terrain_',['../classscrimmage_1_1Log.html#ab131ff290ae95ab4b142ca1692ddb5d9',1,'scrimmage::Log::utm_terrain_'],['../classscrimmage_1_1MissionParse.html#a90918fd48a5a78ab11f9df5854659cf0',1,'scrimmage::MissionParse::utm_terrain_']]],
+  ['utm_5fterrain_5fcache_5f_22',['utm_terrain_cache_',['../classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d',1,'scrimmage::Interface']]],
+  ['utm_5fterrain_5ffd_5f_23',['utm_terrain_fd_',['../classscrimmage_1_1Log.html#af62ed9e9b69e919347e63c65abe8307d',1,'scrimmage::Log']]],
+  ['utm_5fterrain_5flist_5f_24',['utm_terrain_list_',['../classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d',1,'scrimmage::Interface']]],
+  ['utm_5fterrain_5fmutex_25',['utm_terrain_mutex',['../classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831',1,'scrimmage::Interface']]],
+  ['utm_5fterrain_5fname_5f_26',['utm_terrain_name_',['../classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51',1,'scrimmage::Log']]],
+  ['utm_5fterrain_5foutput_5f_27',['utm_terrain_output_',['../classscrimmage_1_1Log.html#ab2792c446543c81ade28757875af58b0',1,'scrimmage::Log']]]
 ];

@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPU Motion Updates &mdash; scrimmage 0.2.0-dev documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=dee240fc"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            scrimmage
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scrimmage</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GPU Motion Updates</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/gpu-motion-models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gpu-motion-updates">
+<h1>GPU Motion Updates<a class="headerlink" href="#gpu-motion-updates" title="Link to this heading"></a></h1>
+<section id="tldr">
+<h2>TLDR;<a class="headerlink" href="#tldr" title="Link to this heading"></a></h2>
+<p>To use a GPU motion kernel in SCRIMMAGE:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;gpu_kernel</span>
+<span class="na">src_dirs =</span><span class="w"> </span><span class="s">&quot;SimpleAircraft&quot;</span>
+<span class="na">include_dirs =</span><span class="w"> </span><span class="s">&quot;kernels&quot;</span>
+<span class="na">kernel_name =</span><span class="w"> </span><span class="s">&quot;SimpleAircraft&quot;</span><span class="nt">&gt;</span>SimpleAircraftDouble
+<span class="nt">&lt;/gpu_kernel&gt;</span>
+
+<span class="nt">&lt;entity&gt;</span>
+<span class="w">  </span>...
+<span class="w">  </span><span class="nt">&lt;gpu_motion_model&gt;</span>SimpleAircraftDouble<span class="nt">&lt;/gpu_motion_model&gt;</span>
+<span class="w">  </span>...
+<span class="nt">&lt;/entity&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="motivation">
+<h2>Motivation:<a class="headerlink" href="#motivation" title="Link to this heading"></a></h2>
+</section>
+<section id="declaring-kernels-in-a-mission-file">
+<h2>Declaring Kernels in a Mission File:<a class="headerlink" href="#declaring-kernels-in-a-mission-file" title="Link to this heading"></a></h2>
+<p>SCRIMMAGE is informed of existing kernels through the ‘&lt;gpu_kernel&gt;’ xml tag. Much like C source code,
+gpu kernels must be compiled for the various devices they’re intended to execute on.
+The following attributes are used in specifing the kernel compilation:</p>
+<div class="line-block">
+<div class="line">Attribute | Values | Required | Description |</div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">|-----------|</span></a>——–<a href="#id3"><span class="problematic" id="id4">|----------|</span></a>——-|
+| <cite>src_dirs</cite>  | “src_dir1,src_dir2,…”| YES | A comma seperated list of values. If the location is not explicitly
+specified, SCRIMMAGE will recursivly search <cite>SCRIMMAGE_KERNEL_DIR</cite> until a matching directory is found. All files with
+a <cite>.cl</cite> extension are considered source files and are included in the compilation.|
+| <cite>kernel_name</cite>  | “kernel_name” | YES | The name of OpenCL kernel function SCRIMMAGE will call. |
+| <cite>include_dirs</cite> | “include_dir1,include_dir2,…” | NO | Specify the INCLUDE directories where header files are located. Search rules are the same as for <cite>src_dirs</cite> |
+| <cite>single_precision</cite> | “true”/”false” | NO | Specifies if the kernel should represent numbers using Single or Double Floating precision. By default, Double precision is used, unless the compilation target does not support Double precision. |
+| <cite>platforms</cite> | “platform1,platform2,….. | NO | OpenCL Platforms to target. If specified, the devices that SCRIMMAGE will select from is reduced to only those belonging to the specified platforms.</p>
+<p>For example, the xml tag below defines a gpu-kernel named <cite>SimpleAircraftSingle</cite> which is the Single precision implementation of
+the <cite>SimpleAircraft</cite> kernel, found in <cite>$SCRIMMAGE_KERNEL_DIR/motion/SimpleAircraft/SimpleAircraft.cl</cite> using
+<cite>$SCRIMMAGE_KERNEL_DIR</cite> as an INCLUDE directory. This kernel will target all devices belonging
+to the NVIDIA CUDA platform.</p>
+<section id="platforms">
+<h3>Platforms:<a class="headerlink" href="#platforms" title="Link to this heading"></a></h3>
+<p>To determine what OpenCL Platforms you have on your device (and/or to test if you installed OpenCL correctly), install and run <a class="reference external" href="https://github.com/Oblomov/clinfo">clinfo</a>.</p>
+<p>On Linux:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt install clinfo
+$ clinfo
+</pre></div>
+</div>
+<p><cite>clinfo</cite> will output information about every OpenCL platform and device on your computer.
+If not explicitly provided in the kernel xml tag, all platforms will be considered, and the fastest device found will
+be selected as the target for all kernels. This isn’t the perfect way to do this, but provides a good heuristic.</p>
+</section>
+</section>
+<section id="connecting-an-entity-with-a-motion-kernel">
+<h2>Connecting an Entity with a Motion Kernel<a class="headerlink" href="#connecting-an-entity-with-a-motion-kernel" title="Link to this heading"></a></h2>
+<p>Giving kernels specific names (e.g. <cite>SimpleAircraftSingle</cite> or <cite>SimpleAircraftDouble</cite>) lets us compile different versions
+of the same kernel depending on the accuracy requirements of the mission and/or specific entities.
+An entity specifies that it uses a kernel for motion updates with the <cite>&lt;gpu_motion_model&gt;</cite> tag,
+which replaces the normal <cite>&lt;motion_model&gt;</cite> tag. For example, an entity that
+uses the <cite>SimpleAircraftSingle</cite> motion kernel would have the following tags:</p>
+<p>Only one <cite>&lt;gpu_motion_model&gt;</cite> tag may be used per entity.</p>
+</section>
+<section id="writing-kernels">
+<h2>Writing Kernels<a class="headerlink" href="#writing-kernels" title="Link to this heading"></a></h2>
+<p>In principal, the GPU motion models are similar to their CPU-based counterparts: Every timestep
+a set of differential equations are integrated to produce the entities state for the next timestep/simulation loop.</p>
+<p>However, in practice there are quite a few differences.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Kevin DeMarco.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

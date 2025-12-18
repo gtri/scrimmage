@@ -1,11 +1,11 @@
 <map id="scrimmage::VariableIO" name="scrimmage::VariableIO">
-<area shape="rect" id="Node000001" title=" " alt="" coords="235,192,445,632"/>
+<area shape="rect" id="Node000001" title="abstracts the connection between motion models, controllers, and autonomies" alt="" coords="235,192,445,667"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,5,160,85"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,85,105,125,124,167,171,236,225,299,221,302,167,239,119,169,100,127,88,86"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,85,105,125,122,167,170,241,226,309,222,313,166,244,118,169,100,127,88,86"/>
 <area shape="rect" id="Node000008" title=" " alt="" coords="184,5,347,85"/>
-<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="276,85,294,175,289,176,271,86"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="276,85,293,176,288,177,270,86"/>
 <area shape="rect" id="Node000010" title=" " alt="" coords="371,13,528,78"/>
-<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="442,79,413,177,408,175,437,78"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="443,79,415,177,410,175,438,78"/>
 <area shape="rect" id="Node000012" title=" " alt="" coords="569,5,713,85"/>
-<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="641,86,632,128,614,169,582,216,543,260,502,299,460,333,457,329,498,295,539,256,577,213,610,167,627,126,635,85"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="640,86,631,127,614,169,581,218,543,264,501,306,460,343,456,339,498,302,539,261,577,215,610,167,626,126,635,85"/>
 </map>

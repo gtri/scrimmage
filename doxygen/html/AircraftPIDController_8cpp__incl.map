@@ -12,14 +12,14 @@
 <area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="909,77,794,127,792,122,907,72"/>
 <area shape="rect" id="Node000012" href="$Entity_8h.html" title="Brief file description." alt="" coords="891,130,1080,155"/>
 <area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="988,75,988,116,983,116,983,75"/>
-<area shape="rect" id="Node000025" href="$Angles_8h.html" title="Brief file description." alt="" coords="1105,130,1298,155"/>
-<area shape="poly" id="edge7_Node000001_Node000025" title=" " alt="" coords="1059,72,1165,122,1163,127,1057,77"/>
-<area shape="rect" id="Node000026" href="$State_8h.html" title="Brief file description." alt="" coords="1322,130,1505,155"/>
-<area shape="poly" id="edge8_Node000001_Node000026" title=" " alt="" coords="1092,63,1352,124,1351,130,1091,69"/>
-<area shape="rect" id="Node000030" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1529,130,1745,155"/>
-<area shape="poly" id="edge9_Node000001_Node000030" title=" " alt="" coords="1091,55,1518,120,1552,125,1551,131,1517,125,1090,60"/>
-<area shape="rect" id="Node000031" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1770,123,1974,163"/>
-<area shape="poly" id="edge10_Node000001_Node000031" title=" " alt="" coords="1091,48,1386,77,1756,120,1756,125,1386,82,1091,53"/>
-<area shape="rect" id="Node000032" href="$AircraftPIDController_8h.html" title="Brief file description." alt="" coords="1999,123,2305,163"/>
-<area shape="poly" id="edge11_Node000001_Node000032" title=" " alt="" coords="1091,46,1480,76,1985,120,1985,125,1480,81,1090,51"/>
+<area shape="rect" id="Node000027" href="$Angles_8h.html" title="Brief file description." alt="" coords="1105,130,1298,155"/>
+<area shape="poly" id="edge7_Node000001_Node000027" title=" " alt="" coords="1059,72,1165,122,1163,127,1057,77"/>
+<area shape="rect" id="Node000028" href="$State_8h.html" title="Brief file description." alt="" coords="1322,130,1505,155"/>
+<area shape="poly" id="edge8_Node000001_Node000028" title=" " alt="" coords="1092,63,1352,124,1351,130,1091,69"/>
+<area shape="rect" id="Node000032" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1529,130,1745,155"/>
+<area shape="poly" id="edge9_Node000001_Node000032" title=" " alt="" coords="1091,55,1518,120,1552,125,1551,131,1517,125,1090,60"/>
+<area shape="rect" id="Node000033" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1770,123,1974,163"/>
+<area shape="poly" id="edge10_Node000001_Node000033" title=" " alt="" coords="1091,48,1386,77,1756,120,1756,125,1386,82,1091,53"/>
+<area shape="rect" id="Node000034" href="$AircraftPIDController_8h.html" title="Brief file description." alt="" coords="1999,123,2305,163"/>
+<area shape="poly" id="edge11_Node000001_Node000034" title=" " alt="" coords="1091,46,1480,76,1985,120,1985,125,1480,81,1090,51"/>
 </map>

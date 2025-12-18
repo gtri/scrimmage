@@ -19,6 +19,9 @@ var fwd__decl_8h =
     [ "MotionModelPtr", "fwd__decl_8h.html#a1fa276c5423b591ee334c328ca6de38a", null ],
     [ "ControllerPtr", "fwd__decl_8h.html#ae9883a6b46de4b9826fe5d7768744050", null ],
     [ "SensorPtr", "fwd__decl_8h.html#ad426ea9051719a33d49b474755f536f0", null ],
+    [ "GPUControllerPtr", "fwd__decl_8h.html#a2df973a01ed56cc4106e879470ac12db", null ],
+    [ "GPUMotionModelPtr", "fwd__decl_8h.html#a720e603c52bb5aef2fa9a7db3871b889", null ],
+    [ "GPUNetworkPtr", "fwd__decl_8h.html#a3ea84b97a40671b2e6c4a52cbecaf9c7", null ],
     [ "InterfacePtr", "fwd__decl_8h.html#a3717e7df6ad78cf99b54e83c8f8a8702", null ],
     [ "EntityInteractionPtr", "fwd__decl_8h.html#a1907aa8ca5f47fe16b9639b110b4ec91", null ],
     [ "MetricsPtr", "fwd__decl_8h.html#ab7d3fe5e4e0cddb46b9763146f410a90", null ]

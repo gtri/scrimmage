@@ -9,6 +9,7 @@ var dir_edb592701dc45cc21f3d1cc2e72efe9a =
     [ "FileSearch.h", "FileSearch_8h.html", "FileSearch_8h" ],
     [ "FSMBehavior.h", "FSMBehavior_8h.html", "FSMBehavior_8h" ],
     [ "GlobalService.h", "GlobalService_8h.html", "GlobalService_8h" ],
+    [ "GPUVariableIO.h", "GPUVariableIO_8h.html", "GPUVariableIO_8h" ],
     [ "ID.h", "ID_8h.html", "ID_8h" ],
     [ "Parameter.h", "Parameter_8h.html", "Parameter_8h" ],
     [ "ParameterServer.h", "ParameterServer_8h.html", "ParameterServer_8h" ],

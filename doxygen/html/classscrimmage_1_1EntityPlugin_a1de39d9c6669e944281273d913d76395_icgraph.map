@@ -1,7 +1,17 @@
 <map id="scrimmage::EntityPlugin::subs" name="scrimmage::EntityPlugin::subs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="300,37,481,77"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="49,5,208,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,47,208,38,209,32,287,42"/>
-<area shape="rect" id="Node000003" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="5,69,252,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="287,73,252,77,252,72,286,67"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="515,163,696,203"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#ad4873115ce5afa853c3e7839112cbe19" title=" " alt="" coords="5,41,172,96"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="584,152,564,121,537,87,504,55,466,31,427,17,387,10,346,8,304,10,226,24,159,44,158,38,225,19,304,5,346,3,387,5,428,12,468,26,507,51,541,83,569,118,589,149"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a2773a3a88fc0e02af097ec61a26b0b12" title=" " alt="" coords="254,41,433,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="559,158,466,109,432,96,434,91,468,105,561,153"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a28becd33b22930230fea578a7c79c11d" title=" " alt="" coords="260,120,427,174"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="501,171,427,161,427,156,501,166"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Network.html#a096010e56a80ec33e29d1cab21c81c25" title=" " alt="" coords="264,199,423,239"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="501,200,423,211,423,205,501,195"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a9dc1493f1550f765868066ca7668b9d6" title=" " alt="" coords="246,263,441,303"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="558,212,468,253,431,265,429,260,466,248,555,207"/>
+<area shape="rect" id="Node000007" href="$classauction__assign_1_1AuctionAssign.html#abdea08f70ee097898ebed74551985640" title=" " alt="" coords="220,327,467,367"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="582,215,533,268,502,295,468,317,442,329,439,325,465,313,499,290,530,264,578,212"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="240,71,172,71,172,66,240,66"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="246,120,171,96,173,91,248,115"/>
 </map>

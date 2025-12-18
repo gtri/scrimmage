@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['headingzero_0',['HeadingZero',['../classscrimmage_1_1Angles.html#ac62e1f2a874d5031d4b7ec36cfdca289',1,'scrimmage::Angles']]]
+  ['gpu_5fplugin_5ftype_0',['GPU_PLUGIN_TYPE',['../namespacescrimmage.html#a7e79f740da162f75b5578eea4bd03e55',1,'scrimmage']]]
 ];

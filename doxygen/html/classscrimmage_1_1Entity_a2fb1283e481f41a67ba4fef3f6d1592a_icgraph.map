@@ -1,7 +1,5 @@
 <map id="scrimmage::Entity::printer" name="scrimmage::Entity::printer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="223,27,371,67"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#ad789c0b1940094ffd97ba9f655ba4802" title=" " alt="" coords="5,5,175,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,38,175,33,175,27,209,32"/>
-<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#af1e8d268a75a25d57e7a7723fb52fbbb" title=" " alt="" coords="16,55,164,95"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,62,165,68,164,63,208,57"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="201,5,349,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#af1e8d268a75a25d57e7a7723fb52fbbb" title=" " alt="" coords="5,5,153,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,28,154,28,154,23,187,23"/>
 </map>

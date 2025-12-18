@@ -51,6 +51,7 @@ var classscrimmage_1_1VariableIO =
     [ "output", "classscrimmage_1_1VariableIO.html#a8b48835a6d99446428eee5bdbe5ce22a", null ],
     [ "set_input", "classscrimmage_1_1VariableIO.html#a260ea35367abff0fa1508057f0b7eb36", null ],
     [ "set_output", "classscrimmage_1_1VariableIO.html#ae0e3525afe3d00be45d572d1b8718cee", null ],
+    [ "create_unconnected_output", "classscrimmage_1_1VariableIO.html#a90f5a47306bb3893606ff1856e4b39ce", null ],
     [ "connect", "classscrimmage_1_1VariableIO.html#a765c7c39e3e5282f42ac8c8f5b700555", null ],
     [ "next_input_variable_index_", "classscrimmage_1_1VariableIO.html#adb02a22b3735ac2faffa70f0df622ad5", null ],
     [ "input_variable_index_", "classscrimmage_1_1VariableIO.html#ab4a0652501b5941d6d31c64732ae908a", null ],

@@ -1,11 +1,11 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ArduPilot" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/ArduPilot">
 <area shape="rect" id="node1" href="dir_f484556747bee456bc73998485694405.html" title="ArduPilot" alt="" coords="130,52,211,77"/>
 <area shape="rect" id="node2" href="dir_4281587931951fcc16b7a6ccc116b5d1.html" title="math" alt="" coords="5,125,61,151"/>
-<area shape="poly" id="edge1" href="dir_000011_000126.html" alt="" coords="150,80,69,121,67,117,147,75"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000011_000126.html" title="2" alt="" coords="71,117,80,132"/>
+<area shape="poly" id="edge1" href="dir_000011_000131.html" alt="" coords="150,80,69,121,67,117,147,75"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000011_000131.html" title="2" alt="" coords="71,117,80,132"/>
 <area shape="rect" id="node3" href="dir_accb3fd3c749527533ae278fdffb4d13.html" title="motion" alt="" coords="86,125,154,151"/>
-<area shape="poly" id="edge2" href="dir_000011_000135.html" alt="" coords="164,79,138,116,134,113,160,76"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000011_000135.html" title="1" alt="" coords="141,108,150,123"/>
+<area shape="poly" id="edge2" href="dir_000011_000140.html" alt="" coords="164,79,138,116,134,113,160,76"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000011_000140.html" title="1" alt="" coords="141,108,150,123"/>
 <area shape="rect" id="node4" href="dir_b3bb4020ef55165afbb203d4dc0e2378.html" title="autonomy" alt="" coords="179,125,267,151"/>
 <area shape="poly" id="edge3" href="dir_000011_000015.html" alt="" coords="181,76,208,113,204,116,177,79"/>
 <area shape="rect" id="edge3-headlabel" href="dir_000011_000015.html" title="1" alt="" coords="206,98,215,113"/>

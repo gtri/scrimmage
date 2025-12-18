@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['inputtype_0',['InputType',['../classscrimmage_1_1motion_1_1MultirotorState.html#af90e2897349a8e67c4a80c6d43b67468',1,'scrimmage::motion::MultirotorState']]]
+  ['headingzero_0',['HeadingZero',['../classscrimmage_1_1Angles.html#ac62e1f2a874d5031d4b7ec36cfdca289',1,'scrimmage::Angles']]]
 ];

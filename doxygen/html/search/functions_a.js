@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['kd_0',['kd',['../classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb',1,'scrimmage::PID']]],
-  ['keyboard_5fto_5fcmd_5fvel_1',['keyboard_to_cmd_vel',['../namespacekeyboard.html#a7b304a3ec5edab64fa23647223aa7080',1,'keyboard']]],
-  ['ki_2',['ki',['../classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783',1,'scrimmage::PID']]],
-  ['kp_3',['kp',['../classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a',1,'scrimmage::PID']]]
+  ['join_0',['join',['../classscrimmage_1_1SimControl.html#af8395d290cfd7e095835882e450ac5d8',1,'scrimmage::SimControl']]],
+  ['joystick_1',['Joystick',['../classscrimmage_1_1controller_1_1Joystick.html#ad1be6c9b5197caffa132ae77bdd268f9',1,'scrimmage::controller::Joystick']]],
+  ['jsbsimcontrol_2',['JSBSimControl',['../classscrimmage_1_1motion_1_1JSBSimControl.html#a9e4dc86dfb36b20f5d93e0009dd4898e',1,'scrimmage::motion::JSBSimControl']]]
 ];

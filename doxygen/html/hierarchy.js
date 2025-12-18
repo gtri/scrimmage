@@ -59,6 +59,7 @@ var hierarchy =
             [ "scrimmage::autonomy::ROSAutonomy", "classscrimmage_1_1autonomy_1_1ROSAutonomy.html", null ],
             [ "scrimmage::autonomy::ROSControl", "classscrimmage_1_1autonomy_1_1ROSControl.html", null ],
             [ "scrimmage::autonomy::ShapeDraw", "classscrimmage_1_1autonomy_1_1ShapeDraw.html", null ],
+            [ "scrimmage::autonomy::SimplePubSub", "classscrimmage_1_1autonomy_1_1SimplePubSub.html", null ],
             [ "scrimmage::autonomy::Straight", "classscrimmage_1_1autonomy_1_1Straight.html", null ],
             [ "scrimmage::autonomy::TakeFlag", "classscrimmage_1_1autonomy_1_1TakeFlag.html", null ],
             [ "scrimmage::autonomy::TrajectoryRecordPlayback", "classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html", null ],
@@ -153,6 +154,7 @@ var hierarchy =
             [ "scrimmage::motion::Unicycle3D", "classscrimmage_1_1motion_1_1Unicycle3D.html", null ]
           ] ],
           [ "scrimmage::Network", "classscrimmage_1_1Network.html", [
+            [ "scrimmage::network::GPUSphereNetwork", "classscrimmage_1_1network_1_1GPUSphereNetwork.html", null ],
             [ "scrimmage::network::GlobalNetwork", "classscrimmage_1_1network_1_1GlobalNetwork.html", null ],
             [ "scrimmage::network::LocalNetwork", "classscrimmage_1_1network_1_1LocalNetwork.html", null ],
             [ "scrimmage::network::SphereNetwork", "classscrimmage_1_1network_1_1SphereNetwork.html", null ]
@@ -176,6 +178,7 @@ var hierarchy =
         ] ]
       ] ]
     ] ],
+    [ "scrimmage::EntityInitParams", "structscrimmage_1_1EntityInitParams.html", null ],
     [ "scrimmage::ExponentialFilter", "classscrimmage_1_1ExponentialFilter.html", null ],
     [ "scrimmage::External", "classscrimmage_1_1External.html", null ],
     [ "std::false_type", null, [
@@ -190,6 +193,13 @@ var hierarchy =
     [ "scrimmage::FrameUpdateClient", "classscrimmage_1_1FrameUpdateClient.html", null ],
     [ "scrimmage::GenerateInfo", "structscrimmage_1_1GenerateInfo.html", null ],
     [ "scrimmage::GlobalService", "classscrimmage_1_1GlobalService.html", null ],
+    [ "scrimmage::GPUController", "classscrimmage_1_1GPUController.html", null ],
+    [ "scrimmage::GPUMapBuffer< T >", "classscrimmage_1_1GPUMapBuffer.html", null ],
+    [ "scrimmage::GPUMotionModel", "classscrimmage_1_1GPUMotionModel.html", [
+      [ "scrimmage::GPUMotionModelImplementation< T >", "classscrimmage_1_1GPUMotionModelImplementation.html", null ]
+    ] ],
+    [ "scrimmage::GPUPluginBuildParams", "structscrimmage_1_1GPUPluginBuildParams.html", null ],
+    [ "scrimmage::network::GPUSphereNetworkUtils", "classscrimmage_1_1network_1_1GPUSphereNetworkUtils.html", null ],
     [ "scrimmage::interaction::GraphInteraction::GraphData", "structscrimmage_1_1interaction_1_1GraphInteraction_1_1GraphData.html", null ],
     [ "scrimmage::Grid", "classscrimmage_1_1Grid.html", null ],
     [ "std::hash< scrimmage::ID >", "structstd_1_1hash_3_01scrimmage_1_1ID_01_4.html", null ],
@@ -201,6 +211,7 @@ var hierarchy =
     [ "scrimmage::Interface", "classscrimmage_1_1Interface.html", null ],
     [ "scrimmage::XMLParserAttribute< T >::Iterator", "classscrimmage_1_1XMLParserAttribute_1_1Iterator.html", null ],
     [ "scrimmage::controller::Joystick", "classscrimmage_1_1controller_1_1Joystick.html", null ],
+    [ "scrimmage::KernelBuildOpts", "structscrimmage_1_1KernelBuildOpts.html", null ],
     [ "scrimmage::autonomy::GraphvizFSM::label_t", "structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1label__t.html", null ],
     [ "scrimmage::Log", "classscrimmage_1_1Log.html", null ],
     [ "scrimmage::interaction::Map2DInfo", "classscrimmage_1_1interaction_1_1Map2DInfo.html", null ],
@@ -261,13 +272,17 @@ var hierarchy =
       [ "scrimmage::motion::PwmState", "classscrimmage_1_1motion_1_1PwmState.html", null ],
       [ "scrimmage::motion::RigidBody6DOFState", "classscrimmage_1_1motion_1_1RigidBody6DOFState.html", null ]
     ] ],
+    [ "scrimmage::StateManager", "classscrimmage_1_1StateManager.html", null ],
     [ "scrimmage::SimControl::Task", "structscrimmage_1_1SimControl_1_1Task.html", null ],
     [ "scrimmage::TeamInfo", "structscrimmage_1_1TeamInfo.html", null ],
     [ "scrimmage::interaction::TerrainMap", "classscrimmage_1_1interaction_1_1TerrainMap.html", null ],
     [ "scrimmage::Time", "classscrimmage_1_1Time.html", null ],
     [ "scrimmage::Timer", "classscrimmage_1_1Timer.html", null ],
+    [ "anonymous_namespace{Topic.cpp}::Topic", "classanonymous__namespace_02Topic_8cpp_03_1_1Topic.html", null ],
     [ "scrimmage::autonomy::TrajectoryPoint", "classscrimmage_1_1autonomy_1_1TrajectoryPoint.html", null ],
-    [ "scrimmage::VariableIO", "classscrimmage_1_1VariableIO.html", null ],
+    [ "scrimmage::VariableIO", "classscrimmage_1_1VariableIO.html", [
+      [ "scrimmage::GPUVariableIO< Input, Output >", "classscrimmage_1_1GPUVariableIO.html", null ]
+    ] ],
     [ "scrimmage::controller::MotionBattery::VarLimit", "classscrimmage_1_1controller_1_1MotionBattery_1_1VarLimit.html", null ],
     [ "scrimmage::interaction::GraphInteraction::VertexProperties", "structscrimmage_1_1interaction_1_1GraphInteraction_1_1VertexProperties.html", null ],
     [ "scrimmage::Viewer", "classscrimmage_1_1Viewer.html", null ],

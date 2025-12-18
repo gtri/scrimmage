@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rotate_0',['Rotate',['../classscrimmage_1_1Angles.html#ae92cee508c5df7e5af677ee687594ff6',1,'scrimmage::Angles']]]
+  ['nodereporttype_0',['NodeReportType',['../classscrimmage_1_1autonomy_1_1MOOSNode.html#a835ae798b118caca8acc84d88647119e',1,'scrimmage::autonomy::MOOSNode']]]
 ];

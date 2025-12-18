@@ -1,7 +1,5 @@
 <map id="scrimmage::SimControl::run_networks" name="scrimmage::SimControl::run_networks">
-<area shape="rect" id="Node000001" title=" " alt="" coords="228,37,403,77"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#ad48792613c02c6f23681810aa50a48d1" title=" " alt="" coords="5,5,180,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,45,180,40,180,35,215,40"/>
-<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step." alt="" coords="5,69,180,109"/>
-<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="215,74,180,79,180,74,214,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="228,5,403,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#aa69c5c21ed532364b911e3a9a7234f65" title="Runs the scrimmage simulation by a single time step." alt="" coords="5,5,180,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,28,180,28,180,23,214,23"/>
 </map>

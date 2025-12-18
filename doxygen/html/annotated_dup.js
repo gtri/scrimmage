@@ -1,5 +1,8 @@
 var annotated_dup =
 [
+    [ "anonymous_namespace{Topic.cpp}", "namespaceanonymous__namespace_02Topic_8cpp_03.html", [
+      [ "Topic", "classanonymous__namespace_02Topic_8cpp_03_1_1Topic.html", "classanonymous__namespace_02Topic_8cpp_03_1_1Topic" ]
+    ] ],
     [ "auction_assign", "namespaceauction__assign.html", [
       [ "AuctionAssign", "classauction__assign_1_1AuctionAssign.html", "classauction__assign_1_1AuctionAssign" ]
     ] ],
@@ -46,6 +49,7 @@ var annotated_dup =
         [ "ROSAutonomy", "classscrimmage_1_1autonomy_1_1ROSAutonomy.html", "classscrimmage_1_1autonomy_1_1ROSAutonomy" ],
         [ "ROSControl", "classscrimmage_1_1autonomy_1_1ROSControl.html", "classscrimmage_1_1autonomy_1_1ROSControl" ],
         [ "ShapeDraw", "classscrimmage_1_1autonomy_1_1ShapeDraw.html", "classscrimmage_1_1autonomy_1_1ShapeDraw" ],
+        [ "SimplePubSub", "classscrimmage_1_1autonomy_1_1SimplePubSub.html", "classscrimmage_1_1autonomy_1_1SimplePubSub" ],
         [ "Straight", "classscrimmage_1_1autonomy_1_1Straight.html", "classscrimmage_1_1autonomy_1_1Straight" ],
         [ "TakeFlag", "classscrimmage_1_1autonomy_1_1TakeFlag.html", "classscrimmage_1_1autonomy_1_1TakeFlag" ],
         [ "TrailMS", "classscrimmage_1_1autonomy_1_1TrailMS.html", "classscrimmage_1_1autonomy_1_1TrailMS" ],
@@ -151,6 +155,8 @@ var annotated_dup =
       ] ],
       [ "network", "namespacescrimmage_1_1network.html", [
         [ "GlobalNetwork", "classscrimmage_1_1network_1_1GlobalNetwork.html", "classscrimmage_1_1network_1_1GlobalNetwork" ],
+        [ "GPUSphereNetwork", "classscrimmage_1_1network_1_1GPUSphereNetwork.html", "classscrimmage_1_1network_1_1GPUSphereNetwork" ],
+        [ "GPUSphereNetworkUtils", "classscrimmage_1_1network_1_1GPUSphereNetworkUtils.html", "classscrimmage_1_1network_1_1GPUSphereNetworkUtils" ],
         [ "LocalNetwork", "classscrimmage_1_1network_1_1LocalNetwork.html", "classscrimmage_1_1network_1_1LocalNetwork" ],
         [ "SphereNetwork", "classscrimmage_1_1network_1_1SphereNetwork.html", "classscrimmage_1_1network_1_1SphereNetwork" ]
       ] ],
@@ -187,6 +193,7 @@ var annotated_dup =
       [ "CSV", "classscrimmage_1_1CSV.html", "classscrimmage_1_1CSV" ],
       [ "DelayedTask", "classscrimmage_1_1DelayedTask.html", "classscrimmage_1_1DelayedTask" ],
       [ "Entity", "classscrimmage_1_1Entity.html", "classscrimmage_1_1Entity" ],
+      [ "EntityInitParams", "structscrimmage_1_1EntityInitParams.html", "structscrimmage_1_1EntityInitParams" ],
       [ "EntityInteraction", "classscrimmage_1_1EntityInteraction.html", "classscrimmage_1_1EntityInteraction" ],
       [ "EntityPlugin", "classscrimmage_1_1EntityPlugin.html", "classscrimmage_1_1EntityPlugin" ],
       [ "ExponentialFilter", "classscrimmage_1_1ExponentialFilter.html", "classscrimmage_1_1ExponentialFilter" ],
@@ -196,9 +203,16 @@ var annotated_dup =
       [ "FrameUpdateClient", "classscrimmage_1_1FrameUpdateClient.html", "classscrimmage_1_1FrameUpdateClient" ],
       [ "GenerateInfo", "structscrimmage_1_1GenerateInfo.html", "structscrimmage_1_1GenerateInfo" ],
       [ "GlobalService", "classscrimmage_1_1GlobalService.html", "classscrimmage_1_1GlobalService" ],
+      [ "GPUController", "classscrimmage_1_1GPUController.html", "classscrimmage_1_1GPUController" ],
+      [ "GPUMapBuffer", "classscrimmage_1_1GPUMapBuffer.html", "classscrimmage_1_1GPUMapBuffer" ],
+      [ "GPUMotionModel", "classscrimmage_1_1GPUMotionModel.html", "classscrimmage_1_1GPUMotionModel" ],
+      [ "GPUMotionModelImplementation", "classscrimmage_1_1GPUMotionModelImplementation.html", "classscrimmage_1_1GPUMotionModelImplementation" ],
+      [ "GPUPluginBuildParams", "structscrimmage_1_1GPUPluginBuildParams.html", "structscrimmage_1_1GPUPluginBuildParams" ],
+      [ "GPUVariableIO", "classscrimmage_1_1GPUVariableIO.html", "classscrimmage_1_1GPUVariableIO" ],
       [ "Grid", "classscrimmage_1_1Grid.html", "classscrimmage_1_1Grid" ],
       [ "ID", "classscrimmage_1_1ID.html", "classscrimmage_1_1ID" ],
       [ "Interface", "classscrimmage_1_1Interface.html", "classscrimmage_1_1Interface" ],
+      [ "KernelBuildOpts", "structscrimmage_1_1KernelBuildOpts.html", "structscrimmage_1_1KernelBuildOpts" ],
       [ "LibXML2ParserAttribute", "classscrimmage_1_1LibXML2ParserAttribute.html", "classscrimmage_1_1LibXML2ParserAttribute" ],
       [ "LibXML2ParserDocument", "classscrimmage_1_1LibXML2ParserDocument.html", "classscrimmage_1_1LibXML2ParserDocument" ],
       [ "LibXML2ParserNode", "classscrimmage_1_1LibXML2ParserNode.html", "classscrimmage_1_1LibXML2ParserNode" ],
@@ -237,6 +251,7 @@ var annotated_dup =
       [ "SimControl", "classscrimmage_1_1SimControl.html", "classscrimmage_1_1SimControl" ],
       [ "SimUtilsInfo", "structscrimmage_1_1SimUtilsInfo.html", "structscrimmage_1_1SimUtilsInfo" ],
       [ "State", "classscrimmage_1_1State.html", "classscrimmage_1_1State" ],
+      [ "StateManager", "classscrimmage_1_1StateManager.html", "classscrimmage_1_1StateManager" ],
       [ "StateWithCovariance", "classscrimmage_1_1StateWithCovariance.html", "classscrimmage_1_1StateWithCovariance" ],
       [ "Subscriber", "classscrimmage_1_1Subscriber.html", "classscrimmage_1_1Subscriber" ],
       [ "SubscriberBase", "classscrimmage_1_1SubscriberBase.html", "classscrimmage_1_1SubscriberBase" ],

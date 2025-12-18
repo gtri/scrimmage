@@ -106,29 +106,32 @@ $(document).ready(function(){initNavTree('SimUtils_8h.html',''); initResizable()
 <code>#include &lt;set&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;GeographicLib/LocalCartesian.hpp&gt;</code><br />
 <code>#include &lt;<a class="el" href="fwd__decl_8h_source.html">scrimmage/fwd_decl.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SimUtils.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="SimUtils_8h__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8h" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8h" id="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8h">
-<area shape="rect" title="Brief file description." alt="" coords="196,5,419,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="257,5,480,60"/>
 <area shape="rect" title=" " alt="" coords="5,108,92,133"/>
-<area shape="poly" title=" " alt="" coords="229,63,97,106,95,101,227,58"/>
+<area shape="poly" title=" " alt="" coords="272,63,105,107,103,102,270,57"/>
 <area shape="rect" title=" " alt="" coords="117,108,159,133"/>
-<area shape="poly" title=" " alt="" coords="257,62,173,105,171,100,254,58"/>
+<area shape="poly" title=" " alt="" coords="299,63,173,109,171,104,297,58"/>
 <area shape="rect" title=" " alt="" coords="195,181,246,207"/>
-<area shape="poly" title=" " alt="" coords="294,62,267,109,235,170,230,168,262,107,290,59"/>
+<area shape="poly" title=" " alt="" coords="324,62,294,84,267,110,246,140,232,170,227,167,242,137,263,106,291,80,321,58"/>
 <area shape="rect" title=" " alt="" coords="282,181,359,207"/>
-<area shape="poly" title=" " alt="" coords="291,61,275,96,272,114,275,133,285,152,299,169,295,173,281,155,270,134,267,114,270,94,286,59"/>
+<area shape="poly" title=" " alt="" coords="320,62,294,83,275,109,272,125,276,140,298,170,293,173,271,143,267,125,270,107,290,79,316,58"/>
 <area shape="rect" title=" " alt="" coords="578,108,621,133"/>
-<area shape="poly" title=" " alt="" coords="397,58,565,107,564,112,396,63"/>
+<area shape="poly" title=" " alt="" coords="440,58,566,104,564,109,438,63"/>
 <area shape="rect" title=" " alt="" coords="389,181,447,207"/>
-<area shape="poly" title=" " alt="" coords="408,58,441,78,467,107,472,124,468,142,445,173,441,170,463,140,467,124,462,109,437,82,405,62"/>
+<area shape="poly" title=" " alt="" coords="421,58,447,79,467,107,471,125,466,143,445,173,440,170,461,140,465,125,462,109,443,83,418,62"/>
 <area shape="rect" title=" " alt="" coords="475,181,599,207"/>
-<area shape="poly" title=" " alt="" coords="401,58,445,78,486,106,512,136,529,167,524,170,508,139,483,110,443,83,398,62"/>
+<area shape="poly" title=" " alt="" coords="422,58,455,80,487,106,511,137,528,167,523,170,506,140,483,110,452,84,419,62"/>
+<area shape="rect" title=" " alt="" coords="645,108,887,133"/>
+<area shape="poly" title=" " alt="" coords="481,55,700,103,699,108,480,61"/>
 <area shape="rect" href="fwd__decl_8h.html" title="Brief file description." alt="" coords="285,108,453,133"/>
-<area shape="poly" title=" " alt="" coords="328,59,354,95,350,98,324,62"/>
+<area shape="poly" title=" " alt="" coords="371,60,371,94,366,94,366,60"/>
 <area shape="poly" title=" " alt="" coords="346,136,258,178,256,173,344,131"/>
 <area shape="poly" title=" " alt="" coords="363,135,338,172,334,169,359,132"/>
 <area shape="poly" title=" " alt="" coords="379,132,404,169,400,172,375,135"/>
@@ -140,15 +143,20 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="SimUtils_8h__dep__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8hdep" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8hdep" id="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2simcontrol_2SimUtils_8hdep">
-<area shape="rect" title="Brief file description." alt="" coords="347,5,569,60"/>
-<area shape="rect" href="Entity_8cpp.html" title="Brief file description." alt="" coords="5,108,212,148"/>
-<area shape="poly" title=" " alt="" coords="347,66,180,111,178,105,346,61"/>
-<area shape="rect" href="External_8cpp.html" title="Brief file description." alt="" coords="236,108,443,148"/>
-<area shape="poly" title=" " alt="" coords="415,71,365,110,362,106,412,67"/>
-<area shape="rect" href="SimControl_8cpp.html" title="Brief file description." alt="" coords="467,108,689,148"/>
-<area shape="poly" title=" " alt="" coords="505,67,555,106,552,110,501,71"/>
-<area shape="rect" href="SimUtils_8cpp.html" title="Brief file description." alt="" coords="713,108,920,148"/>
-<area shape="poly" title=" " alt="" coords="573,61,745,105,744,111,571,66"/>
+<area shape="rect" title="Brief file description." alt="" coords="284,5,507,60"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="292,108,499,163"/>
+<area shape="poly" title=" " alt="" coords="398,74,398,108,393,108,393,74"/>
+<area shape="rect" href="Entity_8cpp.html" title="Brief file description." alt="" coords="5,211,212,251"/>
+<area shape="poly" title=" " alt="" coords="336,69,269,110,194,165,133,212,130,208,190,160,266,106,333,65"/>
+<area shape="rect" href="SimControl_8cpp.html" title="Brief file description." alt="" coords="237,211,458,251"/>
+<area shape="poly" title=" " alt="" coords="322,69,300,87,283,109,275,135,283,162,300,188,322,209,318,212,296,191,278,164,270,135,278,107,296,84,318,65"/>
+<area shape="rect" href="SimUtils_8cpp.html" title="Brief file description." alt="" coords="483,211,689,251"/>
+<area shape="poly" title=" " alt="" coords="460,65,488,84,513,106,535,132,554,160,580,209,575,212,549,163,531,135,509,110,485,88,457,69"/>
+<area shape="rect" href="External_8cpp.html" title="Brief file description." alt="" coords="575,115,781,155"/>
+<area shape="poly" title=" " alt="" coords="483,62,626,113,624,118,481,67"/>
+<area shape="poly" title=" " alt="" coords="303,169,167,213,166,208,301,164"/>
+<area shape="poly" title=" " alt="" coords="378,176,359,212,355,209,373,174"/>
+<area shape="poly" title=" " alt="" coords="462,166,548,208,546,213,460,171"/>
 </map>
 </div>
 </div>
@@ -204,7 +212,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_8dabc27971b3bc145bbcc2e849e82380.html">simcontrol</a></li><li class="navelem"><a class="el" href="SimUtils_8h.html">SimUtils.h</a></li>
-    <li class="footer">Generated on Tue Nov 25 2025 04:05:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Thu Dec 18 2025 21:59:00 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

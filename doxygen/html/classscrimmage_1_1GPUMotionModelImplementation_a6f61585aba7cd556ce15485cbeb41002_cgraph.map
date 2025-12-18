@@ -1,0 +1,18 @@
+<map id="scrimmage::GPUMotionModelImplementation::collect_states" name="scrimmage::GPUMotionModelImplementation::collect_states">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,160,229,200"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GPUMapBuffer.html#afa0eca74ff14ed83f19ede4501db5b71" title=" " alt="" coords="560,43,759,83"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,158,153,126,186,88,228,52,276,24,317,12,359,5,402,3,444,5,525,18,592,36,591,41,524,23,444,10,402,8,360,10,318,17,278,29,231,56,190,92,157,129,134,161"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="309,39,480,79"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,158,206,123,276,88,297,80,299,85,278,93,209,127,151,162"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1GPUMapBuffer.html#ac0dcb369d5921aba97b3edf36b87459e" title=" " alt="" coords="295,103,494,143"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,157,283,143,285,148,215,163"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1GPUMapBuffer.html#a292e095ccf336cabb0f8088beac67900" title=" " alt="" coords="277,167,512,193"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="230,177,264,177,264,183,230,183"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1GPUMapBuffer.html#a1cc4d98547b26c1fb6cbca42f8d9c6f1" title=" " alt="" coords="295,217,494,257"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="215,197,285,212,283,217,214,203"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1GPUMapBuffer.html#a04217020d670f470ab9df5a4f2d856f4" title=" " alt="" coords="295,281,494,321"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="151,198,209,233,278,267,299,275,297,280,276,272,206,237,148,202"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1GPUMapBuffer.html#ae8f16e26f0f126d5c58de021cb518a2f" title=" " alt="" coords="295,345,494,385"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="136,198,194,264,234,300,279,331,291,338,289,342,276,336,231,304,190,268,132,202"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="483,100,557,83,558,88,484,105"/>
+</map>

@@ -8,7 +8,7 @@ var searchData=
   ['filecontents_5f_5',['filecontents_',['../classscrimmage_1_1LibXML2ParserDocument.html#a70893087257e6c18601b5b4c34fb3dd6',1,'scrimmage::LibXML2ParserDocument']]],
   ['filename_5f_6',['filename_',['../classscrimmage_1_1ConfigParse.html#a7fff4ef5b76f36c503dbb83961e2d281',1,'scrimmage::ConfigParse::filename_'],['../classscrimmage_1_1XMLParserDocument.html#afb8a083d7dc4cce288beab697258bbd5',1,'scrimmage::XMLParserDocument::filename_']]],
   ['files_5fchecked_5f_7',['files_checked_',['../classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff',1,'scrimmage::PluginManager']]],
-  ['filter_5fcomms_5fplane_5f_8',['filter_comms_plane_',['../classscrimmage_1_1network_1_1SphereNetwork.html#a673c39a0c86b0f2f17285e5ccedd0729',1,'scrimmage::network::SphereNetwork']]],
+  ['filter_5fcomms_5fplane_5f_8',['filter_comms_plane_',['../classscrimmage_1_1network_1_1GPUSphereNetwork.html#a1d5720c6caa5454ad8853712665b8339',1,'scrimmage::network::GPUSphereNetwork::filter_comms_plane_'],['../classscrimmage_1_1network_1_1SphereNetwork.html#a673c39a0c86b0f2f17285e5ccedd0729',1,'scrimmage::network::SphereNetwork::filter_comms_plane_']]],
   ['filter_5fdist_5f_9',['filter_dist_',['../classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#a314e80706379f1cc5a0d9f73950d2b51',1,'scrimmage::autonomy::WaypointDispatcher']]],
   ['finalized_5fcalled_5f_10',['finalized_called_',['../classscrimmage_1_1SimControl.html#aacc29648708058ff8d7a0239ce8ff287',1,'scrimmage::SimControl']]],
   ['finished_5f_11',['finished_',['../classscrimmage_1_1SimControl.html#a74c06c11b0f7c1384ca0824a81eee5ae',1,'scrimmage::SimControl']]],

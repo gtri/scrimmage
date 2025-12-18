@@ -1,0 +1,14 @@
+<map id="scrimmage::GPUVariableIO&lt; Input, Output &gt;" name="scrimmage::GPUVariableIO&lt; Input, Output &gt;">
+<area shape="rect" id="Node000001" title="abstracts the connection between motion models, controllers, and autonomies. Uses pure array&#39;s for un..." alt="" coords="256,716,467,1211"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1VariableIO.html" title="abstracts the connection between motion models, controllers, and autonomies" alt="" coords="479,192,689,667"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="482,680,467,717,462,715,477,678"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,160,85"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="79,86,67,190,61,336,64,418,73,503,89,586,114,666,140,718,172,769,209,815,246,856,242,860,204,818,168,772,135,721,110,668,84,587,68,503,58,419,55,336,61,189,74,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,84,159,128,186,149,216,166,251,177,282,179,340,171,369,167,398,166,428,173,461,190,468,194,464,198,459,194,427,178,397,171,369,172,341,176,282,185,250,182,214,170,183,154,156,132,111,87"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="247,13,404,78"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="317,79,302,132,291,192,276,325,271,429,276,533,291,666,295,700,290,700,285,667,271,534,266,429,271,325,285,192,297,131,312,78"/>
+<area shape="poly" id="edge3_Node000002_Node000011" title=" " alt="" coords="350,76,384,121,427,166,445,177,462,190,471,200,467,204,458,194,442,182,424,170,380,124,345,80"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="611,5,755,85"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="711,84,721,109,724,138,721,168,723,245,730,311,747,425,750,479,746,536,732,598,704,668,684,704,660,738,605,800,543,853,482,897,479,892,540,849,601,796,656,735,679,701,699,666,727,596,741,535,745,479,742,426,725,312,718,245,716,168,719,138,716,110,707,86"/>
+<area shape="poly" id="edge4_Node000002_Node000013" title=" " alt="" coords="647,87,633,110,610,177,605,175,628,108,643,84"/>
+</map>

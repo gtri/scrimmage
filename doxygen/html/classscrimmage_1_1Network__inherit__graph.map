@@ -1,11 +1,13 @@
 <map id="scrimmage::Network" name="scrimmage::Network">
-<area shape="rect" id="Node000001" title=" " alt="" coords="245,1033,461,1579"/>
-<area shape="rect" id="Node000005" href="$classscrimmage_1_1network_1_1GlobalNetwork.html" title=" " alt="" coords="5,1667,221,1807"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="241,1513,154,1668,150,1665,236,1511"/>
-<area shape="rect" id="Node000006" href="$classscrimmage_1_1network_1_1LocalNetwork.html" title=" " alt="" coords="245,1667,461,1807"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="356,1592,356,1666,351,1666,351,1592"/>
-<area shape="rect" id="Node000007" href="$classscrimmage_1_1network_1_1SphereNetwork.html" title=" " alt="" coords="485,1627,701,1847"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="470,1510,534,1625,530,1627,466,1513"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html" title=" " alt="" coords="266,5,441,985"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="356,999,356,1033,351,1033,351,999"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="365,1033,581,1579"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html" title=" " alt="" coords="5,1627,221,1987"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="359,1461,235,1628,224,1645,219,1642,231,1625,355,1458"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1network_1_1GlobalNetwork.html" title=" " alt="" coords="245,1737,461,1877"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="407,1593,373,1737,367,1736,402,1591"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1network_1_1LocalNetwork.html" title=" " alt="" coords="485,1737,701,1877"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="544,1591,579,1736,574,1737,539,1593"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1network_1_1SphereNetwork.html" title=" " alt="" coords="725,1697,941,1917"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="592,1458,716,1625,764,1695,759,1698,711,1628,588,1461"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1EntityPlugin.html" title=" " alt="" coords="386,5,561,985"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="476,999,476,1033,471,1033,471,999"/>
 </map>

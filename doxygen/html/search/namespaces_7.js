@@ -10,9 +10,10 @@ var searchData=
   ['scrimmage_3a_3ametrics_7',['metrics',['../namespacescrimmage_1_1metrics.html',1,'scrimmage']]],
   ['scrimmage_3a_3amotion_8',['motion',['../namespacescrimmage_1_1motion.html',1,'scrimmage']]],
   ['scrimmage_3a_3anetwork_9',['network',['../namespacescrimmage_1_1network.html',1,'scrimmage']]],
-  ['scrimmage_3a_3asensor_10',['sensor',['../namespacescrimmage_1_1sensor.html',1,'scrimmage']]],
-  ['scrimmage_3a_3ashape_11',['shape',['../namespacescrimmage_1_1shape.html',1,'scrimmage']]],
-  ['scrimmage_5fmsgs_12',['scrimmage_msgs',['../namespacescrimmage__msgs.html',1,'']]],
-  ['scrimmage_5fproto_13',['scrimmage_proto',['../namespacescrimmage__proto.html',1,'']]],
-  ['std_14',['std',['../namespacestd.html',1,'']]]
+  ['scrimmage_3a_3aopenclutils_10',['OpenCLUtils',['../namespacescrimmage_1_1OpenCLUtils.html',1,'scrimmage']]],
+  ['scrimmage_3a_3asensor_11',['sensor',['../namespacescrimmage_1_1sensor.html',1,'scrimmage']]],
+  ['scrimmage_3a_3ashape_12',['shape',['../namespacescrimmage_1_1shape.html',1,'scrimmage']]],
+  ['scrimmage_5fmsgs_13',['scrimmage_msgs',['../namespacescrimmage__msgs.html',1,'']]],
+  ['scrimmage_5fproto_14',['scrimmage_proto',['../namespacescrimmage__proto.html',1,'']]],
+  ['std_15',['std',['../namespacestd.html',1,'']]]
 ];

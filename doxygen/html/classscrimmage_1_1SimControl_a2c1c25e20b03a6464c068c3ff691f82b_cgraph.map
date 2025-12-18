@@ -1,0 +1,5 @@
+<map id="scrimmage::SimControl::get_contacts" name="scrimmage::SimControl::get_contacts">
+<area shape="rect" id="Node000001" title="Provides access to the simulated contacts." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a5d723d3ff5f8aca1cd51dad6f209b368" title="Access the Contact Map instance." alt="" coords="228,5,403,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
+</map>

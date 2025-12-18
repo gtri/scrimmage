@@ -1,5 +1,6 @@
 var namespaces_dup =
 [
+    [ "anonymous_namespace{Topic.cpp}", "namespaceanonymous__namespace_02Topic_8cpp_03.html", "namespaceanonymous__namespace_02Topic_8cpp_03" ],
     [ "auction_assign", "namespaceauction__assign.html", "namespaceauction__assign" ],
     [ "boost", "namespaceboost.html", "namespaceboost" ],
     [ "conf", "namespaceconf.html", [

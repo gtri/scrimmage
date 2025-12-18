@@ -1,34 +1,36 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/common/RTree.h" name="/root/scrimmage/scrimmage/include/scrimmage/common/RTree.h">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1571,5,1782,60"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1711,5,1922,60"/>
 <area shape="rect" id="Node000002" href="$External_8h.html" title="Brief file description." alt="" coords="5,115,212,170"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1558,39,1260,48,878,63,504,83,349,96,232,111,196,118,195,113,231,105,349,91,504,78,878,57,1260,43,1558,34"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1698,39,1374,47,951,61,535,82,363,95,232,111,196,118,195,113,231,105,362,90,535,76,951,55,1374,41,1697,34"/>
 <area shape="rect" id="Node000003" href="$External_8cpp.html" title="Brief file description." alt="" coords="76,225,283,265"/>
-<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="1558,37,1239,41,840,52,647,61,479,74,351,90,307,100,278,110,244,156,194,227,190,224,239,153,275,106,305,95,350,85,479,69,647,56,839,47,1239,36,1558,32"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="1697,36,1349,39,906,48,691,58,503,71,360,88,310,99,278,110,244,156,194,227,190,224,239,153,275,106,308,94,359,83,503,65,690,52,906,43,1349,33,1697,31"/>
 <area shape="rect" id="Node000004" href="$RTree_8cpp.html" title="Brief file description." alt="" coords="288,123,495,163"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1557,36,1357,38,1095,49,802,71,653,89,508,111,448,125,447,120,507,105,652,83,801,66,1095,43,1357,33,1557,30"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1698,40,1083,64,750,85,613,97,508,111,447,125,446,120,507,105,612,92,750,79,1083,59,1698,35"/>
 <area shape="rect" id="Node000005" href="$Boids_8cpp.html" title="Brief file description." alt="" coords="519,115,725,170"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="1558,38,1395,44,1190,56,964,78,738,111,706,118,705,113,738,105,963,72,1190,51,1395,39,1558,33"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="1698,37,1512,40,1273,52,1006,74,870,90,738,111,705,118,704,113,738,105,870,85,1005,68,1272,46,1512,35,1698,31"/>
 <area shape="rect" id="Node000006" href="$BoundaryDefense_8cpp.html" title="Brief file description." alt="" coords="750,115,982,170"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="1558,44,1298,68,1146,86,994,111,960,118,959,113,994,105,1145,81,1298,62,1558,39"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="1697,41,1378,63,1186,83,994,111,959,118,958,113,994,105,1185,77,1378,57,1697,36"/>
 <area shape="rect" id="Node000007" href="$BulletCollision_8cpp.html" title="Brief file description." alt="" coords="1006,115,1251,170"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="1558,56,1264,111,1231,118,1230,113,1263,105,1557,51"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="1698,49,1494,74,1264,111,1229,118,1228,113,1263,105,1494,68,1697,43"/>
 <area shape="rect" id="Node000008" href="$CaptureInBoundaryInteraction_8cpp.html" title="Brief file description." alt="" coords="1275,108,1523,177"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="1598,67,1487,110,1485,105,1596,62"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="1703,66,1524,112,1523,107,1701,61"/>
 <area shape="rect" id="Node000009" href="$SimpleCollision_8cpp.html" title="Brief file description." alt="" coords="1547,115,1806,170"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="1679,74,1679,115,1674,115,1674,74"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="1773,71,1713,117,1709,113,1770,67"/>
 <area shape="rect" id="Node000010" href="$SimpleCollisionMetrics_8cpp.html" title="Brief file description." alt="" coords="1831,115,2085,170"/>
-<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1759,62,1891,113,1889,118,1757,67"/>
-<area shape="rect" id="Node000011" href="$GlobalNetwork_8cpp.html" title="Brief file description." alt="" coords="2109,115,2364,170"/>
-<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="1796,50,2099,105,2132,113,2131,118,2097,111,1795,55"/>
-<area shape="rect" id="Node000012" href="$LocalNetwork_8cpp.html" title="Brief file description." alt="" coords="2388,115,2635,170"/>
-<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="1796,39,2063,63,2221,81,2377,105,2413,113,2412,118,2376,111,2220,87,2063,68,1796,44"/>
-<area shape="rect" id="Node000013" href="$SphereNetwork_8cpp.html" title="Brief file description." alt="" coords="2659,115,2916,170"/>
-<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="1796,34,1963,41,2176,54,2412,75,2648,105,2687,113,2686,118,2647,111,2411,80,2176,60,1963,47,1795,40"/>
-<area shape="rect" id="Node000014" href="$ContactBlobCamera_8cpp.html" title="Brief file description." alt="" coords="2941,115,3175,170"/>
-<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1795,31,2009,34,2291,44,2609,66,2771,84,2929,105,2966,113,2965,118,2928,111,2770,89,2609,72,2291,49,2009,39,1795,36"/>
-<area shape="rect" id="Node000015" href="$Network_8cpp.html" title="Brief file description." alt="" coords="3200,123,3407,163"/>
-<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="1796,34,2105,41,2507,55,2901,76,3064,90,3188,105,3249,120,3247,125,3187,111,3063,95,2900,82,2507,61,2105,47,1796,39"/>
-<area shape="rect" id="Node000016" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="3431,123,3653,163"/>
-<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1796,33,2149,40,2618,53,3081,74,3274,88,3420,105,3484,120,3483,125,3419,111,3273,94,3081,80,2618,58,2149,45,1796,38"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="1864,66,1925,113,1922,117,1860,70"/>
+<area shape="rect" id="Node000011" href="$GPUSphereNetwork_8cpp.html" title="Brief file description." alt="" coords="2109,115,2345,170"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="1930,61,2128,113,2127,118,1929,66"/>
+<area shape="rect" id="Node000012" href="$GlobalNetwork_8cpp.html" title="Brief file description." alt="" coords="2369,115,2624,170"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="1936,44,2135,69,2358,105,2394,113,2393,118,2358,111,2134,75,1936,49"/>
+<area shape="rect" id="Node000013" href="$LocalNetwork_8cpp.html" title="Brief file description." alt="" coords="2648,115,2895,170"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="1936,36,2254,58,2446,78,2637,105,2674,113,2673,118,2636,111,2445,83,2253,64,1936,42"/>
+<area shape="rect" id="Node000014" href="$SphereNetwork_8cpp.html" title="Brief file description." alt="" coords="2919,115,3176,170"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="1936,33,2123,39,2366,51,2636,72,2908,105,2947,113,2946,118,2907,111,2636,77,2365,56,2123,44,1936,38"/>
+<area shape="rect" id="Node000015" href="$ContactBlobCamera_8cpp.html" title="Brief file description." alt="" coords="3201,115,3435,170"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="1936,35,2580,59,2932,80,3078,92,3189,105,3227,113,3226,118,3188,111,3077,97,2932,85,2580,65,1936,40"/>
+<area shape="rect" id="Node000016" href="$Network_8cpp.html" title="Brief file description." alt="" coords="3460,123,3667,163"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="1936,33,2268,40,2704,53,3134,75,3312,89,3448,105,3509,120,3507,125,3447,111,3312,94,3134,80,2704,59,2268,45,1936,38"/>
+<area shape="rect" id="Node000017" href="$SimControl_8cpp.html" title="Brief file description." alt="" coords="3691,123,3913,163"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="1936,33,2311,38,2814,51,3314,73,3522,87,3680,105,3744,120,3743,125,3679,111,3522,93,3314,78,2814,56,2311,44,1936,38"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,180,168,223,164,226,133,183"/>
 </map>

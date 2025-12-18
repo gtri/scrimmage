@@ -1,0 +1,10 @@
+<map id="scrimmage::GPUMapBuffer::map" name="scrimmage::GPUMapBuffer::map">
+<area shape="rect" id="Node000001" title=" " alt="" coords="296,77,531,102"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GPUMotionModelImplementation.html#a6f61585aba7cd556ce15485cbeb41002" title=" " alt="" coords="15,5,239,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="341,76,216,48,217,43,343,71"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1GPUMotionModelImplementation.html#acfb799c5fa694d144ed11d9436fb3290" title=" " alt="" coords="5,69,248,109"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="282,92,248,92,248,87,282,87"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1network_1_1GPUSphereNetworkUtils.html#a0d5490f4a206c5f43915377b9d46204d" title=" " alt="" coords="33,158,221,213"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="362,109,210,160,208,155,360,104"/>
+<area shape="poly" id="edge4_Node000006_Node000006" title=" " alt="" coords="175,147,157,140,127,137,101,139,84,143,77,150,77,158,72,158,72,148,82,139,100,133,127,131,159,134,177,142"/>
+</map>

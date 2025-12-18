@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['launchstate_0',['LaunchState',['../classscrimmage_1_1motion_1_1FixedWing6DOF.html#ae158baec51efa5d188b462ba7b605333',1,'scrimmage::motion::FixedWing6DOF']]]
+  ['inputtype_0',['InputType',['../classscrimmage_1_1motion_1_1MultirotorState.html#af90e2897349a8e67c4a80c6d43b67468',1,'scrimmage::motion::MultirotorState']]]
 ];

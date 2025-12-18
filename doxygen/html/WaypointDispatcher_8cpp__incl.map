@@ -8,20 +8,20 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="979,50,447,111,405,116,405,111,446,105,978,45"/>
 <area shape="rect" id="Node000005" href="$Entity_8h.html" title="Brief file description." alt="" coords="459,115,648,141"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="979,57,660,111,631,116,630,110,660,105,978,52"/>
-<area shape="rect" id="Node000022" href="$State_8h.html" title="Brief file description." alt="" coords="673,115,855,141"/>
-<area shape="poly" id="edge5_Node000001_Node000022" title=" " alt="" coords="1010,63,820,114,818,109,1009,57"/>
-<area shape="rect" id="Node000027" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="880,115,1096,141"/>
-<area shape="poly" id="edge6_Node000001_Node000027" title=" " alt="" coords="1074,62,1015,108,1012,104,1070,58"/>
-<area shape="rect" id="Node000028" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1121,108,1325,148"/>
-<area shape="poly" id="edge7_Node000001_Node000028" title=" " alt="" coords="1140,58,1190,97,1187,102,1137,62"/>
-<area shape="rect" id="Node000029" href="$WaypointDispatcher_8h.html" title="Brief file description." alt="" coords="1349,108,1651,148"/>
-<area shape="poly" id="edge8_Node000001_Node000029" title=" " alt="" coords="1217,57,1408,102,1407,108,1216,63"/>
-<area shape="rect" id="Node000049" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1675,115,1938,141"/>
-<area shape="poly" id="edge9_Node000001_Node000049" title=" " alt="" coords="1233,48,1707,111,1707,116,1232,53"/>
-<area shape="rect" id="Node000050" title=" " alt="" coords="1962,115,2171,141"/>
-<area shape="poly" id="edge10_Node000001_Node000050" title=" " alt="" coords="1232,40,1558,65,1951,105,1988,111,1987,116,1950,111,1558,70,1232,45"/>
-<area shape="rect" id="Node000051" href="$Publisher_8h.html" title="Brief file description." alt="" coords="2196,115,2417,141"/>
-<area shape="poly" id="edge11_Node000001_Node000051" title=" " alt="" coords="1232,37,1655,60,1919,80,2184,105,2225,111,2225,116,2184,111,1919,85,1655,66,1232,42"/>
-<area shape="rect" id="Node000040" href="$Subscriber_8h.html" title="Brief file description." alt="" coords="2441,115,2671,141"/>
-<area shape="poly" id="edge12_Node000001_Node000040" title=" " alt="" coords="1232,35,1755,56,2091,77,2430,105,2474,111,2473,116,2429,111,2090,82,1755,61,1232,40"/>
+<area shape="rect" id="Node000023" href="$State_8h.html" title="Brief file description." alt="" coords="673,115,855,141"/>
+<area shape="poly" id="edge5_Node000001_Node000023" title=" " alt="" coords="1010,63,820,114,818,109,1009,57"/>
+<area shape="rect" id="Node000028" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="880,115,1096,141"/>
+<area shape="poly" id="edge6_Node000001_Node000028" title=" " alt="" coords="1074,62,1015,108,1012,104,1070,58"/>
+<area shape="rect" id="Node000029" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1121,108,1325,148"/>
+<area shape="poly" id="edge7_Node000001_Node000029" title=" " alt="" coords="1140,58,1190,97,1187,102,1137,62"/>
+<area shape="rect" id="Node000030" href="$WaypointDispatcher_8h.html" title="Brief file description." alt="" coords="1349,108,1651,148"/>
+<area shape="poly" id="edge8_Node000001_Node000030" title=" " alt="" coords="1217,57,1408,102,1407,108,1216,63"/>
+<area shape="rect" id="Node000050" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1675,115,1938,141"/>
+<area shape="poly" id="edge9_Node000001_Node000050" title=" " alt="" coords="1233,48,1707,111,1707,116,1232,53"/>
+<area shape="rect" id="Node000051" title=" " alt="" coords="1962,115,2171,141"/>
+<area shape="poly" id="edge10_Node000001_Node000051" title=" " alt="" coords="1232,40,1558,65,1951,105,1988,111,1987,116,1950,111,1558,70,1232,45"/>
+<area shape="rect" id="Node000052" href="$Publisher_8h.html" title="Brief file description." alt="" coords="2196,115,2417,141"/>
+<area shape="poly" id="edge11_Node000001_Node000052" title=" " alt="" coords="1232,37,1655,60,1919,80,2184,105,2225,111,2225,116,2184,111,1919,85,1655,66,1232,42"/>
+<area shape="rect" id="Node000041" href="$Subscriber_8h.html" title="Brief file description." alt="" coords="2441,115,2671,141"/>
+<area shape="poly" id="edge12_Node000001_Node000041" title=" " alt="" coords="1232,35,1755,56,2091,77,2430,105,2474,111,2473,116,2429,111,2090,82,1755,61,1232,40"/>
 </map>

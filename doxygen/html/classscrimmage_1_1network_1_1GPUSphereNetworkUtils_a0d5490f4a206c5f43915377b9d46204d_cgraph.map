@@ -1,0 +1,6 @@
+<map id="scrimmage::network::GPUSphereNetworkUtils::proximity_pairs" name="scrimmage::network::GPUSphereNetworkUtils::proximity_pairs">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,193,84"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="49,29,49,19,58,10,75,5,99,3,128,6,145,14,143,18,127,11,99,8,76,10,61,15,54,21,54,29"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GPUMapBuffer.html#a292e095ccf336cabb0f8088beac67900" title=" " alt="" coords="241,44,476,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,54,228,54,228,59,194,59"/>
+</map>

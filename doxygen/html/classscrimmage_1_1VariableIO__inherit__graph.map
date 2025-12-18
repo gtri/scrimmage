@@ -1,0 +1,5 @@
+<map id="scrimmage::VariableIO" name="scrimmage::VariableIO">
+<area shape="rect" id="Node000001" title="abstracts the connection between motion models, controllers, and autonomies" alt="" coords="5,5,216,620"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GPUVariableIO.html" title="abstracts the connection between motion models, controllers, and autonomies. Uses pure array&#39;s for un..." alt="" coords="5,668,216,1263"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,634,113,668,108,668,108,634"/>
+</map>

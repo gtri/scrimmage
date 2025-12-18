@@ -1,7 +1,5 @@
 <map id="scrimmage::Entity::global_services" name="scrimmage::Entity::global_services">
-<area shape="rect" id="Node000001" title=" " alt="" coords="223,27,371,67"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#ad789c0b1940094ffd97ba9f655ba4802" title=" " alt="" coords="5,5,175,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,38,175,33,175,27,209,32"/>
-<area shape="rect" id="Node000003" href="$classscrimmage_1_1Entity.html#adff12181b9d4e37ab86a43389a7a78e8" title=" " alt="" coords="15,55,165,95"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,62,166,68,165,62,208,57"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,5,352,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Entity.html#adff12181b9d4e37ab86a43389a7a78e8" title=" " alt="" coords="5,5,156,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,28,156,28,156,23,190,23"/>
 </map>

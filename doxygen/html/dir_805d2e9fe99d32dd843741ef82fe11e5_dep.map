@@ -1,8 +1,8 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidWalls" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/AvoidWalls">
 <area shape="rect" id="node1" href="dir_805d2e9fe99d32dd843741ef82fe11e5.html" title="AvoidWalls" alt="" coords="42,52,135,77"/>
 <area shape="rect" id="node2" href="dir_000479e1305f0edebbccb6008dd63eeb.html" title="sensor" alt="" coords="5,125,71,151"/>
-<area shape="poly" id="edge1" href="dir_000023_000200.html" alt="" coords="82,79,56,116,52,113,78,76"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000023_000200.html" title="1" alt="" coords="59,108,68,123"/>
+<area shape="poly" id="edge1" href="dir_000023_000205.html" alt="" coords="82,79,56,116,52,113,78,76"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000023_000205.html" title="1" alt="" coords="59,108,68,123"/>
 <area shape="rect" id="node3" href="dir_b3bb4020ef55165afbb203d4dc0e2378.html" title="autonomy" alt="" coords="95,125,183,151"/>
 <area shape="poly" id="edge2" href="dir_000023_000015.html" alt="" coords="99,76,125,113,121,116,95,79"/>
 <area shape="rect" id="edge2-headlabel" href="dir_000023_000015.html" title="1" alt="" coords="123,98,132,113"/>

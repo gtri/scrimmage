@@ -1,8 +1,8 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/GoToWaypoint" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/autonomy/GoToWaypoint">
 <area shape="rect" id="node1" href="dir_dbbb056ce417e80aeeedbb6c84ec92be.html" title="WaypointGenerator" alt="" coords="26,125,174,151"/>
 <area shape="rect" id="node2" href="dir_64962d75cbfc748c41e03486bde59633.html" title="GoToWaypoint" alt="" coords="51,52,165,77"/>
-<area shape="poly" id="edge2" href="dir_000084_000268.html" alt="" coords="109,78,105,112,100,112,104,77"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000084_000268.html" title="1" alt="" coords="107,101,116,115"/>
+<area shape="poly" id="edge2" href="dir_000084_000274.html" alt="" coords="109,78,105,112,100,112,104,77"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000084_000274.html" title="1" alt="" coords="107,101,116,115"/>
 <area shape="rect" id="node3" href="dir_b3bb4020ef55165afbb203d4dc0e2378.html" title="autonomy" alt="" coords="199,125,287,151"/>
 <area shape="poly" id="edge1" href="dir_000084_000015.html" alt="" coords="131,75,210,116,207,121,128,80"/>
 <area shape="rect" id="edge1-headlabel" href="dir_000084_000015.html" title="1" alt="" coords="204,102,213,117"/>

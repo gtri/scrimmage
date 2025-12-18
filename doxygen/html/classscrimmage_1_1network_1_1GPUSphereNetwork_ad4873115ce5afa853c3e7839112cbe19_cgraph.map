@@ -1,0 +1,11 @@
+<map id="scrimmage::network::GPUSphereNetwork::deliver_messages" name="scrimmage::network::GPUSphereNetwork::deliver_messages">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,172,125"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a2773a3a88fc0e02af097ec61a26b0b12" title=" " alt="" coords="220,5,399,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,71,206,60,208,66,173,76"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1EntityPlugin.html#a1de39d9c6669e944281273d913d76395" title=" " alt="" coords="447,78,628,118"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="172,95,433,95,433,101,172,101"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1network_1_1GPUSphereNetwork.html#a28becd33b22930230fea578a7c79c11d" title=" " alt="" coords="226,136,393,191"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="173,120,214,132,212,137,172,125"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="400,56,455,72,453,77,398,61"/>
+<area shape="poly" id="edge4_Node000006_Node000005" title=" " alt="" coords="393,137,453,119,454,125,394,142"/>
+</map>

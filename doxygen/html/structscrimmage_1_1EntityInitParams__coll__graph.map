@@ -1,0 +1,14 @@
+<map id="scrimmage::EntityInitParams" name="scrimmage::EntityInitParams">
+<area shape="rect" id="Node000001" title=" " alt="" coords="325,305,528,431"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="127,148,286,243"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,241,336,293,333,298,265,245"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,5,160,85"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="70,86,61,122,56,163,59,204,66,223,76,241,97,267,123,289,151,307,182,322,246,344,309,357,308,362,245,349,180,327,148,312,119,293,93,271,71,244,61,226,54,205,51,163,56,121,65,85"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="117,84,159,133,155,137,113,87"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="310,163,543,228"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="429,228,429,289,424,289,424,228"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="567,155,766,235"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="613,238,528,298,525,294,610,233"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="791,163,948,228"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="816,230,764,258,708,284,625,314,544,339,543,334,624,309,706,279,762,253,814,226"/>
+</map>

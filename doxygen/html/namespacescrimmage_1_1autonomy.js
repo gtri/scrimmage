@@ -23,6 +23,7 @@ var namespacescrimmage_1_1autonomy =
     [ "ROSAutonomy", "classscrimmage_1_1autonomy_1_1ROSAutonomy.html", "classscrimmage_1_1autonomy_1_1ROSAutonomy" ],
     [ "ROSControl", "classscrimmage_1_1autonomy_1_1ROSControl.html", "classscrimmage_1_1autonomy_1_1ROSControl" ],
     [ "ShapeDraw", "classscrimmage_1_1autonomy_1_1ShapeDraw.html", "classscrimmage_1_1autonomy_1_1ShapeDraw" ],
+    [ "SimplePubSub", "classscrimmage_1_1autonomy_1_1SimplePubSub.html", "classscrimmage_1_1autonomy_1_1SimplePubSub" ],
     [ "Straight", "classscrimmage_1_1autonomy_1_1Straight.html", "classscrimmage_1_1autonomy_1_1Straight" ],
     [ "TakeFlag", "classscrimmage_1_1autonomy_1_1TakeFlag.html", "classscrimmage_1_1autonomy_1_1TakeFlag" ],
     [ "TrailMS", "classscrimmage_1_1autonomy_1_1TrailMS.html", "classscrimmage_1_1autonomy_1_1TrailMS" ],

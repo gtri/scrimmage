@@ -7,5 +7,20 @@ var searchData=
   ['shared_4',['shared',['../classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d',1,'scrimmage::Interface']]],
   ['siminfo_5',['SIMINFO',['../classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a16b95a05c4ca81c987041399a95815d8',1,'scrimmage::Log']]],
   ['speed_6',['speed',['../classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153',1,'scrimmage::VariableIO::speed'],['../namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fac22d053d0f09edceb1e455eddc8bacce',1,'scrimmage::motion::SPEED']]],
-  ['sphere_7',['SPHERE',['../classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda6f7cea7381e843e2ee0338b4a92b0d43',1,'scrimmage::Contact']]]
+  ['sphere_7',['SPHERE',['../classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda6f7cea7381e843e2ee0338b4a92b0d43',1,'scrimmage::Contact']]],
+  ['state_5fnum_5fitems_8',['STATE_NUM_ITEMS',['../classscrimmage_1_1GPUMotionModelImplementation.html#ad1a5dcf89ab034de0f020f263c4f5c01a073b5d7a25e09af4deba155f217bafd0',1,'scrimmage::GPUMotionModelImplementation']]],
+  ['state_5fnum_5fparams_9',['STATE_NUM_PARAMS',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa7f1651fc4dcab7a69da3b533264c7757',1,'scrimmage_defs.h']]],
+  ['state_5fquat_5fw_10',['STATE_QUAT_W',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa0764222c0624468df518a56ce6ab5f3d',1,'scrimmage_defs.h']]],
+  ['state_5fquat_5fx_11',['STATE_QUAT_X',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa64dff4fdcba9859ebb75f1eb85746003',1,'scrimmage_defs.h']]],
+  ['state_5fquat_5fy_12',['STATE_QUAT_Y',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aaf221d91a925968376a758362cd4bf3cf',1,'scrimmage_defs.h']]],
+  ['state_5fquat_5fz_13',['STATE_QUAT_Z',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa491e16202e506b253147745ec3469bfb',1,'scrimmage_defs.h']]],
+  ['state_5fx_14',['STATE_X',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa706e7b3b606eb868bd62f2050fdfd5f1',1,'scrimmage_defs.h']]],
+  ['state_5fx_5fang_5fvel_15',['STATE_X_ANG_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa1e74efaa6a53119b567684fae8241e18',1,'scrimmage_defs.h']]],
+  ['state_5fx_5fvel_16',['STATE_X_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa3dd65b64aa814ade3410bac58c2ad91b',1,'scrimmage_defs.h']]],
+  ['state_5fy_17',['STATE_Y',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aabe72f1a23c9fdadfe35ef03fb78b673e',1,'scrimmage_defs.h']]],
+  ['state_5fy_5fang_5fvel_18',['STATE_Y_ANG_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa2a2e7b8e68ec3a0485fc74d8dfb07b3d',1,'scrimmage_defs.h']]],
+  ['state_5fy_5fvel_19',['STATE_Y_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa8b64200b7e69be41cc57c2fe63857975',1,'scrimmage_defs.h']]],
+  ['state_5fz_20',['STATE_Z',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa541db0acef6c27cdfb5e8b395afb1966',1,'scrimmage_defs.h']]],
+  ['state_5fz_5fang_5fvel_21',['STATE_Z_ANG_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa7e9b4d2b289a3e177308058b94ba2507',1,'scrimmage_defs.h']]],
+  ['state_5fz_5fvel_22',['STATE_Z_VEL',['../scrimmage__defs_8h.html#a7384c4f7f1e653c73e71310e68b30f0aa37f77a712b54d2e08d560750f1bb4765',1,'scrimmage_defs.h']]]
 ];

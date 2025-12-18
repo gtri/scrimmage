@@ -1,0 +1,8 @@
+<map id="scrimmage::GPUMapBuffer::GPUMapBuffer" name="scrimmage::GPUMapBuffer::GPUMapBuffer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,61,204,101"/>
+<area shape="rect" id="Node000002" href="$namespacescrimmage_1_1OpenCLUtils.html#a13811ddbe2aa73282ecd45b6ee7ff268" title=" " alt="" coords="269,29,452,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,66,255,60,256,65,205,72"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1GPUMapBuffer.html#a7edde45eac2e3977550c0090ccbcab79" title=" " alt="" coords="252,93,469,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="205,91,239,95,238,101,204,96"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="313,30,310,20,318,10,335,5,361,3,390,6,407,13,404,18,389,11,361,8,336,10,321,15,315,21,318,28"/>
+</map>

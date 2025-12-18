@@ -1,0 +1,18 @@
+<map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h">
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="201,5,412,75"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="281,299,332,324"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,74,121,106,83,126,50,147,25,171,11,195,10,221,25,249,40,261,65,272,131,289,204,299,268,305,267,310,204,305,130,294,63,277,37,266,20,252,5,222,6,194,21,167,47,143,80,121,119,101,200,69"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="497,299,556,324"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="405,72,456,97,505,131,547,173,564,197,577,225,579,243,574,261,552,291,548,288,569,259,574,243,572,226,560,200,543,176,502,135,453,102,403,77"/>
+<area shape="rect" id="Node000004" href="$GPUMapBuffer_8h.html" title=" " alt="" coords="35,225,268,251"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="205,77,176,97,153,124,144,145,142,168,147,212,142,212,136,168,139,144,148,121,172,93,202,73"/>
+<area shape="rect" id="Node000022" href="$GPUSphereNetworkUtils_8h.html" title="Brief file description." alt="" coords="163,123,450,177"/>
+<area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="309,75,309,109,304,109,304,75"/>
+<area shape="rect" id="Node000023" href="$Network_8h.html" title="Brief file description." alt="" coords="344,225,562,251"/>
+<area shape="poly" id="edge10_Node000001_Node000023" title=" " alt="" coords="410,73,440,93,463,121,472,144,474,169,465,213,460,212,468,168,467,145,459,124,436,97,407,77"/>
+<area shape="poly" id="edge5_Node000022_Node000002" title=" " alt="" coords="309,178,309,285,304,285,304,178"/>
+<area shape="poly" id="edge6_Node000022_Node000004" title=" " alt="" coords="261,180,186,221,183,216,258,175"/>
+<area shape="poly" id="edge7_Node000022_Node000023" title=" " alt="" coords="353,175,423,216,420,221,350,180"/>
+<area shape="poly" id="edge8_Node000023_Node000002" title=" " alt="" coords="431,253,344,295,341,290,428,248"/>
+<area shape="poly" id="edge9_Node000023_Node000003" title=" " alt="" coords="467,249,506,287,503,291,463,253"/>
+</map>

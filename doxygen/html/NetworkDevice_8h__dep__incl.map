@@ -1,13 +1,15 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/pubsub/NetworkDevice.h" name="/root/scrimmage/scrimmage/include/scrimmage/pubsub/NetworkDevice.h">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="217,5,424,60"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="288,5,495,60"/>
 <area shape="rect" id="Node000002" href="$Publisher_8h.html" title="Brief file description." alt="" coords="5,108,212,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,68,165,110,163,106,252,63"/>
-<area shape="rect" id="Node000058" href="$Network_8cpp.html" title="Brief file description." alt="" coords="147,211,353,251"/>
-<area shape="poly" id="edge5_Node000001_Node000058" title=" " alt="" coords="298,73,279,109,263,164,255,211,250,210,258,162,274,107,293,70"/>
-<area shape="rect" id="Node000062" href="$SubscriberBase_8h.html" title="Brief file description." alt="" coords="288,108,495,163"/>
-<area shape="poly" id="edge3_Node000001_Node000062" title=" " alt="" coords="349,70,375,106,371,109,345,73"/>
-<area shape="rect" id="Node000263" href="$NetworkDevice_8cpp.html" title="Brief file description." alt="" coords="519,115,746,155"/>
-<area shape="poly" id="edge6_Node000001_Node000263" title=" " alt="" coords="416,62,575,113,573,118,414,67"/>
-<area shape="poly" id="edge2_Node000002_Node000058" title=" " alt="" coords="161,168,223,208,220,213,158,172"/>
-<area shape="poly" id="edge4_Node000062_Node000058" title=" " alt="" coords="342,172,280,213,277,208,339,168"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,67,183,110,181,105,304,62"/>
+<area shape="rect" id="Node000059" href="$Network_8cpp.html" title="Brief file description." alt="" coords="147,211,353,251"/>
+<area shape="poly" id="edge5_Node000001_Node000059" title=" " alt="" coords="322,69,299,88,279,110,266,135,258,162,252,211,247,210,253,161,261,133,274,106,295,84,319,65"/>
+<area shape="rect" id="Node000063" href="$SubscriberBase_8h.html" title="Brief file description." alt="" coords="288,108,495,163"/>
+<area shape="poly" id="edge3_Node000001_Node000063" title=" " alt="" coords="394,74,394,108,389,108,389,74"/>
+<area shape="rect" id="Node000273" href="$NetworkDevice_8cpp.html" title="Brief file description." alt="" coords="519,115,746,155"/>
+<area shape="poly" id="edge6_Node000001_Node000273" title=" " alt="" coords="468,63,588,113,586,118,466,68"/>
+<area shape="rect" id="Node000276" href="$Topic_8cpp.html" title=" " alt="" coords="771,115,977,155"/>
+<area shape="poly" id="edge7_Node000001_Node000276" title=" " alt="" coords="509,54,759,105,792,113,791,118,757,111,508,60"/>
+<area shape="poly" id="edge2_Node000002_Node000059" title=" " alt="" coords="161,168,223,208,220,213,158,172"/>
+<area shape="poly" id="edge4_Node000063_Node000059" title=" " alt="" coords="342,172,280,213,277,208,339,168"/>
 </map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zero_5fctrls_0',['zero_ctrls',['../classscrimmage_1_1autonomy_1_1ROSControl.html#adb212679efc68f1bba3074d91369dfc1',1,'scrimmage::autonomy::ROSControl']]]
+  ['yaw_0',['yaw',['../classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7',1,'scrimmage::Quaternion']]]
 ];

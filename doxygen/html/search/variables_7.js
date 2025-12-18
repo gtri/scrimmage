@@ -14,7 +14,8 @@ var searchData=
   ['helpkeys_5factor_5f_11',['helpkeys_actor_',['../classscrimmage_1_1Updater.html#a32bb786ba7c599797d0a2c2cc2de4662',1,'scrimmage::Updater']]],
   ['helpvalues_5factor_5f_12',['helpvalues_actor_',['../classscrimmage_1_1Updater.html#a18696fec530a19023b9f807abd0db3d4',1,'scrimmage::Updater']]],
   ['highway_13',['highway',['../structscrimmage_1_1interaction_1_1GraphInteraction_1_1EdgeProperties.html#a08a57a9d41727b8375596bfd01eea000',1,'scrimmage::interaction::GraphInteraction::EdgeProperties']]],
-  ['html_5ftheme_14',['html_theme',['../namespaceconf.html#a012ba9863b958ed7baa933116f2a05b6',1,'conf']]],
-  ['html_5ftheme_5fpath_15',['html_theme_path',['../namespaceconf.html#a4960231f83b1b44a1ffcd212903b62e8',1,'conf']]],
-  ['htmlhelp_5fbasename_16',['htmlhelp_basename',['../namespaceconf.html#ad9d7d7cfcf6e22cc48ad369cded0448a',1,'conf']]]
+  ['host_5fbuffer_5f_14',['host_buffer_',['../classscrimmage_1_1GPUMapBuffer.html#afdfa9ff2c753386295b8836cd7dddfba',1,'scrimmage::GPUMapBuffer']]],
+  ['html_5ftheme_15',['html_theme',['../namespaceconf.html#a012ba9863b958ed7baa933116f2a05b6',1,'conf']]],
+  ['html_5ftheme_5fpath_16',['html_theme_path',['../namespaceconf.html#a4960231f83b1b44a1ffcd212903b62e8',1,'conf']]],
+  ['htmlhelp_5fbasename_17',['htmlhelp_basename',['../namespaceconf.html#ad9d7d7cfcf6e22cc48ad369cded0448a',1,'conf']]]
 ];

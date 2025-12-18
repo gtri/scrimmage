@@ -1,0 +1,6 @@
+<map id="scrimmage::OpenCLUtils::max_workgroup_size" name="scrimmage::OpenCLUtils::max_workgroup_size">
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,29,424,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="372,18,358,11,333,8,310,10,297,15,292,21,294,28,289,30,287,20,294,10,309,5,333,3,360,6,374,13"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1network_1_1GPUSphereNetworkUtils.html#ae521cc078c7269ba7481acab1b14ee1b" title=" " alt="" coords="5,22,193,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,52,194,52,194,47,227,47"/>
+</map>

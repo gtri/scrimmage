@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="229,748,464,868"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1autonomy_1_1motor__schemas_1_1BehaviorBase.html" title=" " alt="" coords="5,215,229,475"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,487,196,586,244,684,265,716,290,746,286,749,261,719,239,687,191,588,154,489"/>
-<area shape="rect" id="Node000097" href="$classscrimmage_1_1autonomy_1_1Waypoint.html" title=" " alt="" coords="254,5,439,685"/>
-<area shape="poly" id="edge2_Node000001_Node000097" title=" " alt="" coords="349,686,349,731,344,731,344,686"/>
-<area shape="rect" id="Node000098" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="464,23,637,668"/>
-<area shape="poly" id="edge3_Node000001_Node000098" title=" " alt="" coords="466,663,454,687,420,737,415,734,450,684,461,661"/>
+<area shape="rect" id="Node000101" href="$classscrimmage_1_1autonomy_1_1Waypoint.html" title=" " alt="" coords="254,5,439,685"/>
+<area shape="poly" id="edge2_Node000001_Node000101" title=" " alt="" coords="349,686,349,731,344,731,344,686"/>
+<area shape="rect" id="Node000102" href="$classscrimmage_1_1PID.html" title=" " alt="" coords="464,23,637,668"/>
+<area shape="poly" id="edge3_Node000001_Node000102" title=" " alt="" coords="466,663,454,687,420,737,415,734,450,684,461,661"/>
 </map>

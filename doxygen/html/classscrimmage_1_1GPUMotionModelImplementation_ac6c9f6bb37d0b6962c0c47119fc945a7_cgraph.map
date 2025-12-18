@@ -1,0 +1,9 @@
+<map id="scrimmage::GPUMotionModelImplementation::init_new_entities" name="scrimmage::GPUMotionModelImplementation::init_new_entities">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,62,221,117"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1GPUMotionModelImplementation.html#a6f61585aba7cd556ce15485cbeb41002" title=" " alt="" coords="279,5,503,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,62,289,46,290,51,222,67"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1GPUMotionModelImplementation.html#acfb799c5fa694d144ed11d9436fb3290" title=" " alt="" coords="269,69,512,109"/>
+<area shape="poly" id="edge2_Node000001_Node000016" title=" " alt="" coords="222,87,256,87,256,92,222,92"/>
+<area shape="rect" id="Node000018" href="$classscrimmage_1_1GPUMotionModelImplementation.html#ab8b0385f4de67919ac14fc77d0747bc3" title=" " alt="" coords="283,133,499,173"/>
+<area shape="poly" id="edge3_Node000001_Node000018" title=" " alt="" coords="222,112,290,128,289,133,221,117"/>
+</map>

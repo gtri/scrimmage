@@ -4,14 +4,14 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,157,140,108,172,80,208,55,221,48,223,53,211,60,175,84,143,112,97,161"/>
 <area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#ad717f0c430d2355c2284b38fa983f7cc" title="Initialize a scrimmage simulation." alt="" coords="224,69,399,109"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="118,157,241,112,243,117,120,162"/>
-<area shape="rect" id="Node000004" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation." alt="" coords="461,99,636,139"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="161,160,447,127,448,133,162,166"/>
-<area shape="rect" id="Node000007" href="$classscrimmage_1_1SimControl.html#a018b2840d16d50ff120fd9e878abe4b9" title="Get the pointer to the MissionParser instance." alt="" coords="209,185,413,210"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="162,178,196,182,195,187,161,183"/>
-<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread." alt="" coords="209,234,413,259"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="115,182,210,219,241,228,240,233,208,224,113,187"/>
-<area shape="rect" id="Node000085" href="$classscrimmage_1_1SimControl.html#a7097c426992e38b4ae878e824c9bcde6" title="Finalizes the simulation, closes logs, closes plugins." alt="" coords="224,284,399,324"/>
-<area shape="poly" id="edge8_Node000001_Node000085" title=" " alt="" coords="100,183,146,224,177,248,211,268,227,276,225,281,208,273,174,252,143,229,96,187"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="399,97,448,104,447,109,398,103"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="504,99,502,89,509,80,525,74,549,72,576,75,591,82,589,87,575,80,549,77,526,79,512,84,507,90,510,98"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation." alt="" coords="461,99,636,139"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="161,160,447,127,448,133,162,166"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#a018b2840d16d50ff120fd9e878abe4b9" title="Get the pointer to the MissionParser instance." alt="" coords="209,185,413,210"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="162,178,196,182,195,187,161,183"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#ad39e6609b7da388cd2f2004c3517ddc4" title="Runs the scrimmage simulation in the current thread." alt="" coords="209,234,413,259"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="115,182,210,219,241,228,240,233,208,224,113,187"/>
+<area shape="rect" id="Node000086" href="$classscrimmage_1_1SimControl.html#a7097c426992e38b4ae878e824c9bcde6" title="Finalizes the simulation, closes logs, closes plugins." alt="" coords="224,284,399,324"/>
+<area shape="poly" id="edge8_Node000001_Node000086" title=" " alt="" coords="100,183,146,224,177,248,211,268,227,276,225,281,208,273,174,252,143,229,96,187"/>
+<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="399,97,448,104,447,109,398,103"/>
+<area shape="poly" id="edge4_Node000005_Node000005" title=" " alt="" coords="504,99,502,89,509,80,525,74,549,72,576,75,591,82,589,87,575,80,549,77,526,79,512,84,507,90,510,98"/>
 </map>
