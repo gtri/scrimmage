@@ -37,11 +37,11 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/common/PID.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/common/PID.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/motion/MotionModel.h"
 
 namespace scrimmage {
 namespace motion {

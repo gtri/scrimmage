@@ -33,20 +33,20 @@
 #include <cstdlib>
 #include <iostream>
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/log/Log.h>
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/pubsub/Network.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Log.h"
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
+#include "scrimmage/pubsub/Network.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
+#include "scrimmage/simcontrol/SimControl.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 #include <signal.h>
 
 using std::cout;

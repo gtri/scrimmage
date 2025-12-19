@@ -41,11 +41,11 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/plugin_manager/Plugin.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/ParameterServer.h"
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/plugin_manager/Plugin.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 namespace scrimmage_proto {
 class Shape;

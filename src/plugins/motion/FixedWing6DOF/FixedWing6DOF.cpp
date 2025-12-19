@@ -35,16 +35,16 @@
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 using std::cout;
 using std::endl;

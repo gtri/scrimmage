@@ -33,9 +33,9 @@
 #include <iomanip>
 #include <iostream>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/SubscriberBase.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/pubsub/SubscriberBase.h"
 
 namespace scrimmage {
 

@@ -35,21 +35,21 @@
 #include <CL/cl.h>
 #include <CL/opencl.hpp>
 #include <boost/range/adaptor/map.hpp>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/gpu/OpenCLUtils.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h>
-#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/gpu/GPUController.h"
+#include "scrimmage/gpu/OpenCLUtils.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h"
+#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::GPUSphereNetwork, GPUSphereNetwork_plugin)
 

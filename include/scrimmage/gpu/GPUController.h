@@ -1,9 +1,9 @@
 #ifndef INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H
 #define INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

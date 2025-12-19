@@ -35,7 +35,7 @@
 
 #include <string>
 
-#include <scrimmage/common/Utilities.h>
+#include "scrimmage/common/Utilities.h"
 
 namespace scrimmage {
 namespace controller {

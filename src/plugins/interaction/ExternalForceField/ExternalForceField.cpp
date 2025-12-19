@@ -35,17 +35,17 @@
 #include <memory>
 
 #include <math.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
 using std::endl;

@@ -32,13 +32,13 @@
 
 #include <boost/numeric/odeint.hpp>
 #include <rosgraph_msgs/Clock.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/ROSControl/ROSControl.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/ROSControl/ROSControl.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 
 namespace pl = std::placeholders;
 namespace sc = scrimmage;

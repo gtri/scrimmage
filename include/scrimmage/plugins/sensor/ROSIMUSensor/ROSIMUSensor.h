@@ -40,12 +40,12 @@
 
 #include <GeographicLib/Geocentric.hpp>
 #include <ros/ros.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h>
-#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h"
+#include "scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h"
+#include "scrimmage/sensor/Sensor.h"
 #include <sensor_msgs/Imu.h>
 
 namespace scrimmage {

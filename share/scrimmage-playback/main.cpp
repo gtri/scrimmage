@@ -29,12 +29,12 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
 #include <signal.h>
 #if ENABLE_VTK == 1
-#include <scrimmage/viewer/Viewer.h>
+#include "scrimmage/viewer/Viewer.h"
 #endif
 
 #include <chrono>  // NOLINT
@@ -44,8 +44,8 @@
 #include <thread>  // NOLINT
 
 #include <boost/filesystem.hpp>
-#include <scrimmage/common/Timer.h>
-#include <scrimmage/log/Log.h>
+#include "scrimmage/common/Timer.h"
+#include "scrimmage/log/Log.h"
 
 using std::cout;
 using std::endl;

@@ -35,7 +35,7 @@
 
 #include <boost/geometry.hpp>
 #include <boost/geometry/index/rtree.hpp>
-#include <scrimmage/common/RTree.h>
+#include "scrimmage/common/RTree.h"
 
 namespace bg = boost::geometry;
 namespace bgi = boost::geometry::index;

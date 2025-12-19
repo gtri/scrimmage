@@ -40,9 +40,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/fwd_decl.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/fwd_decl.h"
 
 namespace scrimmage {
 

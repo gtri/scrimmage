@@ -34,9 +34,9 @@
 #include <unordered_map>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 

@@ -30,13 +30,13 @@
  *
  */
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::AvoidWalls, AvoidWalls_plugin)
 

@@ -31,13 +31,13 @@
  */
 
 #include <boost/algorithm/clamp.hpp>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/motion/Ballistic/Ballistic.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/motion/Ballistic/Ballistic.h"
 
 namespace sc = scrimmage;
 

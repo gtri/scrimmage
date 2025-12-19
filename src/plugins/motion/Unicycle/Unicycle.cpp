@@ -31,12 +31,12 @@
  */
 
 #include <boost/algorithm/clamp.hpp>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/motion/Unicycle/Unicycle.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/motion/Unicycle/Unicycle.h"
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_plugin)
 

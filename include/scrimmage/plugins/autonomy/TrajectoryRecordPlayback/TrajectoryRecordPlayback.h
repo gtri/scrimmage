@@ -38,9 +38,9 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h"
 
 namespace scrimmage {
 namespace autonomy {

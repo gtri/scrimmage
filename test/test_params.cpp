@@ -35,8 +35,8 @@
 #include <memory>
 
 #include <gtest/gtest.h>
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/entity/EntityPlugin.h>
+#include "scrimmage/common/ParameterServer.h"
+#include "scrimmage/entity/EntityPlugin.h"
 
 namespace sc = scrimmage;
 

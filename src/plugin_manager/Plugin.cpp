@@ -33,7 +33,7 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/entity/EntityPlugin.h>
+#include "scrimmage/entity/EntityPlugin.h"
 
 namespace scrimmage {
 Plugin::Plugin() : name_("Plugin") {}

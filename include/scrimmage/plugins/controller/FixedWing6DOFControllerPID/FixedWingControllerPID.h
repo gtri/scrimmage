@@ -37,7 +37,7 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h>
+#include "scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h"
 
 namespace scrimmage {
 namespace controller {

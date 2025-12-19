@@ -40,9 +40,9 @@
 
 #include <fcntl.h>
 #include <linux/joystick.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/plugins/controller/JoystickController/Joystick.h"
 #include <sys/ioctl.h>
 #include <unistd.h>
 

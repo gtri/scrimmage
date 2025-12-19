@@ -33,17 +33,17 @@
 #include <cstdlib>
 #include <vector>
 
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/LOSSensor.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/sensor/LOSSensor/LOSSensor.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/LOSSensor.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/sensor/LOSSensor/LOSSensor.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;

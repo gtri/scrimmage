@@ -36,7 +36,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/pubsub/Network.h>
+#include "scrimmage/pubsub/Network.h"
 
 namespace sc = scrimmage;
 

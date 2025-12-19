@@ -41,9 +41,9 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/mat.hpp>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/sensor/Sensor.h"
 
 // Eigen libraries
 #include "Eigen/Core"

@@ -30,7 +30,7 @@
  *
  */
 
-#include <scrimmage/common/ColorMaps.h>
+#include "scrimmage/common/ColorMaps.h"
 
 namespace scrimmage {
 

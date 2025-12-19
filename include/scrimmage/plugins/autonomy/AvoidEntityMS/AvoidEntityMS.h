@@ -38,7 +38,7 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 
 namespace scrimmage {
 namespace autonomy {

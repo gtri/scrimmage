@@ -35,11 +35,11 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h"
 
 #if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>

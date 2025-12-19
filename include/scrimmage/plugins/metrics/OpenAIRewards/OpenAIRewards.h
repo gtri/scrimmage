@@ -36,7 +36,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/metrics/Metrics.h>
+#include "scrimmage/metrics/Metrics.h"
 
 namespace scrimmage {
 namespace metrics {

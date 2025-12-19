@@ -35,7 +35,7 @@
 
 #include <string>
 
-#include <scrimmage/viewer/Updater.h>
+#include "scrimmage/viewer/Updater.h"
 #include <vtkActor.h>
 #include <vtkCellArray.h>
 #include <vtkCommand.h>

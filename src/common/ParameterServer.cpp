@@ -33,7 +33,7 @@
 #include <algorithm>
 #include <string>
 
-#include <scrimmage/common/ParameterServer.h>
+#include "scrimmage/common/ParameterServer.h"
 
 namespace scrimmage {
 void ParameterServer::unregister_params(PluginPtr owner) {

@@ -27,8 +27,8 @@
  * Example usage
  *
  * // Required Includes:
- *   #include <scrimmage/entity/Entity.h>
- *   #include <scrimmage/log/Print.h>
+ *   #include "scrimmage/entity/Entity.h"
+ *   #include "scrimmage/log/Print.h"
  *
  * // In a Plugin (any type):
  * In the _step() method, for example:
@@ -71,10 +71,10 @@
 #include <ostream>
 #include <sstream>
 
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/log/Print.h>
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Print.h"
 
 namespace scrimmage {
 

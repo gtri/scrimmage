@@ -36,7 +36,7 @@
 #include <vector>
 
 #include <rapidxml/rapidxml.hpp>
-#include <scrimmage/parse/XMLParser/XMLParser.h>
+#include "scrimmage/parse/XMLParser/XMLParser.h"
 
 namespace scrimmage {
 

@@ -39,7 +39,7 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 
 namespace scrimmage {
 namespace sensor {

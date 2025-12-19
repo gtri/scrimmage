@@ -32,15 +32,15 @@
 
 #include <limits>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Capture.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/Predator/Predator.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Capture.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/Predator/Predator.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace sm = scrimmage_msgs;
 

@@ -38,7 +38,7 @@
 
 #include <GeographicLib/Constants.hpp>
 #include <GeographicLib/Geodesic.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
+#include "scrimmage/autonomy/Autonomy.h"
 
 namespace scrimmage {
 namespace autonomy {

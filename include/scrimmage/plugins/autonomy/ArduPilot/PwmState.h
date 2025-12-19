@@ -36,7 +36,7 @@
 #include <Eigen/Dense>
 #include <memory>
 
-#include <scrimmage/math/State.h>
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 namespace motion {

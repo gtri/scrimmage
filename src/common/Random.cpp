@@ -32,7 +32,7 @@
 
 #include <chrono>  // NOLINT
 
-#include <scrimmage/common/Random.h>
+#include "scrimmage/common/Random.h"
 
 namespace scrimmage {
 

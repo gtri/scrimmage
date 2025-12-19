@@ -31,12 +31,12 @@
  */
 
 #include <boost/algorithm/string.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

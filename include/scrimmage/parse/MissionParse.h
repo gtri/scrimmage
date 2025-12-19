@@ -41,9 +41,9 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/proto/Color.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/proto/Color.pb.h"
+#include "scrimmage/proto/Visual.pb.h"
 
 namespace sp = scrimmage_proto;
 

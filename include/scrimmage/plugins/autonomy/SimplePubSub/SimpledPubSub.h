@@ -32,8 +32,8 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/entity/Contact.h"
 
 #include <Eigen/Dense>
 

@@ -38,8 +38,8 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
-#include <scrimmage/common/CSV.h>
 #include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/common/CSV.h"
 
 using std::cout;
 using std::endl;

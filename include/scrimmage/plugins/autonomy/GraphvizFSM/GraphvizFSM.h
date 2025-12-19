@@ -43,7 +43,7 @@
 #include <boost/graph/graphviz.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_map/property_map.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
+#include "scrimmage/autonomy/Autonomy.h"
 
 namespace scrimmage {
 namespace autonomy {

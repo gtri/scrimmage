@@ -43,12 +43,12 @@
 #include <vector>
 
 #include <boost/optional.hpp>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/proto/Visual.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/proto/Visual.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 
 namespace scrimmage_proto {
 using ContactVisualPtr = std::shared_ptr<ContactVisual>;

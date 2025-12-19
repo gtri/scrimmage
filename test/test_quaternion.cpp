@@ -33,8 +33,8 @@
 #include <Eigen/Dense>
 
 #include <gtest/gtest.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 

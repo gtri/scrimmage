@@ -32,9 +32,9 @@
 
 #include <iostream>
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/MessageBase.h>
-#include <scrimmage/pubsub/NetworkDevice.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/pubsub/MessageBase.h"
+#include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {
 

@@ -35,12 +35,12 @@
 
 #include <boost/filesystem.hpp>
 #include <dlfcn.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
 
 namespace scrimmage {
 

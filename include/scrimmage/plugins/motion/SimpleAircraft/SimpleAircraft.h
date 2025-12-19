@@ -38,9 +38,9 @@
 #include <string>
 #include <tuple>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/motion/MotionModel.h"
 
 namespace scrimmage {
 class State;

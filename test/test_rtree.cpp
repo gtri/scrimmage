@@ -35,11 +35,11 @@
 
 #include <gtest/gtest.h>
 #include <limits.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/math/State.h"
 
 using std::cout;
 using std::endl;

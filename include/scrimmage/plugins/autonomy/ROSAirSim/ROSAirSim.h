@@ -40,8 +40,8 @@
 #include <geometry_msgs/Twist.h>
 #include <image_transport/image_transport.h>
 #include <ros/ros.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>

@@ -34,19 +34,19 @@
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h"
+#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
 using std::endl;

@@ -33,9 +33,9 @@
 #include <iostream>
 #include <memory>
 
-#include <scrimmage/common/ID.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 

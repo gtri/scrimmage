@@ -1,7 +1,7 @@
 #ifndef INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H
 #define INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H
 
-#include <scrimmage/gpu/GPUController.h>
+#include "scrimmage/gpu/GPUController.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

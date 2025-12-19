@@ -38,7 +38,7 @@
 #include <string>
 #include <unordered_set>
 
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

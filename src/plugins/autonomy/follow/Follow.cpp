@@ -33,10 +33,10 @@
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/follow/Follow.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/follow/Follow.h"
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Follow, Follow_plugin)
 

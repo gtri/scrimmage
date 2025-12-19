@@ -40,8 +40,8 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

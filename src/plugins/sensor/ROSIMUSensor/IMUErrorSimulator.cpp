@@ -30,7 +30,7 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h>
+#include "scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorSimulator.h"
 
 IMUErrorSimulator::IMUErrorSimulator(IMUErrorBudgetTemplate& errorBudget) {
     InRunBiasOption = false;

@@ -36,8 +36,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/controller/JoystickController/Joystick.h"
 
 namespace scrimmage {
 namespace autonomy {

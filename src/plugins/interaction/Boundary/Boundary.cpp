@@ -34,20 +34,20 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
-#include <scrimmage/plugins/interaction/Boundary/Plane.h>
-#include <scrimmage/plugins/interaction/Boundary/Sphere.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/plugins/interaction/Boundary/Cuboid.h"
+#include "scrimmage/plugins/interaction/Boundary/Plane.h"
+#include "scrimmage/plugins/interaction/Boundary/Sphere.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
 using std::endl;

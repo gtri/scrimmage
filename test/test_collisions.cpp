@@ -32,8 +32,8 @@
 
 #include <boost/optional.hpp>
 #include <gtest/gtest.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 
 namespace sc = scrimmage;
 
@@ -53,6 +53,6 @@ TEST(test_collisions, collisions) {
         return;
 
     const int row = csv.rows() - 1;
-    double collisions = csv.at(row, "team_coll");
+    int collisions = csv.at<int>(row, "team_coll");
     EXPECT_GT(collisions, 0);  // expect collisions
 }

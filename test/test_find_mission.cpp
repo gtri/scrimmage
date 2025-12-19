@@ -32,7 +32,7 @@
 
 #include <boost/optional.hpp>
 #include <gtest/gtest.h>
-#include <scrimmage/common/FileSearch.h>
+#include "scrimmage/common/FileSearch.h"
 
 namespace sc = scrimmage;
 

@@ -32,13 +32,13 @@
 #include <iostream>
 #include <limits>
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h"
 
 using std::cout;
 using std::endl;

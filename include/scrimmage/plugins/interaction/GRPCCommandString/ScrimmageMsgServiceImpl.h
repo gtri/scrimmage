@@ -36,9 +36,9 @@
 #include <memory>
 #include <queue>
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/msgs/Command.grpc.pb.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/msgs/Command.grpc.pb.h"
+#include "scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h"
 
 namespace scrimmage {
 class ScrimmageMsgServiceImpl final : public scrimmage_msgs::ScrimmageMsgService::Service {

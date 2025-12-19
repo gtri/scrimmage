@@ -33,13 +33,13 @@
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h"
 
 using boost::algorithm::clamp;
 using std::cout;

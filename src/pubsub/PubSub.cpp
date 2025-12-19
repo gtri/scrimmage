@@ -33,9 +33,9 @@
 #include <iostream>
 
 #include <boost/optional.hpp>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
 using std::endl;

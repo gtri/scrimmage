@@ -33,16 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_
 #define INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/network/ScrimmageServiceImpl.h>
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/GUIControl.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/network/ScrimmageServiceImpl.h"
+#include "scrimmage/proto/Frame.pb.h"
+#include "scrimmage/proto/GUIControl.pb.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/proto/Visual.pb.h"
 
 #if ENABLE_GRPC == 1
 #include <grpc++/grpc++.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
 #include <list>

@@ -39,11 +39,11 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 namespace sensor {

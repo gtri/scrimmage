@@ -35,7 +35,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/motion/MotionModel.h"
 
 namespace scrimmage {
 namespace motion {

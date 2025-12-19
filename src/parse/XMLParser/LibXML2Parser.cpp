@@ -40,7 +40,7 @@
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
 #include <libxml/xmlreader.h>
-#include <scrimmage/parse/XMLParser/LibXML2Parser.h>
+#include "scrimmage/parse/XMLParser/LibXML2Parser.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

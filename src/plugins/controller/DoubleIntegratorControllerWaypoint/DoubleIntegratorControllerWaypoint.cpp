@@ -32,10 +32,10 @@
 
 #include <iostream>
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

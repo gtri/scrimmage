@@ -39,7 +39,7 @@
 
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm/set_algorithm.hpp>
-#include <scrimmage/common/VariableIO.h>
+#include "scrimmage/common/VariableIO.h"
 
 namespace br = boost::range;
 namespace ba = boost::adaptors;
@@ -206,7 +206,7 @@ void print_io_error(const std::string& in_name, VariableIO& v) {
     auto keys = v.input_variable_index() | ba::map_keys;
 
     std::cout << "First, include the VariableIO class in the cpp file: "
-              << "#include <scrimmage/common/VariableIO.h>" << std::endl;
+              << "#include \"scrimmage/common/VariableIO.h\"" << std::endl;
 
     std::cout << "Second, place the following in its initializer: " << std::endl;
     for (const std::string& key : keys) {

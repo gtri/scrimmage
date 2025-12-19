@@ -42,8 +42,8 @@
 #include <vector>
 
 #include <opencv2/core/core.hpp>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 

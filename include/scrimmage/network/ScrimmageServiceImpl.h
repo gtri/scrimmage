@@ -40,9 +40,9 @@
 #include <mutex>  // NOLINT
 
 #include <google/protobuf/empty.pb.h>
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/proto/Frame.pb.h"
+#include "scrimmage/proto/Scrimmage.grpc.pb.h"
+#include "scrimmage/proto/Visual.pb.h"
 
 namespace scrimmage {
 

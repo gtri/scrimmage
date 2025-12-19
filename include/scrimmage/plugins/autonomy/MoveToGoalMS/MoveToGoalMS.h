@@ -37,9 +37,9 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 
 namespace scrimmage {
 namespace autonomy {

@@ -37,26 +37,26 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h>
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/ID.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h"
+#include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/proto/State.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;

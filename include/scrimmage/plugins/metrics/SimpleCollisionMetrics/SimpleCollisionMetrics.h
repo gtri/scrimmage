@@ -36,7 +36,7 @@
 #include <set>
 #include <string>
 
-#include <scrimmage/metrics/Metrics.h>
+#include "scrimmage/metrics/Metrics.h"
 
 #include "SimpleCollisionScore.h"
 

@@ -41,11 +41,11 @@
 #include <vector>
 
 #include <btBulletDynamicsCommon.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace sc = scrimmage;
 class Interface;

@@ -43,13 +43,13 @@
 #include <unordered_map>
 #include <utility>
 
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/proto/Color.pb.h>
-#include <scrimmage/proto/Contact.pb.h>
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/GUIControl.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/proto/Color.pb.h"
+#include "scrimmage/proto/Contact.pb.h"
+#include "scrimmage/proto/Frame.pb.h"
+#include "scrimmage/proto/GUIControl.pb.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/proto/Visual.pb.h"
 #include <time.h>
 #include <vtkActor.h>
 #include <vtkCommand.h>

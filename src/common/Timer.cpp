@@ -33,7 +33,7 @@
 #include <ctime>
 
 #include <boost/thread.hpp>
-#include <scrimmage/common/Timer.h>
+#include "scrimmage/common/Timer.h"
 
 namespace scrimmage {
 

@@ -31,8 +31,8 @@
  */
 
 #include <boost/algorithm/string.hpp>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/RigidBody6DOFControllerROS/RigidBody6DOFControllerROS.h>
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/RigidBody6DOFControllerROS/RigidBody6DOFControllerROS.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

@@ -35,7 +35,7 @@
 
 #include <memory>
 
-#include <scrimmage/math/State.h>
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 class StateWithCovariance : public scrimmage::State {

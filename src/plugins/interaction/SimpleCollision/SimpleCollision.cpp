@@ -33,18 +33,18 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Collision.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h>
-#include <scrimmage/pubsub/Message.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/ParameterServer.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Collision.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h"
+#include "scrimmage/pubsub/Message.h"
 
 namespace sm = scrimmage_msgs;
 

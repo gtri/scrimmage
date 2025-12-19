@@ -31,7 +31,7 @@
  */
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/common/WaypointListProcessor.h>
+#include "scrimmage/common/WaypointListProcessor.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;

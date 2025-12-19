@@ -37,8 +37,8 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/entity/Contact.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/entity/Contact.h"
 
 namespace scrimmage {
 

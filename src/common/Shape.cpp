@@ -33,9 +33,9 @@
 #include <iostream>
 #include <vector>
 
-#include <scrimmage/common/Shape.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/common/Shape.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;

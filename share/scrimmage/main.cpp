@@ -38,24 +38,24 @@
 #include <string>
 #include <unordered_set>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
+#include "scrimmage/simcontrol/SimControl.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 #include <signal.h>
 #if ENABLE_VTK == 1
-#include <scrimmage/viewer/Viewer.h>
+#include "scrimmage/viewer/Viewer.h"
 #endif
 
 #include <boost/optional.hpp>
-#include <scrimmage/log/Log.h>
+#include "scrimmage/log/Log.h"
 
 using std::cout;
 using std::endl;

@@ -41,8 +41,8 @@
 #include <boost/range/algorithm/find_if.hpp>
 #include <boost/range/algorithm/sort.hpp>
 #include <boost/tokenizer.hpp>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 namespace fs = ::boost::filesystem;
 namespace ba = boost::adaptors;

@@ -34,9 +34,9 @@
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h>
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h"
 
 using std::cout;
 using std::endl;

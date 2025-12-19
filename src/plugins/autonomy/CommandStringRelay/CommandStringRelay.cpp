@@ -35,13 +35,13 @@
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Command.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Command.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
 using std::endl;

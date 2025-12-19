@@ -30,8 +30,8 @@
  *
  */
 
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 
 namespace scrimmage {
 namespace autonomy {

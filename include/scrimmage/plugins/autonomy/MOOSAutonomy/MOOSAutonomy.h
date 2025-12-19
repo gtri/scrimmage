@@ -37,8 +37,8 @@
 #include <string>
 #include <thread>  // NOLINT
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/math/Angles.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/math/Angles.h"
 
 #include "MOOSNode.h"
 

@@ -30,9 +30,9 @@
  *
  */
 
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h>
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

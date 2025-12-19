@@ -38,8 +38,8 @@
 #include <tuple>
 #include <vector>
 
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/ProtoConversions.h>
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/proto/ProtoConversions.h"
 
 using std::cout;
 using std::endl;

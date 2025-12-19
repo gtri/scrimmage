@@ -36,8 +36,8 @@
 
 #include <boost/algorithm/clamp.hpp>
 #include <boost/algorithm/string.hpp>
-#include <scrimmage/common/PID.h>
-#include <scrimmage/math/Angles.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/math/Angles.h"
 
 using boost::algorithm::clamp;
 

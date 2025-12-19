@@ -32,8 +32,8 @@
 
 #include <limits>
 
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/proto/Frame.pb.h>
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/proto/Frame.pb.h"
 
 namespace scrimmage {
 

@@ -32,7 +32,7 @@
 
 #if ENABLE_GRPC == 1
 #include <grpc++/grpc++.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
 #include <iostream>
@@ -40,10 +40,10 @@
 #include <string>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/log/FrameUpdateClient.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/FrameUpdateClient.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
 
 #if ENABLE_GRPC == 1
 using grpc::Channel;

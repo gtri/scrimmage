@@ -34,9 +34,9 @@
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/proto/ProtoConversions.h>
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/proto/ProtoConversions.h"
 
 namespace sc = scrimmage;
 namespace sc_msgs = scrimmage_msgs;

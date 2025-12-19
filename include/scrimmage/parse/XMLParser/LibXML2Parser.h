@@ -36,7 +36,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
-#include <scrimmage/parse/XMLParser/XMLParser.h>
+#include "scrimmage/parse/XMLParser/XMLParser.h"
 
 namespace scrimmage {
 

@@ -42,8 +42,8 @@
 #include <thread>
 
 #include <ros/ros.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

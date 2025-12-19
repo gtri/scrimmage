@@ -39,7 +39,7 @@
 #include <vector>
 
 #include <ros/ros.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/sensor/Sensor.h"
 #include <sensor_msgs/MagneticField.h>
 
 namespace scrimmage {

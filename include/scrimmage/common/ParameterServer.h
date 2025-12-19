@@ -43,7 +43,7 @@
 #include <unordered_map>
 
 #include <boost/optional.hpp>
-#include <scrimmage/common/Parameter.h>
+#include "scrimmage/common/Parameter.h"
 
 class Plugin;
 using PluginPtr = std::shared_ptr<Plugin>;

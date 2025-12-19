@@ -36,7 +36,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h>
+#include "scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h"
 
 namespace scrimmage {
 namespace controller {

@@ -36,8 +36,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 namespace sc = scrimmage;
 

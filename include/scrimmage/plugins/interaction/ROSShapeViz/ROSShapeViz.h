@@ -39,8 +39,8 @@
 #include <string>
 
 #include <ros/ros.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 #include <visualization_msgs/Marker.h>
 
 namespace scrimmage {

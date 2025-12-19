@@ -42,7 +42,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <scrimmage/pubsub/Message.h>
+#include "scrimmage/pubsub/Message.h"
 
 namespace scrimmage {
 

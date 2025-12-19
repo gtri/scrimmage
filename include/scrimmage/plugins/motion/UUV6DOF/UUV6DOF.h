@@ -35,11 +35,11 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h"
 
 namespace scrimmage {
 namespace motion {

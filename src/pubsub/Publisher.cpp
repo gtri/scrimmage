@@ -30,9 +30,9 @@
  *
  */
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace scrimmage {
 

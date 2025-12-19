@@ -38,7 +38,7 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 

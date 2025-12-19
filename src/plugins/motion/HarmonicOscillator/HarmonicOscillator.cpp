@@ -31,14 +31,14 @@
 
 #include <cmath>
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h"
 
 namespace sc = scrimmage;
 

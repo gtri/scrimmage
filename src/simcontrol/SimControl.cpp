@@ -30,35 +30,35 @@
  *
  */
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/Algorithm.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/common/GlobalService.h>
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/log/Log.h>
-#include <scrimmage/log/Print.h>
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
-#include <scrimmage/sensor/Sensor.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
-#include <scrimmage/simcontrol/SimControl.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/Algorithm.h"
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/common/GlobalService.h"
+#include "scrimmage/common/ParameterServer.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Log.h"
+#include "scrimmage/log/Print.h"
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
+#include "scrimmage/sensor/Sensor.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
+#include "scrimmage/simcontrol/SimControl.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
-#include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/gpu/GPUMotionModel.h>
+#include "scrimmage/gpu/GPUController.h"
+#include "scrimmage/gpu/GPUMotionModel.h"
 #endif
 
 #include <chrono>  // NOLINT
@@ -67,17 +67,17 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Event.pb.h>
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Visual.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Network.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Event.pb.h"
+#include "scrimmage/proto/Frame.pb.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Visual.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Network.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 #if ENABLE_PYTHON_BINDINGS == 1
 #include <pybind11/pybind11.h>

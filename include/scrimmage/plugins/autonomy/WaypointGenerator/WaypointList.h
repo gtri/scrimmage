@@ -35,7 +35,7 @@
 
 #include <list>
 
-#include <scrimmage/common/Waypoint.h>
+#include "scrimmage/common/Waypoint.h"
 
 namespace scrimmage {
 namespace autonomy {

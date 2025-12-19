@@ -34,19 +34,19 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Capture.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-#include <scrimmage/plugins/interaction/CaptureInBoundaryInteraction/CaptureInBoundaryInteraction.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Capture.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
+#include "scrimmage/plugins/interaction/CaptureInBoundaryInteraction/CaptureInBoundaryInteraction.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

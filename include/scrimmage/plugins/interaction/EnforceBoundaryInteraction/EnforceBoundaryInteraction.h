@@ -39,10 +39,10 @@
 #include <set>
 #include <string>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;

@@ -38,7 +38,7 @@
 #include <set>
 #include <string>
 
-#include <scrimmage/common/VariableIO.h>
+#include "scrimmage/common/VariableIO.h"
 
 namespace scrimmage {
 /*! \brief abstracts the connection between motion models, controllers, and

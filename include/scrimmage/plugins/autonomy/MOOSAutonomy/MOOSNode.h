@@ -37,7 +37,7 @@
 #include <string>
 
 #include <MOOS/libMOOS/App/MOOSApp.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/math/State.h"
 #include <string.h>
 
 namespace scrimmage {

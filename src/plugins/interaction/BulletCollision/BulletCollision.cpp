@@ -32,26 +32,26 @@
 
 #include <memory>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Shape.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/msgs/Collision.pb.h>
-#include <scrimmage/msgs/Event.pb.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/BulletCollision/BulletCollision.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Shape.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/msgs/Collision.pb.h"
+#include "scrimmage/msgs/Event.pb.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/BulletCollision/BulletCollision.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/sensor/Sensor.h"
 
 #if ENABLE_VTK == 1
 #include <vtksys/SystemTools.hxx>

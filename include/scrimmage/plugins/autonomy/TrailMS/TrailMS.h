@@ -35,7 +35,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 
 namespace scrimmage {
 namespace autonomy {

@@ -47,7 +47,7 @@
 #include <boost/geometry/strategies/default_strategy.hpp>
 #include <boost/geometry/index/parameters.hpp>  // for dynamic_rstar definition
 #include <boost/tuple/tuple.hpp>
-#include <scrimmage/common/ID.h>
+#include "scrimmage/common/ID.h"
 
 namespace boost {
 namespace geometry {
