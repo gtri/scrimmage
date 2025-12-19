@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace interaction {
+
 class SimpleCollision : public scrimmage::EntityInteraction {
  public:
     bool init(
@@ -65,6 +66,7 @@ class SimpleCollision : public scrimmage::EntityInteraction {
     scrimmage::PublisherPtr team_collision_pub_;
     scrimmage::PublisherPtr non_team_collision_pub_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_SIMPLECOLLISION_SIMPLECOLLISION_H_

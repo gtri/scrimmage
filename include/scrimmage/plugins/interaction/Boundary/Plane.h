@@ -88,12 +88,12 @@ class Plane : public BoundaryBase {
 
     explicit Plane(const scrimmage_proto::Shape& shape)
         : Plane(
-            proto_2_vector3d(shape.plane().center()),
-            shape.plane().x_length(),
-            shape.plane().y_length(),
-            proto_2_quat(shape.plane().quat()),
-            shape.plane().texture(),
-            shape.plane().diffuse_lighting()) {
+              proto_2_vector3d(shape.plane().center()),
+              shape.plane().x_length(),
+              shape.plane().y_length(),
+              proto_2_quat(shape.plane().quat()),
+              shape.plane().texture(),
+              shape.plane().diffuse_lighting()) {
         set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 

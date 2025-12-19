@@ -43,10 +43,13 @@
 
 namespace scrimmage {
 namespace motion {
+
 class RigidBody6DOFBase;
+
 }
 
 namespace sensor {
+
 class RigidBody6DOFStateSensor : public scrimmage::Sensor {
  public:
     RigidBody6DOFStateSensor();
@@ -62,6 +65,7 @@ class RigidBody6DOFStateSensor : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RIGIDBODY6DOFSTATESENSOR_RIGIDBODY6DOFSTATESENSOR_H_

@@ -42,6 +42,7 @@
 
 namespace scrimmage {
 namespace interaction {
+
 class GroundCollision : public scrimmage::EntityInteraction {
  public:
     GroundCollision();
@@ -62,6 +63,7 @@ class GroundCollision : public scrimmage::EntityInteraction {
     bool enable_startup_collisions_;
     std::string team_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GROUNDCOLLISION_GROUNDCOLLISION_H_

@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/MultirotorControllerPID/MultirotorControllerPID.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h"
-#include "scrimmage/plugins/controller/MultirotorControllerPID/MultirotorControllerPID.h"
 #include "scrimmage/plugins/motion/Multirotor/MultirotorState.h"
 
 using std::cout;
@@ -131,5 +132,6 @@ bool MultirotorControllerPID::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

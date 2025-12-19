@@ -30,11 +30,13 @@
  *
  */
 
+#include "scrimmage/autonomy/Autonomy.h"
+
 #include <memory>
 #include <unordered_map>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include "scrimmage/autonomy/Autonomy.h"
+
 #include "scrimmage/entity/Contact.h"
 #include "scrimmage/math/State.h"
 
@@ -125,4 +127,5 @@ void Autonomy::close(double /*t*/) {
     contacts_ = nullptr;
     rtree_ = nullptr;
 }
+
 }  // namespace scrimmage

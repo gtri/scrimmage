@@ -41,6 +41,7 @@
 #include <vector>
 
 #include <btBulletDynamicsCommon.h>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 #include "scrimmage/pubsub/Publisher.h"
@@ -53,6 +54,7 @@ using InterfacePtr = std::shared_ptr<Interface>;
 
 namespace scrimmage {
 namespace interaction {
+
 class BulletCollision : public scrimmage::EntityInteraction {
  public:
     BulletCollision();
@@ -122,6 +124,7 @@ class BulletCollision : public scrimmage::EntityInteraction {
     bool enable_terrain_ = false;
     double ground_plane_height_ = 0;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BULLETCOLLISION_BULLETCOLLISION_H_

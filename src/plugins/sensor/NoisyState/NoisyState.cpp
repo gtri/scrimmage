@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/NoisyState/NoisyState.h"
+
 #include <vector>
 
 #include "scrimmage/common/Random.h"
@@ -39,7 +41,6 @@
 #include "scrimmage/math/StateWithCovariance.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/NoisyState/NoisyState.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
@@ -102,5 +103,6 @@ bool NoisyState::step() {
 
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

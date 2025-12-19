@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_
 
 namespace scrimmage {
+
 class Battery {
  public:
     Battery() {}
@@ -50,5 +51,6 @@ class Battery {
     double max_charge_ = 1;
     double current_charge_ = 1;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_BATTERY_H_

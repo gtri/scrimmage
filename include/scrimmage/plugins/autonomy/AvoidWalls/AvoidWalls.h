@@ -41,6 +41,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class AvoidWalls : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -53,6 +54,7 @@ class AvoidWalls : public scrimmage::Autonomy {
     uint8_t heading_idx_ = 0;
     uint8_t speed_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AVOIDWALLS_AVOIDWALLS_H_

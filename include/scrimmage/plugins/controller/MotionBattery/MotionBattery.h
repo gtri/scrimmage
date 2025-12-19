@@ -86,6 +86,7 @@ class MotionBattery : public scrimmage::Controller {
     bool publish_charge_ = false;
     PublisherPtr pub_charge_percentage_;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_MOTIONBATTERY_MOTIONBATTERY_H_

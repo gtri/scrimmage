@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class WaypointDispatcher : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -69,6 +70,7 @@ class WaypointDispatcher : public scrimmage::Autonomy {
 
     bool tolerance_in_2d_ = false;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTDISPATCHER_WAYPOINTDISPATCHER_H_

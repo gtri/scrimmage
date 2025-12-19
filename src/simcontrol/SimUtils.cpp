@@ -30,8 +30,12 @@
  *
  */
 
+#include "scrimmage/simcontrol/SimUtils.h"
+
 #include <cstdlib>
 #include <iostream>
+
+#include <signal.h>
 
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
@@ -46,8 +50,6 @@
 #include "scrimmage/pubsub/Network.h"
 #include "scrimmage/simcontrol/EntityInteraction.h"
 #include "scrimmage/simcontrol/SimControl.h"
-#include "scrimmage/simcontrol/SimUtils.h"
-#include <signal.h>
 
 using std::cout;
 using std::endl;
@@ -185,11 +187,13 @@ void run_callbacks(EntityPluginPtr plugin) {
 }
 
 namespace {
+
 // https://stackoverflow.com/a/48164204
 std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) {
     shutdown_handler(signal);
 }
+
 }  // namespace
 
 boost::optional<std::string> run_test(
@@ -286,4 +290,5 @@ bool create_networks(
     }
     return true;
 }
+
 }  // namespace scrimmage

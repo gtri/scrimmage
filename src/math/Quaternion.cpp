@@ -30,10 +30,10 @@
  *
  */
 
+#include "scrimmage/math/Quaternion.h"
+
 #include <iomanip>
 #include <iostream>
-
-#include "scrimmage/math/Quaternion.h"
 
 namespace scrimmage {
 

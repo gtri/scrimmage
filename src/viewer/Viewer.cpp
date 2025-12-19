@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/viewer/Viewer.h"
+
 #include <boost/algorithm/string.hpp>
+#include <vtkCamera.h>
+
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/viewer/CameraInterface.h"
 #include "scrimmage/viewer/Updater.h"
-#include "scrimmage/viewer/Viewer.h"
-#include <vtkCamera.h>
 
 namespace scrimmage {
 
@@ -201,4 +203,5 @@ bool Viewer::run() {
 
     return true;
 }
+
 }  // namespace scrimmage

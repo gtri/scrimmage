@@ -68,6 +68,7 @@ class SphereNetwork : public scrimmage::Network {
     bool filter_comms_plane_ = false;
     bool within_planar_boundary(double z1, double z2);
 };
+
 }  // namespace network
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_SPHERENETWORK_SPHERENETWORK_H_

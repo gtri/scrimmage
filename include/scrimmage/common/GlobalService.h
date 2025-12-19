@@ -93,5 +93,6 @@ class GlobalService {
     std::unordered_map<std::string, Service> services_;
 };
 using GlobalServicePtr = std::shared_ptr<GlobalService>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_GLOBALSERVICE_H_

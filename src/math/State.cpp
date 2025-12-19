@@ -30,12 +30,13 @@
  *
  */
 
+#include "scrimmage/math/State.h"
+
 #include <iomanip>
 #include <iostream>
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/Angles.h"
-#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 

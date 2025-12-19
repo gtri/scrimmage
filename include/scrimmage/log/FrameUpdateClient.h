@@ -45,6 +45,7 @@
 #include <string>
 
 namespace scrimmage {
+
 class FrameUpdateClient {
  public:
     FrameUpdateClient(const std::string& ip, int port);
@@ -59,5 +60,6 @@ class FrameUpdateClient {
     std::shared_ptr<GeographicLib::LocalCartesian> proj_;
     Angles angles_to_gps_;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_

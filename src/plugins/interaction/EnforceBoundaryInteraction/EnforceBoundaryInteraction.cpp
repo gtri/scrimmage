@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -40,7 +42,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/Boundary/Boundary.h"
-#include "scrimmage/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.h"
 
 using std::cout;
 using std::endl;
@@ -106,5 +107,6 @@ bool EnforceBoundaryInteraction::step_entity_interaction(
     }
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

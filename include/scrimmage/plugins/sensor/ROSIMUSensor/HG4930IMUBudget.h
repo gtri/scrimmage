@@ -33,6 +33,7 @@
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSIMUSENSOR_HG4930IMUBUDGET_H_
 
 #include <math.h>
+
 #include "scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h"
 
 class HG4930IMUBudget : public IMUErrorBudgetTemplate {

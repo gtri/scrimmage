@@ -30,15 +30,17 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/WaypointDispatcher/WaypointDispatcher.h"
+
 #include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/WaypointDispatcher/WaypointDispatcher.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Publisher.h"
@@ -222,5 +224,6 @@ bool WaypointDispatcher::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -44,6 +44,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     DoubleIntegrator();
@@ -79,6 +80,7 @@ class DoubleIntegrator : public scrimmage::MotionModel {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DOUBLEINTEGRATOR_DOUBLEINTEGRATOR_H_

@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h"
+
 #include <iostream>
 #include <limits>
 
@@ -43,7 +45,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
@@ -98,5 +99,6 @@ void OpenAIRewards::calc_team_scores() {
     }
     csv.close_output();
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

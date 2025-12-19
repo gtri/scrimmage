@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace controller {
+
 class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -55,6 +56,7 @@ class SimpleQuadrotorControllerLQR : public motion::SimpleQuadrotor::Controller 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEQUADROTORCONTROLLERLQR_SIMPLEQUADROTORCONTROLLERLQR_H_

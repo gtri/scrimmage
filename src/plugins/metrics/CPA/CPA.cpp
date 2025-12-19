@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/metrics/CPA/CPA.h"
+
 #include <iostream>
 #include <limits>
 
@@ -43,7 +45,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/metrics/CPA/CPA.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
@@ -115,11 +116,12 @@ bool CPA::step_metrics(double t, double dt) {
 
 void CPA::calc_team_scores() {
     for (auto& kv : cpa_map_) {
-        csv_.append(scrimmage::CSV::Pairs{
-            {"entity", kv.first},
-            {"cpa", kv.second.distance()},
-            {"closest_entity", kv.second.closest_entity()},
-            {"time", kv.second.time()}});
+        csv_.append(
+            scrimmage::CSV::Pairs{
+                {"entity", kv.first},
+                {"cpa", kv.second.distance()},
+                {"closest_entity", kv.second.closest_entity()},
+                {"time", kv.second.time()}});
     }
 }
 
@@ -132,5 +134,6 @@ void CPA::print_team_summaries() {
     }
     cout << sc::generate_chars("-", 70) << endl;
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

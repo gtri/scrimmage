@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/SimpleAircraft/SimpleAircraft.h"
 
 using boost::algorithm::clamp;
 
@@ -150,5 +152,6 @@ void SimpleAircraft::teleport(StatePtr& state) {
     x_[YAW] = state->quat().yaw();
     x_[SPEED] = state->vel()[0];
 }
+
 }  // namespace motion
 }  // namespace scrimmage

@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h"
+
 #include <iostream>
 #include <limits>
 #include <typeinfo>
@@ -40,7 +42,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/autonomy/ArduPilot/PwmState.h"
-#include "scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h"
 #include "scrimmage/plugins/motion/Multirotor/MultirotorState.h"
 
 using std::cout;
@@ -105,5 +106,6 @@ bool MultirotorControllerOmega::step(double t, double dt) {
     }
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

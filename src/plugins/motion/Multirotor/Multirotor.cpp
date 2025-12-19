@@ -30,16 +30,18 @@
  *
  */
 
+#include "scrimmage/plugins/motion/Multirotor/Multirotor.h"
+
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/Multirotor/Multirotor.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -209,7 +211,7 @@ bool Multirotor::step(double time, double dt) {
     force_ext_body_ = state_->quat().rotate_reverse(ext_force_);
     ext_force_ = Eigen::Vector3d::Zero();  // reset ext_force_ member variable
 
-    ode_step(dt);  // step the motion model ODE solver
+    ode_step(dt);                          // step the motion model ODE solver
 
     state_->quat().set(x_[q0], x_[q1], x_[q2], x_[q3]);
     state_->quat().normalize();
@@ -250,30 +252,31 @@ bool Multirotor::step(double time, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-            {"t", time},
-            {"x", x_[Xw]},
-            {"y", x_[Yw]},
-            {"z", x_[Zw]},
-            {"U", x_[U]},
-            {"V", x_[V]},
-            {"W", x_[W]},
-            {"P", x_[P]},
-            {"Q", x_[Q]},
-            {"R", x_[R]},
-            {"AXb", linear_accel_body_(0)},
-            {"AYb", linear_accel_body_(1)},
-            {"AZb", linear_accel_body_(2)},
-            {"WXDOTb", ang_accel_body_(0)},
-            {"WYDOTb", ang_accel_body_(1)},
-            {"WZDOTb", ang_accel_body_(2)},
-            {"roll", state_->quat().roll()},
-            {"pitch", state_->quat().pitch()},
-            {"yaw", state_->quat().yaw()},
-            {"w_1", ctrl_u_(0)},
-            {"w_2", ctrl_u_(1)},
-            {"w_3", ctrl_u_(2)},
-            {"w_4", ctrl_u_(3)}});
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", time},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"AXb", linear_accel_body_(0)},
+                {"AYb", linear_accel_body_(1)},
+                {"AZb", linear_accel_body_(2)},
+                {"WXDOTb", ang_accel_body_(0)},
+                {"WYDOTb", ang_accel_body_(1)},
+                {"WZDOTb", ang_accel_body_(2)},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"w_1", ctrl_u_(0)},
+                {"w_2", ctrl_u_(1)},
+                {"w_3", ctrl_u_(2)},
+                {"w_4", ctrl_u_(3)}});
     }
 
     return true;
@@ -310,7 +313,7 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
 
     // Calculate normal force
     force_ext_body_[2] = force_ext_body_[2] - F_thrust[2];
-    if (force_ext_body_[2] > 0) {  // only true if contacting ground
+    if (force_ext_body_[2] > 0) {                // only true if contacting ground
         force_ext_body_[2] =
             -1.0 * (F_weight[2]) - F_thrust[2];  // correctly calculate normal force
     }
@@ -376,5 +379,6 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[Vw] = acc_world(1);
     dxdt[Ww] = acc_world(2);
 }
+
 }  // namespace motion
 }  // namespace scrimmage

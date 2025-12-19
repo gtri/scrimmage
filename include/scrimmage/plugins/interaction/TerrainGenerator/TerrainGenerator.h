@@ -61,6 +61,7 @@ class TerrainGenerator : public scrimmage::EntityInteraction {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINGENERATOR_H_

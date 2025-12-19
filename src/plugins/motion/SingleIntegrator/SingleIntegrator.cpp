@@ -30,13 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h"
+
 #include <cmath>
 
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h"
 
 REGISTER_PLUGIN(
     scrimmage::MotionModel,

@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/common/PID.h"
+
 #include <algorithm>
 #include <cmath>
 #include <vector>
 
 #include <boost/algorithm/clamp.hpp>
 #include <boost/algorithm/string.hpp>
-#include "scrimmage/common/PID.h"
+
 #include "scrimmage/math/Angles.h"
 
 using boost::algorithm::clamp;
@@ -158,4 +160,5 @@ double PID::step(const double& dt, const double& measurement) {
 
     return enable_output_limits_ ? clamp(u, output_min_, output_max_) : u;
 }
+
 }  // namespace scrimmage

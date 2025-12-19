@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/DirectController/DirectController.h"
+
 #include <iostream>
 #include <limits>
 
@@ -39,7 +41,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/DirectController/DirectController.h"
 
 using std::cout;
 using std::endl;
@@ -71,5 +72,6 @@ bool DirectController::step(double t, double dt) {
     }
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

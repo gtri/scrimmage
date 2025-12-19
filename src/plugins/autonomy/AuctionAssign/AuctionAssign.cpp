@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -41,7 +43,6 @@
 #include "scrimmage/msgs/AuctionMsgs.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Network.h"
 #include "scrimmage/pubsub/Publisher.h"
@@ -139,5 +140,6 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

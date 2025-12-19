@@ -44,10 +44,13 @@
 namespace scrimmage {
 
 namespace interaction {
+
 class BoundaryBase;
+
 }
 
 namespace sensor {
+
 class GPS : public scrimmage::Sensor {
  public:
     GPS();
@@ -63,6 +66,7 @@ class GPS : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_GPS_GPS_H_

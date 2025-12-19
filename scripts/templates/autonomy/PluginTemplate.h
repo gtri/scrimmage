@@ -39,6 +39,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class(>>> PLUGIN_NAME < < <) : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string> & params) override;
@@ -52,6 +53,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::Autonomy {
     uint8_t desired_alt_idx_ = 0;
     uint8_t desired_speed_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

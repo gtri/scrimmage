@@ -37,6 +37,7 @@
 // custom specialization of std::hash can be injected in namespace std
 // see http://en.cppreference.com/w/cpp/utility/hash
 namespace std {
+
 template <>
 struct hash<scrimmage::ID> {
     size_t operator()(scrimmage::ID const& id) const {
@@ -45,6 +46,7 @@ struct hash<scrimmage::ID> {
         return id.team_id() & (id.sub_swarm_id() << 4) & (id.id() << 12);
     }
 };
+
 }  // namespace std
 
 #endif  // INCLUDE_SCRIMMAGE_HASH_H_

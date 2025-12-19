@@ -30,9 +30,9 @@
  *
  */
 
-#include <chrono>  // NOLINT
-
 #include "scrimmage/common/Random.h"
+
+#include <chrono>  // NOLINT
 
 namespace scrimmage {
 

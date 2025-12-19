@@ -68,5 +68,6 @@ class EntityInteraction : public EntityPlugin {
 };
 
 typedef std::shared_ptr<EntityInteraction> EntityInteractionPtr;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_ENTITYINTERACTION_H_

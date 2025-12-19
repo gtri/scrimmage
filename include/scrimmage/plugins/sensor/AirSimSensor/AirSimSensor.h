@@ -41,6 +41,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/mat.hpp>
+
 #include "scrimmage/common/CSV.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/sensor/Sensor.h"
@@ -63,6 +64,7 @@ using ang = scrimmage::Angles;
 
 namespace scrimmage {
 namespace sensor {
+
 class CameraConfig {
  public:
     msr::airlib::ImageCaptureBase::ImageType img_type =
@@ -197,6 +199,7 @@ class AirSimSensor : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_AIRSIMSENSOR_AIRSIMSENSOR_H_

@@ -41,8 +41,10 @@
 #include "scrimmage/pubsub/Subscriber.h"
 
 namespace boost {
+
 template <class T>
 class optional;
+
 }
 
 namespace scrimmage {
@@ -117,6 +119,7 @@ class PubSub {
     void print_str(const std::string& s);
 };
 using PubSubPtr = std::shared_ptr<PubSub>;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PUBSUB_PUBSUB_H_

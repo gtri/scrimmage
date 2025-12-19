@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/ArduPilot/ArduPilot.h"
+
 #include <chrono>
 #include <fstream>
 #include <iomanip>
@@ -40,13 +42,13 @@
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/placeholders.hpp>
 #include <boost/bind/bind.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/ArduPilot/ArduPilot.h"
 #include "scrimmage/sensor/Sensor.h"
 
 using std::cerr;

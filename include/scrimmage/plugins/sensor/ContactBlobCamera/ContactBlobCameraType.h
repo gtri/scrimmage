@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class ContactBlobCameraType {
  public:
     cv::Mat frame;
@@ -59,6 +60,7 @@ class ContactBlobCameraType {
     double pitch;
     double yaw;
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERATYPE_H_

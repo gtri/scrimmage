@@ -36,12 +36,12 @@
 #include <set>
 #include <string>
 
-#include "scrimmage/metrics/Metrics.h"
-
 #include "SimpleCollisionScore.h"
+#include "scrimmage/metrics/Metrics.h"
 
 namespace scrimmage {
 namespace metrics {
+
 class SimpleCollisionMetrics : public scrimmage::Metrics {
  public:
     SimpleCollisionMetrics();
@@ -60,6 +60,7 @@ class SimpleCollisionMetrics : public scrimmage::Metrics {
     bool initialized_ = false;
     std::set<int> teams_;
 };
+
 }  // namespace metrics
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONMETRICS_H_

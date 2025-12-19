@@ -63,6 +63,7 @@ class LocalNetwork : public scrimmage::Network {
  protected:
  private:
 };
+
 }  // namespace network
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_LOCALNETWORK_LOCALNETWORK_H_

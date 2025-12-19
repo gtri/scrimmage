@@ -36,6 +36,7 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/common/Utilities.h"
 
 using Eigen::Vector3d;

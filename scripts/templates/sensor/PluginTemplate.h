@@ -45,6 +45,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class(>>> PLUGIN_NAME < < <) : public scrimmage::Sensor {
  public:
     (>>> PLUGIN_NAME < < <)();
@@ -59,6 +60,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

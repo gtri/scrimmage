@@ -37,6 +37,7 @@
 #include <memory>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/common/Waypoint.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Waypoint.pb.h"
@@ -44,6 +45,7 @@
 namespace scrimmage {
 
 namespace autonomy {
+
 class WaypointListProcessor {
  public:
     enum class Status { Empty, Invalid, Changed, Unchanged };
@@ -69,6 +71,7 @@ class WaypointListProcessor {
 
     std::list<Waypoint>::iterator next_waypoint(const std::list<Waypoint>::iterator& it_wp);
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_WAYPOINTLISTPROCESSOR_H_

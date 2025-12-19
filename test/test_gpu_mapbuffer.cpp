@@ -35,6 +35,7 @@
 
 #include <CL/opencl.hpp>
 #include <gtest/gtest.h>
+
 #include "scrimmage/gpu/GPUMapBuffer.h"
 
 namespace sc = scrimmage;

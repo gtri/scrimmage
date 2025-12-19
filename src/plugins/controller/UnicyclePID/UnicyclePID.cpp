@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h"
+
 #include <iostream>
 #include <limits>
 
@@ -39,7 +41,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/UnicyclePID/UnicyclePID.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -140,5 +141,6 @@ bool UnicyclePID::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

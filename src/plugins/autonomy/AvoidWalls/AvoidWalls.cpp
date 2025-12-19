@@ -30,11 +30,12 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h"
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/AvoidWalls/AvoidWalls.h"
 #include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
@@ -115,5 +116,6 @@ bool AvoidWalls::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

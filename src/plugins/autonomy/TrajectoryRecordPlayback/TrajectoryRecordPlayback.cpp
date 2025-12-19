@@ -29,15 +29,16 @@
  * A Long description goes here.
  *
  */
+#include "scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h"
+
 #include <iostream>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h>
-#include <scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryRecordPlayback.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h"
 
 using std::cout;
 using std::endl;
@@ -117,27 +118,28 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
             parent_->autonomies().rend(),
             [&](auto autonomy) { return autonomy->get_is_controlling(); });
 
-        csv_.append(sc::CSV::Pairs{
-            {"t", t},
-            {"x", state_->pos()(0)},
-            {"y", state_->pos()(1)},
-            {"z", state_->pos()(2)},
-            {"vx", state_->vel()(0)},
-            {"vy", state_->vel()(1)},
-            {"vz", state_->vel()(2)},
-            {"roll", state_->quat().roll()},
-            {"pitch", state_->quat().pitch()},
-            {"yaw", state_->quat().yaw()},
-            {"x_d", (*(*it)->desired_state()).pos()(0)},
-            {"y_d", (*(*it)->desired_state()).pos()(1)},
-            {"z_d", (*(*it)->desired_state()).pos()(2)},
-            {"vx_d", (*(*it)->desired_state()).vel()(0)},
-            {"vy_d", (*(*it)->desired_state()).vel()(1)},
-            {"vz_d", (*(*it)->desired_state()).vel()(2)},
-            {"roll_d", (*(*it)->desired_state()).quat().roll()},
-            {"pitch_d", (*(*it)->desired_state()).quat().pitch()},
-            {"yaw_d", (*(*it)->desired_state()).quat().yaw()},
-        });
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", t},
+                {"x", state_->pos()(0)},
+                {"y", state_->pos()(1)},
+                {"z", state_->pos()(2)},
+                {"vx", state_->vel()(0)},
+                {"vy", state_->vel()(1)},
+                {"vz", state_->vel()(2)},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"x_d", (*(*it)->desired_state()).pos()(0)},
+                {"y_d", (*(*it)->desired_state()).pos()(1)},
+                {"z_d", (*(*it)->desired_state()).pos()(2)},
+                {"vx_d", (*(*it)->desired_state()).vel()(0)},
+                {"vy_d", (*(*it)->desired_state()).vel()(1)},
+                {"vz_d", (*(*it)->desired_state()).vel()(2)},
+                {"roll_d", (*(*it)->desired_state()).quat().roll()},
+                {"pitch_d", (*(*it)->desired_state()).quat().pitch()},
+                {"yaw_d", (*(*it)->desired_state()).quat().yaw()},
+            });
 
         return true;
     }
@@ -160,5 +162,6 @@ bool TrajectoryRecordPlayback::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

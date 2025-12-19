@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h"
+
 #include <iostream>
 #include <limits>
 
@@ -39,7 +41,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/UUV6DOFPIDController/UUV6DOFPIDController.h"
 
 using std::cout;
 using std::endl;
@@ -104,5 +105,6 @@ bool UUV6DOFPIDController::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

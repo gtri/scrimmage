@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -39,7 +41,6 @@
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h"
 
 using std::cout;
 using std::endl;
@@ -109,5 +110,6 @@ bool ROSShapeViz::step_entity_interaction(std::list<sc::EntityPtr>& ents, double
     ros::spinOnce();
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

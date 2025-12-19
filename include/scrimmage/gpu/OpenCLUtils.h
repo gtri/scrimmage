@@ -38,6 +38,7 @@ std::optional<std::size_t> cacheline_size(const cl::Device& device);
 
 extern const std::map<cl_int, std::string> CL_ERROR_MESSAGES;
 #endif
+
 }  // namespace OpenCLUtils
 }  // namespace scrimmage
 

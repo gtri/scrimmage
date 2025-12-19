@@ -30,11 +30,12 @@
  *
  */
 
+#include "scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h"
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -69,5 +70,6 @@ bool SimpleCarControllerHeading::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

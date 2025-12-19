@@ -43,6 +43,7 @@
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
+
 class BehaviorBase : public scrimmage::Autonomy {
  public:
     BehaviorBase();
@@ -67,6 +68,7 @@ class BehaviorBase : public scrimmage::Autonomy {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 using BehaviorBasePtr = std::shared_ptr<BehaviorBase>;
+
 }  // namespace motor_schemas
 }  // namespace autonomy
 }  // namespace scrimmage

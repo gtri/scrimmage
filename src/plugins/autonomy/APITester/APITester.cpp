@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/APITester/APITester.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/APITester/APITester.h"
 
 using std::cout;
 using std::endl;
@@ -51,11 +52,12 @@ namespace scrimmage {
 namespace autonomy {
 
 void APITester::write_my_test_values() {
-    csv_.append(CSV::Pairs{
-        {"my_test_bool", my_test_bool_},
-        {"my_test_int", my_test_int_},
-        {"my_test_float", my_test_float_},
-        {"my_test_double", my_test_double_}});
+    csv_.append(
+        CSV::Pairs{
+            {"my_test_bool", my_test_bool_},
+            {"my_test_int", my_test_int_},
+            {"my_test_float", my_test_float_},
+            {"my_test_double", my_test_double_}});
 }
 
 void APITester::init(std::map<std::string, std::string>& params) {
@@ -98,5 +100,6 @@ void APITester::init(std::map<std::string, std::string>& params) {
 bool APITester::step_autonomy(double t, double dt) {
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

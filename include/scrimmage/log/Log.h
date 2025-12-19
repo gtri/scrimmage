@@ -41,24 +41,30 @@
 #include <string>
 
 #include <google/protobuf/io/zero_copy_stream_impl.h>
+
 #include "scrimmage/log/Frame.h"
 
 namespace google {
 namespace protobuf {
+
 class MessageLite;
 namespace io {
+
 class ZeroCopyInputStream;
 class ZeroCopyOutputStream;
 class FileOutputStreamPtr;
+
 }  // namespace io
 }  // namespace protobuf
 }  // namespace google
 
 namespace scrimmage_proto {
+
 class Frame;
 class Shapes;
 class UTMTerrain;
 class ContactVisual;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {
@@ -201,5 +207,6 @@ class Log {
         return true;
     }
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_LOG_LOG_H_

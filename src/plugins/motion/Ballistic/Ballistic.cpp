@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/motion/Ballistic/Ballistic.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/Ballistic/Ballistic.h"
 
 namespace sc = scrimmage;
 
@@ -105,5 +107,6 @@ void Ballistic::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[Y_acc] = 0;
     dxdt[Z_acc] = -mass_ * g_;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

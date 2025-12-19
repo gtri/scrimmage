@@ -43,10 +43,12 @@
 #include <boost/graph/graphviz.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_map/property_map.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 
 namespace scrimmage {
 namespace autonomy {
+
 class GraphvizFSM : public scrimmage::Autonomy {
  public:
     struct DotVertex {
@@ -87,6 +89,7 @@ class GraphvizFSM : public scrimmage::Autonomy {
 
     bool print_current_state_ = false;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GRAPHVIZFSM_GRAPHVIZFSM_H_

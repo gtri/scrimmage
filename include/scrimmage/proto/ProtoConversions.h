@@ -40,6 +40,7 @@
 #include <vector>
 
 namespace scrimmage_proto {
+
 class Contact;
 class Vector3d;
 
@@ -52,6 +53,7 @@ class Color;
 class State;
 class Frame;
 class Line;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {

@@ -71,6 +71,7 @@ class UnicyclePID : public scrimmage::Controller {
 
     bool use_accel_ = false;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UNICYCLEPID_UNICYCLEPID_H_

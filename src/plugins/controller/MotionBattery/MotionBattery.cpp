@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/MotionBattery/MotionBattery.h"
+
 #include <iostream>
 #include <limits>
 
@@ -40,7 +42,6 @@
 #include "scrimmage/msgs/Battery.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/MotionBattery/MotionBattery.h"
 #include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;

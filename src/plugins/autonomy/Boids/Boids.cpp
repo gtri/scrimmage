@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/Boids/Boids.h"
+
 #include <vector>
 
 #include "scrimmage/common/RTree.h"
@@ -39,7 +41,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/Boids/Boids.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -270,5 +271,6 @@ void Boids::velocity_controller(Eigen::Vector3d& v) {
     vars_.output(io_vel_y_idx_, v(1));
     vars_.output(io_vel_z_idx_, v(2));
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

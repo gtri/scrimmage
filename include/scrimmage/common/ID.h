@@ -36,6 +36,7 @@
 #include <iosfwd>
 
 namespace scrimmage {
+
 class ID {
  public:
     ID();
@@ -60,6 +61,7 @@ class ID {
     int sub_swarm_id_;
     int team_id_;
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_COMMON_ID_H_

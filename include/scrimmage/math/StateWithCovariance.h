@@ -38,6 +38,7 @@
 #include "scrimmage/math/State.h"
 
 namespace scrimmage {
+
 class StateWithCovariance : public scrimmage::State {
  public:
     StateWithCovariance();
@@ -58,5 +59,6 @@ class StateWithCovariance : public scrimmage::State {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 using StateWithCovariancePtr = std::shared_ptr<StateWithCovariance>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_MATH_STATEWITHCOVARIANCE_H_

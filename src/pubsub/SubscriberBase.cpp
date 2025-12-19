@@ -30,12 +30,13 @@
  *
  */
 
+#include "scrimmage/pubsub/SubscriberBase.h"
+
 #include <iomanip>
 #include <iostream>
 
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/entity/EntityPlugin.h"
-#include "scrimmage/pubsub/SubscriberBase.h"
 
 namespace scrimmage {
 
@@ -47,4 +48,5 @@ void SubscriberBase::print_err(const std::string& type, MessageBasePtr msg) cons
         std::cout << msg->debug_info << std::endl;
     }
 }
+
 }  // namespace scrimmage

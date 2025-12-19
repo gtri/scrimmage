@@ -42,6 +42,7 @@ namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace motion {
+
 class Rotor {
  public:
     enum Direction { CW = 1, CCW = -1 };
@@ -79,6 +80,7 @@ class Rotor {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_ROTOR_H_

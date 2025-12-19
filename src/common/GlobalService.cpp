@@ -29,10 +29,10 @@
  *
  */
 
+#include "scrimmage/common/GlobalService.h"
+
 #include <algorithm>
 #include <string>
-
-#include "scrimmage/common/GlobalService.h"
 
 namespace scrimmage {
 
@@ -75,4 +75,5 @@ bool GlobalService::call_service(
         return true;
     }
 }
+
 }  // namespace scrimmage

@@ -30,10 +30,13 @@
  *
  */
 
+#include "scrimmage/plugins/network/SphereNetwork/SphereNetwork.h"
+
 #include <iostream>
 #include <vector>
 
 #include <boost/range/adaptor/map.hpp>
+
 #include "scrimmage/common/ID.h"
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Random.h"
@@ -42,7 +45,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/network/SphereNetwork/SphereNetwork.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"

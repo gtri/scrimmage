@@ -53,8 +53,10 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 #include <tuple>
 
 namespace scrimmage {
+
 class State;
 using StatePtr = std::shared_ptr<State>;
+
 }  // namespace scrimmage
 
 namespace scrimmage {
@@ -123,6 +125,7 @@ class JSBSimModel : public MotionModel {
 
     bool fg_out_enable_ = false;
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_

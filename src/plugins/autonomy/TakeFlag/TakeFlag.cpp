@@ -30,17 +30,19 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/TakeFlag/TakeFlag.h"
+
 #include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/common/Waypoint.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Capture.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/TakeFlag/TakeFlag.h"
 #include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h"
 #include "scrimmage/plugins/interaction/Boundary/Boundary.h"
 #include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"

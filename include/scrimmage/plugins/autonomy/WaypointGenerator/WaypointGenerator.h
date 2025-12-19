@@ -42,6 +42,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class WaypointGenerator : public scrimmage::Autonomy {
  public:
     WaypointGenerator();
@@ -60,6 +61,7 @@ class WaypointGenerator : public scrimmage::Autonomy {
     uint8_t position_y_idx_ = 0;
     uint8_t position_z_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTGENERATOR_H_

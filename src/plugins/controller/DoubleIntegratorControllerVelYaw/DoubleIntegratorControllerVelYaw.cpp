@@ -30,13 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h"
+
 #include <iostream>
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h"
 using std::cout;
 using std::endl;
 
@@ -97,5 +98,6 @@ bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

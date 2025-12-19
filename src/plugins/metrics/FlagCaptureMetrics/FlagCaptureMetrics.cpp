@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h"
+
 #include <iostream>
 #include <limits>
 
@@ -42,7 +44,6 @@
 #include "scrimmage/msgs/Event.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
@@ -121,5 +122,6 @@ void FlagCaptureMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

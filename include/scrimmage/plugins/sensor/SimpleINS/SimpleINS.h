@@ -44,6 +44,7 @@
 namespace scrimmage {
 
 namespace sensor {
+
 class SimpleINS : public scrimmage::Sensor {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -75,6 +76,7 @@ class SimpleINS : public scrimmage::Sensor {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_SIMPLEINS_SIMPLEINS_H_

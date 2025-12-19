@@ -30,10 +30,13 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h"
+
 #include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/common/VariableIO.h"
 #include "scrimmage/common/Waypoint.h"
 #include "scrimmage/entity/Entity.h"
@@ -41,7 +44,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointGenerator.h"
 #include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
@@ -183,5 +185,6 @@ void WaypointGenerator::draw_waypoints(WaypointList& wp_list) {
         draw_shape(sphere);
     }
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

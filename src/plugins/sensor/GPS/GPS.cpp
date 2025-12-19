@@ -30,7 +30,10 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/GPS/GPS.h"
+
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
@@ -40,7 +43,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/Boundary/Boundary.h"
 #include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
-#include "scrimmage/plugins/sensor/GPS/GPS.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -111,5 +113,6 @@ bool GPS::step() {
 
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

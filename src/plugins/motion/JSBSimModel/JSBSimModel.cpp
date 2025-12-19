@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h"
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/common/VariableIO.h"
 #include "scrimmage/entity/Entity.h"
@@ -39,7 +41,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h"
-#include "scrimmage/plugins/motion/JSBSimModel/JSBSimModel.h"
 
 // c system
 #include <JSBSim/initialization/FGTrim.h>
@@ -298,5 +299,6 @@ void JSBSimModel::teleport(StatePtr& state) {
     exec_->Setdt(dt_);
     exec_->Run();
 }
+
 }  // namespace motion
 }  // namespace scrimmage

@@ -41,6 +41,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class JoystickAutonomy : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -49,6 +50,7 @@ class JoystickAutonomy : public scrimmage::Autonomy {
  protected:
     scrimmage::controller::Joystick joystick_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_JOYSTICKAUTONOMY_JOYSTICKAUTONOMY_H_

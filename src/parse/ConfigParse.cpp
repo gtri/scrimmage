@@ -30,13 +30,14 @@
  *
  */
 
+#include "scrimmage/parse/ConfigParse.h"
+
 #include <fstream>
 #include <iostream>
 #include <vector>
 
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
-#include "scrimmage/parse/ConfigParse.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -201,4 +202,5 @@ std::ostream& operator<<(std::ostream& os, ConfigParse& cp) {
     }
     return os;
 }
+
 }  // namespace scrimmage

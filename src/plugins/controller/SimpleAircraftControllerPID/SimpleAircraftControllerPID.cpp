@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h"
+
 #include <boost/algorithm/string.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/SimpleAircraftControllerPID/SimpleAircraftControllerPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -86,14 +88,16 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
     double u_pitch_rate =
-        use_glide_slope_ ? alt_pid_.step(
-            dt,
-            atan(
-                parent()->state_belief()->vel()(2)
-                / sqrt(
-                    parent()->state_belief()->vel()(0) * parent()->state_belief()->vel()(0)
-                    + parent()->state_belief()->vel()(1) * parent()->state_belief()->vel()(1))))
-                         : -alt_pid_.step(dt, parent()->state_belief()->pos()(2));
+        use_glide_slope_
+            ? alt_pid_.step(
+                  dt,
+                  atan(
+                      parent()->state_belief()->vel()(2)
+                      / sqrt(
+                          parent()->state_belief()->vel()(0) * parent()->state_belief()->vel()(0)
+                          + parent()->state_belief()->vel()(1)
+                                * parent()->state_belief()->vel()(1))))
+            : -alt_pid_.step(dt, parent()->state_belief()->pos()(2));
 
     vel_pid_.set_setpoint(vars_.input(input_velocity_idx_));
     double u_throttle = vel_pid_.step(dt, parent()->state_belief()->vel().norm());
@@ -103,5 +107,6 @@ bool SimpleAircraftControllerPID::step(double t, double dt) {
     vars_.output(output_throttle_idx_, u_throttle);
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

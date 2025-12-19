@@ -77,6 +77,7 @@ class Sensor : public EntityPlugin {
 };
 
 using SensorPtr = std::shared_ptr<Sensor>;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SENSOR_SENSOR_H_

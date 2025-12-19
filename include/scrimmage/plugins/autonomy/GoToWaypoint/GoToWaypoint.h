@@ -41,6 +41,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class GoToWaypoint : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -53,6 +54,7 @@ class GoToWaypoint : public scrimmage::Autonomy {
     std::vector<std::string> waypoint_;
     scrimmage::PublisherPtr waypoint_list_pub_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_GOTOWAYPOINT_GOTOWAYPOINT_H_

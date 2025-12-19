@@ -188,6 +188,7 @@ class Polyhedron : public BoundaryBase {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_POLYHEDRON_H_

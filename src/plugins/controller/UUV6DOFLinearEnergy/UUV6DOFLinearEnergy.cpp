@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/UUV6DOFLinearEnergy/UUV6DOFLinearEnergy.h"
 
 using std::cout;
 using std::endl;
@@ -81,5 +82,6 @@ bool UUV6DOFLinearEnergy::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

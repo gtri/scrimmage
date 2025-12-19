@@ -45,6 +45,7 @@
 #endif
 
 namespace scrimmage {
+
 class GPUPluginBuildParams;
 
 class GPUMotionModel {
@@ -64,5 +65,6 @@ class GPUMotionModel {
         const std::map<std::string, GPUPluginBuildParams>& build_params);
 #endif
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_GPU_GPUMOTIONMODEL_H_

@@ -30,8 +30,8 @@
  *
  */
 
-#include <cmath>
-
 #include "scrimmage/pubsub/MessageBase.h"
+
+#include <cmath>
 
 namespace scrimmage {}  // namespace scrimmage

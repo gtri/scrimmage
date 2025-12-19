@@ -222,6 +222,7 @@ class GPUMapBuffer {
         return (1 + ((bytes - 1) / buffer_alignment_)) * buffer_alignment_;
     }
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_GPU_GPUBUFFER_H

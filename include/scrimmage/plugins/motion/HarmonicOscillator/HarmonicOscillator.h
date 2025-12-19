@@ -38,6 +38,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class HarmonicOscillator : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
@@ -53,6 +54,7 @@ class HarmonicOscillator : public scrimmage::MotionModel {
 
  private:
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_HARMONICOSCILLATOR_HARMONICOSCILLATOR_H_

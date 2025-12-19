@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/network/LocalNetwork/LocalNetwork.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -41,7 +43,6 @@
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/network/LocalNetwork/LocalNetwork.h"
 #include "scrimmage/plugins/network/SphereNetwork/SphereNetwork.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"

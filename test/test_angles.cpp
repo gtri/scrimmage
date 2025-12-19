@@ -33,6 +33,7 @@
 #include <cmath>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/Angles.h"
 

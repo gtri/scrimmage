@@ -30,12 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/motion/SimpleCar/SimpleCar.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/SimpleCar/SimpleCar.h"
 
 using boost::algorithm::clamp;
 
@@ -127,5 +129,6 @@ void SimpleCar::model(const vector_t& x, vector_t& dxdt, double t) {
         dxdt[Z] = 0;
     }
 }
+
 }  // namespace motion
 }  // namespace scrimmage

@@ -30,12 +30,13 @@
  *
  */
 
+#include "scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h"
+
 #include <iostream>
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -76,5 +77,6 @@ bool DoubleIntegratorControllerWaypoint::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

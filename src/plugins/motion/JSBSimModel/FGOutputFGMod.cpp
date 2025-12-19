@@ -30,9 +30,10 @@
  *
  */
 
+#include "scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h"
+
 #include <algorithm>
 
-#include "scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -166,14 +167,14 @@ void FGOutputFGMod::SocketDataFillMod(void) {
 
     net1->altitude = Propagate->GetAltitudeASL() * 0.3048;  // altitude, above sea level (meters)
     net1->agl = static_cast<float>(
-        Propagate->GetDistanceAGL() * 0.3048);  // altitude, above ground level (meters)
+        Propagate->GetDistanceAGL() * 0.3048);              // altitude, above ground level (meters)
 
     net1->phi = static_cast<float>(Propagate->GetEuler(ePhi));    // roll (radians)
     net1->theta = static_cast<float>(Propagate->GetEuler(eTht));  // pitch (radians)
     net1->psi = static_cast<float>(Propagate->GetEuler(ePsi));    // yaw or true heading (radians)
 
-    net1->alpha = static_cast<float>(Auxiliary->Getalpha());  // angle of attack (radians)
-    net1->beta = static_cast<float>(Auxiliary->Getbeta());    // side slip angle (radians)
+    net1->alpha = static_cast<float>(Auxiliary->Getalpha());      // angle of attack (radians)
+    net1->beta = static_cast<float>(Auxiliary->Getbeta());        // side slip angle (radians)
 
     // Velocities
     net1->phidot = static_cast<float>(Auxiliary->GetEulerRates(ePhi));  // roll rate (radians/sec)
@@ -272,7 +273,7 @@ void FGOutputFGMod::SocketDataFillMod(void) {
     net3->visibility = 25000.0;  // visibility in meters (for env. effects)
 
     // Control surface positions (normalized values)
-    net3->elevator = static_cast<float>(FCS->GetDePos(ofNorm));  // Norm Elevator Pos, --
+    net3->elevator = static_cast<float>(FCS->GetDePos(ofNorm));        // Norm Elevator Pos, --
     net3->elevator_trim_tab =
         static_cast<float>(FCS->GetPitchTrimCmd());                    // Norm Elev Trim Tab Pos, --
     net3->left_flap = static_cast<float>(FCS->GetDfPos(ofNorm));       // Norm Flap Pos, --
@@ -359,4 +360,5 @@ void FGOutputFGMod::SocketDataFillMod(void) {
         htonf(net3->spoilers);
     }
 }
+
 }  // namespace JSBSim

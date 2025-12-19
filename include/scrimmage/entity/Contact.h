@@ -42,8 +42,10 @@
 #include "scrimmage/pubsub/Message.h"
 
 namespace scrimmage_proto {
+
 class ContactVisual;
 using ContactVisualPtr = std::shared_ptr<scrimmage_proto::ContactVisual>;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {
@@ -113,5 +115,6 @@ class Contact {
 
 using ContactMap = std::unordered_map<int, Contact>;
 using ContactMapPtr = std::shared_ptr<ContactMap>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_CONTACT_H_

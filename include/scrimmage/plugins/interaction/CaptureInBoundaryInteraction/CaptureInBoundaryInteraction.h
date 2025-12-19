@@ -71,6 +71,7 @@ class CaptureInBoundaryInteraction : public scrimmage::EntityInteraction {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_CAPTUREINBOUNDARYINTERACTION_CAPTUREINBOUNDARYINTERACTION_H_

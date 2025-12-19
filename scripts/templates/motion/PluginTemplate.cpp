@@ -109,5 +109,6 @@ void(>>> PLUGIN_NAME < < <)::model(const vector_t& x, vector_t& dxdt, double t) 
     dxdt[YAW] = turn_rate_;
     dxdt[PITCH] = pitch_rate_;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

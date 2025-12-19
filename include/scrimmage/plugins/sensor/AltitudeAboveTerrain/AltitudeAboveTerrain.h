@@ -47,6 +47,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class AltitudeAboveTerrain : public scrimmage::Sensor {
  public:
     AltitudeAboveTerrain();
@@ -62,6 +63,7 @@ class AltitudeAboveTerrain : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ALTITUDEABOVETERRAIN_ALTITUDEABOVETERRAIN_H_

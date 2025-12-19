@@ -30,10 +30,12 @@
  *
  */
 
+#include "scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -63,5 +65,6 @@ bool JSBSimModelControllerDirect::step(double t, double dt) {
     vars_.output(input_alt_or_pitch_idx_, vars_.input(input_alt_or_pitch_idx_));
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

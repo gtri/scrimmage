@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h"
+
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/JSBSimControlControllerHeadingPID/JSBSimControlControllerHeadingPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -96,5 +98,6 @@ bool JSBSimControlControllerHeadingPID::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

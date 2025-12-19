@@ -52,6 +52,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
 #include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h"
 #endif
 
@@ -297,5 +298,6 @@ bool Straight::step_autonomy(double t, double dt) {
     noisy_state_set_ = false;
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

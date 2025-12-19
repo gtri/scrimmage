@@ -58,5 +58,6 @@ void(>>> PLUGIN_NAME < < <)::init(std::map<std::string, std::string>& params) {}
 bool(>>> PLUGIN_NAME < < <)::step(double t, double dt) {
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

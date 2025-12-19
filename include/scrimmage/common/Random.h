@@ -68,6 +68,7 @@ class Random {
 };
 
 typedef std::shared_ptr<Random> RandomPtr;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_COMMON_RANDOM_H_

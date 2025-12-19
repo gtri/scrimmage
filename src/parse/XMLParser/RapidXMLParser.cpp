@@ -30,6 +30,8 @@
  * similar to RapidXML interface
  */
 
+#include "scrimmage/parse/XMLParser/RapidXMLParser.h"
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -37,7 +39,6 @@
 #include <vector>
 
 #include <rapidxml/rapidxml.hpp>
-#include "scrimmage/parse/XMLParser/RapidXMLParser.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

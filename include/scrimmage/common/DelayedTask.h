@@ -64,5 +64,6 @@ class DelayedTask {
     bool repeat_infinitely_;
     int repeats_left_;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_DELAYEDTASK_H_

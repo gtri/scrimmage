@@ -39,6 +39,7 @@
 #include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {
+
 class SubscriberBase : public NetworkDevice {
  public:
     SubscriberBase() = default;
@@ -55,5 +56,6 @@ class SubscriberBase : public NetworkDevice {
 };
 
 using SubscriberBasePtr = std::shared_ptr<SubscriberBase>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBERBASE_H_

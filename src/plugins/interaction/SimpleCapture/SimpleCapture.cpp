@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h"
+
 #include <limits>
 #include <memory>
 
@@ -39,7 +41,6 @@
 #include "scrimmage/msgs/Capture.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/SimpleCapture/SimpleCapture.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
@@ -109,5 +110,6 @@ bool SimpleCapture::init(
 bool SimpleCapture::step_entity_interaction(std::list<sc::EntityPtr>& ents, double t, double dt) {
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

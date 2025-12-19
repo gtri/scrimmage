@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/plugins/motion/Unicycle/Unicycle.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/Unicycle/Unicycle.h"
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle, Unicycle_plugin)
 
@@ -134,5 +136,6 @@ void Unicycle::model(const vector_t& x, vector_t& dxdt, double t) {
         dxdt[Z] = velocity_z_;
     }
 }
+
 }  // namespace motion
 }  // namespace scrimmage

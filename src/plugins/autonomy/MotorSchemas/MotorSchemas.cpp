@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h"
+
 #include <Eigen/Geometry>
 #include <cfloat>
 #include <cmath>
@@ -38,6 +40,7 @@
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
+
 #include "scrimmage/common/ParameterServer.h"
 #include "scrimmage/common/Shape.h"
 #include "scrimmage/common/Time.h"
@@ -51,7 +54,6 @@
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
-#include "scrimmage/plugins/autonomy/MotorSchemas/MotorSchemas.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -256,5 +258,6 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
     }
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -63,6 +63,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::Network {
  protected:
  private:
 };
+
 }  // namespace network
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

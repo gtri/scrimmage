@@ -85,11 +85,11 @@ class Cuboid : public BoundaryBase {
 
     explicit Cuboid(const scrimmage_proto::Shape& shape)
         : Cuboid(
-            proto_2_vector3d(shape.cuboid().center()),
-            shape.cuboid().x_length(),
-            shape.cuboid().y_length(),
-            shape.cuboid().z_length(),
-            sc::proto_2_quat(shape.cuboid().quat())) {
+              proto_2_vector3d(shape.cuboid().center()),
+              shape.cuboid().x_length(),
+              shape.cuboid().y_length(),
+              shape.cuboid().z_length(),
+              sc::proto_2_quat(shape.cuboid().quat())) {
         set_visual(shape.color().r(), shape.color().g(), shape.color().b(), shape.opacity());
     }
 

@@ -36,6 +36,7 @@
 #include <CL/opencl.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include "scrimmage/gpu/GPUController.h"
 #include "scrimmage/gpu/GPUMapBuffer.h"
 #include "scrimmage/math/State.h"

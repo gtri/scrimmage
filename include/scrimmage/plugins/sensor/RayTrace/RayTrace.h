@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class RayTrace : public scrimmage::Sensor {
  public:
     class PCPoint {
@@ -128,6 +129,7 @@ class RayTrace : public scrimmage::Sensor {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_RAYTRACE_RAYTRACE_H_

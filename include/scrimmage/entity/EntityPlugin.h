@@ -48,8 +48,10 @@
 #include "scrimmage/pubsub/Subscriber.h"
 
 namespace scrimmage_proto {
+
 class Shape;
 using ShapePtr = std::shared_ptr<Shape>;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {
@@ -208,5 +210,6 @@ class EntityPlugin : public Plugin {
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 using EntityPluginPtr = std::shared_ptr<EntityPlugin>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGIN_H_

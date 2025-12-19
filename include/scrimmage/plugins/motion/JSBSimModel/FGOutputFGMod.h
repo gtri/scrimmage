@@ -35,6 +35,7 @@
 #include <input_output/FGOutputFG.h>
 
 namespace JSBSim {
+
 class FGOutputFGMod : public FGOutputFG {
  public:
     /// Constructor
@@ -60,5 +61,6 @@ class FGOutputFGMod : public FGOutputFG {
     void SocketDataFillMod(void);
     void PacketInit(FGPacketVersion version);
 };
+
 }  // namespace JSBSim
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_FGOUTPUTFGMOD_H_

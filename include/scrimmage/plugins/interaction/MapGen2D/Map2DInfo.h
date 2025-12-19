@@ -39,6 +39,7 @@
 
 namespace scrimmage {
 namespace interaction {
+
 class Map2DInfo {
  public:
     cv::Mat img;
@@ -49,6 +50,7 @@ class Map2DInfo {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_MAPGEN2D_MAP2DINFO_H_

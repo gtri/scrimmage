@@ -38,8 +38,10 @@
 #include <vector>
 
 namespace rapidxml {
+
 template <class T>
 class xml_node;
+
 }
 
 namespace scrimmage {
@@ -76,5 +78,6 @@ class ConfigParse {
         std::map<std::string, std::string>& params,
         const std::string& prev);
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PARSE_CONFIGPARSE_H_

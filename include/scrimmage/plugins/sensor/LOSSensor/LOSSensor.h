@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class LOSSensor : public RayTrace {
  public:
     LOSSensor();
@@ -78,6 +79,7 @@ class LOSSensor : public RayTrace {
     // The output
     PublisherPtr los_pub_;
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_LOSSENSOR_LOSSENSOR_H_

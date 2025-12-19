@@ -39,10 +39,12 @@
 
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
+
 #include "scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h"
 
 namespace scrimmage {
 namespace controller {
+
 class FixedWing6DOFControllerROS : public Controller {
  public:
     virtual void init(std::map<std::string, std::string>& params);
@@ -64,6 +66,7 @@ class FixedWing6DOFControllerROS : public Controller {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_FIXEDWING6DOFCONTROLLERROS_FIXEDWING6DOFCONTROLLERROS_H_

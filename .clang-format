@@ -1,7 +1,9 @@
-# For use with clang-format version 14
+# based on clang-format version 21
 BasedOnStyle: Google
-AlignTrailingComments: true
-SeparateDefinitionBlocks: Leave
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+WrapNamespaceBodyWithEmptyLines: Always
 IndentWidth: 4
 AccessModifierOffset: -3
 ColumnLimit: 100
@@ -61,6 +63,10 @@ BraceWrapping:
   BeforeLambdaBody: false
   BeforeWhile: false
   AfterObjCDeclaration: false
-KeepEmptyLinesAtTheStartOfBlocks: true
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: true
+  AtStartOfFile: false
+
 PenaltyReturnTypeOnItsOwnLine: 5000
 PenaltyIndentedWhitespace: 0

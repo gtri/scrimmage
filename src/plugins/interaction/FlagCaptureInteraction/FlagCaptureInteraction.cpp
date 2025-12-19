@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/FlagCaptureInteraction/FlagCaptureInteraction.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -41,7 +43,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/Boundary/Boundary.h"
-#include "scrimmage/plugins/interaction/FlagCaptureInteraction/FlagCaptureInteraction.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
@@ -135,5 +136,6 @@ bool FlagCaptureInteraction::step_entity_interaction(
     }
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

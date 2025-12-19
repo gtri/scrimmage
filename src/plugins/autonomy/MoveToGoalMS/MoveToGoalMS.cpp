@@ -30,17 +30,19 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/MoveToGoalMS/MoveToGoalMS.h"
+
 #include <cmath>
 #include <iostream>
 #include <limits>
 #include <list>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/MoveToGoalMS/MoveToGoalMS.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -114,6 +116,7 @@ bool MoveToGoalMS::step_autonomy(double t, double dt) {
     desired_vector_ = (wp_local_ - state_->pos()).normalized() * speed_factor;
     return true;
 }
+
 }  // namespace motor_schemas
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -30,10 +30,10 @@
  *
  */
 
+#include "scrimmage/common/ExponentialFilter.h"
+
 #include <cmath>
 #include <limits>
-
-#include "scrimmage/common/ExponentialFilter.h"
 
 namespace scrimmage {
 

@@ -36,6 +36,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class RigidBody6DOFBase : public scrimmage::MotionModel {
  public:
     RigidBody6DOFBase()
@@ -66,6 +67,7 @@ class RigidBody6DOFBase : public scrimmage::MotionModel {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_

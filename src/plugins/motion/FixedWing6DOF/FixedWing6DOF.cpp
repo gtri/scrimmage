@@ -30,11 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h"
+
 #include <Eigen/Dense>
 #include <iomanip>
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
@@ -42,7 +45,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/FixedWing6DOF/FixedWing6DOF.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -190,11 +192,12 @@ bool FixedWing6DOF::init(
                     + std::to_string(parent_->id().id()) + "-states.csv"
              << endl;
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t",     "x",         "y",           "z",           "U",           "V",     "W",
-            "alpha", "alpha_dot", "beta",        "P",           "Q",           "R",     "Ax_b",
-            "Ay_b",  "Az_b",      "AngAccelx_b", "AngAccely_b", "AngAccelz_b", "roll",  "pitch",
-            "yaw",   "throttle",  "thrust",      "elevator",    "aileron",     "rudder"});
+        csv_.set_column_headers(
+            sc::CSV::Headers{
+                "t",     "x",         "y",           "z",           "U",           "V",     "W",
+                "alpha", "alpha_dot", "beta",        "P",           "Q",           "R",     "Ax_b",
+                "Ay_b",  "Az_b",      "AngAccelx_b", "AngAccely_b", "AngAccelz_b", "roll",  "pitch",
+                "yaw",   "throttle",  "thrust",      "elevator",    "aileron",     "rudder"});
     }
 
     rho_ = sc::get<double>("air_density", params, rho_);  // air density
@@ -417,34 +420,35 @@ bool FixedWing6DOF::step(double time, double dt) {
     if (write_csv_) {
         double beta = atan2(x_[V], x_[U]);  // side slip
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-            {"t", time},
-            {"x", x_[Xw]},
-            {"y", x_[Yw]},
-            {"z", x_[Zw]},
-            {"U", x_[U]},
-            {"V", x_[V]},
-            {"W", x_[W]},
-            {"alpha", alpha_},
-            {"alpha_dot", alpha_dot_},
-            {"beta", beta},
-            {"P", x_[P]},
-            {"Q", x_[Q]},
-            {"R", x_[R]},
-            {"Ax_b", linear_accel_body_(0)},
-            {"Ay_b", linear_accel_body_(1)},
-            {"Az_b", linear_accel_body_(2)},
-            {"AngAccelx_b", ang_accel_body_(0)},
-            {"AngAccely_b", ang_accel_body_(1)},
-            {"AngAccelz_b", ang_accel_body_(2)},
-            {"roll", quat_body_.roll()},
-            {"pitch", quat_body_.pitch()},
-            {"yaw", quat_body_.yaw()},
-            {"throttle", throttle_},
-            {"thrust", thrust_},
-            {"elevator", delta_elevator_},
-            {"aileron", delta_aileron_},
-            {"rudder", delta_rudder_}});
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", time},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"alpha", alpha_},
+                {"alpha_dot", alpha_dot_},
+                {"beta", beta},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"Ax_b", linear_accel_body_(0)},
+                {"Ay_b", linear_accel_body_(1)},
+                {"Az_b", linear_accel_body_(2)},
+                {"AngAccelx_b", ang_accel_body_(0)},
+                {"AngAccely_b", ang_accel_body_(1)},
+                {"AngAccelz_b", ang_accel_body_(2)},
+                {"roll", quat_body_.roll()},
+                {"pitch", quat_body_.pitch()},
+                {"yaw", quat_body_.yaw()},
+                {"throttle", throttle_},
+                {"thrust", thrust_},
+                {"elevator", delta_elevator_},
+                {"aileron", delta_aileron_},
+                {"rudder", delta_rudder_}});
     }
     return true;
 }
@@ -564,15 +568,15 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
     Eigen::Vector3d vel_world = quat.rotate(vel_local);  // rot * vel_local;
     dxdt[Xw] = vel_world(0);
-    dxdt[Yw] = -vel_world(1);  // Due to rotated frame
-    dxdt[Zw] = -vel_world(2);  // Due to rotated frame
+    dxdt[Yw] = -vel_world(1);                            // Due to rotated frame
+    dxdt[Zw] = -vel_world(2);                            // Due to rotated frame
 
     // Integrate local accelerations to compute global velocities
     Eigen::Vector3d acc_local = F_total / mass_;
     Eigen::Vector3d acc_world = quat.rotate(acc_local);  // rot * acc_local;
     dxdt[Uw] = acc_world(0);
-    dxdt[Vw] = -acc_world(1);  // Due to rotated frame
-    dxdt[Ww] = -acc_world(2);  // Due to rotated frame
+    dxdt[Vw] = -acc_world(1);                            // Due to rotated frame
+    dxdt[Ww] = -acc_world(2);                            // Due to rotated frame
 }
 
 void FixedWing6DOF::teleport(StatePtr& state) {

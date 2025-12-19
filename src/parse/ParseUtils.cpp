@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/parse/ParseUtils.h"
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -39,7 +41,6 @@
 #include "scrimmage/common/PID.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ConfigParse.h"
-#include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/proto/Visual.pb.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS

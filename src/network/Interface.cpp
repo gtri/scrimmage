@@ -32,6 +32,7 @@
 
 #if ENABLE_GRPC
 #include <grpc++/grpc++.h>
+
 #include "scrimmage/network/ScrimmageServiceImpl.h"
 #include "scrimmage/proto/Scrimmage.grpc.pb.h"
 using grpc::Channel;

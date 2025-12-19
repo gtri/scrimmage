@@ -48,6 +48,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::Controller {
 
  protected:
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

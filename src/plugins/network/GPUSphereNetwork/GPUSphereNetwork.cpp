@@ -30,11 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h"
+
 #include <memory>
 
 #include <CL/cl.h>
 #include <CL/opencl.hpp>
 #include <boost/range/adaptor/map.hpp>
+
 #include "scrimmage/common/ID.h"
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Random.h"
@@ -45,7 +48,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h"
 #include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"

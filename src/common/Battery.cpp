@@ -29,12 +29,13 @@
  * A Long description goes here.
  *
  */
+#include "scrimmage/common/Battery.h"
+
 #include <cmath>
 #include <limits>
 
-#include "scrimmage/common/Battery.h"
-
 namespace scrimmage {
+
 Battery::Battery(const double& min, const double& max, const double& current)
     : min_charge_(min), max_charge_(max), current_charge_(current) {
     if (current_charge_ > max_charge_) {
@@ -76,4 +77,5 @@ const double& Battery::current_charge() {
 double Battery::charge_percentage() {
     return 100.0 * (current_charge_ - min_charge_) / (max_charge_ - min_charge_);
 }
+
 }  // namespace scrimmage

@@ -30,7 +30,10 @@
  *
  */
 
+#include "scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
@@ -38,7 +41,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/DubinsAirplane/DubinsAirplane.h"
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::DubinsAirplane, DubinsAirplane_plugin)
 
@@ -127,15 +129,16 @@ bool DubinsAirplane::step(double t, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-            {"t", t},
-            {"x", state_->pos()(0)},
-            {"y", state_->pos()(1)},
-            {"z", state_->pos()(2)},
-            {"roll", state_->quat().roll()},
-            {"pitch", state_->quat().pitch()},
-            {"yaw", state_->quat().yaw()},
-            {"speed", speed_}});
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", t},
+                {"x", state_->pos()(0)},
+                {"y", state_->pos()(1)},
+                {"z", state_->pos()(2)},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"speed", speed_}});
     }
     return true;
 }
@@ -160,5 +163,6 @@ void DubinsAirplane::model(const vector_t& x, vector_t& dxdt, double t) {
         dxdt[YAW] = -g_ / speed_ * tan(roll_);
     }
 }
+
 }  // namespace motion
 }  // namespace scrimmage

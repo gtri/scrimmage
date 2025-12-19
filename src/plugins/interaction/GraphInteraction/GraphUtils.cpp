@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h"
+
 #include <iomanip>
 #include <sstream>
 
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/transform.hpp>
+
 #include "scrimmage/entity/EntityPlugin.h"
 #include "scrimmage/msgs/Graph.pb.h"
-#include "scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -117,5 +119,6 @@ std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
     br::transform(graph.nodes(), std::inserter(out, out.begin()), to_pos);
     return out;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

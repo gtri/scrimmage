@@ -35,6 +35,7 @@
 #include <fstream>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/parse/XMLParser/LibXML2Parser.h"
 #include "scrimmage/parse/XMLParser/RapidXMLParser.h"
 #include "scrimmage/parse/XMLParser/XMLParser.h"

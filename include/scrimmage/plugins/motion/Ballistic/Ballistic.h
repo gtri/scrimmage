@@ -39,6 +39,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class Ballistic : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
@@ -49,6 +50,7 @@ class Ballistic : public scrimmage::MotionModel {
  protected:
  private:
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_BALLISTIC_BALLISTIC_H_

@@ -30,9 +30,10 @@
  *
  */
 
+#include "scrimmage/metrics/Metrics.h"
+
 #include <limits>
 
-#include "scrimmage/metrics/Metrics.h"
 #include "scrimmage/proto/Frame.pb.h"
 
 namespace scrimmage {

@@ -30,11 +30,13 @@
  *
  */
 
+#include "scrimmage/pubsub/PubSub.h"
+
 #include <iostream>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/entity/EntityPlugin.h"
-#include "scrimmage/pubsub/PubSub.h"
 #include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
@@ -104,4 +106,5 @@ boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
 void PubSub::print_str(const std::string& s) {
     std::cout << s << std::endl;
 }
+
 }  // namespace scrimmage

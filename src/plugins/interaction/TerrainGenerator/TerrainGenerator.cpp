@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/TerrainGenerator/TerrainGenerator.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -40,7 +42,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/TerrainGenerator/TerrainGenerator.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Publisher.h"
 
@@ -152,5 +153,6 @@ bool TerrainGenerator::step_entity_interaction(
     }
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

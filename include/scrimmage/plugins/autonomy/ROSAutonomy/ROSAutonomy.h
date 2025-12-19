@@ -40,14 +40,16 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
-#include "scrimmage/autonomy/Autonomy.h"
-#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
-#include "scrimmage/pubsub/Subscriber.h"
 #include <sensor_msgs/LaserScan.h>
 #include <tf/transform_broadcaster.h>
 
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
+#include "scrimmage/pubsub/Subscriber.h"
+
 namespace scrimmage {
 namespace autonomy {
+
 class ROSAutonomy : public scrimmage::Autonomy {
  public:
     ROSAutonomy();
@@ -81,6 +83,7 @@ class ROSAutonomy : public scrimmage::Autonomy {
     int pitch_rate_idx_ = 0;
     int velocity_z_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAUTONOMY_ROSAUTONOMY_H_

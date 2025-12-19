@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -40,7 +42,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
 #include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
 #include "scrimmage/plugins/interaction/Boundary/Cuboid.h"
 #include "scrimmage/plugins/interaction/Boundary/Plane.h"

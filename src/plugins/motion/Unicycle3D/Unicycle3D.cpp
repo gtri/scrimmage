@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/Unicycle3D/Unicycle3D.h"
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Unicycle3D, Unicycle3D_plugin)
 
@@ -144,10 +146,11 @@ bool Unicycle3D::init(
             parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id())
             + "-unicycle-states.csv");
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t",         "x",          "y",         "z",    "U",     "V",   "W",
-            "P",         "Q",          "R",         "roll", "pitch", "yaw", "speed",
-            "turn_rate", "pitch_rate", "roll_rate", "Uw",   "Vw",    "Ww"});
+        csv_.set_column_headers(sc::CSV::Headers{"t",         "x",     "y",         "z",
+                                                 "U",         "V",     "W",         "P",
+                                                 "Q",         "R",     "roll",      "pitch",
+                                                 "yaw",       "speed", "turn_rate", "pitch_rate",
+                                                 "roll_rate", "Uw",    "Vw",        "Ww"});
     }
     return true;
 }
@@ -225,27 +228,28 @@ bool Unicycle3D::step(double t, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-            {"t", t},
-            {"x", x_[Xw]},
-            {"y", x_[Yw]},
-            {"z", x_[Zw]},
-            {"U", x_[U]},
-            {"V", x_[V]},
-            {"W", x_[W]},
-            {"P", x_[P]},
-            {"Q", x_[Q]},
-            {"R", x_[R]},
-            {"roll", state_->quat().roll()},
-            {"pitch", state_->quat().pitch()},
-            {"yaw", state_->quat().yaw()},
-            {"speed", speed_},
-            {"turn_rate", turn_rate_},
-            {"pitch_rate", pitch_rate_},
-            {"roll_rate", roll_rate_},
-            {"Uw", state_->vel()(0)},
-            {"Vw", state_->vel()(1)},
-            {"Ww", state_->vel()(2)}});
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", t},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"roll", state_->quat().roll()},
+                {"pitch", state_->quat().pitch()},
+                {"yaw", state_->quat().yaw()},
+                {"speed", speed_},
+                {"turn_rate", turn_rate_},
+                {"pitch_rate", pitch_rate_},
+                {"roll_rate", roll_rate_},
+                {"Uw", state_->vel()(0)},
+                {"Vw", state_->vel()(1)},
+                {"Ww", state_->vel()(2)}});
     }
     return true;
 }
@@ -282,5 +286,6 @@ void Unicycle3D::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[Yw] = vel_world(1);
     dxdt[Zw] = vel_world(2);
 }
+
 }  // namespace motion
 }  // namespace scrimmage

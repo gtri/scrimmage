@@ -44,6 +44,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class TrajectoryRecordPlayback : public scrimmage::Autonomy {
  public:
     TrajectoryRecordPlayback();
@@ -62,6 +63,7 @@ class TrajectoryRecordPlayback : public scrimmage::Autonomy {
 
  private:
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYRECORDPLAYBACK_H_

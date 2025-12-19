@@ -30,11 +30,12 @@
  *
  */
 
+#include "scrimmage/pubsub/NetworkDevice.h"
+
 #include <iostream>
 
 #include "scrimmage/entity/EntityPlugin.h"
 #include "scrimmage/pubsub/MessageBase.h"
-#include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {
 
@@ -181,4 +182,5 @@ int NetworkDevice::deliver_undelivered_msg(
 }
 
 //
+
 }  // namespace scrimmage

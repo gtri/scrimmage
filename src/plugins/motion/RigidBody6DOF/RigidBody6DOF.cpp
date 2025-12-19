@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h"
 
 using boost::algorithm::clamp;
 
@@ -220,5 +222,6 @@ void RigidBody6DOF::teleport(sc::StatePtr& state) {
     // x_[YAW] = state->quat().yaw();
     // x_[SPEED] = state->vel()[0];
 }
+
 }  // namespace motion
 }  // namespace scrimmage

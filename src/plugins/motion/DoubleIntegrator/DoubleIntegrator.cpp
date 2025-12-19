@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h"
 
 REGISTER_PLUGIN(
     scrimmage::MotionModel,
@@ -165,5 +167,6 @@ void DoubleIntegrator::teleport(sc::StatePtr& state) {
     x_[YAW] = state->quat().yaw();
     x_[YAW_DOT] = 0;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

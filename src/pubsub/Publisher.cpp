@@ -30,9 +30,10 @@
  *
  */
 
+#include "scrimmage/pubsub/Publisher.h"
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/entity/EntityPlugin.h"
-#include "scrimmage/pubsub/Publisher.h"
 
 namespace scrimmage {
 
@@ -50,4 +51,5 @@ void Publisher::set_debug_info(MessageBasePtr msg, const std::string& type) {
                       + plugin_->name() + ")" + "), id ("
                       + std::to_string(plugin_->parent()->id().id()) + ")";
 }
+
 }  // namespace scrimmage

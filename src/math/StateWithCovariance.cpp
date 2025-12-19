@@ -32,6 +32,7 @@
 #include "scrimmage/math/StateWithCovariance.h"
 
 namespace scrimmage {
+
 StateWithCovariance::StateWithCovariance() : covariance_(Eigen::MatrixXd::Identity(3, 3)) {}
 
 StateWithCovariance::StateWithCovariance(const scrimmage::State& state)
@@ -52,4 +53,5 @@ void StateWithCovariance::set_covariance(const Eigen::MatrixXd& covariance) {
 const Eigen::MatrixXd& StateWithCovariance::covariance() {
     return covariance_;
 }
+
 }  // namespace scrimmage

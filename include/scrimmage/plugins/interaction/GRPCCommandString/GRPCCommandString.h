@@ -71,6 +71,7 @@ class GRPCCommandString : public scrimmage::EntityInteraction {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_GRPCCOMMANDSTRING_H_

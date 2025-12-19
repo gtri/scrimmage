@@ -33,6 +33,7 @@
 #include <Eigen/Dense>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/math/State.h"
 #define _USE_MATH_DEFINES
 #include <cmath>

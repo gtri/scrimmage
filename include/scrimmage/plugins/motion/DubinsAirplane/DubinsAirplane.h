@@ -45,6 +45,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class DubinsAirplane : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
@@ -71,6 +72,7 @@ class DubinsAirplane : public scrimmage::MotionModel {
     double pitch_ = 0;
     double roll_ = 0;
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_DUBINSAIRPLANE_DUBINSAIRPLANE_H_

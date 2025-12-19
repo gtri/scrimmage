@@ -200,5 +200,6 @@ class NetworkDevice {
     std::list<MessageBasePtr> undelivered_msg_list_;
 };
 using NetworkDevicePtr = std::shared_ptr<NetworkDevice>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PUBSUB_NETWORKDEVICE_H_

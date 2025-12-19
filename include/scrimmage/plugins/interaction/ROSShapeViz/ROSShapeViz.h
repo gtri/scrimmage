@@ -39,9 +39,10 @@
 #include <string>
 
 #include <ros/ros.h>
+#include <visualization_msgs/Marker.h>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/simcontrol/EntityInteraction.h"
-#include <visualization_msgs/Marker.h>
 
 namespace scrimmage {
 namespace interaction {
@@ -61,6 +62,7 @@ class ROSShapeViz : public scrimmage::EntityInteraction {
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber sub_shapes_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSSHAPEVIZ_ROSSHAPEVIZ_H_

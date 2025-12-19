@@ -63,6 +63,8 @@
  * ---------------------------------------------------------------------------
  */
 
+#include "scrimmage/log/Print.h"
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -74,7 +76,6 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/entity/EntityPlugin.h"
-#include "scrimmage/log/Print.h"
 
 namespace scrimmage {
 

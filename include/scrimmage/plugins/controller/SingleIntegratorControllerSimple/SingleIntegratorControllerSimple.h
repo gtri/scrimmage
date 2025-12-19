@@ -60,6 +60,7 @@ class SingleIntegratorControllerSimple : public Controller {
     double vel_y_ = NAN;
     double vel_z_ = NAN;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SINGLEINTEGRATORCONTROLLERSIMPLE_SINGLEINTEGRATORCONTROLLERSIMPLE_H_

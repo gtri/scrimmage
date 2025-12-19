@@ -30,10 +30,11 @@
  *
  */
 
+#include "scrimmage/motion/MotionModel.h"
+
 #include <functional>
 
 #include <boost/numeric/odeint.hpp>
-#include "scrimmage/motion/MotionModel.h"
 
 namespace pl = std::placeholders;
 
@@ -95,4 +96,5 @@ void MotionModel::set_external_moment(const Eigen::Vector3d& moment) {
 void MotionModel::close(double t) {
     state_ = nullptr;
 }
+
 }  // namespace scrimmage

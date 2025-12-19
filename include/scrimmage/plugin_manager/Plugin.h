@@ -37,6 +37,7 @@
 #include <string>
 
 namespace scrimmage {
+
 class Plugin : public std::enable_shared_from_this<Plugin> {
  public:
     Plugin();
@@ -50,5 +51,6 @@ class Plugin : public std::enable_shared_from_this<Plugin> {
     bool name_set_ = false;
 };
 using PluginPtr = std::shared_ptr<Plugin>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGIN_H_

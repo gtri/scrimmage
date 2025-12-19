@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/entity/Entity.h"
+
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
@@ -40,10 +42,10 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/copy.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/GlobalService.h"
 #include "scrimmage/common/Utilities.h"
-#include "scrimmage/entity/Entity.h"
 #include "scrimmage/entity/EntityPluginHelper.h"
 #include "scrimmage/gpu/GPUMotionModel.h"
 #include "scrimmage/math/Angles.h"
@@ -842,4 +844,5 @@ void Entity::print_plugins(std::ostream& out) const {
         out << motion_model_->name() << endl;
     }
 }
+
 }  // namespace scrimmage

@@ -52,6 +52,7 @@ class DirectController : public scrimmage::Controller {
     // Value: Input variable index
     std::map<int, int> io_map_;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DIRECTCONTROLLER_DIRECTCONTROLLER_H_

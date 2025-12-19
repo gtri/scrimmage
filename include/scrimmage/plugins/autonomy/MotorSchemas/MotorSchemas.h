@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class MotorSchemas : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -72,6 +73,7 @@ class MotorSchemas : public scrimmage::Autonomy {
 
     scrimmage_proto::ShapePtr line_shape_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOTORSCHEMAS_MOTORSCHEMAS_H_

@@ -44,6 +44,7 @@
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
+
 class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
     MoveToGoalMS();
@@ -59,6 +60,7 @@ class MoveToGoalMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motor_schemas
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -40,8 +40,6 @@
 #include <geometry_msgs/Twist.h>
 #include <image_transport/image_transport.h>
 #include <ros/ros.h>
-#include "scrimmage/autonomy/Autonomy.h"
-#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
@@ -50,6 +48,9 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 #include <tf2_ros/transform_broadcaster.h>
+
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 
 // Eigen libraries
 #include "Eigen/Core"
@@ -116,6 +117,7 @@ class ROSAirSim : public scrimmage::Autonomy {
     std::string ros_name_;
     std::string ros_namespace_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ROSAIRSIM_ROSAIRSIM_H_

@@ -34,6 +34,7 @@
 #define INCLUDE_SCRIMMAGE_MATH_ANGLES_H_
 
 namespace scrimmage {
+
 class Angles {
  public:
     Angles();
@@ -117,5 +118,6 @@ class Angles {
 
  private:
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_MATH_ANGLES_H_

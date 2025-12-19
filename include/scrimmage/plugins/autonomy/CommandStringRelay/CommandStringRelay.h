@@ -39,6 +39,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class CommandStringRelay : public scrimmage::Autonomy {
  public:
     CommandStringRelay();
@@ -48,6 +49,7 @@ class CommandStringRelay : public scrimmage::Autonomy {
  protected:
     std::map<std::string, scrimmage::PublisherPtr> pubs_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_COMMANDSTRINGRELAY_COMMANDSTRINGRELAY_H_

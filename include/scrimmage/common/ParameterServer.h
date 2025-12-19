@@ -43,12 +43,14 @@
 #include <unordered_map>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/common/Parameter.h"
 
 class Plugin;
 using PluginPtr = std::shared_ptr<Plugin>;
 
 namespace scrimmage {
+
 class ParameterServer {
  public:
     void unregister_params(PluginPtr owner);
@@ -113,5 +115,6 @@ class ParameterServer {
         params_;
 };
 using ParameterServerPtr = std::shared_ptr<ParameterServer>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_PARAMETERSERVER_H_

@@ -30,10 +30,11 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/Control3D/Control3D.h"
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/Control3D/Control3D.h"
 
 namespace sc = scrimmage;
 
@@ -53,5 +54,6 @@ void Control3D::init(std::map<std::string, std::string>& params) {
 bool Control3D::step_autonomy(double t, double dt) {
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -41,6 +41,7 @@
 
 namespace scrimmage {
 namespace controller {
+
 class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -53,6 +54,7 @@ class RigidBody6DOFControllerPID : public motion::RigidBody6DOF::Controller {
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERPID_RIGIDBODY6DOFCONTROLLERPID_H_

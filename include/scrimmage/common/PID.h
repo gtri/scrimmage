@@ -36,6 +36,7 @@
 #include <string>
 
 namespace scrimmage {
+
 class PID {
  public:
     PID();
@@ -78,6 +79,7 @@ class PID {
     double output_max_;
     bool enable_output_limits_;
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_COMMON_PID_H_

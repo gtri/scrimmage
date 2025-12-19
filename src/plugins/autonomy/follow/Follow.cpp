@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/follow/Follow.h"
+
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/Geodesic.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/follow/Follow.h"
 
 REGISTER_PLUGIN(scrimmage::Autonomy, scrimmage::autonomy::Follow, Follow_plugin)
 
@@ -96,5 +98,6 @@ bool Follow::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -108,5 +108,6 @@ void(>>> PLUGIN_NAME < < <)::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

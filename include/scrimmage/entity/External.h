@@ -47,6 +47,7 @@
 #include <boost/bind/bind.hpp>
 #include <boost/function.hpp>
 #include <boost/type_index.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/DelayedTask.h"
 #include "scrimmage/common/RTree.h"
@@ -76,7 +77,7 @@ using GlobalServicePtr = std::shared_ptr<GlobalService>;
 // if compiling with c++20, has a __cplusplus value of 201709L.
 #if __cplusplus <= 201703L  // pre-c++20
 #define __copy_capture_with_this =
-#else  // c++20 and beyond
+#else                       // c++20 and beyond
 #define __copy_capture_with_this =, this
 #endif
 

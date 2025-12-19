@@ -30,17 +30,19 @@
  *
  */
 
+#include "scrimmage/plugin_manager/PluginManager.h"
+
 #include <iostream>
 #include <set>
 
 #include <boost/filesystem.hpp>
 #include <dlfcn.h>
+
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/EntityPlugin.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/plugin_manager/PluginManager.h"
 
 namespace scrimmage {
 
@@ -160,7 +162,7 @@ PluginPtr PluginManager::make_plugin_helper(std::string& plugin_type, std::strin
 
             PluginPtr (*maker_func)(void);
             // cppcheck-suppress cstyleCast
-            maker_func = (PluginPtr(*)(void))dlsym(it2->second.handle, "maker");
+            maker_func = (PluginPtr (*)(void))dlsym(it2->second.handle, "maker");
             char* error;
             if ((error = dlerror()) != NULL) {
                 fputs(error, stderr);

@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/LOSSensor/LOSSensor.h"
+
 #include <algorithm>
 #include <cstdlib>
 #include <vector>
@@ -41,7 +43,6 @@
 #include "scrimmage/msgs/LOSSensor.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/LOSSensor/LOSSensor.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
@@ -149,7 +150,7 @@ bool LOSSensor::step() {
         // Verify that this will intersect the ground
         if ((sensor_pos_w(2) < 0.0) || (ray_w(2) >= 0.0)) {  // Out of range
             oor = true;
-        } else {  // Potentially in range
+        } else {                                             // Potentially in range
             // Project the unit vector intersection to the ground.
             range = sensor_pos_w(2) / (-1.0 * ray_w(2));
         }
@@ -209,5 +210,6 @@ bool LOSSensor::step() {
     los_pub_->publish(msg);
     return retVal;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

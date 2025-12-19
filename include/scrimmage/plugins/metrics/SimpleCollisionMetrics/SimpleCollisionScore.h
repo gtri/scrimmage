@@ -38,6 +38,7 @@
 
 namespace scrimmage {
 namespace metrics {
+
 class SimpleCollisionScore {
  public:
     bool set_weights(std::map<std::string, std::string>& params);
@@ -90,6 +91,7 @@ class SimpleCollisionScore {
     double max_flight_time_ = 0;
     int entity_count_ = 0;
 };
+
 }  // namespace metrics
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_METRICS_SIMPLECOLLISIONMETRICS_SIMPLECOLLISIONSCORE_H_

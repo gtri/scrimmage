@@ -30,10 +30,11 @@
  *
  */
 
+#include "scrimmage/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h"
+
 #include "scrimmage/common/VariableIO.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/SingleIntegratorControllerWaypoint/SingleIntegratorControllerWaypoint.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

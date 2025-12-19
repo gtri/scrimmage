@@ -30,16 +30,18 @@
  *
  */
 
+#include "scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h"
+
 #include <iostream>
 
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/UUV6DOF/UUV6DOF.h"
 
 using boost::algorithm::clamp;
 using std::cout;
@@ -181,10 +183,11 @@ bool UUV6DOF::init(
                     + std::to_string(parent_->id().id()) + "-states.csv"
              << endl;
 
-        csv_.set_column_headers(sc::CSV::Headers{
-            "t",    "x",     "y",     "z",        "U",      "V",        "W",     "P",
-            "Q",    "R",     "U_dot", "V_dot",    "W_dot",  "P_dot",    "Q_dot", "R_dot",
-            "roll", "pitch", "yaw",   "throttle", "thrust", "elevator", "rudder"});
+        csv_.set_column_headers(sc::CSV::Headers{"t",      "x",        "y",     "z",     "U",
+                                                 "V",      "W",        "P",     "Q",     "R",
+                                                 "U_dot",  "V_dot",    "W_dot", "P_dot", "Q_dot",
+                                                 "R_dot",  "roll",     "pitch", "yaw",   "throttle",
+                                                 "thrust", "elevator", "rudder"});
     }
 
     Xuu_ = sc::get<double>("Xuu", params, Xuu_);
@@ -304,30 +307,31 @@ bool UUV6DOF::step(double time, double dt) {
 
     if (write_csv_) {
         // Log state to CSV
-        csv_.append(sc::CSV::Pairs{
-            {"t", time},
-            {"x", x_[Xw]},
-            {"y", x_[Yw]},
-            {"z", x_[Zw]},
-            {"U", x_[U]},
-            {"V", x_[V]},
-            {"W", x_[W]},
-            {"P", x_[P]},
-            {"Q", x_[Q]},
-            {"R", x_[R]},
-            {"U_dot", x_[U_dot]},
-            {"V_dot", x_[V_dot]},
-            {"W_dot", x_[W_dot]},
-            {"P_dot", x_[P_dot]},
-            {"Q_dot", x_[Q_dot]},
-            {"R_dot", x_[R_dot]},
-            {"roll", quat_body_.roll()},
-            {"pitch", quat_body_.pitch()},
-            {"yaw", quat_body_.yaw()},
-            {"throttle", throttle_},
-            {"thrust", thrust_},
-            {"elevator", delta_elevator_},
-            {"rudder", delta_rudder_}});
+        csv_.append(
+            sc::CSV::Pairs{
+                {"t", time},
+                {"x", x_[Xw]},
+                {"y", x_[Yw]},
+                {"z", x_[Zw]},
+                {"U", x_[U]},
+                {"V", x_[V]},
+                {"W", x_[W]},
+                {"P", x_[P]},
+                {"Q", x_[Q]},
+                {"R", x_[R]},
+                {"U_dot", x_[U_dot]},
+                {"V_dot", x_[V_dot]},
+                {"W_dot", x_[W_dot]},
+                {"P_dot", x_[P_dot]},
+                {"Q_dot", x_[Q_dot]},
+                {"R_dot", x_[R_dot]},
+                {"roll", quat_body_.roll()},
+                {"pitch", quat_body_.pitch()},
+                {"yaw", quat_body_.yaw()},
+                {"throttle", throttle_},
+                {"thrust", thrust_},
+                {"elevator", delta_elevator_},
+                {"rudder", delta_rudder_}});
     }
 
     return true;
@@ -405,15 +409,15 @@ void UUV6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
     Eigen::Vector3d vel_world = quat.rotate(vel_local);  // rot * vel_local;
     dxdt[Xw] = vel_world(0);
-    dxdt[Yw] = -vel_world(1);  // Due to rotated frame
-    dxdt[Zw] = -vel_world(2);  // Due to rotated frame
+    dxdt[Yw] = -vel_world(1);                            // Due to rotated frame
+    dxdt[Zw] = -vel_world(2);                            // Due to rotated frame
 
     // // Integrate local accelerations to compute global velocities
     Eigen::Vector3d acc_local = forces.head<3>() / mass_;
     Eigen::Vector3d acc_world = quat.rotate(acc_local);  // rot * acc_local;
     dxdt[Uw] = acc_world(0);
-    dxdt[Vw] = -acc_world(1);  // Due to rotated frame
-    dxdt[Ww] = -acc_world(2);  // Due to rotated frame
+    dxdt[Vw] = -acc_world(1);                            // Due to rotated frame
+    dxdt[Ww] = -acc_world(2);                            // Due to rotated frame
     //
     // Accelerations get updated based on change in velocities
     dxdt[U_dot] = 0;
@@ -423,5 +427,6 @@ void UUV6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[Q_dot] = 0;
     dxdt[R_dot] = 0;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

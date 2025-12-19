@@ -29,10 +29,11 @@
  * A Long description goes here.
  *
  */
+#include <signal.h>
+
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#include <signal.h>
 #if ENABLE_VTK == 1
 #include "scrimmage/viewer/Viewer.h"
 #endif
@@ -44,6 +45,7 @@
 #include <thread>  // NOLINT
 
 #include <boost/filesystem.hpp>
+
 #include "scrimmage/common/Timer.h"
 #include "scrimmage/log/Log.h"
 

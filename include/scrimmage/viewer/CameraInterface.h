@@ -35,7 +35,6 @@
 
 #include <string>
 
-#include "scrimmage/viewer/Updater.h"
 #include <vtkActor.h>
 #include <vtkCellArray.h>
 #include <vtkCommand.h>
@@ -51,7 +50,10 @@
 #include <vtkSmartPointer.h>
 #include <vtkVersion.h>
 
+#include "scrimmage/viewer/Updater.h"
+
 namespace scrimmage {
+
 // Define interaction style
 class CameraInterface : public vtkInteractorStyleTrackballCamera {
  public:
@@ -77,6 +79,7 @@ class CameraInterface : public vtkInteractorStyleTrackballCamera {
     std::string last_key_;
 };
 // vtkStandardNewMacro(CameraInterface);
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_

@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/common/CSV.h"
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -39,7 +41,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
 #include <scrimmage/parse/ParseUtils.h>
-#include "scrimmage/common/CSV.h"
 
 using std::cout;
 using std::endl;

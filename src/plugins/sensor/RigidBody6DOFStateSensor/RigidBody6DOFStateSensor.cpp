@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h"
+
 #include <iostream>
 
 #include "scrimmage/common/Random.h"
@@ -40,7 +42,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFBase.h"
 #include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h"
-#include "scrimmage/plugins/sensor/RigidBody6DOFStateSensor/RigidBody6DOFStateSensor.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
@@ -115,5 +116,6 @@ bool RigidBody6DOFStateSensor::step() {
     pub_->publish(msg);
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

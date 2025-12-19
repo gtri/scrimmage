@@ -58,6 +58,7 @@ typedef std::shared_ptr<JSBSim::FGFDMExec> FGFDMExecPtr;
 
 namespace scrimmage {
 namespace motion {
+
 class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
  public:
     JSBSimControl();
@@ -120,6 +121,7 @@ class JSBSimControl : public scrimmage::motion::RigidBody6DOFBase {
     double draw_acc_ = 0;
 #endif
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMCONTROL_JSBSIMCONTROL_H_

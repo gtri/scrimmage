@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/MapGen2D/MapGen2D.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -37,6 +39,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
@@ -45,7 +48,6 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/MapGen2D/Map2DInfo.h"
-#include "scrimmage/plugins/interaction/MapGen2D/MapGen2D.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/pubsub/Message.h"
 
@@ -243,5 +245,6 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat& img, int threshold) {
     }
     return rects;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

@@ -36,13 +36,14 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <mutex>  // NOLINT
+#include <mutex>   // NOLINT
 #include <string>
 #include <thread>  // NOLINT
 
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/plugins/controller/JoystickController/AxisScale.h"
@@ -51,10 +52,13 @@
 namespace scrimmage {
 
 namespace motion {
+
 class RigidBody6DOFState;
+
 }
 
 namespace autonomy {
+
 class ArduPilot : public scrimmage::Autonomy {
  private:
     static const int MAX_NUM_SERVOS = 16;
@@ -111,6 +115,7 @@ class ArduPilot : public scrimmage::Autonomy {
 
     std::shared_ptr<motion::RigidBody6DOFState> state_6dof_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_ARDUPILOT_ARDUPILOT_H_

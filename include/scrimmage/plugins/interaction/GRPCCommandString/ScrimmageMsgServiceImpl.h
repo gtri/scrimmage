@@ -41,6 +41,7 @@
 #include "scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h"
 
 namespace scrimmage {
+
 class ScrimmageMsgServiceImpl final : public scrimmage_msgs::ScrimmageMsgService::Service {
  public:
     explicit ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin);
@@ -52,6 +53,7 @@ class ScrimmageMsgServiceImpl final : public scrimmage_msgs::ScrimmageMsgService
  protected:
     std::shared_ptr<interaction::GRPCCommandString> plugin_;
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRPCCOMMANDSTRING_SCRIMMAGEMSGSERVICEIMPL_H_

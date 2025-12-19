@@ -29,11 +29,14 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h"
+
 #include <fstream>
 #include <iostream>
 #include <unsupported/Eigen/MatrixFunctions>
 
 #include <math.h>
+
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
@@ -41,7 +44,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/ROSIMUSensor/ROSIMUSensor.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -490,5 +492,6 @@ bool ROSIMUSensor::step() {
 void ROSIMUSensor::close(double t) {
     csv.close_output();
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

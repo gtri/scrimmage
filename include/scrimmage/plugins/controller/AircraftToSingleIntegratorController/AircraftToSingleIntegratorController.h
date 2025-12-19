@@ -65,6 +65,7 @@ class AircraftToSingleIntegratorController : public Controller {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_AIRCRAFTTOSINGLEINTEGRATORCONTROLLER_H_

@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class APITester : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -59,6 +60,7 @@ class APITester : public scrimmage::Autonomy {
 
     void write_my_test_values();
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_APITESTER_APITESTER_H_

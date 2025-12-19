@@ -37,13 +37,13 @@
 #include <string>
 #include <thread>  // NOLINT
 
+#include "MOOSNode.h"
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/math/Angles.h"
 
-#include "MOOSNode.h"
-
 namespace scrimmage {
 namespace autonomy {
+
 class MOOSAutonomy : public scrimmage::Autonomy {
  public:
     MOOSAutonomy();
@@ -69,6 +69,7 @@ class MOOSAutonomy : public scrimmage::Autonomy {
     int desired_alt_idx_ = 0;
     int desired_speed_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSAUTONOMY_H_

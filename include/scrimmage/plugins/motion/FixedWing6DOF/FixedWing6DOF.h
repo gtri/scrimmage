@@ -45,6 +45,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase {
  public:
     enum ModelParams {
@@ -190,6 +191,7 @@ class FixedWing6DOF : public scrimmage::motion::RigidBody6DOFBase {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_FIXEDWING6DOF_FIXEDWING6DOF_H_

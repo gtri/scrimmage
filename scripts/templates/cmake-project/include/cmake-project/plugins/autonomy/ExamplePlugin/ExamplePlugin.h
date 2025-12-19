@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class ExamplePlugin : public scrimmage::Autonomy {
  public:
     ExamplePlugin();
@@ -58,6 +59,7 @@ class ExamplePlugin : public scrimmage::Autonomy {
     double desired_heading_ = 0;
     double desired_speed_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_CMAKE_PROJECT_PLUGINS_AUTONOMY_EXAMPLEPLUGIN_EXAMPLEPLUGIN_H_

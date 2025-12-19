@@ -39,10 +39,12 @@
 
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
+
 #include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h"
 
 namespace scrimmage {
 namespace controller {
+
 class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Controller {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -57,6 +59,7 @@ class RigidBody6DOFControllerROS : public scrimmage::motion::RigidBody6DOF::Cont
     ros::Subscriber cmd_vel_sub_;
     geometry_msgs::Twist cmd_vel_;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_RIGIDBODY6DOFCONTROLLERROS_RIGIDBODY6DOFCONTROLLERROS_H_

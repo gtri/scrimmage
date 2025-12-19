@@ -44,10 +44,13 @@
 namespace scrimmage {
 
 namespace interaction {
+
 class BoundaryBase;
+
 }
 
 namespace autonomy {
+
 class TakeFlag : public scrimmage::Autonomy {
  public:
     TakeFlag();
@@ -67,6 +70,7 @@ class TakeFlag : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TAKEFLAG_TAKEFLAG_H_

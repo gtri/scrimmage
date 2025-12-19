@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/JoystickController/JoystickController.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/JoystickController/JoystickController.h"
 #include "scrimmage/pubsub/PubSub.h"
 
 using std::cout;
@@ -61,5 +62,6 @@ void JoystickController::init(std::map<std::string, std::string>& params) {
 bool JoystickController::step(double t, double dt) {
     return joystick_.step(t, dt, vars_);
 }
+
 }  // namespace controller
 }  // namespace scrimmage

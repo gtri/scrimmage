@@ -38,6 +38,7 @@
 #include <string>
 
 #include <boost/type_index.hpp>
+
 #include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {

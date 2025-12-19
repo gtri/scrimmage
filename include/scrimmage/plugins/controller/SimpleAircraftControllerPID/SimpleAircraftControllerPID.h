@@ -72,6 +72,7 @@ class SimpleAircraftControllerPID : public Controller {
     uint8_t output_roll_rate_idx_ = 0;
     uint8_t output_pitch_rate_idx_ = 0;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_SIMPLEAIRCRAFTCONTROLLERPID_SIMPLEAIRCRAFTCONTROLLERPID_H_

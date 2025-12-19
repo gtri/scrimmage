@@ -30,20 +30,11 @@
  *
  */
 
+#include "scrimmage/viewer/Updater.h"
+
 #include <iostream>
 #include <vtksys/SystemTools.hxx>
 
-#include "scrimmage/common/FileSearch.h"
-#include "scrimmage/common/Utilities.h"
-#include "scrimmage/math/Angles.h"
-#include "scrimmage/math/Quaternion.h"
-#include "scrimmage/network/Interface.h"
-#include "scrimmage/parse/ConfigParse.h"
-#include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/proto/ProtoConversions.h"
-#include "scrimmage/viewer/Grid.h"
-#include "scrimmage/viewer/OriginAxes.h"
-#include "scrimmage/viewer/Updater.h"
 #include <vtkArcSource.h>
 #include <vtkArrowSource.h>
 #include <vtkCallbackCommand.h>
@@ -84,6 +75,17 @@
 #include <vtkVectorText.h>
 #include <vtkVertexGlyphFilter.h>
 #include <vtkWindowToImageFilter.h>
+
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/viewer/Grid.h"
+#include "scrimmage/viewer/OriginAxes.h"
 
 #if VTK_MAJOR_VERSION > 6
 #include <vtkCellLocator.h>
@@ -2516,4 +2518,5 @@ void Updater::get_model_texture(
         }
     }
 }
+
 }  // namespace scrimmage

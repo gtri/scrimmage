@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/RandomAttrit/RandomAttrit.h"
+
 #include <cmath>
 #include <iostream>
 #include <limits>
@@ -40,7 +42,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/RandomAttrit/RandomAttrit.h"
 
 using std::cout;
 using std::endl;
@@ -128,5 +129,6 @@ bool RandomAttrit::step_entity_interaction(std::list<sc::EntityPtr>& ents, doubl
 
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

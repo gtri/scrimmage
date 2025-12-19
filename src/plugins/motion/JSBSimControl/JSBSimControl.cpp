@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/motion/JSBSimControl/JSBSimControl.h"
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
@@ -37,7 +39,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/JSBSimControl/JSBSimControl.h"
 #include "scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
@@ -397,5 +398,6 @@ bool JSBSimControl::step(double time, double dt) {
 
     return true;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

@@ -39,6 +39,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class(>>> PLUGIN_NAME < < <) : public scrimmage::MotionModel {
  public:
     bool init(
@@ -58,6 +59,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::MotionModel {
 
  private:
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

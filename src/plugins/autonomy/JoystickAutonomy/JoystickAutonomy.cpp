@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h"
+
 #include <iostream>
 #include <limits>
 
@@ -37,7 +39,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h"
 #include "scrimmage/pubsub/PubSub.h"
 
 using std::cout;
@@ -57,5 +58,6 @@ void JoystickAutonomy::init(std::map<std::string, std::string>& params) {
 bool JoystickAutonomy::step_autonomy(double t, double dt) {
     return joystick_.step(t, dt, vars_);
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

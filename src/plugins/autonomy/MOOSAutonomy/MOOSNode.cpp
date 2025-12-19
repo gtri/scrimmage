@@ -30,12 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/MOOSAutonomy/MOOSNode.h"
+
 #include <string>
 
 #include <NodeRecord.h>
+
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
-#include "scrimmage/plugins/autonomy/MOOSAutonomy/MOOSNode.h"
 
 namespace sc = scrimmage;
 
@@ -200,5 +202,6 @@ bool MOOSNode::PublishNodeReport(
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

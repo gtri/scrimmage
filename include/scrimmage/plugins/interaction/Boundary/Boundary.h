@@ -63,6 +63,7 @@ class Boundary : public scrimmage::EntityInteraction {
     bool boundary_published_ = false;
     std::shared_ptr<scrimmage_proto::Shape> boundary_shape_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_BOUNDARY_H_

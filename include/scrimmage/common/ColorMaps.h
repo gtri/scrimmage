@@ -37,6 +37,7 @@
 // that. Disable the unused function warning.
 
 namespace scrimmage {
+
 struct Color_t {
     double r, g, b;
 };

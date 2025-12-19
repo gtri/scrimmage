@@ -34,6 +34,7 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/parse/ParseUtils.h"
 using std::cout;
 using std::endl;

@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/simcontrol/SimControl.h"
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/Algorithm.h"
 #include "scrimmage/common/CSV.h"
@@ -53,7 +55,6 @@
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/sensor/Sensor.h"
 #include "scrimmage/simcontrol/EntityInteraction.h"
-#include "scrimmage/simcontrol/SimControl.h"
 #include "scrimmage/simcontrol/SimUtils.h"
 
 #if ENABLE_GPU_ACCELERATION == 1

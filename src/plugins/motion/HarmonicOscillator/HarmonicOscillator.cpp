@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h"
+
 #include <cmath>
 
 #include "scrimmage/common/Utilities.h"
@@ -38,7 +40,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/HarmonicOscillator/HarmonicOscillator.h"
 
 namespace sc = scrimmage;
 
@@ -86,5 +87,6 @@ void HarmonicOscillator::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[VZ] = -std::pow(natural_frequency, 2) * x[Z]
                - 2 * damping_ratio * natural_frequency * x[VZ] + acc;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

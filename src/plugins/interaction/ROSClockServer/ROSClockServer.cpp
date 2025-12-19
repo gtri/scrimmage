@@ -30,18 +30,20 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/ROSClockServer/ROSClockServer.h"
+
 #include <iomanip>
 #include <iostream>
 #include <limits>
 #include <memory>
 
 #include <rosgraph_msgs/Clock.h>
+
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/ROSClockServer/ROSClockServer.h"
 
 using std::cout;
 using std::endl;
@@ -142,5 +144,6 @@ bool ROSClockServer::step_entity_interaction(std::list<sc::EntityPtr>& ents, dou
     publish_clock_msg(time_->t());
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

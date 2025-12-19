@@ -30,13 +30,15 @@
  *
  */
 
+#include "scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h"
+
 #include <iostream>
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
+
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h"
 
 using std::cout;
 using std::endl;
@@ -126,5 +128,6 @@ bool FixedWing6DOFControllerPID::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

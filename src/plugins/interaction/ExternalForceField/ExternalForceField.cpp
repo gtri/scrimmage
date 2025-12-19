@@ -30,11 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h"
+
 #include <iostream>
 #include <limits>
 #include <memory>
 
 #include <math.h>
+
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
@@ -43,7 +46,6 @@
 #include "scrimmage/motion/MotionModel.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/ExternalForceField/ExternalForceField.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
@@ -192,5 +194,6 @@ void ExternalForceField::sample_force() {
     // Determine when the next sample time will take place
     next_sample_time_ = time_->t() + (*force_change_period_noise_)(*gener);
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

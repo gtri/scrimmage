@@ -36,6 +36,7 @@
 #include <vector>
 
 #include <rapidxml/rapidxml.hpp>
+
 #include "scrimmage/parse/XMLParser/XMLParser.h"
 
 namespace scrimmage {
@@ -128,6 +129,7 @@ class RapidXMLParserDocument : public XMLParserDocument<RapidXMLParserDocument> 
 };
 
 using RapidXMLParser = RapidXMLParserDocument;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_RAPIDXMLPARSER_H_

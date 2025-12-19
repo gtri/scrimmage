@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/SimpleINS/SimpleINS.h"
+
 #include <vector>
 
 #include "scrimmage/common/Random.h"
@@ -41,7 +43,6 @@
 #include "scrimmage/msgs/GPS.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/SimpleINS/SimpleINS.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 

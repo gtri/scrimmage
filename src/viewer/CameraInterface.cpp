@@ -30,6 +30,7 @@
  *
  */
 #include "scrimmage/viewer/CameraInterface.h"
+
 #include <vtkRendererCollection.h>
 #include <vtkWorldPointPicker.h>
 
@@ -141,4 +142,5 @@ void CameraInterface::Dolly() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Dolly();
 }
+
 }  // namespace scrimmage

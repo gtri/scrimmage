@@ -47,14 +47,17 @@
 #include <boost/geometry/index/parameters.hpp>  // for dynamic_rstar definition
 #include <boost/geometry/strategies/default_strategy.hpp>
 #include <boost/tuple/tuple.hpp>
+
 #include "scrimmage/common/ID.h"
 
 namespace boost {
 namespace geometry {
 namespace index {
+
 // boost/geometry/index/rtree.hpp
 template <typename T1, typename T2, typename T3, typename T4, typename T5>
 class rtree;
+
 }  // namespace index
 }  // namespace geometry
 }  // namespace boost
@@ -100,6 +103,7 @@ class RTree {
 };
 
 typedef std::shared_ptr<RTree> RTreePtr;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_COMMON_RTREE_H_

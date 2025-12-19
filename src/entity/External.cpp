@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/entity/External.h"
+
 #include <iomanip>
 #include <iostream>
 #include <set>
@@ -42,13 +44,13 @@
 #include <boost/range/algorithm/copy.hpp>
 #include <boost/range/algorithm/find_if.hpp>
 #include <boost/range/algorithm/for_each.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/GlobalService.h"
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
-#include "scrimmage/entity/External.h"
 #include "scrimmage/log/Log.h"
 #include "scrimmage/metrics/Metrics.h"
 #include "scrimmage/motion/Controller.h"

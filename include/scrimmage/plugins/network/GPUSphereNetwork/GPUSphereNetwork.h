@@ -88,6 +88,7 @@ class GPUSphereNetwork : public scrimmage::Network {
 
     std::unique_ptr<GPUSphereNetworkUtils> utils_;
 };
+
 }  // namespace network
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_GPUSPHERENETWORK_GPUSPHERENETWORK_H_

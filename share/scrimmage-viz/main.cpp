@@ -33,6 +33,7 @@
 #include <map>
 
 #include <boost/program_options.hpp>
+
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/viewer/Viewer.h"

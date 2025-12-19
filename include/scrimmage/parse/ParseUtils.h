@@ -41,8 +41,10 @@
 #include <vector>
 
 namespace scrimmage_proto {
+
 class UTMTerrain;
 class ContactVisual;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {

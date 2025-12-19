@@ -30,12 +30,13 @@
  *
  */
 
+#include "scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h"
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.h"
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleQuadrotor, SimpleQuadrotor_plugin)
 
@@ -124,5 +125,6 @@ void SimpleQuadrotor::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[YAW] = x[YAWDOT];
     dxdt[YAWDOT] = turn_force;
 }
+
 }  // namespace motion
 }  // namespace scrimmage

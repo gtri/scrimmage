@@ -115,6 +115,7 @@ class CSV {
     std::string rows_to_string() const;
     std::string row_to_string(const int& i) const;
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_COMMON_CSV_H_

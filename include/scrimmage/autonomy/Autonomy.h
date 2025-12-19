@@ -90,5 +90,6 @@ class Autonomy : public EntityPlugin {
 
     bool is_controlling_;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_AUTONOMY_AUTONOMY_H_

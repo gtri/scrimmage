@@ -30,12 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -91,5 +93,6 @@ bool SimpleQuadrotorControllerLQR::step(double t, double dt) {
 
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

@@ -30,17 +30,19 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h"
+
 #include <iostream>
 #include <limits>
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Command.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/CommandStringRelay/CommandStringRelay.h"
 #include "scrimmage/pubsub/Publisher.h"
 
 using std::cout;
@@ -99,5 +101,6 @@ void CommandStringRelay::init(std::map<std::string, std::string>& params) {
 bool CommandStringRelay::step_autonomy(double t, double dt) {
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

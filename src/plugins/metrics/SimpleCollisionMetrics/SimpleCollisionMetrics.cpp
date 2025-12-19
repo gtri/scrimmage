@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionMetrics.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -43,7 +45,6 @@
 #include "scrimmage/msgs/Event.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionMetrics.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
@@ -208,5 +209,6 @@ void SimpleCollisionMetrics::print_team_summaries() {
         cout << sc::generate_chars("-", 70) << endl;
     }
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

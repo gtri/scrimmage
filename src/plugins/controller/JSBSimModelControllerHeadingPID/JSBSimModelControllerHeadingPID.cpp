@@ -30,11 +30,13 @@
  *
  */
 
+#include "scrimmage/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.h"
+
 #include <boost/algorithm/clamp.hpp>
+
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/JSBSimModelControllerHeadingPID/JSBSimModelControllerHeadingPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

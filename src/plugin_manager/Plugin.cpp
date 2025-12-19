@@ -36,6 +36,7 @@
 #include "scrimmage/entity/EntityPlugin.h"
 
 namespace scrimmage {
+
 Plugin::Plugin() : name_("Plugin") {}
 Plugin::~Plugin() {}
 std::string Plugin::name() {

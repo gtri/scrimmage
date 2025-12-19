@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/NoisyContacts/NoisyContacts.h"
+
 #include <iostream>
 #include <limits>
 
@@ -40,7 +42,6 @@
 #include "scrimmage/math/StateWithCovariance.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/NoisyContacts/NoisyContacts.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
@@ -117,5 +118,6 @@ bool NoisyContacts::step() {
 
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

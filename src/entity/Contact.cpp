@@ -30,11 +30,12 @@
  *
  */
 
+#include "scrimmage/entity/Contact.h"
+
 #include <iostream>
 #include <memory>
 
 #include "scrimmage/common/ID.h"
-#include "scrimmage/entity/Contact.h"
 #include "scrimmage/math/State.h"
 
 namespace scrimmage {
@@ -106,4 +107,5 @@ std::ostream& operator<<(std::ostream& os, const Contact& c) {
     os << c.id_ << ": " << *c.state_;
     return os;
 }
+
 }  // namespace scrimmage

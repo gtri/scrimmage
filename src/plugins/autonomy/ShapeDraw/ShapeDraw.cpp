@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/ShapeDraw/ShapeDraw.h"
+
 #include <iostream>
 #include <limits>
 
@@ -39,7 +41,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/ShapeDraw/ShapeDraw.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 

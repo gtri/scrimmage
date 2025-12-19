@@ -30,9 +30,9 @@
  *
  */
 
-#include <limits>
-
 #include "scrimmage/common/DelayedTask.h"
+
+#include <limits>
 
 namespace scrimmage {
 

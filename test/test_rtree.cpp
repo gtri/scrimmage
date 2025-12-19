@@ -35,6 +35,7 @@
 
 #include <gtest/gtest.h>
 #include <limits.h>
+
 #include "scrimmage/common/ID.h"
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Random.h"

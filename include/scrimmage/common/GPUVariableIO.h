@@ -41,6 +41,7 @@
 #include "scrimmage/common/VariableIO.h"
 
 namespace scrimmage {
+
 /*! \brief abstracts the connection between motion models, controllers, and
  * autonomies. Uses pure array's for underlying data store with work more
  * efficently with controllers and motion models implemented on a GPU.

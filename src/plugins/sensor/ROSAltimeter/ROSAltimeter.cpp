@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/ROSAltimeter/ROSAltimeter.h"
+
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
@@ -36,7 +38,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/ROSAltimeter/ROSAltimeter.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -165,5 +166,6 @@ bool ROSAltimeter::step() {
 
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

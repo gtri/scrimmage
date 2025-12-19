@@ -28,6 +28,8 @@
  * Receives AirSim data as SCRIMMAGE messages and publishes them as ROS messages.
  *
  */
+#include "scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h"
+
 #include <iostream>
 #include <limits>
 
@@ -35,11 +37,11 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <rosgraph_msgs/Clock.h>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h"
 #include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 
 using std::cout;
@@ -70,7 +72,7 @@ Eigen::Isometry3f ROSAirSim::get_vehicle_world_pose_from_NED_to_ENU(
     double zTo = 90 * (M_PI / 180);    // PI/2 rotation about Z (Up)
     Eigen::Quaternion<float> vehicle_orientation_ENU;
     vehicle_orientation_ENU = Eigen::AngleAxis<float>(xTo, Eigen::Vector3f::UnitX())
-                              * NED_quat_vehicle;  // -PI rotation about X
+                              * NED_quat_vehicle;         // -PI rotation about X
     vehicle_orientation_ENU = Eigen::AngleAxis<float>(zTo, Eigen::Vector3f::UnitZ())
                               * vehicle_orientation_ENU;  // PI/2 rotation about Z (Up)
     // Bring vehicle pose in relation to ENU, World into Eigen
@@ -359,13 +361,13 @@ void ROSAirSim::init(std::map<std::string, std::string>& params) {
                     laser_broadcaster_->sendTransform(tf_msg_vec_);
                     tf_msg_vec_.clear();
                 }  // end if new camera name to publish pose for
-            }      // end for loop a : images in msg
+            }  // end for loop a : images in msg
             img_topic_published_mutex_.lock();
             img_topic_published_ = true;
             img_topic_published_mutex_.unlock();
 
             return;  // return from callback because the first set of images are already published
-        }            // end if img_topic_published=false
+        }  // end if img_topic_published=false
     };
 
     //// airsim lidar callback
@@ -506,7 +508,7 @@ void ROSAirSim::init(std::map<std::string, std::string>& params) {
             lidar_topic_published_mutex_.unlock();
 
             return;  // return from callback because the first set of images are already published
-        }            // end if img_topic_published=false
+        }  // end if img_topic_published=false
     };
 
     //// airsim imu callback
@@ -624,7 +626,7 @@ void ROSAirSim::init(std::map<std::string, std::string>& params) {
             imu_topic_published_mutex_.unlock();
 
             return;  // return from callback because the first set of images are already published
-        }            // end if img_topic_published=false
+        }  // end if img_topic_published=false
     };
 
     if (pub_imu_data_) {
@@ -683,8 +685,8 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     imu_msg.linear_acceleration.z = i.imu_data.linear_acceleration.z();
                     pub.publish(imu_msg);
                     break;  // break publish for loop after image is published
-                }           // end if topic name matches
-            }               // end publishers for loop
+                }  // end if topic name matches
+            }  // end publishers for loop
 
             //// for each imu publish a transform
             // Get Vehicle Pose from NED to ENU
@@ -808,8 +810,8 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                     }
                     pub.publish(lidar_msg);
                     break;  // break publish for loop after lidar data is published
-                }           // end if topic name matches
-            }               // end publishers for loop
+                }  // end if topic name matches
+            }  // end publishers for loop
 
             //// publish a transform for each lidar
             // Get Vehicle Pose from NED to ENU
@@ -917,8 +919,8 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         }
                         pub.publish(img_msg);
                         break;  // break publish for loop after image is published
-                    }           // end if topic name matches
-                }               // end publishers for loop
+                    }  // end if topic name matches
+                }  // end publishers for loop
             } else {
                 for (auto pub : trans_img_publishers_) {
                     // If the topic publisher exists, publish to topic
@@ -932,8 +934,8 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                         }
                         pub.publish(img_msg);
                         break;  // break publish for loop after image is published
-                    }           // end if topic name matches
-                }               // end publishers for loop
+                    }  // end if topic name matches
+                }  // end publishers for loop
             }
 
             // draw image
@@ -963,7 +965,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                 }
                 cv::waitKey(1);
             }  // end draw image
-        }      // end images in message for loop
+        }  // end images in message for loop
 
         // for each camera_name publish a transform
         // cout << "camera_names length: " << camera_names_.size() << endl;
@@ -1096,5 +1098,6 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

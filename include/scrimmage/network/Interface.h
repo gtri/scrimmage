@@ -42,6 +42,7 @@
 
 #if ENABLE_GRPC == 1
 #include <grpc++/grpc++.h>
+
 #include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
@@ -51,6 +52,7 @@
 #include <string>
 
 namespace scrimmage {
+
 class Interface {
  public:
     typedef enum Mode { shared = 0, client = 1, server = 2 } Mode_t;
@@ -155,5 +157,6 @@ class Interface {
     std::list<std::shared_ptr<scrimmage_proto::ContactVisual> > contact_visual_cache_;
 };
 using InterfacePtr = std::shared_ptr<Interface>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_NETWORK_INTERFACE_H_

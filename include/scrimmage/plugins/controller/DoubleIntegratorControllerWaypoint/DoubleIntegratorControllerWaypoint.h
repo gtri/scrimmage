@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace controller {
+
 class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -60,6 +61,7 @@ class DoubleIntegratorControllerWaypoint : public scrimmage::Controller {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_DOUBLEINTEGRATORCONTROLLERWAYPOINT_DOUBLEINTEGRATORCONTROLLERWAYPOINT_H_

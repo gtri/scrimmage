@@ -41,7 +41,9 @@
 #include "scrimmage/msgs/Waypoint.pb.h"
 
 namespace GeographicLib {
+
 class LocalCartesian;
+
 }
 
 namespace scrimmage {
@@ -104,6 +106,7 @@ class Waypoint {
 
     bool tolerance_in_2d_ = false;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_WAYPOINT_H_

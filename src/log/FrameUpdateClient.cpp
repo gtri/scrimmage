@@ -32,6 +32,7 @@
 
 #if ENABLE_GRPC == 1
 #include <grpc++/grpc++.h>
+
 #include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
@@ -40,6 +41,7 @@
 #include <string>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/log/FrameUpdateClient.h"
 #include "scrimmage/math/Angles.h"
@@ -121,4 +123,5 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame& frame) {
 void FrameUpdateClient::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian>& proj) {
     proj_ = proj;
 }
+
 }  // namespace scrimmage

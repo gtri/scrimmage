@@ -37,9 +37,10 @@
 
 #include <future>  // NOLINT
 #include <list>
-#include <mutex>  // NOLINT
+#include <mutex>   // NOLINT
 
 #include <google/protobuf/empty.pb.h>
+
 #include "scrimmage/proto/Frame.pb.h"
 #include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #include "scrimmage/proto/Visual.pb.h"
@@ -92,6 +93,7 @@ class ScrimmageServiceImpl final : public scrimmage_proto::ScrimmageService::Ser
  protected:
     Interface* interface_;
 };
+
 }  // namespace scrimmage
 
 #endif  // ENABLE_GRPC == 1

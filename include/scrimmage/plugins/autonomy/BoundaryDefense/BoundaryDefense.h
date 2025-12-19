@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class BoundaryDefense : public scrimmage::Autonomy {
  public:
     BoundaryDefense();
@@ -58,6 +59,7 @@ class BoundaryDefense : public scrimmage::Autonomy {
     int output_vel_y_idx_ = 0;
     int output_vel_z_idx_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOUNDARYDEFENSE_BOUNDARYDEFENSE_H_

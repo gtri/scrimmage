@@ -30,9 +30,11 @@
  *
  */
 
-#include <boost/algorithm/string.hpp>
-#include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h"
+
+#include <boost/algorithm/string.hpp>
+
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -80,5 +82,6 @@ bool FixedWing6DOFControllerROS::step(double t, double dt) {
 void FixedWing6DOFControllerROS::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

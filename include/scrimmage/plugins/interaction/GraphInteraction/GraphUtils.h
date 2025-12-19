@@ -42,15 +42,21 @@
 #include <boost/functional/hash.hpp>
 
 namespace scrimmage_msgs {
+
 class Graph;
+
 }  // namespace scrimmage_msgs
 
 namespace scrimmage_proto {
+
 class Shape;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage_proto {
+
 class Vector3d;
+
 }  // namespace scrimmage_proto
 
 namespace scrimmage {
@@ -75,6 +81,7 @@ std::tuple<std::shared_ptr<scrimmage_proto::Shape>, NodePairShapeMap, NodeShapeM
 
 std::unordered_map<uint64_t, scrimmage_proto::Vector3d> nodes_idxs_to_pos_map(
     const scrimmage_msgs::Graph& graph);
+
 }  // namespace interaction
 }  // namespace scrimmage
 

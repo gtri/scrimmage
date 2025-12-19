@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/log/Log.h"
+
 #include <iostream>
 
 #include <boost/filesystem.hpp>
@@ -38,8 +40,9 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 #include <google/protobuf/message_lite.h>
+#include <unistd.h>
+
 #include "scrimmage/entity/EntityPlugin.h"
-#include "scrimmage/log/Log.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Collision.pb.h"
 #include "scrimmage/proto/Frame.pb.h"
@@ -47,7 +50,6 @@
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/proto/Visual.pb.h"
 #include "scrimmage/pubsub/Message.h"
-#include <unistd.h>
 namespace fs = boost::filesystem;
 
 using std::cout;

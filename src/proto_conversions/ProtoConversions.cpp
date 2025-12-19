@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/proto/ProtoConversions.h"
+
 #include <cmath>
 
 #include "scrimmage/common/ColorMaps.h"
@@ -39,7 +41,6 @@
 #include "scrimmage/log/Frame.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/proto/Frame.pb.h"
-#include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
 namespace scrimmage {

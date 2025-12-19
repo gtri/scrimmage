@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/entity/EntityPlugin.h"
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -38,7 +40,6 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
-#include "scrimmage/entity/EntityPlugin.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
@@ -46,6 +47,7 @@
 #include "scrimmage/pubsub/Publisher.h"
 
 namespace scrimmage {
+
 EntityPlugin::EntityPlugin()
     : parent_(std::make_shared<Entity>()),
       transform_(std::make_shared<State>()),
@@ -143,4 +145,5 @@ void EntityPlugin::close_plugin(const double& t) {
     time_ = nullptr;
     shapes_.clear();
 }
+
 }  // namespace scrimmage

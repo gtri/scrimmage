@@ -33,6 +33,7 @@
 #include <Eigen/Dense>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/common/Shape.h"
 #include "scrimmage/proto/Shape.pb.h"
 #define _USE_MATH_DEFINES

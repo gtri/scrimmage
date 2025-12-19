@@ -56,6 +56,7 @@ class GPUSphereNetworkUtils {
     std::size_t prefered_workgroup_size_multiple_;
     std::size_t max_workgroup_size_;
 };
+
 }  // namespace network
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_NETWORK_GPUSPHERENETWORK_GPUSPHERENETWORKUTILS_H_

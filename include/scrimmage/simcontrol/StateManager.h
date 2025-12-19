@@ -43,5 +43,6 @@ class StateManager {
     std::vector<scrimmage::State> state_truths_;
     std::vector<scrimmage::State> states_;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_STATEMANAGER_H

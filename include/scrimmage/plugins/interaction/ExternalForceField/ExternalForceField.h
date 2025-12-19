@@ -81,6 +81,7 @@ class ExternalForceField : public scrimmage::EntityInteraction {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_EXTERNALFORCEFIELD_EXTERNALFORCEFIELD_H_

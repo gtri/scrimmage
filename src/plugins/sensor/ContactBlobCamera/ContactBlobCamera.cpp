@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h"
+
 #include <list>
 #include <utility>
 
@@ -37,6 +39,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/ID.h"
 #include "scrimmage/common/RTree.h"
@@ -50,7 +53,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCamera.h"
 #include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"

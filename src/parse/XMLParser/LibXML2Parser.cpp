@@ -30,6 +30,8 @@
  * similar to LibXML2 interface
  */
 
+#include "scrimmage/parse/XMLParser/LibXML2Parser.h"
+
 #include <cassert>
 #include <fstream>
 #include <iostream>
@@ -40,7 +42,6 @@
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
 #include <libxml/xmlreader.h>
-#include "scrimmage/parse/XMLParser/LibXML2Parser.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -49,6 +50,7 @@
 namespace fs = boost::filesystem;
 
 namespace scrimmage {
+
 LibXML2ParserAttribute::LibXML2ParserAttribute(xmlAttrPtr attribute) : attribute_(attribute) {}
 
 LibXML2ParserAttribute LibXML2ParserAttribute::next_attribute(const std::string& name) const {

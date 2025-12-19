@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class Boids : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -82,6 +83,7 @@ class Boids : public scrimmage::Autonomy {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_BOIDS_BOIDS_H_

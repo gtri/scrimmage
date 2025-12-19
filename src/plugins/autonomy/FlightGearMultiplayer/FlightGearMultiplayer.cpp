@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h"
+
 #include <flightgear/MultiPlayer/mpmessages.hxx>
 #include <flightgear/MultiPlayer/tiny_xdr.hxx>
 #include <iostream>
@@ -39,16 +41,16 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h"
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
 
 using std::cout;
 using std::endl;
@@ -67,9 +69,10 @@ FlightGearMultiplayer::FlightGearMultiplayer()
     : callsign_("scrimmage"),
       data_socket_(std::make_shared<netSocket>()),
       aircraft_model_(std::string("Aircraft/c172p/Models/c172p.xml")),
-      earth_(std::make_shared<GeographicLib::Geocentric>(
-          GeographicLib::Constants::WGS84_a(),
-          GeographicLib::Constants::WGS84_f())),
+      earth_(
+          std::make_shared<GeographicLib::Geocentric>(
+              GeographicLib::Constants::WGS84_a(),
+              GeographicLib::Constants::WGS84_f())),
       angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}
 
 void FlightGearMultiplayer::init(std::map<std::string, std::string>& params) {
@@ -181,5 +184,6 @@ bool FlightGearMultiplayer::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

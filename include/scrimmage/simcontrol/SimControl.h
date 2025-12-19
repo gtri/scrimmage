@@ -36,7 +36,7 @@
 #include <Eigen/Dense>
 #include <condition_variable>  // NOLINT
 #include <deque>
-#include <future>  // NOLINT
+#include <future>              // NOLINT
 #include <list>
 #include <map>
 #include <memory>
@@ -517,5 +517,6 @@ class SimControl {
 
     bool python_enabled_ = false;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_

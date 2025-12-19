@@ -42,14 +42,18 @@
 #include <unordered_map>
 
 #include <GeographicLib/LocalCartesian.hpp>
+
 #include "scrimmage/fwd_decl.h"
 
 namespace boost {
+
 template <class T>
 class optional;
+
 }
 
 namespace scrimmage {
+
 class SimControl;
 struct SimUtilsInfo {
     MissionParsePtr mp;
@@ -103,6 +107,7 @@ boost::optional<std::string> run_test(
     const std::string& mission,
     const bool& init_python = true,
     const bool& shutdown_python = true);
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_SIMCONTROL_SIMUTILS_H_

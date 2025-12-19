@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/BulletCollision/BulletCollision.h"
+
 #include <memory>
 
 #include "scrimmage/autonomy/Autonomy.h"
@@ -46,7 +48,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/BulletCollision/BulletCollision.h"
 #include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
@@ -477,11 +478,12 @@ bool BulletCollision::step_entity_interaction(std::list<sc::EntityPtr>& ents, do
                             res.m_hitPointWorld.z());
                         Eigen::Vector3d return_vec =
                             original_ray.normalized() * (hit_point - sensor_pos_w).norm();
-                        msg->data.points.push_back(RayTrace::PCPoint(
-                            return_vec,
-                            255,
-                            ((return_vec.norm() > msg->data.max_range)
-                             || (return_vec.norm() < msg->data.min_range))));
+                        msg->data.points.push_back(
+                            RayTrace::PCPoint(
+                                return_vec,
+                                255,
+                                ((return_vec.norm() > msg->data.max_range)
+                                 || (return_vec.norm() < msg->data.min_range))));
                         ray_end = hit_point;
                     } else {
                         msg->data.points.push_back(RayTrace::PCPoint(original_ray, 255, true));
@@ -680,11 +682,12 @@ bool BulletCollision::get_ray_tracing(
                 res.m_hitPointWorld.z());
             Eigen::Vector3d return_vec =
                 original_ray.normalized() * (hit_point - sensor_pos_w).norm();
-            response_cast->data.points.push_back(RayTrace::PCPoint(
-                return_vec,
-                255,
-                ((return_vec.norm() > response_cast->data.max_range)
-                 || (return_vec.norm() < response_cast->data.min_range))));
+            response_cast->data.points.push_back(
+                RayTrace::PCPoint(
+                    return_vec,
+                    255,
+                    ((return_vec.norm() > response_cast->data.max_range)
+                     || (return_vec.norm() < response_cast->data.min_range))));
             ray_end = hit_point;
         } else {
             response_cast->data.points.push_back(RayTrace::PCPoint(original_ray, 255, true));
@@ -740,5 +743,6 @@ void BulletCollision::remove_object(const int& id) {
 bool BulletCollision::collision_exists(std::list<sc::EntityPtr>& ents, Eigen::Vector3d& p) {
     return false;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

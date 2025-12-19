@@ -42,6 +42,7 @@
 #include <thread>
 
 #include <ros/ros.h>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/simcontrol/EntityInteraction.h"
 
@@ -77,6 +78,7 @@ class ROSClockServer : public scrimmage::EntityInteraction {
     std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<double>>
         sim_start_time_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_ROSCLOCKSERVER_ROSCLOCKSERVER_H_

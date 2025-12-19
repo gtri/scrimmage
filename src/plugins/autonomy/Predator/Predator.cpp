@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/Predator/Predator.h"
+
 #include <limits>
 
 #include "scrimmage/entity/Entity.h"
@@ -38,7 +40,6 @@
 #include "scrimmage/msgs/Capture.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/Predator/Predator.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
@@ -135,5 +136,6 @@ bool Predator::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

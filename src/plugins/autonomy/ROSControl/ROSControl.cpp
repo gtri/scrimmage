@@ -30,14 +30,16 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/ROSControl/ROSControl.h"
+
 #include <boost/numeric/odeint.hpp>
 #include <rosgraph_msgs/Clock.h>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/ROSControl/ROSControl.h"
 #include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 
 namespace pl = std::placeholders;
@@ -121,5 +123,6 @@ bool ROSControl::step_autonomy(double t, double dt) {
 void ROSControl::cmd_vel_cb(const geometry_msgs::Twist::ConstPtr& msg) {
     cmd_vel_ = *msg;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

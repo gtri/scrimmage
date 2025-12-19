@@ -40,6 +40,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class Unicycle : public scrimmage::MotionModel {
  public:
     bool init(std::map<std::string, std::string>& info, std::map<std::string, std::string>& params)
@@ -67,6 +68,7 @@ class Unicycle : public scrimmage::MotionModel {
     double pitch_rate_ = 0;
     double velocity_z_ = 0;
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UNICYCLE_UNICYCLE_H_

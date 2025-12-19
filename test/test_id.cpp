@@ -33,6 +33,7 @@
 #include <sstream>
 
 #include <gtest/gtest.h>
+
 #include "scrimmage/common/ID.h"
 
 namespace sc = scrimmage;

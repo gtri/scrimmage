@@ -32,6 +32,7 @@
 
 #include <boost/optional.hpp>
 #include <gtest/gtest.h>
+
 #include "scrimmage/simcontrol/SimUtils.h"
 
 namespace sc = scrimmage;

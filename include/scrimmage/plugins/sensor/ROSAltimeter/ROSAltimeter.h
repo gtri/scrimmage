@@ -41,6 +41,7 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <mavros_msgs/Altitude.h>
 #include <ros/ros.h>
+
 #include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
@@ -61,6 +62,7 @@ class ROSAltimeter : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSALTIMETER_ROSALTIMETER_H_

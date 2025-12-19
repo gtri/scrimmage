@@ -30,10 +30,11 @@
  *
  */
 
+#include "scrimmage/common/Shape.h"
+
 #include <iostream>
 #include <vector>
 
-#include "scrimmage/common/Shape.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 

@@ -39,6 +39,7 @@
 #include <string>
 
 #include <boost/graph/adjacency_list.hpp>
+
 #include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
@@ -93,6 +94,7 @@ class GraphInteraction : public scrimmage::EntityInteraction {
     PublisherPtr pub_graph_;
     int id_ = 1;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_GRAPHINTERACTION_GRAPHINTERACTION_H_

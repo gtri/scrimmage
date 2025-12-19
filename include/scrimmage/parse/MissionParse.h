@@ -245,6 +245,7 @@ class MissionParse {
         {"frames", "summary", "git_commits", "mission", "seed", "runtime"};
 };
 using MissionParsePtr = std::shared_ptr<MissionParse>;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PARSE_MISSIONPARSE_H_

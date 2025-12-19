@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h"
+
 #include <limits>
 #include <memory>
 
@@ -43,7 +45,6 @@
 #include "scrimmage/msgs/Collision.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/SimpleCollision/SimpleCollision.h"
 #include "scrimmage/pubsub/Message.h"
 
 namespace sm = scrimmage_msgs;
@@ -148,5 +149,6 @@ bool SimpleCollision::collision_exists(std::list<EntityPtr>& ents, Eigen::Vector
     }
     return false;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

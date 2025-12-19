@@ -38,6 +38,8 @@
 #include <string>
 #include <unordered_set>
 
+#include <signal.h>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Contact.h"
@@ -49,12 +51,12 @@
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/simcontrol/SimControl.h"
 #include "scrimmage/simcontrol/SimUtils.h"
-#include <signal.h>
 #if ENABLE_VTK == 1
 #include "scrimmage/viewer/Viewer.h"
 #endif
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/log/Log.h"
 
 using std::cout;
@@ -64,11 +66,13 @@ namespace sc = scrimmage;
 
 // Callback function for shutdown
 namespace {
+
 // https://stackoverflow.com/a/48164204
 std::function<void(int)> shutdown_handler;
 void signal_handler(int signal) {
     shutdown_handler(signal);
 }
+
 }  // namespace
 
 int main(int argc, char* argv[]) {

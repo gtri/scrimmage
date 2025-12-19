@@ -102,5 +102,6 @@ bool(>>> PLUGIN_NAME < < <)::step_autonomy(double t, double dt) {
     }
     return true;
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

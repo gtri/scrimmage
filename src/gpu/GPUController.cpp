@@ -1,5 +1,6 @@
-#include "scrimmage/common/FileSearch.h"
 #include "scrimmage/gpu/GPUController.h"
+
+#include "scrimmage/common/FileSearch.h"
 #include "scrimmage/gpu/GPUMotionModel.h"
 #include "scrimmage/gpu/OpenCLUtils.h"
 #include "scrimmage/parse/MissionParse.h"
@@ -25,6 +26,7 @@
 namespace fs = std::filesystem;
 
 namespace scrimmage {
+
 #if ENABLE_GPU_ACCELERATION == 1
 std::string GPUController::get_device_name(cl::Device& device) {
     std::string vendor = device.getInfo<CL_DEVICE_VENDOR>();
@@ -365,4 +367,5 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
 }
 
 #endif
+
 }  // namespace scrimmage

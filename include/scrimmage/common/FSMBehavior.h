@@ -41,6 +41,7 @@
 
 namespace scrimmage {
 namespace common {
+
 class FSMBehavior : public scrimmage::Autonomy {
  public:
     virtual void entered() {}
@@ -50,6 +51,7 @@ class FSMBehavior : public scrimmage::Autonomy {
  protected:
 };
 using FSMBehaviorPtr = std::shared_ptr<FSMBehavior>;
+
 }  // namespace common
 }  // namespace scrimmage
 

@@ -43,12 +43,15 @@
 #include "scrimmage/motion/MotionModel.h"
 
 namespace scrimmage {
+
 class State;
 using StatePtr = std::shared_ptr<State>;
+
 }  // namespace scrimmage
 
 namespace scrimmage {
 namespace motion {
+
 class SimpleAircraft : public scrimmage::MotionModel {
  public:
     virtual std::tuple<int, int, int> version();
@@ -84,6 +87,7 @@ class SimpleAircraft : public scrimmage::MotionModel {
     uint8_t roll_rate_idx_{0};
     uint8_t pitch_rate_idx_{0};
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_SIMPLEAIRCRAFT_SIMPLEAIRCRAFT_H_

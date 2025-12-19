@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/common/VariableIO.h"
+
 #include <Eigen/Dense>
 #include <iomanip>
 #include <iostream>
@@ -39,7 +41,6 @@
 
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm/set_algorithm.hpp>
-#include "scrimmage/common/VariableIO.h"
 
 namespace br = boost::range;
 namespace ba = boost::adaptors;
@@ -226,4 +227,5 @@ void print_io_error(const std::string& in_name, VariableIO& v) {
         std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
     }
 }
+
 }  // namespace scrimmage

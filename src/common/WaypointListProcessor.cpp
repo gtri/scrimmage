@@ -30,8 +30,9 @@
  *
  */
 
-#include <GeographicLib/LocalCartesian.hpp>
 #include "scrimmage/common/WaypointListProcessor.h"
+
+#include <GeographicLib/LocalCartesian.hpp>
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -140,5 +141,6 @@ boost::optional<const Waypoint&> WaypointListProcessor::next_waypoint() {
     return next_wp_it_ != wp_list_.end() ? boost::optional<const Waypoint&>{*next_wp_it_}
                                          : boost::optional<const Waypoint&>{};
 }
+
 }  // namespace autonomy
 }  // namespace scrimmage

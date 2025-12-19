@@ -30,9 +30,10 @@
  *
  */
 
+#include "scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h"
+
 #include "scrimmage/common/VariableIO.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -58,5 +59,6 @@ bool SingleIntegratorControllerSimple::step(double t, double dt) {
     vars_.output(output_vel_z_idx_, vars_.input(input_vel_z_idx_));
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

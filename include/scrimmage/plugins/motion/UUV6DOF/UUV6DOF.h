@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
  public:
     enum ModelParams {
@@ -186,6 +187,7 @@ class UUV6DOF : public scrimmage::motion::RigidBody6DOFBase {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_UUV6DOF_UUV6DOF_H_

@@ -74,6 +74,7 @@ class AircraftPIDController : public scrimmage::Controller {
 
     bool use_roll_control_ = false;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_AIRCRAFTPIDCONTROLLER_AIRCRAFTPIDCONTROLLER_H_

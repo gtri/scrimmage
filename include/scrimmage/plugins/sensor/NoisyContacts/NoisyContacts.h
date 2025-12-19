@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class NoisyContacts : public scrimmage::Sensor {
  public:
     NoisyContacts();
@@ -57,6 +58,7 @@ class NoisyContacts : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYCONTACTS_NOISYCONTACTS_H_

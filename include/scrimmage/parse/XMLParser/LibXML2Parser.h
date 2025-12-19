@@ -36,6 +36,7 @@
 
 #include <libxml/tree.h>
 #include <libxml/xmlreader.h>
+
 #include "scrimmage/parse/XMLParser/XMLParser.h"
 
 namespace scrimmage {
@@ -131,6 +132,7 @@ class LibXML2ParserDocument : public XMLParserDocument<LibXML2ParserDocument> {
 };
 
 using LibXML2Parser = LibXML2ParserDocument;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_LIBXML2PARSER_H_

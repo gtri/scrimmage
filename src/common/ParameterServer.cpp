@@ -30,12 +30,13 @@
  *
  */
 
+#include "scrimmage/common/ParameterServer.h"
+
 #include <algorithm>
 #include <string>
 
-#include "scrimmage/common/ParameterServer.h"
-
 namespace scrimmage {
+
 void ParameterServer::unregister_params(PluginPtr owner) {
     // For all parameters, remove all parameters owned by this plugin
     for (auto& kv1 : params_) {
@@ -55,4 +56,5 @@ bool ParameterServer::remove_if_owner(std::set<ParameterBasePtr>& param_set, Plu
     }
     return false;
 }
+
 }  // namespace scrimmage

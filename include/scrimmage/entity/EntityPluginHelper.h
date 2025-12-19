@@ -42,6 +42,7 @@
 #include <vector>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/fwd_decl.h"
 #include "scrimmage/motion/Controller.h"
@@ -121,5 +122,6 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
     }
     return boost::none;
 }
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITYPLUGINHELPER_H_

@@ -36,10 +36,12 @@
 #include <string>
 
 #include <boost/type_index.hpp>
+
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/SubscriberBase.h"
 
 namespace scrimmage {
+
 template <class T, class CallbackFunc>
 class Subscriber : public SubscriberBase {
  public:
@@ -63,5 +65,6 @@ class Subscriber : public SubscriberBase {
  protected:
     CallbackFunc callback_;
 };
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PUBSUB_SUBSCRIBER_H_

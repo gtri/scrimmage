@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h"
+
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -43,6 +45,7 @@
 #include <boost/graph/graph_utility.hpp>
 #include <boost/graph/graphml.hpp>
 #include <boost/optional.hpp>
+
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
@@ -51,7 +54,6 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/interaction/GraphInteraction/GraphInteraction.h"
 #include "scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"

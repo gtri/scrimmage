@@ -40,12 +40,14 @@
 
 #include <GeographicLib/Geocentric.hpp>
 #include <plib/netSocket.h>
+
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/Quaternion.h"
 
 namespace scrimmage {
 namespace autonomy {
+
 class FlightGearMultiplayer : public scrimmage::Autonomy {
  public:
     FlightGearMultiplayer();
@@ -68,6 +70,7 @@ class FlightGearMultiplayer : public scrimmage::Autonomy {
     struct T_PositionMsg pos_msg_;
     int msg_size_ = 0;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_FLIGHTGEARMULTIPLAYER_FLIGHTGEARMULTIPLAYER_H_

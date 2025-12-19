@@ -64,6 +64,7 @@ class UUV6DOFPIDController : public scrimmage::Controller {
     scrimmage::PID pitch_pid_;
     scrimmage::PID speed_pid_;
 };
+
 }  // namespace controller
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_CONTROLLER_UUV6DOFPIDCONTROLLER_UUV6DOFPIDCONTROLLER_H_

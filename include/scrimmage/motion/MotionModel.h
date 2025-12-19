@@ -87,5 +87,6 @@ class MotionModel : public EntityPlugin {
 };
 
 using MotionModelPtr = std::shared_ptr<MotionModel>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_MOTION_MOTIONMODEL_H_

@@ -70,5 +70,6 @@ bool(
 
     return true;
 }
+
 }  // namespace interaction
 }  // namespace scrimmage

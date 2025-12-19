@@ -90,6 +90,7 @@ class Sphere : public BoundaryBase {
  protected:
     double radius_;
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_BOUNDARY_SPHERE_H_

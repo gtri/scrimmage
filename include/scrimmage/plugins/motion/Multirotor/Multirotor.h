@@ -47,6 +47,7 @@
 
 namespace scrimmage {
 namespace motion {
+
 class Multirotor : public scrimmage::motion::RigidBody6DOFBase {
  public:
     enum ModelParams {
@@ -119,6 +120,7 @@ class Multirotor : public scrimmage::motion::RigidBody6DOFBase {
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
+
 }  // namespace motion
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_MOTION_MULTIROTOR_MULTIROTOR_H_

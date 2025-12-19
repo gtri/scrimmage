@@ -95,5 +95,6 @@ bool(>>> PLUGIN_NAME < < <)::step() {
     pub_->publish(msg);
     return true;
 }
+
 }  // namespace sensor
 }  // namespace scrimmage

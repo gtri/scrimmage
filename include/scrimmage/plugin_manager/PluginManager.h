@@ -213,6 +213,7 @@ class PluginManager {
 };
 
 using PluginManagerPtr = std::shared_ptr<PluginManager>;
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINMANAGER_H_

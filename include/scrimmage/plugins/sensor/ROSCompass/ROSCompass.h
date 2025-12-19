@@ -39,8 +39,9 @@
 #include <vector>
 
 #include <ros/ros.h>
-#include "scrimmage/sensor/Sensor.h"
 #include <sensor_msgs/MagneticField.h>
+
+#include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 namespace sensor {
@@ -59,6 +60,7 @@ class ROSCompass : public scrimmage::Sensor {
 
  private:
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_ROSCOMPASS_ROSCOMPASS_H_

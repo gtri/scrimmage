@@ -38,6 +38,7 @@
 
 namespace scrimmage {
 namespace autonomy {
+
 class TrajectoryPoint {
  public:
     TrajectoryPoint() : t_(0) {}
@@ -59,6 +60,7 @@ class TrajectoryPoint {
 
  private:
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_

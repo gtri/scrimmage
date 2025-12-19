@@ -29,12 +29,14 @@
  *
  */
 
+#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
+
 #include <chrono>  // NOLINT
 #include <iostream>
 #include <limits>
 #include <memory>
-#include <mutex>   // NOLINT
-#include <thread>  // NOLINT
+#include <mutex>                       // NOLINT
+#include <thread>                      // NOLINT
 
 #include <boost/algorithm/string.hpp>  // for boost::split
 #include <boost/filesystem.hpp>
@@ -42,6 +44,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
+#include "common/AirSimSettings.hpp"
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
@@ -51,12 +55,9 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-#include "common/AirSimSettings.hpp"
 
 using std::cout;
 using std::endl;
@@ -157,7 +158,7 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string>& para
                 }  // end try, catch
             }
         }  // end check token_1 size
-    }      // end for loop: tokens_2 in token_1
+    }  // end for loop: tokens_2 in token_1
 }  // end parse_camera_configs
 
 void AirSimSensor::parse_lidar_configs(std::map<std::string, std::string>& params) {

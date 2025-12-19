@@ -95,5 +95,6 @@ bool load_plugins(
     }
     return all_loaded;
 }
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGIN_MANAGER_PLUGINHELPER_H_

@@ -55,6 +55,7 @@ class(>>> PLUGIN_NAME < < <) : public scrimmage::EntityInteraction {
  protected:
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // (>>>HEADER_GUARD<<<)

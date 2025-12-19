@@ -113,6 +113,7 @@ class GPUController {
     static constexpr char KERNEL_PATH_ENV_VAR[] = "SCRIMMAGE_KERNEL_PATH";
 #endif
 };
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_GPU_GPUCONTROLLER_H

@@ -30,10 +30,11 @@
  *
  */
 
+#include "scrimmage/math/Angles.h"
+
 #include <cmath>
 
 #include <boost/math/special_functions/sign.hpp>
-#include "scrimmage/math/Angles.h"
 
 namespace scrimmage {
 
@@ -198,4 +199,5 @@ bool Angles::angle_within_rad(double ang1, double ang2, double ang) {
     double diff1 = angle_diff_rad(ang, ang2);
     return boost::math::sign(diff) == boost::math::sign(diff1) && std::abs(diff) > std::abs(diff1);
 }
+
 }  // namespace scrimmage

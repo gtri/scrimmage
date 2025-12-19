@@ -38,6 +38,7 @@
 #include <CL/opencl.hpp>
 #include <boost/optional.hpp>
 #include <gtest/gtest.h>
+
 #include "scrimmage/common/CSV.h"
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/log/Frame.h"

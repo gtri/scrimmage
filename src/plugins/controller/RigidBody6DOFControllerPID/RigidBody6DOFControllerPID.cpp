@@ -30,12 +30,14 @@
  *
  */
 
+#include "scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h"
+
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
+
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -94,5 +96,6 @@ bool RigidBody6DOFControllerPID::step(double t, double dt) {
     (*u_) << u_thrust, roll_error, pitch_error, 0;
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

@@ -40,6 +40,7 @@
 #include <vector>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/msgs/Terrain.pb.h"
 #include "scrimmage/proto/Shape.pb.h"
@@ -105,6 +106,7 @@ class TerrainMap {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_TERRAINGENERATOR_TERRAINMAP_H_

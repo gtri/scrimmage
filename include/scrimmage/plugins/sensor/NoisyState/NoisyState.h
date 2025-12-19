@@ -43,6 +43,7 @@
 
 namespace scrimmage {
 namespace sensor {
+
 class NoisyState : public scrimmage::Sensor {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -55,6 +56,7 @@ class NoisyState : public scrimmage::Sensor {
 
     PublisherPtr pub_;
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_

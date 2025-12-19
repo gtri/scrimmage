@@ -38,6 +38,7 @@
 #include <unordered_set>
 
 namespace scrimmage {
+
 /*! \brief std::remove_if does not work with associative containers.
  *
  * This implementation assumes the first argument has an erase method.
@@ -88,5 +89,6 @@ std::unordered_set<T> set_intersection(
         [&](const T& val) { return container2.count(val) != 0; });
     return out;
 }
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_

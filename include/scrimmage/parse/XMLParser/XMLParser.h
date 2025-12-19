@@ -47,6 +47,7 @@
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 namespace scrimmage {
+
 template <typename child>
 struct XMLParserTraits;
 
@@ -373,6 +374,7 @@ std::ostream& operator<<(std::ostream& out, const XMLParserDocument<T>& xml_doc)
     out << xml_doc.first_node();
     return out;
 }
+
 }  // namespace scrimmage
 
 #endif  // INCLUDE_SCRIMMAGE_PARSE_XMLPARSER_XMLPARSER_H_

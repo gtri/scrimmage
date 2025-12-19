@@ -29,6 +29,8 @@
  *
  */
 
+#include "scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/controller/HarmonicOscillatorConstController/HarmonicOscillatorConstController.h"
 
 using std::cout;
 using std::endl;
@@ -63,5 +64,6 @@ bool HarmonicOscillatorConstController::step(double t, double dt) {
     vars_.output(acceleration_z_idx_, acceleration_z_);
     return true;
 }
+
 }  // namespace controller
 }  // namespace scrimmage

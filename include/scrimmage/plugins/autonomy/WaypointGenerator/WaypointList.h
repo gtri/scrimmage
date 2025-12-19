@@ -68,6 +68,7 @@ class WaypointList {
     WaypointMode mode_ = WaypointMode::follow_once;
     unsigned int cycles_ = 1;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_WAYPOINTGENERATOR_WAYPOINTLIST_H_

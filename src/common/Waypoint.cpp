@@ -29,12 +29,14 @@
  * A Long description goes here.
  *
  */
+#include "scrimmage/common/Waypoint.h"
+
 #include <iomanip>
 #include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include "scrimmage/common/Waypoint.h"
+
 #include "scrimmage/math/State.h"
 #include "scrimmage/proto/ProtoConversions.h"
 

@@ -37,11 +37,13 @@
 #include <string>
 
 #include <MOOS/libMOOS/App/MOOSApp.h>
-#include "scrimmage/math/State.h"
 #include <string.h>
+
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 namespace autonomy {
+
 class MOOSNode : public CMOOSApp {
  public:
     // standard construction and destruction
@@ -95,6 +97,7 @@ class MOOSNode : public CMOOSApp {
     std::mutex desired_mutex_;
     scrimmage::State desired_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_MOOSAUTONOMY_MOOSNODE_H_

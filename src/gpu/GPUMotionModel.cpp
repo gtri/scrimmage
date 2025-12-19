@@ -29,12 +29,14 @@
  *
  */
 
+#include "scrimmage/gpu/GPUMotionModel.h"
+
 #include <memory>
 
-#include "scrimmage/gpu/GPUMotionModel.h"
 #include "scrimmage/gpu/GPUMotionModelImplementation.h"
 
 namespace scrimmage {
+
 GPUMotionModelPtr GPUMotionModel::build_motion_model(const GPUPluginBuildParams& build_params) {
     const auto& kernel = build_params.kernel;
     const auto& queue = build_params.queue;
@@ -53,4 +55,5 @@ std::map<std::string, GPUMotionModelPtr> GPUMotionModel::build_motion_models(
     }
     return motion_models;
 }
+
 }  // namespace scrimmage

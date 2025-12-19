@@ -30,8 +30,9 @@
  *
  */
 
-#include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/controller/AircraftToSingleIntegratorController/AircraftToSingleIntegratorController.h"
+
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
 REGISTER_PLUGIN(
     scrimmage::Controller,
     scrimmage::controller::AircraftToSingleIntegratorController,
@@ -39,4 +40,5 @@ REGISTER_PLUGIN(
 
 namespace scrimmage {
 namespace controller {}  // namespace controller
+
 }  // namespace scrimmage

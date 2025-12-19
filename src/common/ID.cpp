@@ -30,9 +30,9 @@
  *
  */
 
-#include <iostream>
-
 #include "scrimmage/common/ID.h"
+
+#include <iostream>
 
 namespace scrimmage {
 

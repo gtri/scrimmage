@@ -42,12 +42,14 @@
 #include <vector>
 
 #include <opencv2/core/core.hpp>
+
 #include "scrimmage/entity/Contact.h"
 #include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 
 namespace sensor {
+
 class ContactBlobCameraType;
 
 class ContactBlobCamera : public scrimmage::Sensor {
@@ -123,6 +125,7 @@ class ContactBlobCamera : public scrimmage::Sensor {
 
     scrimmage::ContactMap sim_contacts_;
 };
+
 }  // namespace sensor
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_CONTACTBLOBCAMERA_CONTACTBLOBCAMERA_H_

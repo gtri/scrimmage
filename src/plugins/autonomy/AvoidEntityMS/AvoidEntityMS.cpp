@@ -30,6 +30,8 @@
  *
  */
 
+#include "scrimmage/plugins/autonomy/AvoidEntityMS/AvoidEntityMS.h"
+
 #include <iostream>
 #include <limits>
 
@@ -38,7 +40,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-#include "scrimmage/plugins/autonomy/AvoidEntityMS/AvoidEntityMS.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
@@ -146,6 +147,7 @@ bool AvoidEntityMS::step_autonomy(double t, double dt) {
 
     return true;
 }
+
 }  // namespace motor_schemas
 }  // namespace autonomy
 }  // namespace scrimmage

@@ -43,6 +43,7 @@
 #include <vector>
 
 #include <boost/optional.hpp>
+
 #include "scrimmage/common/ID.h"
 #include "scrimmage/entity/Contact.h"
 #include "scrimmage/fwd_decl.h"
@@ -51,7 +52,9 @@
 #include "scrimmage/simcontrol/SimUtils.h"
 
 namespace scrimmage_proto {
+
 using ContactVisualPtr = std::shared_ptr<ContactVisual>;
+
 }
 
 namespace scrimmage {
@@ -250,5 +253,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
 };
 
 using EntityPtr = std::shared_ptr<Entity>;
+
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_ENTITY_ENTITY_H_

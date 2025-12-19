@@ -30,9 +30,10 @@
  *
  */
 
+#include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h"
+
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h"
 
 namespace sc = scrimmage;
 
@@ -52,5 +53,6 @@ double SimpleCollisionScore::score() {
                + team_collisions() * team_collisions_w_;
     return s;
 }
+
 }  // namespace metrics
 }  // namespace scrimmage

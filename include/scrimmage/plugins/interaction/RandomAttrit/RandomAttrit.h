@@ -71,6 +71,7 @@ class RandomAttrit : public scrimmage::EntityInteraction {
 
  private:
 };
+
 }  // namespace interaction
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_INTERACTION_RANDOMATTRIT_RANDOMATTRIT_H_

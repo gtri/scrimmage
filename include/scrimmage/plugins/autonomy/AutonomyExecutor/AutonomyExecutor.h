@@ -43,6 +43,7 @@ namespace sc = scrimmage;
 
 namespace scrimmage {
 namespace autonomy {
+
 class AutonomyExecutor : public scrimmage::Autonomy {
  public:
     void init(std::map<std::string, std::string>& params) override;
@@ -64,6 +65,7 @@ class AutonomyExecutor : public scrimmage::Autonomy {
     // Value: Input variable index
     std::map<int, int> io_map_;
 };
+
 }  // namespace autonomy
 }  // namespace scrimmage
 #endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_AUTONOMYEXECUTOR_AUTONOMYEXECUTOR_H_

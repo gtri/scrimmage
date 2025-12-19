@@ -32,28 +32,28 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_
-#include "scrimmage/autonomy/Autonomy.h"
-#include "scrimmage/entity/Contact.h"
-
 #include <Eigen/Dense>
-
 #include <map>
 #include <memory>
 #include <string>
+
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/entity/Contact.h"
 
 namespace scrimmage {
 namespace autonomy {
 
 class SimplePubSub : public scrimmage::Autonomy {
-public:
-  void init(std::map<std::string, std::string> &params) override;
-  bool step_autonomy(double t, double dt) override;
+ public:
+    void init(std::map<std::string, std::string>& params) override;
+    bool step_autonomy(double t, double dt) override;
 
-protected:
-  void received_heartbeat(scrimmage::MessagePtr<int> msg);
-  std::map<int, std::size_t> entity_heartbeat_count;
-  PublisherPtr pub_sphere_;
+ protected:
+    void received_heartbeat(scrimmage::MessagePtr<int> msg);
+    std::map<int, std::size_t> entity_heartbeat_count;
+    PublisherPtr pub_sphere_;
 };
-} // namespace autonomy
-} // namespace scrimmage
-#endif // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_
+
+}  // namespace autonomy
+}  // namespace scrimmage
+#endif  // INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_SIMPLEPUBSUB_SIMPLEPUBSUB_H_

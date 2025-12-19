@@ -43,6 +43,7 @@
 namespace scrimmage {
 namespace autonomy {
 namespace motor_schemas {
+
 class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
  public:
     AvoidEntityMS();
@@ -61,6 +62,7 @@ class AvoidEntityMS : public scrimmage::autonomy::motor_schemas::BehaviorBase {
 
     void avoidance_vectors(ContactMap& contacts, std::vector<Eigen::Vector3d>& O_vecs);
 };
+
 }  // namespace motor_schemas
 }  // namespace autonomy
 }  // namespace scrimmage
