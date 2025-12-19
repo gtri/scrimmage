@@ -36,9 +36,9 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/fwd_decl.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/fwd_decl.h"
 
 namespace scrimmage {
 

@@ -39,8 +39,8 @@
 #include <tuple>
 #include <vector>
 
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
 
 using std::cout;
 using std::endl;

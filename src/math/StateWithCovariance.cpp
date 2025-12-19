@@ -29,7 +29,7 @@
  * A Long description goes here.
  *
  */
-#include <scrimmage/math/StateWithCovariance.h>
+#include "scrimmage/math/StateWithCovariance.h"
 
 namespace scrimmage {
 StateWithCovariance::StateWithCovariance() : covariance_(Eigen::MatrixXd::Identity(3, 3)) {}

@@ -38,8 +38,8 @@
 #include <utility>
 #include <vector>
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/pubsub/Message.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/pubsub/Message.h"
 
 namespace scrimmage {
 

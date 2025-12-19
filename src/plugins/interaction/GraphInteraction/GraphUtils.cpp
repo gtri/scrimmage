@@ -35,11 +35,11 @@
 
 #include <boost/range/adaptor/transformed.hpp>
 #include <boost/range/algorithm/transform.hpp>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/msgs/Graph.pb.h>
-#include <scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/msgs/Graph.pb.h"
+#include "scrimmage/plugins/interaction/GraphInteraction/GraphUtils.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 namespace ba = boost::adaptors;
 namespace br = boost::range;

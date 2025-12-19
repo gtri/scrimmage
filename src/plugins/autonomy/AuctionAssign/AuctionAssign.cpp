@@ -34,18 +34,18 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/AuctionMsgs.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Network.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/AuctionMsgs.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/AuctionAssign/AuctionAssign.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Network.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

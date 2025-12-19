@@ -39,10 +39,10 @@
 #include <string>
 
 #include <opencv2/core/core.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

@@ -37,7 +37,7 @@
 #include <vector>
 
 #include <rapidxml/rapidxml.hpp>
-#include <scrimmage/parse/XMLParser/RapidXMLParser.h>
+#include "scrimmage/parse/XMLParser/RapidXMLParser.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

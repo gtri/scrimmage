@@ -40,9 +40,9 @@
 
 #include <GeographicLib/Geocentric.hpp>
 #include <plib/netSocket.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
 
 namespace scrimmage {
 namespace autonomy {

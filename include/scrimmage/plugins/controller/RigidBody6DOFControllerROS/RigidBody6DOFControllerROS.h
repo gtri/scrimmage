@@ -39,7 +39,7 @@
 
 #include <geometry_msgs/Twist.h>
 #include <ros/ros.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h>
+#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOF.h"
 
 namespace scrimmage {
 namespace controller {

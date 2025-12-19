@@ -37,7 +37,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/motion/Controller.h>
+#include "scrimmage/motion/Controller.h"
 
 namespace scrimmage {
 namespace controller {

@@ -30,7 +30,7 @@
  *
  */
 
-#include <scrimmage/viewer/OriginAxes.h>
+#include "scrimmage/viewer/OriginAxes.h"
 
 namespace scrimmage {
 

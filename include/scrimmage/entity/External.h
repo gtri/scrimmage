@@ -47,19 +47,19 @@
 #include <boost/bind/bind.hpp>
 #include <boost/function.hpp>
 #include <boost/type_index.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/DelayedTask.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/log/Log.h>
-#include <scrimmage/log/Print.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/DelayedTask.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Log.h"
+#include "scrimmage/log/Print.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 namespace scrimmage {
 

@@ -35,12 +35,12 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <rosgraph_msgs/Clock.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h>
-#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/ROSAirSim/ROSAirSim.h"
+#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 
 using std::cout;
 using std::endl;

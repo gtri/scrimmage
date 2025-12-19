@@ -35,8 +35,8 @@
 #include <vector>
 
 #include <gtest/gtest.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 namespace sc = scrimmage;
 

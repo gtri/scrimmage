@@ -33,8 +33,8 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_AUTONOMY_TRAJECTORYRECORDPLAYBACK_TRAJECTORYPOINT_H_
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/math/State.h"
 
 namespace scrimmage {
 namespace autonomy {

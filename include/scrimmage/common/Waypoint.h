@@ -37,8 +37,8 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Waypoint.pb.h>
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Waypoint.pb.h"
 
 namespace GeographicLib {
 class LocalCartesian;

@@ -30,10 +30,10 @@
  *
  */
 
-// #include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
+// #include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetwork.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h"
 
 namespace scrimmage {
 namespace network {  // namespace network

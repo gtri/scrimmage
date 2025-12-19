@@ -38,8 +38,8 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/metrics/Metrics.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/metrics/Metrics.h"
 
 namespace sc = scrimmage;
 

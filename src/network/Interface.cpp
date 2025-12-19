@@ -32,8 +32,8 @@
 
 #if ENABLE_GRPC
 #include <grpc++/grpc++.h>
-#include <scrimmage/network/ScrimmageServiceImpl.h>
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include "scrimmage/network/ScrimmageServiceImpl.h"
+#include "scrimmage/proto/Scrimmage.grpc.pb.h"
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
@@ -42,11 +42,11 @@ using grpc::Status;
 #include <iostream>
 #include <thread>  // NOLINT
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Contact.h>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Contact.h"
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 using std::cout;
 using std::endl;

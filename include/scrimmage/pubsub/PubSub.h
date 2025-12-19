@@ -38,7 +38,7 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/pubsub/Subscriber.h"
 
 namespace boost {
 template <class T>

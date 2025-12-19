@@ -33,7 +33,7 @@
 #include <cmath>
 #include <limits>
 
-#include <scrimmage/common/ExponentialFilter.h>
+#include "scrimmage/common/ExponentialFilter.h"
 
 namespace scrimmage {
 

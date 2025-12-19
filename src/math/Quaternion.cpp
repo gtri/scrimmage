@@ -33,7 +33,7 @@
 #include <iomanip>
 #include <iostream>
 
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/math/Quaternion.h"
 
 namespace scrimmage {
 

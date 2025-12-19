@@ -36,8 +36,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/parse/ConfigParse.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/parse/ConfigParse.h"
 
 namespace sc = scrimmage;
 

@@ -31,8 +31,8 @@
 
 #include <memory>
 
-#include <scrimmage/gpu/GPUMotionModel.h>
-#include <scrimmage/gpu/GPUMotionModelImplementation.h>
+#include "scrimmage/gpu/GPUMotionModel.h"
+#include "scrimmage/gpu/GPUMotionModelImplementation.h"
 
 namespace scrimmage {
 GPUMotionModelPtr GPUMotionModel::build_motion_model(const GPUPluginBuildParams& build_params) {

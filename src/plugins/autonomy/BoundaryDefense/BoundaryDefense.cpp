@@ -34,19 +34,19 @@
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/BoundaryDefense/BoundaryDefense.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/BoundaryDefense/BoundaryDefense.h"
+#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h"
+#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

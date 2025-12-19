@@ -36,7 +36,7 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/pubsub/NetworkDevice.h>
+#include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {
 class SubscriberBase : public NetworkDevice {

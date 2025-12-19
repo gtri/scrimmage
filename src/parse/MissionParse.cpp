@@ -30,17 +30,17 @@
  *
  */
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/parse/XMLParser/RapidXMLParser.h>
-#include <scrimmage/parse/XMLParser/XMLParser.h>
-#include <scrimmage/proto/ProtoConversions.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/parse/XMLParser/RapidXMLParser.h"
+#include "scrimmage/parse/XMLParser/XMLParser.h"
+#include "scrimmage/proto/ProtoConversions.h"
 
 #if ENABLE_LIBXML2_PARSER
-#include <scrimmage/parse/XMLParser/LibXML2Parser.h>
+#include "scrimmage/parse/XMLParser/LibXML2Parser.h"
 #endif
 
 #include <fstream>

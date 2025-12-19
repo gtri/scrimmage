@@ -37,9 +37,9 @@
 #include <string>
 #include <utility>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 namespace scrimmage {
 

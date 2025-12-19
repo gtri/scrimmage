@@ -29,7 +29,7 @@
  *
  */
 
-#include <scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h>
+#include "scrimmage/plugins/sensor/ROSIMUSensor/HG4930IMUBudget.h"
 
 HG4930IMUBudget::HG4930IMUBudget() {
     InRunBiasOption = localInRunBiasOption;

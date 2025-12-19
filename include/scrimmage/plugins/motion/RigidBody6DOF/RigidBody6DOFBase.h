@@ -32,7 +32,7 @@
 
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_RIGIDBODY6DOF_RIGIDBODY6DOFBASE_H_
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/motion/MotionModel.h"
 
 namespace scrimmage {
 namespace motion {

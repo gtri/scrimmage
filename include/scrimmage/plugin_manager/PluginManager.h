@@ -42,10 +42,10 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 #ifdef __APPLE__
 #define LIB_EXT ".dylib"

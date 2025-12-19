@@ -38,8 +38,8 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 
 namespace scrimmage {
 namespace autonomy {

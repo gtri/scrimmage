@@ -30,9 +30,9 @@
  *
  */
 
-#include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h>
+#include "scrimmage/math/State.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

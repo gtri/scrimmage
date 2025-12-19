@@ -38,7 +38,7 @@
 #include <string>
 #include <thread>  // NOLINT
 
-#include <scrimmage/viewer/CameraInterface.h>
+#include "scrimmage/viewer/CameraInterface.h"
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>

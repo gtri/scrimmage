@@ -29,9 +29,9 @@
  *
  */
 
-#include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/gpu/GPUMotionModel.h>
-#include <scrimmage/gpu/GPUMotionModelImplementation.h>
+#include "scrimmage/gpu/GPUController.h"
+#include "scrimmage/gpu/GPUMotionModel.h"
+#include "scrimmage/gpu/GPUMotionModelImplementation.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

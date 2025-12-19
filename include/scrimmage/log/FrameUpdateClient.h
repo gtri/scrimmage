@@ -33,12 +33,12 @@
 #ifndef INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_
 #define INCLUDE_SCRIMMAGE_LOG_FRAMEUPDATECLIENT_H_
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/proto/Frame.pb.h>
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/proto/Frame.pb.h"
 
 #if ENABLE_GRPC == 1
-#include <scrimmage/proto/Scrimmage.grpc.pb.h>
+#include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
 #include <memory>

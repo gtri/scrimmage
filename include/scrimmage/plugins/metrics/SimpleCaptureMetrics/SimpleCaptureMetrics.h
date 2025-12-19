@@ -38,7 +38,8 @@
 #include <set>
 #include <string>
 
-#include <scrimmage/metrics/Metrics.h>
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 using std::cout;
 using std::endl;

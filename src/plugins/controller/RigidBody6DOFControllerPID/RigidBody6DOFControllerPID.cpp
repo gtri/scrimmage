@@ -33,9 +33,9 @@
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h>
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h"
 
 REGISTER_PLUGIN(
     scrimmage::Controller,

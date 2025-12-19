@@ -33,7 +33,7 @@
 #include <cmath>
 
 #include <boost/math/special_functions/sign.hpp>
-#include <scrimmage/math/Angles.h>
+#include "scrimmage/math/Angles.h"
 
 namespace scrimmage {
 

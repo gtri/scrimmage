@@ -33,16 +33,16 @@
 #include <iostream>
 #include <memory>
 
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/msgs/Simple.pb.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/pubsub/Network.h>
-#include <scrimmage/pubsub/NetworkDevice.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/SubscriberBase.h>
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/msgs/Simple.pb.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/pubsub/Network.h"
+#include "scrimmage/pubsub/NetworkDevice.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/SubscriberBase.h"
 
 namespace scrimmage {
 

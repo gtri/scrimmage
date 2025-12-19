@@ -34,12 +34,12 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/common/Shape.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h>
+#include "scrimmage/common/Shape.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/ROSShapeViz/ROSShapeViz.h"
 
 using std::cout;
 using std::endl;

@@ -36,9 +36,9 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/gpu/GPUMapBuffer.h>
-#include <scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h>
-#include <scrimmage/pubsub/Network.h>
+#include "scrimmage/gpu/GPUMapBuffer.h"
+#include "scrimmage/plugins/network/GPUSphereNetwork/GPUSphereNetworkUtils.h"
+#include "scrimmage/pubsub/Network.h"
 
 namespace scrimmage {
 namespace network {

@@ -40,10 +40,10 @@
 #include <set>
 #include <string>
 
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
 
 using std::cout;
 using std::endl;

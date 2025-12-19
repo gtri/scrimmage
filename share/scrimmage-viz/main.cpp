@@ -33,9 +33,9 @@
 #include <map>
 
 #include <boost/program_options.hpp>
-#include <scrimmage/network/Interface.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/viewer/Viewer.h>
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/viewer/Viewer.h"
 
 namespace sc = scrimmage;
 namespace po = boost::program_options;

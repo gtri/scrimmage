@@ -33,12 +33,12 @@
 #include <iostream>
 #include <limits>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h>
-#include <scrimmage/pubsub/PubSub.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/autonomy/JoystickAutonomy/JoystickAutonomy.h"
+#include "scrimmage/pubsub/PubSub.h"
 
 using std::cout;
 using std::endl;

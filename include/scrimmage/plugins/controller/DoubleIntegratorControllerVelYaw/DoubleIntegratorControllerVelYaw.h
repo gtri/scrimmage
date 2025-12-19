@@ -37,8 +37,8 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h"
 
 namespace scrimmage {
 namespace controller {

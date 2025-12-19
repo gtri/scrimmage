@@ -47,12 +47,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include <scrimmage/common/DelayedTask.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/Timer.h>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/common/DelayedTask.h"
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/Timer.h"
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/proto/Visual.pb.h"
 
 namespace scrimmage {
 

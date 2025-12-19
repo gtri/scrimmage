@@ -32,7 +32,7 @@
 #include <algorithm>
 #include <string>
 
-#include <scrimmage/common/GlobalService.h>
+#include "scrimmage/common/GlobalService.h"
 
 namespace scrimmage {
 

@@ -42,11 +42,11 @@
 #include <vector>
 
 #include <boost/optional.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/plugin_manager/PluginManager.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/plugin_manager/PluginManager.h"
 
 namespace scrimmage {
 

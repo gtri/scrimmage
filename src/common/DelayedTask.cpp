@@ -32,7 +32,7 @@
 
 #include <limits>
 
-#include <scrimmage/common/DelayedTask.h>
+#include "scrimmage/common/DelayedTask.h"
 
 namespace scrimmage {
 

@@ -40,10 +40,10 @@
 #include <vector>
 
 #include <boost/optional.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/msgs/Terrain.pb.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/msgs/Terrain.pb.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

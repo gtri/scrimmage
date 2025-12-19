@@ -33,7 +33,7 @@
 #include <functional>
 
 #include <boost/numeric/odeint.hpp>
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/motion/MotionModel.h"
 
 namespace pl = std::placeholders;
 

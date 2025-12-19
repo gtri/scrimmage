@@ -32,16 +32,16 @@
 
 #include <vector>
 
-#include <scrimmage/common/Random.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/StateWithCovariance.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/sensor/NoisyState/NoisyState.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/math/StateWithCovariance.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/sensor/NoisyState/NoisyState.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace sc = scrimmage;
 

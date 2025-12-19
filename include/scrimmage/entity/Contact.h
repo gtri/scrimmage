@@ -38,8 +38,8 @@
 #include <string>
 #include <unordered_map>
 
-#include <scrimmage/common/ID.h>
-#include <scrimmage/pubsub/Message.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/pubsub/Message.h"
 
 namespace scrimmage_proto {
 class ContactVisual;

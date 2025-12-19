@@ -36,8 +36,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/motion/Controller.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/motion/Controller.h"
 
 namespace scrimmage {
 namespace controller {

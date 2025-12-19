@@ -37,8 +37,8 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/common/Battery.h>
-#include <scrimmage/motion/Controller.h>
+#include "scrimmage/common/Battery.h"
+#include "scrimmage/motion/Controller.h"
 
 namespace scrimmage {
 namespace controller {

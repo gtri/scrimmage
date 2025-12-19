@@ -37,9 +37,9 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

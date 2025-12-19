@@ -38,9 +38,9 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/motion/Controller.h>
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/motion/Controller.h"
+#include "scrimmage/plugins/motion/Multirotor/Multirotor.h"
 
 namespace scrimmage {
 namespace controller {

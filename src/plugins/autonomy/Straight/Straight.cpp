@@ -30,42 +30,42 @@
  *
  */
 
-#include <scrimmage/common/Shape.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/math/StateWithCovariance.h>
-#include <scrimmage/msgs/Event.pb.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/Boundary/Boundary.h>
-#include <scrimmage/plugins/interaction/Boundary/BoundaryBase.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/common/Shape.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/math/StateWithCovariance.h"
+#include "scrimmage/msgs/Event.pb.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/Boundary/Boundary.h"
+#include "scrimmage/plugins/interaction/Boundary/BoundaryBase.h"
+#include "scrimmage/proto/State.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
+#include "scrimmage/sensor/Sensor.h"
 
 #if ENABLE_OPENCV == 1
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-#include <scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h>
+#include "scrimmage/plugins/sensor/ContactBlobCamera/ContactBlobCameraType.h"
 #endif
 
 #if ENABLE_AIRSIM == 1
-#include <scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h>
+#include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
 #endif
 
-#include <scrimmage/plugins/interaction/Boundary/Cuboid.h>
+#include "scrimmage/plugins/interaction/Boundary/Cuboid.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
 namespace sci = scrimmage::interaction;
 
-#include <scrimmage/plugins/autonomy/Straight/Straight.h>
+#include "scrimmage/plugins/autonomy/Straight/Straight.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

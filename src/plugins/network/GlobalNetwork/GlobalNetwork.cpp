@@ -34,18 +34,18 @@
 #include <limits>
 #include <memory>
 
-#include <scrimmage/common/ID.h>
-#include <scrimmage/common/RTree.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/network/GlobalNetwork/GlobalNetwork.h>
-#include <scrimmage/plugins/network/SphereNetwork/SphereNetwork.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/ID.h"
+#include "scrimmage/common/RTree.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/network/GlobalNetwork/GlobalNetwork.h"
+#include "scrimmage/plugins/network/SphereNetwork/SphereNetwork.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

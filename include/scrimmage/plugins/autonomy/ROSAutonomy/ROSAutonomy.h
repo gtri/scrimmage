@@ -40,9 +40,9 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
+#include "scrimmage/pubsub/Subscriber.h"
 #include <sensor_msgs/LaserScan.h>
 #include <tf/transform_broadcaster.h>
 

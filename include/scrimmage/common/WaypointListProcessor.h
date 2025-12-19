@@ -37,9 +37,9 @@
 #include <memory>
 
 #include <boost/optional.hpp>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/msgs/Waypoint.pb.h>
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/msgs/Waypoint.pb.h"
 
 namespace scrimmage {
 

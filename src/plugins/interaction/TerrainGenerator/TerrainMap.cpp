@@ -31,8 +31,8 @@
  */
 
 #include <boost/algorithm/clamp.hpp>
-#include <scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h>
-#include <scrimmage/proto/ProtoConversions.h>
+#include "scrimmage/plugins/interaction/TerrainGenerator/TerrainMap.h"
+#include "scrimmage/proto/ProtoConversions.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;

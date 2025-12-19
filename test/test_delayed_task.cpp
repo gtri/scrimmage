@@ -31,7 +31,7 @@
  */
 
 #include <gtest/gtest.h>
-#include <scrimmage/common/DelayedTask.h>
+#include "scrimmage/common/DelayedTask.h"
 
 namespace sc = scrimmage;
 

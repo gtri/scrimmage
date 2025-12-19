@@ -33,9 +33,9 @@
 #include <algorithm>
 #include <iostream>
 
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/controller/JoystickController/Joystick.h>
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugins/controller/JoystickController/Joystick.h"
 
 using std::cout;
 using std::endl;

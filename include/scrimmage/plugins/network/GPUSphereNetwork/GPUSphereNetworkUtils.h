@@ -36,8 +36,8 @@
 #include <map>
 #include <set>
 
-#include <scrimmage/gpu/GPUMapBuffer.h>
-#include <scrimmage/pubsub/Network.h>
+#include "scrimmage/gpu/GPUMapBuffer.h"
+#include "scrimmage/pubsub/Network.h"
 
 namespace scrimmage {
 namespace network {

@@ -33,15 +33,15 @@
 #include <memory>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/motion/MotionModel.h>
-#include <scrimmage/msgs/Collision.pb.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/interaction/GroundCollision/GroundCollision.h>
-#include <scrimmage/pubsub/Message.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/motion/MotionModel.h"
+#include "scrimmage/msgs/Collision.pb.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/interaction/GroundCollision/GroundCollision.h"
+#include "scrimmage/pubsub/Message.h"
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;

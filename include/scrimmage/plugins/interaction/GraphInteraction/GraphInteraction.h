@@ -39,7 +39,7 @@
 #include <string>
 
 #include <boost/graph/adjacency_list.hpp>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 

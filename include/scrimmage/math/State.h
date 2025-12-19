@@ -38,7 +38,7 @@
 #include <memory>
 #include <typeinfo>
 
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/math/Quaternion.h"
 
 namespace scrimmage {
 

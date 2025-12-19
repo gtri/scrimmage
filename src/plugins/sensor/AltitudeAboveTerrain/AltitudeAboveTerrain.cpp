@@ -34,17 +34,17 @@
 #include <limits>
 
 #include <boost/optional.hpp>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/sensor/AltitudeAboveTerrain/AltitudeAboveTerrain.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/proto/State.pb.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/sensor/AltitudeAboveTerrain/AltitudeAboveTerrain.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/proto/State.pb.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

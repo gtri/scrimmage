@@ -35,12 +35,12 @@
 #include <sstream>
 #include <vector>
 
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/common/PID.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/Visual.pb.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/common/PID.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/proto/Visual.pb.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

@@ -38,9 +38,9 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/proto/Shape.pb.h>
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/proto/Shape.pb.h"
 
 namespace scrimmage {
 namespace shape {

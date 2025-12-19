@@ -35,8 +35,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/CSV.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/CSV.h"
 
 namespace scrimmage {
 namespace autonomy {

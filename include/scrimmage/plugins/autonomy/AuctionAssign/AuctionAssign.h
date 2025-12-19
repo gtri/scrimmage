@@ -37,7 +37,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
+#include "scrimmage/autonomy/Autonomy.h"
 
 namespace scrimmage {
 namespace autonomy {

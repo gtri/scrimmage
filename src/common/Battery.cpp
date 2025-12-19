@@ -32,7 +32,7 @@
 #include <cmath>
 #include <limits>
 
-#include <scrimmage/common/Battery.h>
+#include "scrimmage/common/Battery.h"
 
 namespace scrimmage {
 Battery::Battery(const double& min, const double& max, const double& current)

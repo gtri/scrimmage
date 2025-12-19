@@ -36,7 +36,7 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h>
+#include "scrimmage/plugins/motion/DoubleIntegrator/DoubleIntegrator.h"
 
 namespace scrimmage {
 namespace controller {

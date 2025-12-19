@@ -36,7 +36,7 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/pubsub/MessageBase.h>
+#include "scrimmage/pubsub/MessageBase.h"
 
 namespace scrimmage {
 

@@ -35,8 +35,8 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/math/Quaternion.h>
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/math/Quaternion.h"
 
 namespace sc = scrimmage;
 

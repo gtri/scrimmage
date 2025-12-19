@@ -32,9 +32,9 @@
 
 #include <list>
 
-#include <scrimmage/msgs/Command.grpc.pb.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h>
-#include <scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h>
+#include "scrimmage/msgs/Command.grpc.pb.h"
+#include "scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h"
+#include "scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h"
 
 namespace scrimmage {
 ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl(std::shared_ptr<Plugin> plugin)

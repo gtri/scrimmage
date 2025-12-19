@@ -1,4 +1,4 @@
-#include <scrimmage/pubsub/NetworkDevice.h>
+#include "scrimmage/pubsub/NetworkDevice.h"
 #include <string.h>
 
 namespace {

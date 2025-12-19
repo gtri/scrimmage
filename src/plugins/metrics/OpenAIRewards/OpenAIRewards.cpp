@@ -33,19 +33,19 @@
 #include <iostream>
 #include <limits>
 
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/metrics/Metrics.h>
-#include <scrimmage/msgs/Collision.pb.h>
-#include <scrimmage/msgs/Event.pb.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h>
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/Subscriber.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/metrics/Metrics.h"
+#include "scrimmage/msgs/Collision.pb.h"
+#include "scrimmage/msgs/Event.pb.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/metrics/OpenAIRewards/OpenAIRewards.h"
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Subscriber.h"
 
 using std::cout;
 using std::endl;

@@ -36,7 +36,7 @@
 #include <list>
 #include <map>
 
-#include <scrimmage/fwd_decl.h>
+#include "scrimmage/fwd_decl.h"
 
 namespace scrimmage {
 class Frame {

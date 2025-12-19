@@ -40,8 +40,8 @@
 #include <string>
 #include <thread>  // NOLINT
 
-#include <scrimmage/msgs/Command.pb.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/msgs/Command.pb.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace sc = scrimmage;
 

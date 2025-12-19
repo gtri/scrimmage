@@ -32,7 +32,7 @@
 
 #include <algorithm>
 
-#include <scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h>
+#include "scrimmage/plugins/motion/JSBSimModel/FGOutputFGMod.h"
 #include <stdio.h>
 #include <string.h>
 

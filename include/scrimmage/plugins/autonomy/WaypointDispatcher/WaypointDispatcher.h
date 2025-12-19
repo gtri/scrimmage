@@ -37,9 +37,9 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/common/Waypoint.h>
-#include <scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/common/Waypoint.h"
+#include "scrimmage/plugins/autonomy/WaypointGenerator/WaypointList.h"
 
 namespace scrimmage {
 namespace autonomy {

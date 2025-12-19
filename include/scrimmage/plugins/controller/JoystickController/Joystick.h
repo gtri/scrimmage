@@ -42,10 +42,10 @@
 
 #include <fcntl.h>
 #include <linux/joystick.h>
-#include <scrimmage/common/VariableIO.h>
-#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/VariableIO.h"
+#include "scrimmage/plugins/controller/JoystickController/AxisScale.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Publisher.h"
 #include <sys/ioctl.h>
 #include <unistd.h>
 

@@ -36,7 +36,7 @@
 #include <random>
 #include <unsupported/Eigen/MatrixFunctions>
 
-#include <scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h>
+#include "scrimmage/plugins/sensor/ROSIMUSensor/IMUErrorBudgetTemplate.h"
 
 struct NoisyIMUData {
     Eigen::Vector3d noisyDeltaV;

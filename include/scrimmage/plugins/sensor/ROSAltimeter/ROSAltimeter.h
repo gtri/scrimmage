@@ -41,7 +41,7 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <mavros_msgs/Altitude.h>
 #include <ros/ros.h>
-#include <scrimmage/sensor/Sensor.h>
+#include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
 namespace sensor {

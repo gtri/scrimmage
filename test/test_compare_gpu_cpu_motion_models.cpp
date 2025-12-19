@@ -38,14 +38,14 @@
 #include <CL/opencl.hpp>
 #include <boost/optional.hpp>
 #include <gtest/gtest.h>
-#include <scrimmage/common/CSV.h>
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/log/Frame.h>
-#include <scrimmage/log/Log.h>
-#include <scrimmage/math/Quaternion.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/proto/Frame.pb.h>
-#include <scrimmage/simcontrol/SimUtils.h>
+#include "scrimmage/common/CSV.h"
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/log/Frame.h"
+#include "scrimmage/log/Log.h"
+#include "scrimmage/math/Quaternion.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/proto/Frame.pb.h"
+#include "scrimmage/simcontrol/SimUtils.h"
 
 namespace fs = std::filesystem;
 

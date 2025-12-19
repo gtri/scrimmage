@@ -35,13 +35,13 @@
 
 #include <Eigen/Dense>
 
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/fwd_decl.h>
-#include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/gpu/GPUMapBuffer.h>
-#include <scrimmage/gpu/GPUMotionModel.h>
-#include <scrimmage/math/State.h>
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/fwd_decl.h"
+#include "scrimmage/gpu/GPUController.h"
+#include "scrimmage/gpu/GPUMapBuffer.h"
+#include "scrimmage/gpu/GPUMotionModel.h"
+#include "scrimmage/math/State.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

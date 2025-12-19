@@ -36,8 +36,8 @@
 #include <map>
 #include <string>
 
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/plugins/sensor/RayTrace/RayTrace.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 
 namespace scrimmage {
 namespace autonomy {

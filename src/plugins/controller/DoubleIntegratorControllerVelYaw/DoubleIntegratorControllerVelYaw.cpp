@@ -32,11 +32,11 @@
 
 #include <iostream>
 
-#include <scrimmage/common/Utilities.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugin_manager/RegisterPlugin.h>
-#include <scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h>
+#include "scrimmage/common/Utilities.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugin_manager/RegisterPlugin.h"
+#include "scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h"
 using std::cout;
 using std::endl;
 

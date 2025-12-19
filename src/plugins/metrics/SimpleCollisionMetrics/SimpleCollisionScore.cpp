@@ -30,9 +30,9 @@
  *
  */
 
-#include <scrimmage/parse/ConfigParse.h>
-#include <scrimmage/parse/ParseUtils.h>
-#include <scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h>
+#include "scrimmage/parse/ConfigParse.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionScore.h"
 
 namespace sc = scrimmage;
 

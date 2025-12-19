@@ -39,8 +39,8 @@
 #include <string>
 #include <type_traits>
 
-#include <scrimmage/pubsub/Message.h>
-#include <scrimmage/pubsub/MessageBase.h>
+#include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/MessageBase.h"
 
 namespace scrimmage {
 

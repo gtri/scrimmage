@@ -33,9 +33,9 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_MOTION_JSBSIMMODEL_JSBSIMMODEL_H_
 
-#include <scrimmage/common/PID.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/motion/MotionModel.h>
+#include "scrimmage/common/PID.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/motion/MotionModel.h"
 
 #if ENABLE_JSBSIM == 1
 #include <FGFDMExec.h>

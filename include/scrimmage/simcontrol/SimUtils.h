@@ -42,7 +42,7 @@
 #include <unordered_map>
 
 #include <GeographicLib/LocalCartesian.hpp>
-#include <scrimmage/fwd_decl.h>
+#include "scrimmage/fwd_decl.h"
 
 namespace boost {
 template <class T>

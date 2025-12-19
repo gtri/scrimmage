@@ -1,9 +1,9 @@
-#include <scrimmage/common/FileSearch.h>
-#include <scrimmage/gpu/GPUController.h>
-#include <scrimmage/gpu/GPUMotionModel.h>
-#include <scrimmage/gpu/OpenCLUtils.h>
-#include <scrimmage/parse/MissionParse.h>
-#include <scrimmage/parse/ParseUtils.h>
+#include "scrimmage/common/FileSearch.h"
+#include "scrimmage/gpu/GPUController.h"
+#include "scrimmage/gpu/GPUMotionModel.h"
+#include "scrimmage/gpu/OpenCLUtils.h"
+#include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/ParseUtils.h"
 
 #if ENABLE_GPU_ACCELERATION == 1
 #include <CL/opencl.hpp>

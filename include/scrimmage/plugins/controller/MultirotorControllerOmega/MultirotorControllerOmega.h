@@ -37,8 +37,8 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/plugins/motion/Multirotor/Multirotor.h>
-#include <scrimmage/plugins/motion/Multirotor/MultirotorState.h>
+#include "scrimmage/plugins/motion/Multirotor/Multirotor.h"
+#include "scrimmage/plugins/motion/Multirotor/MultirotorState.h"
 
 namespace scrimmage {
 namespace controller {

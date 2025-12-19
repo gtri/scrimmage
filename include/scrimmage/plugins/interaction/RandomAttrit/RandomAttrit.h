@@ -37,11 +37,11 @@
 #include <string>
 #include <vector>
 
-#include <scrimmage/common/Random.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Publisher.h>
-#include <scrimmage/simcontrol/EntityInteraction.h>
+#include "scrimmage/common/Random.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Publisher.h"
+#include "scrimmage/simcontrol/EntityInteraction.h"
 
 namespace scrimmage {
 namespace interaction {

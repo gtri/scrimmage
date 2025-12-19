@@ -43,10 +43,10 @@
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/system/error_code.hpp>
-#include <scrimmage/autonomy/Autonomy.h>
-#include <scrimmage/math/Angles.h>
-#include <scrimmage/plugins/controller/JoystickController/AxisScale.h>
-#include <scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h>
+#include "scrimmage/autonomy/Autonomy.h"
+#include "scrimmage/math/Angles.h"
+#include "scrimmage/plugins/controller/JoystickController/AxisScale.h"
+#include "scrimmage/plugins/motion/RigidBody6DOF/RigidBody6DOFState.h"
 
 namespace scrimmage {
 

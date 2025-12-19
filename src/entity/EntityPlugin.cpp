@@ -34,16 +34,16 @@
 #include <memory>
 #include <string>
 
-#include <scrimmage/common/ParameterServer.h>
-#include <scrimmage/common/Random.h>
-#include <scrimmage/common/Time.h>
-#include <scrimmage/entity/Entity.h>
-#include <scrimmage/entity/EntityPlugin.h>
-#include <scrimmage/math/State.h>
-#include <scrimmage/proto/ProtoConversions.h>
-#include <scrimmage/proto/Shape.pb.h>
-#include <scrimmage/pubsub/PubSub.h>
-#include <scrimmage/pubsub/Publisher.h>
+#include "scrimmage/common/ParameterServer.h"
+#include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
+#include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/math/State.h"
+#include "scrimmage/proto/ProtoConversions.h"
+#include "scrimmage/proto/Shape.pb.h"
+#include "scrimmage/pubsub/PubSub.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 namespace scrimmage {
 EntityPlugin::EntityPlugin()
