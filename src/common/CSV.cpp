@@ -30,16 +30,12 @@
  *
  */
 
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
+#include "scrimmage/common/CSV.h"
+
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
-#include <scrimmage/parse/ParseUtils.h>
-#include "scrimmage/common/CSV.h"
 
 using std::cout;
 using std::endl;
@@ -73,14 +69,23 @@ void CSV::set_column_headers(const std::string& headers, bool write) {
     set_column_headers(headers_vec, write);
 }
 
+std::string CSV::get_csv_string(const PossibleVariantTypes& v) const {
+    return std::visit(
+        StringifyVisitor{
+            .double_is_fixed = double_is_fixed_,
+            .double_is_scientific = double_is_scientific_,
+            .double_precision = double_precision_},
+        v);
+}
+
 bool CSV::append(const Pairs& pairs, bool write, bool keep_in_memory) {
 
-    for (std::pair<std::string, double> pair : pairs) {
+    for (auto pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
             cout << "Warning: column header doesn't exist: " << pair.first << endl;
         }
-        table_[next_row_][it->second] = pair.second;
+        table_[next_row_][it->second] = get_csv_string(pair.second);
     }
 
     if (write) {
@@ -163,22 +168,7 @@ std::string CSV::row_to_string(const int& row) const {
     std::vector<std::string> values(column_headers_.size(), no_value_str_);
     auto it_row = table_.find(row);
     for (auto& kv : it_row->second) {
-        if (static_cast<int64_t>(kv.second) == kv.second) {
-            values[kv.first] = std::to_string(static_cast<int64_t>(kv.second));
-        } else if (static_cast<double>(kv.second) == kv.second) {
-            // default precision values for double are not enough in many cases
-            std::ostringstream conv;
-            if (double_is_fixed_) {
-                conv << std::fixed;
-            }
-            if (double_is_scientific_) {
-                conv << std::scientific;
-            }
-            conv << std::setprecision(double_precision_) << kv.second;
-            values[kv.first] = conv.str();
-        } else {
-            values[kv.first] = std::to_string(kv.second);
-        }
+        values[kv.first] = kv.second;
     }
 
     // Append the rows to the resultant string
@@ -238,7 +228,7 @@ bool CSV::read_csv_from_string(const std::string& csv_str, const bool& contains_
             std::vector<std::string> tokens;
             boost::split(tokens, line, boost::is_any_of(","));
             for (unsigned int i = 0; i < tokens.size(); i++) {
-                table_[row_num][i] = std::stod(tokens[i]);
+                table_[row_num][i] = tokens[i];
             }
 
             // If this is the first line and the file doesn't contain a header,
@@ -282,11 +272,6 @@ void CSV::set_no_value_string(const std::string& str) {
 
 size_t CSV::rows() {
     return table_.size();
-}
-
-double CSV::at(int row, const std::string& header) {
-    const int column = column_headers_.at(header);
-    return table_.at(row).at(column);
 }
 
 std::list<std::string> CSV::get_csv_line_elements(const std::string& str) {
