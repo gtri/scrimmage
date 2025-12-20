@@ -1,14 +1,14 @@
 <map id="/root/scrimmage/scrimmage/src/pubsub/PubSub.cpp" name="/root/scrimmage/scrimmage/src/pubsub/PubSub.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="289,5,495,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,85,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="310,48,99,95,98,90,308,43"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="110,93,253,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="342,48,226,91,224,86,341,43"/>
-<area shape="rect" id="Node000004" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="277,93,507,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="395,46,395,79,389,79,389,46"/>
-<area shape="rect" id="Node000020" href="$PubSub_8h.html" title="Brief file description." alt="" coords="363,167,573,192"/>
-<area shape="poly" id="edge5_Node000001_Node000020" title=" " alt="" coords="460,43,495,63,510,76,522,92,527,110,522,129,510,145,496,160,492,156,506,142,517,126,522,110,518,94,506,80,492,67,458,48"/>
-<area shape="rect" id="Node000029" href="$Publisher_8h.html" title="Brief file description." alt="" coords="583,93,804,119"/>
-<area shape="poly" id="edge6_Node000001_Node000029" title=" " alt="" coords="465,43,637,87,635,92,464,48"/>
-<area shape="poly" id="edge4_Node000004_Node000020" title=" " alt="" coords="406,117,447,155,444,159,402,121"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="98,5,305,45"/>
+<area shape="rect" id="Node000002" href="$PubSub_8h.html" title="Brief file description." alt="" coords="95,167,306,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,44,57,56,25,72,14,82,9,92,9,104,16,117,29,132,45,144,83,162,81,167,43,149,26,136,11,120,4,105,4,91,10,79,22,68,55,51,97,39"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="26,93,106,119"/>
+<area shape="poly" id="edge2_Node000001_Node000015" title=" " alt="" coords="170,48,99,89,96,84,168,43"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="130,93,273,119"/>
+<area shape="poly" id="edge3_Node000001_Node000016" title=" " alt="" coords="204,46,204,79,199,79,199,46"/>
+<area shape="rect" id="Node000017" href="$EntityPlugin_8h.html" title="Brief file description." alt="" coords="297,93,528,119"/>
+<area shape="poly" id="edge4_Node000001_Node000017" title=" " alt="" coords="253,43,369,86,368,91,251,48"/>
+<area shape="rect" id="Node000029" href="$Publisher_8h.html" title="Brief file description." alt="" coords="552,93,774,119"/>
+<area shape="poly" id="edge6_Node000001_Node000029" title=" " alt="" coords="306,42,583,88,582,94,305,47"/>
+<area shape="poly" id="edge5_Node000017_Node000002" title=" " alt="" coords="379,121,248,165,247,160,377,116"/>
 </map>

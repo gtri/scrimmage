@@ -314,7 +314,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00044">44</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00045">45</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a09e2ef502d0741172a0e80c5d9fb335b" name="a09e2ef502d0741172a0e80c5d9fb335b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09e2ef502d0741172a0e80c5d9fb335b">&#9670;&#160;</a></span>init()</h2>
@@ -342,19 +342,19 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00055">55</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                                                            {</div>
-<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">waypoint_status_</a> = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(params[<span class="stringliteral">&quot;waypoint&quot;</span>], <span class="stringliteral">&quot; &quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">waypoint_list_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;WaypointList&quot;</span>);</div>
-<div class="line"><span class="lineno">   59</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a01e837b3b87198c055ea46e6a692eb1d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">scrimmage::autonomy::GoToWaypoint::waypoint_list_pub_</a></div><div class="ttdeci">scrimmage::PublisherPtr waypoint_list_pub_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00054">GoToWaypoint.h:54</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a44f818db68118bd86f82a40796fdb7fc"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">scrimmage::autonomy::GoToWaypoint::waypoint_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; waypoint_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00053">GoToWaypoint.h:53</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_afe4cedc3e39c8f3acd8bd1a3fd671b81"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">scrimmage::autonomy::GoToWaypoint::waypoint_status_</a></div><div class="ttdeci">bool waypoint_status_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00051">GoToWaypoint.h:51</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00099">ParseUtils.h:99</a></div></div>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00057">57</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>                                                            {</div>
+<div class="line"><span class="lineno">   58</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">waypoint_status_</a> = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(params[<span class="stringliteral">&quot;waypoint&quot;</span>], <span class="stringliteral">&quot; &quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">waypoint_list_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;WaypointList&quot;</span>);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a01e837b3b87198c055ea46e6a692eb1d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">scrimmage::autonomy::GoToWaypoint::waypoint_list_pub_</a></div><div class="ttdeci">scrimmage::PublisherPtr waypoint_list_pub_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00055">GoToWaypoint.h:55</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a44f818db68118bd86f82a40796fdb7fc"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">scrimmage::autonomy::GoToWaypoint::waypoint_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; waypoint_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00054">GoToWaypoint.h:54</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_afe4cedc3e39c8f3acd8bd1a3fd671b81"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">scrimmage::autonomy::GoToWaypoint::waypoint_status_</a></div><div class="ttdeci">bool waypoint_status_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00052">GoToWaypoint.h:52</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00101">ParseUtils.h:101</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00096">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ParseUtils_8h_source.html#l00099">scrimmage::str2container()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00053">waypoint_</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00054">waypoint_list_pub_</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00051">waypoint_status_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00054">waypoint_</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00055">waypoint_list_pub_</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00052">waypoint_status_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -406,50 +406,50 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">61</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                                                    {</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">waypoint_status_</a>) {</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        <a class="code hl_class" href="classscrimmage_1_1State.html">sc::State</a> ns = *(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_belief());</div>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">63</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                    {</div>
+<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#afe4cedc3e39c8f3acd8bd1a3fd671b81">waypoint_status_</a>) {</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="keywordtype">double</span> lat = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[2] == <span class="stringliteral">&quot;X&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(0) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[2]);</div>
-<div class="line"><span class="lineno">   67</span>        <span class="keywordtype">double</span> lon = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[3] == <span class="stringliteral">&quot;Y&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(1) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[3]);</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordtype">double</span> alt = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[4] == <span class="stringliteral">&quot;Z&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[4]);</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>        std::string <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[0];</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> != <span class="stringliteral">&quot;XYZ&quot;</span> &amp;&amp; <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> != <span class="stringliteral">&quot;GPS&quot;</span>) {</div>
-<div class="line"><span class="lineno">   72</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;Invalid waypoint type: &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   73</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> == <span class="stringliteral">&quot;XYZ&quot;</span>) {</div>
-<div class="line"><span class="lineno">   74</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Reverse(lat, lon, alt, lat, lon, alt);</div>
-<div class="line"><span class="lineno">   75</span>        }</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        Waypoint wp(lat, lon, alt);</div>
-<div class="line"><span class="lineno">   78</span>        wp.set_time(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[1]));</div>
-<div class="line"><span class="lineno">   79</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(</div>
-<div class="line"><span class="lineno">   80</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[5])),</div>
-<div class="line"><span class="lineno">   81</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[6])),</div>
-<div class="line"><span class="lineno">   82</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[7])));</div>
-<div class="line"><span class="lineno">   83</span>        wp.set_quat(quat);</div>
-<div class="line"><span class="lineno">   84</span>        wp.set_position_tolerance(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[8]));</div>
-<div class="line"><span class="lineno">   85</span>        wp.set_quat_tolerance(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[9]));</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().push_back(wp);</div>
+<div class="line"><span class="lineno">   66</span>        <a class="code hl_class" href="classscrimmage_1_1State.html">sc::State</a> ns = *(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_belief());</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordtype">double</span> lat = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[2] == <span class="stringliteral">&quot;X&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(0) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[2]);</div>
+<div class="line"><span class="lineno">   69</span>        <span class="keywordtype">double</span> lon = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[3] == <span class="stringliteral">&quot;Y&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(1) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[3]);</div>
+<div class="line"><span class="lineno">   70</span>        <span class="keywordtype">double</span> alt = (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[4] == <span class="stringliteral">&quot;Z&quot;</span>) ? ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2) : stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[4]);</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>        std::string <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[0];</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> != <span class="stringliteral">&quot;XYZ&quot;</span> &amp;&amp; <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> != <span class="stringliteral">&quot;GPS&quot;</span>) {</div>
+<div class="line"><span class="lineno">   74</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;Invalid waypoint type: &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   75</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">type</a> == <span class="stringliteral">&quot;XYZ&quot;</span>) {</div>
+<div class="line"><span class="lineno">   76</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Reverse(lat, lon, alt, lat, lon, alt);</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>        Waypoint wp(lat, lon, alt);</div>
+<div class="line"><span class="lineno">   80</span>        wp.set_time(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[1]));</div>
+<div class="line"><span class="lineno">   81</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(</div>
+<div class="line"><span class="lineno">   82</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[5])),</div>
+<div class="line"><span class="lineno">   83</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[6])),</div>
+<div class="line"><span class="lineno">   84</span>            sc::Angles::deg2rad(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[7])));</div>
+<div class="line"><span class="lineno">   85</span>        wp.set_quat(quat);</div>
+<div class="line"><span class="lineno">   86</span>        wp.set_position_tolerance(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[8]));</div>
+<div class="line"><span class="lineno">   87</span>        wp.set_quat_tolerance(std::stod(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a44f818db68118bd86f82a40796fdb7fc">waypoint_</a>[9]));</div>
 <div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>        <a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098">publish_waypoint</a>(t);</div>
-<div class="line"><span class="lineno">   90</span>    }</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   93</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a1ebe599b3793549f2022ef33922dddd8"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">scrimmage::Autonomy::type</a></div><div class="ttdeci">std::string type() override</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00089">Autonomy.cpp:89</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
+<div class="line"><span class="lineno">   89</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().push_back(wp);</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>        <a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098">publish_waypoint</a>(t);</div>
+<div class="line"><span class="lineno">   92</span>    }</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   95</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a1ebe599b3793549f2022ef33922dddd8"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">scrimmage::Autonomy::type</a></div><div class="ttdeci">std::string type() override</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00091">Autonomy.cpp:91</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html"><div class="ttname"><a href="classscrimmage_1_1State.html">scrimmage::State</a></div><div class="ttdef"><b>Definition</b> <a href="State_8h_source.html#l00045">State.h:45</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00049">State.cpp:49</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a0d62d60b4848435fc3132cc5a49ef098"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098">scrimmage::autonomy::GoToWaypoint::publish_waypoint</a></div><div class="ttdeci">void publish_waypoint(double t)</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8cpp_source.html#l00095">GoToWaypoint.cpp:95</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a9a41366f19b384dba8ebea5e65017c7a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">scrimmage::autonomy::GoToWaypoint::wp_list_</a></div><div class="ttdeci">WaypointList wp_list_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00052">GoToWaypoint.h:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00050">State.cpp:50</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a0d62d60b4848435fc3132cc5a49ef098"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a0d62d60b4848435fc3132cc5a49ef098">scrimmage::autonomy::GoToWaypoint::publish_waypoint</a></div><div class="ttdeci">void publish_waypoint(double t)</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8cpp_source.html#l00097">GoToWaypoint.cpp:97</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GoToWaypoint_html_a9a41366f19b384dba8ebea5e65017c7a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">scrimmage::autonomy::GoToWaypoint::wp_list_</a></div><div class="ttdeci">WaypointList wp_list_</div><div class="ttdef"><b>Definition</b> <a href="GoToWaypoint_8h_source.html#l00053">GoToWaypoint.h:53</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1WaypointList_html_aebd90b3a1b17f5d3053dfda908bbf2d6"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">scrimmage::autonomy::WaypointList::waypoints</a></div><div class="ttdeci">std::list&lt; Waypoint &gt; &amp; waypoints()</div><div class="ttdef"><b>Definition</b> <a href="WaypointList_8h_source.html#l00049">WaypointList.h:49</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00049">scrimmage::State::pos()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00095">publish_waypoint()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00127">scrimmage::autonomy::Waypoint::set_position_tolerance()</a>, <a class="el" href="Waypoint_8h_source.html#l00069">scrimmage::autonomy::Waypoint::set_quat()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00131">scrimmage::autonomy::Waypoint::set_quat_tolerance()</a>, <a class="el" href="Waypoint_8h_source.html#l00065">scrimmage::autonomy::Waypoint::set_time()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00089">scrimmage::Autonomy::type()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00053">waypoint_</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00051">waypoint_status_</a>, <a class="el" href="WaypointList_8h_source.html#l00049">scrimmage::autonomy::WaypointList::waypoints()</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00052">wp_list_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00097">publish_waypoint()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00129">scrimmage::autonomy::Waypoint::set_position_tolerance()</a>, <a class="el" href="Waypoint_8h_source.html#l00071">scrimmage::autonomy::Waypoint::set_quat()</a>, <a class="el" href="Waypoint_8cpp_source.html#l00133">scrimmage::autonomy::Waypoint::set_quat_tolerance()</a>, <a class="el" href="Waypoint_8h_source.html#l00067">scrimmage::autonomy::Waypoint::set_time()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00091">scrimmage::Autonomy::type()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00054">waypoint_</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00052">waypoint_status_</a>, <a class="el" href="WaypointList_8h_source.html#l00049">scrimmage::autonomy::WaypointList::waypoints()</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00053">wp_list_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -494,34 +494,34 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00095">95</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   95</span>                                            {</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;WaypointList&gt;&gt;();</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>    std::list&lt;Waypoint&gt;::iterator it = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().begin();</div>
-<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">while</span> (it != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().end()) {</div>
-<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">if</span> (t &gt;= it-&gt;time()) {</div>
-<div class="line"><span class="lineno">  101</span>            msg-&gt;data.set_mode(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#a93f1ef5717ffcd590ea06f69cd1feae4">mode</a>());</div>
-<div class="line"><span class="lineno">  102</span>            msg-&gt;data.waypoints().push_back(*it);</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            <span class="comment">// Erase this waypoint from the main list</span></div>
-<div class="line"><span class="lineno">  105</span>            std::list&lt;Waypoint&gt;::iterator it_del = it;</div>
-<div class="line"><span class="lineno">  106</span>            it = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().erase(it_del);</div>
-<div class="line"><span class="lineno">  107</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  108</span>            ++it;</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    <span class="comment">// Publish the waypoint list message if it has waypoints</span></div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">if</span> (msg-&gt;data.waypoints().size() &gt; 0) {</div>
-<div class="line"><span class="lineno">  114</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">waypoint_list_pub_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  115</span>    }</div>
-<div class="line"><span class="lineno">  116</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8cpp_source.html#l00097">97</a> of file <a class="el" href="GoToWaypoint_8cpp_source.html">GoToWaypoint.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>                                            {</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;WaypointList&gt;&gt;();</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>    std::list&lt;Waypoint&gt;::iterator it = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().begin();</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">while</span> (it != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().end()) {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (t &gt;= it-&gt;time()) {</div>
+<div class="line"><span class="lineno">  103</span>            msg-&gt;data.set_mode(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#a93f1ef5717ffcd590ea06f69cd1feae4">mode</a>());</div>
+<div class="line"><span class="lineno">  104</span>            msg-&gt;data.waypoints().push_back(*it);</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>            <span class="comment">// Erase this waypoint from the main list</span></div>
+<div class="line"><span class="lineno">  107</span>            std::list&lt;Waypoint&gt;::iterator it_del = it;</div>
+<div class="line"><span class="lineno">  108</span>            it = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a9a41366f19b384dba8ebea5e65017c7a">wp_list_</a>.<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1WaypointList.html#aebd90b3a1b17f5d3053dfda908bbf2d6">waypoints</a>().erase(it_del);</div>
+<div class="line"><span class="lineno">  109</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  110</span>            ++it;</div>
+<div class="line"><span class="lineno">  111</span>        }</div>
+<div class="line"><span class="lineno">  112</span>    }</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>    <span class="comment">// Publish the waypoint list message if it has waypoints</span></div>
+<div class="line"><span class="lineno">  115</span>    <span class="keywordflow">if</span> (msg-&gt;data.waypoints().size() &gt; 0) {</div>
+<div class="line"><span class="lineno">  116</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a01e837b3b87198c055ea46e6a692eb1d">waypoint_list_pub_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  117</span>    }</div>
+<div class="line"><span class="lineno">  118</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1WaypointList_html_a93f1ef5717ffcd590ea06f69cd1feae4"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1WaypointList.html#a93f1ef5717ffcd590ea06f69cd1feae4">scrimmage::autonomy::WaypointList::mode</a></div><div class="ttdeci">WaypointMode mode()</div><div class="ttdef"><b>Definition</b> <a href="WaypointList_8h_source.html#l00051">WaypointList.h:51</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="WaypointList_8h_source.html#l00051">scrimmage::autonomy::WaypointList::mode()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00054">waypoint_list_pub_</a>, <a class="el" href="WaypointList_8h_source.html#l00049">scrimmage::autonomy::WaypointList::waypoints()</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00052">wp_list_</a>.</p>
+<p class="reference">References <a class="el" href="WaypointList_8h_source.html#l00051">scrimmage::autonomy::WaypointList::mode()</a>, <a class="el" href="GoToWaypoint_8h_source.html#l00055">waypoint_list_pub_</a>, <a class="el" href="WaypointList_8h_source.html#l00049">scrimmage::autonomy::WaypointList::waypoints()</a>, and <a class="el" href="GoToWaypoint_8h_source.html#l00053">wp_list_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -568,9 +568,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00051">51</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00052">52</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00055">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00057">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -594,9 +594,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00052">52</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00053">53</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00095">publish_waypoint()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00097">publish_waypoint()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -620,9 +620,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00053">53</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00054">54</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00055">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00057">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -646,9 +646,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00054">54</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GoToWaypoint_8h_source.html#l00055">55</a> of file <a class="el" href="GoToWaypoint_8h_source.html">GoToWaypoint.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00055">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00095">publish_waypoint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GoToWaypoint_8cpp_source.html#l00057">init()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00097">publish_waypoint()</a>.</p>
 
 </div>
 </div>
@@ -662,7 +662,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html">GoToWaypoint</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

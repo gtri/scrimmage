@@ -1,9 +1,9 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/RigidBody6DOFControllerROS/RigidBody6DOFControllerROS.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/RigidBody6DOFControllerROS/RigidBody6DOFControllerROS.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="203,5,450,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,200,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,77,140,134,138,129,256,72"/>
-<area shape="rect" id="Node000003" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="225,130,429,170"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="329,75,329,116,324,116,324,75"/>
-<area shape="rect" id="Node000005" href="$RigidBody6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="453,123,683,177"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="403,72,498,115,496,120,401,77"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="235,5,481,75"/>
+<area shape="rect" id="Node000002" href="$RigidBody6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="5,123,236,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,77,192,120,189,115,283,72"/>
+<area shape="rect" id="Node000049" title=" " alt="" coords="261,137,455,163"/>
+<area shape="poly" id="edge2_Node000001_Node000049" title=" " alt="" coords="361,75,361,123,355,123,355,75"/>
+<area shape="rect" id="Node000050" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="480,130,684,170"/>
+<area shape="poly" id="edge3_Node000001_Node000050" title=" " alt="" coords="429,72,531,122,529,126,426,77"/>
 </map>

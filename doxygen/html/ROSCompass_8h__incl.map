@@ -12,12 +12,12 @@
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="358,60,358,168,352,168,353,60"/>
 <area shape="rect" id="Node000007" title=" " alt="" coords="515,108,594,133"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="418,58,517,100,514,105,416,63"/>
-<area shape="rect" id="Node000008" href="$Sensor_8h.html" title="Brief file description." alt="" coords="91,108,293,133"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="307,62,227,104,225,99,305,58"/>
-<area shape="rect" id="Node000034" title=" " alt="" coords="618,108,833,133"/>
-<area shape="poly" id="edge12_Node000001_Node000034" title=" " alt="" coords="469,57,664,102,662,108,468,63"/>
-<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="167,136,70,178,68,173,165,131"/>
-<area shape="poly" id="edge9_Node000008_Node000003" title=" " alt="" coords="182,136,145,173,141,170,179,132"/>
-<area shape="poly" id="edge10_Node000008_Node000005" title=" " alt="" coords="199,133,211,168,206,169,194,135"/>
-<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="219,131,317,173,314,178,217,136"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="618,108,833,133"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="469,57,664,102,662,108,468,63"/>
+<area shape="rect" id="Node000009" href="$Sensor_8h.html" title="Brief file description." alt="" coords="91,108,293,133"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="307,62,227,104,225,99,305,58"/>
+<area shape="poly" id="edge9_Node000009_Node000002" title=" " alt="" coords="167,136,70,178,68,173,165,131"/>
+<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="182,136,145,173,141,170,179,132"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="199,133,211,168,206,169,194,135"/>
+<area shape="poly" id="edge12_Node000009_Node000006" title=" " alt="" coords="219,131,317,173,314,178,217,136"/>
 </map>

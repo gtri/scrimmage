@@ -111,7 +111,7 @@ $(document).ready(function(){initNavTree('GlobalService_8h_source.html',''); ini
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&quot;</span></div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
@@ -169,8 +169,9 @@ $(document).ready(function(){initNavTree('GlobalService_8h_source.html',''); ini
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>};</div>
 </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#abb92dda2d2e8436b5210b63d74ea2191">   95</a></span><span class="keyword">using </span><a class="code hl_typedef" href="namespacescrimmage.html#abb92dda2d2e8436b5210b63d74ea2191">GlobalServicePtr</a> = std::shared_ptr&lt;GlobalService&gt;;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_COMMON_GLOBALSERVICE_H_</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_COMMON_GLOBALSERVICE_H_</span></div>
 <div class="ttc" id="aMessage_8h_html"><div class="ttname"><a href="Message_8h.html">Message.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aclassscrimmage_1_1GlobalService_html"><div class="ttname"><a href="classscrimmage_1_1GlobalService.html">scrimmage::GlobalService</a></div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8h_source.html#l00051">GlobalService.h:51</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1GlobalService_html_a2f4320c6f4e9799b48c410bec39cbcd3"><div class="ttname"><a href="classscrimmage_1_1GlobalService.html#a2f4320c6f4e9799b48c410bec39cbcd3">scrimmage::GlobalService::call_service</a></div><div class="ttdeci">bool call_service(MessageBasePtr req, MessageBasePtr &amp;res, const std::string &amp;service_name)</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8cpp_source.html#l00052">GlobalService.cpp:52</a></div></div>
@@ -184,14 +185,14 @@ $(document).ready(function(){initNavTree('GlobalService_8h_source.html',''); ini
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a86940d8d370dc71855b6a5c81cb93e53"><div class="ttname"><a href="namespacescrimmage.html#a86940d8d370dc71855b6a5c81cb93e53">scrimmage::Service</a></div><div class="ttdeci">std::function&lt; bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &amp;)&gt; Service</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8h_source.html#l00049">GlobalService.h:49</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_abb92dda2d2e8436b5210b63d74ea2191"><div class="ttname"><a href="namespacescrimmage.html#abb92dda2d2e8436b5210b63d74ea2191">scrimmage::GlobalServicePtr</a></div><div class="ttdeci">std::shared_ptr&lt; GlobalService &gt; GlobalServicePtr</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8h_source.html#l00095">GlobalService.h:95</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00115">fwd_decl.h:115</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00119">fwd_decl.h:119</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html">common</a></li><li class="navelem"><a class="el" href="GlobalService_8h.html">GlobalService.h</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:42 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

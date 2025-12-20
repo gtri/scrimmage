@@ -97,30 +97,30 @@ $(document).ready(function(){initNavTree('FixedWing6DOFControllerPID_8cpp.html',
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="FixedWing6DOFControllerPID_8h_source.html">scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;boost/algorithm/string.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="FixedWing6DOFControllerPID_8h_source.html">scrimmage/plugins/controller/FixedWing6DOFControllerPID/FixedWing6DOFControllerPID.h</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FixedWing6DOFControllerPID.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="FixedWing6DOFControllerPID_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerPID_2FixedWing6DOFControllerPID_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerPID_2FixedWing6DOFControllerPID_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerPID_2FixedWing6DOFControllerPID_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="283,5,525,75"/>
-<area shape="rect" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" title=" " alt="" coords="283,70,192,94,98,125,79,134,77,129,96,120,190,89,282,65"/>
-<area shape="rect" title=" " alt="" coords="110,137,173,163"/>
-<area shape="poly" title=" " alt="" coords="304,77,186,125,172,133,169,128,184,120,302,72"/>
-<area shape="rect" title=" " alt="" coords="197,137,392,163"/>
-<area shape="poly" title=" " alt="" coords="372,77,318,129,314,126,368,73"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="417,137,610,163"/>
-<area shape="poly" title=" " alt="" coords="440,73,494,126,490,129,436,77"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="634,130,838,170"/>
-<area shape="poly" title=" " alt="" coords="508,72,665,123,664,128,506,77"/>
-<area shape="rect" href="FixedWing6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="863,123,1089,177"/>
-<area shape="poly" title=" " alt="" coords="526,60,850,120,849,125,525,65"/>
+<area shape="rect" title="Brief file description." alt="" coords="347,5,589,75"/>
+<area shape="rect" href="FixedWing6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="5,123,232,177"/>
+<area shape="poly" title=" " alt="" coords="360,77,217,121,215,116,359,72"/>
+<area shape="rect" title=" " alt="" coords="256,137,336,163"/>
+<area shape="poly" title=" " alt="" coords="416,77,327,132,324,128,413,72"/>
+<area shape="rect" title=" " alt="" coords="361,137,423,163"/>
+<area shape="poly" title=" " alt="" coords="447,76,410,127,406,124,442,73"/>
+<area shape="rect" title=" " alt="" coords="448,137,643,163"/>
+<area shape="poly" title=" " alt="" coords="494,73,531,124,527,127,490,76"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="667,137,861,163"/>
+<area shape="poly" title=" " alt="" coords="561,72,721,130,719,135,559,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="885,130,1089,170"/>
+<area shape="poly" title=" " alt="" coords="590,62,874,120,893,124,892,130,873,125,589,67"/>
 </map>
 </div>
 </div>
@@ -183,93 +183,94 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00044">44</a> of file <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html">FixedWing6DOFControllerPID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>                    {</div>
-<div class="line"><span class="lineno">   50</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<p class="definition">Definition at line <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00046">46</a> of file <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html">FixedWing6DOFControllerPID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>                    {</div>
+<div class="line"><span class="lineno">   52</span><span class="keyword">namespace </span>controller {</div>
 <div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span><span class="keywordtype">void</span> set_pid(<a class="code hl_class" href="classscrimmage_1_1PID.html">sc::PID</a>&amp; pid, std::string str, <span class="keywordtype">bool</span> is_angle) {</div>
-<div class="line"><span class="lineno">   55</span>    std::vector&lt;std::string&gt; str_vals;</div>
-<div class="line"><span class="lineno">   56</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
-<div class="line"><span class="lineno">   59</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;error parsing in FixedWing6DOFControllerPID&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   60</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   61</span>        <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
-<div class="line"><span class="lineno">   63</span>        <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
-<div class="line"><span class="lineno">   64</span>        pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">if</span> (is_angle) {</div>
-<div class="line"><span class="lineno">   67</span>            <span class="keywordtype">double</span> i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));</div>
-<div class="line"><span class="lineno">   68</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   69</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   70</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   71</span>            <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
-<div class="line"><span class="lineno">   72</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   73</span>        }</div>
-<div class="line"><span class="lineno">   74</span>    }</div>
-<div class="line"><span class="lineno">   75</span>}</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e">FixedWing6DOFControllerPID::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   78</span>    set_pid(heading_pid_, params[<span class="stringliteral">&quot;heading_pid&quot;</span>], <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   79</span>    set_pid(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>], <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   80</span>    set_pid(vel_pid_, params[<span class="stringliteral">&quot;vel_pid&quot;</span>], <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>    throttle_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">VariableIO::Type::throttle</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   83</span>    elevator_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">VariableIO::Type::elevator</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   84</span>    aileron_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">VariableIO::Type::aileron</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   85</span>    rudder_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">VariableIO::Type::rudder</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   86</span>}</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240">FixedWing6DOFControllerPID::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">// double desired_yaw = desired_state_-&gt;quat().yaw();</span></div>
-<div class="line"><span class="lineno">   90</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   91</span>    <span class="comment">// heading_pid_.set_setpoint(desired_yaw);</span></div>
-<div class="line"><span class="lineno">   92</span>    <span class="comment">// double u_heading = heading_pid_.step(dt, state_-&gt;quat().yaw());</span></div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment">// double roll_error = u_heading + state_-&gt;quat().roll();</span></div>
-<div class="line"><span class="lineno">   94</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   95</span>    <span class="comment">// alt_pid_.set_setpoint(desired_state_-&gt;pos()(2));</span></div>
-<div class="line"><span class="lineno">   96</span>    <span class="comment">// double u_alt = alt_pid_.step(dt, state_-&gt;pos()(2));</span></div>
-<div class="line"><span class="lineno">   97</span>    <span class="comment">// double pitch_error = (-u_alt - state_-&gt;quat().pitch());</span></div>
-<div class="line"><span class="lineno">   98</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   99</span>    <span class="comment">// vel_pid_.set_setpoint(desired_state_-&gt;vel()(0));</span></div>
-<div class="line"><span class="lineno">  100</span>    <span class="comment">// double u_throttle = vel_pid_.step(dt, state_-&gt;vel().norm());</span></div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>    <span class="comment">// u_ &lt;&lt; u_throttle, roll_error, pitch_error, 0;</span></div>
-<div class="line"><span class="lineno">  103</span>    <span class="comment">// throttle, elevator, aileron, rudder</span></div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span><span class="preprocessor">#if 1</span></div>
-<div class="line"><span class="lineno">  106</span>    <span class="comment">// Rudder dublet (TODO)</span></div>
-<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">if</span> (t &gt;= 2 &amp;&amp; t &lt;= 2.4) {</div>
-<div class="line"><span class="lineno">  108</span>        vars_.output(rudder_idx_, -0.26);</div>
-<div class="line"><span class="lineno">  109</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t &gt;= 2.4 &amp;&amp; t &lt;= 2.8) {</div>
-<div class="line"><span class="lineno">  110</span>        vars_.output(rudder_idx_, +0.26);</div>
-<div class="line"><span class="lineno">  111</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  112</span>        vars_.output(rudder_idx_, 0);</div>
-<div class="line"><span class="lineno">  113</span>    }</div>
-<div class="line"><span class="lineno">  114</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span><span class="preprocessor">#if 1</span></div>
-<div class="line"><span class="lineno">  117</span>    <span class="comment">// Aileron dublet</span></div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">if</span> (t &gt;= 8 &amp;&amp; t &lt;= 8.4) {</div>
-<div class="line"><span class="lineno">  119</span>        vars_.output(aileron_idx_, -0.5);</div>
-<div class="line"><span class="lineno">  120</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t &gt;= 8.4 &amp;&amp; t &lt;= 8.8) {</div>
-<div class="line"><span class="lineno">  121</span>        vars_.output(aileron_idx_, 0.5);</div>
-<div class="line"><span class="lineno">  122</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  123</span>        vars_.output(aileron_idx_, 0);</div>
-<div class="line"><span class="lineno">  124</span>    }</div>
-<div class="line"><span class="lineno">  125</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  128</span>}</div>
-<div class="line"><span class="lineno">  129</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">  130</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html"><div class="ttname"><a href="classscrimmage_1_1PID.html">scrimmage::PID</a></div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00039">PID.h:39</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00101">PID.cpp:101</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00111">PID.cpp:111</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00091">PID.cpp:91</a></div></div>
+<div class="line"><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span><span class="keywordtype">void</span> set_pid(<a class="code hl_class" href="classscrimmage_1_1PID.html">sc::PID</a>&amp; pid, std::string str, <span class="keywordtype">bool</span> is_angle) {</div>
+<div class="line"><span class="lineno">   57</span>    std::vector&lt;std::string&gt; str_vals;</div>
+<div class="line"><span class="lineno">   58</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
+<div class="line"><span class="lineno">   61</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;error parsing in FixedWing6DOFControllerPID&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   62</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
+<div class="line"><span class="lineno">   65</span>        <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
+<div class="line"><span class="lineno">   66</span>        pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">if</span> (is_angle) {</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordtype">double</span> i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));</div>
+<div class="line"><span class="lineno">   70</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   71</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   72</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
+<div class="line"><span class="lineno">   74</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
+<div class="line"><span class="lineno">   76</span>    }</div>
+<div class="line"><span class="lineno">   77</span>}</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e">FixedWing6DOFControllerPID::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   80</span>    set_pid(heading_pid_, params[<span class="stringliteral">&quot;heading_pid&quot;</span>], <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   81</span>    set_pid(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>], <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   82</span>    set_pid(vel_pid_, params[<span class="stringliteral">&quot;vel_pid&quot;</span>], <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>    throttle_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">VariableIO::Type::throttle</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   85</span>    elevator_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">VariableIO::Type::elevator</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   86</span>    aileron_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">VariableIO::Type::aileron</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   87</span>    rudder_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">VariableIO::Type::rudder</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   88</span>}</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240">FixedWing6DOFControllerPID::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   91</span>    <span class="comment">// double desired_yaw = desired_state_-&gt;quat().yaw();</span></div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   93</span>    <span class="comment">// heading_pid_.set_setpoint(desired_yaw);</span></div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment">// double u_heading = heading_pid_.step(dt, state_-&gt;quat().yaw());</span></div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// double roll_error = u_heading + state_-&gt;quat().roll();</span></div>
+<div class="line"><span class="lineno">   96</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   97</span>    <span class="comment">// alt_pid_.set_setpoint(desired_state_-&gt;pos()(2));</span></div>
+<div class="line"><span class="lineno">   98</span>    <span class="comment">// double u_alt = alt_pid_.step(dt, state_-&gt;pos()(2));</span></div>
+<div class="line"><span class="lineno">   99</span>    <span class="comment">// double pitch_error = (-u_alt - state_-&gt;quat().pitch());</span></div>
+<div class="line"><span class="lineno">  100</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">  101</span>    <span class="comment">// vel_pid_.set_setpoint(desired_state_-&gt;vel()(0));</span></div>
+<div class="line"><span class="lineno">  102</span>    <span class="comment">// double u_throttle = vel_pid_.step(dt, state_-&gt;vel().norm());</span></div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>    <span class="comment">// u_ &lt;&lt; u_throttle, roll_error, pitch_error, 0;</span></div>
+<div class="line"><span class="lineno">  105</span>    <span class="comment">// throttle, elevator, aileron, rudder</span></div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span><span class="preprocessor">#if 1</span></div>
+<div class="line"><span class="lineno">  108</span>    <span class="comment">// Rudder dublet (TODO)</span></div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> (t &gt;= 2 &amp;&amp; t &lt;= 2.4) {</div>
+<div class="line"><span class="lineno">  110</span>        vars_.output(rudder_idx_, -0.26);</div>
+<div class="line"><span class="lineno">  111</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t &gt;= 2.4 &amp;&amp; t &lt;= 2.8) {</div>
+<div class="line"><span class="lineno">  112</span>        vars_.output(rudder_idx_, +0.26);</div>
+<div class="line"><span class="lineno">  113</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  114</span>        vars_.output(rudder_idx_, 0);</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span><span class="preprocessor">#if 1</span></div>
+<div class="line"><span class="lineno">  119</span>    <span class="comment">// Aileron dublet</span></div>
+<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">if</span> (t &gt;= 8 &amp;&amp; t &lt;= 8.4) {</div>
+<div class="line"><span class="lineno">  121</span>        vars_.output(aileron_idx_, -0.5);</div>
+<div class="line"><span class="lineno">  122</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (t &gt;= 8.4 &amp;&amp; t &lt;= 8.8) {</div>
+<div class="line"><span class="lineno">  123</span>        vars_.output(aileron_idx_, 0.5);</div>
+<div class="line"><span class="lineno">  124</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  125</span>        vars_.output(aileron_idx_, 0);</div>
+<div class="line"><span class="lineno">  126</span>    }</div>
+<div class="line"><span class="lineno">  127</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  130</span>}</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">  133</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html"><div class="ttname"><a href="classscrimmage_1_1PID.html">scrimmage::PID</a></div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00040">PID.h:40</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00103">PID.cpp:103</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00113">PID.cpp:113</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00093">PID.cpp:93</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::Type::throttle</a></div><div class="ttdeci">@ throttle</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::Type::aileron</a></div><div class="ttdeci">@ aileron</div></div>
@@ -279,7 +280,7 @@ DESCRIPTION</h1>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1FixedWing6DOFControllerPID_html_aab89cc52345b8221fd5803459c6ea240"><div class="ttname"><a href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240">scrimmage::controller::FixedWing6DOFControllerPID::step</a></div><div class="ttdeci">virtual bool step(double t, double dt)</div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::aileron</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00056">scrimmage::controller::FixedWing6DOFControllerPID::aileron_idx_</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00051">scrimmage::controller::FixedWing6DOFControllerPID::alt_pid_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00055">scrimmage::controller::FixedWing6DOFControllerPID::elevator_idx_</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00050">scrimmage::controller::FixedWing6DOFControllerPID::heading_pid_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e">scrimmage::controller::FixedWing6DOFControllerPID::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00057">scrimmage::controller::FixedWing6DOFControllerPID::rudder_idx_</a>, <a class="el" href="PID_8cpp_source.html#l00101">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00111">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00091">scrimmage::PID::set_parameters()</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240">scrimmage::controller::FixedWing6DOFControllerPID::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00054">scrimmage::controller::FixedWing6DOFControllerPID::throttle_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00052">scrimmage::controller::FixedWing6DOFControllerPID::vel_pid_</a>.</p>
+<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::aileron</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00057">scrimmage::controller::FixedWing6DOFControllerPID::aileron_idx_</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00052">scrimmage::controller::FixedWing6DOFControllerPID::alt_pid_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00056">scrimmage::controller::FixedWing6DOFControllerPID::elevator_idx_</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00051">scrimmage::controller::FixedWing6DOFControllerPID::heading_pid_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#a9ce8c290c3cfa495d470e3301a26c33e">scrimmage::controller::FixedWing6DOFControllerPID::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00058">scrimmage::controller::FixedWing6DOFControllerPID::rudder_idx_</a>, <a class="el" href="PID_8cpp_source.html#l00103">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00113">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00093">scrimmage::PID::set_parameters()</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerPID.html#aab89cc52345b8221fd5803459c6ea240">scrimmage::controller::FixedWing6DOFControllerPID::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00055">scrimmage::controller::FixedWing6DOFControllerPID::throttle_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="FixedWing6DOFControllerPID_8h_source.html#l00053">scrimmage::controller::FixedWing6DOFControllerPID::vel_pid_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -311,7 +312,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_0b492dd3a160f6043f7dabefe782681f.html">FixedWing6DOFControllerPID</a></li><li class="navelem"><a class="el" href="FixedWing6DOFControllerPID_8cpp.html">FixedWing6DOFControllerPID.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

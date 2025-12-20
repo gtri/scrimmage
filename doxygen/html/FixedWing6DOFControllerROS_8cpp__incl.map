@@ -1,9 +1,9 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="203,5,450,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,200,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="258,77,140,134,138,129,256,72"/>
-<area shape="rect" id="Node000003" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="225,130,429,170"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="329,75,329,116,324,116,324,75"/>
-<area shape="rect" id="Node000005" href="$FixedWing6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="453,123,685,177"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="403,72,499,115,497,120,401,77"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="235,5,482,75"/>
+<area shape="rect" id="Node000002" href="$FixedWing6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="5,123,237,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,77,192,120,190,115,284,72"/>
+<area shape="rect" id="Node000053" title=" " alt="" coords="261,137,456,163"/>
+<area shape="poly" id="edge2_Node000001_Node000053" title=" " alt="" coords="361,75,361,123,356,123,356,75"/>
+<area shape="rect" id="Node000054" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="481,130,685,170"/>
+<area shape="poly" id="edge3_Node000001_Node000054" title=" " alt="" coords="429,72,532,122,530,126,427,77"/>
 </map>

@@ -135,7 +135,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html#l00044">44</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html">ScrimmageMsgServiceImpl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html#l00045">45</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html">ScrimmageMsgServiceImpl.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9f97d8c854888006534d94c9779f4314" name="a9f97d8c854888006534d94c9779f4314"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f97d8c854888006534d94c9779f4314">&#9670;&#160;</a></span>ScrimmageMsgServiceImpl()</h2>
@@ -161,9 +161,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html#l00040">40</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html">ScrimmageMsgServiceImpl.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>    : <a class="code hl_variable" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">plugin_</a>(std::dynamic_pointer_cast&lt;interaction::GRPCCommandString&gt;(plugin)) {}</div>
-<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a0ca19a4ebba64e9a04ac07f431c043e9"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">scrimmage::ScrimmageMsgServiceImpl::plugin_</a></div><div class="ttdeci">std::shared_ptr&lt; interaction::GRPCCommandString &gt; plugin_</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8h_source.html#l00053">ScrimmageMsgServiceImpl.h:53</a></div></div>
+<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html#l00042">42</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html">ScrimmageMsgServiceImpl.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>    : <a class="code hl_variable" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">plugin_</a>(std::dynamic_pointer_cast&lt;interaction::GRPCCommandString&gt;(plugin)) {}</div>
+<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a0ca19a4ebba64e9a04ac07f431c043e9"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">scrimmage::ScrimmageMsgServiceImpl::plugin_</a></div><div class="ttdeci">std::shared_ptr&lt; interaction::GRPCCommandString &gt; plugin_</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8h_source.html#l00054">ScrimmageMsgServiceImpl.h:54</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -208,12 +208,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html#l00043">43</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html">ScrimmageMsgServiceImpl.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>                                     {</div>
-<div class="line"><span class="lineno">   47</span>    <a class="code hl_variable" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">plugin_</a>-&gt;push_msg(*cmd);</div>
-<div class="line"><span class="lineno">   48</span>    reply-&gt;set_success(1);</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> grpc::Status::OK;</div>
-<div class="line"><span class="lineno">   50</span>}</div>
+<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html#l00045">45</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8cpp_source.html">ScrimmageMsgServiceImpl.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>                                     {</div>
+<div class="line"><span class="lineno">   49</span>    <a class="code hl_variable" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a0ca19a4ebba64e9a04ac07f431c043e9">plugin_</a>-&gt;push_msg(*cmd);</div>
+<div class="line"><span class="lineno">   50</span>    reply-&gt;set_success(1);</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">return</span> grpc::Status::OK;</div>
+<div class="line"><span class="lineno">   52</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -238,7 +238,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html#l00053">53</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html">ScrimmageMsgServiceImpl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html#l00054">54</a> of file <a class="el" href="ScrimmageMsgServiceImpl_8h_source.html">ScrimmageMsgServiceImpl.h</a>.</p>
 
 </div>
 </div>
@@ -252,7 +252,7 @@ Protected Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html">ScrimmageMsgServiceImpl</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

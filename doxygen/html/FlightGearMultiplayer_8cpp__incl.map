@@ -1,40 +1,40 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1081,5,1349,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="1035,211,1198,251"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1081,40,791,49,449,64,156,85,62,97,33,104,20,110,11,123,8,135,11,148,20,161,33,167,61,173,153,184,435,203,760,217,1022,224,1021,230,760,222,435,209,152,190,60,178,31,172,16,165,6,150,3,135,6,120,16,106,31,98,61,92,156,79,448,59,791,44,1081,35"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="30,115,192,155"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1081,38,906,43,686,56,445,77,205,111,185,115,184,109,204,105,445,72,686,50,905,38,1081,33"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="216,123,296,148"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1081,41,889,50,667,64,459,84,374,97,309,111,288,119,286,114,308,105,373,91,458,79,667,59,889,45,1081,36"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="320,123,379,148"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1081,41,907,49,708,63,524,83,449,96,392,111,377,118,375,113,390,105,448,91,523,78,708,58,906,44,1081,36"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="403,123,646,148"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1081,52,881,78,658,111,593,123,592,117,657,105,881,72,1080,47"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="670,123,762,148"/>
-<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="1081,50,932,73,852,90,775,111,751,119,749,114,773,105,851,85,931,68,1080,45"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="786,123,857,148"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="1082,56,977,78,871,110,853,118,851,114,869,106,976,73,1080,51"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="882,123,978,148"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="1130,63,991,110,968,120,966,115,989,106,1129,58"/>
-<area shape="rect" id="Node000010" href="$Time_8h.html" title="Brief file description." alt="" coords="1002,123,1207,148"/>
-<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="1188,62,1129,115,1126,111,1184,58"/>
-<area shape="rect" id="Node000012" href="$Entity_8h.html" title="Brief file description." alt="" coords="1231,123,1420,148"/>
-<area shape="poly" id="edge10_Node000001_Node000012" title=" " alt="" coords="1246,58,1305,111,1301,115,1242,62"/>
-<area shape="rect" id="Node000029" href="$State_8h.html" title="Brief file description." alt="" coords="1445,123,1628,148"/>
-<area shape="poly" id="edge11_Node000001_Node000029" title=" " alt="" coords="1300,57,1487,116,1486,121,1298,63"/>
-<area shape="rect" id="Node000034" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1652,123,1868,148"/>
-<area shape="poly" id="edge12_Node000001_Node000034" title=" " alt="" coords="1350,53,1641,105,1697,117,1696,122,1640,111,1349,59"/>
-<area shape="rect" id="Node000035" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1893,115,2097,155"/>
-<area shape="poly" id="edge13_Node000001_Node000035" title=" " alt="" coords="1350,42,1597,66,1740,84,1881,105,1906,110,1905,115,1880,111,1739,89,1597,72,1349,47"/>
-<area shape="rect" id="Node000036" href="$FlightGearMultiplayer_8h.html" title="Brief file description." alt="" coords="2122,108,2362,163"/>
-<area shape="poly" id="edge14_Node000001_Node000036" title=" " alt="" coords="1350,38,1690,61,1897,80,2109,105,2108,111,1897,85,1689,66,1349,43"/>
-<area shape="rect" id="Node000056" title=" " alt="" coords="2386,123,2457,148"/>
-<area shape="poly" id="edge16_Node000001_Node000056" title=" " alt="" coords="1350,33,1594,38,1890,50,2171,72,2287,87,2375,105,2394,113,2392,118,2373,111,2286,92,2171,77,1889,55,1594,43,1349,38"/>
-<area shape="rect" id="Node000057" title=" " alt="" coords="2481,123,2584,148"/>
-<area shape="poly" id="edge17_Node000001_Node000057" title=" " alt="" coords="1349,34,1613,40,1935,53,2246,75,2373,89,2470,105,2498,115,2497,120,2469,111,2372,94,2245,80,1935,59,1612,46,1349,39"/>
-<area shape="rect" id="Node000058" title=" " alt="" coords="2608,123,2704,148"/>
-<area shape="poly" id="edge18_Node000001_Node000058" title=" " alt="" coords="1349,32,1638,38,1997,50,2345,71,2488,87,2597,105,2623,114,2622,119,2596,111,2488,92,2345,77,1997,55,1637,43,1349,38"/>
-<area shape="rect" id="Node000059" title=" " alt="" coords="2728,123,2803,148"/>
-<area shape="poly" id="edge19_Node000001_Node000059" title=" " alt="" coords="1349,31,1661,32,2057,41,2256,51,2440,64,2598,82,2717,105,2738,114,2736,119,2716,111,2597,87,2440,69,2255,56,2056,47,1661,37,1349,36"/>
-<area shape="poly" id="edge15_Node000036_Node000002" title=" " alt="" coords="2122,164,2110,165,1856,193,1604,212,1211,230,1211,224,1604,206,1856,188,2109,160,2121,158"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1139,5,1407,60"/>
+<area shape="rect" id="Node000002" href="$FlightGearMultiplayer_8h.html" title="Brief file description." alt="" coords="5,108,245,163"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1139,42,746,64,505,84,264,111,259,111,258,106,264,105,505,79,746,59,1139,36"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="123,211,285,251"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="1139,41,915,51,658,66,434,86,355,97,309,110,276,145,229,201,225,198,272,141,307,106,354,92,433,80,657,60,914,46,1139,36"/>
+<area shape="rect" id="Node000038" title=" " alt="" coords="320,115,483,155"/>
+<area shape="poly" id="edge4_Node000001_Node000038" title=" " alt="" coords="1139,42,843,64,668,84,495,111,476,115,475,109,494,105,667,78,842,59,1139,37"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="507,123,587,148"/>
+<area shape="poly" id="edge5_Node000001_Node000018" title=" " alt="" coords="1139,38,1022,43,885,56,741,77,599,111,579,119,577,114,598,105,740,72,885,50,1021,38,1139,32"/>
+<area shape="rect" id="Node000039" title=" " alt="" coords="611,123,669,148"/>
+<area shape="poly" id="edge6_Node000001_Node000039" title=" " alt="" coords="1139,37,1037,43,921,55,800,77,682,110,667,118,665,113,680,106,799,72,920,50,1037,37,1139,32"/>
+<area shape="rect" id="Node000040" title=" " alt="" coords="693,123,936,148"/>
+<area shape="poly" id="edge7_Node000001_Node000040" title=" " alt="" coords="1155,63,881,122,880,117,1153,57"/>
+<area shape="rect" id="Node000041" title=" " alt="" coords="961,123,1053,148"/>
+<area shape="poly" id="edge8_Node000001_Node000041" title=" " alt="" coords="1197,63,1066,110,1045,119,1043,115,1064,106,1195,58"/>
+<area shape="rect" id="Node000042" title=" " alt="" coords="1077,123,1147,148"/>
+<area shape="poly" id="edge9_Node000001_Node000042" title=" " alt="" coords="1233,62,1143,118,1140,113,1230,58"/>
+<area shape="rect" id="Node000043" title=" " alt="" coords="1172,123,1268,148"/>
+<area shape="poly" id="edge10_Node000001_Node000043" title=" " alt="" coords="1262,62,1235,112,1230,109,1257,59"/>
+<area shape="rect" id="Node000044" title=" " alt="" coords="1293,123,1363,148"/>
+<area shape="poly" id="edge11_Node000001_Node000044" title=" " alt="" coords="1290,59,1317,109,1313,112,1285,62"/>
+<area shape="rect" id="Node000045" title=" " alt="" coords="1387,123,1490,148"/>
+<area shape="poly" id="edge12_Node000001_Node000045" title=" " alt="" coords="1318,58,1409,113,1407,118,1315,62"/>
+<area shape="rect" id="Node000046" title=" " alt="" coords="1515,123,1611,148"/>
+<area shape="poly" id="edge13_Node000001_Node000046" title=" " alt="" coords="1362,58,1504,105,1526,115,1524,120,1502,111,1360,63"/>
+<area shape="rect" id="Node000047" title=" " alt="" coords="1635,123,1709,148"/>
+<area shape="poly" id="edge14_Node000001_Node000047" title=" " alt="" coords="1408,51,1515,73,1624,105,1643,114,1640,119,1622,111,1513,78,1407,56"/>
+<area shape="rect" id="Node000048" href="$Time_8h.html" title="Brief file description." alt="" coords="1733,123,1939,148"/>
+<area shape="poly" id="edge15_Node000001_Node000048" title=" " alt="" coords="1408,51,1722,105,1776,117,1775,122,1721,111,1407,57"/>
+<area shape="rect" id="Node000049" href="$Entity_8h.html" title="Brief file description." alt="" coords="1963,123,2152,148"/>
+<area shape="poly" id="edge16_Node000001_Node000049" title=" " alt="" coords="1408,41,1661,65,1807,83,1951,105,2004,117,2003,122,1950,111,1806,88,1660,70,1407,46"/>
+<area shape="rect" id="Node000056" href="$State_8h.html" title="Brief file description." alt="" coords="2177,123,2359,148"/>
+<area shape="poly" id="edge17_Node000001_Node000056" title=" " alt="" coords="1408,36,1563,43,1752,57,1959,77,2164,105,2216,117,2215,122,2164,111,1958,82,1752,62,1562,49,1408,41"/>
+<area shape="rect" id="Node000058" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="2384,123,2600,148"/>
+<area shape="poly" id="edge18_Node000001_Node000058" title=" " alt="" coords="1408,34,1597,41,1838,54,2105,74,2372,105,2434,117,2433,122,2372,111,2105,80,1838,59,1597,46,1407,39"/>
+<area shape="rect" id="Node000059" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="2625,115,2829,155"/>
+<area shape="poly" id="edge19_Node000001_Node000059" title=" " alt="" coords="1408,31,1636,35,1936,46,2273,68,2445,85,2612,105,2640,110,2639,115,2612,111,2444,90,2273,73,1936,51,1636,40,1407,37"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="150,161,181,199,177,202,146,165"/>
 </map>

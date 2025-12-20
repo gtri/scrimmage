@@ -97,27 +97,27 @@ $(document).ready(function(){initNavTree('SimpleCarControllerHeading_8cpp.html',
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="SimpleCarControllerHeading_8h_source.html">scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="SimpleCarControllerHeading_8h_source.html">scrimmage/plugins/controller/SimpleCarControllerHeading/SimpleCarControllerHeading.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SimpleCarControllerHeading.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="SimpleCarControllerHeading_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleCarControllerHeading_2SimpleCarControllerHeading_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleCarControllerHeading_2SimpleCarControllerHeading_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleCarControllerHeading_2SimpleCarControllerHeading_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="448,5,687,75"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="5,137,228,163"/>
-<area shape="poly" title=" " alt="" coords="448,72,178,137,177,132,447,67"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="252,137,435,163"/>
-<area shape="poly" title=" " alt="" coords="499,77,381,134,379,129,497,72"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="459,137,675,163"/>
-<area shape="poly" title=" " alt="" coords="570,75,570,123,565,123,565,75"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="700,130,904,170"/>
-<area shape="poly" title=" " alt="" coords="641,72,750,122,748,127,639,77"/>
-<area shape="rect" href="SimpleCarControllerHeading_8h.html" title="Brief file description." alt="" coords="928,123,1151,177"/>
-<area shape="poly" title=" " alt="" coords="688,66,915,118,914,123,686,71"/>
+<area shape="rect" title="Brief file description." alt="" coords="471,5,709,75"/>
+<area shape="rect" href="SimpleCarControllerHeading_8h.html" title="Brief file description." alt="" coords="5,123,228,177"/>
+<area shape="poly" title=" " alt="" coords="471,71,242,123,241,118,470,66"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="252,137,475,163"/>
+<area shape="poly" title=" " alt="" coords="521,77,401,134,399,129,518,72"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="499,137,681,163"/>
+<area shape="poly" title=" " alt="" coords="593,75,593,123,587,123,587,75"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="706,137,922,163"/>
+<area shape="poly" title=" " alt="" coords="661,72,779,129,776,134,658,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="947,130,1151,170"/>
+<area shape="poly" title=" " alt="" coords="711,67,956,124,955,129,709,72"/>
 </map>
 </div>
 </div>
@@ -180,39 +180,40 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00039">39</a> of file <a class="el" href="SimpleCarControllerHeading_8cpp_source.html">SimpleCarControllerHeading.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>                    {</div>
-<div class="line"><span class="lineno">   45</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span><span class="keywordtype">void</span> SimpleCarControllerHeading::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordtype">double</span> p_gain = get&lt;double&gt;(<span class="stringliteral">&quot;p_gain&quot;</span>, params, 1);</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordtype">double</span> i_gain = get&lt;double&gt;(<span class="stringliteral">&quot;i_gain&quot;</span>, params, 1);</div>
-<div class="line"><span class="lineno">   50</span>    <span class="keywordtype">double</span> d_gain = get&lt;double&gt;(<span class="stringliteral">&quot;d_gain&quot;</span>, params, 1);</div>
-<div class="line"><span class="lineno">   51</span>    <span class="keywordtype">double</span> i_lim = get&lt;double&gt;(<span class="stringliteral">&quot;i_lim&quot;</span>, params, 1);</div>
-<div class="line"><span class="lineno">   52</span>    pid_.set_parameters(p_gain, i_gain, d_gain);</div>
-<div class="line"><span class="lineno">   53</span>    pid_.set_integral_band(i_lim);</div>
-<div class="line"><span class="lineno">   54</span>    pid_.set_is_angle(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>    input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   57</span>    input_heading_idx_ =</div>
-<div class="line"><span class="lineno">   58</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>    output_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   61</span>    output_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   62</span>}</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span><span class="keywordtype">bool</span> SimpleCarControllerHeading::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   65</span>    vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));</div>
-<div class="line"><span class="lineno">   66</span>    pid_.set_setpoint(vars_.input(input_heading_idx_));</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> turn_rate = pid_.step(dt, parent()-&gt;state_belief()-&gt;quat_const().yaw());</div>
-<div class="line"><span class="lineno">   68</span>    vars_.output(output_turn_rate_idx_, turn_rate);</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   71</span>}</div>
-<div class="line"><span class="lineno">   72</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   73</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">40</a> of file <a class="el" href="SimpleCarControllerHeading_8cpp_source.html">SimpleCarControllerHeading.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   45</span>                    {</div>
+<div class="line"><span class="lineno">   46</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   47</span> </div>
+<div class="line"><span class="lineno">   48</span><span class="keywordtype">void</span> SimpleCarControllerHeading::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordtype">double</span> p_gain = get&lt;double&gt;(<span class="stringliteral">&quot;p_gain&quot;</span>, params, 1);</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordtype">double</span> i_gain = get&lt;double&gt;(<span class="stringliteral">&quot;i_gain&quot;</span>, params, 1);</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordtype">double</span> d_gain = get&lt;double&gt;(<span class="stringliteral">&quot;d_gain&quot;</span>, params, 1);</div>
+<div class="line"><span class="lineno">   52</span>    <span class="keywordtype">double</span> i_lim = get&lt;double&gt;(<span class="stringliteral">&quot;i_lim&quot;</span>, params, 1);</div>
+<div class="line"><span class="lineno">   53</span>    pid_.set_parameters(p_gain, i_gain, d_gain);</div>
+<div class="line"><span class="lineno">   54</span>    pid_.set_integral_band(i_lim);</div>
+<div class="line"><span class="lineno">   55</span>    pid_.set_is_angle(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>    input_vel_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   58</span>    input_heading_idx_ =</div>
+<div class="line"><span class="lineno">   59</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>    output_vel_idx_ = vars_.declare(VariableIO::Type::speed, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   62</span>    output_turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   63</span>}</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span><span class="keywordtype">bool</span> SimpleCarControllerHeading::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   66</span>    vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));</div>
+<div class="line"><span class="lineno">   67</span>    pid_.set_setpoint(vars_.input(input_heading_idx_));</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> turn_rate = pid_.step(dt, parent()-&gt;state_belief()-&gt;quat_const().yaw());</div>
+<div class="line"><span class="lineno">   69</span>    vars_.output(output_turn_rate_idx_, turn_rate);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   72</span>}</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   75</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#a61703121fd88c36f80be2a1998fc1da7">scrimmage::controller::SimpleCarControllerHeading::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00142">scrimmage::VariableIO::input()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00053">scrimmage::controller::SimpleCarControllerHeading::input_heading_idx_</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00052">scrimmage::controller::SimpleCarControllerHeading::input_vel_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00056">scrimmage::controller::SimpleCarControllerHeading::output_turn_rate_idx_</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00055">scrimmage::controller::SimpleCarControllerHeading::output_vel_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00050">scrimmage::controller::SimpleCarControllerHeading::pid_</a>, <a class="el" href="PID_8cpp_source.html#l00101">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00111">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00091">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00097">scrimmage::PID::set_setpoint()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">scrimmage::VariableIO::speed</a>, <a class="el" href="PID_8cpp_source.html#l00143">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#ae4197442a3df935922850a26dcc4b979">scrimmage::controller::SimpleCarControllerHeading::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#a61703121fd88c36f80be2a1998fc1da7">scrimmage::controller::SimpleCarControllerHeading::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00054">scrimmage::controller::SimpleCarControllerHeading::input_heading_idx_</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00053">scrimmage::controller::SimpleCarControllerHeading::input_vel_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00057">scrimmage::controller::SimpleCarControllerHeading::output_turn_rate_idx_</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00056">scrimmage::controller::SimpleCarControllerHeading::output_vel_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="SimpleCarControllerHeading_8h_source.html#l00051">scrimmage::controller::SimpleCarControllerHeading::pid_</a>, <a class="el" href="PID_8cpp_source.html#l00103">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00113">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00093">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00099">scrimmage::PID::set_setpoint()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">scrimmage::VariableIO::speed</a>, <a class="el" href="PID_8cpp_source.html#l00145">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleCarControllerHeading.html#ae4197442a3df935922850a26dcc4b979">scrimmage::controller::SimpleCarControllerHeading::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -252,7 +253,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_1cc3e17ed558b1c1d2b8192c49a1d686.html">SimpleCarControllerHeading</a></li><li class="navelem"><a class="el" href="SimpleCarControllerHeading_8cpp.html">SimpleCarControllerHeading.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

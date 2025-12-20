@@ -1,15 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/MOOSAutonomy/MOOSNode.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/MOOSAutonomy/MOOSNode.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="123,5,401,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="215,196,274,221"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,63,58,84,33,96,17,110,8,131,14,149,33,164,61,176,133,193,202,202,201,207,132,199,59,182,30,169,10,152,3,131,13,106,30,92,56,79,124,57"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="28,115,141,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,62,120,111,117,107,211,58"/>
-<area shape="rect" id="Node000004" href="$Angles_8h.html" title="Brief file description." alt="" coords="165,115,359,141"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="265,60,265,101,259,101,259,60"/>
-<area shape="rect" id="Node000005" href="$State_8h.html" title="Brief file description." alt="" coords="479,196,661,221"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="402,42,469,52,534,65,587,83,607,94,622,106,629,127,624,149,611,170,595,188,591,185,607,167,619,147,624,128,617,110,604,98,585,88,532,70,468,57,401,48"/>
-<area shape="rect" id="Node000012" href="$MOOSNode_8h.html" title="Brief file description." alt="" coords="383,108,607,148"/>
-<area shape="poly" id="edge5_Node000001_Node000012" title=" " alt="" coords="329,58,437,100,435,105,327,63"/>
-<area shape="poly" id="edge6_Node000012_Node000002" title=" " alt="" coords="436,151,288,197,286,192,435,145"/>
-<area shape="poly" id="edge7_Node000012_Node000005" title=" " alt="" coords="515,146,551,184,547,188,511,150"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="146,5,425,60"/>
+<area shape="rect" id="Node000002" href="$MOOSNode_8h.html" title="Brief file description." alt="" coords="24,108,248,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,62,179,103,176,98,242,58"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="33,196,92,221"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="147,58,65,80,34,94,14,110,8,128,13,148,25,167,41,185,37,188,21,170,8,150,3,128,10,106,31,90,63,75,145,53"/>
+<area shape="rect" id="Node000007" href="$State_8h.html" title="Brief file description." alt="" coords="118,196,301,221"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="286,61,278,103,262,149,249,170,234,188,230,185,245,167,258,147,273,102,281,60"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="323,115,437,141"/>
+<area shape="poly" id="edge5_Node000001_Node000014" title=" " alt="" coords="314,58,360,104,357,107,310,62"/>
+<area shape="rect" id="Node000015" href="$Angles_8h.html" title="Brief file description." alt="" coords="461,115,654,141"/>
+<area shape="poly" id="edge6_Node000001_Node000015" title=" " alt="" coords="363,58,512,108,510,113,361,63"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="120,150,85,188,81,184,116,146"/>
+<area shape="poly" id="edge3_Node000002_Node000007" title=" " alt="" coords="156,146,191,184,187,188,152,150"/>
 </map>

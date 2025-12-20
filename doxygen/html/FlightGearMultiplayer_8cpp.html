@@ -97,7 +97,8 @@ $(document).ready(function(){initNavTree('FlightGearMultiplayer_8cpp.html',''); 
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;flightgear/MultiPlayer/mpmessages.hxx&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="FlightGearMultiplayer_8h_source.html">scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h</a>&quot;</code><br />
+<code>#include &lt;flightgear/MultiPlayer/mpmessages.hxx&gt;</code><br />
 <code>#include &lt;flightgear/MultiPlayer/tiny_xdr.hxx&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
@@ -105,59 +106,58 @@ $(document).ready(function(){initNavTree('FlightGearMultiplayer_8cpp.html',''); 
 <code>#include &lt;arpa/inet.h&gt;</code><br />
 <code>#include &lt;netdb.h&gt;</code><br />
 <code>#include &lt;netinet/in.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="Time_8h_source.html">scrimmage/common/Time.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="FlightGearMultiplayer_8h_source.html">scrimmage/plugins/autonomy/FlightGearMultiplayer/FlightGearMultiplayer.h</a>&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;sys/socket.h&gt;</code><br />
 <code>#include &lt;sys/types.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="Time_8h_source.html">scrimmage/common/Time.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FlightGearMultiplayer.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="FlightGearMultiplayer_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2FlightGearMultiplayer_2FlightGearMultiplayer_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2FlightGearMultiplayer_2FlightGearMultiplayer_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2FlightGearMultiplayer_2FlightGearMultiplayer_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="1081,5,1349,60"/>
-<area shape="rect" title=" " alt="" coords="1035,211,1198,251"/>
-<area shape="poly" title=" " alt="" coords="1081,40,791,49,449,64,156,85,62,97,33,104,20,110,11,123,8,135,11,148,20,161,33,167,61,173,153,184,435,203,760,217,1022,224,1021,230,760,222,435,209,152,190,60,178,31,172,16,165,6,150,3,135,6,120,16,106,31,98,61,92,156,79,448,59,791,44,1081,35"/>
-<area shape="rect" title=" " alt="" coords="30,115,192,155"/>
-<area shape="poly" title=" " alt="" coords="1081,38,906,43,686,56,445,77,205,111,185,115,184,109,204,105,445,72,686,50,905,38,1081,33"/>
-<area shape="rect" title=" " alt="" coords="216,123,296,148"/>
-<area shape="poly" title=" " alt="" coords="1081,41,889,50,667,64,459,84,374,97,309,111,288,119,286,114,308,105,373,91,458,79,667,59,889,45,1081,36"/>
-<area shape="rect" title=" " alt="" coords="320,123,379,148"/>
-<area shape="poly" title=" " alt="" coords="1081,41,907,49,708,63,524,83,449,96,392,111,377,118,375,113,390,105,448,91,523,78,708,58,906,44,1081,36"/>
-<area shape="rect" title=" " alt="" coords="403,123,646,148"/>
-<area shape="poly" title=" " alt="" coords="1081,52,881,78,658,111,593,123,592,117,657,105,881,72,1080,47"/>
-<area shape="rect" title=" " alt="" coords="670,123,762,148"/>
-<area shape="poly" title=" " alt="" coords="1081,50,932,73,852,90,775,111,751,119,749,114,773,105,851,85,931,68,1080,45"/>
-<area shape="rect" title=" " alt="" coords="786,123,857,148"/>
-<area shape="poly" title=" " alt="" coords="1082,56,977,78,871,110,853,118,851,114,869,106,976,73,1080,51"/>
-<area shape="rect" title=" " alt="" coords="882,123,978,148"/>
-<area shape="poly" title=" " alt="" coords="1130,63,991,110,968,120,966,115,989,106,1129,58"/>
-<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="1002,123,1207,148"/>
-<area shape="poly" title=" " alt="" coords="1188,62,1129,115,1126,111,1184,58"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1231,123,1420,148"/>
-<area shape="poly" title=" " alt="" coords="1246,58,1305,111,1301,115,1242,62"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1445,123,1628,148"/>
-<area shape="poly" title=" " alt="" coords="1300,57,1487,116,1486,121,1298,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1652,123,1868,148"/>
-<area shape="poly" title=" " alt="" coords="1350,53,1641,105,1697,117,1696,122,1640,111,1349,59"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1893,115,2097,155"/>
-<area shape="poly" title=" " alt="" coords="1350,42,1597,66,1740,84,1881,105,1906,110,1905,115,1880,111,1739,89,1597,72,1349,47"/>
-<area shape="rect" href="FlightGearMultiplayer_8h.html" title="Brief file description." alt="" coords="2122,108,2362,163"/>
-<area shape="poly" title=" " alt="" coords="1350,38,1690,61,1897,80,2109,105,2108,111,1897,85,1689,66,1349,43"/>
-<area shape="rect" title=" " alt="" coords="2386,123,2457,148"/>
-<area shape="poly" title=" " alt="" coords="1350,33,1594,38,1890,50,2171,72,2287,87,2375,105,2394,113,2392,118,2373,111,2286,92,2171,77,1889,55,1594,43,1349,38"/>
-<area shape="rect" title=" " alt="" coords="2481,123,2584,148"/>
-<area shape="poly" title=" " alt="" coords="1349,34,1613,40,1935,53,2246,75,2373,89,2470,105,2498,115,2497,120,2469,111,2372,94,2245,80,1935,59,1612,46,1349,39"/>
-<area shape="rect" title=" " alt="" coords="2608,123,2704,148"/>
-<area shape="poly" title=" " alt="" coords="1349,32,1638,38,1997,50,2345,71,2488,87,2597,105,2623,114,2622,119,2596,111,2488,92,2345,77,1997,55,1637,43,1349,38"/>
-<area shape="rect" title=" " alt="" coords="2728,123,2803,148"/>
-<area shape="poly" title=" " alt="" coords="1349,31,1661,32,2057,41,2256,51,2440,64,2598,82,2717,105,2738,114,2736,119,2716,111,2597,87,2440,69,2255,56,2056,47,1661,37,1349,36"/>
-<area shape="poly" title=" " alt="" coords="2122,164,2110,165,1856,193,1604,212,1211,230,1211,224,1604,206,1856,188,2109,160,2121,158"/>
+<area shape="rect" title="Brief file description." alt="" coords="1139,5,1407,60"/>
+<area shape="rect" href="FlightGearMultiplayer_8h.html" title="Brief file description." alt="" coords="5,108,245,163"/>
+<area shape="poly" title=" " alt="" coords="1139,42,746,64,505,84,264,111,259,111,258,106,264,105,505,79,746,59,1139,36"/>
+<area shape="rect" title=" " alt="" coords="123,211,285,251"/>
+<area shape="poly" title=" " alt="" coords="1139,41,915,51,658,66,434,86,355,97,309,110,276,145,229,201,225,198,272,141,307,106,354,92,433,80,657,60,914,46,1139,36"/>
+<area shape="rect" title=" " alt="" coords="320,115,483,155"/>
+<area shape="poly" title=" " alt="" coords="1139,42,843,64,668,84,495,111,476,115,475,109,494,105,667,78,842,59,1139,37"/>
+<area shape="rect" title=" " alt="" coords="507,123,587,148"/>
+<area shape="poly" title=" " alt="" coords="1139,38,1022,43,885,56,741,77,599,111,579,119,577,114,598,105,740,72,885,50,1021,38,1139,32"/>
+<area shape="rect" title=" " alt="" coords="611,123,669,148"/>
+<area shape="poly" title=" " alt="" coords="1139,37,1037,43,921,55,800,77,682,110,667,118,665,113,680,106,799,72,920,50,1037,37,1139,32"/>
+<area shape="rect" title=" " alt="" coords="693,123,936,148"/>
+<area shape="poly" title=" " alt="" coords="1155,63,881,122,880,117,1153,57"/>
+<area shape="rect" title=" " alt="" coords="961,123,1053,148"/>
+<area shape="poly" title=" " alt="" coords="1197,63,1066,110,1045,119,1043,115,1064,106,1195,58"/>
+<area shape="rect" title=" " alt="" coords="1077,123,1147,148"/>
+<area shape="poly" title=" " alt="" coords="1233,62,1143,118,1140,113,1230,58"/>
+<area shape="rect" title=" " alt="" coords="1172,123,1268,148"/>
+<area shape="poly" title=" " alt="" coords="1262,62,1235,112,1230,109,1257,59"/>
+<area shape="rect" title=" " alt="" coords="1293,123,1363,148"/>
+<area shape="poly" title=" " alt="" coords="1290,59,1317,109,1313,112,1285,62"/>
+<area shape="rect" title=" " alt="" coords="1387,123,1490,148"/>
+<area shape="poly" title=" " alt="" coords="1318,58,1409,113,1407,118,1315,62"/>
+<area shape="rect" title=" " alt="" coords="1515,123,1611,148"/>
+<area shape="poly" title=" " alt="" coords="1362,58,1504,105,1526,115,1524,120,1502,111,1360,63"/>
+<area shape="rect" title=" " alt="" coords="1635,123,1709,148"/>
+<area shape="poly" title=" " alt="" coords="1408,51,1515,73,1624,105,1643,114,1640,119,1622,111,1513,78,1407,56"/>
+<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="1733,123,1939,148"/>
+<area shape="poly" title=" " alt="" coords="1408,51,1722,105,1776,117,1775,122,1721,111,1407,57"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1963,123,2152,148"/>
+<area shape="poly" title=" " alt="" coords="1408,41,1661,65,1807,83,1951,105,2004,117,2003,122,1950,111,1806,88,1660,70,1407,46"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="2177,123,2359,148"/>
+<area shape="poly" title=" " alt="" coords="1408,36,1563,43,1752,57,1959,77,2164,105,2216,117,2215,122,2164,111,1958,82,1752,62,1562,49,1408,41"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="2384,123,2600,148"/>
+<area shape="poly" title=" " alt="" coords="1408,34,1597,41,1838,54,2105,74,2372,105,2434,117,2433,122,2372,111,2105,80,1838,59,1597,46,1407,39"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="2625,115,2829,155"/>
+<area shape="poly" title=" " alt="" coords="1408,31,1636,35,1936,46,2273,68,2445,85,2612,105,2640,110,2639,115,2612,111,2444,90,2273,73,1936,51,1636,40,1407,37"/>
+<area shape="poly" title=" " alt="" coords="150,161,181,199,177,202,146,165"/>
 </map>
 </div>
 </div>
@@ -220,135 +220,137 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00058">58</a> of file <a class="el" href="FlightGearMultiplayer_8cpp_source.html">FlightGearMultiplayer.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>                    {</div>
-<div class="line"><span class="lineno">   64</span><span class="keyword">namespace </span>autonomy {</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>FlightGearMultiplayer::FlightGearMultiplayer()</div>
-<div class="line"><span class="lineno">   67</span>    : callsign_(<span class="stringliteral">&quot;scrimmage&quot;</span>),</div>
-<div class="line"><span class="lineno">   68</span>      data_socket_(<a class="code hl_namespace" href="namespacestd.html">std</a>::make_shared&lt;netSocket&gt;()),</div>
-<div class="line"><span class="lineno">   69</span>      aircraft_model_(<a class="code hl_namespace" href="namespacestd.html">std</a>::string(<span class="stringliteral">&quot;Aircraft/c172p/Models/c172p.xml&quot;</span>)),</div>
-<div class="line"><span class="lineno">   70</span>      earth_(<a class="code hl_namespace" href="namespacestd.html">std</a>::make_shared&lt;<a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Geocentric&gt;(</div>
-<div class="line"><span class="lineno">   71</span>          <a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Constants::WGS84_a(),</div>
-<div class="line"><span class="lineno">   72</span>          <a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Constants::WGS84_f())),</div>
-<div class="line"><span class="lineno">   73</span>      angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span><span class="keywordtype">void</span> FlightGearMultiplayer::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    std::string server_ip = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;server_ip&quot;</span>, params, <span class="stringliteral">&quot;127.0.0.1&quot;</span>);</div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordtype">int</span> server_port = sc::get&lt;int&gt;(<span class="stringliteral">&quot;server_port&quot;</span>, params, 5000);</div>
-<div class="line"><span class="lineno">   79</span>    callsign_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;callsign&quot;</span>, params, <span class="stringliteral">&quot;scrimmage&quot;</span>);</div>
-<div class="line"><span class="lineno">   80</span>    aircraft_model_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;aircraft_model&quot;</span>, params, aircraft_model_);</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>    net_address_.set(server_ip.c_str(), server_port);</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">if</span> (data_socket_-&gt;open(<span class="keyword">false</span>) == 0) {  <span class="comment">// Open UDP socket</span></div>
-<div class="line"><span class="lineno">   84</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Failed to open connection to: &quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   85</span>        cout &lt;&lt; <span class="stringliteral">&quot;Server IP: &quot;</span> &lt;&lt; net_address_.getIP() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   86</span>        cout &lt;&lt; <span class="stringliteral">&quot;Server Port: &quot;</span> &lt;&lt; net_address_.getPort() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   87</span>    }</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">// Create the flight gear header</span></div>
-<div class="line"><span class="lineno">   90</span>    msg_size_ = <span class="keyword">sizeof</span>(T_MsgHdr) + <span class="keyword">sizeof</span>(T_PositionMsg);</div>
-<div class="line"><span class="lineno">   91</span>    header_msg_.Magic = XDR_encode&lt;uint32_t&gt;(MSG_MAGIC);</div>
-<div class="line"><span class="lineno">   92</span>    header_msg_.Version = XDR_encode&lt;uint32_t&gt;(PROTO_VER);</div>
-<div class="line"><span class="lineno">   93</span>    header_msg_.MsgId = XDR_encode&lt;uint32_t&gt;(FGFS::POS_DATA);</div>
-<div class="line"><span class="lineno">   94</span>    header_msg_.MsgLen = XDR_encode&lt;uint32_t&gt;(msg_size_);</div>
-<div class="line"><span class="lineno">   95</span>    header_msg_.RadarRange = XDR_decode&lt;float&gt;(15);</div>
-<div class="line"><span class="lineno">   96</span>    header_msg_.ReplyPort = XDR_decode&lt;uint32_t&gt;(0);</div>
-<div class="line"><span class="lineno">   97</span>    snprintf(header_msg_.Name, MAX_CALLSIGN_LEN, <span class="stringliteral">&quot;%s&quot;</span>, callsign_.c_str());</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>    <span class="comment">// Initialize parts of position message that aren&#39;t updated</span></div>
-<div class="line"><span class="lineno">  100</span>    snprintf(pos_msg_.Model, MAX_MODEL_NAME_LEN, <span class="stringliteral">&quot;%s&quot;</span>, aircraft_model_.c_str());</div>
-<div class="line"><span class="lineno">  101</span>    pos_msg_.linearVel[0] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  102</span>    pos_msg_.linearVel[1] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  103</span>    pos_msg_.linearVel[2] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>    pos_msg_.angularVel[0] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  106</span>    pos_msg_.angularVel[1] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  107</span>    pos_msg_.angularVel[2] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>    pos_msg_.linearAccel[0] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  110</span>    pos_msg_.linearAccel[1] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  111</span>    pos_msg_.linearAccel[2] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>    pos_msg_.angularAccel[0] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  114</span>    pos_msg_.angularAccel[1] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  115</span>    pos_msg_.angularAccel[2] = XDR_encode&lt;float&gt;(0);</div>
-<div class="line"><span class="lineno">  116</span>}</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span><a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> FlightGearMultiplayer::fromLonLatRad(<span class="keywordtype">float</span> lon, <span class="keywordtype">float</span> lat) {</div>
-<div class="line"><span class="lineno">  119</span>    <span class="comment">// TODO : This transformation was taken from the Flight Gear Multiplayer</span></div>
-<div class="line"><span class="lineno">  120</span>    <span class="comment">// server, we should convert this to using our own quaternion class, but</span></div>
-<div class="line"><span class="lineno">  121</span>    <span class="comment">// for now, this works.</span></div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>    <span class="comment">// Eigen::AngleAxisd R_a(sc::Angles::deg2rad(lon), Eigen::Vector3d::UnitZ());</span></div>
-<div class="line"><span class="lineno">  124</span>    <span class="comment">// Eigen::AngleAxisd R_b(sc::Angles::deg2rad(lat),</span></div>
-<div class="line"><span class="lineno">  125</span>    <span class="comment">// Eigen::Vector3d::UnitX()); Eigen::Quaterniond rot2 = R_a * R_b;</span></div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordtype">float</span> zd2 = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(0.5) * lon;</div>
-<div class="line"><span class="lineno">  128</span>    <span class="keywordtype">float</span> yd2 =</div>
-<div class="line"><span class="lineno">  129</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(-0.25) * <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(M_PI) - <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(0.5) * lat;</div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordtype">float</span> Szd2 = sin(zd2);</div>
-<div class="line"><span class="lineno">  131</span>    <span class="keywordtype">float</span> Syd2 = sin(yd2);</div>
-<div class="line"><span class="lineno">  132</span>    <span class="keywordtype">float</span> Czd2 = cos(zd2);</div>
-<div class="line"><span class="lineno">  133</span>    <span class="keywordtype">float</span> Cyd2 = cos(yd2);</div>
-<div class="line"><span class="lineno">  134</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(Czd2 * Cyd2, -Szd2 * Syd2, Czd2 * Syd2, Szd2 * Cyd2);</div>
-<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">return</span> quat;</div>
-<div class="line"><span class="lineno">  136</span>}</div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span><span class="keywordtype">bool</span> FlightGearMultiplayer::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  139</span>    <span class="comment">// Create the flight gear position msg</span></div>
-<div class="line"><span class="lineno">  140</span>    pos_msg_.time = XDR_encode64&lt;float&gt;(time_-&gt;t());</div>
-<div class="line"><span class="lineno">  141</span>    pos_msg_.lag = XDR_encode64&lt;float&gt;(time_-&gt;t());</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="comment">// Compute ECEF coordinates from x/y/z lat/lon/alt</span></div>
-<div class="line"><span class="lineno">  144</span>    <span class="keywordtype">double</span> lat, lon, alt;</div>
-<div class="line"><span class="lineno">  145</span>    parent_-&gt;projection()</div>
-<div class="line"><span class="lineno">  146</span>        -&gt;Reverse(state_-&gt;pos()(0), state_-&gt;pos()(1), state_-&gt;pos()(2), lat, lon, alt);</div>
-<div class="line"><span class="lineno">  147</span>    <span class="keywordtype">double</span> ECEF_X, ECEF_Y, ECEF_Z;</div>
-<div class="line"><span class="lineno">  148</span>    earth_-&gt;Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>    pos_msg_.position[0] = XDR_encode64&lt;double&gt;(ECEF_X);</div>
-<div class="line"><span class="lineno">  151</span>    pos_msg_.position[1] = XDR_encode64&lt;double&gt;(ECEF_Y);</div>
-<div class="line"><span class="lineno">  152</span>    pos_msg_.position[2] = XDR_encode64&lt;double&gt;(ECEF_Z);</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>    <span class="comment">// Convert local heading to GPS heading</span></div>
-<div class="line"><span class="lineno">  155</span>    angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_-&gt;quat().yaw()));</div>
-<div class="line"><span class="lineno">  156</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> local_quat(</div>
-<div class="line"><span class="lineno">  157</span>        state_-&gt;quat().roll(),</div>
-<div class="line"><span class="lineno">  158</span>        state_-&gt;quat().pitch(),</div>
-<div class="line"><span class="lineno">  159</span>        sc::Angles::deg2rad(angles_to_jsbsim_.angle()));</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>    <span class="comment">// Convert local quaternion to ECEF coordinate</span></div>
-<div class="line"><span class="lineno">  162</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> rot =</div>
-<div class="line"><span class="lineno">  163</span>        this-&gt;fromLonLatRad(sc::Angles::deg2rad(lon), sc::Angles::deg2rad(lat));</div>
-<div class="line"><span class="lineno">  164</span> </div>
-<div class="line"><span class="lineno">  165</span>    <span class="comment">// The FlightGear Multiplayer packet expects the orientation to be in</span></div>
-<div class="line"><span class="lineno">  166</span>    <span class="comment">// angle-axis form, where the axis magnitude is the rotation angle.</span></div>
-<div class="line"><span class="lineno">  167</span>    Eigen::AngleAxisd ang_axis(rot * local_quat);</div>
-<div class="line"><span class="lineno">  168</span>    Eigen::Vector3d ang_axis_mod = ang_axis.axis().normalized() * ang_axis.angle();</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>    pos_msg_.orientation[0] = XDR_encode&lt;float&gt;(ang_axis_mod(0));</div>
-<div class="line"><span class="lineno">  171</span>    pos_msg_.orientation[1] = XDR_encode&lt;float&gt;(ang_axis_mod(1));</div>
-<div class="line"><span class="lineno">  172</span>    pos_msg_.orientation[2] = XDR_encode&lt;float&gt;(ang_axis_mod(2));</div>
-<div class="line"><span class="lineno">  173</span> </div>
-<div class="line"><span class="lineno">  174</span>    <span class="comment">// Copy header and position data structs into memory buffer</span></div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordtype">char</span>* msg = <span class="keyword">new</span> <span class="keywordtype">char</span>[msg_size_];</div>
-<div class="line"><span class="lineno">  176</span>    std::memcpy(msg, &amp;header_msg_, <span class="keyword">sizeof</span>(T_MsgHdr));</div>
-<div class="line"><span class="lineno">  177</span>    std::memcpy(msg + <span class="keyword">sizeof</span>(T_MsgHdr), &amp;pos_msg_, <span class="keyword">sizeof</span>(T_PositionMsg));</div>
-<div class="line"><span class="lineno">  178</span> </div>
-<div class="line"><span class="lineno">  179</span>    data_socket_-&gt;sendto(msg, msg_size_, 0, &amp;net_address_);</div>
-<div class="line"><span class="lineno">  180</span>    <span class="keyword">delete</span>[] msg;</div>
+<p class="definition">Definition at line <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00060">60</a> of file <a class="el" href="FlightGearMultiplayer_8cpp_source.html">FlightGearMultiplayer.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>                    {</div>
+<div class="line"><span class="lineno">   66</span><span class="keyword">namespace </span>autonomy {</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>FlightGearMultiplayer::FlightGearMultiplayer()</div>
+<div class="line"><span class="lineno">   69</span>    : callsign_(<span class="stringliteral">&quot;scrimmage&quot;</span>),</div>
+<div class="line"><span class="lineno">   70</span>      data_socket_(<a class="code hl_namespace" href="namespacestd.html">std</a>::make_shared&lt;netSocket&gt;()),</div>
+<div class="line"><span class="lineno">   71</span>      aircraft_model_(<a class="code hl_namespace" href="namespacestd.html">std</a>::string(<span class="stringliteral">&quot;Aircraft/c172p/Models/c172p.xml&quot;</span>)),</div>
+<div class="line"><span class="lineno">   72</span>      earth_(</div>
+<div class="line"><span class="lineno">   73</span>          <a class="code hl_namespace" href="namespacestd.html">std</a>::make_shared&lt;<a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Geocentric&gt;(</div>
+<div class="line"><span class="lineno">   74</span>              <a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Constants::WGS84_a(),</div>
+<div class="line"><span class="lineno">   75</span>              <a class="code hl_namespace" href="namespaceGeographicLib.html">GeographicLib</a>::Constants::WGS84_f())),</div>
+<div class="line"><span class="lineno">   76</span>      angles_to_jsbsim_(0, Angles::Type::EUCLIDEAN, Angles::Type::GPS) {}</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span><span class="keywordtype">void</span> FlightGearMultiplayer::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>    std::string server_ip = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;server_ip&quot;</span>, params, <span class="stringliteral">&quot;127.0.0.1&quot;</span>);</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordtype">int</span> server_port = sc::get&lt;int&gt;(<span class="stringliteral">&quot;server_port&quot;</span>, params, 5000);</div>
+<div class="line"><span class="lineno">   82</span>    callsign_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;callsign&quot;</span>, params, <span class="stringliteral">&quot;scrimmage&quot;</span>);</div>
+<div class="line"><span class="lineno">   83</span>    aircraft_model_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;aircraft_model&quot;</span>, params, aircraft_model_);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>    net_address_.set(server_ip.c_str(), server_port);</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keywordflow">if</span> (data_socket_-&gt;open(<span class="keyword">false</span>) == 0) {  <span class="comment">// Open UDP socket</span></div>
+<div class="line"><span class="lineno">   87</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Failed to open connection to: &quot;</span> &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   88</span>        cout &lt;&lt; <span class="stringliteral">&quot;Server IP: &quot;</span> &lt;&lt; net_address_.getIP() &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   89</span>        cout &lt;&lt; <span class="stringliteral">&quot;Server Port: &quot;</span> &lt;&lt; net_address_.getPort() &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   90</span>    }</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">// Create the flight gear header</span></div>
+<div class="line"><span class="lineno">   93</span>    msg_size_ = <span class="keyword">sizeof</span>(T_MsgHdr) + <span class="keyword">sizeof</span>(T_PositionMsg);</div>
+<div class="line"><span class="lineno">   94</span>    header_msg_.Magic = XDR_encode&lt;uint32_t&gt;(MSG_MAGIC);</div>
+<div class="line"><span class="lineno">   95</span>    header_msg_.Version = XDR_encode&lt;uint32_t&gt;(PROTO_VER);</div>
+<div class="line"><span class="lineno">   96</span>    header_msg_.MsgId = XDR_encode&lt;uint32_t&gt;(FGFS::POS_DATA);</div>
+<div class="line"><span class="lineno">   97</span>    header_msg_.MsgLen = XDR_encode&lt;uint32_t&gt;(msg_size_);</div>
+<div class="line"><span class="lineno">   98</span>    header_msg_.RadarRange = XDR_decode&lt;float&gt;(15);</div>
+<div class="line"><span class="lineno">   99</span>    header_msg_.ReplyPort = XDR_decode&lt;uint32_t&gt;(0);</div>
+<div class="line"><span class="lineno">  100</span>    snprintf(header_msg_.Name, MAX_CALLSIGN_LEN, <span class="stringliteral">&quot;%s&quot;</span>, callsign_.c_str());</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    <span class="comment">// Initialize parts of position message that aren&#39;t updated</span></div>
+<div class="line"><span class="lineno">  103</span>    snprintf(pos_msg_.Model, MAX_MODEL_NAME_LEN, <span class="stringliteral">&quot;%s&quot;</span>, aircraft_model_.c_str());</div>
+<div class="line"><span class="lineno">  104</span>    pos_msg_.linearVel[0] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  105</span>    pos_msg_.linearVel[1] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  106</span>    pos_msg_.linearVel[2] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>    pos_msg_.angularVel[0] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  109</span>    pos_msg_.angularVel[1] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  110</span>    pos_msg_.angularVel[2] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>    pos_msg_.linearAccel[0] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  113</span>    pos_msg_.linearAccel[1] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  114</span>    pos_msg_.linearAccel[2] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>    pos_msg_.angularAccel[0] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  117</span>    pos_msg_.angularAccel[1] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  118</span>    pos_msg_.angularAccel[2] = XDR_encode&lt;float&gt;(0);</div>
+<div class="line"><span class="lineno">  119</span>}</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span><a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> FlightGearMultiplayer::fromLonLatRad(<span class="keywordtype">float</span> lon, <span class="keywordtype">float</span> lat) {</div>
+<div class="line"><span class="lineno">  122</span>    <span class="comment">// TODO : This transformation was taken from the Flight Gear Multiplayer</span></div>
+<div class="line"><span class="lineno">  123</span>    <span class="comment">// server, we should convert this to using our own quaternion class, but</span></div>
+<div class="line"><span class="lineno">  124</span>    <span class="comment">// for now, this works.</span></div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// Eigen::AngleAxisd R_a(sc::Angles::deg2rad(lon), Eigen::Vector3d::UnitZ());</span></div>
+<div class="line"><span class="lineno">  127</span>    <span class="comment">// Eigen::AngleAxisd R_b(sc::Angles::deg2rad(lat),</span></div>
+<div class="line"><span class="lineno">  128</span>    <span class="comment">// Eigen::Vector3d::UnitX()); Eigen::Quaterniond rot2 = R_a * R_b;</span></div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>    <span class="keywordtype">float</span> zd2 = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(0.5) * lon;</div>
+<div class="line"><span class="lineno">  131</span>    <span class="keywordtype">float</span> yd2 =</div>
+<div class="line"><span class="lineno">  132</span>        <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(-0.25) * <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(M_PI) - <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(0.5) * lat;</div>
+<div class="line"><span class="lineno">  133</span>    <span class="keywordtype">float</span> Szd2 = sin(zd2);</div>
+<div class="line"><span class="lineno">  134</span>    <span class="keywordtype">float</span> Syd2 = sin(yd2);</div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordtype">float</span> Czd2 = cos(zd2);</div>
+<div class="line"><span class="lineno">  136</span>    <span class="keywordtype">float</span> Cyd2 = cos(yd2);</div>
+<div class="line"><span class="lineno">  137</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(Czd2 * Cyd2, -Szd2 * Syd2, Czd2 * Syd2, Szd2 * Cyd2);</div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> quat;</div>
+<div class="line"><span class="lineno">  139</span>}</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span><span class="keywordtype">bool</span> FlightGearMultiplayer::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  142</span>    <span class="comment">// Create the flight gear position msg</span></div>
+<div class="line"><span class="lineno">  143</span>    pos_msg_.time = XDR_encode64&lt;float&gt;(time_-&gt;t());</div>
+<div class="line"><span class="lineno">  144</span>    pos_msg_.lag = XDR_encode64&lt;float&gt;(time_-&gt;t());</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>    <span class="comment">// Compute ECEF coordinates from x/y/z lat/lon/alt</span></div>
+<div class="line"><span class="lineno">  147</span>    <span class="keywordtype">double</span> lat, lon, alt;</div>
+<div class="line"><span class="lineno">  148</span>    parent_-&gt;projection()</div>
+<div class="line"><span class="lineno">  149</span>        -&gt;Reverse(state_-&gt;pos()(0), state_-&gt;pos()(1), state_-&gt;pos()(2), lat, lon, alt);</div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordtype">double</span> ECEF_X, ECEF_Y, ECEF_Z;</div>
+<div class="line"><span class="lineno">  151</span>    earth_-&gt;Forward(lat, lon, alt, ECEF_X, ECEF_Y, ECEF_Z);</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>    pos_msg_.position[0] = XDR_encode64&lt;double&gt;(ECEF_X);</div>
+<div class="line"><span class="lineno">  154</span>    pos_msg_.position[1] = XDR_encode64&lt;double&gt;(ECEF_Y);</div>
+<div class="line"><span class="lineno">  155</span>    pos_msg_.position[2] = XDR_encode64&lt;double&gt;(ECEF_Z);</div>
+<div class="line"><span class="lineno">  156</span> </div>
+<div class="line"><span class="lineno">  157</span>    <span class="comment">// Convert local heading to GPS heading</span></div>
+<div class="line"><span class="lineno">  158</span>    angles_to_jsbsim_.set_angle(sc::Angles::rad2deg(state_-&gt;quat().yaw()));</div>
+<div class="line"><span class="lineno">  159</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> local_quat(</div>
+<div class="line"><span class="lineno">  160</span>        state_-&gt;quat().roll(),</div>
+<div class="line"><span class="lineno">  161</span>        state_-&gt;quat().pitch(),</div>
+<div class="line"><span class="lineno">  162</span>        sc::Angles::deg2rad(angles_to_jsbsim_.angle()));</div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  164</span>    <span class="comment">// Convert local quaternion to ECEF coordinate</span></div>
+<div class="line"><span class="lineno">  165</span>    <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> rot =</div>
+<div class="line"><span class="lineno">  166</span>        this-&gt;fromLonLatRad(sc::Angles::deg2rad(lon), sc::Angles::deg2rad(lat));</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>    <span class="comment">// The FlightGear Multiplayer packet expects the orientation to be in</span></div>
+<div class="line"><span class="lineno">  169</span>    <span class="comment">// angle-axis form, where the axis magnitude is the rotation angle.</span></div>
+<div class="line"><span class="lineno">  170</span>    Eigen::AngleAxisd ang_axis(rot * local_quat);</div>
+<div class="line"><span class="lineno">  171</span>    Eigen::Vector3d ang_axis_mod = ang_axis.axis().normalized() * ang_axis.angle();</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>    pos_msg_.orientation[0] = XDR_encode&lt;float&gt;(ang_axis_mod(0));</div>
+<div class="line"><span class="lineno">  174</span>    pos_msg_.orientation[1] = XDR_encode&lt;float&gt;(ang_axis_mod(1));</div>
+<div class="line"><span class="lineno">  175</span>    pos_msg_.orientation[2] = XDR_encode&lt;float&gt;(ang_axis_mod(2));</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>    <span class="comment">// Copy header and position data structs into memory buffer</span></div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordtype">char</span>* msg = <span class="keyword">new</span> <span class="keywordtype">char</span>[msg_size_];</div>
+<div class="line"><span class="lineno">  179</span>    std::memcpy(msg, &amp;header_msg_, <span class="keyword">sizeof</span>(T_MsgHdr));</div>
+<div class="line"><span class="lineno">  180</span>    std::memcpy(msg + <span class="keyword">sizeof</span>(T_MsgHdr), &amp;pos_msg_, <span class="keyword">sizeof</span>(T_PositionMsg));</div>
 <div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  183</span>}</div>
-<div class="line"><span class="lineno">  184</span>}  <span class="comment">// namespace autonomy</span></div>
-<div class="line"><span class="lineno">  185</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">  182</span>    data_socket_-&gt;sendto(msg, msg_size_, 0, &amp;net_address_);</div>
+<div class="line"><span class="lineno">  183</span>    <span class="keyword">delete</span>[] msg;</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  186</span>}</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>}  <span class="comment">// namespace autonomy</span></div>
+<div class="line"><span class="lineno">  189</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
 <div class="ttc" id="anamespaceGeographicLib_html"><div class="ttname"><a href="namespaceGeographicLib.html">GeographicLib</a></div><div class="ttdef"><b>Definition</b> <a href="Waypoint_8h_source.html#l00043">Waypoint.h:43</a></div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="FlightGearMultiplayer_8h_source.html#l00059">scrimmage::autonomy::FlightGearMultiplayer::aircraft_model_</a>, <a class="el" href="Angles_8cpp_source.html#l00186">scrimmage::Angles::angle()</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00063">scrimmage::autonomy::FlightGearMultiplayer::angles_to_jsbsim_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00056">scrimmage::autonomy::FlightGearMultiplayer::callsign_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00057">scrimmage::autonomy::FlightGearMultiplayer::data_socket_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00061">scrimmage::autonomy::FlightGearMultiplayer::earth_</a>, <a class="el" href="classscrimmage_1_1Angles.html#a4b66603af0f54403e536d0227c474bfaab142d642e537e694b9314e1a56835f8d">scrimmage::Angles::EUCLIDEAN</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a330bf66d3feefd7f83dd0b404e84ca07">scrimmage::autonomy::FlightGearMultiplayer::FlightGearMultiplayer()</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a29b6404372957cf8c19966fdc0976877">scrimmage::autonomy::FlightGearMultiplayer::fromLonLatRad()</a>, <a class="el" href="classscrimmage_1_1Angles.html#a4b66603af0f54403e536d0227c474bfaa8c578de37278ada488d763ea86c5cf20">scrimmage::Angles::GPS</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00067">scrimmage::autonomy::FlightGearMultiplayer::header_msg_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00099">scrimmage::Autonomy::init()</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00069">scrimmage::autonomy::FlightGearMultiplayer::msg_size_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00058">scrimmage::autonomy::FlightGearMultiplayer::net_address_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00068">scrimmage::autonomy::FlightGearMultiplayer::pos_msg_</a>, <a class="el" href="Angles_8cpp_source.html#l00155">scrimmage::Angles::set_angle()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#abfedb4508936a02201d96269177936ac">scrimmage::autonomy::FlightGearMultiplayer::step_autonomy()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00197">scrimmage::EntityPlugin::time_</a>.</p>
+<p class="reference">References <a class="el" href="FlightGearMultiplayer_8h_source.html#l00061">scrimmage::autonomy::FlightGearMultiplayer::aircraft_model_</a>, <a class="el" href="Angles_8cpp_source.html#l00187">scrimmage::Angles::angle()</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00065">scrimmage::autonomy::FlightGearMultiplayer::angles_to_jsbsim_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00058">scrimmage::autonomy::FlightGearMultiplayer::callsign_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00059">scrimmage::autonomy::FlightGearMultiplayer::data_socket_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00063">scrimmage::autonomy::FlightGearMultiplayer::earth_</a>, <a class="el" href="classscrimmage_1_1Angles.html#a4b66603af0f54403e536d0227c474bfaab142d642e537e694b9314e1a56835f8d">scrimmage::Angles::EUCLIDEAN</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a330bf66d3feefd7f83dd0b404e84ca07">scrimmage::autonomy::FlightGearMultiplayer::FlightGearMultiplayer()</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a29b6404372957cf8c19966fdc0976877">scrimmage::autonomy::FlightGearMultiplayer::fromLonLatRad()</a>, <a class="el" href="classscrimmage_1_1Angles.html#a4b66603af0f54403e536d0227c474bfaa8c578de37278ada488d763ea86c5cf20">scrimmage::Angles::GPS</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00069">scrimmage::autonomy::FlightGearMultiplayer::header_msg_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00071">scrimmage::autonomy::FlightGearMultiplayer::msg_size_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00060">scrimmage::autonomy::FlightGearMultiplayer::net_address_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="FlightGearMultiplayer_8h_source.html#l00070">scrimmage::autonomy::FlightGearMultiplayer::pos_msg_</a>, <a class="el" href="Angles_8cpp_source.html#l00156">scrimmage::Angles::set_angle()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#abfedb4508936a02201d96269177936ac">scrimmage::autonomy::FlightGearMultiplayer::step_autonomy()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -379,7 +381,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_921cbad3f67c3d0b4d967758f18f86dd.html">FlightGearMultiplayer</a></li><li class="navelem"><a class="el" href="FlightGearMultiplayer_8cpp.html">FlightGearMultiplayer.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

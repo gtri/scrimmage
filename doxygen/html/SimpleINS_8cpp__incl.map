@@ -1,36 +1,36 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/sensor/SimpleINS/SimpleINS.cpp" name="/root/scrimmage/scrimmage/src/plugins/sensor/SimpleINS/SimpleINS.cpp">
 <area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1114,5,1329,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="613,196,675,221"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1114,37,896,41,638,53,517,62,413,75,337,91,312,100,297,110,285,126,280,140,283,152,291,162,323,180,372,192,430,200,492,204,599,206,599,211,491,209,430,205,371,197,322,184,287,166,278,154,275,140,280,124,293,106,309,95,335,85,413,69,516,57,637,47,895,36,1114,32"/>
-<area shape="rect" id="Node000003" href="$Random_8h.html" title="Brief file description." alt="" coords="5,115,232,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1114,43,732,68,492,87,251,111,207,116,206,111,250,105,492,82,732,62,1114,37"/>
-<area shape="rect" id="Node000006" href="$Time_8h.html" title="Brief file description." alt="" coords="307,115,512,141"/>
-<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="1114,46,846,73,524,111,489,116,488,111,524,105,845,67,1113,41"/>
-<area shape="rect" id="Node000007" href="$Entity_8h.html" title="Brief file description." alt="" coords="995,115,1184,141"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="1186,62,1118,110,1115,105,1183,58"/>
-<area shape="rect" id="Node000018" href="$Message_8h.html" title="Brief file description." alt="" coords="997,196,1217,221"/>
-<area shape="poly" id="edge19_Node000001_Node000018" title=" " alt="" coords="1224,61,1217,104,1210,128,1198,150,1175,174,1148,192,1145,188,1171,170,1194,146,1205,126,1212,103,1218,60"/>
-<area shape="rect" id="Node000024" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="1340,269,1561,295"/>
-<area shape="poly" id="edge8_Node000001_Node000024" title=" " alt="" coords="1238,59,1265,101,1299,146,1365,210,1426,259,1422,263,1362,214,1295,150,1261,104,1234,62"/>
-<area shape="rect" id="Node000027" href="$State_8h.html" title="Brief file description." alt="" coords="1539,196,1722,221"/>
-<area shape="poly" id="edge9_Node000001_Node000027" title=" " alt="" coords="1329,34,1507,41,1709,55,1802,64,1882,75,1941,89,1961,97,1974,106,1985,121,1990,135,1990,147,1985,158,1963,176,1929,189,1885,199,1836,205,1736,210,1736,205,1835,199,1884,193,1927,184,1961,171,1981,155,1985,146,1985,136,1980,123,1970,110,1959,102,1939,94,1881,81,1802,69,1708,60,1506,47,1329,39"/>
-<area shape="rect" id="Node000029" href="$StateWithCovariance_8h.html" title="Brief file description." alt="" coords="1530,108,1731,148"/>
-<area shape="poly" id="edge11_Node000001_Node000029" title=" " alt="" coords="1329,56,1535,102,1534,107,1328,61"/>
-<area shape="rect" id="Node000030" title=" " alt="" coords="1310,115,1506,141"/>
-<area shape="poly" id="edge13_Node000001_Node000030" title=" " alt="" coords="1275,58,1374,107,1372,112,1273,62"/>
-<area shape="rect" id="Node000031" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="536,115,752,141"/>
-<area shape="poly" id="edge14_Node000001_Node000031" title=" " alt="" coords="1114,54,728,116,728,111,1113,49"/>
-<area shape="rect" id="Node000032" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1755,108,1959,148"/>
-<area shape="poly" id="edge16_Node000001_Node000032" title=" " alt="" coords="1329,46,1742,105,1741,110,1329,51"/>
-<area shape="rect" id="Node000033" href="$SimpleINS_8h.html" title="Brief file description." alt="" coords="777,108,970,148"/>
-<area shape="poly" id="edge17_Node000001_Node000033" title=" " alt="" coords="1124,63,957,107,956,102,1123,57"/>
-<area shape="rect" id="Node000052" href="$Publisher_8h.html" title="Brief file description." alt="" coords="2035,115,2256,141"/>
-<area shape="poly" id="edge20_Node000001_Node000052" title=" " alt="" coords="1329,40,1638,66,2016,105,2058,111,2058,116,2016,111,1638,71,1329,45"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="195,138,599,198,598,203,195,143"/>
-<area shape="poly" id="edge6_Node000007_Node000002" title=" " alt="" coords="1025,143,690,202,689,197,1024,138"/>
-<area shape="poly" id="edge7_Node000007_Node000018" title=" " alt="" coords="1094,140,1104,182,1099,183,1089,141"/>
-<area shape="poly" id="edge10_Node000027_Node000024" title=" " alt="" coords="1603,224,1494,267,1492,262,1601,219"/>
-<area shape="poly" id="edge12_Node000029_Node000027" title=" " alt="" coords="1633,148,1633,182,1628,182,1628,148"/>
-<area shape="poly" id="edge15_Node000031_Node000002" title=" " alt="" coords="647,141,647,182,641,182,641,141"/>
-<area shape="poly" id="edge18_Node000033_Node000002" title=" " alt="" coords="819,151,690,195,688,190,818,145"/>
+<area shape="rect" id="Node000002" href="$SimpleINS_8h.html" title="Brief file description." alt="" coords="257,108,450,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1114,45,823,71,470,111,464,111,463,106,469,105,822,66,1113,40"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="457,196,519,221"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="1114,41,947,50,760,65,600,85,545,97,515,110,503,125,495,144,490,183,484,182,490,143,498,123,512,106,543,92,599,80,760,60,947,45,1114,36"/>
+<area shape="rect" id="Node000034" href="$Random_8h.html" title="Brief file description." alt="" coords="5,115,232,141"/>
+<area shape="poly" id="edge4_Node000001_Node000034" title=" " alt="" coords="1114,42,730,67,488,86,244,111,202,116,202,111,244,105,487,81,729,62,1114,37"/>
+<area shape="rect" id="Node000035" href="$Time_8h.html" title="Brief file description." alt="" coords="525,115,731,141"/>
+<area shape="poly" id="edge6_Node000001_Node000035" title=" " alt="" coords="1114,53,743,111,711,116,710,111,742,105,1113,48"/>
+<area shape="rect" id="Node000036" href="$Entity_8h.html" title="Brief file description." alt="" coords="995,115,1184,141"/>
+<area shape="poly" id="edge7_Node000001_Node000036" title=" " alt="" coords="1186,62,1118,110,1115,105,1183,58"/>
+<area shape="rect" id="Node000028" href="$Message_8h.html" title="Brief file description." alt="" coords="997,196,1217,221"/>
+<area shape="poly" id="edge19_Node000001_Node000028" title=" " alt="" coords="1224,61,1217,104,1210,128,1198,150,1175,174,1148,192,1145,188,1171,170,1194,146,1205,126,1212,103,1218,60"/>
+<area shape="rect" id="Node000044" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="1231,269,1452,295"/>
+<area shape="poly" id="edge10_Node000001_Node000044" title=" " alt="" coords="1235,59,1267,132,1309,220,1329,256,1325,259,1304,223,1262,135,1230,62"/>
+<area shape="rect" id="Node000046" href="$State_8h.html" title="Brief file description." alt="" coords="1319,196,1502,221"/>
+<area shape="poly" id="edge11_Node000001_Node000046" title=" " alt="" coords="1329,31,1444,35,1568,46,1626,56,1677,68,1718,85,1746,106,1756,121,1761,134,1761,147,1756,158,1735,176,1702,189,1660,198,1612,204,1516,210,1515,205,1612,199,1659,193,1700,184,1732,171,1752,155,1756,146,1756,135,1752,123,1742,110,1715,90,1675,74,1625,61,1568,51,1444,40,1329,36"/>
+<area shape="rect" id="Node000048" href="$StateWithCovariance_8h.html" title="Brief file description." alt="" coords="1310,108,1511,148"/>
+<area shape="poly" id="edge13_Node000001_Node000048" title=" " alt="" coords="1276,58,1361,100,1359,104,1273,62"/>
+<area shape="rect" id="Node000049" title=" " alt="" coords="1535,115,1731,141"/>
+<area shape="poly" id="edge15_Node000001_Node000049" title=" " alt="" coords="1330,56,1570,110,1569,115,1328,61"/>
+<area shape="rect" id="Node000050" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="755,115,971,141"/>
+<area shape="poly" id="edge16_Node000001_Node000050" title=" " alt="" coords="1121,63,920,115,919,109,1120,57"/>
+<area shape="rect" id="Node000051" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1807,108,2011,148"/>
+<area shape="poly" id="edge18_Node000001_Node000051" title=" " alt="" coords="1329,45,1788,105,1794,106,1793,111,1788,111,1329,50"/>
+<area shape="rect" id="Node000052" href="$Publisher_8h.html" title="Brief file description." alt="" coords="2036,115,2257,141"/>
+<area shape="poly" id="edge20_Node000001_Node000052" title=" " alt="" coords="1330,39,1642,65,2024,105,2064,111,2063,116,2024,111,1641,71,1329,45"/>
+<area shape="poly" id="edge2_Node000002_Node000007" title=" " alt="" coords="387,146,458,187,455,191,384,150"/>
+<area shape="poly" id="edge5_Node000034_Node000007" title=" " alt="" coords="173,138,444,195,443,201,172,143"/>
+<area shape="poly" id="edge8_Node000036_Node000007" title=" " alt="" coords="1028,143,983,151,729,184,534,205,533,200,729,178,982,145,1027,138"/>
+<area shape="poly" id="edge9_Node000036_Node000028" title=" " alt="" coords="1094,140,1104,182,1099,183,1089,141"/>
+<area shape="poly" id="edge12_Node000046_Node000044" title=" " alt="" coords="1401,224,1364,261,1360,258,1397,220"/>
+<area shape="poly" id="edge14_Node000048_Node000046" title=" " alt="" coords="1413,148,1413,182,1408,182,1408,148"/>
+<area shape="poly" id="edge17_Node000050_Node000007" title=" " alt="" coords="809,143,533,201,532,195,808,138"/>
 </map>

@@ -97,27 +97,27 @@ $(document).ready(function(){initNavTree('RigidBody6DOFControllerPID_8cpp.html',
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="RigidBody6DOFControllerPID_8h_source.html">scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;boost/algorithm/string.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RigidBody6DOFControllerPID_8h_source.html">scrimmage/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.h</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for RigidBody6DOFControllerPID.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="RigidBody6DOFControllerPID_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2RigidBody6DOFControllerPID_2RigidBody6DOFControllerPID_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2RigidBody6DOFControllerPID_2RigidBody6DOFControllerPID_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2RigidBody6DOFControllerPID_2RigidBody6DOFControllerPID_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="305,5,546,75"/>
-<area shape="rect" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" title=" " alt="" coords="305,67,203,92,98,125,79,133,77,129,96,120,202,87,304,62"/>
-<area shape="rect" title=" " alt="" coords="109,137,304,163"/>
-<area shape="poly" title=" " alt="" coords="359,77,244,133,241,129,356,72"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="329,137,522,163"/>
-<area shape="poly" title=" " alt="" coords="428,75,428,123,423,123,423,75"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="546,130,750,170"/>
-<area shape="poly" title=" " alt="" coords="496,72,598,122,595,126,493,77"/>
-<area shape="rect" href="RigidBody6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="775,123,1001,177"/>
-<area shape="poly" title=" " alt="" coords="547,67,763,117,762,122,546,72"/>
+<area shape="rect" title="Brief file description." alt="" coords="337,5,578,75"/>
+<area shape="rect" href="RigidBody6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="5,123,232,177"/>
+<area shape="poly" title=" " alt="" coords="353,77,215,121,213,116,351,72"/>
+<area shape="rect" title=" " alt="" coords="256,137,336,163"/>
+<area shape="poly" title=" " alt="" coords="409,77,326,132,324,127,406,72"/>
+<area shape="rect" title=" " alt="" coords="360,137,555,163"/>
+<area shape="poly" title=" " alt="" coords="460,75,460,123,455,123,455,75"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="579,137,773,163"/>
+<area shape="poly" title=" " alt="" coords="526,72,641,129,639,133,524,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="797,130,1001,170"/>
+<area shape="poly" title=" " alt="" coords="579,68,809,124,808,129,578,73"/>
 </map>
 </div>
 </div>
@@ -180,70 +180,71 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00040">40</a> of file <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html">RigidBody6DOFControllerPID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                    {</div>
-<div class="line"><span class="lineno">   46</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<p class="definition">Definition at line <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">42</a> of file <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html">RigidBody6DOFControllerPID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>                    {</div>
+<div class="line"><span class="lineno">   48</span><span class="keyword">namespace </span>controller {</div>
 <div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span><span class="keywordtype">void</span> set_pid(<a class="code hl_class" href="classscrimmage_1_1PID.html">sc::PID</a>&amp; pid, std::string str, <span class="keywordtype">bool</span> is_angle) {</div>
-<div class="line"><span class="lineno">   51</span>    std::vector&lt;std::string&gt; str_vals;</div>
-<div class="line"><span class="lineno">   52</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
-<div class="line"><span class="lineno">   55</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;error parsing in RigidBody6DOFControllerPID&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   56</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   57</span>        <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
-<div class="line"><span class="lineno">   60</span>        pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">if</span> (is_angle) {</div>
-<div class="line"><span class="lineno">   63</span>            <span class="keywordtype">double</span> i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));</div>
-<div class="line"><span class="lineno">   64</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   65</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   66</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   67</span>            <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
-<div class="line"><span class="lineno">   68</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   69</span>        }</div>
-<div class="line"><span class="lineno">   70</span>    }</div>
-<div class="line"><span class="lineno">   71</span>}</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#aa17c7de89797c09a0ad8301d3f36d981">RigidBody6DOFControllerPID::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   74</span>    set_pid(heading_pid_, params[<span class="stringliteral">&quot;heading_pid&quot;</span>], <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   75</span>    set_pid(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>], <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   76</span>    set_pid(vel_pid_, params[<span class="stringliteral">&quot;vel_pid&quot;</span>], <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   77</span>    u_ = std::make_shared&lt;Eigen::Vector4d&gt;();</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23">RigidBody6DOFControllerPID::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordtype">double</span> desired_yaw = desired_state_-&gt;quat().yaw();</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>    heading_pid_.set_setpoint(desired_yaw);</div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordtype">double</span> u_heading = heading_pid_.step(dt, parent()-&gt;state_belief()-&gt;quat().yaw());</div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordtype">double</span> roll_error = u_heading + parent()-&gt;state_belief()-&gt;quat().roll();</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    alt_pid_.set_setpoint(desired_state_-&gt;pos()(2));</div>
-<div class="line"><span class="lineno">   88</span>    <span class="keywordtype">double</span> u_alt = alt_pid_.step(dt, parent()-&gt;state_belief()-&gt;pos()(2));</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordtype">double</span> pitch_error = (-u_alt - parent()-&gt;state_belief()-&gt;quat().pitch());</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>    vel_pid_.set_setpoint(desired_state_-&gt;vel()(0));</div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordtype">double</span> u_thrust = vel_pid_.step(dt, parent()-&gt;state_belief()-&gt;vel().norm());</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    (*u_) &lt;&lt; u_thrust, roll_error, pitch_error, 0;</div>
-<div class="line"><span class="lineno">   95</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   96</span>}</div>
-<div class="line"><span class="lineno">   97</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   98</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html"><div class="ttname"><a href="classscrimmage_1_1PID.html">scrimmage::PID</a></div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00039">PID.h:39</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00101">PID.cpp:101</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00111">PID.cpp:111</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00091">PID.cpp:91</a></div></div>
+<div class="line"><span class="lineno">   50</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span><span class="keywordtype">void</span> set_pid(<a class="code hl_class" href="classscrimmage_1_1PID.html">sc::PID</a>&amp; pid, std::string str, <span class="keywordtype">bool</span> is_angle) {</div>
+<div class="line"><span class="lineno">   53</span>    std::vector&lt;std::string&gt; str_vals;</div>
+<div class="line"><span class="lineno">   54</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
+<div class="line"><span class="lineno">   57</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;error parsing in RigidBody6DOFControllerPID&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   58</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
+<div class="line"><span class="lineno">   62</span>        pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">if</span> (is_angle) {</div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordtype">double</span> i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));</div>
+<div class="line"><span class="lineno">   66</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   67</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   68</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
+<div class="line"><span class="lineno">   70</span>            pid.<a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   71</span>        }</div>
+<div class="line"><span class="lineno">   72</span>    }</div>
+<div class="line"><span class="lineno">   73</span>}</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#aa17c7de89797c09a0ad8301d3f36d981">RigidBody6DOFControllerPID::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   76</span>    set_pid(heading_pid_, params[<span class="stringliteral">&quot;heading_pid&quot;</span>], <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   77</span>    set_pid(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>], <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   78</span>    set_pid(vel_pid_, params[<span class="stringliteral">&quot;vel_pid&quot;</span>], <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   79</span>    u_ = std::make_shared&lt;Eigen::Vector4d&gt;();</div>
+<div class="line"><span class="lineno">   80</span>}</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23">RigidBody6DOFControllerPID::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   83</span>    <span class="keywordtype">double</span> desired_yaw = desired_state_-&gt;quat().yaw();</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>    heading_pid_.set_setpoint(desired_yaw);</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keywordtype">double</span> u_heading = heading_pid_.step(dt, parent()-&gt;state_belief()-&gt;quat().yaw());</div>
+<div class="line"><span class="lineno">   87</span>    <span class="keywordtype">double</span> roll_error = u_heading + parent()-&gt;state_belief()-&gt;quat().roll();</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>    alt_pid_.set_setpoint(desired_state_-&gt;pos()(2));</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordtype">double</span> u_alt = alt_pid_.step(dt, parent()-&gt;state_belief()-&gt;pos()(2));</div>
+<div class="line"><span class="lineno">   91</span>    <span class="keywordtype">double</span> pitch_error = (-u_alt - parent()-&gt;state_belief()-&gt;quat().pitch());</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>    vel_pid_.set_setpoint(desired_state_-&gt;vel()(0));</div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordtype">double</span> u_thrust = vel_pid_.step(dt, parent()-&gt;state_belief()-&gt;vel().norm());</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>    (*u_) &lt;&lt; u_thrust, roll_error, pitch_error, 0;</div>
+<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   98</span>}</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">  101</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html"><div class="ttname"><a href="classscrimmage_1_1PID.html">scrimmage::PID</a></div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00040">PID.h:40</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00103">PID.cpp:103</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00113">PID.cpp:113</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00093">PID.cpp:93</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1RigidBody6DOFControllerPID_html_a622030af23df1c24e2de829c1159cf23"><div class="ttname"><a href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23">scrimmage::controller::RigidBody6DOFControllerPID::step</a></div><div class="ttdeci">bool step(double t, double dt) override</div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1RigidBody6DOFControllerPID_html_aa17c7de89797c09a0ad8301d3f36d981"><div class="ttname"><a href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#aa17c7de89797c09a0ad8301d3f36d981">scrimmage::controller::RigidBody6DOFControllerPID::init</a></div><div class="ttdeci">void init(std::map&lt; std::string, std::string &gt; &amp;params) override</div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00053">scrimmage::controller::RigidBody6DOFControllerPID::alt_pid_</a>, <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00052">scrimmage::controller::RigidBody6DOFControllerPID::heading_pid_</a>, <a class="el" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#aa17c7de89797c09a0ad8301d3f36d981">scrimmage::controller::RigidBody6DOFControllerPID::init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="PID_8cpp_source.html#l00101">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00111">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00091">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00097">scrimmage::PID::set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00143">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23">scrimmage::controller::RigidBody6DOFControllerPID::step()</a>, <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00051">scrimmage::controller::RigidBody6DOFControllerPID::u_</a>, and <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00054">scrimmage::controller::RigidBody6DOFControllerPID::vel_pid_</a>.</p>
+<p class="reference">References <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00054">scrimmage::controller::RigidBody6DOFControllerPID::alt_pid_</a>, <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00053">scrimmage::controller::RigidBody6DOFControllerPID::heading_pid_</a>, <a class="el" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#aa17c7de89797c09a0ad8301d3f36d981">scrimmage::controller::RigidBody6DOFControllerPID::init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="PID_8cpp_source.html#l00103">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00113">scrimmage::PID::set_is_angle()</a>, <a class="el" href="PID_8cpp_source.html#l00093">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00099">scrimmage::PID::set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00145">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1RigidBody6DOFControllerPID.html#a622030af23df1c24e2de829c1159cf23">scrimmage::controller::RigidBody6DOFControllerPID::step()</a>, <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00052">scrimmage::controller::RigidBody6DOFControllerPID::u_</a>, and <a class="el" href="RigidBody6DOFControllerPID_8h_source.html#l00055">scrimmage::controller::RigidBody6DOFControllerPID::vel_pid_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -277,7 +278,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_df97ac553abcb75044592fc417247610.html">RigidBody6DOFControllerPID</a></li><li class="navelem"><a class="el" href="RigidBody6DOFControllerPID_8cpp.html">RigidBody6DOFControllerPID.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -98,99 +98,101 @@ $(document).ready(function(){initNavTree('GRPCCommandString_8cpp_source.html',''
 </div><!--header-->
 <div class="contents">
 <a href="GRPCCommandString_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;grpc++/grpc++.h&gt;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&gt;</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&gt;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;<a class="code" href="GRPCCommandString_8h.html">scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h</a>&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;<a class="code" href="ScrimmageMsgServiceImpl_8h.html">scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h</a>&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;<a class="code" href="Publisher_8h.html">scrimmage/pubsub/Publisher.h</a>&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">using </span>std::cout;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">using </span>std::endl;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;<a class="code" href="GRPCCommandString_8h.html">scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h</a>&quot;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;grpc++/grpc++.h&gt;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &quot;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="ScrimmageMsgServiceImpl_8h.html">scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h</a>&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="Publisher_8h.html">scrimmage/pubsub/Publisher.h</a>&quot;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">using </span>std::cout;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">using </span>std::endl;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="GRPCCommandString_8cpp.html#a6fb953111d3a0893eff6418aa743dc67">   51</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html">scrimmage::interaction::GRPCCommandString</a>,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    GRPCCommandString_plugin)</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span>interaction {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a6b6ecb2e23bef3bd355f099a9e9cd1f3">GRPCCommandString::GRPCCommandString</a>() {}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="GRPCCommandString_8cpp.html#a6fb953111d3a0893eff6418aa743dc67">   53</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html">scrimmage::interaction::GRPCCommandString</a>,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    GRPCCommandString_plugin)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span>interaction {</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a570a4949499f74f4ecef9aff594ddfcb">GRPCCommandString::init</a>(</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ip&quot;</span>, plugin_params, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a>);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a> = sc::get&lt;int&gt;(<span class="stringliteral">&quot;port&quot;</span>, plugin_params, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a>);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a116f284b7e20cb2922bb1031f432e7b0">network_thread_</a> = std::thread(&amp;<a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">GRPCCommandString::run_server</a>, <span class="keyword">this</span>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a6b6ecb2e23bef3bd355f099a9e9cd1f3">GRPCCommandString::GRPCCommandString</a>() {}</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a570a4949499f74f4ecef9aff594ddfcb">GRPCCommandString::init</a>(</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ip&quot;</span>, plugin_params, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a>);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a> = sc::get&lt;int&gt;(<span class="stringliteral">&quot;port&quot;</span>, plugin_params, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a>);</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>}</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a98d5b87f39d1240ef475e3a00df0610e">GRPCCommandString::step_entity_interaction</a>(</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">double</span> t,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="comment">// Check for new messages:</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.lock();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">while</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.size() &gt; 0) {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        scrimmage_msgs::CommandString msg = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.front();</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.pop();</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="comment">// Does this publisher exist already?</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keyword">auto</span> it_network = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>.find(msg.network());</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">if</span> (it_network != <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>.end()) {</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keyword">auto</span> it_topic = it_network-&gt;second.find(msg.topic());</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">if</span> (it_topic != it_network-&gt;second.end()) {</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                pub = it_topic-&gt;second;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="comment">// If the publisher doesn&#39;t exist yet, create it.</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">if</span> (pub == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            pub = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(msg.network(), msg.topic());</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>[msg.network()][msg.topic()] = pub;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keyword">auto</span> sc_msg = std::make_shared&lt;scrimmage::Message&lt;scrimmage_msgs::CommandString&gt;&gt;();</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        sc_msg-&gt;data = msg;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        pub-&gt;publish(sc_msg);</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.unlock();</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">GRPCCommandString::run_server</a>() {</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    std::string result = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a> + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a>);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    ScrimmageMsgServiceImpl service(shared_from_this());</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    grpc::ServerBuilder builder;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    builder.RegisterService(&amp;service);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    std::unique_ptr&lt;grpc::Server&gt; server(builder.BuildAndStart());</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;GRPCCommandString listening on &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    server-&gt;Wait();  <span class="comment">// this function blocks (should be in thread now)</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d21fd8833e41d0b1a32051c769627c6">GRPCCommandString::push_msg</a>(<span class="keyword">const</span> scrimmage_msgs::CommandString&amp; msg) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.lock();</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.push(msg);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.unlock();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a116f284b7e20cb2922bb1031f432e7b0">network_thread_</a> = std::thread(&amp;<a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">GRPCCommandString::run_server</a>, <span class="keyword">this</span>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a98d5b87f39d1240ef475e3a00df0610e">GRPCCommandString::step_entity_interaction</a>(</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">double</span> t,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="comment">// Check for new messages:</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.lock();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">while</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.size() &gt; 0) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        scrimmage_msgs::CommandString msg = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.front();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.pop();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="comment">// Does this publisher exist already?</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keyword">auto</span> it_network = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>.find(msg.network());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">if</span> (it_network != <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>.end()) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keyword">auto</span> it_topic = it_network-&gt;second.find(msg.topic());</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <span class="keywordflow">if</span> (it_topic != it_network-&gt;second.end()) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                pub = it_topic-&gt;second;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="comment">// If the publisher doesn&#39;t exist yet, create it.</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">if</span> (pub == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            pub = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(msg.network(), msg.topic());</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9e2405017a88803a64f197947eb45149">pubs_</a>[msg.network()][msg.topic()] = pub;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keyword">auto</span> sc_msg = std::make_shared&lt;scrimmage::Message&lt;scrimmage_msgs::CommandString&gt;&gt;();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        sc_msg-&gt;data = msg;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        pub-&gt;publish(sc_msg);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.unlock();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">GRPCCommandString::run_server</a>() {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    std::string result = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">ip_</a> + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d88f735460b5a5241e41abaf6165951">port_</a>);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    ScrimmageMsgServiceImpl service(shared_from_this());</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    grpc::ServerBuilder builder;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    builder.RegisterService(&amp;service);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    std::unique_ptr&lt;grpc::Server&gt; server(builder.BuildAndStart());</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;GRPCCommandString listening on &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    server-&gt;Wait();  <span class="comment">// this function blocks (should be in thread now)</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d21fd8833e41d0b1a32051c769627c6">GRPCCommandString::push_msg</a>(<span class="keyword">const</span> scrimmage_msgs::CommandString&amp; msg) {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.lock();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">msgs_</a>.push(msg);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">msgs_mutex_</a>.unlock();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div>
 <div class="ttc" id="aEntity_8h_html"><div class="ttname"><a href="Entity_8h.html">Entity.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aGRPCCommandString_8h_html"><div class="ttname"><a href="GRPCCommandString_8h.html">GRPCCommandString.h</a></div><div class="ttdoc">Brief file description.</div></div>
@@ -202,7 +204,7 @@ $(document).ready(function(){initNavTree('GRPCCommandString_8cpp_source.html',''
 <div class="ttc" id="aState_8h_html"><div class="ttname"><a href="State_8h.html">State.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aUtilities_8h_html"><div class="ttname"><a href="Utilities_8h.html">Utilities.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityInteraction_html"><div class="ttname"><a href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a></div><div class="ttdef"><b>Definition</b> <a href="EntityInteraction_8h_source.html#l00047">EntityInteraction.h:47</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1GRPCCommandString_html"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1GRPCCommandString.html">scrimmage::interaction::GRPCCommandString</a></div><div class="ttdef"><b>Definition</b> <a href="GRPCCommandString_8h_source.html#l00051">GRPCCommandString.h:51</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1GRPCCommandString_html_a116f284b7e20cb2922bb1031f432e7b0"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a116f284b7e20cb2922bb1031f432e7b0">scrimmage::interaction::GRPCCommandString::network_thread_</a></div><div class="ttdeci">std::thread network_thread_</div><div class="ttdef"><b>Definition</b> <a href="GRPCCommandString_8h_source.html#l00065">GRPCCommandString.h:65</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1GRPCCommandString_html_a4deb51bb65ecd064ccf4626b6ac9fc5c"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a4deb51bb65ecd064ccf4626b6ac9fc5c">scrimmage::interaction::GRPCCommandString::ip_</a></div><div class="ttdeci">std::string ip_</div><div class="ttdef"><b>Definition</b> <a href="GRPCCommandString_8h_source.html#l00063">GRPCCommandString.h:63</a></div></div>
@@ -216,14 +218,14 @@ $(document).ready(function(){initNavTree('GRPCCommandString_8cpp_source.html',''
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1GRPCCommandString_html_aa890783b4e9671f940d95a0b236720ee"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#aa890783b4e9671f940d95a0b236720ee">scrimmage::interaction::GRPCCommandString::msgs_mutex_</a></div><div class="ttdeci">std::mutex msgs_mutex_</div><div class="ttdef"><b>Definition</b> <a href="GRPCCommandString_8h_source.html#l00067">GRPCCommandString.h:67</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1GRPCCommandString_html_ade8c4f27643787c13e053ace0eb9a2fe"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#ade8c4f27643787c13e053ace0eb9a2fe">scrimmage::interaction::GRPCCommandString::msgs_</a></div><div class="ttdeci">std::queue&lt; scrimmage_msgs::CommandString &gt; msgs_</div><div class="ttdef"><b>Definition</b> <a href="GRPCCommandString_8h_source.html#l00068">GRPCCommandString.h:68</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aa7b1daee33a174a82f3c27668be7103a"><div class="ttname"><a href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Publisher &gt; PublisherPtr</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00061">EntityPlugin.h:61</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aa7b1daee33a174a82f3c27668be7103a"><div class="ttname"><a href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Publisher &gt; PublisherPtr</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00063">EntityPlugin.h:63</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_f5941608f0d3d417e3bbbe056116b6fd.html">GRPCCommandString</a></li><li class="navelem"><a class="el" href="GRPCCommandString_8cpp.html">GRPCCommandString.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

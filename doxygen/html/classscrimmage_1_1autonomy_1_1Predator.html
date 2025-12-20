@@ -322,7 +322,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00043">43</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00044">44</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa5da7b569f02041c3d8c37f32527fec3" name="aa5da7b569f02041c3d8c37f32527fec3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5da7b569f02041c3d8c37f32527fec3">&#9670;&#160;</a></span>init()</h2>
@@ -350,48 +350,48 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Predator_8cpp_source.html#l00052">52</a> of file <a class="el" href="Predator_8cpp_source.html">Predator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>                                                        {</div>
-<div class="line"><span class="lineno">   53</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, 21);</div>
-<div class="line"><span class="lineno">   54</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">capture_range_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;capture_range&quot;</span>, params, 5);</div>
-<div class="line"><span class="lineno">   55</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">prey_team_id_</a> = get&lt;int&gt;(<span class="stringliteral">&quot;prey_team_id&quot;</span>, params, 1);</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">allow_prey_switching_</a> = get&lt;bool&gt;(<span class="stringliteral">&quot;allow_prey_switching&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">capture_ent_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;CaptureEntity&quot;</span>);</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = -1;</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">VariableIO::Type::speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">turn_rate_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">VariableIO::Type::turn_rate</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">pitch_rate_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07">VariableIO::Type::pitch_rate</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">desired_heading_idx_</a> =</div>
-<div class="line"><span class="lineno">   68</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   69</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   70</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Predator_8cpp_source.html#l00053">53</a> of file <a class="el" href="Predator_8cpp_source.html">Predator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>                                                        {</div>
+<div class="line"><span class="lineno">   54</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, 21);</div>
+<div class="line"><span class="lineno">   55</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">capture_range_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;capture_range&quot;</span>, params, 5);</div>
+<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">prey_team_id_</a> = get&lt;int&gt;(<span class="stringliteral">&quot;prey_team_id&quot;</span>, params, 1);</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">allow_prey_switching_</a> = get&lt;bool&gt;(<span class="stringliteral">&quot;allow_prey_switching&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">capture_ent_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;CaptureEntity&quot;</span>);</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = -1;</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">VariableIO::Type::speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">turn_rate_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">VariableIO::Type::turn_rate</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   66</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">pitch_rate_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07">VariableIO::Type::pitch_rate</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">desired_heading_idx_</a> =</div>
+<div class="line"><span class="lineno">   69</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   71</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00123">VariableIO.cpp:123</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00124">VariableIO.cpp:124</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::Type::turn_rate</a></div><div class="ttdeci">@ turn_rate</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::Type::desired_heading</a></div><div class="ttdeci">@ desired_heading</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07">scrimmage::VariableIO::Type::pitch_rate</a></div><div class="ttdeci">@ pitch_rate</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">scrimmage::VariableIO::Type::speed</a></div><div class="ttdeci">@ speed</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::Type::desired_speed</a></div><div class="ttdeci">@ desired_speed</div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a1def3d09d63427676a4cadc7f964706e"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">scrimmage::autonomy::Predator::max_speed_</a></div><div class="ttdeci">double max_speed_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00051">Predator.h:51</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a48fba12a707bce2161c26f6dcf8e4c4a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">scrimmage::autonomy::Predator::speed_idx_</a></div><div class="ttdeci">int speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00056">Predator.h:56</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a4cd61c2cd31b9423e8f98c0b8b851833"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">scrimmage::autonomy::Predator::capture_ent_pub_</a></div><div class="ttdeci">scrimmage::PublisherPtr capture_ent_pub_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00054">Predator.h:54</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a63a4ddcd5356f2a7b54047ec93cbdd70"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">scrimmage::autonomy::Predator::desired_speed_idx_</a></div><div class="ttdeci">int desired_speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00061">Predator.h:61</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a8420e915b71aa62c65cd18ccf492e8b2"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">scrimmage::autonomy::Predator::pitch_rate_idx_</a></div><div class="ttdeci">int pitch_rate_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00058">Predator.h:58</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_ac3266ee00590ec8c326840655e9aa81f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">scrimmage::autonomy::Predator::follow_id_</a></div><div class="ttdeci">int follow_id_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00049">Predator.h:49</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_acf113c9b1fd58f56dbfaf19013b0d364"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">scrimmage::autonomy::Predator::prey_team_id_</a></div><div class="ttdeci">int prey_team_id_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00050">Predator.h:50</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_ad4e09485cd58764dd9192c8374d54a22"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">scrimmage::autonomy::Predator::turn_rate_idx_</a></div><div class="ttdeci">int turn_rate_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00057">Predator.h:57</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_adc8676f67b1cc0230e4d73b851ede09d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">scrimmage::autonomy::Predator::allow_prey_switching_</a></div><div class="ttdeci">bool allow_prey_switching_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00053">Predator.h:53</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_af9c452ae737a484299eaeab1a01448ac"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">scrimmage::autonomy::Predator::desired_heading_idx_</a></div><div class="ttdeci">int desired_heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00060">Predator.h:60</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_afb9230350faf40b6a0596a624036145d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">scrimmage::autonomy::Predator::capture_range_</a></div><div class="ttdeci">double capture_range_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00052">Predator.h:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a1def3d09d63427676a4cadc7f964706e"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">scrimmage::autonomy::Predator::max_speed_</a></div><div class="ttdeci">double max_speed_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00052">Predator.h:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a48fba12a707bce2161c26f6dcf8e4c4a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">scrimmage::autonomy::Predator::speed_idx_</a></div><div class="ttdeci">int speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00057">Predator.h:57</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a4cd61c2cd31b9423e8f98c0b8b851833"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">scrimmage::autonomy::Predator::capture_ent_pub_</a></div><div class="ttdeci">scrimmage::PublisherPtr capture_ent_pub_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00055">Predator.h:55</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a63a4ddcd5356f2a7b54047ec93cbdd70"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">scrimmage::autonomy::Predator::desired_speed_idx_</a></div><div class="ttdeci">int desired_speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00062">Predator.h:62</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_a8420e915b71aa62c65cd18ccf492e8b2"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">scrimmage::autonomy::Predator::pitch_rate_idx_</a></div><div class="ttdeci">int pitch_rate_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00059">Predator.h:59</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_ac3266ee00590ec8c326840655e9aa81f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">scrimmage::autonomy::Predator::follow_id_</a></div><div class="ttdeci">int follow_id_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00050">Predator.h:50</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_acf113c9b1fd58f56dbfaf19013b0d364"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">scrimmage::autonomy::Predator::prey_team_id_</a></div><div class="ttdeci">int prey_team_id_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00051">Predator.h:51</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_ad4e09485cd58764dd9192c8374d54a22"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">scrimmage::autonomy::Predator::turn_rate_idx_</a></div><div class="ttdeci">int turn_rate_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00058">Predator.h:58</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_adc8676f67b1cc0230e4d73b851ede09d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">scrimmage::autonomy::Predator::allow_prey_switching_</a></div><div class="ttdeci">bool allow_prey_switching_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00054">Predator.h:54</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_af9c452ae737a484299eaeab1a01448ac"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">scrimmage::autonomy::Predator::desired_heading_idx_</a></div><div class="ttdeci">int desired_heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00061">Predator.h:61</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Predator_html_afb9230350faf40b6a0596a624036145d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">scrimmage::autonomy::Predator::capture_range_</a></div><div class="ttdeci">double capture_range_</div><div class="ttdef"><b>Definition</b> <a href="Predator_8h_source.html#l00053">Predator.h:53</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00096">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="Predator_8h_source.html#l00053">allow_prey_switching_</a>, <a class="el" href="Predator_8h_source.html#l00054">capture_ent_pub_</a>, <a class="el" href="Predator_8h_source.html#l00052">capture_range_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="Predator_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="Predator_8h_source.html#l00061">desired_speed_idx_</a>, <a class="el" href="Predator_8h_source.html#l00049">follow_id_</a>, <a class="el" href="Predator_8h_source.html#l00051">max_speed_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07">scrimmage::VariableIO::pitch_rate</a>, <a class="el" href="Predator_8h_source.html#l00058">pitch_rate_idx_</a>, <a class="el" href="Predator_8h_source.html#l00050">prey_team_id_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">scrimmage::VariableIO::speed</a>, <a class="el" href="Predator_8h_source.html#l00056">speed_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="Predator_8h_source.html#l00057">turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="Predator_8h_source.html#l00054">allow_prey_switching_</a>, <a class="el" href="Predator_8h_source.html#l00055">capture_ent_pub_</a>, <a class="el" href="Predator_8h_source.html#l00053">capture_range_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="Predator_8h_source.html#l00061">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="Predator_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="Predator_8h_source.html#l00050">follow_id_</a>, <a class="el" href="Predator_8h_source.html#l00052">max_speed_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abe71145fa8aa3674b0569bc9497cbe07">scrimmage::VariableIO::pitch_rate</a>, <a class="el" href="Predator_8h_source.html#l00059">pitch_rate_idx_</a>, <a class="el" href="Predator_8h_source.html#l00051">prey_team_id_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ace4ef3ec98443ed10da505114b58f153">scrimmage::VariableIO::speed</a>, <a class="el" href="Predator_8h_source.html#l00057">speed_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="Predator_8h_source.html#l00058">turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -443,81 +443,81 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Predator_8cpp_source.html#l00072">72</a> of file <a class="el" href="Predator_8cpp_source.html">Predator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>                                                {</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;count(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>) == 0) {</div>
-<div class="line"><span class="lineno">   74</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = -1;</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> &lt; 0 || <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">allow_prey_switching_</a>) {</div>
-<div class="line"><span class="lineno">   78</span>        <span class="comment">// Find nearest entity on other team. Loop through each contact, calculate</span></div>
-<div class="line"><span class="lineno">   79</span>        <span class="comment">// distance to entity, save the ID of the entity that is closest.</span></div>
-<div class="line"><span class="lineno">   80</span>        <span class="keywordtype">double</span> min_dist = std::numeric_limits&lt;double&gt;::infinity();</div>
-<div class="line"><span class="lineno">   81</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;begin(); it != <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;end(); it++) {</div>
-<div class="line"><span class="lineno">   82</span>            <span class="comment">// Skip if this contact isn&#39;t on team 1 (prey)</span></div>
-<div class="line"><span class="lineno">   83</span>            <span class="comment">// if (it-&gt;second.id().team_id() == parent_-&gt;id().team_id()) continue;</span></div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (it-&gt;second.id().team_id() != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">prey_team_id_</a>)</div>
-<div class="line"><span class="lineno">   85</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            <span class="comment">// Calculate distance to entity</span></div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordtype">double</span> dist = (it-&gt;second.state()-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).norm();</div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">if</span> (dist &lt; min_dist) {</div>
-<div class="line"><span class="lineno">   90</span>                <span class="comment">// If this is the minimum distance, save distance and reference</span></div>
-<div class="line"><span class="lineno">   91</span>                <span class="comment">// to entity</span></div>
-<div class="line"><span class="lineno">   92</span>                min_dist = dist;</div>
-<div class="line"><span class="lineno">   93</span>                <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = it-&gt;first;</div>
-<div class="line"><span class="lineno">   94</span>            }</div>
-<div class="line"><span class="lineno">   95</span>        }</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>    <span class="comment">// If any non-team members are within capture range, publish capture</span></div>
-<div class="line"><span class="lineno">   99</span>    <span class="comment">// message</span></div>
-<div class="line"><span class="lineno">  100</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;begin(); it != <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;end(); it++) {</div>
-<div class="line"><span class="lineno">  101</span>        <span class="comment">// Skip if this contact is on the same team</span></div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (it-&gt;second.id().team_id() == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().team_id())</div>
-<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>        <span class="comment">// Calculate distance to entity</span></div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordtype">double</span> dist = (it-&gt;second.state()-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).norm();</div>
-<div class="line"><span class="lineno">  107</span>        <span class="comment">// Publish capture message if within capture range</span></div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">if</span> (dist &lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">capture_range_</a>) {</div>
-<div class="line"><span class="lineno">  109</span>            <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;sm::CaptureEntity&gt;&gt;();</div>
-<div class="line"><span class="lineno">  110</span>            msg-&gt;data.set_source_id(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
-<div class="line"><span class="lineno">  111</span>            msg-&gt;data.set_target_id(it-&gt;second.id().id());</div>
-<div class="line"><span class="lineno">  112</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">capture_ent_pub_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  113</span>        }</div>
-<div class="line"><span class="lineno">  114</span>    }</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>    <span class="comment">// Head toward entity on other team</span></div>
-<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;count(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>) &gt; 0) {</div>
-<div class="line"><span class="lineno">  118</span>        <span class="comment">// Get a reference to the entity&#39;s state.</span></div>
-<div class="line"><span class="lineno">  119</span>        <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">StatePtr</a> ent_state = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;at(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>).state();</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>        <span class="comment">// Calculate max velocity towards target entity:</span></div>
-<div class="line"><span class="lineno">  122</span>        Eigen::Vector3d v = (ent_state-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).normalized() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>;</div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>        <span class="comment">// Convert to spherical coordinates:</span></div>
-<div class="line"><span class="lineno">  125</span>        <span class="keywordtype">double</span> desired_heading = atan2(v(1), v(0));</div>
-<div class="line"><span class="lineno">  126</span>        <span class="keywordtype">double</span> desired_pitch = atan2(v(2), v.head&lt;2&gt;().norm());</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">speed_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>);</div>
-<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">turn_rate_idx_</a>, <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(desired_heading - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw()));</div>
-<div class="line"><span class="lineno">  130</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">pitch_rate_idx_</a>, <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(desired_pitch + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().pitch()));</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">desired_heading_idx_</a>, desired_heading);</div>
-<div class="line"><span class="lineno">  133</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">desired_speed_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>);</div>
-<div class="line"><span class="lineno">  134</span>    }</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  137</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_aa3719f4510bb0b853fc17274c32f7f5b"><div class="ttname"><a href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">scrimmage::Angles::angle_pi</a></div><div class="ttdeci">static double angle_pi(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00127">Angles.cpp:127</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Predator_8cpp_source.html#l00073">73</a> of file <a class="el" href="Predator_8cpp_source.html">Predator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                {</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;count(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>) == 0) {</div>
+<div class="line"><span class="lineno">   75</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = -1;</div>
+<div class="line"><span class="lineno">   76</span>    }</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> &lt; 0 || <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#adc8676f67b1cc0230e4d73b851ede09d">allow_prey_switching_</a>) {</div>
+<div class="line"><span class="lineno">   79</span>        <span class="comment">// Find nearest entity on other team. Loop through each contact, calculate</span></div>
+<div class="line"><span class="lineno">   80</span>        <span class="comment">// distance to entity, save the ID of the entity that is closest.</span></div>
+<div class="line"><span class="lineno">   81</span>        <span class="keywordtype">double</span> min_dist = std::numeric_limits&lt;double&gt;::infinity();</div>
+<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;begin(); it != <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;end(); it++) {</div>
+<div class="line"><span class="lineno">   83</span>            <span class="comment">// Skip if this contact isn&#39;t on team 1 (prey)</span></div>
+<div class="line"><span class="lineno">   84</span>            <span class="comment">// if (it-&gt;second.id().team_id() == parent_-&gt;id().team_id()) continue;</span></div>
+<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">if</span> (it-&gt;second.id().team_id() != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#acf113c9b1fd58f56dbfaf19013b0d364">prey_team_id_</a>)</div>
+<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>            <span class="comment">// Calculate distance to entity</span></div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordtype">double</span> dist = (it-&gt;second.state()-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).norm();</div>
+<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">if</span> (dist &lt; min_dist) {</div>
+<div class="line"><span class="lineno">   91</span>                <span class="comment">// If this is the minimum distance, save distance and reference</span></div>
+<div class="line"><span class="lineno">   92</span>                <span class="comment">// to entity</span></div>
+<div class="line"><span class="lineno">   93</span>                min_dist = dist;</div>
+<div class="line"><span class="lineno">   94</span>                <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a> = it-&gt;first;</div>
+<div class="line"><span class="lineno">   95</span>            }</div>
+<div class="line"><span class="lineno">   96</span>        }</div>
+<div class="line"><span class="lineno">   97</span>    }</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>    <span class="comment">// If any non-team members are within capture range, publish capture</span></div>
+<div class="line"><span class="lineno">  100</span>    <span class="comment">// message</span></div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;begin(); it != <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;end(); it++) {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="comment">// Skip if this contact is on the same team</span></div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">if</span> (it-&gt;second.id().team_id() == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().team_id())</div>
+<div class="line"><span class="lineno">  104</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>        <span class="comment">// Calculate distance to entity</span></div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordtype">double</span> dist = (it-&gt;second.state()-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).norm();</div>
+<div class="line"><span class="lineno">  108</span>        <span class="comment">// Publish capture message if within capture range</span></div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">if</span> (dist &lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#afb9230350faf40b6a0596a624036145d">capture_range_</a>) {</div>
+<div class="line"><span class="lineno">  110</span>            <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;sm::CaptureEntity&gt;&gt;();</div>
+<div class="line"><span class="lineno">  111</span>            msg-&gt;data.set_source_id(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
+<div class="line"><span class="lineno">  112</span>            msg-&gt;data.set_target_id(it-&gt;second.id().id());</div>
+<div class="line"><span class="lineno">  113</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a4cd61c2cd31b9423e8f98c0b8b851833">capture_ent_pub_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  114</span>        }</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>    <span class="comment">// Head toward entity on other team</span></div>
+<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;count(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>) &gt; 0) {</div>
+<div class="line"><span class="lineno">  119</span>        <span class="comment">// Get a reference to the entity&#39;s state.</span></div>
+<div class="line"><span class="lineno">  120</span>        <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">StatePtr</a> ent_state = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>-&gt;at(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ac3266ee00590ec8c326840655e9aa81f">follow_id_</a>).state();</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>        <span class="comment">// Calculate max velocity towards target entity:</span></div>
+<div class="line"><span class="lineno">  123</span>        Eigen::Vector3d v = (ent_state-&gt;pos() - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()).normalized() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>;</div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>        <span class="comment">// Convert to spherical coordinates:</span></div>
+<div class="line"><span class="lineno">  126</span>        <span class="keywordtype">double</span> desired_heading = atan2(v(1), v(0));</div>
+<div class="line"><span class="lineno">  127</span>        <span class="keywordtype">double</span> desired_pitch = atan2(v(2), v.head&lt;2&gt;().norm());</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a48fba12a707bce2161c26f6dcf8e4c4a">speed_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>);</div>
+<div class="line"><span class="lineno">  130</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#ad4e09485cd58764dd9192c8374d54a22">turn_rate_idx_</a>, <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(desired_heading - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw()));</div>
+<div class="line"><span class="lineno">  131</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a8420e915b71aa62c65cd18ccf492e8b2">pitch_rate_idx_</a>, <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(desired_pitch + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().pitch()));</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#af9c452ae737a484299eaeab1a01448ac">desired_heading_idx_</a>, desired_heading);</div>
+<div class="line"><span class="lineno">  134</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a63a4ddcd5356f2a7b54047ec93cbdd70">desired_speed_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Predator.html#a1def3d09d63427676a4cadc7f964706e">max_speed_</a>);</div>
+<div class="line"><span class="lineno">  135</span>    }</div>
+<div class="line"><span class="lineno">  136</span> </div>
+<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  138</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_aa3719f4510bb0b853fc17274c32f7f5b"><div class="ttname"><a href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">scrimmage::Angles::angle_pi</a></div><div class="ttdeci">static double angle_pi(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00128">Angles.cpp:128</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_ac612004b31762bd5ee8e6e6bc4694e2d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">scrimmage::Autonomy::contacts_</a></div><div class="ttdeci">ContactMapPtr contacts_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00085">Autonomy.h:85</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00146">VariableIO.cpp:146</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00052">Contact.h:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00147">VariableIO.cpp:147</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00054">Contact.h:54</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Predator_8h_source.html#l00053">allow_prey_switching_</a>, <a class="el" href="Angles_8cpp_source.html#l00127">scrimmage::Angles::angle_pi()</a>, <a class="el" href="Predator_8h_source.html#l00054">capture_ent_pub_</a>, <a class="el" href="Predator_8h_source.html#l00052">capture_range_</a>, <a class="el" href="Autonomy_8h_source.html#l00085">scrimmage::Autonomy::contacts_</a>, <a class="el" href="Predator_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="Predator_8h_source.html#l00061">desired_speed_idx_</a>, <a class="el" href="Predator_8h_source.html#l00049">follow_id_</a>, <a class="el" href="Predator_8h_source.html#l00051">max_speed_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="Predator_8h_source.html#l00058">pitch_rate_idx_</a>, <a class="el" href="Predator_8h_source.html#l00050">prey_team_id_</a>, <a class="el" href="Predator_8h_source.html#l00056">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Predator_8h_source.html#l00057">turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="Predator_8h_source.html#l00054">allow_prey_switching_</a>, <a class="el" href="Angles_8cpp_source.html#l00128">scrimmage::Angles::angle_pi()</a>, <a class="el" href="Predator_8h_source.html#l00055">capture_ent_pub_</a>, <a class="el" href="Predator_8h_source.html#l00053">capture_range_</a>, <a class="el" href="Autonomy_8h_source.html#l00085">scrimmage::Autonomy::contacts_</a>, <a class="el" href="Predator_8h_source.html#l00061">desired_heading_idx_</a>, <a class="el" href="Predator_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="Predator_8h_source.html#l00050">follow_id_</a>, <a class="el" href="Predator_8h_source.html#l00052">max_speed_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="Predator_8h_source.html#l00059">pitch_rate_idx_</a>, <a class="el" href="Predator_8h_source.html#l00051">prey_team_id_</a>, <a class="el" href="Predator_8h_source.html#l00057">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Predator_8h_source.html#l00058">turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -554,9 +554,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00049">49</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00050">50</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -580,9 +580,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00050">50</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00051">51</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -606,9 +606,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00051">51</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00052">52</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -632,9 +632,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00052">52</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00053">53</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -658,9 +658,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00053">53</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00054">54</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -684,9 +684,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00054">54</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00055">55</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -710,9 +710,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00056">56</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00057">57</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -736,9 +736,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00057">57</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00058">58</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -762,9 +762,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00058">58</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00059">59</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -788,9 +788,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00060">60</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00061">61</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -814,9 +814,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00061">61</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Predator_8h_source.html#l00062">62</a> of file <a class="el" href="Predator_8h_source.html">Predator.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00052">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00072">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Predator_8cpp_source.html#l00053">init()</a>, and <a class="el" href="Predator_8cpp_source.html#l00073">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -830,7 +830,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1Predator.html">Predator</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,11 +1,11 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/JSBSimModelControllerDirect/JSBSimModelControllerDirect.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="331,5,573,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,203,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,77,155,136,153,131,343,72"/>
-<area shape="rect" id="Node000003" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="227,137,443,163"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="417,77,359,130,356,126,414,73"/>
-<area shape="rect" id="Node000011" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="467,130,671,170"/>
-<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="490,73,540,119,537,122,487,77"/>
-<area shape="rect" id="Node000012" href="$JSBSimModelControllerDirect_8h.html" title="Brief file description." alt="" coords="696,123,923,177"/>
-<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="564,72,710,116,709,121,562,77"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="348,5,591,75"/>
+<area shape="rect" id="Node000002" href="$JSBSimModelControllerDirect_8h.html" title="Brief file description." alt="" coords="5,123,232,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="361,77,217,121,216,116,360,72"/>
+<area shape="rect" id="Node000040" title=" " alt="" coords="256,137,453,163"/>
+<area shape="poly" id="edge2_Node000001_Node000040" title=" " alt="" coords="436,77,379,129,376,125,432,73"/>
+<area shape="rect" id="Node000041" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="477,137,693,163"/>
+<area shape="poly" id="edge3_Node000001_Node000041" title=" " alt="" coords="507,73,564,125,561,129,504,77"/>
+<area shape="rect" id="Node000042" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="718,130,922,170"/>
+<area shape="poly" id="edge4_Node000001_Node000042" title=" " alt="" coords="579,72,746,123,744,128,578,77"/>
 </map>

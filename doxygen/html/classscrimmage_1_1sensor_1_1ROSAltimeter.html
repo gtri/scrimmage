@@ -271,7 +271,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00049">49</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00050">50</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a523b9e7805ebfcad32480cf460e045dd" name="a523b9e7805ebfcad32480cf460e045dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a523b9e7805ebfcad32480cf460e045dd">&#9670;&#160;</a></span>ROSAltimeter()</h2>
@@ -288,8 +288,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00059">59</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00060">60</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -320,54 +320,54 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">61</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                                                            {</div>
-<div class="line"><span class="lineno">   62</span>    <span class="comment">// Setup robot namespace</span></div>
-<div class="line"><span class="lineno">   63</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;vehicle_name&quot;</span>, params, <span class="stringliteral">&quot;none&quot;</span>);</div>
-<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a> == <span class="stringliteral">&quot;none&quot;</span>) {</div>
-<div class="line"><span class="lineno">   65</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ros_namespace_prefix&quot;</span>, params, <span class="stringliteral">&quot;robot&quot;</span>);</div>
-<div class="line"><span class="lineno">   66</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> += std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
-<div class="line"><span class="lineno">   67</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   68</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a>;</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
-<div class="line"><span class="lineno">   72</span>        <span class="keywordtype">int</span> argc = 0;</div>
-<div class="line"><span class="lineno">   73</span>        <span class="comment">// scrimmage handles it&#39;s own SIGINT/SIGTERM shutdown in main.cpp</span></div>
-<div class="line"><span class="lineno">   74</span>        ros::init(argc, NULL, <span class="stringliteral">&quot;scrimmage&quot;</span>, ros::init_options::NoSigintHandler);</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="line"><span class="lineno">   76</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">nh_</a> = std::make_shared&lt;ros::NodeHandle&gt;();</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">// Create Publisher</span></div>
-<div class="line"><span class="lineno">   79</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">altimeter_pub_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">nh_</a>-&gt;advertise&lt;mavros_msgs::Altitude&gt;(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> + <span class="stringliteral">&quot;/altimeter&quot;</span>, 1);</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>    <span class="comment">// Scrimmage is in East North Up (ENU)</span></div>
-<div class="line"><span class="lineno">   82</span>    <span class="comment">// For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside</span></div>
-<div class="line"><span class="lineno">   83</span>    <span class="comment">// scrimmage. For more information on the MavROS message format view this page:</span></div>
-<div class="line"><span class="lineno">   84</span>    <span class="comment">// https://mavlink.io/en/messages/common.html#ALTITUDE</span></div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">// Monotonic Altitude should only be set on initialization and not changed.</span></div>
-<div class="line"><span class="lineno">   87</span>    <span class="comment">// this altitude value = above sea level (meters)</span></div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">// This altitude measure is initialized on system boot and monotonic (it is never reset, but</span></div>
-<div class="line"><span class="lineno">   90</span>    <span class="comment">// represents the local altitude change). The only guarantee on this field is that it will never</span></div>
-<div class="line"><span class="lineno">   91</span>    <span class="comment">// be reset and is consistent within a flight. The recommended value for this field is the</span></div>
-<div class="line"><span class="lineno">   92</span>    <span class="comment">// uncorrected barometric altitude at boot time. This altitude will also drift and vary between</span></div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment">// flights.</span></div>
-<div class="line"><span class="lineno">   94</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
-<div class="line"><span class="lineno">   95</span>    <span class="keywordtype">double</span> lat_init, lon_init, alt_init;</div>
-<div class="line"><span class="lineno">   96</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()</div>
-<div class="line"><span class="lineno">   97</span>        -&gt;Reverse(state-&gt;pos()(0), state-&gt;pos()(1), state-&gt;pos()(2), lat_init, lon_init, alt_init);</div>
-<div class="line"><span class="lineno">   98</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">monotonic_</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(alt_init);</div>
-<div class="line"><span class="lineno">   99</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a0c6c1948966aeb871ad60bac577b262a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">scrimmage::sensor::ROSAltimeter::altimeter_pub_</a></div><div class="ttdeci">ros::Publisher altimeter_pub_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00059">ROSAltimeter.h:59</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a48c2def99c26d213bd3cc6ca50efd26a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">scrimmage::sensor::ROSAltimeter::monotonic_</a></div><div class="ttdeci">float monotonic_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00060">ROSAltimeter.h:60</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a8a7ebb1a7ceae3cb9378454d76cbe4aa"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">scrimmage::sensor::ROSAltimeter::ros_namespace_</a></div><div class="ttdeci">std::string ros_namespace_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00057">ROSAltimeter.h:57</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a9ca4e8cb906baf3bfb6d078c9294a45f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">scrimmage::sensor::ROSAltimeter::nh_</a></div><div class="ttdeci">std::shared_ptr&lt; ros::NodeHandle &gt; nh_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00058">ROSAltimeter.h:58</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_ad2eb0ee6ff5ed57a09e072e40063c9c6"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">scrimmage::sensor::ROSAltimeter::vehicle_name_</a></div><div class="ttdeci">std::string vehicle_name_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00056">ROSAltimeter.h:56</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00052">Contact.h:52</a></div></div>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">62</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>                                                            {</div>
+<div class="line"><span class="lineno">   63</span>    <span class="comment">// Setup robot namespace</span></div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;vehicle_name&quot;</span>, params, <span class="stringliteral">&quot;none&quot;</span>);</div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a> == <span class="stringliteral">&quot;none&quot;</span>) {</div>
+<div class="line"><span class="lineno">   66</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ros_namespace_prefix&quot;</span>, params, <span class="stringliteral">&quot;robot&quot;</span>);</div>
+<div class="line"><span class="lineno">   67</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> += std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
+<div class="line"><span class="lineno">   68</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   69</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">vehicle_name_</a>;</div>
+<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordtype">int</span> argc = 0;</div>
+<div class="line"><span class="lineno">   74</span>        <span class="comment">// scrimmage handles it&#39;s own SIGINT/SIGTERM shutdown in main.cpp</span></div>
+<div class="line"><span class="lineno">   75</span>        ros::init(argc, NULL, <span class="stringliteral">&quot;scrimmage&quot;</span>, ros::init_options::NoSigintHandler);</div>
+<div class="line"><span class="lineno">   76</span>    }</div>
+<div class="line"><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">nh_</a> = std::make_shared&lt;ros::NodeHandle&gt;();</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>    <span class="comment">// Create Publisher</span></div>
+<div class="line"><span class="lineno">   80</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">altimeter_pub_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">nh_</a>-&gt;advertise&lt;mavros_msgs::Altitude&gt;(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">ros_namespace_</a> + <span class="stringliteral">&quot;/altimeter&quot;</span>, 1);</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>    <span class="comment">// Scrimmage is in East North Up (ENU)</span></div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">// For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside</span></div>
+<div class="line"><span class="lineno">   84</span>    <span class="comment">// scrimmage. For more information on the MavROS message format view this page:</span></div>
+<div class="line"><span class="lineno">   85</span>    <span class="comment">// https://mavlink.io/en/messages/common.html#ALTITUDE</span></div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Monotonic Altitude should only be set on initialization and not changed.</span></div>
+<div class="line"><span class="lineno">   88</span>    <span class="comment">// this altitude value = above sea level (meters)</span></div>
+<div class="line"><span class="lineno">   90</span>    <span class="comment">// This altitude measure is initialized on system boot and monotonic (it is never reset, but</span></div>
+<div class="line"><span class="lineno">   91</span>    <span class="comment">// represents the local altitude change). The only guarantee on this field is that it will never</span></div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">// be reset and is consistent within a flight. The recommended value for this field is the</span></div>
+<div class="line"><span class="lineno">   93</span>    <span class="comment">// uncorrected barometric altitude at boot time. This altitude will also drift and vary between</span></div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment">// flights.</span></div>
+<div class="line"><span class="lineno">   95</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordtype">double</span> lat_init, lon_init, alt_init;</div>
+<div class="line"><span class="lineno">   97</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()</div>
+<div class="line"><span class="lineno">   98</span>        -&gt;Reverse(state-&gt;pos()(0), state-&gt;pos()(1), state-&gt;pos()(2), lat_init, lon_init, alt_init);</div>
+<div class="line"><span class="lineno">   99</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">monotonic_</a> = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(alt_init);</div>
+<div class="line"><span class="lineno">  100</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a0c6c1948966aeb871ad60bac577b262a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">scrimmage::sensor::ROSAltimeter::altimeter_pub_</a></div><div class="ttdeci">ros::Publisher altimeter_pub_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00060">ROSAltimeter.h:60</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a48c2def99c26d213bd3cc6ca50efd26a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">scrimmage::sensor::ROSAltimeter::monotonic_</a></div><div class="ttdeci">float monotonic_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00061">ROSAltimeter.h:61</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a8a7ebb1a7ceae3cb9378454d76cbe4aa"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a8a7ebb1a7ceae3cb9378454d76cbe4aa">scrimmage::sensor::ROSAltimeter::ros_namespace_</a></div><div class="ttdeci">std::string ros_namespace_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00058">ROSAltimeter.h:58</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_a9ca4e8cb906baf3bfb6d078c9294a45f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a9ca4e8cb906baf3bfb6d078c9294a45f">scrimmage::sensor::ROSAltimeter::nh_</a></div><div class="ttdeci">std::shared_ptr&lt; ros::NodeHandle &gt; nh_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00059">ROSAltimeter.h:59</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSAltimeter_html_ad2eb0ee6ff5ed57a09e072e40063c9c6"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#ad2eb0ee6ff5ed57a09e072e40063c9c6">scrimmage::sensor::ROSAltimeter::vehicle_name_</a></div><div class="ttdeci">std::string vehicle_name_</div><div class="ttdef"><b>Definition</b> <a href="ROSAltimeter_8h_source.html#l00057">ROSAltimeter.h:57</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00054">Contact.h:54</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ROSAltimeter_8h_source.html#l00059">altimeter_pub_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00060">monotonic_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00058">nh_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00057">ros_namespace_</a>, and <a class="el" href="ROSAltimeter_8h_source.html#l00056">vehicle_name_</a>.</p>
+<p class="reference">References <a class="el" href="ROSAltimeter_8h_source.html#l00060">altimeter_pub_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00061">monotonic_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00059">nh_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00058">ros_namespace_</a>, and <a class="el" href="ROSAltimeter_8h_source.html#l00057">vehicle_name_</a>.</p>
 
 </div>
 </div>
@@ -396,71 +396,71 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#ab406f4625b89042961f6ae8d06cbc427">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00101">101</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>                        {</div>
-<div class="line"><span class="lineno">  102</span>    <span class="comment">// Obtain current state information</span></div>
-<div class="line"><span class="lineno">  103</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>    <span class="comment">// Scrimmage is in East North Up (ENU)</span></div>
-<div class="line"><span class="lineno">  106</span>    <span class="comment">// For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside</span></div>
-<div class="line"><span class="lineno">  107</span>    <span class="comment">// scrimmage. For more information on the MavROS message format view this page:</span></div>
-<div class="line"><span class="lineno">  108</span>    <span class="comment">// https://mavlink.io/en/messages/common.html#ALTITUDE</span></div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <span class="comment">// Fill Altitude Message</span></div>
-<div class="line"><span class="lineno">  111</span>    mavros_msgs::Altitude alt_msg;</div>
-<div class="line"><span class="lineno">  112</span>    <span class="comment">// Scrimmage is in cartesian, use Geographic lib to get lat, long, alt for monotonic</span></div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordtype">double</span> lat, lon, alt;</div>
-<div class="line"><span class="lineno">  114</span>    <span class="comment">// cartesian(x, y, z) to (lat, long, alt) using Geographic lib</span></div>
-<div class="line"><span class="lineno">  115</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()</div>
-<div class="line"><span class="lineno">  116</span>        -&gt;Reverse(state-&gt;pos()(0), state-&gt;pos()(1), state-&gt;pos()(2), lat, lon, alt);</div>
-<div class="line"><span class="lineno">  117</span>    alt_msg.monotonic = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">monotonic_</a>;</div>
-<div class="line"><span class="lineno">  118</span>    <span class="comment">// If you print here monotonic will look like it&#39;s changing, but if you ROSTopic echo it will be</span></div>
-<div class="line"><span class="lineno">  119</span>    <span class="comment">// a static number. cout &lt;&lt; alt_msg.monotonic &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>    <span class="comment">// amsl = above sea level (meters)</span></div>
-<div class="line"><span class="lineno">  122</span>    <span class="comment">// get amsl from the same place as monotonic altitude, but this DOES change throughout the</span></div>
-<div class="line"><span class="lineno">  123</span>    <span class="comment">// simulation</span></div>
-<div class="line"><span class="lineno">  125</span>    <span class="comment">// This altitude measure is strictly above mean sea level and might be non-monotonic (it might</span></div>
-<div class="line"><span class="lineno">  126</span>    <span class="comment">// reset on events like GPS lock or when a new QNH value is set). It should be the altitude to</span></div>
-<div class="line"><span class="lineno">  127</span>    <span class="comment">// which global altitude waypoints are compared to. Note that it is *not* the GPS altitude,</span></div>
-<div class="line"><span class="lineno">  128</span>    <span class="comment">// however, most GPS modules already output MSL by default and not the WGS84 altitude.</span></div>
-<div class="line"><span class="lineno">  129</span>    alt_msg.amsl = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(alt);</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>    <span class="comment">// local = scrimmage z position of state</span></div>
-<div class="line"><span class="lineno">  133</span>    <span class="comment">// This is the local altitude in the local coordinate frame. It is not the altitude above home,</span></div>
-<div class="line"><span class="lineno">  134</span>    <span class="comment">// but in reference to the coordinate origin (0, 0, 0). It is up-positive.</span></div>
-<div class="line"><span class="lineno">  135</span>    alt_msg.local = state-&gt;pos()(2);</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>    <span class="comment">// local - monotonic = relative</span></div>
-<div class="line"><span class="lineno">  139</span>    <span class="comment">// This is the altitude above the home position. It resets on each change of the current home</span></div>
-<div class="line"><span class="lineno">  140</span>    <span class="comment">// position.</span></div>
-<div class="line"><span class="lineno">  141</span>    alt_msg.relative = alt_msg.local - alt_msg.monotonic;</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="comment">// alt_terrain = amsl</span></div>
-<div class="line"><span class="lineno">  145</span>    <span class="comment">// This is the altitude above terrain. It might be fed by a terrain database or an altimeter.</span></div>
-<div class="line"><span class="lineno">  146</span>    <span class="comment">// Values smaller than -1000 should be interpreted as unknown.</span></div>
-<div class="line"><span class="lineno">  147</span>    alt_msg.terrain = alt_msg.amsl;</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    <span class="comment">// clearance = same as terrain // laser alt in scrimmage one day?</span></div>
-<div class="line"><span class="lineno">  151</span>    <span class="comment">// This is not the altitude, but the clear space below the system according to the fused</span></div>
-<div class="line"><span class="lineno">  152</span>    <span class="comment">// clearance estimate. It generally should max out at the maximum range of e.g. the laser</span></div>
-<div class="line"><span class="lineno">  153</span>    <span class="comment">// altimeter. It is generally a moving target. A negative value indicates no measurement</span></div>
-<div class="line"><span class="lineno">  154</span>    <span class="comment">// available.</span></div>
-<div class="line"><span class="lineno">  155</span>    alt_msg.bottom_clearance = alt_msg.amsl;</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>    <span class="comment">// Header</span></div>
-<div class="line"><span class="lineno">  158</span>    std_msgs::Header header;  <span class="comment">// empty header</span></div>
-<div class="line"><span class="lineno">  159</span>    <span class="comment">// TODO: header.frame = ? // No system for ROS Frame ID&#39;s yet</span></div>
-<div class="line"><span class="lineno">  160</span>    header.stamp = ros::Time::now();  <span class="comment">// time</span></div>
-<div class="line"><span class="lineno">  161</span>    alt_msg.header = header;</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>    <span class="comment">// Publish Altimeter information</span></div>
-<div class="line"><span class="lineno">  164</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">altimeter_pub_</a>.publish(alt_msg);</div>
-<div class="line"><span class="lineno">  165</span> </div>
-<div class="line"><span class="lineno">  166</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  167</span>}</div>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8cpp_source.html#l00102">102</a> of file <a class="el" href="ROSAltimeter_8cpp_source.html">ROSAltimeter.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>                        {</div>
+<div class="line"><span class="lineno">  103</span>    <span class="comment">// Obtain current state information</span></div>
+<div class="line"><span class="lineno">  104</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>    <span class="comment">// Scrimmage is in East North Up (ENU)</span></div>
+<div class="line"><span class="lineno">  107</span>    <span class="comment">// For you to get the ROS data in North East Down (NED): switch x and y, and negate z outside</span></div>
+<div class="line"><span class="lineno">  108</span>    <span class="comment">// scrimmage. For more information on the MavROS message format view this page:</span></div>
+<div class="line"><span class="lineno">  109</span>    <span class="comment">// https://mavlink.io/en/messages/common.html#ALTITUDE</span></div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>    <span class="comment">// Fill Altitude Message</span></div>
+<div class="line"><span class="lineno">  112</span>    mavros_msgs::Altitude alt_msg;</div>
+<div class="line"><span class="lineno">  113</span>    <span class="comment">// Scrimmage is in cartesian, use Geographic lib to get lat, long, alt for monotonic</span></div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordtype">double</span> lat, lon, alt;</div>
+<div class="line"><span class="lineno">  115</span>    <span class="comment">// cartesian(x, y, z) to (lat, long, alt) using Geographic lib</span></div>
+<div class="line"><span class="lineno">  116</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()</div>
+<div class="line"><span class="lineno">  117</span>        -&gt;Reverse(state-&gt;pos()(0), state-&gt;pos()(1), state-&gt;pos()(2), lat, lon, alt);</div>
+<div class="line"><span class="lineno">  118</span>    alt_msg.monotonic = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a48c2def99c26d213bd3cc6ca50efd26a">monotonic_</a>;</div>
+<div class="line"><span class="lineno">  119</span>    <span class="comment">// If you print here monotonic will look like it&#39;s changing, but if you ROSTopic echo it will be</span></div>
+<div class="line"><span class="lineno">  120</span>    <span class="comment">// a static number. cout &lt;&lt; alt_msg.monotonic &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>    <span class="comment">// amsl = above sea level (meters)</span></div>
+<div class="line"><span class="lineno">  123</span>    <span class="comment">// get amsl from the same place as monotonic altitude, but this DOES change throughout the</span></div>
+<div class="line"><span class="lineno">  124</span>    <span class="comment">// simulation</span></div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// This altitude measure is strictly above mean sea level and might be non-monotonic (it might</span></div>
+<div class="line"><span class="lineno">  127</span>    <span class="comment">// reset on events like GPS lock or when a new QNH value is set). It should be the altitude to</span></div>
+<div class="line"><span class="lineno">  128</span>    <span class="comment">// which global altitude waypoints are compared to. Note that it is *not* the GPS altitude,</span></div>
+<div class="line"><span class="lineno">  129</span>    <span class="comment">// however, most GPS modules already output MSL by default and not the WGS84 altitude.</span></div>
+<div class="line"><span class="lineno">  130</span>    alt_msg.amsl = <span class="keyword">static_cast&lt;</span><span class="keywordtype">float</span><span class="keyword">&gt;</span>(alt);</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>    <span class="comment">// local = scrimmage z position of state</span></div>
+<div class="line"><span class="lineno">  134</span>    <span class="comment">// This is the local altitude in the local coordinate frame. It is not the altitude above home,</span></div>
+<div class="line"><span class="lineno">  135</span>    <span class="comment">// but in reference to the coordinate origin (0, 0, 0). It is up-positive.</span></div>
+<div class="line"><span class="lineno">  136</span>    alt_msg.local = state-&gt;pos()(2);</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>    <span class="comment">// local - monotonic = relative</span></div>
+<div class="line"><span class="lineno">  140</span>    <span class="comment">// This is the altitude above the home position. It resets on each change of the current home</span></div>
+<div class="line"><span class="lineno">  141</span>    <span class="comment">// position.</span></div>
+<div class="line"><span class="lineno">  142</span>    alt_msg.relative = alt_msg.local - alt_msg.monotonic;</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="comment">// alt_terrain = amsl</span></div>
+<div class="line"><span class="lineno">  146</span>    <span class="comment">// This is the altitude above terrain. It might be fed by a terrain database or an altimeter.</span></div>
+<div class="line"><span class="lineno">  147</span>    <span class="comment">// Values smaller than -1000 should be interpreted as unknown.</span></div>
+<div class="line"><span class="lineno">  148</span>    alt_msg.terrain = alt_msg.amsl;</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="comment">// clearance = same as terrain // laser alt in scrimmage one day?</span></div>
+<div class="line"><span class="lineno">  152</span>    <span class="comment">// This is not the altitude, but the clear space below the system according to the fused</span></div>
+<div class="line"><span class="lineno">  153</span>    <span class="comment">// clearance estimate. It generally should max out at the maximum range of e.g. the laser</span></div>
+<div class="line"><span class="lineno">  154</span>    <span class="comment">// altimeter. It is generally a moving target. A negative value indicates no measurement</span></div>
+<div class="line"><span class="lineno">  155</span>    <span class="comment">// available.</span></div>
+<div class="line"><span class="lineno">  156</span>    alt_msg.bottom_clearance = alt_msg.amsl;</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>    <span class="comment">// Header</span></div>
+<div class="line"><span class="lineno">  159</span>    std_msgs::Header header;  <span class="comment">// empty header</span></div>
+<div class="line"><span class="lineno">  160</span>    <span class="comment">// TODO: header.frame = ? // No system for ROS Frame ID&#39;s yet</span></div>
+<div class="line"><span class="lineno">  161</span>    header.stamp = ros::Time::now();  <span class="comment">// time</span></div>
+<div class="line"><span class="lineno">  162</span>    alt_msg.header = header;</div>
+<div class="line"><span class="lineno">  163</span> </div>
+<div class="line"><span class="lineno">  164</span>    <span class="comment">// Publish Altimeter information</span></div>
+<div class="line"><span class="lineno">  165</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html#a0c6c1948966aeb871ad60bac577b262a">altimeter_pub_</a>.publish(alt_msg);</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  168</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ROSAltimeter_8h_source.html#l00059">altimeter_pub_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00060">monotonic_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>.</p>
+<p class="reference">References <a class="el" href="ROSAltimeter_8h_source.html#l00060">altimeter_pub_</a>, <a class="el" href="ROSAltimeter_8h_source.html#l00061">monotonic_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>.</p>
 
 </div>
 </div>
@@ -485,9 +485,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00056">56</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00057">57</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">init()</a>.</p>
 
 </div>
 </div>
@@ -511,9 +511,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00057">57</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00058">58</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">init()</a>.</p>
 
 </div>
 </div>
@@ -537,9 +537,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00058">58</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00059">59</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">init()</a>.</p>
 
 </div>
 </div>
@@ -563,9 +563,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00059">59</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00060">60</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">init()</a>, and <a class="el" href="ROSAltimeter_8cpp_source.html#l00101">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">init()</a>, and <a class="el" href="ROSAltimeter_8cpp_source.html#l00102">step()</a>.</p>
 
 </div>
 </div>
@@ -589,9 +589,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00060">60</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSAltimeter_8h_source.html#l00061">61</a> of file <a class="el" href="ROSAltimeter_8h_source.html">ROSAltimeter.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">init()</a>, and <a class="el" href="ROSAltimeter_8cpp_source.html#l00101">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">init()</a>, and <a class="el" href="ROSAltimeter_8cpp_source.html#l00102">step()</a>.</p>
 
 </div>
 </div>
@@ -605,7 +605,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1ROSAltimeter.html">ROSAltimeter</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:36 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

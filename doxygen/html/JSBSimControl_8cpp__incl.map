@@ -1,39 +1,39 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion/JSBSimControl/JSBSimControl.cpp" name="/root/scrimmage/scrimmage/src/plugins/motion/JSBSimControl/JSBSimControl.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1538,5,1781,60"/>
-<area shape="rect" id="Node000002" href="$Utilities_8h.html" title="Brief file description." alt="" coords="5,115,228,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1538,39,1300,46,979,60,615,81,246,111,201,116,200,111,246,105,614,75,978,54,1299,41,1538,34"/>
-<area shape="rect" id="Node000007" href="$Entity_8h.html" title="Brief file description." alt="" coords="246,196,435,221"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="1538,39,1210,46,807,60,617,70,457,81,343,95,308,102,292,110,286,118,285,127,289,147,302,167,319,185,315,188,298,170,284,149,279,127,282,116,288,106,307,97,342,90,457,76,617,64,807,55,1210,41,1537,33"/>
-<area shape="rect" id="Node000023" href="$Angles_8h.html" title="Brief file description." alt="" coords="933,196,1127,221"/>
-<area shape="poly" id="edge3_Node000001_Node000023" title=" " alt="" coords="1611,62,1532,110,1507,132,1497,141,1480,150,1418,168,1330,182,1140,202,1140,197,1329,177,1417,163,1478,146,1494,137,1504,128,1528,106,1608,58"/>
-<area shape="rect" id="Node000024" href="$State_8h.html" title="Brief file description." alt="" coords="555,115,737,141"/>
-<area shape="poly" id="edge4_Node000001_Node000024" title=" " alt="" coords="1538,43,1183,66,966,86,749,111,717,116,716,110,748,105,966,81,1183,61,1538,37"/>
-<area shape="rect" id="Node000028" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="761,115,997,141"/>
-<area shape="poly" id="edge5_Node000001_Node000028" title=" " alt="" coords="1538,49,1010,111,970,116,969,111,1010,105,1537,44"/>
-<area shape="rect" id="Node000030" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1022,115,1238,141"/>
-<area shape="poly" id="edge6_Node000001_Node000030" title=" " alt="" coords="1538,58,1209,116,1208,110,1537,53"/>
-<area shape="rect" id="Node000031" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1263,108,1467,148"/>
-<area shape="poly" id="edge7_Node000001_Node000031" title=" " alt="" coords="1577,63,1438,107,1436,101,1576,58"/>
-<area shape="rect" id="Node000032" href="$JSBSimControl_8h.html" title="Brief file description." alt="" coords="303,108,531,148"/>
-<area shape="poly" id="edge8_Node000001_Node000032" title=" " alt="" coords="1538,41,1104,65,827,84,545,110,544,105,827,79,1103,59,1538,36"/>
-<area shape="rect" id="Node000052" href="$FGOutputFGMod_8h.html" title="Brief file description." alt="" coords="1541,108,1777,148"/>
-<area shape="poly" id="edge11_Node000001_Node000052" title=" " alt="" coords="1662,60,1662,94,1657,94,1657,60"/>
-<area shape="rect" id="Node000054" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1801,115,2064,141"/>
-<area shape="poly" id="edge12_Node000001_Node000054" title=" " alt="" coords="1737,58,1887,108,1885,113,1735,63"/>
-<area shape="rect" id="Node000055" title=" " alt="" coords="2088,115,2297,141"/>
-<area shape="poly" id="edge13_Node000001_Node000055" title=" " alt="" coords="1781,52,2114,110,2113,116,1780,58"/>
-<area shape="rect" id="Node000056" title=" " alt="" coords="2321,108,2475,148"/>
-<area shape="poly" id="edge14_Node000001_Node000056" title=" " alt="" coords="1781,42,2021,66,2308,105,2307,110,2020,72,1781,47"/>
-<area shape="rect" id="Node000057" title=" " alt="" coords="2499,115,2574,141"/>
-<area shape="poly" id="edge15_Node000001_Node000057" title=" " alt="" coords="1781,32,1925,37,2103,49,2296,70,2393,86,2488,105,2498,108,2497,113,2487,111,2392,91,2295,76,2103,54,1925,42,1781,37"/>
-<area shape="rect" id="Node000038" title=" " alt="" coords="2598,115,2678,141"/>
-<area shape="poly" id="edge16_Node000001_Node000038" title=" " alt="" coords="1781,31,1942,35,2144,46,2366,68,2478,85,2587,105,2598,108,2597,114,2585,111,2477,90,2365,73,2144,51,1942,40,1781,36"/>
-<area shape="rect" id="Node000058" title=" " alt="" coords="2702,108,2862,148"/>
-<area shape="poly" id="edge17_Node000001_Node000058" title=" " alt="" coords="1781,35,1956,43,2181,56,2432,76,2689,105,2688,111,2432,82,2180,61,1956,48,1781,40"/>
-<area shape="rect" id="Node000022" title=" " alt="" coords="2886,115,3129,141"/>
-<area shape="poly" id="edge18_Node000001_Node000022" title=" " alt="" coords="1781,36,2260,59,2566,79,2874,105,2921,111,2920,116,2874,111,2565,84,2260,64,1781,41"/>
-<area shape="rect" id="Node000059" title=" " alt="" coords="3153,115,3350,141"/>
-<area shape="poly" id="edge19_Node000001_Node000059" title=" " alt="" coords="1781,33,2029,38,2367,50,2752,71,2948,87,3141,105,3179,110,3178,116,3140,111,2948,92,2751,77,2367,55,2029,43,1781,38"/>
-<area shape="poly" id="edge9_Node000032_Node000007" title=" " alt="" coords="400,150,364,188,360,184,396,146"/>
-<area shape="poly" id="edge10_Node000032_Node000023" title=" " alt="" coords="531,144,542,145,920,192,919,197,542,151,530,149"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="1576,5,1819,60"/>
+<area shape="rect" id="Node000002" href="$JSBSimControl_8h.html" title="Brief file description." alt="" coords="94,108,322,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1576,40,1040,61,693,82,342,111,336,111,335,106,341,105,692,77,1040,56,1576,35"/>
+<area shape="rect" id="Node000004" href="$Entity_8h.html" title="Brief file description." alt="" coords="5,196,195,221"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="1576,38,1195,43,710,55,480,65,285,77,146,92,103,101,83,110,75,126,75,145,80,165,88,183,83,185,75,166,69,145,70,125,80,106,102,96,145,87,285,72,480,60,710,50,1194,38,1576,32"/>
+<area shape="rect" id="Node000023" href="$Angles_8h.html" title="Brief file description." alt="" coords="241,196,434,221"/>
+<area shape="poly" id="edge6_Node000001_Node000023" title=" " alt="" coords="1576,37,1274,39,902,49,724,59,570,72,452,89,412,99,387,110,371,125,359,144,344,183,339,181,354,141,367,122,384,106,411,94,451,84,569,66,724,53,902,44,1274,34,1576,31"/>
+<area shape="rect" id="Node000043" href="$Utilities_8h.html" title="Brief file description." alt="" coords="397,115,619,141"/>
+<area shape="poly" id="edge4_Node000001_Node000043" title=" " alt="" coords="1576,42,1158,66,896,85,632,111,590,116,590,111,632,105,895,80,1157,60,1575,37"/>
+<area shape="rect" id="Node000044" href="$State_8h.html" title="Brief file description." alt="" coords="643,115,826,141"/>
+<area shape="poly" id="edge7_Node000001_Node000044" title=" " alt="" coords="1576,44,1243,68,1041,87,839,111,806,116,806,110,838,105,1040,82,1243,63,1576,38"/>
+<area shape="rect" id="Node000048" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="850,115,1086,141"/>
+<area shape="poly" id="edge8_Node000001_Node000048" title=" " alt="" coords="1576,51,1099,111,1059,116,1059,111,1098,105,1575,46"/>
+<area shape="rect" id="Node000050" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1111,115,1327,141"/>
+<area shape="poly" id="edge9_Node000001_Node000050" title=" " alt="" coords="1576,60,1291,115,1290,110,1575,55"/>
+<area shape="rect" id="Node000051" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1351,108,1555,148"/>
+<area shape="poly" id="edge10_Node000001_Node000051" title=" " alt="" coords="1630,63,1516,106,1514,101,1628,58"/>
+<area shape="rect" id="Node000052" href="$FGOutputFGMod_8h.html" title="Brief file description." alt="" coords="1579,108,1815,148"/>
+<area shape="poly" id="edge11_Node000001_Node000052" title=" " alt="" coords="1700,60,1700,94,1695,94,1695,60"/>
+<area shape="rect" id="Node000054" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="1839,115,2102,141"/>
+<area shape="poly" id="edge12_Node000001_Node000054" title=" " alt="" coords="1775,58,1925,108,1923,113,1773,63"/>
+<area shape="rect" id="Node000055" title=" " alt="" coords="2126,115,2335,141"/>
+<area shape="poly" id="edge13_Node000001_Node000055" title=" " alt="" coords="1819,52,2152,110,2151,116,1818,58"/>
+<area shape="rect" id="Node000056" title=" " alt="" coords="2359,108,2513,148"/>
+<area shape="poly" id="edge14_Node000001_Node000056" title=" " alt="" coords="1819,42,2059,66,2346,105,2345,110,2058,72,1819,47"/>
+<area shape="rect" id="Node000057" title=" " alt="" coords="2537,115,2612,141"/>
+<area shape="poly" id="edge15_Node000001_Node000057" title=" " alt="" coords="1819,32,1963,37,2141,49,2334,70,2431,86,2526,105,2536,108,2535,113,2525,111,2430,91,2333,76,2141,54,1963,42,1819,37"/>
+<area shape="rect" id="Node000029" title=" " alt="" coords="2636,115,2716,141"/>
+<area shape="poly" id="edge16_Node000001_Node000029" title=" " alt="" coords="1819,31,1980,35,2182,46,2404,68,2516,85,2625,105,2636,108,2635,114,2623,111,2515,90,2403,73,2182,51,1980,40,1819,36"/>
+<area shape="rect" id="Node000058" title=" " alt="" coords="2740,108,2900,148"/>
+<area shape="poly" id="edge17_Node000001_Node000058" title=" " alt="" coords="1819,35,1994,43,2219,56,2470,76,2727,105,2726,111,2470,82,2218,61,1994,48,1819,40"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="2924,115,3167,141"/>
+<area shape="poly" id="edge18_Node000001_Node000022" title=" " alt="" coords="1819,36,2298,59,2604,79,2912,105,2959,111,2958,116,2912,111,2603,84,2298,64,1819,41"/>
+<area shape="rect" id="Node000059" title=" " alt="" coords="3191,115,3388,141"/>
+<area shape="poly" id="edge19_Node000001_Node000059" title=" " alt="" coords="1819,33,2067,38,2405,50,2790,71,2986,87,3179,105,3217,110,3216,116,3178,111,2986,92,2789,77,2405,55,2067,43,1819,38"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="183,150,129,190,126,185,180,146"/>
+<area shape="poly" id="edge3_Node000002_Node000023" title=" " alt="" coords="241,146,308,187,305,191,238,150"/>
 </map>

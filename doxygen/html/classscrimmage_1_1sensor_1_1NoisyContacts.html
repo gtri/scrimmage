@@ -269,7 +269,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00046">46</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00047">47</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5413377f1605fc38f2d3d66eb76c2834" name="a5413377f1605fc38f2d3d66eb76c2834"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5413377f1605fc38f2d3d66eb76c2834">&#9670;&#160;</a></span>NoisyContacts()</h2>
@@ -286,8 +286,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00058">58</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00059">59</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -318,37 +318,37 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00060">60</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   60</span>                                                             {</div>
-<div class="line"><span class="lineno">   61</span>    <span class="keyword">auto</span> add_noise = [&amp;](std::string prefix, <span class="keyword">auto</span>&amp; noise_vec) {</div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">   63</span>            std::string tag_name = prefix + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(i);</div>
-<div class="line"><span class="lineno">   64</span>            std::vector&lt;double&gt; vec;</div>
-<div class="line"><span class="lineno">   65</span>            <span class="keywordtype">double</span> mean, stdev;</div>
-<div class="line"><span class="lineno">   66</span>            std::tie(mean, stdev) = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2)</div>
-<div class="line"><span class="lineno">   67</span>                                        ? std::make_pair(vec[0], vec[1])</div>
-<div class="line"><span class="lineno">   68</span>                                        : <a class="code hl_namespace" href="namespacestd.html">std</a>::make_pair(0.0, 1.0);</div>
-<div class="line"><span class="lineno">   69</span>            noise_vec.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(mean, stdev));</div>
-<div class="line"><span class="lineno">   70</span>        }</div>
-<div class="line"><span class="lineno">   71</span>    };</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    add_noise(<span class="stringliteral">&quot;pos_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">pos_noise_</a>);</div>
-<div class="line"><span class="lineno">   74</span>    add_noise(<span class="stringliteral">&quot;vel_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">vel_noise_</a>);</div>
-<div class="line"><span class="lineno">   75</span>    add_noise(<span class="stringliteral">&quot;orient_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    std::string topic_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;topic_name&quot;</span>, params, <span class="stringliteral">&quot;ContactsWithCovariances&quot;</span>);</div>
-<div class="line"><span class="lineno">   78</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, topic_name);</div>
-<div class="line"><span class="lineno">   79</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a45a84dbdb48f81059651d1e804f8a91f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">scrimmage::sensor::NoisyContacts::vel_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; vel_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00054">NoisyContacts.h:54</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a5304380dd2f913fdc4a2266db1e7411f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">scrimmage::sensor::NoisyContacts::pub_</a></div><div class="ttdeci">PublisherPtr pub_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00056">NoisyContacts.h:56</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a6e6ff1409f665c4d3c84779a5779b98a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">scrimmage::sensor::NoisyContacts::pos_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; pos_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00053">NoisyContacts.h:53</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_af282289f4788f6b6e4b35ab0a6091d1b"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">scrimmage::sensor::NoisyContacts::orient_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; orient_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00055">NoisyContacts.h:55</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00166">ParseUtils.h:166</a></div></div>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00061">61</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>                                                             {</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keyword">auto</span> add_noise = [&amp;](std::string prefix, <span class="keyword">auto</span>&amp; noise_vec) {</div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">   64</span>            std::string tag_name = prefix + <span class="stringliteral">&quot;_&quot;</span> + std::to_string(i);</div>
+<div class="line"><span class="lineno">   65</span>            std::vector&lt;double&gt; vec;</div>
+<div class="line"><span class="lineno">   66</span>            <span class="keywordtype">double</span> mean, stdev;</div>
+<div class="line"><span class="lineno">   67</span>            std::tie(mean, stdev) = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2)</div>
+<div class="line"><span class="lineno">   68</span>                                        ? std::make_pair(vec[0], vec[1])</div>
+<div class="line"><span class="lineno">   69</span>                                        : <a class="code hl_namespace" href="namespacestd.html">std</a>::make_pair(0.0, 1.0);</div>
+<div class="line"><span class="lineno">   70</span>            noise_vec.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(mean, stdev));</div>
+<div class="line"><span class="lineno">   71</span>        }</div>
+<div class="line"><span class="lineno">   72</span>    };</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    add_noise(<span class="stringliteral">&quot;pos_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">pos_noise_</a>);</div>
+<div class="line"><span class="lineno">   75</span>    add_noise(<span class="stringliteral">&quot;vel_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">vel_noise_</a>);</div>
+<div class="line"><span class="lineno">   76</span>    add_noise(<span class="stringliteral">&quot;orient_noise&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    std::string topic_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;topic_name&quot;</span>, params, <span class="stringliteral">&quot;ContactsWithCovariances&quot;</span>);</div>
+<div class="line"><span class="lineno">   79</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, topic_name);</div>
+<div class="line"><span class="lineno">   80</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a45a84dbdb48f81059651d1e804f8a91f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">scrimmage::sensor::NoisyContacts::vel_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; vel_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00055">NoisyContacts.h:55</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a5304380dd2f913fdc4a2266db1e7411f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">scrimmage::sensor::NoisyContacts::pub_</a></div><div class="ttdeci">PublisherPtr pub_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00057">NoisyContacts.h:57</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_a6e6ff1409f665c4d3c84779a5779b98a"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">scrimmage::sensor::NoisyContacts::pos_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; pos_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00054">NoisyContacts.h:54</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1NoisyContacts_html_af282289f4788f6b6e4b35ab0a6091d1b"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">scrimmage::sensor::NoisyContacts::orient_noise_</a></div><div class="ttdeci">std::vector&lt; std::shared_ptr&lt; std::normal_distribution&lt; double &gt; &gt; &gt; orient_noise_</div><div class="ttdef"><b>Definition</b> <a href="NoisyContacts_8h_source.html#l00056">NoisyContacts.h:56</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00168">ParseUtils.h:168</a></div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00096">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ParseUtils_8h_source.html#l00166">scrimmage::get_vec()</a>, <a class="el" href="NoisyContacts_8h_source.html#l00055">orient_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00053">pos_noise_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00056">pub_</a>, and <a class="el" href="NoisyContacts_8h_source.html#l00054">vel_noise_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="NoisyContacts_8h_source.html#l00056">orient_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00054">pos_noise_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00057">pub_</a>, and <a class="el" href="NoisyContacts_8h_source.html#l00055">vel_noise_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -389,48 +389,48 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#ab406f4625b89042961f6ae8d06cbc427">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00081">81</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   81</span>                         {</div>
-<div class="line"><span class="lineno">   82</span>    <span class="keyword">auto</span> gener = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;ContactMap&gt;&gt;();</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">// Create noisy versions of all contacts that aren&#39;t own vehicle</span></div>
-<div class="line"><span class="lineno">   86</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : (*<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;contacts())) {</div>
-<div class="line"><span class="lineno">   87</span>        <span class="comment">// ignore own vehicle</span></div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">if</span> (kv.second.id().id() == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) {</div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   90</span>        }</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>        <span class="comment">// Construct a StateWithCovariance.</span></div>
-<div class="line"><span class="lineno">   93</span>        <span class="comment">// Covar Matrix is 3x3 (x, y, z) with 5.0 along diagonal</span></div>
-<div class="line"><span class="lineno">   94</span>        std::shared_ptr&lt;StateWithCovariance&gt; state =</div>
-<div class="line"><span class="lineno">   95</span>            std::make_shared&lt;StateWithCovariance&gt;(*(kv.second.state()), 3, 3, 5.0);</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>        <span class="comment">// Add noise to position and velocity</span></div>
-<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">   99</span>            state-&gt;pos()(i) += (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">pos_noise_</a>[i])(*gener);</div>
-<div class="line"><span class="lineno">  100</span>            state-&gt;vel()(i) += (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">vel_noise_</a>[i])(*gener);</div>
-<div class="line"><span class="lineno">  101</span>        }</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>        <span class="comment">// add noise in roll, pitch, yaw order</span></div>
-<div class="line"><span class="lineno">  104</span>        state-&gt;quat() = state-&gt;quat()</div>
-<div class="line"><span class="lineno">  105</span>                        * Quaternion(Eigen::Vector3d::UnitX(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[0])(*gener))</div>
-<div class="line"><span class="lineno">  106</span>                        * Quaternion(Eigen::Vector3d::UnitY(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[1])(*gener))</div>
-<div class="line"><span class="lineno">  107</span>                        * Quaternion(Eigen::Vector3d::UnitZ(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[2])(*gener));</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>        <span class="comment">// Construct a new Contact in place</span></div>
-<div class="line"><span class="lineno">  110</span>        msg-&gt;data.emplace(</div>
-<div class="line"><span class="lineno">  111</span>            kv.second.id().id(),</div>
-<div class="line"><span class="lineno">  112</span>            Contact(kv.second.id(), std::static_pointer_cast&lt;State&gt;(state)));</div>
-<div class="line"><span class="lineno">  113</span>    }</div>
-<div class="line"><span class="lineno">  114</span> </div>
-<div class="line"><span class="lineno">  115</span>    <span class="comment">// Publish the noisy contact map</span></div>
-<div class="line"><span class="lineno">  116</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">pub_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  119</span>}</div>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8cpp_source.html#l00082">82</a> of file <a class="el" href="NoisyContacts_8cpp_source.html">NoisyContacts.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>                         {</div>
+<div class="line"><span class="lineno">   83</span>    <span class="keyword">auto</span> gener = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;ContactMap&gt;&gt;();</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>    <span class="comment">// Create noisy versions of all contacts that aren&#39;t own vehicle</span></div>
+<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : (*<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;contacts())) {</div>
+<div class="line"><span class="lineno">   88</span>        <span class="comment">// ignore own vehicle</span></div>
+<div class="line"><span class="lineno">   89</span>        <span class="keywordflow">if</span> (kv.second.id().id() == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) {</div>
+<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   91</span>        }</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>        <span class="comment">// Construct a StateWithCovariance.</span></div>
+<div class="line"><span class="lineno">   94</span>        <span class="comment">// Covar Matrix is 3x3 (x, y, z) with 5.0 along diagonal</span></div>
+<div class="line"><span class="lineno">   95</span>        std::shared_ptr&lt;StateWithCovariance&gt; state =</div>
+<div class="line"><span class="lineno">   96</span>            std::make_shared&lt;StateWithCovariance&gt;(*(kv.second.state()), 3, 3, 5.0);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>        <span class="comment">// Add noise to position and velocity</span></div>
+<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  100</span>            state-&gt;pos()(i) += (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a6e6ff1409f665c4d3c84779a5779b98a">pos_noise_</a>[i])(*gener);</div>
+<div class="line"><span class="lineno">  101</span>            state-&gt;vel()(i) += (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a45a84dbdb48f81059651d1e804f8a91f">vel_noise_</a>[i])(*gener);</div>
+<div class="line"><span class="lineno">  102</span>        }</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>        <span class="comment">// add noise in roll, pitch, yaw order</span></div>
+<div class="line"><span class="lineno">  105</span>        state-&gt;quat() = state-&gt;quat()</div>
+<div class="line"><span class="lineno">  106</span>                        * Quaternion(Eigen::Vector3d::UnitX(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[0])(*gener))</div>
+<div class="line"><span class="lineno">  107</span>                        * Quaternion(Eigen::Vector3d::UnitY(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[1])(*gener))</div>
+<div class="line"><span class="lineno">  108</span>                        * Quaternion(Eigen::Vector3d::UnitZ(), (*<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#af282289f4788f6b6e4b35ab0a6091d1b">orient_noise_</a>[2])(*gener));</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// Construct a new Contact in place</span></div>
+<div class="line"><span class="lineno">  111</span>        msg-&gt;data.emplace(</div>
+<div class="line"><span class="lineno">  112</span>            kv.second.id().id(),</div>
+<div class="line"><span class="lineno">  113</span>            Contact(kv.second.id(), std::static_pointer_cast&lt;State&gt;(state)));</div>
+<div class="line"><span class="lineno">  114</span>    }</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>    <span class="comment">// Publish the noisy contact map</span></div>
+<div class="line"><span class="lineno">  117</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1NoisyContacts.html#a5304380dd2f913fdc4a2266db1e7411f">pub_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  120</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="NoisyContacts_8h_source.html#l00055">orient_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00053">pos_noise_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00056">pub_</a>, and <a class="el" href="NoisyContacts_8h_source.html#l00054">vel_noise_</a>.</p>
+<p class="reference">References <a class="el" href="NoisyContacts_8h_source.html#l00056">orient_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00054">pos_noise_</a>, <a class="el" href="NoisyContacts_8h_source.html#l00057">pub_</a>, and <a class="el" href="NoisyContacts_8h_source.html#l00055">vel_noise_</a>.</p>
 
 </div>
 </div>
@@ -455,9 +455,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00053">53</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00054">54</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00060">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00081">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00061">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -481,9 +481,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00054">54</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00055">55</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00060">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00081">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00061">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -507,9 +507,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00055">55</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00056">56</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00060">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00081">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00061">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -533,9 +533,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00056">56</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="NoisyContacts_8h_source.html#l00057">57</a> of file <a class="el" href="NoisyContacts_8h_source.html">NoisyContacts.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00060">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00081">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="NoisyContacts_8cpp_source.html#l00061">init()</a>, and <a class="el" href="NoisyContacts_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -549,7 +549,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1NoisyContacts.html">NoisyContacts</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:36 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

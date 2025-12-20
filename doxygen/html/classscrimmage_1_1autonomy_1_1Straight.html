@@ -348,7 +348,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00050">50</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00053">53</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a289f932253e4bf2fb6012a3d275e4f5e" name="a289f932253e4bf2fb6012a3d275e4f5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a289f932253e4bf2fb6012a3d275e4f5e">&#9670;&#160;</a></span>init()</h2>
@@ -376,174 +376,174 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Straight_8cpp_source.html#l00080">80</a> of file <a class="el" href="Straight_8cpp_source.html">Straight.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>                                                        {</div>
-<div class="line"><span class="lineno">   81</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">speed_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a>(<span class="stringliteral">&quot;speed&quot;</span>, params, 0.0);</div>
-<div class="line"><span class="lineno">   82</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;show_camera_images&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   83</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;save_camera_images&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   84</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;show_text_label&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">// Project goal in front...</span></div>
-<div class="line"><span class="lineno">   87</span>    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1e6;</div>
-<div class="line"><span class="lineno">   88</span>    Eigen::Vector3d unit_vector = rel_pos.normalized();</div>
-<div class="line"><span class="lineno">   89</span>    unit_vector = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(unit_vector);</div>
-<div class="line"><span class="lineno">   90</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos() + unit_vector * rel_pos.norm();</div>
-<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2) = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2);</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment">// Set the desired_z to our initial position.</span></div>
-<div class="line"><span class="lineno">   94</span>    <span class="comment">// desired_z_ = state_-&gt;pos()(2);</span></div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>    <span class="comment">// Register the desired_z parameter with the parameter server</span></div>
-<div class="line"><span class="lineno">   97</span>    <span class="keyword">auto</span> param_cb = [&amp;](<span class="keyword">const</span> <span class="keywordtype">double</span>&amp; desired_z) {</div>
-<div class="line"><span class="lineno">   98</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;desired_z param changed at: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t() &lt;&lt; <span class="stringliteral">&quot;, with value: &quot;</span> &lt;&lt; desired_z</div>
-<div class="line"><span class="lineno">   99</span>                  &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  100</span>    };</div>
-<div class="line"><span class="lineno">  101</span>    register_param&lt;double&gt;(<span class="stringliteral">&quot;desired_z&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2), param_cb);</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a>) {</div>
-<div class="line"><span class="lineno">  105</span>        <span class="comment">// Remove all img files from previous run</span></div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">if</span> (fs::exists(<span class="stringliteral">&quot;./imgs&quot;</span>)) {</div>
-<div class="line"><span class="lineno">  107</span>            fs::recursive_directory_iterator it(<span class="stringliteral">&quot;./imgs&quot;</span>);</div>
-<div class="line"><span class="lineno">  108</span>            fs::recursive_directory_iterator endit;</div>
-<div class="line"><span class="lineno">  109</span>            std::list&lt;fs::path&gt; paths_to_rm;</div>
-<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">while</span> (it != endit) {</div>
-<div class="line"><span class="lineno">  111</span>                fs::path path = it-&gt;path();</div>
-<div class="line"><span class="lineno">  112</span>                <span class="keywordflow">if</span> (fs::is_regular_file(*it) &amp;&amp; path.extension() == <span class="stringliteral">&quot;.png&quot;</span>) {</div>
-<div class="line"><span class="lineno">  113</span>                    paths_to_rm.push_back(path);</div>
-<div class="line"><span class="lineno">  114</span>                }</div>
-<div class="line"><span class="lineno">  115</span>                ++it;</div>
-<div class="line"><span class="lineno">  116</span>            }</div>
-<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">for</span> (fs::path p : paths_to_rm) {</div>
-<div class="line"><span class="lineno">  118</span>                fs::remove(p);</div>
-<div class="line"><span class="lineno">  119</span>            }</div>
-<div class="line"><span class="lineno">  120</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  121</span>            fs::create_directories(<span class="stringliteral">&quot;./imgs&quot;</span>);</div>
-<div class="line"><span class="lineno">  122</span>        }</div>
-<div class="line"><span class="lineno">  124</span>    }</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">frame_number_</a> = 0;</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a>) {</div>
-<div class="line"><span class="lineno">  129</span>        <span class="comment">// Draw a text label (white text) 30 meters in front of vehicle:</span></div>
-<div class="line"><span class="lineno">  130</span>        Eigen::Vector3d in_front = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos() + unit_vector * 30;</div>
-<div class="line"><span class="lineno">  131</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a> =</div>
-<div class="line"><span class="lineno">  132</span>            sc::shape::make_text(<span class="stringliteral">&quot;Hello, SCRIMMAGE!&quot;</span>, in_front, Eigen::Vector3d(255, 255, 255));</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>        <span class="comment">// Draw the shape in the 3D viewer</span></div>
-<div class="line"><span class="lineno">  135</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
-<div class="line"><span class="lineno">  136</span>    }</div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">enable_boundary_control_</a> = get&lt;bool&gt;(<span class="stringliteral">&quot;enable_boundary_control&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>    <span class="keyword">auto</span> bd_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) { <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a> = sci::Boundary::make_boundary(msg-&gt;data); };</div>
-<div class="line"><span class="lineno">  141</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, bd_cb);</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="keyword">auto</span> state_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
-<div class="line"><span class="lineno">  144</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  145</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a> = msg-&gt;data;</div>
-<div class="line"><span class="lineno">  146</span>    };</div>
-<div class="line"><span class="lineno">  147</span>    subscribe&lt;StateWithCovariance&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;StateWithCovariance&quot;</span>, state_cb);</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    <span class="keyword">auto</span> cnt_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;ContactMap&gt;</a>&amp; msg) {</div>
-<div class="line"><span class="lineno">  150</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af80b7fa52f8b22c657e4bc08e7e77641">noisy_contacts_</a> = msg-&gt;data;  <span class="comment">// Save map of noisy contacts</span></div>
-<div class="line"><span class="lineno">  151</span>    };</div>
-<div class="line"><span class="lineno">  152</span>    subscribe&lt;ContactMap&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactsWithCovariances&quot;</span>, cnt_cb);</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span><span class="preprocessor">#if (ENABLE_OPENCV == 1 &amp;&amp; ENABLE_AIRSIM == 1)</span></div>
-<div class="line"><span class="lineno">  155</span>    <span class="keyword">auto</span> airsim_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
-<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">for</span> (sc::sensor::AirSimImageType a : msg-&gt;data) {</div>
-<div class="line"><span class="lineno">  157</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a>) {</div>
-<div class="line"><span class="lineno">  158</span>                <span class="comment">// Get Camera Name</span></div>
-<div class="line"><span class="lineno">  159</span>                std::string window_name = a.vehicle_name + <span class="stringliteral">&quot;_&quot;</span> + a.camera_config.cam_name + <span class="stringliteral">&quot;_&quot;</span></div>
-<div class="line"><span class="lineno">  160</span>                                          + a.camera_config.img_type_name;</div>
-<div class="line"><span class="lineno">  161</span>                <span class="comment">// for depth images CV imshow expects grayscale image values to be between 0 and 1.</span></div>
-<div class="line"><span class="lineno">  162</span>                <span class="keywordflow">if</span> (a.camera_config.img_type_name == <span class="stringliteral">&quot;DepthPerspective&quot;</span></div>
-<div class="line"><span class="lineno">  163</span>                    || a.camera_config.img_type_name == <span class="stringliteral">&quot;DepthPlanner&quot;</span>) {</div>
-<div class="line"><span class="lineno">  164</span>                    <span class="comment">// Worked before building with ROS</span></div>
-<div class="line"><span class="lineno">  165</span>                    cv::Mat tempImage;</div>
-<div class="line"><span class="lineno">  166</span>                    a.img.convertTo(tempImage, CV_32FC1, 1.f / 255);</div>
-<div class="line"><span class="lineno">  167</span>                    <span class="comment">// cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);</span></div>
-<div class="line"><span class="lineno">  168</span>                    <span class="comment">// cout &lt;&lt; tempImage &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  169</span>                    cv::imshow(window_name, tempImage);</div>
-<div class="line"><span class="lineno">  170</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  171</span>                    <span class="comment">// other image types are int 0-255.</span></div>
-<div class="line"><span class="lineno">  172</span>                    <span class="keywordflow">if</span> (a.img.channels() == 4) {</div>
-<div class="line"><span class="lineno">  173</span>                        cout &lt;&lt; <span class="stringliteral">&quot;image channels: &quot;</span> &lt;&lt; a.img.channels() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  174</span>                        cout &lt;&lt; <span class="stringliteral">&quot;Warning: Old AirSim Linux Asset Environments have 4 channels. &quot;</span></div>
-<div class="line"><span class="lineno">  175</span>                                <span class="stringliteral">&quot;Color images will not display correctly.&quot;</span></div>
-<div class="line"><span class="lineno">  176</span>                             &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  177</span>                        cout &lt;&lt; <span class="stringliteral">&quot;Warning: Use Asset Environment versions Linux-v1.3.1+.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  178</span>                        cv::Mat tempImage;</div>
-<div class="line"><span class="lineno">  179</span>                        cv::cvtColor(a.img, tempImage, CV_RGBA2RGB);</div>
-<div class="line"><span class="lineno">  180</span>                        cv::imshow(window_name, tempImage);</div>
-<div class="line"><span class="lineno">  181</span>                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  182</span>                        cv::imshow(window_name, a.img);</div>
-<div class="line"><span class="lineno">  183</span>                    }</div>
-<div class="line"><span class="lineno">  184</span>                }</div>
-<div class="line"><span class="lineno">  185</span>                cv::waitKey(1);</div>
-<div class="line"><span class="lineno">  186</span>            }</div>
-<div class="line"><span class="lineno">  187</span>        }</div>
-<div class="line"><span class="lineno">  188</span>    };</div>
-<div class="line"><span class="lineno">  189</span>    subscribe&lt;std::vector&lt;sensor::AirSimImageType&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;AirSimImages&quot;</span>, airsim_cb);</div>
-<div class="line"><span class="lineno">  190</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  191</span> </div>
-<div class="line"><span class="lineno">  192</span><span class="preprocessor">#if ENABLE_OPENCV == 1</span></div>
-<div class="line"><span class="lineno">  193</span>    <span class="keyword">auto</span> blob_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
-<div class="line"><span class="lineno">  194</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a>) {</div>
-<div class="line"><span class="lineno">  195</span>            std::string img_name = <span class="stringliteral">&quot;./imgs/camera_&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">frame_number_</a>++) + <span class="stringliteral">&quot;.png&quot;</span>;</div>
-<div class="line"><span class="lineno">  196</span>            cv::imwrite(img_name, msg-&gt;data.frame);</div>
-<div class="line"><span class="lineno">  197</span>        }</div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a>) {</div>
-<div class="line"><span class="lineno">  200</span>            cv::imshow(<span class="stringliteral">&quot;Camera Sensor&quot;</span>, msg-&gt;data.frame);</div>
-<div class="line"><span class="lineno">  201</span>            cv::waitKey(1);</div>
-<div class="line"><span class="lineno">  202</span>        }</div>
-<div class="line"><span class="lineno">  203</span>    };</div>
-<div class="line"><span class="lineno">  204</span>    subscribe&lt;sc::sensor::ContactBlobCameraType&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactBlobCamera&quot;</span>, blob_cb);</div>
-<div class="line"><span class="lineno">  205</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  206</span> </div>
-<div class="line"><span class="lineno">  207</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;generate_entities&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>);</div>
-<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>) {</div>
-<div class="line"><span class="lineno">  209</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">pub_gen_ents_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GenerateEntity&quot;</span>);</div>
-<div class="line"><span class="lineno">  210</span>    }</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">desired_alt_idx_</a> =</div>
-<div class="line"><span class="lineno">  213</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">VariableIO::Type::desired_altitude</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  214</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  215</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">desired_heading_idx_</a> =</div>
-<div class="line"><span class="lineno">  216</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  217</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Straight_8cpp_source.html#l00081">81</a> of file <a class="el" href="Straight_8cpp_source.html">Straight.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>                                                        {</div>
+<div class="line"><span class="lineno">   82</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">speed_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a>(<span class="stringliteral">&quot;speed&quot;</span>, params, 0.0);</div>
+<div class="line"><span class="lineno">   83</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;show_camera_images&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   84</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;save_camera_images&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   85</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a> = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;show_text_label&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Project goal in front...</span></div>
+<div class="line"><span class="lineno">   88</span>    Eigen::Vector3d rel_pos = Eigen::Vector3d::UnitX() * 1e6;</div>
+<div class="line"><span class="lineno">   89</span>    Eigen::Vector3d unit_vector = rel_pos.normalized();</div>
+<div class="line"><span class="lineno">   90</span>    unit_vector = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(unit_vector);</div>
+<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos() + unit_vector * rel_pos.norm();</div>
+<div class="line"><span class="lineno">   92</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2) = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment">// Set the desired_z to our initial position.</span></div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// desired_z_ = state_-&gt;pos()(2);</span></div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>    <span class="comment">// Register the desired_z parameter with the parameter server</span></div>
+<div class="line"><span class="lineno">   98</span>    <span class="keyword">auto</span> param_cb = [&amp;](<span class="keyword">const</span> <span class="keywordtype">double</span>&amp; desired_z) {</div>
+<div class="line"><span class="lineno">   99</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;desired_z param changed at: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t() &lt;&lt; <span class="stringliteral">&quot;, with value: &quot;</span> &lt;&lt; desired_z</div>
+<div class="line"><span class="lineno">  100</span>                  &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">  101</span>    };</div>
+<div class="line"><span class="lineno">  102</span>    register_param&lt;double&gt;(<span class="stringliteral">&quot;desired_z&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2), param_cb);</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a>) {</div>
+<div class="line"><span class="lineno">  106</span>        <span class="comment">// Remove all img files from previous run</span></div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">if</span> (fs::exists(<span class="stringliteral">&quot;./imgs&quot;</span>)) {</div>
+<div class="line"><span class="lineno">  108</span>            fs::recursive_directory_iterator it(<span class="stringliteral">&quot;./imgs&quot;</span>);</div>
+<div class="line"><span class="lineno">  109</span>            fs::recursive_directory_iterator endit;</div>
+<div class="line"><span class="lineno">  110</span>            std::list&lt;fs::path&gt; paths_to_rm;</div>
+<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">while</span> (it != endit) {</div>
+<div class="line"><span class="lineno">  112</span>                fs::path path = it-&gt;path();</div>
+<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">if</span> (fs::is_regular_file(*it) &amp;&amp; path.extension() == <span class="stringliteral">&quot;.png&quot;</span>) {</div>
+<div class="line"><span class="lineno">  114</span>                    paths_to_rm.push_back(path);</div>
+<div class="line"><span class="lineno">  115</span>                }</div>
+<div class="line"><span class="lineno">  116</span>                ++it;</div>
+<div class="line"><span class="lineno">  117</span>            }</div>
+<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">for</span> (fs::path p : paths_to_rm) {</div>
+<div class="line"><span class="lineno">  119</span>                fs::remove(p);</div>
+<div class="line"><span class="lineno">  120</span>            }</div>
+<div class="line"><span class="lineno">  121</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  122</span>            fs::create_directories(<span class="stringliteral">&quot;./imgs&quot;</span>);</div>
+<div class="line"><span class="lineno">  123</span>        }</div>
+<div class="line"><span class="lineno">  125</span>    }</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">frame_number_</a> = 0;</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a>) {</div>
+<div class="line"><span class="lineno">  130</span>        <span class="comment">// Draw a text label (white text) 30 meters in front of vehicle:</span></div>
+<div class="line"><span class="lineno">  131</span>        Eigen::Vector3d in_front = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos() + unit_vector * 30;</div>
+<div class="line"><span class="lineno">  132</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a> =</div>
+<div class="line"><span class="lineno">  133</span>            sc::shape::make_text(<span class="stringliteral">&quot;Hello, SCRIMMAGE!&quot;</span>, in_front, Eigen::Vector3d(255, 255, 255));</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>        <span class="comment">// Draw the shape in the 3D viewer</span></div>
+<div class="line"><span class="lineno">  136</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
+<div class="line"><span class="lineno">  137</span>    }</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">enable_boundary_control_</a> = get&lt;bool&gt;(<span class="stringliteral">&quot;enable_boundary_control&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>    <span class="keyword">auto</span> bd_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) { <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a> = sci::Boundary::make_boundary(msg-&gt;data); };</div>
+<div class="line"><span class="lineno">  142</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, bd_cb);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="keyword">auto</span> state_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
+<div class="line"><span class="lineno">  145</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  146</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a> = msg-&gt;data;</div>
+<div class="line"><span class="lineno">  147</span>    };</div>
+<div class="line"><span class="lineno">  148</span>    subscribe&lt;StateWithCovariance&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;StateWithCovariance&quot;</span>, state_cb);</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="keyword">auto</span> cnt_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;ContactMap&gt;</a>&amp; msg) {</div>
+<div class="line"><span class="lineno">  151</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af80b7fa52f8b22c657e4bc08e7e77641">noisy_contacts_</a> = msg-&gt;data;  <span class="comment">// Save map of noisy contacts</span></div>
+<div class="line"><span class="lineno">  152</span>    };</div>
+<div class="line"><span class="lineno">  153</span>    subscribe&lt;ContactMap&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactsWithCovariances&quot;</span>, cnt_cb);</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span><span class="preprocessor">#if (ENABLE_OPENCV == 1 &amp;&amp; ENABLE_AIRSIM == 1)</span></div>
+<div class="line"><span class="lineno">  156</span>    <span class="keyword">auto</span> airsim_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
+<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">for</span> (sc::sensor::AirSimImageType a : msg-&gt;data) {</div>
+<div class="line"><span class="lineno">  158</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a>) {</div>
+<div class="line"><span class="lineno">  159</span>                <span class="comment">// Get Camera Name</span></div>
+<div class="line"><span class="lineno">  160</span>                std::string window_name = a.vehicle_name + <span class="stringliteral">&quot;_&quot;</span> + a.camera_config.cam_name + <span class="stringliteral">&quot;_&quot;</span></div>
+<div class="line"><span class="lineno">  161</span>                                          + a.camera_config.img_type_name;</div>
+<div class="line"><span class="lineno">  162</span>                <span class="comment">// for depth images CV imshow expects grayscale image values to be between 0 and 1.</span></div>
+<div class="line"><span class="lineno">  163</span>                <span class="keywordflow">if</span> (a.camera_config.img_type_name == <span class="stringliteral">&quot;DepthPerspective&quot;</span></div>
+<div class="line"><span class="lineno">  164</span>                    || a.camera_config.img_type_name == <span class="stringliteral">&quot;DepthPlanner&quot;</span>) {</div>
+<div class="line"><span class="lineno">  165</span>                    <span class="comment">// Worked before building with ROS</span></div>
+<div class="line"><span class="lineno">  166</span>                    cv::Mat tempImage;</div>
+<div class="line"><span class="lineno">  167</span>                    a.img.convertTo(tempImage, CV_32FC1, 1.f / 255);</div>
+<div class="line"><span class="lineno">  168</span>                    <span class="comment">// cv::normalize(a.img, tempImage, 0, 1, cv::NORM_MINMAX);</span></div>
+<div class="line"><span class="lineno">  169</span>                    <span class="comment">// cout &lt;&lt; tempImage &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">  170</span>                    cv::imshow(window_name, tempImage);</div>
+<div class="line"><span class="lineno">  171</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  172</span>                    <span class="comment">// other image types are int 0-255.</span></div>
+<div class="line"><span class="lineno">  173</span>                    <span class="keywordflow">if</span> (a.img.channels() == 4) {</div>
+<div class="line"><span class="lineno">  174</span>                        cout &lt;&lt; <span class="stringliteral">&quot;image channels: &quot;</span> &lt;&lt; a.img.channels() &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">  175</span>                        cout &lt;&lt; <span class="stringliteral">&quot;Warning: Old AirSim Linux Asset Environments have 4 channels. &quot;</span></div>
+<div class="line"><span class="lineno">  176</span>                                <span class="stringliteral">&quot;Color images will not display correctly.&quot;</span></div>
+<div class="line"><span class="lineno">  177</span>                             &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">  178</span>                        cout &lt;&lt; <span class="stringliteral">&quot;Warning: Use Asset Environment versions Linux-v1.3.1+.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">  179</span>                        cv::Mat tempImage;</div>
+<div class="line"><span class="lineno">  180</span>                        cv::cvtColor(a.img, tempImage, CV_RGBA2RGB);</div>
+<div class="line"><span class="lineno">  181</span>                        cv::imshow(window_name, tempImage);</div>
+<div class="line"><span class="lineno">  182</span>                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  183</span>                        cv::imshow(window_name, a.img);</div>
+<div class="line"><span class="lineno">  184</span>                    }</div>
+<div class="line"><span class="lineno">  185</span>                }</div>
+<div class="line"><span class="lineno">  186</span>                cv::waitKey(1);</div>
+<div class="line"><span class="lineno">  187</span>            }</div>
+<div class="line"><span class="lineno">  188</span>        }</div>
+<div class="line"><span class="lineno">  189</span>    };</div>
+<div class="line"><span class="lineno">  190</span>    subscribe&lt;std::vector&lt;sensor::AirSimImageType&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;AirSimImages&quot;</span>, airsim_cb);</div>
+<div class="line"><span class="lineno">  191</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  192</span> </div>
+<div class="line"><span class="lineno">  193</span><span class="preprocessor">#if ENABLE_OPENCV == 1</span></div>
+<div class="line"><span class="lineno">  194</span>    <span class="keyword">auto</span> blob_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
+<div class="line"><span class="lineno">  195</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">save_camera_images_</a>) {</div>
+<div class="line"><span class="lineno">  196</span>            std::string img_name = <span class="stringliteral">&quot;./imgs/camera_&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">frame_number_</a>++) + <span class="stringliteral">&quot;.png&quot;</span>;</div>
+<div class="line"><span class="lineno">  197</span>            cv::imwrite(img_name, msg-&gt;data.frame);</div>
+<div class="line"><span class="lineno">  198</span>        }</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">show_camera_images_</a>) {</div>
+<div class="line"><span class="lineno">  201</span>            cv::imshow(<span class="stringliteral">&quot;Camera Sensor&quot;</span>, msg-&gt;data.frame);</div>
+<div class="line"><span class="lineno">  202</span>            cv::waitKey(1);</div>
+<div class="line"><span class="lineno">  203</span>        }</div>
+<div class="line"><span class="lineno">  204</span>    };</div>
+<div class="line"><span class="lineno">  205</span>    subscribe&lt;sc::sensor::ContactBlobCameraType&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactBlobCamera&quot;</span>, blob_cb);</div>
+<div class="line"><span class="lineno">  206</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  207</span> </div>
+<div class="line"><span class="lineno">  208</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;generate_entities&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>);</div>
+<div class="line"><span class="lineno">  209</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>) {</div>
+<div class="line"><span class="lineno">  210</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">pub_gen_ents_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GenerateEntity&quot;</span>);</div>
+<div class="line"><span class="lineno">  211</span>    }</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">desired_alt_idx_</a> =</div>
+<div class="line"><span class="lineno">  214</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">VariableIO::Type::desired_altitude</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  215</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  216</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">desired_heading_idx_</a> =</div>
+<div class="line"><span class="lineno">  217</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  218</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00197">EntityPlugin.h:197</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab2476217710e16f4965f9c9432726098"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">scrimmage::EntityPlugin::draw_shape</a></div><div class="ttdeci">void draw_shape(scrimmage_proto::ShapePtr s)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00105">EntityPlugin.cpp:105</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00199">EntityPlugin.h:199</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab2476217710e16f4965f9c9432726098"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">scrimmage::EntityPlugin::draw_shape</a></div><div class="ttdeci">void draw_shape(scrimmage_proto::ShapePtr s)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00107">EntityPlugin.cpp:107</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00123">VariableIO.cpp:123</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00124">VariableIO.cpp:124</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::Type::desired_altitude</a></div><div class="ttdeci">@ desired_altitude</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::Type::desired_heading</a></div><div class="ttdeci">@ desired_heading</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::Type::desired_speed</a></div><div class="ttdeci">@ desired_speed</div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a38af973b1491628c97f321cbfc8c31a5"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">scrimmage::autonomy::Straight::noisy_state_</a></div><div class="ttdeci">State noisy_state_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00075">Straight.h:75</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a4ec741c0af9af1195d12a56558c0ca7d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">scrimmage::autonomy::Straight::save_camera_images_</a></div><div class="ttdeci">bool save_camera_images_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00061">Straight.h:61</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a5066bbc28b5c294a716880b1f1cc84e9"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">scrimmage::autonomy::Straight::gen_ents_</a></div><div class="ttdeci">bool gen_ents_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00082">Straight.h:82</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a5821f8f3875d0a0f8262a5740a686016"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">scrimmage::autonomy::Straight::goal_</a></div><div class="ttdeci">Eigen::Vector3d goal_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00057">Straight.h:57</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6621b50e03fe2d0f04515eacfddafd07"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">scrimmage::autonomy::Straight::noisy_state_set_</a></div><div class="ttdeci">bool noisy_state_set_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00074">Straight.h:74</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6c516d48904e0102dce1efb91a15b905"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">scrimmage::autonomy::Straight::desired_heading_idx_</a></div><div class="ttdeci">int desired_heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00069">Straight.h:69</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6ef3361d0a968d5461d8fa5e0fea9838"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">scrimmage::autonomy::Straight::enable_boundary_control_</a></div><div class="ttdeci">bool enable_boundary_control_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00064">Straight.h:64</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a742538a7b06fb54a9c73cadf3b604ecf"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">scrimmage::autonomy::Straight::desired_speed_idx_</a></div><div class="ttdeci">int desired_speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00068">Straight.h:68</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a7803bb58133c06ec9bd9da7b1f699ade"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">scrimmage::autonomy::Straight::text_shape_</a></div><div class="ttdeci">scrimmage_proto::ShapePtr text_shape_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00071">Straight.h:71</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a851f768f52ff592f33c714a4bba72f9f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">scrimmage::autonomy::Straight::show_camera_images_</a></div><div class="ttdeci">bool show_camera_images_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00060">Straight.h:60</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a8a07ba3475df344a50cd42dc1216f1ab"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">scrimmage::autonomy::Straight::show_text_label_</a></div><div class="ttdeci">bool show_text_label_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00062">Straight.h:62</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a8ba36c6ad5ff6acc62633aef885edf00"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">scrimmage::autonomy::Straight::frame_number_</a></div><div class="ttdeci">int frame_number_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00059">Straight.h:59</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_aa941f7df76114fbdb6fc4be26e14b6d9"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">scrimmage::autonomy::Straight::pub_gen_ents_</a></div><div class="ttdeci">PublisherPtr pub_gen_ents_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00081">Straight.h:81</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_ae1b693a83d7ef91393f19bd8cce2919f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">scrimmage::autonomy::Straight::speed_</a></div><div class="ttdeci">double speed_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00056">Straight.h:56</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_ae88309a212f8041b5a10586584c2eb1d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">scrimmage::autonomy::Straight::boundary_</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage::interaction::BoundaryBase &gt; boundary_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00065">Straight.h:65</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_af5921bd83d2939f12f3a81f8a6b149f0"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">scrimmage::autonomy::Straight::desired_alt_idx_</a></div><div class="ttdeci">int desired_alt_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00067">Straight.h:67</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_af80b7fa52f8b22c657e4bc08e7e77641"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#af80b7fa52f8b22c657e4bc08e7e77641">scrimmage::autonomy::Straight::noisy_contacts_</a></div><div class="ttdeci">ContactMap noisy_contacts_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00077">Straight.h:77</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00086">ParseUtils.h:86</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00121">fwd_decl.h:121</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a38af973b1491628c97f321cbfc8c31a5"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">scrimmage::autonomy::Straight::noisy_state_</a></div><div class="ttdeci">State noisy_state_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00078">Straight.h:78</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a4ec741c0af9af1195d12a56558c0ca7d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a4ec741c0af9af1195d12a56558c0ca7d">scrimmage::autonomy::Straight::save_camera_images_</a></div><div class="ttdeci">bool save_camera_images_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00064">Straight.h:64</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a5066bbc28b5c294a716880b1f1cc84e9"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">scrimmage::autonomy::Straight::gen_ents_</a></div><div class="ttdeci">bool gen_ents_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00085">Straight.h:85</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a5821f8f3875d0a0f8262a5740a686016"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">scrimmage::autonomy::Straight::goal_</a></div><div class="ttdeci">Eigen::Vector3d goal_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00060">Straight.h:60</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6621b50e03fe2d0f04515eacfddafd07"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">scrimmage::autonomy::Straight::noisy_state_set_</a></div><div class="ttdeci">bool noisy_state_set_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00077">Straight.h:77</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6c516d48904e0102dce1efb91a15b905"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">scrimmage::autonomy::Straight::desired_heading_idx_</a></div><div class="ttdeci">int desired_heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00072">Straight.h:72</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a6ef3361d0a968d5461d8fa5e0fea9838"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">scrimmage::autonomy::Straight::enable_boundary_control_</a></div><div class="ttdeci">bool enable_boundary_control_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00067">Straight.h:67</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a742538a7b06fb54a9c73cadf3b604ecf"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">scrimmage::autonomy::Straight::desired_speed_idx_</a></div><div class="ttdeci">int desired_speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00071">Straight.h:71</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a7803bb58133c06ec9bd9da7b1f699ade"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">scrimmage::autonomy::Straight::text_shape_</a></div><div class="ttdeci">scrimmage_proto::ShapePtr text_shape_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00074">Straight.h:74</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a851f768f52ff592f33c714a4bba72f9f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a851f768f52ff592f33c714a4bba72f9f">scrimmage::autonomy::Straight::show_camera_images_</a></div><div class="ttdeci">bool show_camera_images_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00063">Straight.h:63</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a8a07ba3475df344a50cd42dc1216f1ab"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">scrimmage::autonomy::Straight::show_text_label_</a></div><div class="ttdeci">bool show_text_label_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00065">Straight.h:65</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a8ba36c6ad5ff6acc62633aef885edf00"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a8ba36c6ad5ff6acc62633aef885edf00">scrimmage::autonomy::Straight::frame_number_</a></div><div class="ttdeci">int frame_number_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00062">Straight.h:62</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_aa941f7df76114fbdb6fc4be26e14b6d9"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">scrimmage::autonomy::Straight::pub_gen_ents_</a></div><div class="ttdeci">PublisherPtr pub_gen_ents_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00084">Straight.h:84</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_ae1b693a83d7ef91393f19bd8cce2919f"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">scrimmage::autonomy::Straight::speed_</a></div><div class="ttdeci">double speed_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00059">Straight.h:59</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_ae88309a212f8041b5a10586584c2eb1d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">scrimmage::autonomy::Straight::boundary_</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage::interaction::BoundaryBase &gt; boundary_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00068">Straight.h:68</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_af5921bd83d2939f12f3a81f8a6b149f0"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">scrimmage::autonomy::Straight::desired_alt_idx_</a></div><div class="ttdeci">int desired_alt_idx_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00070">Straight.h:70</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_af80b7fa52f8b22c657e4bc08e7e77641"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#af80b7fa52f8b22c657e4bc08e7e77641">scrimmage::autonomy::Straight::noisy_contacts_</a></div><div class="ttdeci">ContactMap noisy_contacts_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00080">Straight.h:80</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00096">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="Straight_8h_source.html#l00065">boundary_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="Straight_8h_source.html#l00067">desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="Straight_8h_source.html#l00069">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="Straight_8h_source.html#l00068">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00105">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="Straight_8h_source.html#l00064">enable_boundary_control_</a>, <a class="el" href="Straight_8h_source.html#l00059">frame_number_</a>, <a class="el" href="Straight_8h_source.html#l00082">gen_ents_</a>, <a class="el" href="ParseUtils_8h_source.html#l00086">scrimmage::get()</a>, <a class="el" href="Straight_8h_source.html#l00057">goal_</a>, <a class="el" href="Straight_8h_source.html#l00077">noisy_contacts_</a>, <a class="el" href="Straight_8h_source.html#l00075">noisy_state_</a>, <a class="el" href="Straight_8h_source.html#l00074">noisy_state_set_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="Straight_8h_source.html#l00081">pub_gen_ents_</a>, <a class="el" href="Straight_8h_source.html#l00061">save_camera_images_</a>, <a class="el" href="Straight_8h_source.html#l00060">show_camera_images_</a>, <a class="el" href="Straight_8h_source.html#l00062">show_text_label_</a>, <a class="el" href="Straight_8h_source.html#l00056">speed_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Straight_8h_source.html#l00071">text_shape_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00197">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="Straight_8h_source.html#l00068">boundary_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="Straight_8h_source.html#l00070">desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="Straight_8h_source.html#l00072">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="Straight_8h_source.html#l00071">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="Straight_8h_source.html#l00067">enable_boundary_control_</a>, <a class="el" href="Straight_8h_source.html#l00062">frame_number_</a>, <a class="el" href="Straight_8h_source.html#l00085">gen_ents_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="Straight_8h_source.html#l00060">goal_</a>, <a class="el" href="Straight_8h_source.html#l00080">noisy_contacts_</a>, <a class="el" href="Straight_8h_source.html#l00078">noisy_state_</a>, <a class="el" href="Straight_8h_source.html#l00077">noisy_state_set_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="Straight_8h_source.html#l00084">pub_gen_ents_</a>, <a class="el" href="Straight_8h_source.html#l00064">save_camera_images_</a>, <a class="el" href="Straight_8h_source.html#l00063">show_camera_images_</a>, <a class="el" href="Straight_8h_source.html#l00065">show_text_label_</a>, <a class="el" href="Straight_8h_source.html#l00059">speed_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Straight_8h_source.html#l00074">text_shape_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -599,93 +599,93 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Straight_8cpp_source.html#l00219">219</a> of file <a class="el" href="Straight_8cpp_source.html">Straight.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>                                                {</div>
-<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>) {</div>
-<div class="line"><span class="lineno">  221</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t() &gt; (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">prev_gen_time_</a> + 2.0)) {</div>
-<div class="line"><span class="lineno">  222</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">prev_gen_time_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t();</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  224</span>            <span class="comment">// Create a state for the new entity</span></div>
-<div class="line"><span class="lineno">  225</span>            State s(*<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>);</div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span>            <span class="comment">// Rotate the heading of the new entity by 90 degrees and offset</span></div>
-<div class="line"><span class="lineno">  228</span>            <span class="comment">// the initial position to the left of our current position to</span></div>
-<div class="line"><span class="lineno">  229</span>            <span class="comment">// avoid collisions.</span></div>
-<div class="line"><span class="lineno">  230</span>            Eigen::AngleAxisd rot_90_z(M_PI / 2.0, Eigen::Vector3d::UnitZ());</div>
-<div class="line"><span class="lineno">  231</span>            s.pos() = s.pos() + s.quat() * rot_90_z * (Eigen::Vector3d::UnitX() * 10);</div>
-<div class="line"><span class="lineno">  232</span>            s.quat() = rot_90_z * s.quat();</div>
-<div class="line"><span class="lineno">  233</span> </div>
-<div class="line"><span class="lineno">  234</span>            <span class="comment">// Create the GenerateEntity message</span></div>
-<div class="line"><span class="lineno">  235</span>            <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;scrimmage_msgs::GenerateEntity&gt;&gt;();</div>
-<div class="line"><span class="lineno">  236</span>            <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(msg-&gt;data.mutable_state(), s);  <span class="comment">// Copy the new state</span></div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>            <span class="comment">// The entity_tag must match the &quot;tag&quot; XML attribute of the entity</span></div>
-<div class="line"><span class="lineno">  239</span>            <span class="comment">// to be generated in the mission file.</span></div>
-<div class="line"><span class="lineno">  240</span>            msg-&gt;data.set_entity_tag(<span class="stringliteral">&quot;gen_straight&quot;</span>);</div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span>            <span class="comment">// Modify the entity&#39;s color</span></div>
-<div class="line"><span class="lineno">  243</span>            <span class="keyword">auto</span> kv_color = msg-&gt;data.add_entity_param();</div>
-<div class="line"><span class="lineno">  244</span>            kv_color-&gt;set_key(<span class="stringliteral">&quot;color&quot;</span>);</div>
-<div class="line"><span class="lineno">  245</span>            kv_color-&gt;set_value(<span class="stringliteral">&quot;255, 255, 0&quot;</span>);</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>            <span class="comment">// Modify the entity&#39;s visual model</span></div>
-<div class="line"><span class="lineno">  248</span>            <span class="keyword">auto</span> kv_visual = msg-&gt;data.add_entity_param();</div>
-<div class="line"><span class="lineno">  249</span>            kv_visual-&gt;set_key(<span class="stringliteral">&quot;visual_model&quot;</span>);</div>
-<div class="line"><span class="lineno">  250</span>            kv_visual-&gt;set_value(<span class="stringliteral">&quot;sphere&quot;</span>);</div>
-<div class="line"><span class="lineno">  251</span> </div>
-<div class="line"><span class="lineno">  252</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">pub_gen_ents_</a>-&gt;publish(msg);  <span class="comment">// Publish the GenerateEntity message</span></div>
-<div class="line"><span class="lineno">  253</span>        }</div>
-<div class="line"><span class="lineno">  254</span>    }</div>
-<div class="line"><span class="lineno">  255</span> </div>
-<div class="line"><span class="lineno">  256</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a>) {</div>
-<div class="line"><span class="lineno">  257</span>        <span class="comment">// An example of changing a shape&#39;s property</span></div>
-<div class="line"><span class="lineno">  258</span>        <span class="keywordflow">if</span> (t &gt; 1.0 &amp;&amp; t &lt; (1.0 + dt)) {</div>
-<div class="line"><span class="lineno">  259</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;set_opacity(0.5);</div>
-<div class="line"><span class="lineno">  260</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;mutable_text()-&gt;set_text(<span class="stringliteral">&quot;Goodbye, SCRIMMAGE!&quot;</span>);</div>
-<div class="line"><span class="lineno">  261</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
-<div class="line"><span class="lineno">  262</span>        }</div>
-<div class="line"><span class="lineno">  263</span> </div>
-<div class="line"><span class="lineno">  264</span>        <span class="comment">// An example of removing a shape</span></div>
-<div class="line"><span class="lineno">  265</span>        <span class="keywordflow">if</span> (t &gt; 5.0 &amp;&amp; t &lt; (5.0 + dt)) {</div>
-<div class="line"><span class="lineno">  266</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;set_persistent(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  267</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
-<div class="line"><span class="lineno">  268</span>        }</div>
-<div class="line"><span class="lineno">  269</span>    }</div>
-<div class="line"><span class="lineno">  270</span> </div>
-<div class="line"><span class="lineno">  271</span>    <span class="comment">// Read data from sensors...</span></div>
-<div class="line"><span class="lineno">  272</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a>) {</div>
-<div class="line"><span class="lineno">  273</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a> = *<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>;</div>
-<div class="line"><span class="lineno">  274</span>    }</div>
-<div class="line"><span class="lineno">  275</span> </div>
-<div class="line"><span class="lineno">  276</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a> != <span class="keyword">nullptr</span> &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">enable_boundary_control_</a>) {</div>
-<div class="line"><span class="lineno">  277</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a>-&gt;contains(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>())) {</div>
-<div class="line"><span class="lineno">  278</span>            <span class="comment">// Project goal through center of boundary</span></div>
-<div class="line"><span class="lineno">  279</span>            Eigen::Vector3d center = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a>-&gt;center();</div>
-<div class="line"><span class="lineno">  280</span>            center(2) = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2);  <span class="comment">// maintain altitude</span></div>
-<div class="line"><span class="lineno">  281</span>            Eigen::Vector3d diff = center - <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>();</div>
-<div class="line"><span class="lineno">  282</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>() + diff.normalized() * 1e6;</div>
-<div class="line"><span class="lineno">  283</span>        }</div>
-<div class="line"><span class="lineno">  284</span>    }</div>
-<div class="line"><span class="lineno">  285</span> </div>
-<div class="line"><span class="lineno">  286</span>    Eigen::Vector3d diff = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> - <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>();</div>
-<div class="line"><span class="lineno">  287</span>    Eigen::Vector3d v = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">speed_</a> * diff.normalized();</div>
-<div class="line"><span class="lineno">  288</span> </div>
-<div class="line"><span class="lineno">  290</span>    <span class="comment">// Convert desired velocity to desired speed, heading, and pitch controls</span></div>
-<div class="line"><span class="lineno">  292</span>    <span class="keywordtype">double</span> heading = <a class="code hl_function" href="classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff">Angles::angle_2pi</a>(atan2(v(1), v(0)));</div>
-<div class="line"><span class="lineno">  293</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">desired_alt_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2));</div>
-<div class="line"><span class="lineno">  294</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">desired_speed_idx_</a>, v.norm());</div>
-<div class="line"><span class="lineno">  295</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">desired_heading_idx_</a>, heading);</div>
-<div class="line"><span class="lineno">  296</span> </div>
-<div class="line"><span class="lineno">  297</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  298</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  299</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_af62a0e8e08d379bdda390b98b9e847ff"><div class="ttname"><a href="classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff">scrimmage::Angles::angle_2pi</a></div><div class="ttdeci">static double angle_2pi(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00106">Angles.cpp:106</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00049">State.cpp:49</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00146">VariableIO.cpp:146</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a82019eed555dcd8d3d9580ee7b8f53e7"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">scrimmage::autonomy::Straight::prev_gen_time_</a></div><div class="ttdeci">double prev_gen_time_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00083">Straight.h:83</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00047">ProtoConversions.cpp:47</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Straight_8cpp_source.html#l00220">220</a> of file <a class="el" href="Straight_8cpp_source.html">Straight.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  220</span>                                                {</div>
+<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5066bbc28b5c294a716880b1f1cc84e9">gen_ents_</a>) {</div>
+<div class="line"><span class="lineno">  222</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t() &gt; (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">prev_gen_time_</a> + 2.0)) {</div>
+<div class="line"><span class="lineno">  223</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">prev_gen_time_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t();</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>            <span class="comment">// Create a state for the new entity</span></div>
+<div class="line"><span class="lineno">  226</span>            State s(*<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>);</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>            <span class="comment">// Rotate the heading of the new entity by 90 degrees and offset</span></div>
+<div class="line"><span class="lineno">  229</span>            <span class="comment">// the initial position to the left of our current position to</span></div>
+<div class="line"><span class="lineno">  230</span>            <span class="comment">// avoid collisions.</span></div>
+<div class="line"><span class="lineno">  231</span>            Eigen::AngleAxisd rot_90_z(M_PI / 2.0, Eigen::Vector3d::UnitZ());</div>
+<div class="line"><span class="lineno">  232</span>            s.pos() = s.pos() + s.quat() * rot_90_z * (Eigen::Vector3d::UnitX() * 10);</div>
+<div class="line"><span class="lineno">  233</span>            s.quat() = rot_90_z * s.quat();</div>
+<div class="line"><span class="lineno">  234</span> </div>
+<div class="line"><span class="lineno">  235</span>            <span class="comment">// Create the GenerateEntity message</span></div>
+<div class="line"><span class="lineno">  236</span>            <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;scrimmage_msgs::GenerateEntity&gt;&gt;();</div>
+<div class="line"><span class="lineno">  237</span>            <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(msg-&gt;data.mutable_state(), s);  <span class="comment">// Copy the new state</span></div>
+<div class="line"><span class="lineno">  238</span> </div>
+<div class="line"><span class="lineno">  239</span>            <span class="comment">// The entity_tag must match the &quot;tag&quot; XML attribute of the entity</span></div>
+<div class="line"><span class="lineno">  240</span>            <span class="comment">// to be generated in the mission file.</span></div>
+<div class="line"><span class="lineno">  241</span>            msg-&gt;data.set_entity_tag(<span class="stringliteral">&quot;gen_straight&quot;</span>);</div>
+<div class="line"><span class="lineno">  242</span> </div>
+<div class="line"><span class="lineno">  243</span>            <span class="comment">// Modify the entity&#39;s color</span></div>
+<div class="line"><span class="lineno">  244</span>            <span class="keyword">auto</span> kv_color = msg-&gt;data.add_entity_param();</div>
+<div class="line"><span class="lineno">  245</span>            kv_color-&gt;set_key(<span class="stringliteral">&quot;color&quot;</span>);</div>
+<div class="line"><span class="lineno">  246</span>            kv_color-&gt;set_value(<span class="stringliteral">&quot;255, 255, 0&quot;</span>);</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  248</span>            <span class="comment">// Modify the entity&#39;s visual model</span></div>
+<div class="line"><span class="lineno">  249</span>            <span class="keyword">auto</span> kv_visual = msg-&gt;data.add_entity_param();</div>
+<div class="line"><span class="lineno">  250</span>            kv_visual-&gt;set_key(<span class="stringliteral">&quot;visual_model&quot;</span>);</div>
+<div class="line"><span class="lineno">  251</span>            kv_visual-&gt;set_value(<span class="stringliteral">&quot;sphere&quot;</span>);</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#aa941f7df76114fbdb6fc4be26e14b6d9">pub_gen_ents_</a>-&gt;publish(msg);  <span class="comment">// Publish the GenerateEntity message</span></div>
+<div class="line"><span class="lineno">  254</span>        }</div>
+<div class="line"><span class="lineno">  255</span>    }</div>
+<div class="line"><span class="lineno">  256</span> </div>
+<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a8a07ba3475df344a50cd42dc1216f1ab">show_text_label_</a>) {</div>
+<div class="line"><span class="lineno">  258</span>        <span class="comment">// An example of changing a shape&#39;s property</span></div>
+<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">if</span> (t &gt; 1.0 &amp;&amp; t &lt; (1.0 + dt)) {</div>
+<div class="line"><span class="lineno">  260</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;set_opacity(0.5);</div>
+<div class="line"><span class="lineno">  261</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;mutable_text()-&gt;set_text(<span class="stringliteral">&quot;Goodbye, SCRIMMAGE!&quot;</span>);</div>
+<div class="line"><span class="lineno">  262</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
+<div class="line"><span class="lineno">  263</span>        }</div>
+<div class="line"><span class="lineno">  264</span> </div>
+<div class="line"><span class="lineno">  265</span>        <span class="comment">// An example of removing a shape</span></div>
+<div class="line"><span class="lineno">  266</span>        <span class="keywordflow">if</span> (t &gt; 5.0 &amp;&amp; t &lt; (5.0 + dt)) {</div>
+<div class="line"><span class="lineno">  267</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>-&gt;set_persistent(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  268</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a7803bb58133c06ec9bd9da7b1f699ade">text_shape_</a>);</div>
+<div class="line"><span class="lineno">  269</span>        }</div>
+<div class="line"><span class="lineno">  270</span>    }</div>
+<div class="line"><span class="lineno">  271</span> </div>
+<div class="line"><span class="lineno">  272</span>    <span class="comment">// Read data from sensors...</span></div>
+<div class="line"><span class="lineno">  273</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a>) {</div>
+<div class="line"><span class="lineno">  274</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a> = *<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>;</div>
+<div class="line"><span class="lineno">  275</span>    }</div>
+<div class="line"><span class="lineno">  276</span> </div>
+<div class="line"><span class="lineno">  277</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a> != <span class="keyword">nullptr</span> &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6ef3361d0a968d5461d8fa5e0fea9838">enable_boundary_control_</a>) {</div>
+<div class="line"><span class="lineno">  278</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a>-&gt;contains(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>())) {</div>
+<div class="line"><span class="lineno">  279</span>            <span class="comment">// Project goal through center of boundary</span></div>
+<div class="line"><span class="lineno">  280</span>            Eigen::Vector3d center = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae88309a212f8041b5a10586584c2eb1d">boundary_</a>-&gt;center();</div>
+<div class="line"><span class="lineno">  281</span>            center(2) = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2);  <span class="comment">// maintain altitude</span></div>
+<div class="line"><span class="lineno">  282</span>            Eigen::Vector3d diff = center - <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>();</div>
+<div class="line"><span class="lineno">  283</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>() + diff.normalized() * 1e6;</div>
+<div class="line"><span class="lineno">  284</span>        }</div>
+<div class="line"><span class="lineno">  285</span>    }</div>
+<div class="line"><span class="lineno">  286</span> </div>
+<div class="line"><span class="lineno">  287</span>    Eigen::Vector3d diff = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a> - <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a38af973b1491628c97f321cbfc8c31a5">noisy_state_</a>.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>();</div>
+<div class="line"><span class="lineno">  288</span>    Eigen::Vector3d v = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#ae1b693a83d7ef91393f19bd8cce2919f">speed_</a> * diff.normalized();</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  291</span>    <span class="comment">// Convert desired velocity to desired speed, heading, and pitch controls</span></div>
+<div class="line"><span class="lineno">  293</span>    <span class="keywordtype">double</span> heading = <a class="code hl_function" href="classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff">Angles::angle_2pi</a>(atan2(v(1), v(0)));</div>
+<div class="line"><span class="lineno">  294</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#af5921bd83d2939f12f3a81f8a6b149f0">desired_alt_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a5821f8f3875d0a0f8262a5740a686016">goal_</a>(2));</div>
+<div class="line"><span class="lineno">  295</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a742538a7b06fb54a9c73cadf3b604ecf">desired_speed_idx_</a>, v.norm());</div>
+<div class="line"><span class="lineno">  296</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6c516d48904e0102dce1efb91a15b905">desired_heading_idx_</a>, heading);</div>
+<div class="line"><span class="lineno">  297</span> </div>
+<div class="line"><span class="lineno">  298</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Straight.html#a6621b50e03fe2d0f04515eacfddafd07">noisy_state_set_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  299</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  300</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_af62a0e8e08d379bdda390b98b9e847ff"><div class="ttname"><a href="classscrimmage_1_1Angles.html#af62a0e8e08d379bdda390b98b9e847ff">scrimmage::Angles::angle_2pi</a></div><div class="ttdeci">static double angle_2pi(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00107">Angles.cpp:107</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00050">State.cpp:50</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00147">VariableIO.cpp:147</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Straight_html_a82019eed555dcd8d3d9580ee7b8f53e7"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Straight.html#a82019eed555dcd8d3d9580ee7b8f53e7">scrimmage::autonomy::Straight::prev_gen_time_</a></div><div class="ttdeci">double prev_gen_time_</div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00086">Straight.h:86</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Angles_8cpp_source.html#l00106">scrimmage::Angles::angle_2pi()</a>, <a class="el" href="Straight_8h_source.html#l00065">boundary_</a>, <a class="el" href="Straight_8h_source.html#l00067">desired_alt_idx_</a>, <a class="el" href="Straight_8h_source.html#l00069">desired_heading_idx_</a>, <a class="el" href="Straight_8h_source.html#l00068">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00105">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="Straight_8h_source.html#l00064">enable_boundary_control_</a>, <a class="el" href="Straight_8h_source.html#l00082">gen_ents_</a>, <a class="el" href="Straight_8h_source.html#l00057">goal_</a>, <a class="el" href="Straight_8h_source.html#l00075">noisy_state_</a>, <a class="el" href="Straight_8h_source.html#l00074">noisy_state_set_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="State_8cpp_source.html#l00049">scrimmage::State::pos()</a>, <a class="el" href="Straight_8h_source.html#l00083">prev_gen_time_</a>, <a class="el" href="Straight_8h_source.html#l00081">pub_gen_ents_</a>, <a class="el" href="State_8cpp_source.html#l00058">scrimmage::State::quat()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00047">scrimmage::set()</a>, <a class="el" href="Straight_8h_source.html#l00062">show_text_label_</a>, <a class="el" href="Straight_8h_source.html#l00056">speed_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Straight_8h_source.html#l00071">text_shape_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00197">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="Angles_8cpp_source.html#l00107">scrimmage::Angles::angle_2pi()</a>, <a class="el" href="Straight_8h_source.html#l00068">boundary_</a>, <a class="el" href="Straight_8h_source.html#l00070">desired_alt_idx_</a>, <a class="el" href="Straight_8h_source.html#l00072">desired_heading_idx_</a>, <a class="el" href="Straight_8h_source.html#l00071">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="Straight_8h_source.html#l00067">enable_boundary_control_</a>, <a class="el" href="Straight_8h_source.html#l00085">gen_ents_</a>, <a class="el" href="Straight_8h_source.html#l00060">goal_</a>, <a class="el" href="Straight_8h_source.html#l00078">noisy_state_</a>, <a class="el" href="Straight_8h_source.html#l00077">noisy_state_set_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="Straight_8h_source.html#l00086">prev_gen_time_</a>, <a class="el" href="Straight_8h_source.html#l00084">pub_gen_ents_</a>, <a class="el" href="State_8cpp_source.html#l00059">scrimmage::State::quat()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="Straight_8h_source.html#l00065">show_text_label_</a>, <a class="el" href="Straight_8h_source.html#l00059">speed_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="Straight_8h_source.html#l00074">text_shape_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -730,9 +730,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00056">56</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00059">59</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -756,9 +756,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00057">57</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00060">60</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -782,9 +782,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00059">59</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00062">62</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>.</p>
 
 </div>
 </div>
@@ -808,9 +808,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00060">60</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00063">63</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>.</p>
 
 </div>
 </div>
@@ -834,9 +834,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00061">61</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00064">64</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>.</p>
 
 </div>
 </div>
@@ -860,9 +860,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00062">62</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00065">65</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -886,9 +886,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00064">64</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00067">67</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -912,9 +912,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00065">65</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00068">68</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -938,9 +938,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00067">67</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00070">70</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -964,9 +964,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00068">68</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00071">71</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -990,9 +990,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00069">69</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00072">72</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1016,9 +1016,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00071">71</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00074">74</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1042,7 +1042,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00072">72</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00075">75</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
 </div>
 </div>
@@ -1066,9 +1066,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00074">74</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00077">77</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1092,9 +1092,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00075">75</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00078">78</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1118,9 +1118,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00077">77</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00080">80</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>.</p>
 
 </div>
 </div>
@@ -1144,7 +1144,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00079">79</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00082">82</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
 </div>
 </div>
@@ -1168,9 +1168,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00081">81</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00084">84</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1194,9 +1194,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00082">82</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00085">85</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00080">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00081">init()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1220,9 +1220,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00083">83</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Straight_8h_source.html#l00086">86</a> of file <a class="el" href="Straight_8h_source.html">Straight.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00219">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Straight_8cpp_source.html#l00220">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1236,7 +1236,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1Straight.html">Straight</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

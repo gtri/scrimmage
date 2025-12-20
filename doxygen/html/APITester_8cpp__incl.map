@@ -1,19 +1,19 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/autonomy/APITester/APITester.cpp" name="/root/scrimmage/scrimmage/src/plugins/autonomy/APITester/APITester.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="498,5,729,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,85,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="498,46,309,70,203,88,98,111,88,113,86,108,97,105,202,83,308,65,497,41"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="109,115,168,141"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="498,48,346,71,262,89,181,111,174,113,173,108,179,105,261,84,345,66,497,43"/>
-<area shape="rect" id="Node000004" href="$Entity_8h.html" title="Brief file description." alt="" coords="192,115,381,141"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="522,63,341,114,339,109,521,57"/>
-<area shape="rect" id="Node000023" href="$State_8h.html" title="Brief file description." alt="" coords="406,115,589,141"/>
-<area shape="poly" id="edge4_Node000001_Node000023" title=" " alt="" coords="582,62,524,108,521,104,579,58"/>
-<area shape="rect" id="Node000028" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="613,115,849,141"/>
-<area shape="poly" id="edge5_Node000001_Node000028" title=" " alt="" coords="648,58,707,104,703,108,645,62"/>
-<area shape="rect" id="Node000030" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="873,115,1089,141"/>
-<area shape="poly" id="edge6_Node000001_Node000030" title=" " alt="" coords="717,57,924,109,923,115,716,63"/>
-<area shape="rect" id="Node000031" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1114,108,1318,148"/>
-<area shape="poly" id="edge7_Node000001_Node000031" title=" " alt="" coords="729,49,1100,105,1100,110,728,54"/>
-<area shape="rect" id="Node000032" href="$APITester_8h.html" title="Brief file description." alt="" coords="1343,108,1559,148"/>
-<area shape="poly" id="edge8_Node000001_Node000032" title=" " alt="" coords="729,41,999,67,1329,105,1328,110,998,73,729,47"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="517,5,747,60"/>
+<area shape="rect" id="Node000002" href="$APITester_8h.html" title="Brief file description." alt="" coords="5,108,221,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="517,57,232,108,231,103,516,52"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="245,115,325,141"/>
+<area shape="poly" id="edge2_Node000001_Node000015" title=" " alt="" coords="518,63,338,111,329,113,327,108,337,105,517,57"/>
+<area shape="rect" id="Node000035" title=" " alt="" coords="349,115,408,141"/>
+<area shape="poly" id="edge3_Node000001_Node000035" title=" " alt="" coords="553,63,421,110,416,112,414,107,419,106,551,58"/>
+<area shape="rect" id="Node000036" href="$Entity_8h.html" title="Brief file description." alt="" coords="432,115,621,141"/>
+<area shape="poly" id="edge4_Node000001_Node000036" title=" " alt="" coords="604,62,552,108,548,104,600,58"/>
+<area shape="rect" id="Node000044" href="$State_8h.html" title="Brief file description." alt="" coords="646,115,829,141"/>
+<area shape="poly" id="edge5_Node000001_Node000044" title=" " alt="" coords="664,58,716,104,712,108,660,62"/>
+<area shape="rect" id="Node000048" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="853,115,1089,141"/>
+<area shape="poly" id="edge6_Node000001_Node000048" title=" " alt="" coords="728,57,917,109,916,114,727,63"/>
+<area shape="rect" id="Node000050" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1113,115,1329,141"/>
+<area shape="poly" id="edge7_Node000001_Node000050" title=" " alt="" coords="748,50,1136,111,1135,116,747,55"/>
+<area shape="rect" id="Node000051" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1354,108,1558,148"/>
+<area shape="poly" id="edge8_Node000001_Node000051" title=" " alt="" coords="748,41,1014,67,1340,105,1340,111,1014,72,747,47"/>
 </map>

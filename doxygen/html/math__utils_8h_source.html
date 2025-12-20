@@ -155,14 +155,14 @@ $(document).ready(function(){initNavTree('math__utils_8h_source.html',''); initR
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">// These are macros to enable functions to pass in their own motion models.</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">// OpenCL 1.1 does not permit the use of function pointers.</span></div>
 <div class="foldopen" id="foldopen00050" data-start="" data-end="">
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="math__utils_8h.html#a02c7268c9fd344b13c1effa7df5f3322">   50</a></span><span class="preprocessor">#define RK4(x, u, t, dt, model)                               \</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    {                                                         \</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">        fp8_t k1, k2, k3, k4;                                 \</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">        k1 = (model((x), (u), (t)));                          \</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">        k2 = (model((x) + (dt)*k1 / 2, (u), (t) + (dt) / 2)); \</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">        k3 = (model((x) + (dt)*k2 / 2, (u), (t) + (dt) / 2)); \</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">        k4 = (model((x) + (dt)*k3, (u), (t) + (dt)));         \</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));    \</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="math__utils_8h.html#a02c7268c9fd344b13c1effa7df5f3322">   50</a></span><span class="preprocessor">#define RK4(x, u, t, dt, model)                                 \</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">    {                                                           \</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">        fp8_t k1, k2, k3, k4;                                   \</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">        k1 = (model((x), (u), (t)));                            \</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">        k2 = (model((x) + (dt) * k1 / 2, (u), (t) + (dt) / 2)); \</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">        k3 = (model((x) + (dt) * k2 / 2, (u), (t) + (dt) / 2)); \</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">        k4 = (model((x) + (dt) * k3, (u), (t) + (dt)));         \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));      \</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">    }</span></div>
 </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
@@ -184,7 +184,7 @@ $(document).ready(function(){initNavTree('math__utils_8h_source.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_cf895c1ed808af158264b2f3d8d7f8f0.html">gpu</a></li><li class="navelem"><a class="el" href="dir_aa1b79195ca2f48e9d9b1c7cf2fb3a0f.html">kernels</a></li><li class="navelem"><a class="el" href="math__utils_8h.html">math_utils.h</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

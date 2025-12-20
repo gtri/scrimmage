@@ -296,7 +296,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="Follow_8h_source.html#l00045">45</a> of file <a class="el" href="Follow_8h_source.html">Follow.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Follow_8h_source.html#l00047">47</a> of file <a class="el" href="Follow_8h_source.html">Follow.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a364fc12e1908b566795eb715714f00dc" name="a364fc12e1908b566795eb715714f00dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a364fc12e1908b566795eb715714f00dc">&#9670;&#160;</a></span>Follow()</h2>
@@ -313,8 +313,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00046">46</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00048">48</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -345,12 +345,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00048">48</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>                                                      {</div>
-<div class="line"><span class="lineno">   49</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;vel() = 21 * Eigen::Vector3d::UnitX();</div>
-<div class="line"><span class="lineno">   50</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;quat().set(0, 0, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
-<div class="line"><span class="lineno">   51</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;pos() = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2) * Eigen::Vector3d::UnitZ();</div>
-<div class="line"><span class="lineno">   52</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00050">50</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>                                                      {</div>
+<div class="line"><span class="lineno">   51</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;vel() = 21 * Eigen::Vector3d::UnitX();</div>
+<div class="line"><span class="lineno">   52</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;quat().set(0, 0, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
+<div class="line"><span class="lineno">   53</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>-&gt;pos() = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2) * Eigen::Vector3d::UnitZ();</div>
+<div class="line"><span class="lineno">   54</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a169b3603ab1bf5c4ac53e57edaa985b4"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">scrimmage::Autonomy::desired_state_</a></div><div class="ttdeci">StatePtr desired_state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00084">Autonomy.h:84</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
 </div><!-- fragment -->
@@ -394,52 +394,52 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00054">54</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   54</span>                                              {</div>
-<div class="line"><span class="lineno">   55</span>    <span class="comment">// // Find the closest contact</span></div>
-<div class="line"><span class="lineno">   56</span>    <span class="comment">// const GeographicLib::Geodesic&amp; geod = Geodesic::WGS84();</span></div>
-<div class="line"><span class="lineno">   57</span>    <span class="comment">// double min_dist = 1e10;</span></div>
-<div class="line"><span class="lineno">   58</span>    <span class="comment">// bool contact_found = false;</span></div>
-<div class="line"><span class="lineno">   59</span>    <span class="comment">// std::list&lt;scrimmage::Contact&gt;::iterator min_champ;</span></div>
-<div class="line"><span class="lineno">   60</span>    <span class="comment">// for (std::list&lt;scrimmage::Contact&gt;::iterator it = contacts_.begin();</span></div>
-<div class="line"><span class="lineno">   61</span>    <span class="comment">//      it != contacts_.end(); it++) {</span></div>
-<div class="line"><span class="lineno">   62</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   63</span>    <span class="comment">//      if (it-&gt;id().id() != parent_-&gt;id().id()) {</span></div>
-<div class="line"><span class="lineno">   64</span>    <span class="comment">//           //cout &lt;&lt; &quot;Own Lat: &quot; &lt;&lt; state_.pose().latitude() &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">   65</span>    <span class="comment">//           //cout &lt;&lt; &quot;Own Long: &quot; &lt;&lt; state_.pose().longitude() &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">   66</span>    <span class="comment">//           //cout &lt;&lt; &quot;Cnt Lat: &quot; &lt;&lt; it-&gt;state().pose().latitude()&lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">   67</span>    <span class="comment">//           //cout &lt;&lt; &quot;Cnt Long: &quot; &lt;&lt; it-&gt;state().pose().longitude()&lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">   68</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   69</span>    <span class="comment">//           double dist;</span></div>
-<div class="line"><span class="lineno">   70</span>    <span class="comment">//           geod.Inverse(state_.pose().latitude(), state_.pose().longitude(),</span></div>
-<div class="line"><span class="lineno">   71</span>    <span class="comment">//                        it-&gt;state().pose().latitude(), it-&gt;state().pose().longitude(),</span></div>
-<div class="line"><span class="lineno">   72</span>    <span class="comment">//                        dist);</span></div>
-<div class="line"><span class="lineno">   73</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   74</span>    <span class="comment">//           if (dist &lt; min_dist) {</span></div>
-<div class="line"><span class="lineno">   75</span>    <span class="comment">//                min_dist = dist;</span></div>
-<div class="line"><span class="lineno">   76</span>    <span class="comment">//                min_champ = it;</span></div>
-<div class="line"><span class="lineno">   77</span>    <span class="comment">//                contact_found = true;</span></div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">//           }</span></div>
-<div class="line"><span class="lineno">   79</span>    <span class="comment">//      }</span></div>
-<div class="line"><span class="lineno">   80</span>    <span class="comment">// }</span></div>
-<div class="line"><span class="lineno">   81</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   82</span>    <span class="comment">// // Head towards the closet contact if it exists</span></div>
-<div class="line"><span class="lineno">   83</span>    <span class="comment">// if (contact_found) {</span></div>
-<div class="line"><span class="lineno">   84</span>    <span class="comment">//      Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());</span></div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">//      // Alternatively: const Geocentric&amp; earth = Geocentric::WGS84();</span></div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">   87</span>    <span class="comment">//      LocalCartesian proj(state_.pose().latitude(),</span></div>
-<div class="line"><span class="lineno">   88</span>    <span class="comment">//                          state_.pose().longitude(), 0, earth);</span></div>
-<div class="line"><span class="lineno">   89</span>    <span class="comment">//      // Sample forward calculation</span></div>
-<div class="line"><span class="lineno">   90</span>    <span class="comment">//      double x, y, z;</span></div>
-<div class="line"><span class="lineno">   91</span>    <span class="comment">//      double h = 0;</span></div>
-<div class="line"><span class="lineno">   92</span>    <span class="comment">//      proj.Forward(min_champ-&gt;state().pose().latitude(),</span></div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment">//      min_champ-&gt;state().pose().longitude(), h, x, y, z); double heading = atan2(x,y) * 180.0</span></div>
-<div class="line"><span class="lineno">   94</span>    <span class="comment">//      / scrimmage::PI; desired_state_.pose().set_heading(heading);</span></div>
-<div class="line"><span class="lineno">   95</span>    <span class="comment">// }</span></div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   98</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Follow_8cpp_source.html#l00056">56</a> of file <a class="el" href="Follow_8cpp_source.html">Follow.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>                                              {</div>
+<div class="line"><span class="lineno">   57</span>    <span class="comment">// // Find the closest contact</span></div>
+<div class="line"><span class="lineno">   58</span>    <span class="comment">// const GeographicLib::Geodesic&amp; geod = Geodesic::WGS84();</span></div>
+<div class="line"><span class="lineno">   59</span>    <span class="comment">// double min_dist = 1e10;</span></div>
+<div class="line"><span class="lineno">   60</span>    <span class="comment">// bool contact_found = false;</span></div>
+<div class="line"><span class="lineno">   61</span>    <span class="comment">// std::list&lt;scrimmage::Contact&gt;::iterator min_champ;</span></div>
+<div class="line"><span class="lineno">   62</span>    <span class="comment">// for (std::list&lt;scrimmage::Contact&gt;::iterator it = contacts_.begin();</span></div>
+<div class="line"><span class="lineno">   63</span>    <span class="comment">//      it != contacts_.end(); it++) {</span></div>
+<div class="line"><span class="lineno">   64</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   65</span>    <span class="comment">//      if (it-&gt;id().id() != parent_-&gt;id().id()) {</span></div>
+<div class="line"><span class="lineno">   66</span>    <span class="comment">//           //cout &lt;&lt; &quot;Own Lat: &quot; &lt;&lt; state_.pose().latitude() &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">   67</span>    <span class="comment">//           //cout &lt;&lt; &quot;Own Long: &quot; &lt;&lt; state_.pose().longitude() &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">   68</span>    <span class="comment">//           //cout &lt;&lt; &quot;Cnt Lat: &quot; &lt;&lt; it-&gt;state().pose().latitude()&lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">   69</span>    <span class="comment">//           //cout &lt;&lt; &quot;Cnt Long: &quot; &lt;&lt; it-&gt;state().pose().longitude()&lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">   70</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   71</span>    <span class="comment">//           double dist;</span></div>
+<div class="line"><span class="lineno">   72</span>    <span class="comment">//           geod.Inverse(state_.pose().latitude(), state_.pose().longitude(),</span></div>
+<div class="line"><span class="lineno">   73</span>    <span class="comment">//                        it-&gt;state().pose().latitude(), it-&gt;state().pose().longitude(),</span></div>
+<div class="line"><span class="lineno">   74</span>    <span class="comment">//                        dist);</span></div>
+<div class="line"><span class="lineno">   75</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   76</span>    <span class="comment">//           if (dist &lt; min_dist) {</span></div>
+<div class="line"><span class="lineno">   77</span>    <span class="comment">//                min_dist = dist;</span></div>
+<div class="line"><span class="lineno">   78</span>    <span class="comment">//                min_champ = it;</span></div>
+<div class="line"><span class="lineno">   79</span>    <span class="comment">//                contact_found = true;</span></div>
+<div class="line"><span class="lineno">   80</span>    <span class="comment">//           }</span></div>
+<div class="line"><span class="lineno">   81</span>    <span class="comment">//      }</span></div>
+<div class="line"><span class="lineno">   82</span>    <span class="comment">// }</span></div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   84</span>    <span class="comment">// // Head towards the closet contact if it exists</span></div>
+<div class="line"><span class="lineno">   85</span>    <span class="comment">// if (contact_found) {</span></div>
+<div class="line"><span class="lineno">   86</span>    <span class="comment">//      Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());</span></div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">//      // Alternatively: const Geocentric&amp; earth = Geocentric::WGS84();</span></div>
+<div class="line"><span class="lineno">   88</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">   89</span>    <span class="comment">//      LocalCartesian proj(state_.pose().latitude(),</span></div>
+<div class="line"><span class="lineno">   90</span>    <span class="comment">//                          state_.pose().longitude(), 0, earth);</span></div>
+<div class="line"><span class="lineno">   91</span>    <span class="comment">//      // Sample forward calculation</span></div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">//      double x, y, z;</span></div>
+<div class="line"><span class="lineno">   93</span>    <span class="comment">//      double h = 0;</span></div>
+<div class="line"><span class="lineno">   94</span>    <span class="comment">//      proj.Forward(min_champ-&gt;state().pose().latitude(),</span></div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">//      min_champ-&gt;state().pose().longitude(), h, x, y, z); double heading = atan2(x,y) * 180.0</span></div>
+<div class="line"><span class="lineno">   96</span>    <span class="comment">//      / scrimmage::PI; desired_state_.pose().set_heading(heading);</span></div>
+<div class="line"><span class="lineno">   97</span>    <span class="comment">// }</span></div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  100</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -453,7 +453,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1Follow.html">Follow</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

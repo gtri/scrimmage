@@ -98,40 +98,42 @@ $(document).ready(function(){initNavTree('ParameterServer_8cpp_source.html','');
 </div><!--header-->
 <div class="contents">
 <a href="ParameterServer_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;<a class="code" href="ParameterServer_8h.html">scrimmage/common/ParameterServer.h</a>&gt;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="ParameterServer_8h.html">scrimmage/common/ParameterServer.h</a>&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">   39</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">ParameterServer::unregister_params</a>(<a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> owner) {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// For all parameters, remove all parameters owned by this plugin</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv1 : <a class="code hl_variable" href="classscrimmage_1_1ParameterServer.html#a4320a3fc9e7baef554ee88a68336a73e">params_</a>) {</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv1.second) {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">remove_if_owner</a>(kv2.second, owner);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">   40</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">ParameterServer::unregister_params</a>(<a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> owner) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// For all parameters, remove all parameters owned by this plugin</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv1 : <a class="code hl_variable" href="classscrimmage_1_1ParameterServer.html#a4320a3fc9e7baef554ee88a68336a73e">params_</a>) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv1.second) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">remove_if_owner</a>(kv2.second, owner);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
 </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">   48</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">ParameterServer::remove_if_owner</a>(std::set&lt;ParameterBasePtr&gt;&amp; param_set, <a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> owner) {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">auto</span> it_param = std::find_if(param_set.begin(), param_set.end(), [&amp;](<span class="keyword">auto</span> p) {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        return p-&gt;owner() == owner;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    });</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">if</span> (it_param != param_set.end()) {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        param_set.erase(it_param);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">   49</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">ParameterServer::remove_if_owner</a>(std::set&lt;ParameterBasePtr&gt;&amp; param_set, <a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> owner) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">auto</span> it_param = std::find_if(param_set.begin(), param_set.end(), [&amp;](<span class="keyword">auto</span> p) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        return p-&gt;owner() == owner;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    });</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">if</span> (it_param != param_set.end()) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        param_set.erase(it_param);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
 </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aParameterServer_8h_html"><div class="ttname"><a href="ParameterServer_8h.html">ParameterServer.h</a></div><div class="ttdoc">Brief file description.</div></div>
-<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_a4320a3fc9e7baef554ee88a68336a73e"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#a4320a3fc9e7baef554ee88a68336a73e">scrimmage::ParameterServer::params_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::set&lt; ParameterBasePtr &gt; &gt; &gt; params_</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8h_source.html#l00113">ParameterServer.h:113</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_adf7173c05200676c7acbd4e3a72a2b05"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">scrimmage::ParameterServer::remove_if_owner</a></div><div class="ttdeci">bool remove_if_owner(std::set&lt; ParameterBasePtr &gt; &amp;param_set, PluginPtr owner)</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8cpp_source.html#l00048">ParameterServer.cpp:48</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_aeb2c14afec4dd870209e0f5593f8dab1"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">scrimmage::ParameterServer::unregister_params</a></div><div class="ttdeci">void unregister_params(PluginPtr owner)</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8cpp_source.html#l00039">ParameterServer.cpp:39</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_a4320a3fc9e7baef554ee88a68336a73e"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#a4320a3fc9e7baef554ee88a68336a73e">scrimmage::ParameterServer::params_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::set&lt; ParameterBasePtr &gt; &gt; &gt; params_</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8h_source.html#l00115">ParameterServer.h:115</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_adf7173c05200676c7acbd4e3a72a2b05"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#adf7173c05200676c7acbd4e3a72a2b05">scrimmage::ParameterServer::remove_if_owner</a></div><div class="ttdeci">bool remove_if_owner(std::set&lt; ParameterBasePtr &gt; &amp;param_set, PluginPtr owner)</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8cpp_source.html#l00049">ParameterServer.cpp:49</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ParameterServer_html_aeb2c14afec4dd870209e0f5593f8dab1"><div class="ttname"><a href="classscrimmage_1_1ParameterServer.html#aeb2c14afec4dd870209e0f5593f8dab1">scrimmage::ParameterServer::unregister_params</a></div><div class="ttdeci">void unregister_params(PluginPtr owner)</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8cpp_source.html#l00040">ParameterServer.cpp:40</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a0be8fe6da405df381e9e0333281b61a3"><div class="ttname"><a href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">scrimmage::PluginPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Plugin &gt; PluginPtr</div><div class="ttdef"><b>Definition</b> <a href="Parameter_8h_source.html#l00043">Parameter.h:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -140,7 +142,7 @@ $(document).ready(function(){initNavTree('ParameterServer_8cpp_source.html','');
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdedb0aba14d44ce9d99bc100e026e6a.html">common</a></li><li class="navelem"><a class="el" href="ParameterServer_8cpp.html">ParameterServer.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

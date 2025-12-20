@@ -8,19 +8,19 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="268,62,140,174,137,170,264,58"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="728,108,792,133"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="400,49,710,105,715,106,714,112,709,111,399,54"/>
-<area shape="rect" id="Node000006" href="$CameraInterface_8h.html" title="Brief file description." alt="" coords="334,108,602,133"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="350,58,434,99,431,104,347,62"/>
-<area shape="rect" id="Node000039" title=" " alt="" coords="168,181,320,207"/>
-<area shape="poly" id="edge11_Node000001_Node000039" title=" " alt="" coords="290,61,255,169,250,167,285,59"/>
-<area shape="rect" id="Node000029" title=" " alt="" coords="345,181,559,207"/>
-<area shape="poly" id="edge12_Node000001_Node000029" title=" " alt="" coords="299,60,306,96,313,115,323,132,354,157,390,174,387,179,351,162,319,135,308,117,301,98,294,60"/>
-<area shape="rect" id="Node000030" title=" " alt="" coords="583,181,697,207"/>
-<area shape="poly" id="edge13_Node000001_Node000030" title=" " alt="" coords="400,44,526,68,580,85,616,106,627,120,635,135,642,167,636,168,630,137,623,122,613,110,578,90,525,73,399,49"/>
-<area shape="rect" id="Node000031" title=" " alt="" coords="721,181,860,207"/>
-<area shape="poly" id="edge14_Node000001_Node000031" title=" " alt="" coords="400,45,517,69,580,85,641,106,709,138,764,171,762,176,706,142,639,110,578,90,516,74,399,51"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="400,136,290,156,158,184,157,179,289,151,399,131"/>
-<area shape="poly" id="edge7_Node000006_Node000039" title=" " alt="" coords="433,136,294,180,292,175,431,131"/>
-<area shape="poly" id="edge8_Node000006_Node000029" title=" " alt="" coords="468,134,460,169,455,168,463,133"/>
-<area shape="poly" id="edge9_Node000006_Node000030" title=" " alt="" coords="497,131,600,174,598,178,495,136"/>
-<area shape="poly" id="edge10_Node000006_Node000031" title=" " alt="" coords="520,131,726,176,725,181,519,136"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="168,181,320,207"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="290,61,255,169,250,167,285,59"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="345,181,559,207"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="299,60,306,96,313,115,323,132,354,157,390,174,387,179,351,162,319,135,308,117,301,98,294,60"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="583,181,697,207"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="400,44,526,68,580,85,616,106,627,120,635,135,642,167,636,168,630,137,623,122,613,110,578,90,525,73,399,49"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="721,181,860,207"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="400,45,517,69,580,85,641,106,709,138,764,171,762,176,706,142,639,110,578,90,516,74,399,51"/>
+<area shape="rect" id="Node000010" href="$CameraInterface_8h.html" title="Brief file description." alt="" coords="334,108,602,133"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="350,58,434,99,431,104,347,62"/>
+<area shape="poly" id="edge10_Node000010_Node000004" title=" " alt="" coords="400,136,290,156,158,184,157,179,289,151,399,131"/>
+<area shape="poly" id="edge11_Node000010_Node000006" title=" " alt="" coords="433,136,294,180,292,175,431,131"/>
+<area shape="poly" id="edge12_Node000010_Node000007" title=" " alt="" coords="468,134,460,169,455,168,463,133"/>
+<area shape="poly" id="edge13_Node000010_Node000008" title=" " alt="" coords="497,131,600,174,598,178,495,136"/>
+<area shape="poly" id="edge14_Node000010_Node000009" title=" " alt="" coords="520,131,726,176,725,181,519,136"/>
 </map>

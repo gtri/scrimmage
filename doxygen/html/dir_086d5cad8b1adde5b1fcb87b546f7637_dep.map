@@ -1,26 +1,28 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics" name="/root/scrimmage/scrimmage/include/scrimmage/plugins/metrics">
-<area shape="rect" id="node2" href="dir_c17d39a59a30991998dd7a5f9ef5b16e.html" title="CPA" alt="" coords="574,63,621,88"/>
-<area shape="rect" id="node8" href="dir_81ac6949c353a3d04cd403a175b36275.html" title="metrics" alt="" coords="451,136,522,161"/>
-<area shape="poly" id="edge1" href="dir_000047_000133.html" alt="" coords="588,90,563,112,527,132,524,128,560,107,584,86"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000047_000133.html" title="1" alt="" coords="529,128,538,143"/>
-<area shape="rect" id="node9" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html" title="common" alt="" coords="558,136,637,161"/>
-<area shape="poly" id="edge2" href="dir_000047_000039.html" alt="" coords="600,88,600,122,595,122,595,88"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000047_000039.html" title="1" alt="" coords="601,110,610,125"/>
+<area shape="rect" id="node2" href="dir_c17d39a59a30991998dd7a5f9ef5b16e.html" title="CPA" alt="" coords="38,63,85,88"/>
+<area shape="rect" id="node8" href="dir_81ac6949c353a3d04cd403a175b36275.html" title="metrics" alt="" coords="309,136,379,161"/>
+<area shape="poly" id="edge1" href="dir_000047_000133.html" alt="" coords="72,86,99,107,149,125,201,137,295,145,295,151,200,142,147,131,96,112,69,90"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000047_000133.html" title="1" alt="" coords="286,132,295,147"/>
+<area shape="rect" id="node9" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html" title="common" alt="" coords="22,136,101,161"/>
+<area shape="poly" id="edge2" href="dir_000047_000039.html" alt="" coords="64,88,64,122,59,122,59,88"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000047_000039.html" title="1" alt="" coords="65,110,74,125"/>
 <area shape="rect" id="node3" href="dir_163f453e43ffd3e2199ae508280a1e28.html" title="FlagCaptureMetrics" alt="" coords="645,63,795,88"/>
-<area shape="rect" id="node7" href="dir_6a6716f05b1e97ca5a8917dedbdea793.html" title="parse" alt="" coords="691,136,749,161"/>
-<area shape="poly" id="edge3" href="dir_000076_000164.html" alt="" coords="723,88,723,122,717,122,717,88"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000076_000164.html" title="1" alt="" coords="724,110,733,125"/>
-<area shape="poly" id="edge4" href="dir_000076_000133.html" alt="" coords="693,91,634,112,536,139,535,133,633,107,691,86"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000076_000133.html" title="1" alt="" coords="537,136,547,151"/>
-<area shape="rect" id="node4" href="dir_5c695a08d2a4234bf03963f8077ff8b7.html" title="OpenAIRewards" alt="" coords="424,63,549,88"/>
-<area shape="poly" id="edge5" href="dir_000162_000133.html" alt="" coords="489,88,489,122,484,122,484,88"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000162_000133.html" title="1" alt="" coords="490,110,500,125"/>
-<area shape="rect" id="node5" href="dir_15d2ea20807c333023107557269870ee.html" title="SimpleCaptureMetrics" alt="" coords="233,63,399,88"/>
-<area shape="poly" id="edge6" href="dir_000219_000133.html" alt="" coords="344,86,447,128,445,133,342,90"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000219_000133.html" title="1" alt="" coords="441,114,450,128"/>
-<area shape="rect" id="node6" href="dir_669c8e6f1e30993d5c26fc5532cb80ea.html" title="SimpleCollisionMetrics" alt="" coords="37,63,208,88"/>
-<area shape="poly" id="edge7" href="dir_000227_000133.html" alt="" coords="153,86,222,107,338,128,438,140,437,146,337,133,221,112,152,91"/>
-<area shape="rect" id="edge7-headlabel" href="dir_000227_000133.html" title="1" alt="" coords="429,127,439,141"/>
+<area shape="rect" id="node7" href="dir_6a6716f05b1e97ca5a8917dedbdea793.html" title="parse" alt="" coords="599,136,657,161"/>
+<area shape="poly" id="edge3" href="dir_000076_000164.html" alt="" coords="707,90,655,130,652,125,704,86"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000076_000164.html" title="1" alt="" coords="658,124,667,139"/>
+<area shape="poly" id="edge4" href="dir_000076_000133.html" alt="" coords="695,91,634,112,570,126,504,136,393,147,393,142,504,130,569,120,633,107,693,86"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000076_000133.html" title="1" alt="" coords="394,145,403,160"/>
+<area shape="rect" id="node4" href="dir_5c695a08d2a4234bf03963f8077ff8b7.html" title="OpenAIRewards" alt="" coords="109,63,235,88"/>
+<area shape="poly" id="edge5" href="dir_000162_000133.html" alt="" coords="199,86,248,107,302,128,300,133,246,112,196,91"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000162_000133.html" title="1" alt="" coords="295,114,304,129"/>
+<area shape="rect" id="node5" href="dir_15d2ea20807c333023107557269870ee.html" title="SimpleCaptureMetrics" alt="" coords="454,63,621,88"/>
+<area shape="poly" id="edge6" href="dir_000219_000164.html" alt="" coords="554,86,604,125,601,129,550,90"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000219_000164.html" title="1" alt="" coords="599,111,609,125"/>
+<area shape="poly" id="edge7" href="dir_000219_000133.html" alt="" coords="507,91,389,134,387,129,505,86"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000219_000133.html" title="1" alt="" coords="391,130,400,145"/>
+<area shape="rect" id="node6" href="dir_669c8e6f1e30993d5c26fc5532cb80ea.html" title="SimpleCollisionMetrics" alt="" coords="259,63,429,88"/>
+<area shape="poly" id="edge8" href="dir_000227_000133.html" alt="" coords="347,88,347,122,341,122,341,88"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000227_000133.html" title="1" alt="" coords="348,110,357,125"/>
 <area shape="rect" id="clust2" href="dir_086d5cad8b1adde5b1fcb87b546f7637.html" alt="" coords="27,52,901,99"/>
 <area shape="rect" id="clust1" href="dir_7370054b6647b017d0eee4f04ea2ba4f.html" title="plugins" alt="" coords="16,16,912,109"/>
 </map>

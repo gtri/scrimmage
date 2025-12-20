@@ -1,7 +1,7 @@
 <map id="/root/scrimmage/scrimmage/src/pubsub/MessageBase.cpp" name="/root/scrimmage/scrimmage/src/pubsub/MessageBase.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="8,5,225,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,68,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,47,59,92,55,88,97,44"/>
-<area shape="rect" id="Node000003" href="$MessageBase_8h.html" title="Brief file description." alt="" coords="93,93,301,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="136,44,172,81,168,85,132,47"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="81,5,298,45"/>
+<area shape="rect" id="Node000002" href="$MessageBase_8h.html" title="Brief file description." alt="" coords="5,93,213,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,47,138,85,134,81,170,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="238,101,301,126"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="209,44,251,88,247,92,205,47"/>
 </map>

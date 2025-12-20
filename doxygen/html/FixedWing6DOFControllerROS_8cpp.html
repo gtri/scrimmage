@@ -97,21 +97,21 @@ $(document).ready(function(){initNavTree('FixedWing6DOFControllerROS_8cpp.html',
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;boost/algorithm/string.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="FixedWing6DOFControllerROS_8h_source.html">scrimmage/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="FixedWing6DOFControllerROS_8h_source.html">scrimmage/plugins/controller/FixedWing6DOFControllerROS/FixedWing6DOFControllerROS.h</a>&quot;</code><br />
+<code>#include &lt;boost/algorithm/string.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for FixedWing6DOFControllerROS.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="FixedWing6DOFControllerROS_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerROS_2FixedWing6DOFControllerROS_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerROS_2FixedWing6DOFControllerROS_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2FixedWing6DOFControllerROS_2FixedWing6DOFControllerROS_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="203,5,450,75"/>
-<area shape="rect" title=" " alt="" coords="5,137,200,163"/>
-<area shape="poly" title=" " alt="" coords="258,77,140,134,138,129,256,72"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="225,130,429,170"/>
-<area shape="poly" title=" " alt="" coords="329,75,329,116,324,116,324,75"/>
-<area shape="rect" href="FixedWing6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="453,123,685,177"/>
-<area shape="poly" title=" " alt="" coords="403,72,499,115,497,120,401,77"/>
+<area shape="rect" title="Brief file description." alt="" coords="235,5,482,75"/>
+<area shape="rect" href="FixedWing6DOFControllerROS_8h.html" title="Brief file description." alt="" coords="5,123,237,177"/>
+<area shape="poly" title=" " alt="" coords="286,77,192,120,190,115,284,72"/>
+<area shape="rect" title=" " alt="" coords="261,137,456,163"/>
+<area shape="poly" title=" " alt="" coords="361,75,361,123,356,123,356,75"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="481,130,685,170"/>
+<area shape="poly" title=" " alt="" coords="429,72,532,122,530,126,427,77"/>
 </map>
 </div>
 </div>
@@ -174,50 +174,51 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00037">37</a> of file <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html">FixedWing6DOFControllerROS.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                    {</div>
-<div class="line"><span class="lineno">   43</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<p class="definition">Definition at line <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00039">39</a> of file <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html">FixedWing6DOFControllerROS.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>                    {</div>
+<div class="line"><span class="lineno">   45</span><span class="keyword">namespace </span>controller {</div>
 <div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a2b02db93592c29ac09c920b994a2c439">FixedWing6DOFControllerROS::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   47</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
 <div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>    aileron_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">VariableIO::Type::aileron</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   50</span>    elevator_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">VariableIO::Type::elevator</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   51</span>    throttle_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">VariableIO::Type::throttle</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   52</span>    rudder_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">VariableIO::Type::rudder</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
-<div class="line"><span class="lineno">   55</span>        <span class="keywordtype">int</span> argc = 0;</div>
-<div class="line"><span class="lineno">   56</span>        std::string name = <span class="stringliteral">&quot;simple_aircraft_3d_controller&quot;</span>;</div>
-<div class="line"><span class="lineno">   57</span>        ros::init(argc, NULL, name);</div>
-<div class="line"><span class="lineno">   58</span>    }</div>
-<div class="line"><span class="lineno">   59</span>    nh_ = std::make_shared&lt;ros::NodeHandle&gt;();</div>
-<div class="line"><span class="lineno">   60</span>    cmd_vel_sub_ = nh_-&gt;subscribe(<span class="stringliteral">&quot;cmd_vel&quot;</span>, 1, &amp;<a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">FixedWing6DOFControllerROS::cmd_vel_cb</a>, <span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>    <span class="comment">// Zero out controls</span></div>
-<div class="line"><span class="lineno">   63</span>    cmd_vel_.linear.x = 0;</div>
-<div class="line"><span class="lineno">   64</span>    cmd_vel_.angular.y = 0;</div>
-<div class="line"><span class="lineno">   65</span>    cmd_vel_.angular.x = 0;</div>
-<div class="line"><span class="lineno">   66</span>    cmd_vel_.angular.z = 0;</div>
-<div class="line"><span class="lineno">   67</span>}</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a600724dbe10db2b0fcbfe1ea3f85fc30">FixedWing6DOFControllerROS::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   70</span>    ros::spinOnce();</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>    vars_.output(throttle_idx_, cmd_vel_.linear.x);</div>
-<div class="line"><span class="lineno">   73</span>    vars_.output(elevator_idx_, cmd_vel_.angular.y);</div>
-<div class="line"><span class="lineno">   74</span>    vars_.output(aileron_idx_, cmd_vel_.angular.x);</div>
-<div class="line"><span class="lineno">   75</span>    vars_.output(rudder_idx_, cmd_vel_.angular.z);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">FixedWing6DOFControllerROS::cmd_vel_cb</a>(<span class="keyword">const</span> geometry_msgs::Twist::ConstPtr&amp; msg) {</div>
-<div class="line"><span class="lineno">   81</span>    cmd_vel_ = *msg;</div>
-<div class="line"><span class="lineno">   82</span>}</div>
-<div class="line"><span class="lineno">   83</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   84</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">   49</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a2b02db93592c29ac09c920b994a2c439">FixedWing6DOFControllerROS::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>    aileron_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">VariableIO::Type::aileron</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   52</span>    elevator_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">VariableIO::Type::elevator</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   53</span>    throttle_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">VariableIO::Type::throttle</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   54</span>    rudder_idx_ = vars_.declare(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">VariableIO::Type::rudder</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
+<div class="line"><span class="lineno">   57</span>        <span class="keywordtype">int</span> argc = 0;</div>
+<div class="line"><span class="lineno">   58</span>        std::string name = <span class="stringliteral">&quot;simple_aircraft_3d_controller&quot;</span>;</div>
+<div class="line"><span class="lineno">   59</span>        ros::init(argc, NULL, name);</div>
+<div class="line"><span class="lineno">   60</span>    }</div>
+<div class="line"><span class="lineno">   61</span>    nh_ = std::make_shared&lt;ros::NodeHandle&gt;();</div>
+<div class="line"><span class="lineno">   62</span>    cmd_vel_sub_ = nh_-&gt;subscribe(<span class="stringliteral">&quot;cmd_vel&quot;</span>, 1, &amp;<a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">FixedWing6DOFControllerROS::cmd_vel_cb</a>, <span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>    <span class="comment">// Zero out controls</span></div>
+<div class="line"><span class="lineno">   65</span>    cmd_vel_.linear.x = 0;</div>
+<div class="line"><span class="lineno">   66</span>    cmd_vel_.angular.y = 0;</div>
+<div class="line"><span class="lineno">   67</span>    cmd_vel_.angular.x = 0;</div>
+<div class="line"><span class="lineno">   68</span>    cmd_vel_.angular.z = 0;</div>
+<div class="line"><span class="lineno">   69</span>}</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a600724dbe10db2b0fcbfe1ea3f85fc30">FixedWing6DOFControllerROS::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   72</span>    ros::spinOnce();</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    vars_.output(throttle_idx_, cmd_vel_.linear.x);</div>
+<div class="line"><span class="lineno">   75</span>    vars_.output(elevator_idx_, cmd_vel_.angular.y);</div>
+<div class="line"><span class="lineno">   76</span>    vars_.output(aileron_idx_, cmd_vel_.angular.x);</div>
+<div class="line"><span class="lineno">   77</span>    vars_.output(rudder_idx_, cmd_vel_.angular.z);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   80</span>}</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">FixedWing6DOFControllerROS::cmd_vel_cb</a>(<span class="keyword">const</span> geometry_msgs::Twist::ConstPtr&amp; msg) {</div>
+<div class="line"><span class="lineno">   83</span>    cmd_vel_ = *msg;</div>
+<div class="line"><span class="lineno">   84</span>}</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   87</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::Type::throttle</a></div><div class="ttdeci">@ throttle</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::Type::aileron</a></div><div class="ttdeci">@ aileron</div></div>
@@ -228,7 +229,7 @@ DESCRIPTION</h1>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1FixedWing6DOFControllerROS_html_aed567582c4c6cb17d780e15df531b0b3"><div class="ttname"><a href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_cb</a></div><div class="ttdeci">void cmd_vel_cb(const geometry_msgs::Twist::ConstPtr &amp;msg)</div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::aileron</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00061">scrimmage::controller::FixedWing6DOFControllerROS::aileron_idx_</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00057">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_cb()</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00056">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_sub_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00060">scrimmage::controller::FixedWing6DOFControllerROS::elevator_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a2b02db93592c29ac09c920b994a2c439">scrimmage::controller::FixedWing6DOFControllerROS::init()</a>, <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00055">scrimmage::controller::FixedWing6DOFControllerROS::nh_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00062">scrimmage::controller::FixedWing6DOFControllerROS::rudder_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a600724dbe10db2b0fcbfe1ea3f85fc30">scrimmage::controller::FixedWing6DOFControllerROS::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00059">scrimmage::controller::FixedWing6DOFControllerROS::throttle_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a4f1460203d9dcca1f4976c872de8c47b">scrimmage::VariableIO::aileron</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00063">scrimmage::controller::FixedWing6DOFControllerROS::aileron_idx_</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00059">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#aed567582c4c6cb17d780e15df531b0b3">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_cb()</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00058">scrimmage::controller::FixedWing6DOFControllerROS::cmd_vel_sub_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00062">scrimmage::controller::FixedWing6DOFControllerROS::elevator_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a2b02db93592c29ac09c920b994a2c439">scrimmage::controller::FixedWing6DOFControllerROS::init()</a>, <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00057">scrimmage::controller::FixedWing6DOFControllerROS::nh_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00064">scrimmage::controller::FixedWing6DOFControllerROS::rudder_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1FixedWing6DOFControllerROS.html#a600724dbe10db2b0fcbfe1ea3f85fc30">scrimmage::controller::FixedWing6DOFControllerROS::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, <a class="el" href="FixedWing6DOFControllerROS_8h_source.html#l00061">scrimmage::controller::FixedWing6DOFControllerROS::throttle_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -258,7 +259,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_8cbab75e397f067f588a6c008790360d.html">FixedWing6DOFControllerROS</a></li><li class="navelem"><a class="el" href="FixedWing6DOFControllerROS_8cpp.html">FixedWing6DOFControllerROS.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

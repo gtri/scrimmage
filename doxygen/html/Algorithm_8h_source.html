@@ -106,70 +106,72 @@ $(document).ready(function(){initNavTree('Algorithm_8h_source.html',''); initRes
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> ContainerType, <span class="keyword">class</span> Predicate&gt;</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">   46</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">remove_if</a>(ContainerType&amp; container, Predicate pred) {</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">auto</span> it = container.begin();</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">while</span> (it != container.end()) {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        it = pred(*it) ? container.erase(it) : std::next(it);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> ContainerType, <span class="keyword">class</span> Predicate&gt;</div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">   47</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">remove_if</a>(ContainerType&amp; container, Predicate pred) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">auto</span> it = container.begin();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">while</span> (it != container.end()) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        it = pred(*it) ? container.erase(it) : std::next(it);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
 </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
-<div class="foldopen" id="foldopen00058" data-start="{" data-end="}">
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">   58</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">set_difference</a>(</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::unordered_set&lt;T&gt; out;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::copy_if(</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        container1.begin(),</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        container1.end(),</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        std::inserter(out, out.end()),</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        [&amp;](<span class="keyword">const</span> T&amp; val) { return container2.count(val) == 0; });</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">   59</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">set_difference</a>(</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::unordered_set&lt;T&gt; out;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::copy_if(</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        container1.begin(),</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        container1.end(),</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        std::inserter(out, out.end()),</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        [&amp;](<span class="keyword">const</span> T&amp; val) { return container2.count(val) == 0; });</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
 </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
-<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">   71</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">set_union</a>(</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    std::unordered_set&lt;T&gt; out = container1;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    out.insert(container2.begin(), container2.end());</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">   72</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">set_union</a>(</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    std::unordered_set&lt;T&gt; out = container1;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    out.insert(container2.begin(), container2.end());</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
 </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
-<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">   80</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">set_intersection</a>(</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    std::unordered_set&lt;T&gt; out;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    std::copy_if(</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        container1.begin(),</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        container1.end(),</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        std::inserter(out, out.end()),</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        [&amp;](<span class="keyword">const</span> T&amp; val) { return container2.count(val) != 0; });</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keyword">template</span> &lt;<span class="keyword">class</span> T = std::unordered_set&lt;<span class="keywordtype">int</span>&gt;&gt;</div>
+<div class="foldopen" id="foldopen00081" data-start="{" data-end="}">
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">   81</a></span>std::unordered_set&lt;T&gt; <a class="code hl_function" href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">set_intersection</a>(</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container1,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">const</span> std::unordered_set&lt;T&gt;&amp; container2) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    std::unordered_set&lt;T&gt; out;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::copy_if(</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        container1.begin(),</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        container1.end(),</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        std::inserter(out, out.end()),</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        [&amp;](<span class="keyword">const</span> T&amp; val) { return container2.count(val) != 0; });</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
 </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_COMMON_ALGORITHM_H_</span></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a15cbde7729c9c6440960ac6ecc93832b"><div class="ttname"><a href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">scrimmage::set_difference</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_difference(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdoc">Returns container1 minus container2.</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00058">Algorithm.h:58</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a2f0c4f58fad54ffe4901361122a36412"><div class="ttname"><a href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">scrimmage::remove_if</a></div><div class="ttdeci">void remove_if(ContainerType &amp;container, Predicate pred)</div><div class="ttdoc">std::remove_if does not work with associative containers.</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00046">Algorithm.h:46</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_abe247d1ed7ea2be182d33fae72869c11"><div class="ttname"><a href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">scrimmage::set_union</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_union(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00071">Algorithm.h:71</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_acf36966456549879a044220ff34c45c9"><div class="ttname"><a href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">scrimmage::set_intersection</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_intersection(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00080">Algorithm.h:80</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a15cbde7729c9c6440960ac6ecc93832b"><div class="ttname"><a href="namespacescrimmage.html#a15cbde7729c9c6440960ac6ecc93832b">scrimmage::set_difference</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_difference(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdoc">Returns container1 minus container2.</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00059">Algorithm.h:59</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a2f0c4f58fad54ffe4901361122a36412"><div class="ttname"><a href="namespacescrimmage.html#a2f0c4f58fad54ffe4901361122a36412">scrimmage::remove_if</a></div><div class="ttdeci">void remove_if(ContainerType &amp;container, Predicate pred)</div><div class="ttdoc">std::remove_if does not work with associative containers.</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00047">Algorithm.h:47</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_abe247d1ed7ea2be182d33fae72869c11"><div class="ttname"><a href="namespacescrimmage.html#abe247d1ed7ea2be182d33fae72869c11">scrimmage::set_union</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_union(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00072">Algorithm.h:72</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_acf36966456549879a044220ff34c45c9"><div class="ttname"><a href="namespacescrimmage.html#acf36966456549879a044220ff34c45c9">scrimmage::set_intersection</a></div><div class="ttdeci">std::unordered_set&lt; T &gt; set_intersection(const std::unordered_set&lt; T &gt; &amp;container1, const std::unordered_set&lt; T &gt; &amp;container2)</div><div class="ttdef"><b>Definition</b> <a href="Algorithm_8h_source.html#l00081">Algorithm.h:81</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html">common</a></li><li class="navelem"><a class="el" href="Algorithm_8h.html">Algorithm.h</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:42 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

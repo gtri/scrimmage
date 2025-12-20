@@ -1,13 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/common/RTree.cpp" name="/root/scrimmage/scrimmage/src/common/RTree.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="154,5,361,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,91,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,48,90,98,88,93,210,43"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="115,101,157,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,48,165,95,162,90,229,43"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="182,101,333,126"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="260,46,260,87,255,87,255,46"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="357,93,523,133"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="299,43,389,85,387,90,296,48"/>
-<area shape="rect" id="Node000006" href="$RTree_8h.html" title="Brief file description." alt="" coords="547,101,754,126"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="344,43,586,95,585,100,343,48"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="264,5,471,45"/>
+<area shape="rect" id="Node000002" href="$RTree_8h.html" title="Brief file description." alt="" coords="5,101,212,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="311,48,157,99,155,94,310,43"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="237,101,322,126"/>
+<area shape="poly" id="edge2_Node000001_Node000018" title=" " alt="" coords="350,48,303,92,300,89,346,44"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="346,101,389,126"/>
+<area shape="poly" id="edge3_Node000001_Node000019" title=" " alt="" coords="370,46,370,87,365,87,365,46"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="413,101,564,126"/>
+<area shape="poly" id="edge4_Node000001_Node000020" title=" " alt="" coords="396,43,462,90,459,95,393,48"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="589,93,754,133"/>
+<area shape="poly" id="edge5_Node000001_Node000021" title=" " alt="" coords="435,43,592,87,591,92,433,48"/>
 </map>

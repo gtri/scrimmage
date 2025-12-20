@@ -98,85 +98,87 @@ $(document).ready(function(){initNavTree('EnforceBoundaryInteraction_8cpp_source
 </div><!--header-->
 <div class="contents">
 <a href="EnforceBoundaryInteraction_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&gt;</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&gt;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;<a class="code" href="Boundary_8h.html">scrimmage/plugins/interaction/Boundary/Boundary.h</a>&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;<a class="code" href="EnforceBoundaryInteraction_8h.html">scrimmage/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.h</a>&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">using </span>std::cout;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">using </span>std::endl;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage_1_1interaction.html">sci</a> = <a class="code hl_namespace" href="namespacescrimmage_1_1interaction.html">scrimmage::interaction</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage__proto.html">sp</a> = <a class="code hl_namespace" href="namespacescrimmage__proto.html">scrimmage_proto</a>;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="EnforceBoundaryInteraction_8cpp.html#ae2249e7dda2f2deac0322132deee35c7">   52</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html">scrimmage::interaction::EnforceBoundaryInteraction</a>,</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    EnforceBoundaryInteraction_plugin)</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span>interaction {</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a51dae9ab18aa626e1ec8cc6133a4e830">EnforceBoundaryInteraction::EnforceBoundaryInteraction</a>() {}</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a1ca4457a0e3907251588dee156e1eac0">EnforceBoundaryInteraction::init</a>(</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    std::vector&lt;int&gt; active_boundary_ids;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">if</span> (!sc::get_vec&lt;int&gt;(<span class="stringliteral">&quot;active_boundary_ids&quot;</span>, plugin_params, <span class="stringliteral">&quot;, &quot;</span>, active_boundary_ids)) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse &#39;active_boundary_ids&#39;&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a8799854156fa8e80619f8bf34dfbdedc">active_boundary_ids_</a> =</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            std::set&lt;int&gt;(active_boundary_ids.begin(), active_boundary_ids.end());</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">auto</span> callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sp::Shape&gt;</a> msg) {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a8799854156fa8e80619f8bf34dfbdedc">active_boundary_ids_</a>.count(msg-&gt;data.id().id()) != 0) {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>.push_back(sci::Boundary::make_boundary(msg-&gt;data));</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        }</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    };</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, callback);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a9e94fad9ddcb800588475c6a7e0ee1a5">EnforceBoundaryInteraction::step_entity_interaction</a>(</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">double</span> t,</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="comment">// If the boundaries haven&#39;t been received yet, ignore, just return.</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>.empty())</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="comment">// The entity must be within at least one of the active boundaries,</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// otherwise, it is removed from the simulation</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordtype">bool</span> within_a_boundary = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">for</span> (std::shared_ptr&lt;sci::BoundaryBase&gt; boundary : <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>) {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">if</span> (boundary-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                within_a_boundary = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            }</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (!within_a_boundary) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            ent-&gt;collision();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        }</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="EnforceBoundaryInteraction_8h.html">scrimmage/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.h</a>&quot;</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &quot;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&quot;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="Boundary_8h.html">scrimmage/plugins/interaction/Boundary/Boundary.h</a>&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">using </span>std::cout;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">using </span>std::endl;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage_1_1interaction.html">sci</a> = <a class="code hl_namespace" href="namespacescrimmage_1_1interaction.html">scrimmage::interaction</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage__proto.html">sp</a> = <a class="code hl_namespace" href="namespacescrimmage__proto.html">scrimmage_proto</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="EnforceBoundaryInteraction_8cpp.html#ae2249e7dda2f2deac0322132deee35c7">   53</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html">scrimmage::interaction::EnforceBoundaryInteraction</a>,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    EnforceBoundaryInteraction_plugin)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a51dae9ab18aa626e1ec8cc6133a4e830">EnforceBoundaryInteraction::EnforceBoundaryInteraction</a>() {}</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a1ca4457a0e3907251588dee156e1eac0">EnforceBoundaryInteraction::init</a>(</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    std::vector&lt;int&gt; active_boundary_ids;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">if</span> (!sc::get_vec&lt;int&gt;(<span class="stringliteral">&quot;active_boundary_ids&quot;</span>, plugin_params, <span class="stringliteral">&quot;, &quot;</span>, active_boundary_ids)) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse &#39;active_boundary_ids&#39;&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a8799854156fa8e80619f8bf34dfbdedc">active_boundary_ids_</a> =</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            std::set&lt;int&gt;(active_boundary_ids.begin(), active_boundary_ids.end());</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keyword">auto</span> callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sp::Shape&gt;</a> msg) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a8799854156fa8e80619f8bf34dfbdedc">active_boundary_ids_</a>.count(msg-&gt;data.id().id()) != 0) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>.push_back(sci::Boundary::make_boundary(msg-&gt;data));</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    };</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, callback);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a9e94fad9ddcb800588475c6a7e0ee1a5">EnforceBoundaryInteraction::step_entity_interaction</a>(</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">double</span> t,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// If the boundaries haven&#39;t been received yet, ignore, just return.</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>.empty())</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// The entity must be within at least one of the active boundaries,</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// otherwise, it is removed from the simulation</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">bool</span> within_a_boundary = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">for</span> (std::shared_ptr&lt;sci::BoundaryBase&gt; boundary : <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1EnforceBoundaryInteraction.html#a53f8e1dc66702e04194568faae094604">boundaries_</a>) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">if</span> (boundary-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                within_a_boundary = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">if</span> (!within_a_boundary) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            ent-&gt;collision();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div>
 <div class="ttc" id="aBoundary_8h_html"><div class="ttname"><a href="Boundary_8h.html">Boundary.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aEnforceBoundaryInteraction_8h_html"><div class="ttname"><a href="EnforceBoundaryInteraction_8h.html">EnforceBoundaryInteraction.h</a></div><div class="ttdoc">Brief file description.</div></div>
@@ -196,15 +198,15 @@ $(document).ready(function(){initNavTree('EnforceBoundaryInteraction_8cpp_source
 <div class="ttc" id="anamespacescrimmage_1_1interaction_html"><div class="ttname"><a href="namespacescrimmage_1_1interaction.html">scrimmage::interaction</a></div><div class="ttdef"><b>Definition</b> <a href="Straight_8h_source.html#l00045">Straight.h:45</a></div></div>
 <div class="ttc" id="anamespacescrimmage__proto_html"><div class="ttname"><a href="namespacescrimmage__proto.html">scrimmage_proto</a></div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00044">Contact.h:44</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00252">Entity.h:252</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00121">fwd_decl.h:121</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00255">Entity.h:255</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_3477232c73cdc3a7b598834a0ed43738.html">EnforceBoundaryInteraction</a></li><li class="navelem"><a class="el" href="EnforceBoundaryInteraction_8cpp.html">EnforceBoundaryInteraction.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('OpenCLUtils_8h_source.html',''); initR
 <a href="OpenCLUtils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;<a class="code" href="GPUController_8h.html">scrimmage/gpu/GPUController.h</a>&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="GPUController_8h.html">scrimmage/gpu/GPUController.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#if ENABLE_GPU_ACCELERATION == 1</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;CL/opencl.hpp&gt;</span></div>
@@ -138,11 +138,12 @@ $(document).ready(function(){initNavTree('OpenCLUtils_8h_source.html',''); initR
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">extern</span> <span class="keyword">const</span> std::map&lt;cl_int, std::string&gt; <a class="code hl_variable" href="namespacescrimmage_1_1OpenCLUtils.html#a1ce1f25a9ca95cd634c3648cff577e57">CL_ERROR_MESSAGES</a>;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}  <span class="comment">// namespace OpenCLUtils</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}  <span class="comment">// namespace OpenCLUtils</span></div>
 </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif  </span><span class="comment">// INCLUDE_SCRIMMAGE_GPU_OPENCLUTILS_H</span></div>
 <div class="ttc" id="aGPUController_8h_html"><div class="ttname"><a href="GPUController_8h.html">GPUController.h</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1OpenCLUtils_html_a13811ddbe2aa73282ecd45b6ee7ff268"><div class="ttname"><a href="namespacescrimmage_1_1OpenCLUtils.html#a13811ddbe2aa73282ecd45b6ee7ff268">scrimmage::OpenCLUtils::cacheline_size</a></div><div class="ttdeci">std::optional&lt; std::size_t &gt; cacheline_size(const cl::Device &amp;device)</div><div class="ttdef"><b>Definition</b> <a href="OpenCLUtils_8cpp_source.html#l00100">OpenCLUtils.cpp:100</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1OpenCLUtils_html_a1ce1f25a9ca95cd634c3648cff577e57"><div class="ttname"><a href="namespacescrimmage_1_1OpenCLUtils.html#a1ce1f25a9ca95cd634c3648cff577e57">scrimmage::OpenCLUtils::CL_ERROR_MESSAGES</a></div><div class="ttdeci">const std::map&lt; cl_int, std::string &gt; CL_ERROR_MESSAGES</div><div class="ttdef"><b>Definition</b> <a href="OpenCLUtils_8cpp_source.html#l00116">OpenCLUtils.cpp:116</a></div></div>
@@ -157,7 +158,7 @@ $(document).ready(function(){initNavTree('OpenCLUtils_8h_source.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_ee6b395da3f9134b47e8702c834cff2a.html">gpu</a></li><li class="navelem"><a class="el" href="OpenCLUtils_8h.html">OpenCLUtils.h</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:42 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

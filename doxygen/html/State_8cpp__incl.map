@@ -1,13 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/math/State.cpp" name="/root/scrimmage/scrimmage/src/math/State.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="217,5,423,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,80,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,48,94,93,93,88,253,43"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="104,93,184,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="279,48,184,90,181,85,277,43"/>
-<area shape="rect" id="Node000004" href="$Utilities_8h.html" title="Brief file description." alt="" coords="209,93,431,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="323,46,323,79,317,79,317,46"/>
-<area shape="rect" id="Node000009" href="$Angles_8h.html" title="Brief file description." alt="" coords="455,93,649,119"/>
-<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="376,43,506,86,504,91,375,48"/>
-<area shape="rect" id="Node000010" href="$State_8h.html" title="Brief file description." alt="" coords="673,93,855,119"/>
-<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="424,42,686,88,685,94,423,47"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="248,5,455,45"/>
+<area shape="rect" id="Node000002" href="$State_8h.html" title="Brief file description." alt="" coords="5,93,188,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="291,48,148,92,146,87,290,43"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="213,93,287,119"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="328,48,278,87,275,82,325,43"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="311,93,391,119"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="354,46,354,79,349,79,349,46"/>
+<area shape="rect" id="Node000011" href="$Utilities_8h.html" title="Brief file description." alt="" coords="416,93,639,119"/>
+<area shape="poly" id="edge4_Node000001_Node000011" title=" " alt="" coords="395,43,490,85,488,90,392,48"/>
+<area shape="rect" id="Node000015" href="$Angles_8h.html" title="Brief file description." alt="" coords="663,93,856,119"/>
+<area shape="poly" id="edge5_Node000001_Node000015" title=" " alt="" coords="450,43,687,88,686,93,449,48"/>
 </map>

@@ -385,11 +385,11 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00043">43</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   44</span>    : <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>(std::make_shared&lt;State&gt;()),</div>
-<div class="line"><span class="lineno">   45</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>(std::make_shared&lt;State&gt;()),</div>
-<div class="line"><span class="lineno">   46</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a33263209e2420b8812c9240de0e100de">need_reset_</a>(<span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   47</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a>(<span class="keyword">false</span>) {}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00045">45</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>    : <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>(std::make_shared&lt;State&gt;()),</div>
+<div class="line"><span class="lineno">   47</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>(std::make_shared&lt;State&gt;()),</div>
+<div class="line"><span class="lineno">   48</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a33263209e2420b8812c9240de0e100de">need_reset_</a>(<span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   49</span>      <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a>(<span class="keyword">false</span>) {}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a169b3603ab1bf5c4ac53e57edaa985b4"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">scrimmage::Autonomy::desired_state_</a></div><div class="ttdeci">StatePtr desired_state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00084">Autonomy.h:84</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a33263209e2420b8812c9240de0e100de"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a33263209e2420b8812c9240de0e100de">scrimmage::Autonomy::need_reset_</a></div><div class="ttdeci">bool need_reset_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00088">Autonomy.h:88</a></div></div>
@@ -423,12 +423,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Plugin.html#a83e4f1983cc998530df754be6779aae1">scrimmage::Plugin</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00089">89</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   89</span>                         {</div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">return</span> std::string(<span class="stringliteral">&quot;Autonomy&quot;</span>);</div>
-<div class="line"><span class="lineno">   91</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00091">91</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>                         {</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">return</span> std::string(<span class="stringliteral">&quot;Autonomy&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00088">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>, and <a class="el" href="MOOSAutonomy_8cpp_source.html#l00089">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -482,10 +482,10 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="classscrimmage_1_1autonomy_1_1APITester.html#a31b9fed37e25007e6e8a91b1a45191b3">scrimmage::autonomy::APITester</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ArduPilot.html#aeb35c4a55a775bd5e0d74367d5929fd4">scrimmage::autonomy::ArduPilot</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AuctionAssign.html#a0be99d8ba47cb698727cd4ec36961f4a">scrimmage::autonomy::AuctionAssign</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AutonomyExecutor.html#aced2141bef2069bdff9728cdda40e4d6">scrimmage::autonomy::AutonomyExecutor</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#af1b13d2bfac46662f016ad5705044365">scrimmage::autonomy::motor_schemas::AvoidEntityMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#ac0c3ae2ab7d08364fd2d6d0edbd16295">scrimmage::autonomy::AvoidWalls</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Boids.html#a1ac49d36032f916f59bb3261ca7b9ea1">scrimmage::autonomy::Boids</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#ab087629d012c02406d2545ed82443b01">scrimmage::autonomy::BoundaryDefense</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a8b60b446984a31c43d60020c54670800">scrimmage::autonomy::CommandStringRelay</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Control3D.html#a1e415d5e85ae720c501930fbbd000e15">scrimmage::autonomy::Control3D</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#abfedb4508936a02201d96269177936ac">scrimmage::autonomy::FlightGearMultiplayer</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Follow.html#ad50b4f20640c60e80664b63adde4f77a">scrimmage::autonomy::Follow</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#aecbd6ed94b4a13f2a3807debf1397d79">scrimmage::autonomy::GoToWaypoint</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a5ee1e0b2adc25cb8c4204cce00e1a31d">scrimmage::autonomy::GraphvizFSM</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1JoystickAutonomy.html#a64eb5fdacee62b193c256bedd19796f8">scrimmage::autonomy::JoystickAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#aa4b759ba734910f907fc5c6608e366e3">scrimmage::autonomy::MOOSAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a312fe379590236bc18c55eff5bab6644">scrimmage::autonomy::MotorSchemas</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html#a74c651829139349fd8010b23f9732926">scrimmage::autonomy::motor_schemas::MoveToGoalMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Predator.html#aeb11da627136c1e59c422fe9da85b672">scrimmage::autonomy::Predator</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSAirSim.html#a4526b0a13052f832776c40e70ba80fd3">scrimmage::autonomy::ROSAirSim</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a2a3a97ec4c9c00fb6909b9576e2d88e8">scrimmage::autonomy::ROSAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSControl.html#a3f8e68a14bc2b8410d14fc7146cb6963">scrimmage::autonomy::ROSControl</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ShapeDraw.html#ac755d03c9b49470ba8b3cc1ca3a3babf">scrimmage::autonomy::ShapeDraw</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1SimplePubSub.html#a5b92865f13a1a3c0f8b681941ec58456">scrimmage::autonomy::SimplePubSub</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Straight.html#a2270acf5788a802d27d429b9094dc498">scrimmage::autonomy::Straight</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TakeFlag.html#adc0d5c32ef607c3903a29b219a2995bb">scrimmage::autonomy::TakeFlag</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrailMS.html#ad3a36fd676077cab92af7c7c9c4cdd6c">scrimmage::autonomy::TrailMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a0a0361a280806e6e215cdb0ab8e95584">scrimmage::autonomy::TrajectoryRecordPlayback</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#ac83b6a4196de89cb9827050a840c4832">scrimmage::autonomy::WaypointDispatcher</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1WaypointGenerator.html#ac522e491bf3ae5908b0177cadd512006">scrimmage::autonomy::WaypointGenerator</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00093">93</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   93</span>                                               {</div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   95</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00095">95</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   95</span>                                               {</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   97</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -513,10 +513,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00096">96</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>                                  {</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   98</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00098">98</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>                                  {</div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  100</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -543,10 +543,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00099">99</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00101">101</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>{}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="CommandStringRelay_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00058">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, and <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="CommandStringRelay_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -630,8 +630,8 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="classscrimmage_1_1autonomy_1_1APITester.html#a2945950e6847a25876f572c274c3789f">scrimmage::autonomy::APITester</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ArduPilot.html#a5936380860cb4e6eb893224e0e7fb309">scrimmage::autonomy::ArduPilot</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AuctionAssign.html#a5d45a48b536e7412f5d92147f6616b4a">scrimmage::autonomy::AuctionAssign</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AutonomyExecutor.html#a5f9872b0e87bacb14ce994a31699db16">scrimmage::autonomy::AutonomyExecutor</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#ad0ee5a8f6da5f185d0dd7b1130656a79">scrimmage::autonomy::motor_schemas::AvoidEntityMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a856deb64a6531aa643b60a8dbca4e726">scrimmage::autonomy::AvoidWalls</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Boids.html#a3f9725e5e79ed5a54cb81d673b633a40">scrimmage::autonomy::Boids</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1BoundaryDefense.html#a459296f9a7717499b047cf587c12112b">scrimmage::autonomy::BoundaryDefense</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a40f408f8efc081f97fbfdbee360184a4">scrimmage::autonomy::CommandStringRelay</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Control3D.html#ae871b1c166d2df8da978652de175a59f">scrimmage::autonomy::Control3D</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1FlightGearMultiplayer.html#a23ac58e998c17a9b3f5527012a0b6b63">scrimmage::autonomy::FlightGearMultiplayer</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Follow.html#a0d9046f2c94c212d5b7836105fa3aa0d">scrimmage::autonomy::Follow</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1GoToWaypoint.html#a09e2ef502d0741172a0e80c5d9fb335b">scrimmage::autonomy::GoToWaypoint</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c">scrimmage::autonomy::GraphvizFSM</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1JoystickAutonomy.html#a0f885430538967f761b996d75a879384">scrimmage::autonomy::JoystickAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#abec3700027ec41e271e1210839649fc1">scrimmage::autonomy::MOOSAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a8fe2c93f2a15bcc9f6266cb5f92ff7be">scrimmage::autonomy::MotorSchemas</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1MoveToGoalMS.html#ad59d36fc05655c8c500850618cdadd7f">scrimmage::autonomy::motor_schemas::MoveToGoalMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Predator.html#aa5da7b569f02041c3d8c37f32527fec3">scrimmage::autonomy::Predator</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSAirSim.html#a459b376970dc6db44137ba7e8ea00438">scrimmage::autonomy::ROSAirSim</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSAutonomy.html#a0762bc50aeda581506e4457354bcc790">scrimmage::autonomy::ROSAutonomy</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ROSControl.html#a8695d8cf2c2f956f5c5fb23a03018117">scrimmage::autonomy::ROSControl</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ShapeDraw.html#a7bdfb325ff8c2f2878852a8f9e75b8c9">scrimmage::autonomy::ShapeDraw</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1SimplePubSub.html#a8e8cc2f44ee129d0dded4fcde3f443bd">scrimmage::autonomy::SimplePubSub</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1Straight.html#a289f932253e4bf2fb6012a3d275e4f5e">scrimmage::autonomy::Straight</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TakeFlag.html#a3f40ebfe351427746e6e4f517441d301">scrimmage::autonomy::TakeFlag</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrailMS.html#aa386e1b788e4b927bb43f063faa8b10f">scrimmage::autonomy::TrailMS</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a97ce7695204adbe1e4c717cc8e12c174">scrimmage::autonomy::TrajectoryRecordPlayback</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1WaypointDispatcher.html#a259dabba998f9fc49555409fc5244318">scrimmage::autonomy::WaypointDispatcher</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1WaypointGenerator.html#a5268671b98c217952fe81fb263ac8e82">scrimmage::autonomy::WaypointGenerator</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00100">100</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00102">102</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -661,14 +661,14 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632">scrimmage::EntityPlugin</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00121">121</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  121</span>                             {</div>
-<div class="line"><span class="lineno">  122</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  123</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  124</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  125</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  126</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  127</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00123">123</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  123</span>                             {</div>
+<div class="line"><span class="lineno">  124</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  125</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  126</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  127</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  128</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  129</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a012b5eefb90d4194e6918de325c01968"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">scrimmage::Autonomy::proj_</a></div><div class="ttdeci">std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; proj_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00081">Autonomy.h:81</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a84be7e208966e33d3ad1be9bff2ddc79"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">scrimmage::Autonomy::rtree_</a></div><div class="ttdeci">scrimmage::RTreePtr rtree_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00086">Autonomy.h:86</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_ac612004b31762bd5ee8e6e6bc4694e2d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">scrimmage::Autonomy::contacts_</a></div><div class="ttdeci">ContactMapPtr contacts_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00085">Autonomy.h:85</a></div></div>
@@ -692,10 +692,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00101">101</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  101</span>                          {</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a33263209e2420b8812c9240de0e100de">need_reset_</a>;</div>
-<div class="line"><span class="lineno">  103</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00103">103</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>                          {</div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a33263209e2420b8812c9240de0e100de">need_reset_</a>;</div>
+<div class="line"><span class="lineno">  105</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00088">need_reset_</a>.</p>
 
@@ -716,14 +716,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00105">105</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>                                  {</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>;</div>
-<div class="line"><span class="lineno">  107</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00107">107</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                  {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a>;</div>
+<div class="line"><span class="lineno">  109</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00084">desired_state_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00109">set_desired_state()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00111">set_desired_state()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -755,13 +755,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00109">109</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>                                                       {</div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c">desired_state</a>;</div>
-<div class="line"><span class="lineno">  111</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a9366b4276bda05496c883f84c81ddd2c"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c">scrimmage::Autonomy::desired_state</a></div><div class="ttdeci">StatePtr &amp; desired_state()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00105">Autonomy.cpp:105</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00111">111</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                       {</div>
+<div class="line"><span class="lineno">  112</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a169b3603ab1bf5c4ac53e57edaa985b4">desired_state_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c">desired_state</a>;</div>
+<div class="line"><span class="lineno">  113</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a9366b4276bda05496c883f84c81ddd2c"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a9366b4276bda05496c883f84c81ddd2c">scrimmage::Autonomy::desired_state</a></div><div class="ttdeci">StatePtr &amp; desired_state()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00107">Autonomy.cpp:107</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00105">desired_state()</a>, and <a class="el" href="Autonomy_8h_source.html#l00084">desired_state_</a>.</p>
+<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00107">desired_state()</a>, and <a class="el" href="Autonomy_8h_source.html#l00084">desired_state_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -790,10 +790,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00113">113</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>                                      {</div>
-<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>;</div>
-<div class="line"><span class="lineno">  115</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00115">115</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                                      {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>;</div>
+<div class="line"><span class="lineno">  117</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00085">contacts_</a>.</p>
 
@@ -814,10 +814,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00117">117</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>                                       {</div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">return</span> *<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>;</div>
-<div class="line"><span class="lineno">  119</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00119">119</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  119</span>                                       {</div>
+<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">return</span> *<a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>;</div>
+<div class="line"><span class="lineno">  121</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00085">contacts_</a>.</p>
 
@@ -847,10 +847,10 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00049">49</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>                                                   {</div>
-<div class="line"><span class="lineno">   50</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = contacts;</div>
-<div class="line"><span class="lineno">   51</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00051">51</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                   {</div>
+<div class="line"><span class="lineno">   52</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = contacts;</div>
+<div class="line"><span class="lineno">   53</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00085">contacts_</a>.</p>
 
@@ -880,10 +880,10 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00053">53</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   53</span>                                                        {</div>
-<div class="line"><span class="lineno">   54</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = ptr-&gt;contacts_;</div>
-<div class="line"><span class="lineno">   55</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00055">55</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   55</span>                                                        {</div>
+<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a> = ptr-&gt;contacts_;</div>
+<div class="line"><span class="lineno">   57</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00085">contacts_</a>.</p>
 
@@ -913,10 +913,10 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00073">73</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                                              {</div>
-<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a> = proj;</div>
-<div class="line"><span class="lineno">   75</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00075">75</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>                                                                              {</div>
+<div class="line"><span class="lineno">   76</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a> = proj;</div>
+<div class="line"><span class="lineno">   77</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00081">proj_</a>.</p>
 
@@ -937,14 +937,14 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00057">57</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   57</span>                          {</div>
-<div class="line"><span class="lineno">   58</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a>;</div>
-<div class="line"><span class="lineno">   59</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00059">59</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                          {</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a>;</div>
+<div class="line"><span class="lineno">   61</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00086">rtree_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00061">set_rtree()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00063">set_rtree()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -974,13 +974,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00061">61</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                                        {</div>
-<div class="line"><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7">rtree</a>;</div>
-<div class="line"><span class="lineno">   63</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a1c18cc2d5de0116d54225ab6487a3dc7"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7">scrimmage::Autonomy::rtree</a></div><div class="ttdeci">scrimmage::RTreePtr &amp; rtree()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00057">Autonomy.cpp:57</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00063">63</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                        {</div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7">rtree</a>;</div>
+<div class="line"><span class="lineno">   65</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a1c18cc2d5de0116d54225ab6487a3dc7"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a1c18cc2d5de0116d54225ab6487a3dc7">scrimmage::Autonomy::rtree</a></div><div class="ttdeci">scrimmage::RTreePtr &amp; rtree()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00059">Autonomy.cpp:59</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00057">rtree()</a>, and <a class="el" href="Autonomy_8h_source.html#l00086">rtree_</a>.</p>
+<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00059">rtree()</a>, and <a class="el" href="Autonomy_8h_source.html#l00086">rtree_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1009,14 +1009,14 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00065">65</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>                          {</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>;</div>
-<div class="line"><span class="lineno">   67</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00067">67</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>                          {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>;</div>
+<div class="line"><span class="lineno">   69</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00083">state_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00118">scrimmage::autonomy::ROSAirSim::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00069">set_state()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00256">scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet()</a>, and <a class="el" href="ROSAirSim_8cpp_source.html#l00647">scrimmage::autonomy::ROSAirSim::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00120">scrimmage::autonomy::ROSAirSim::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00071">set_state()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00258">scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet()</a>, and <a class="el" href="ROSAirSim_8cpp_source.html#l00649">scrimmage::autonomy::ROSAirSim::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1064,13 +1064,13 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00069">69</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   69</span>                                        {</div>
-<div class="line"><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a>;</div>
-<div class="line"><span class="lineno">   71</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a3e208e2d4a2eee303007e519c7cc64ca"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">scrimmage::Autonomy::state</a></div><div class="ttdeci">StatePtr &amp; state()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00065">Autonomy.cpp:65</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00071">71</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>                                        {</div>
+<div class="line"><span class="lineno">   72</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a> = <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a>;</div>
+<div class="line"><span class="lineno">   73</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a3e208e2d4a2eee303007e519c7cc64ca"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">scrimmage::Autonomy::state</a></div><div class="ttdeci">StatePtr &amp; state()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00067">Autonomy.cpp:67</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00065">state()</a>, and <a class="el" href="Autonomy_8h_source.html#l00083">state_</a>.</p>
+<p class="reference">References <a class="el" href="Autonomy_8cpp_source.html#l00067">state()</a>, and <a class="el" href="Autonomy_8h_source.html#l00083">state_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1099,10 +1099,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00077">77</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   77</span>                                 {</div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#acc3b662c488d7e6ab881d2b82f493983">logging_msg_</a>;</div>
-<div class="line"><span class="lineno">   79</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00079">79</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>                                 {</div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#acc3b662c488d7e6ab881d2b82f493983">logging_msg_</a>;</div>
+<div class="line"><span class="lineno">   81</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_acc3b662c488d7e6ab881d2b82f493983"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#acc3b662c488d7e6ab881d2b82f493983">scrimmage::Autonomy::logging_msg_</a></div><div class="ttdeci">std::string logging_msg_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00089">Autonomy.h:89</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00089">logging_msg_</a>.</p>
@@ -1124,10 +1124,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00081">81</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   81</span>                                  {</div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a>;</div>
-<div class="line"><span class="lineno">   83</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00083">83</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>                                  {</div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a>;</div>
+<div class="line"><span class="lineno">   85</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00091">is_controlling_</a>.</p>
 
@@ -1149,14 +1149,14 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00085">85</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   85</span>                                                     {</div>
-<div class="line"><span class="lineno">   86</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a> = is_controlling;</div>
-<div class="line"><span class="lineno">   87</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Autonomy_8cpp_source.html#l00087">87</a> of file <a class="el" href="Autonomy_8cpp_source.html">Autonomy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                     {</div>
+<div class="line"><span class="lineno">   88</span>    <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ae0b52aa05998a4fe9d6b3eeee8917b46">is_controlling_</a> = is_controlling;</div>
+<div class="line"><span class="lineno">   89</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Autonomy_8h_source.html#l00091">is_controlling_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1193,7 +1193,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00081">81</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00121">close()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00073">set_projection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00123">close()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00075">set_projection()</a>.</p>
 
 </div>
 </div>
@@ -1219,7 +1219,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00083">83</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00121">close()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00046">scrimmage::autonomy::AvoidWalls::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00053">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="Control3D_8cpp_source.html#l00047">scrimmage::autonomy::Control3D::init()</a>, <a class="el" href="Follow_8cpp_source.html#l00048">scrimmage::autonomy::Follow::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00061">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00053">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00058">scrimmage::autonomy::ShapeDraw::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00080">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00058">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00069">set_state()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00065">state()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00062">scrimmage::autonomy::AvoidWalls::step_autonomy()</a>, <a class="el" href="Boids_8cpp_source.html#l00100">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00078">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00161">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00072">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00105">scrimmage::autonomy::ROSAutonomy::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00219">scrimmage::autonomy::Straight::step_autonomy()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00086">scrimmage::autonomy::TakeFlag::step_autonomy()</a>, <a class="el" href="TrailMS_8cpp_source.html#l00070">scrimmage::autonomy::TrailMS::step_autonomy()</a>, and <a class="el" href="Boids_8cpp_source.html#l00250">scrimmage::autonomy::Boids::velocity_controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00123">close()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00047">scrimmage::autonomy::AvoidWalls::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00054">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="Control3D_8cpp_source.html#l00048">scrimmage::autonomy::Control3D::init()</a>, <a class="el" href="Follow_8cpp_source.html#l00050">scrimmage::autonomy::Follow::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00062">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00055">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00059">scrimmage::autonomy::ShapeDraw::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00081">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00071">set_state()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00067">state()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00063">scrimmage::autonomy::AvoidWalls::step_autonomy()</a>, <a class="el" href="Boids_8cpp_source.html#l00101">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00080">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00163">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00073">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00107">scrimmage::autonomy::ROSAutonomy::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00220">scrimmage::autonomy::Straight::step_autonomy()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00088">scrimmage::autonomy::TakeFlag::step_autonomy()</a>, <a class="el" href="TrailMS_8cpp_source.html#l00071">scrimmage::autonomy::TrailMS::step_autonomy()</a>, and <a class="el" href="Boids_8cpp_source.html#l00251">scrimmage::autonomy::Boids::velocity_controller()</a>.</p>
 
 </div>
 </div>
@@ -1245,7 +1245,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00084">84</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00121">close()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00105">desired_state()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="Control3D_8cpp_source.html#l00047">scrimmage::autonomy::Control3D::init()</a>, <a class="el" href="Follow_8cpp_source.html#l00048">scrimmage::autonomy::Follow::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00061">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00053">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00058">scrimmage::autonomy::ShapeDraw::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00109">set_desired_state()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00088">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, and <a class="el" href="ROSControl_8cpp_source.html#l00095">scrimmage::autonomy::ROSControl::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00123">close()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00107">desired_state()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="Control3D_8cpp_source.html#l00048">scrimmage::autonomy::Control3D::init()</a>, <a class="el" href="Follow_8cpp_source.html#l00050">scrimmage::autonomy::Follow::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00062">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00055">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00059">scrimmage::autonomy::ShapeDraw::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00111">set_desired_state()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00089">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, and <a class="el" href="ROSControl_8cpp_source.html#l00097">scrimmage::autonomy::ROSControl::step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1271,7 +1271,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00085">85</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00121">close()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00113">get_contacts()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00117">get_contacts_raw()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00049">set_contacts()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00053">set_contacts_from_plugin()</a>, <a class="el" href="Boids_8cpp_source.html#l00100">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00078">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00088">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00072">scrimmage::autonomy::Predator::step_autonomy()</a>, and <a class="el" href="TrailMS_8cpp_source.html#l00070">scrimmage::autonomy::TrailMS::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00123">close()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00115">get_contacts()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00119">get_contacts_raw()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00051">set_contacts()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00055">set_contacts_from_plugin()</a>, <a class="el" href="Boids_8cpp_source.html#l00101">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00080">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00089">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00073">scrimmage::autonomy::Predator::step_autonomy()</a>, and <a class="el" href="TrailMS_8cpp_source.html#l00071">scrimmage::autonomy::TrailMS::step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1297,7 +1297,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00086">86</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00121">close()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00057">rtree()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00061">set_rtree()</a>, and <a class="el" href="Boids_8cpp_source.html#l00100">scrimmage::autonomy::Boids::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00123">close()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00059">rtree()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00063">set_rtree()</a>, and <a class="el" href="Boids_8cpp_source.html#l00101">scrimmage::autonomy::Boids::step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1323,7 +1323,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00088">88</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00101">need_reset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00103">need_reset()</a>.</p>
 
 </div>
 </div>
@@ -1349,7 +1349,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00089">89</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00077">logging_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00079">logging_msg()</a>.</p>
 
 </div>
 </div>
@@ -1375,7 +1375,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Autonomy_8h_source.html#l00091">91</a> of file <a class="el" href="Autonomy_8h_source.html">Autonomy.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00081">get_is_controlling()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00085">set_is_controlling()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Autonomy_8cpp_source.html#l00083">get_is_controlling()</a>, and <a class="el" href="Autonomy_8cpp_source.html#l00087">set_is_controlling()</a>.</p>
 
 </div>
 </div>
@@ -1389,7 +1389,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Autonomy.html">Autonomy</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

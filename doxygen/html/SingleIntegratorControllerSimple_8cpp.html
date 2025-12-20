@@ -97,21 +97,21 @@ $(document).ready(function(){initNavTree('SingleIntegratorControllerSimple_8cpp.
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="VariableIO_8h_source.html">scrimmage/common/VariableIO.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="SingleIntegratorControllerSimple_8h_source.html">scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="SingleIntegratorControllerSimple_8h_source.html">scrimmage/plugins/controller/SingleIntegratorControllerSimple/SingleIntegratorControllerSimple.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="VariableIO_8h_source.html">scrimmage/common/VariableIO.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SingleIntegratorControllerSimple.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="SingleIntegratorControllerSimple_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SingleIntegratorControllerSimple_2SingleIntegratorControllerSimple_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SingleIntegratorControllerSimple_2SingleIntegratorControllerSimple_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SingleIntegratorControllerSimple_2SingleIntegratorControllerSimple_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="237,5,503,75"/>
-<area shape="rect" href="VariableIO_8h.html" title="Brief file description." alt="" coords="5,137,244,163"/>
-<area shape="poly" title=" " alt="" coords="295,77,165,134,162,129,293,72"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="268,130,472,170"/>
-<area shape="poly" title=" " alt="" coords="373,75,373,116,367,116,367,75"/>
-<area shape="rect" href="SingleIntegratorControllerSimple_8h.html" title="Brief file description." alt="" coords="497,123,747,177"/>
-<area shape="poly" title=" " alt="" coords="449,72,549,115,547,120,447,77"/>
+<area shape="rect" title="Brief file description." alt="" coords="267,5,533,75"/>
+<area shape="rect" href="SingleIntegratorControllerSimple_8h.html" title="Brief file description." alt="" coords="5,123,256,177"/>
+<area shape="poly" title=" " alt="" coords="317,77,210,120,208,115,315,72"/>
+<area shape="rect" href="VariableIO_8h.html" title="Brief file description." alt="" coords="281,137,519,163"/>
+<area shape="poly" title=" " alt="" coords="403,75,403,123,397,123,397,75"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="543,130,747,170"/>
+<area shape="poly" title=" " alt="" coords="477,72,591,122,589,127,475,77"/>
 </map>
 </div>
 </div>
@@ -174,30 +174,31 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html#l00037">37</a> of file <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html">SingleIntegratorControllerSimple.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                    {</div>
-<div class="line"><span class="lineno">   43</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span><span class="keywordtype">void</span> SingleIntegratorControllerSimple::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   46</span>    input_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   47</span>    input_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   48</span>    input_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   51</span>    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   52</span>    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   53</span>}</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span><span class="keywordtype">bool</span> SingleIntegratorControllerSimple::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   56</span>    vars_.output(output_vel_x_idx_, vars_.input(input_vel_x_idx_));</div>
-<div class="line"><span class="lineno">   57</span>    vars_.output(output_vel_y_idx_, vars_.input(input_vel_y_idx_));</div>
-<div class="line"><span class="lineno">   58</span>    vars_.output(output_vel_z_idx_, vars_.input(input_vel_z_idx_));</div>
-<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   60</span>}</div>
-<div class="line"><span class="lineno">   61</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   62</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html#l00038">38</a> of file <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html">SingleIntegratorControllerSimple.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>                    {</div>
+<div class="line"><span class="lineno">   44</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span><span class="keywordtype">void</span> SingleIntegratorControllerSimple::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   47</span>    input_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   48</span>    input_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   49</span>    input_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>    output_vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   52</span>    output_vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   53</span>    output_vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   54</span>}</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span><span class="keywordtype">bool</span> SingleIntegratorControllerSimple::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   57</span>    vars_.output(output_vel_x_idx_, vars_.input(input_vel_x_idx_));</div>
+<div class="line"><span class="lineno">   58</span>    vars_.output(output_vel_y_idx_, vars_.input(input_vel_y_idx_));</div>
+<div class="line"><span class="lineno">   59</span>    vars_.output(output_vel_z_idx_, vars_.input(input_vel_z_idx_));</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   61</span>}</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   64</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a0970056275e2420b48c54ce45a0acbac">scrimmage::controller::SingleIntegratorControllerSimple::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00142">scrimmage::VariableIO::input()</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00051">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_x_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00052">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_y_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00053">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00055">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_x_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00056">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_y_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00057">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#afa4aa75efc52c7659885a22d11ae105a">scrimmage::controller::SingleIntegratorControllerSimple::step()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, and <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#a0970056275e2420b48c54ce45a0acbac">scrimmage::controller::SingleIntegratorControllerSimple::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00051">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_x_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00052">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_y_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00053">scrimmage::controller::SingleIntegratorControllerSimple::input_vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00055">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_x_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00056">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_y_idx_</a>, <a class="el" href="SingleIntegratorControllerSimple_8h_source.html#l00057">scrimmage::controller::SingleIntegratorControllerSimple::output_vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1SingleIntegratorControllerSimple.html#afa4aa75efc52c7659885a22d11ae105a">scrimmage::controller::SingleIntegratorControllerSimple::step()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, and <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -225,7 +226,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_25fc401c55beea1b89a7bc915a4e9a5c.html">SingleIntegratorControllerSimple</a></li><li class="navelem"><a class="el" href="SingleIntegratorControllerSimple_8cpp.html">SingleIntegratorControllerSimple.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

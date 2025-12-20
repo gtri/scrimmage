@@ -97,27 +97,27 @@ $(document).ready(function(){initNavTree('DoubleIntegratorControllerWaypoint_8cp
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html">scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html">scrimmage/plugins/controller/DoubleIntegratorControllerWaypoint/DoubleIntegratorControllerWaypoint.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for DoubleIntegratorControllerWaypoint.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="DoubleIntegratorControllerWaypoint_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerWaypoint_2DoubleIntegratorControllerWaypoint_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerWaypoint_2DoubleIntegratorControllerWaypoint_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerWaypoint_2DoubleIntegratorControllerWaypoint_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="321,5,609,75"/>
-<area shape="rect" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" title=" " alt="" coords="322,67,211,92,98,125,79,133,77,128,96,120,210,87,320,62"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="110,137,333,163"/>
-<area shape="poly" title=" " alt="" coords="391,77,261,134,259,129,388,72"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="357,137,573,163"/>
-<area shape="poly" title=" " alt="" coords="468,75,468,123,463,123,463,75"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="598,130,802,170"/>
-<area shape="poly" title=" " alt="" coords="539,72,648,122,646,127,537,77"/>
-<area shape="rect" href="DoubleIntegratorControllerWaypoint_8h.html" title="Brief file description." alt="" coords="826,123,1099,177"/>
-<area shape="poly" title=" " alt="" coords="610,70,829,117,828,122,609,75"/>
+<area shape="rect" title="Brief file description." alt="" coords="374,5,662,75"/>
+<area shape="rect" href="DoubleIntegratorControllerWaypoint_8h.html" title="Brief file description." alt="" coords="5,123,279,177"/>
+<area shape="poly" title=" " alt="" coords="402,77,247,121,246,116,400,72"/>
+<area shape="rect" title=" " alt="" coords="302,137,382,163"/>
+<area shape="poly" title=" " alt="" coords="465,77,374,132,371,128,462,72"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="407,137,629,163"/>
+<area shape="poly" title=" " alt="" coords="521,75,521,123,515,123,515,75"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="654,137,870,163"/>
+<area shape="poly" title=" " alt="" coords="595,72,724,129,722,134,593,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="895,130,1099,170"/>
+<area shape="poly" title=" " alt="" coords="663,71,883,120,901,124,900,130,881,125,662,76"/>
 </map>
 </div>
 </div>
@@ -180,46 +180,47 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00040">40</a> of file <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html">DoubleIntegratorControllerWaypoint.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                    {</div>
-<div class="line"><span class="lineno">   46</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span><span class="keywordtype">void</span> DoubleIntegratorControllerWaypoint::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   49</span>    std::vector&lt;double&gt; gain;</div>
-<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a>(params.at(<span class="stringliteral">&quot;gain&quot;</span>), <span class="stringliteral">&quot;,&quot;</span>, gain, 2)) {</div>
-<div class="line"><span class="lineno">   51</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;warning: did not get gain properly in DoubleIntegratorControllerWaypoint&quot;</span></div>
-<div class="line"><span class="lineno">   52</span>                  &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   53</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   54</span>        gain_ &lt;&lt; gain[0], gain[1];</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span>    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   58</span>    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   59</span>    desired_heading_idx_ =</div>
-<div class="line"><span class="lineno">   60</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   63</span>    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   64</span>    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   65</span>    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   66</span>}</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span><span class="keywordtype">bool</span> DoubleIntegratorControllerWaypoint::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   69</span>    Eigen::Vector3d acc = -gain_(0) * (parent()-&gt;state_belief()-&gt;pos() - desired_state_-&gt;pos())</div>
-<div class="line"><span class="lineno">   70</span>                          - gain_(1) * parent()-&gt;state_belief()-&gt;vel();</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>    vars_.output(acc_x_idx_, acc(0));</div>
-<div class="line"><span class="lineno">   73</span>    vars_.output(acc_y_idx_, acc(1));</div>
-<div class="line"><span class="lineno">   74</span>    vars_.output(acc_z_idx_, acc(2));</div>
-<div class="line"><span class="lineno">   75</span>    vars_.output(turn_rate_idx_, 0);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="line"><span class="lineno">   79</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   80</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00099">ParseUtils.h:99</a></div></div>
+<p class="definition">Definition at line <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00041">41</a> of file <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html">DoubleIntegratorControllerWaypoint.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                    {</div>
+<div class="line"><span class="lineno">   47</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   48</span> </div>
+<div class="line"><span class="lineno">   49</span><span class="keywordtype">void</span> DoubleIntegratorControllerWaypoint::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   50</span>    std::vector&lt;double&gt; gain;</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a>(params.at(<span class="stringliteral">&quot;gain&quot;</span>), <span class="stringliteral">&quot;,&quot;</span>, gain, 2)) {</div>
+<div class="line"><span class="lineno">   52</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;warning: did not get gain properly in DoubleIntegratorControllerWaypoint&quot;</span></div>
+<div class="line"><span class="lineno">   53</span>                  &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   54</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   55</span>        gain_ &lt;&lt; gain[0], gain[1];</div>
+<div class="line"><span class="lineno">   56</span>    }</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   59</span>    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   60</span>    desired_heading_idx_ =</div>
+<div class="line"><span class="lineno">   61</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   64</span>    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   65</span>    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   66</span>    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   67</span>}</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span><span class="keywordtype">bool</span> DoubleIntegratorControllerWaypoint::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   70</span>    Eigen::Vector3d acc = -gain_(0) * (parent()-&gt;state_belief()-&gt;pos() - desired_state_-&gt;pos())</div>
+<div class="line"><span class="lineno">   71</span>                          - gain_(1) * parent()-&gt;state_belief()-&gt;vel();</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>    vars_.output(acc_x_idx_, acc(0));</div>
+<div class="line"><span class="lineno">   74</span>    vars_.output(acc_y_idx_, acc(1));</div>
+<div class="line"><span class="lineno">   75</span>    vars_.output(acc_z_idx_, acc(2));</div>
+<div class="line"><span class="lineno">   76</span>    vars_.output(turn_rate_idx_, 0);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   79</span>}</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   82</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00101">ParseUtils.h:101</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00055">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_x_idx_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00056">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_y_idx_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00057">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1b44ae3151b577c88fa8e2bf411c5a1a">scrimmage::VariableIO::acceleration_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a7d50d4e843a7df1e4fc299bbdf1ea3ce">scrimmage::VariableIO::acceleration_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00051">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00053">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00052">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_speed_idx_</a>, <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00049">scrimmage::controller::DoubleIntegratorControllerWaypoint::gain_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerWaypoint.html#ab59903e4fae5c8b445ba3a65302d8241">scrimmage::controller::DoubleIntegratorControllerWaypoint::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerWaypoint.html#a1bbe9620130569f311d76898ba5ef8ed">scrimmage::controller::DoubleIntegratorControllerWaypoint::step()</a>, <a class="el" href="ParseUtils_8h_source.html#l00099">scrimmage::str2container()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00058">scrimmage::controller::DoubleIntegratorControllerWaypoint::turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00056">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_x_idx_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00057">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_y_idx_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00058">scrimmage::controller::DoubleIntegratorControllerWaypoint::acc_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1b44ae3151b577c88fa8e2bf411c5a1a">scrimmage::VariableIO::acceleration_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a7d50d4e843a7df1e4fc299bbdf1ea3ce">scrimmage::VariableIO::acceleration_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00052">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00054">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00053">scrimmage::controller::DoubleIntegratorControllerWaypoint::desired_speed_idx_</a>, <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00050">scrimmage::controller::DoubleIntegratorControllerWaypoint::gain_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerWaypoint.html#ab59903e4fae5c8b445ba3a65302d8241">scrimmage::controller::DoubleIntegratorControllerWaypoint::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerWaypoint.html#a1bbe9620130569f311d76898ba5ef8ed">scrimmage::controller::DoubleIntegratorControllerWaypoint::step()</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8h_source.html#l00059">scrimmage::controller::DoubleIntegratorControllerWaypoint::turn_rate_idx_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -249,7 +250,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_da4098740d767669478e43386c71707b.html">DoubleIntegratorControllerWaypoint</a></li><li class="navelem"><a class="el" href="DoubleIntegratorControllerWaypoint_8cpp.html">DoubleIntegratorControllerWaypoint.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

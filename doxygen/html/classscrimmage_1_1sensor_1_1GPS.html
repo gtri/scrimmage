@@ -273,7 +273,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00051">51</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00054">54</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a967b72bc14d97d934ae0a90649f2314f" name="a967b72bc14d97d934ae0a90649f2314f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a967b72bc14d97d934ae0a90649f2314f">&#9670;&#160;</a></span>GPS()</h2>
@@ -290,10 +290,10 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00063">63</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>: <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a>(<span class="keyword">false</span>), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a>(-1) {}</div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_ab04fa74e178d7254bbd565823aba0c48"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">scrimmage::sensor::GPS::gps_found_</a></div><div class="ttdeci">bool gps_found_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00058">GPS.h:58</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_ab5347b727d9e7c3511f6e7a27d067fd2"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">scrimmage::sensor::GPS::boundary_id_</a></div><div class="ttdeci">int boundary_id_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00059">GPS.h:59</a></div></div>
+<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00065">65</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>: <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a>(<span class="keyword">false</span>), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a>(-1) {}</div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_ab04fa74e178d7254bbd565823aba0c48"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">scrimmage::sensor::GPS::gps_found_</a></div><div class="ttdeci">bool gps_found_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00061">GPS.h:61</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_ab5347b727d9e7c3511f6e7a27d067fd2"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">scrimmage::sensor::GPS::boundary_id_</a></div><div class="ttdeci">int boundary_id_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00062">GPS.h:62</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -324,28 +324,28 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00065">65</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>                                                   {</div>
-<div class="line"><span class="lineno">   66</span>    <span class="comment">// Loading in params</span></div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">if</span> (params.count(<span class="stringliteral">&quot;gps_denied_ids&quot;</span>) &gt; 0) {</div>
-<div class="line"><span class="lineno">   68</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a> = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(params[<span class="stringliteral">&quot;gps_denied_ids&quot;</span>], <span class="stringliteral">&quot;,&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>);</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GPSStatus&quot;</span>);</div>
+<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00067">67</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>                                                   {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="comment">// Loading in params</span></div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">if</span> (params.count(<span class="stringliteral">&quot;gps_denied_ids&quot;</span>) &gt; 0) {</div>
+<div class="line"><span class="lineno">   70</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a> = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(params[<span class="stringliteral">&quot;gps_denied_ids&quot;</span>], <span class="stringliteral">&quot;,&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>);</div>
+<div class="line"><span class="lineno">   71</span>    }</div>
 <div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="keyword">auto</span> bd_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
-<div class="line"><span class="lineno">   74</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a> = msg-&gt;data.id().id();</div>
-<div class="line"><span class="lineno">   75</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a> = sci::Boundary::make_boundary(msg-&gt;data);</div>
-<div class="line"><span class="lineno">   76</span>    };</div>
-<div class="line"><span class="lineno">   77</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, bd_cb);</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00096">EntityPlugin.cpp:96</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_a2d06094fbcda877cf06f24fd98fe2ba1"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">scrimmage::sensor::GPS::gps_denied_ids_</a></div><div class="ttdeci">std::vector&lt; int &gt; gps_denied_ids_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00060">GPS.h:60</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_af478d519c2171582e8f71fbe0d11eaa2"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">scrimmage::sensor::GPS::boundary_</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage::interaction::BoundaryBase &gt; boundary_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00062">GPS.h:62</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_af7b7ec5a15917ebf372339b0c0809226"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">scrimmage::sensor::GPS::pub_</a></div><div class="ttdeci">PublisherPtr pub_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00061">GPS.h:61</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00099">ParseUtils.h:99</a></div></div>
+<div class="line"><span class="lineno">   73</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GPSStatus&quot;</span>);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <span class="keyword">auto</span> bd_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
+<div class="line"><span class="lineno">   76</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a> = msg-&gt;data.id().id();</div>
+<div class="line"><span class="lineno">   77</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a> = sci::Boundary::make_boundary(msg-&gt;data);</div>
+<div class="line"><span class="lineno">   78</span>    };</div>
+<div class="line"><span class="lineno">   79</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, bd_cb);</div>
+<div class="line"><span class="lineno">   80</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_a2d06094fbcda877cf06f24fd98fe2ba1"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">scrimmage::sensor::GPS::gps_denied_ids_</a></div><div class="ttdeci">std::vector&lt; int &gt; gps_denied_ids_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00063">GPS.h:63</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_af478d519c2171582e8f71fbe0d11eaa2"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">scrimmage::sensor::GPS::boundary_</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage::interaction::BoundaryBase &gt; boundary_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00065">GPS.h:65</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1GPS_html_af7b7ec5a15917ebf372339b0c0809226"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">scrimmage::sensor::GPS::pub_</a></div><div class="ttdeci">PublisherPtr pub_</div><div class="ttdef"><b>Definition</b> <a href="GPS_8h_source.html#l00064">GPS.h:64</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00101">ParseUtils.h:101</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00096">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="GPS_8h_source.html#l00062">boundary_</a>, <a class="el" href="GPS_8h_source.html#l00059">boundary_id_</a>, <a class="el" href="GPS_8h_source.html#l00060">gps_denied_ids_</a>, <a class="el" href="GPS_8h_source.html#l00058">gps_found_</a>, <a class="el" href="GPS_8h_source.html#l00061">pub_</a>, and <a class="el" href="ParseUtils_8h_source.html#l00099">scrimmage::str2container()</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="GPS_8h_source.html#l00065">boundary_</a>, <a class="el" href="GPS_8h_source.html#l00062">boundary_id_</a>, <a class="el" href="GPS_8h_source.html#l00063">gps_denied_ids_</a>, <a class="el" href="GPS_8h_source.html#l00061">gps_found_</a>, <a class="el" href="GPS_8h_source.html#l00064">pub_</a>, and <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -386,47 +386,47 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#ab406f4625b89042961f6ae8d06cbc427">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00080">80</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>               {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="comment">// Obtain current state information</span></div>
-<div class="line"><span class="lineno">   82</span>    <a class="code hl_class" href="classscrimmage_1_1State.html">sc::State</a> ns = *(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth());</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;sm::GPSStatus&gt;&gt;();</div>
+<p class="definition">Definition at line <a class="el" href="GPS_8cpp_source.html#l00082">82</a> of file <a class="el" href="GPS_8cpp_source.html">GPS.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>               {</div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">// Obtain current state information</span></div>
+<div class="line"><span class="lineno">   84</span>    <a class="code hl_class" href="classscrimmage_1_1State.html">sc::State</a> ns = *(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth());</div>
 <div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    msg-&gt;data.set_sender_id(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;Message&lt;sm::GPSStatus&gt;&gt;();</div>
 <div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>    <span class="keywordtype">double</span> lat = 0;</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordtype">double</span> lon = 0;</div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordtype">double</span> alt = 0;</div>
-<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Reverse(ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(0), ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(1), ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2), lat, lon, alt);</div>
-<div class="line"><span class="lineno">   92</span>    msg-&gt;data.set_lat(lat);</div>
-<div class="line"><span class="lineno">   93</span>    msg-&gt;data.set_lon(lon);</div>
-<div class="line"><span class="lineno">   94</span>    msg-&gt;data.set_alt(alt);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>    msg-&gt;data.set_time(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t());</div>
+<div class="line"><span class="lineno">   88</span>    msg-&gt;data.set_sender_id(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordtype">double</span> lat = 0;</div>
+<div class="line"><span class="lineno">   91</span>    <span class="keywordtype">double</span> lon = 0;</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordtype">double</span> alt = 0;</div>
+<div class="line"><span class="lineno">   93</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Reverse(ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(0), ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(1), ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>()(2), lat, lon, alt);</div>
+<div class="line"><span class="lineno">   94</span>    msg-&gt;data.set_lat(lat);</div>
+<div class="line"><span class="lineno">   95</span>    msg-&gt;data.set_lon(lon);</div>
+<div class="line"><span class="lineno">   96</span>    msg-&gt;data.set_alt(alt);</div>
 <div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>    <span class="keywordtype">bool</span> gps_fix = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a> != <span class="keyword">nullptr</span> &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a>) {</div>
-<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">if</span> (std::find(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.begin(), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.end(), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a>)</div>
-<div class="line"><span class="lineno">  101</span>                != <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.end()</div>
-<div class="line"><span class="lineno">  102</span>            &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a>-&gt;contains(ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>())) {</div>
-<div class="line"><span class="lineno">  103</span>            gps_fix = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
-<div class="line"><span class="lineno">  105</span>    }</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>    msg-&gt;data.set_fixed(gps_fix);</div>
+<div class="line"><span class="lineno">   98</span>    msg-&gt;data.set_time(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t());</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>    <span class="keywordtype">bool</span> gps_fix = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a> != <span class="keyword">nullptr</span> &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab04fa74e178d7254bbd565823aba0c48">gps_found_</a>) {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (std::find(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.begin(), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.end(), <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#ab5347b727d9e7c3511f6e7a27d067fd2">boundary_id_</a>)</div>
+<div class="line"><span class="lineno">  103</span>                != <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#a2d06094fbcda877cf06f24fd98fe2ba1">gps_denied_ids_</a>.end()</div>
+<div class="line"><span class="lineno">  104</span>            &amp;&amp; <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af478d519c2171582e8f71fbe0d11eaa2">boundary_</a>-&gt;contains(ns.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>())) {</div>
+<div class="line"><span class="lineno">  105</span>            gps_fix = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  106</span>        }</div>
+<div class="line"><span class="lineno">  107</span>    }</div>
 <div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>    <span class="comment">// Publish GPS information</span></div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">pub_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  113</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00197">EntityPlugin.h:197</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
+<div class="line"><span class="lineno">  109</span>    msg-&gt;data.set_fixed(gps_fix);</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>    <span class="comment">// Publish GPS information</span></div>
+<div class="line"><span class="lineno">  112</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1GPS.html#af7b7ec5a15917ebf372339b0c0809226">pub_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  115</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00199">EntityPlugin.h:199</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html"><div class="ttname"><a href="classscrimmage_1_1State.html">scrimmage::State</a></div><div class="ttdef"><b>Definition</b> <a href="State_8h_source.html#l00045">State.h:45</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00049">State.cpp:49</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1State_html_a011763289b5af110083872e3766c5044"><div class="ttname"><a href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">scrimmage::State::pos</a></div><div class="ttdeci">Eigen::Vector3d &amp; pos()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00050">State.cpp:50</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GPS_8h_source.html#l00062">boundary_</a>, <a class="el" href="GPS_8h_source.html#l00059">boundary_id_</a>, <a class="el" href="GPS_8h_source.html#l00060">gps_denied_ids_</a>, <a class="el" href="GPS_8h_source.html#l00058">gps_found_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00049">scrimmage::State::pos()</a>, <a class="el" href="GPS_8h_source.html#l00061">pub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00197">scrimmage::EntityPlugin::time_</a>.</p>
+<p class="reference">References <a class="el" href="GPS_8h_source.html#l00065">boundary_</a>, <a class="el" href="GPS_8h_source.html#l00062">boundary_id_</a>, <a class="el" href="GPS_8h_source.html#l00063">gps_denied_ids_</a>, <a class="el" href="GPS_8h_source.html#l00061">gps_found_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="GPS_8h_source.html#l00064">pub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -461,9 +461,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00058">58</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00061">61</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00065">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00080">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00067">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -487,9 +487,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00059">59</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00062">62</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00065">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00080">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00067">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -513,9 +513,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00060">60</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00063">63</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00065">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00080">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00067">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -539,9 +539,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00061">61</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00064">64</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00065">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00080">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00067">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -565,9 +565,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00062">62</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPS_8h_source.html#l00065">65</a> of file <a class="el" href="GPS_8h_source.html">GPS.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00065">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00080">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPS_8cpp_source.html#l00067">init()</a>, and <a class="el" href="GPS_8cpp_source.html#l00082">step()</a>.</p>
 
 </div>
 </div>
@@ -581,7 +581,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1GPS.html">GPS</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:36 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

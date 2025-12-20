@@ -175,7 +175,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00117">117</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00118">118</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad670cd66dcdfe77c90529281f5dfb3e4" name="ad670cd66dcdfe77c90529281f5dfb3e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad670cd66dcdfe77c90529281f5dfb3e4">&#9670;&#160;</a></span>parse_document() <span class="overload">[1/2]</span></h2>
@@ -193,29 +193,29 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00124">124</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                                     {</div>
-<div class="line"><span class="lineno">  125</span>    fs::path path{<a class="code hl_function" href="classscrimmage_1_1XMLParserDocument.html#a5967a609716c5426e825bdaeca6f0eeb">filename</a>};</div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">if</span> (fs::is_symlink(path)) {</div>
-<div class="line"><span class="lineno">  127</span>        path = fs::read_symlink(path);</div>
-<div class="line"><span class="lineno">  128</span>    }</div>
-<div class="line"><span class="lineno">  129</span>    assert(fs::exists(path) &amp;&amp; fs::is_regular_file(path));</div>
-<div class="line"><span class="lineno">  130</span>    std::ifstream file(path.string());</div>
-<div class="line"><span class="lineno">  131</span>    std::stringstream buffer;</div>
-<div class="line"><span class="lineno">  132</span>    buffer &lt;&lt; file.rdbuf();</div>
-<div class="line"><span class="lineno">  133</span>    file.close();</div>
-<div class="line"><span class="lineno">  134</span>    std::string filecontent_str = buffer.str();</div>
-<div class="line"><span class="lineno">  135</span>    std::vector&lt;char&gt; filecontent(filecontent_str.cbegin(), filecontent_str.cend());</div>
-<div class="line"><span class="lineno">  136</span>    <a class="code hl_variable" href="classscrimmage_1_1XMLParserDocument.html#afb8a083d7dc4cce288beab697258bbd5">filename_</a> = path.string();</div>
-<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1RapidXMLParserDocument.html#ad670cd66dcdfe77c90529281f5dfb3e4">parse_document</a>(filecontent);</div>
-<div class="line"><span class="lineno">  138</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_ad670cd66dcdfe77c90529281f5dfb3e4"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#ad670cd66dcdfe77c90529281f5dfb3e4">scrimmage::RapidXMLParserDocument::parse_document</a></div><div class="ttdeci">bool parse_document(const std::string &amp;filename)</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8cpp_source.html#l00124">RapidXMLParser.cpp:124</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1XMLParserDocument_html_a5967a609716c5426e825bdaeca6f0eeb"><div class="ttname"><a href="classscrimmage_1_1XMLParserDocument.html#a5967a609716c5426e825bdaeca6f0eeb">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename</a></div><div class="ttdeci">std::string filename() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00323">XMLParser.h:323</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1XMLParserDocument_html_afb8a083d7dc4cce288beab697258bbd5"><div class="ttname"><a href="classscrimmage_1_1XMLParserDocument.html#afb8a083d7dc4cce288beab697258bbd5">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename_</a></div><div class="ttdeci">std::string filename_</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00326">XMLParser.h:326</a></div></div>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00125">125</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>                                                                     {</div>
+<div class="line"><span class="lineno">  126</span>    fs::path path{<a class="code hl_function" href="classscrimmage_1_1XMLParserDocument.html#a5967a609716c5426e825bdaeca6f0eeb">filename</a>};</div>
+<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">if</span> (fs::is_symlink(path)) {</div>
+<div class="line"><span class="lineno">  128</span>        path = fs::read_symlink(path);</div>
+<div class="line"><span class="lineno">  129</span>    }</div>
+<div class="line"><span class="lineno">  130</span>    assert(fs::exists(path) &amp;&amp; fs::is_regular_file(path));</div>
+<div class="line"><span class="lineno">  131</span>    std::ifstream file(path.string());</div>
+<div class="line"><span class="lineno">  132</span>    std::stringstream buffer;</div>
+<div class="line"><span class="lineno">  133</span>    buffer &lt;&lt; file.rdbuf();</div>
+<div class="line"><span class="lineno">  134</span>    file.close();</div>
+<div class="line"><span class="lineno">  135</span>    std::string filecontent_str = buffer.str();</div>
+<div class="line"><span class="lineno">  136</span>    std::vector&lt;char&gt; filecontent(filecontent_str.cbegin(), filecontent_str.cend());</div>
+<div class="line"><span class="lineno">  137</span>    <a class="code hl_variable" href="classscrimmage_1_1XMLParserDocument.html#afb8a083d7dc4cce288beab697258bbd5">filename_</a> = path.string();</div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1RapidXMLParserDocument.html#ad670cd66dcdfe77c90529281f5dfb3e4">parse_document</a>(filecontent);</div>
+<div class="line"><span class="lineno">  139</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_ad670cd66dcdfe77c90529281f5dfb3e4"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#ad670cd66dcdfe77c90529281f5dfb3e4">scrimmage::RapidXMLParserDocument::parse_document</a></div><div class="ttdeci">bool parse_document(const std::string &amp;filename)</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8cpp_source.html#l00125">RapidXMLParser.cpp:125</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1XMLParserDocument_html_a5967a609716c5426e825bdaeca6f0eeb"><div class="ttname"><a href="classscrimmage_1_1XMLParserDocument.html#a5967a609716c5426e825bdaeca6f0eeb">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename</a></div><div class="ttdeci">std::string filename() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00324">XMLParser.h:324</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1XMLParserDocument_html_afb8a083d7dc4cce288beab697258bbd5"><div class="ttname"><a href="classscrimmage_1_1XMLParserDocument.html#afb8a083d7dc4cce288beab697258bbd5">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename_</a></div><div class="ttdeci">std::string filename_</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00327">XMLParser.h:327</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00323">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename()</a>, <a class="el" href="XMLParser_8h_source.html#l00326">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename_</a>, and <a class="el" href="RapidXMLParser_8cpp_source.html#l00124">parse_document()</a>.</p>
+<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00324">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename()</a>, <a class="el" href="XMLParser_8h_source.html#l00327">scrimmage::XMLParserDocument&lt; RapidXMLParserDocument &gt;::filename_</a>, and <a class="el" href="RapidXMLParser_8cpp_source.html#l00125">parse_document()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00124">parse_document()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00125">parse_document()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -255,25 +255,25 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00140">140</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  140</span>                                                                              {</div>
-<div class="line"><span class="lineno">  141</span>    <a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">filecontent_</a> = filecontent;</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  143</span>        <span class="comment">// Note: This parse function can hard fail (seg fault, no exception) on</span></div>
-<div class="line"><span class="lineno">  144</span>        <span class="comment">//       badly formatted xml data. Sometimes it&#39;ll except, sometimes not.</span></div>
-<div class="line"><span class="lineno">  145</span>        <a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.parse&lt;rapidxml::parse_non_destructive&gt;(<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">filecontent_</a>.data());</div>
-<div class="line"><span class="lineno">  146</span>    } <span class="keywordflow">catch</span> (...) {</div>
-<div class="line"><span class="lineno">  147</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;scrimmage::MissionParse::parse: Exception during &quot;</span></div>
-<div class="line"><span class="lineno">  148</span>                     <span class="stringliteral">&quot;rapidxml::xml_document&lt;&gt;.parse&lt;&gt;().&quot;</span></div>
-<div class="line"><span class="lineno">  149</span>                     <span class="stringliteral">&quot;Your xml mission file may be ill-formatted\n&quot;</span>;</div>
-<div class="line"><span class="lineno">  150</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  151</span>    }</div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  153</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_a289873d816caf2201e470caa614a93fd"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">scrimmage::RapidXMLParserDocument::filecontent_</a></div><div class="ttdeci">std::vector&lt; char &gt; filecontent_</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8h_source.html#l00126">RapidXMLParser.h:126</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_ab7066e0a52e9d0fa34e7aac87264b9b6"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">scrimmage::RapidXMLParserDocument::doc_</a></div><div class="ttdeci">rapidxml::xml_document doc_</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8h_source.html#l00127">RapidXMLParser.h:127</a></div></div>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00141">141</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>                                                                              {</div>
+<div class="line"><span class="lineno">  142</span>    <a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">filecontent_</a> = filecontent;</div>
+<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  144</span>        <span class="comment">// Note: This parse function can hard fail (seg fault, no exception) on</span></div>
+<div class="line"><span class="lineno">  145</span>        <span class="comment">//       badly formatted xml data. Sometimes it&#39;ll except, sometimes not.</span></div>
+<div class="line"><span class="lineno">  146</span>        <a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.parse&lt;rapidxml::parse_non_destructive&gt;(<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">filecontent_</a>.data());</div>
+<div class="line"><span class="lineno">  147</span>    } <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><span class="lineno">  148</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;scrimmage::MissionParse::parse: Exception during &quot;</span></div>
+<div class="line"><span class="lineno">  149</span>                     <span class="stringliteral">&quot;rapidxml::xml_document&lt;&gt;.parse&lt;&gt;().&quot;</span></div>
+<div class="line"><span class="lineno">  150</span>                     <span class="stringliteral">&quot;Your xml mission file may be ill-formatted\n&quot;</span>;</div>
+<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  152</span>    }</div>
+<div class="line"><span class="lineno">  153</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  154</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_a289873d816caf2201e470caa614a93fd"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#a289873d816caf2201e470caa614a93fd">scrimmage::RapidXMLParserDocument::filecontent_</a></div><div class="ttdeci">std::vector&lt; char &gt; filecontent_</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8h_source.html#l00127">RapidXMLParser.h:127</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1RapidXMLParserDocument_html_ab7066e0a52e9d0fa34e7aac87264b9b6"><div class="ttname"><a href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">scrimmage::RapidXMLParserDocument::doc_</a></div><div class="ttdeci">rapidxml::xml_document doc_</div><div class="ttdef"><b>Definition</b> <a href="RapidXMLParser_8h_source.html#l00128">RapidXMLParser.h:128</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00127">doc_</a>, and <a class="el" href="RapidXMLParser_8h_source.html#l00126">filecontent_</a>.</p>
+<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00128">doc_</a>, and <a class="el" href="RapidXMLParser_8h_source.html#l00127">filecontent_</a>.</p>
 
 </div>
 </div>
@@ -293,12 +293,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00155">155</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> RapidXMLParserNode{<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.first_node(name.c_str())};</div>
-<div class="line"><span class="lineno">  157</span>}</div>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00156">156</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  156</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  157</span>    <span class="keywordflow">return</span> RapidXMLParserNode{<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.first_node(name.c_str())};</div>
+<div class="line"><span class="lineno">  158</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00127">doc_</a>, and <a class="el" href="XMLParser_8h_source.html#l00233">scrimmage::XMLParserNode&lt; T &gt;::first_node()</a>.</p>
+<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00128">doc_</a>, and <a class="el" href="XMLParser_8h_source.html#l00234">scrimmage::XMLParserNode&lt; T &gt;::first_node()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -327,12 +327,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00159">159</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  159</span>                                                                 {</div>
-<div class="line"><span class="lineno">  160</span>    <span class="keywordflow">return</span> RapidXMLParserNode{<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.first_node()};</div>
-<div class="line"><span class="lineno">  161</span>}</div>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8cpp_source.html#l00160">160</a> of file <a class="el" href="RapidXMLParser_8cpp_source.html">RapidXMLParser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>                                                                 {</div>
+<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> RapidXMLParserNode{<a class="code hl_variable" href="classscrimmage_1_1RapidXMLParserDocument.html#ab7066e0a52e9d0fa34e7aac87264b9b6">doc_</a>.first_node()};</div>
+<div class="line"><span class="lineno">  162</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00127">doc_</a>, and <a class="el" href="XMLParser_8h_source.html#l00233">scrimmage::XMLParserNode&lt; T &gt;::first_node()</a>.</p>
+<p class="reference">References <a class="el" href="RapidXMLParser_8h_source.html#l00128">doc_</a>, and <a class="el" href="XMLParser_8h_source.html#l00234">scrimmage::XMLParserNode&lt; T &gt;::first_node()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -367,9 +367,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00126">126</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00127">127</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00140">parse_document()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00141">parse_document()</a>.</p>
 
 </div>
 </div>
@@ -393,9 +393,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00127">127</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="RapidXMLParser_8h_source.html#l00128">128</a> of file <a class="el" href="RapidXMLParser_8h_source.html">RapidXMLParser.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00159">find_first_node()</a>, <a class="el" href="RapidXMLParser_8cpp_source.html#l00155">find_first_node()</a>, and <a class="el" href="RapidXMLParser_8cpp_source.html#l00140">parse_document()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="RapidXMLParser_8cpp_source.html#l00160">find_first_node()</a>, <a class="el" href="RapidXMLParser_8cpp_source.html#l00156">find_first_node()</a>, and <a class="el" href="RapidXMLParser_8cpp_source.html#l00141">parse_document()</a>.</p>
 
 </div>
 </div>
@@ -409,7 +409,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1RapidXMLParserDocument.html">RapidXMLParserDocument</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

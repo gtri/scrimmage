@@ -221,24 +221,24 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    {                                                         \</div>
-<div class="line">        <a class="code hl_typedef" href="common_8h.html#ae0a349a9c0f730939acdfc1adb3a3719">fp8_t</a> k1, k2, k3, k4;                                 \</div>
-<div class="line">        k1 = (model((x), (u), (t)));                          \</div>
-<div class="line">        k2 = (model((x) + (dt)*k1 / 2, (u), (t) + (dt) / 2)); \</div>
-<div class="line">        k3 = (model((x) + (dt)*k2 / 2, (u), (t) + (dt) / 2)); \</div>
-<div class="line">        k4 = (model((x) + (dt)*k3, (u), (t) + (dt)));         \</div>
-<div class="line">        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));    \</div>
+<b>Value:</b><div class="fragment"><div class="line">    {                                                           \</div>
+<div class="line">        <a class="code hl_typedef" href="common_8h.html#ae0a349a9c0f730939acdfc1adb3a3719">fp8_t</a> k1, k2, k3, k4;                                   \</div>
+<div class="line">        k1 = (model((x), (u), (t)));                            \</div>
+<div class="line">        k2 = (model((x) + (dt) * k1 / 2, (u), (t) + (dt) / 2)); \</div>
+<div class="line">        k3 = (model((x) + (dt) * k2 / 2, (u), (t) + (dt) / 2)); \</div>
+<div class="line">        k4 = (model((x) + (dt) * k3, (u), (t) + (dt)));         \</div>
+<div class="line">        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));      \</div>
 <div class="line">    }</div>
 <div class="ttc" id="acommon_8h_html_ae0a349a9c0f730939acdfc1adb3a3719"><div class="ttname"><a href="common_8h.html#ae0a349a9c0f730939acdfc1adb3a3719">fp8_t</a></div><div class="ttdeci">double8 fp8_t</div><div class="ttdef"><b>Definition</b> <a href="common_8h_source.html#l00016">common.h:16</a></div></div>
 </div><!-- fragment -->
 <p class="definition">Definition at line <a class="el" href="math__utils_8h_source.html#l00050">50</a> of file <a class="el" href="math__utils_8h_source.html">math_utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>    {                                                         \</div>
-<div class="line"><span class="lineno">   52</span>        <a class="code hl_typedef" href="common_8h.html#ae0a349a9c0f730939acdfc1adb3a3719">fp8_t</a> k1, k2, k3, k4;                                 \</div>
-<div class="line"><span class="lineno">   53</span>        k1 = (model((x), (u), (t)));                          \</div>
-<div class="line"><span class="lineno">   54</span>        k2 = (model((x) + (dt)*k1 / 2, (u), (t) + (dt) / 2)); \</div>
-<div class="line"><span class="lineno">   55</span>        k3 = (model((x) + (dt)*k2 / 2, (u), (t) + (dt) / 2)); \</div>
-<div class="line"><span class="lineno">   56</span>        k4 = (model((x) + (dt)*k3, (u), (t) + (dt)));         \</div>
-<div class="line"><span class="lineno">   57</span>        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));    \</div>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>    {                                                           \</div>
+<div class="line"><span class="lineno">   52</span>        <a class="code hl_typedef" href="common_8h.html#ae0a349a9c0f730939acdfc1adb3a3719">fp8_t</a> k1, k2, k3, k4;                                   \</div>
+<div class="line"><span class="lineno">   53</span>        k1 = (model((x), (u), (t)));                            \</div>
+<div class="line"><span class="lineno">   54</span>        k2 = (model((x) + (dt) * k1 / 2, (u), (t) + (dt) / 2)); \</div>
+<div class="line"><span class="lineno">   55</span>        k3 = (model((x) + (dt) * k2 / 2, (u), (t) + (dt) / 2)); \</div>
+<div class="line"><span class="lineno">   56</span>        k4 = (model((x) + (dt) * k3, (u), (t) + (dt)));         \</div>
+<div class="line"><span class="lineno">   57</span>        x += ((dt) * (k1 / 6 + k2 / 3 + k3 / 3 + k4 / 6));      \</div>
 <div class="line"><span class="lineno">   58</span>    }</div>
 </div><!-- fragment -->
 </div>
@@ -440,7 +440,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_cf895c1ed808af158264b2f3d8d7f8f0.html">gpu</a></li><li class="navelem"><a class="el" href="dir_aa1b79195ca2f48e9d9b1c7cf2fb3a0f.html">kernels</a></li><li class="navelem"><a class="el" href="math__utils_8h.html">math_utils.h</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

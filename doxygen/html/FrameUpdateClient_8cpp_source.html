@@ -100,116 +100,119 @@ $(document).ready(function(){initNavTree('FrameUpdateClient_8cpp_source.html',''
 <a href="FrameUpdateClient_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &lt;grpc++/grpc++.h&gt;</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;scrimmage/proto/Scrimmage.grpc.pb.h&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;GeographicLib/LocalCartesian.hpp&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;<a class="code" href="FrameUpdateClient_8h.html">scrimmage/log/FrameUpdateClient.h</a>&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;<a class="code" href="Angles_8h.html">scrimmage/math/Angles.h</a>&gt;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &lt;<a class="code" href="Quaternion_8h.html">scrimmage/math/Quaternion.h</a>&gt;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">using </span>grpc::Channel;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">using </span>grpc::ClientContext;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">using </span>grpc::Status;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">using </span>std::cout;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">using </span>std::endl;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &quot;scrimmage/proto/Scrimmage.grpc.pb.h&quot;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;GeographicLib/LocalCartesian.hpp&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="FrameUpdateClient_8h.html">scrimmage/log/FrameUpdateClient.h</a>&quot;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="Angles_8h.html">scrimmage/math/Angles.h</a>&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;<a class="code" href="Quaternion_8h.html">scrimmage/math/Quaternion.h</a>&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">using </span>grpc::Channel;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">using </span>grpc::ClientContext;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">using </span>grpc::Status;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">using </span>std::cout;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">using </span>std::endl;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">   59</a></span><a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">FrameUpdateClient::FrameUpdateClient</a>(<span class="keyword">const</span> std::string&amp; ip, <span class="keywordtype">int</span> port)</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    : angles_to_gps_(0, <a class="code hl_class" href="classscrimmage_1_1Angles.html">Angles</a>::Type::EUCLIDEAN, <a class="code hl_class" href="classscrimmage_1_1Angles.html">Angles</a>::Type::GPS) {}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">   61</a></span><a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">FrameUpdateClient::FrameUpdateClient</a>(<span class="keyword">const</span> std::string&amp; ip, <span class="keywordtype">int</span> port)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    : angles_to_gps_(0, <a class="code hl_class" href="classscrimmage_1_1Angles.html">Angles</a>::Type::EUCLIDEAN, <a class="code hl_class" href="classscrimmage_1_1Angles.html">Angles</a>::Type::GPS) {}</div>
 </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">   62</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">FrameUpdateClient::send_frame</a>(scrimmage_proto::Frame&amp; frame) {</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Change from local x, y, z to GPS coordinates:</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; frame.contact_size(); i++) {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">// frame.contacts_[frame.contact(i).id().id()] = proto_2_contact(proto_frame.contact(i));</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">double</span> x = frame.contact(i).state().position().x();</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordtype">double</span> y = frame.contact(i).state().position().y();</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">double</span> z = frame.contact(i).state().position().z();</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordtype">double</span> lat, lon, h;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">proj_</a>-&gt;Reverse(x, y, z, lat, lon, h);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_x(lon);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_y(lat);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_z(h);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        x = frame.contact(i).state().orientation().x();</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        y = frame.contact(i).state().orientation().y();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        z = frame.contact(i).state().orientation().z();</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordtype">double</span> w = frame.contact(i).state().orientation().w();</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="comment">// scrimmage::Quaternion q(Eigen::Vector3d(x,y,z), w);</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> q(w, x, y, z);</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordtype">double</span> yaw = q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7">yaw</a>();</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">angles_to_gps_</a>.<a class="code hl_function" href="classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae">set_angle</a>(<a class="code hl_function" href="classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d">Angles::rad2deg</a>(yaw));</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        yaw = <a class="code hl_function" href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">Angles::deg2rad</a>(<a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">angles_to_gps_</a>.<a class="code hl_function" href="classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034">angle</a>());</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        q = <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a>(q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44">roll</a>(), q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd">pitch</a>(), yaw);</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_x(q.x());</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_y(q.y());</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_z(q.z());</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_w(q.w());</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        frame.mutable_contact(i)-&gt;set_type(scrimmage_proto::AIRCRAFT);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    scrimmage_proto::BlankReply reply;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    grpc::ClientContext context;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="comment">// The actual RPC.</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    grpc::Status status;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    status = stub_-&gt;SendFrame(&amp;context, frame, &amp;reply);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="comment">// Act upon its status.</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        cout &lt;&lt; <span class="stringliteral">&quot;Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    }</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">   64</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">FrameUpdateClient::send_frame</a>(scrimmage_proto::Frame&amp; frame) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// Change from local x, y, z to GPS coordinates:</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; frame.contact_size(); i++) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// frame.contacts_[frame.contact(i).id().id()] = proto_2_contact(proto_frame.contact(i));</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">double</span> x = frame.contact(i).state().position().x();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordtype">double</span> y = frame.contact(i).state().position().y();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">double</span> z = frame.contact(i).state().position().z();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordtype">double</span> lat, lon, h;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">proj_</a>-&gt;Reverse(x, y, z, lat, lon, h);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_x(lon);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_y(lat);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_position()-&gt;set_z(h);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        x = frame.contact(i).state().orientation().x();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        y = frame.contact(i).state().orientation().y();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        z = frame.contact(i).state().orientation().z();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordtype">double</span> w = frame.contact(i).state().orientation().w();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="comment">// scrimmage::Quaternion q(Eigen::Vector3d(x,y,z), w);</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> q(w, x, y, z);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordtype">double</span> yaw = q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7">yaw</a>();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">angles_to_gps_</a>.<a class="code hl_function" href="classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae">set_angle</a>(<a class="code hl_function" href="classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d">Angles::rad2deg</a>(yaw));</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        yaw = <a class="code hl_function" href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">Angles::deg2rad</a>(<a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">angles_to_gps_</a>.<a class="code hl_function" href="classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034">angle</a>());</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        q = <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a>(q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44">roll</a>(), q.<a class="code hl_function" href="classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd">pitch</a>(), yaw);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_x(q.x());</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_y(q.y());</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_z(q.z());</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        frame.mutable_contact(i)-&gt;mutable_state()-&gt;mutable_orientation()-&gt;set_w(q.w());</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        frame.mutable_contact(i)-&gt;set_type(scrimmage_proto::AIRCRAFT);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    scrimmage_proto::BlankReply reply;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    grpc::ClientContext context;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// The actual RPC.</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    grpc::Status status;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    status = stub_-&gt;SendFrame(&amp;context, frame, &amp;reply);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="comment">// Act upon its status.</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        cout &lt;&lt; <span class="stringliteral">&quot;Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>}</div>
 </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">  121</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">FrameUpdateClient::set_projection</a>(<span class="keyword">const</span> std::shared_ptr&lt;GeographicLib::LocalCartesian&gt;&amp; proj) {</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">proj_</a> = proj;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">  123</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">FrameUpdateClient::set_projection</a>(<span class="keyword">const</span> std::shared_ptr&lt;GeographicLib::LocalCartesian&gt;&amp; proj) {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <a class="code hl_variable" href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">proj_</a> = proj;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
 </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aAngles_8h_html"><div class="ttname"><a href="Angles_8h.html">Angles.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aFrameUpdateClient_8h_html"><div class="ttname"><a href="FrameUpdateClient_8h.html">FrameUpdateClient.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aQuaternion_8h_html"><div class="ttname"><a href="Quaternion_8h.html">Quaternion.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aUtilities_8h_html"><div class="ttname"><a href="Utilities_8h.html">Utilities.h</a></div><div class="ttdoc">Brief file description.</div></div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html"><div class="ttname"><a href="classscrimmage_1_1Angles.html">scrimmage::Angles</a></div><div class="ttdef"><b>Definition</b> <a href="Angles_8h_source.html#l00037">Angles.h:37</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_a05056514efe12df0ec14f04df79965ae"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae">scrimmage::Angles::set_angle</a></div><div class="ttdeci">void set_angle(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00155">Angles.cpp:155</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_a332c83ff414a6f8567ce536231238f2d"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d">scrimmage::Angles::rad2deg</a></div><div class="ttdeci">static double rad2deg(double rad)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00067">Angles.cpp:67</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_a49e7f100f2e0784033a7910673e6dadb"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">scrimmage::Angles::deg2rad</a></div><div class="ttdeci">static double deg2rad(double deg)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00063">Angles.cpp:63</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Angles_html_aaa89bbf40a656a2dd3ca6bbea0cda034"><div class="ttname"><a href="classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034">scrimmage::Angles::angle</a></div><div class="ttdeci">double angle()</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00186">Angles.cpp:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a17dda3aa742a9bb4435c15f7ab6b7bf4"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">scrimmage::FrameUpdateClient::FrameUpdateClient</a></div><div class="ttdeci">FrameUpdateClient(const std::string &amp;ip, int port)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00059">FrameUpdateClient.cpp:59</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a6421907bdd278309da3d14f25a3049aa"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">scrimmage::FrameUpdateClient::send_frame</a></div><div class="ttdeci">bool send_frame(scrimmage_proto::Frame &amp;frame)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00062">FrameUpdateClient.cpp:62</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a89cf4b8c3da8bb2bb841530e923ee13e"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">scrimmage::FrameUpdateClient::proj_</a></div><div class="ttdeci">std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; proj_</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8h_source.html#l00059">FrameUpdateClient.h:59</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a92328ebb46b98f02913adb597c969112"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">scrimmage::FrameUpdateClient::set_projection</a></div><div class="ttdeci">void set_projection(const std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; &amp;proj)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00121">FrameUpdateClient.cpp:121</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_aebffbdf8f2d207fcedf09dbde200a327"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">scrimmage::FrameUpdateClient::angles_to_gps_</a></div><div class="ttdeci">Angles angles_to_gps_</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8h_source.html#l00060">FrameUpdateClient.h:60</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html"><div class="ttname"><a href="classscrimmage_1_1Angles.html">scrimmage::Angles</a></div><div class="ttdef"><b>Definition</b> <a href="Angles_8h_source.html#l00038">Angles.h:38</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_a05056514efe12df0ec14f04df79965ae"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a05056514efe12df0ec14f04df79965ae">scrimmage::Angles::set_angle</a></div><div class="ttdeci">void set_angle(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00156">Angles.cpp:156</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_a332c83ff414a6f8567ce536231238f2d"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a332c83ff414a6f8567ce536231238f2d">scrimmage::Angles::rad2deg</a></div><div class="ttdeci">static double rad2deg(double rad)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00068">Angles.cpp:68</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_a49e7f100f2e0784033a7910673e6dadb"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">scrimmage::Angles::deg2rad</a></div><div class="ttdeci">static double deg2rad(double deg)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00064">Angles.cpp:64</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Angles_html_aaa89bbf40a656a2dd3ca6bbea0cda034"><div class="ttname"><a href="classscrimmage_1_1Angles.html#aaa89bbf40a656a2dd3ca6bbea0cda034">scrimmage::Angles::angle</a></div><div class="ttdeci">double angle()</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00187">Angles.cpp:187</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a17dda3aa742a9bb4435c15f7ab6b7bf4"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a17dda3aa742a9bb4435c15f7ab6b7bf4">scrimmage::FrameUpdateClient::FrameUpdateClient</a></div><div class="ttdeci">FrameUpdateClient(const std::string &amp;ip, int port)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00061">FrameUpdateClient.cpp:61</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a6421907bdd278309da3d14f25a3049aa"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a6421907bdd278309da3d14f25a3049aa">scrimmage::FrameUpdateClient::send_frame</a></div><div class="ttdeci">bool send_frame(scrimmage_proto::Frame &amp;frame)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00064">FrameUpdateClient.cpp:64</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a89cf4b8c3da8bb2bb841530e923ee13e"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a89cf4b8c3da8bb2bb841530e923ee13e">scrimmage::FrameUpdateClient::proj_</a></div><div class="ttdeci">std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; proj_</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8h_source.html#l00060">FrameUpdateClient.h:60</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_a92328ebb46b98f02913adb597c969112"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#a92328ebb46b98f02913adb597c969112">scrimmage::FrameUpdateClient::set_projection</a></div><div class="ttdeci">void set_projection(const std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; &amp;proj)</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8cpp_source.html#l00123">FrameUpdateClient.cpp:123</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FrameUpdateClient_html_aebffbdf8f2d207fcedf09dbde200a327"><div class="ttname"><a href="classscrimmage_1_1FrameUpdateClient.html#aebffbdf8f2d207fcedf09dbde200a327">scrimmage::FrameUpdateClient::angles_to_gps_</a></div><div class="ttdeci">Angles angles_to_gps_</div><div class="ttdef"><b>Definition</b> <a href="FrameUpdateClient_8h_source.html#l00061">FrameUpdateClient.h:61</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html_a569825e4f30d93db2599c4ae0c3d7ec7"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7">scrimmage::Quaternion::yaw</a></div><div class="ttdeci">double yaw() const</div><div class="ttdoc">return euler angle yaw</div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8cpp_source.html#l00119">Quaternion.cpp:119</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html_a7f47680c4b89f79743997f4e56ba0f44"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44">scrimmage::Quaternion::roll</a></div><div class="ttdeci">double roll() const</div><div class="ttdoc">return euler angle roll</div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8cpp_source.html#l00105">Quaternion.cpp:105</a></div></div>
@@ -221,7 +224,7 @@ $(document).ready(function(){initNavTree('FrameUpdateClient_8cpp_source.html',''
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_2241064965c8d9ca993f08b926076f7d.html">log</a></li><li class="navelem"><a class="el" href="FrameUpdateClient_8cpp.html">FrameUpdateClient.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

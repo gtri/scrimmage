@@ -1,29 +1,29 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="602,5,830,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="602,48,494,55,367,69,231,92,98,125,78,133,76,128,97,120,230,87,366,64,494,50,602,42"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="109,137,168,163"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="602,50,511,59,406,73,295,95,188,125,169,133,167,128,186,120,294,90,405,68,510,54,602,45"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="422,387,498,412"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="602,47,496,54,385,67,334,78,290,90,255,106,231,124,219,142,213,160,212,178,216,197,235,234,267,269,306,303,349,333,426,378,423,383,346,337,303,307,263,273,231,237,211,199,207,179,208,159,215,140,227,121,252,101,288,85,333,72,384,62,496,48,602,41"/>
-<area shape="rect" id="Node000005" href="$Utilities_8h.html" title="Brief file description." alt="" coords="242,137,465,163"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="604,77,406,136,404,131,602,72"/>
-<area shape="rect" id="Node000010" href="$Entity_8h.html" title="Brief file description." alt="" coords="489,137,679,163"/>
-<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="677,77,611,130,607,126,673,73"/>
-<area shape="rect" id="Node000026" href="$State_8h.html" title="Brief file description." alt="" coords="839,313,1022,339"/>
-<area shape="poly" id="edge6_Node000001_Node000026" title=" " alt="" coords="718,75,724,125,732,151,744,176,777,218,817,254,859,283,896,305,893,309,856,288,814,258,773,222,739,179,727,153,719,126,713,75"/>
-<area shape="rect" id="Node000029" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="753,137,969,163"/>
-<area shape="poly" id="edge8_Node000001_Node000029" title=" " alt="" coords="763,73,836,127,833,131,760,77"/>
-<area shape="rect" id="Node000030" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="994,130,1198,170"/>
-<area shape="poly" id="edge9_Node000001_Node000030" title=" " alt="" coords="831,71,1017,124,1016,129,829,76"/>
-<area shape="rect" id="Node000031" href="$PwmState_8h.html" title="Brief file description." alt="" coords="931,225,1147,265"/>
-<area shape="poly" id="edge10_Node000001_Node000031" title=" " alt="" coords="830,41,938,48,1051,61,1103,72,1149,85,1186,101,1211,121,1220,135,1223,149,1220,164,1211,179,1187,204,1157,222,1154,218,1184,200,1207,176,1215,162,1218,149,1215,137,1207,124,1183,106,1147,90,1102,77,1050,67,937,53,830,46"/>
-<area shape="rect" id="Node000032" href="$MultirotorControllerOmega_8h.html" title="Brief file description." alt="" coords="1273,123,1487,177"/>
-<area shape="poly" id="edge12_Node000001_Node000032" title=" " alt="" coords="831,54,1029,83,1255,120,1260,121,1259,126,1254,125,1028,88,830,59"/>
-<area shape="rect" id="Node000058" href="$MultirotorState_8h.html" title="Brief file description." alt="" coords="1278,225,1482,265"/>
-<area shape="poly" id="edge15_Node000001_Node000058" title=" " alt="" coords="830,42,1016,51,1226,66,1323,76,1405,88,1467,103,1487,112,1501,121,1510,135,1512,149,1501,179,1480,203,1453,221,1450,217,1476,199,1496,176,1507,149,1505,137,1497,125,1485,116,1465,108,1404,94,1322,81,1225,71,1015,56,830,48"/>
-<area shape="poly" id="edge7_Node000026_Node000004" title=" " alt="" coords="855,341,512,393,511,388,855,336"/>
-<area shape="poly" id="edge11_Node000031_Node000026" title=" " alt="" coords="1014,268,960,307,957,303,1011,263"/>
-<area shape="poly" id="edge13_Node000032_Node000058" title=" " alt="" coords="1383,178,1383,212,1377,212,1377,178"/>
-<area shape="poly" id="edge14_Node000058_Node000026" title=" " alt="" coords="1278,267,1010,314,1010,308,1277,262"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="395,5,623,75"/>
+<area shape="rect" id="Node000002" href="$MultirotorControllerOmega_8h.html" title="Brief file description." alt="" coords="88,123,301,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="412,77,284,121,283,116,410,72"/>
+<area shape="rect" id="Node000053" href="$MultirotorState_8h.html" title="Brief file description." alt="" coords="38,225,242,265"/>
+<area shape="poly" id="edge15_Node000001_Node000053" title=" " alt="" coords="395,49,303,58,208,72,127,94,98,108,78,124,71,137,69,148,78,176,90,196,105,214,101,218,86,200,73,178,64,149,65,135,74,121,95,104,125,89,207,67,302,53,395,44"/>
+<area shape="rect" id="Node000013" href="$State_8h.html" title="Brief file description." alt="" coords="166,313,348,339"/>
+<area shape="poly" id="edge10_Node000001_Node000013" title=" " alt="" coords="395,52,301,62,203,77,118,97,86,110,63,125,31,157,12,191,8,209,9,227,16,245,27,264,46,278,77,290,156,308,154,314,75,295,43,282,23,267,11,247,4,228,3,208,7,190,27,154,59,121,84,106,117,92,202,71,300,56,394,46"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="843,387,919,412"/>
+<area shape="poly" id="edge7_Node000001_Node000016" title=" " alt="" coords="623,40,852,45,1122,58,1248,68,1357,82,1437,99,1465,109,1482,121,1506,154,1514,186,1509,215,1491,241,1464,264,1427,286,1384,305,1335,322,1227,350,1116,372,934,396,933,391,1115,366,1226,345,1334,317,1382,300,1425,281,1461,260,1487,237,1504,213,1509,186,1501,157,1478,125,1462,114,1436,104,1356,87,1248,74,1121,63,852,50,623,45"/>
+<area shape="rect" id="Node000037" title=" " alt="" coords="376,137,456,163"/>
+<area shape="poly" id="edge5_Node000001_Node000037" title=" " alt="" coords="482,76,437,128,433,125,478,73"/>
+<area shape="rect" id="Node000054" title=" " alt="" coords="480,137,538,163"/>
+<area shape="poly" id="edge6_Node000001_Node000054" title=" " alt="" coords="512,75,512,123,506,123,506,75"/>
+<area shape="rect" id="Node000055" href="$Utilities_8h.html" title="Brief file description." alt="" coords="562,137,784,163"/>
+<area shape="poly" id="edge8_Node000001_Node000055" title=" " alt="" coords="562,72,645,127,642,132,559,77"/>
+<area shape="rect" id="Node000020" href="$Entity_8h.html" title="Brief file description." alt="" coords="809,137,998,163"/>
+<area shape="poly" id="edge9_Node000001_Node000020" title=" " alt="" coords="624,70,850,131,848,136,623,75"/>
+<area shape="rect" id="Node000056" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1022,137,1238,163"/>
+<area shape="poly" id="edge11_Node000001_Node000056" title=" " alt="" coords="624,55,806,84,1011,120,1068,132,1067,137,1010,125,805,89,623,61"/>
+<area shape="rect" id="Node000057" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1263,130,1467,170"/>
+<area shape="poly" id="edge12_Node000001_Node000057" title=" " alt="" coords="624,47,909,74,1080,95,1251,120,1276,125,1275,130,1250,125,1080,100,909,79,623,52"/>
+<area shape="rect" id="Node000058" href="$PwmState_8h.html" title="Brief file description." alt="" coords="266,225,482,265"/>
+<area shape="poly" id="edge13_Node000001_Node000058" title=" " alt="" coords="417,77,388,98,366,124,358,145,357,168,365,212,359,213,351,168,353,144,362,121,385,94,414,73"/>
+<area shape="poly" id="edge2_Node000002_Node000053" title=" " alt="" coords="181,179,160,215,156,212,177,176"/>
+<area shape="poly" id="edge3_Node000053_Node000013" title=" " alt="" coords="170,263,230,304,227,308,167,268"/>
+<area shape="poly" id="edge4_Node000013_Node000016" title=" " alt="" coords="349,335,830,390,829,395,348,340"/>
+<area shape="poly" id="edge14_Node000058_Node000013" title=" " alt="" coords="348,268,287,308,284,304,345,263"/>
 </map>

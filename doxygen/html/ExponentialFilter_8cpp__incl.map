@@ -1,9 +1,9 @@
 <map id="/root/scrimmage/scrimmage/src/common/ExponentialFilter.cpp" name="/root/scrimmage/scrimmage/src/common/ExponentialFilter.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="5,5,252,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="12,101,75,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,47,67,92,63,89,108,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="99,101,158,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="131,46,131,87,126,87,126,46"/>
-<area shape="rect" id="Node000004" href="$ExponentialFilter_8h.html" title="Brief file description." alt="" coords="182,93,419,133"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,43,252,85,250,90,165,48"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="175,5,422,45"/>
+<area shape="rect" id="Node000002" href="$ExponentialFilter_8h.html" title="Brief file description." alt="" coords="5,93,243,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,48,176,90,173,85,259,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="267,101,330,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="301,46,301,87,296,87,296,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="355,101,413,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="319,44,364,89,361,92,316,47"/>
 </map>

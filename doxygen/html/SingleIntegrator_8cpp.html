@@ -97,30 +97,30 @@ $(document).ready(function(){initNavTree('SingleIntegrator_8cpp.html',''); initR
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
-<code>#include &lt;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="PluginManager_8h_source.html">scrimmage/plugin_manager/PluginManager.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="SingleIntegrator_8h_source.html">scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="SingleIntegrator_8h_source.html">scrimmage/plugins/motion/SingleIntegrator/SingleIntegrator.h</a>&quot;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+<code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PluginManager_8h_source.html">scrimmage/plugin_manager/PluginManager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SingleIntegrator.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="SingleIntegrator_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2SingleIntegrator_2SingleIntegrator_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2SingleIntegrator_2SingleIntegrator_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2SingleIntegrator_2SingleIntegrator_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="381,5,636,60"/>
-<area shape="rect" title=" " alt="" coords="5,115,68,141"/>
-<area shape="poly" title=" " alt="" coords="381,50,235,74,157,90,80,111,74,113,72,108,79,105,156,85,234,68,381,45"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="92,115,285,141"/>
-<area shape="poly" title=" " alt="" coords="419,63,241,114,240,109,418,57"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="309,115,492,141"/>
-<area shape="poly" title=" " alt="" coords="480,62,427,108,423,104,476,58"/>
-<area shape="rect" href="PluginManager_8h.html" title="Brief file description." alt="" coords="516,108,720,148"/>
-<area shape="poly" title=" " alt="" coords="541,58,587,97,584,101,538,62"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="744,108,948,148"/>
-<area shape="poly" title=" " alt="" coords="604,57,765,102,764,107,603,63"/>
-<area shape="rect" href="SingleIntegrator_8h.html" title="Brief file description." alt="" coords="972,108,1221,148"/>
-<area shape="poly" title=" " alt="" coords="637,51,965,103,964,108,636,57"/>
+<area shape="rect" title="Brief file description." alt="" coords="440,5,695,60"/>
+<area shape="rect" href="SingleIntegrator_8h.html" title="Brief file description." alt="" coords="5,108,255,148"/>
+<area shape="poly" title=" " alt="" coords="445,63,232,108,231,103,444,57"/>
+<area shape="rect" title=" " alt="" coords="279,115,341,141"/>
+<area shape="poly" title=" " alt="" coords="488,63,354,110,349,112,347,107,352,106,486,58"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="365,115,559,141"/>
+<area shape="poly" title=" " alt="" coords="539,62,487,108,484,104,536,58"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="583,115,765,141"/>
+<area shape="poly" title=" " alt="" coords="599,58,652,104,648,108,596,62"/>
+<area shape="rect" href="PluginManager_8h.html" title="Brief file description." alt="" coords="789,108,993,148"/>
+<area shape="poly" title=" " alt="" coords="659,57,813,102,812,107,658,63"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1017,108,1221,148"/>
+<area shape="poly" title=" " alt="" coords="695,53,1004,105,1003,110,695,58"/>
 </map>
 </div>
 </div>
@@ -183,70 +183,70 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SingleIntegrator_8cpp_source.html#l00041">41</a> of file <a class="el" href="SingleIntegrator_8cpp_source.html">SingleIntegrator.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>                    {</div>
-<div class="line"><span class="lineno">   47</span><span class="keyword">namespace </span>motion {</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span><span class="keywordtype">bool</span> SingleIntegrator::init(</div>
-<div class="line"><span class="lineno">   50</span>    std::map&lt;std::string, std::string&gt;&amp; info,</div>
-<div class="line"><span class="lineno">   51</span>    std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>    override_heading_ = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;override_heading&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   54</span>    max_speed_ = scrimmage::get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, max_speed_);</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>    vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   57</span>    vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   58</span>    vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">if</span> (override_heading_) {</div>
-<div class="line"><span class="lineno">   61</span>        desired_heading_idx_ =</div>
-<div class="line"><span class="lineno">   62</span>            vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   63</span>    }</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>    <span class="keyword">auto</span> <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a> = [&amp;](<span class="keyword">auto</span> s) { <span class="keywordflow">return</span> std::stod(info.at(s)); };</div>
-<div class="line"><span class="lineno">   66</span>    state_-&gt;pos() &lt;&lt; <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;x&quot;</span>), <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;y&quot;</span>), <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;z&quot;</span>);</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    state_-&gt;vel() &lt;&lt; Eigen::Vector3d::Zero();</div>
-<div class="line"><span class="lineno">   69</span>    state_-&gt;quat().set(0, 0, Angles::deg2rad(<a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;heading&quot;</span>)));</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   72</span>}</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span><span class="keywordtype">bool</span> SingleIntegrator::step(<span class="keywordtype">double</span> <span class="comment">/*t*/</span>, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   75</span>    Eigen::Vector3d desired_vel(</div>
-<div class="line"><span class="lineno">   76</span>        vars_.input(vel_x_idx_),</div>
-<div class="line"><span class="lineno">   77</span>        vars_.input(vel_y_idx_),</div>
-<div class="line"><span class="lineno">   78</span>        vars_.input(vel_z_idx_));</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>    Eigen::Vector3d&amp; vel = state_-&gt;vel();</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>    <span class="comment">// If the max_speed is less than 0, directly apply the desired velocity,</span></div>
-<div class="line"><span class="lineno">   83</span>    <span class="comment">// otherwise, normalize the velocity and multiply by the max_speed.</span></div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">if</span> (max_speed_ &lt; 0) {</div>
-<div class="line"><span class="lineno">   85</span>        vel = desired_vel;</div>
-<div class="line"><span class="lineno">   86</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   87</span>        vel = desired_vel.normalized() * max_speed_;</div>
-<div class="line"><span class="lineno">   88</span>    }</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">if</span> (vel.hasNaN()) {</div>
-<div class="line"><span class="lineno">   91</span>        vel = Eigen::Vector3d::Zero();</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    <span class="comment">// Propogate the state</span></div>
-<div class="line"><span class="lineno">   95</span>    state_-&gt;pos() = state_-&gt;pos() + vel * dt;</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordtype">double</span> yaw = override_heading_ ? vars_.input(desired_heading_idx_) : atan2(vel(1), vel(0));</div>
-<div class="line"><span class="lineno">   98</span>    <span class="keywordtype">double</span> pitch = atan2(vel(2), vel.head&lt;2&gt;().norm());</div>
-<div class="line"><span class="lineno">   99</span>    state_-&gt;quat().set(0, pitch, yaw);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  102</span>}</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>}  <span class="comment">// namespace motion</span></div>
-<div class="line"><span class="lineno">  105</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00086">ParseUtils.h:86</a></div></div>
+<p class="definition">Definition at line <a class="el" href="SingleIntegrator_8cpp_source.html#l00042">42</a> of file <a class="el" href="SingleIntegrator_8cpp_source.html">SingleIntegrator.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>                    {</div>
+<div class="line"><span class="lineno">   48</span><span class="keyword">namespace </span>motion {</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span><span class="keywordtype">bool</span> SingleIntegrator::init(</div>
+<div class="line"><span class="lineno">   51</span>    std::map&lt;std::string, std::string&gt;&amp; info,</div>
+<div class="line"><span class="lineno">   52</span>    std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>    override_heading_ = scrimmage::get&lt;bool&gt;(<span class="stringliteral">&quot;override_heading&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   55</span>    max_speed_ = scrimmage::get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, max_speed_);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>    vel_x_idx_ = vars_.declare(VariableIO::Type::velocity_x, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   58</span>    vel_y_idx_ = vars_.declare(VariableIO::Type::velocity_y, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   59</span>    vel_z_idx_ = vars_.declare(VariableIO::Type::velocity_z, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">if</span> (override_heading_) {</div>
+<div class="line"><span class="lineno">   62</span>        desired_heading_idx_ =</div>
+<div class="line"><span class="lineno">   63</span>            vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   64</span>    }</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>    <span class="keyword">auto</span> <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a> = [&amp;](<span class="keyword">auto</span> s) { <span class="keywordflow">return</span> std::stod(info.at(s)); };</div>
+<div class="line"><span class="lineno">   67</span>    state_-&gt;pos() &lt;&lt; <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;x&quot;</span>), <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;y&quot;</span>), <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;z&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>    state_-&gt;vel() &lt;&lt; Eigen::Vector3d::Zero();</div>
+<div class="line"><span class="lineno">   70</span>    state_-&gt;quat().set(0, 0, Angles::deg2rad(<a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;heading&quot;</span>)));</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   73</span>}</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span><span class="keywordtype">bool</span> SingleIntegrator::step(<span class="keywordtype">double</span> <span class="comment">/*t*/</span>, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   76</span>    Eigen::Vector3d desired_vel(</div>
+<div class="line"><span class="lineno">   77</span>        vars_.input(vel_x_idx_),</div>
+<div class="line"><span class="lineno">   78</span>        vars_.input(vel_y_idx_),</div>
+<div class="line"><span class="lineno">   79</span>        vars_.input(vel_z_idx_));</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>    Eigen::Vector3d&amp; vel = state_-&gt;vel();</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">// If the max_speed is less than 0, directly apply the desired velocity,</span></div>
+<div class="line"><span class="lineno">   84</span>    <span class="comment">// otherwise, normalize the velocity and multiply by the max_speed.</span></div>
+<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">if</span> (max_speed_ &lt; 0) {</div>
+<div class="line"><span class="lineno">   86</span>        vel = desired_vel;</div>
+<div class="line"><span class="lineno">   87</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   88</span>        vel = desired_vel.normalized() * max_speed_;</div>
+<div class="line"><span class="lineno">   89</span>    }</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    <span class="keywordflow">if</span> (vel.hasNaN()) {</div>
+<div class="line"><span class="lineno">   92</span>        vel = Eigen::Vector3d::Zero();</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// Propogate the state</span></div>
+<div class="line"><span class="lineno">   96</span>    state_-&gt;pos() = state_-&gt;pos() + vel * dt;</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordtype">double</span> yaw = override_heading_ ? vars_.input(desired_heading_idx_) : atan2(vel(1), vel(0));</div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordtype">double</span> pitch = atan2(vel(2), vel.head&lt;2&gt;().norm());</div>
+<div class="line"><span class="lineno">  100</span>    state_-&gt;quat().set(0, pitch, yaw);</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  103</span>}</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>}  <span class="comment">// namespace motion</span></div>
+<div class="line"><span class="lineno">  106</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="Angles_8cpp_source.html#l00063">scrimmage::Angles::deg2rad()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00056">scrimmage::motion::SingleIntegrator::desired_heading_idx_</a>, <a class="el" href="ParseUtils_8h_source.html#l00086">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1motion_1_1SingleIntegrator.html#ad4c02581a5657a887cca367b40f29fcd">scrimmage::motion::SingleIntegrator::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00142">scrimmage::VariableIO::input()</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00051">scrimmage::motion::SingleIntegrator::max_speed_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00050">scrimmage::motion::SingleIntegrator::override_heading_</a>, <a class="el" href="MotionModel_8h_source.html#l00076">scrimmage::MotionModel::state_</a>, <a class="el" href="classscrimmage_1_1motion_1_1SingleIntegrator.html#a0e7083197fe461b4897cda8f0f7d6127">scrimmage::motion::SingleIntegrator::step()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00053">scrimmage::motion::SingleIntegrator::vel_x_idx_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00054">scrimmage::motion::SingleIntegrator::vel_y_idx_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00055">scrimmage::motion::SingleIntegrator::vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, and <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="Angles_8cpp_source.html#l00064">scrimmage::Angles::deg2rad()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00057">scrimmage::motion::SingleIntegrator::desired_heading_idx_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1motion_1_1SingleIntegrator.html#ad4c02581a5657a887cca367b40f29fcd">scrimmage::motion::SingleIntegrator::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00052">scrimmage::motion::SingleIntegrator::max_speed_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00051">scrimmage::motion::SingleIntegrator::override_heading_</a>, <a class="el" href="MotionModel_8h_source.html#l00076">scrimmage::MotionModel::state_</a>, <a class="el" href="classscrimmage_1_1motion_1_1SingleIntegrator.html#a0e7083197fe461b4897cda8f0f7d6127">scrimmage::motion::SingleIntegrator::step()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00054">scrimmage::motion::SingleIntegrator::vel_x_idx_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00055">scrimmage::motion::SingleIntegrator::vel_y_idx_</a>, <a class="el" href="SingleIntegrator_8h_source.html#l00056">scrimmage::motion::SingleIntegrator::vel_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, and <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -276,7 +276,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_5f8427e50c3373d6d1a638fa0a1c8683.html">motion</a></li><li class="navelem"><a class="el" href="dir_f186921fadb548dec541032ea377296b.html">SingleIntegrator</a></li><li class="navelem"><a class="el" href="SingleIntegrator_8cpp.html">SingleIntegrator.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

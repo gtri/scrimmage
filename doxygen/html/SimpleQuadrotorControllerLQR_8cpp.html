@@ -97,30 +97,30 @@ $(document).ready(function(){initNavTree('SimpleQuadrotorControllerLQR_8cpp.html
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;boost/algorithm/clamp.hpp&gt;</code><br />
-<code>#include &lt;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html">scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html">scrimmage/plugins/controller/SimpleQuadrotorControllerLQR/SimpleQuadrotorControllerLQR.h</a>&quot;</code><br />
+<code>#include &lt;boost/algorithm/clamp.hpp&gt;</code><br />
+<code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SimpleQuadrotorControllerLQR.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="SimpleQuadrotorControllerLQR_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleQuadrotorControllerLQR_2SimpleQuadrotorControllerLQR_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleQuadrotorControllerLQR_2SimpleQuadrotorControllerLQR_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2SimpleQuadrotorControllerLQR_2SimpleQuadrotorControllerLQR_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="559,5,812,75"/>
-<area shape="rect" title=" " alt="" coords="5,137,203,163"/>
-<area shape="poly" title=" " alt="" coords="559,64,395,91,215,125,163,137,162,132,214,120,394,86,558,59"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="227,137,450,163"/>
-<area shape="poly" title=" " alt="" coords="578,77,390,136,388,131,577,72"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="474,137,667,163"/>
-<area shape="poly" title=" " alt="" coords="652,77,595,129,592,125,648,73"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="692,137,908,163"/>
-<area shape="poly" title=" " alt="" coords="723,73,779,125,775,129,719,77"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="933,130,1137,170"/>
-<area shape="poly" title=" " alt="" coords="795,72,961,123,959,128,793,77"/>
-<area shape="rect" href="SimpleQuadrotorControllerLQR_8h.html" title="Brief file description." alt="" coords="1161,123,1399,177"/>
-<area shape="poly" title=" " alt="" coords="812,60,1148,120,1147,125,812,65"/>
+<area shape="rect" title="Brief file description." alt="" coords="591,5,845,75"/>
+<area shape="rect" href="SimpleQuadrotorControllerLQR_8h.html" title="Brief file description." alt="" coords="5,123,244,177"/>
+<area shape="poly" title=" " alt="" coords="592,66,258,125,257,120,591,60"/>
+<area shape="rect" title=" " alt="" coords="269,137,466,163"/>
+<area shape="poly" title=" " alt="" coords="610,77,419,136,417,131,608,72"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="491,137,713,163"/>
+<area shape="poly" title=" " alt="" coords="684,77,627,129,623,125,680,73"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="737,137,931,163"/>
+<area shape="poly" title=" " alt="" coords="756,73,813,125,809,129,752,77"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="955,137,1171,163"/>
+<area shape="poly" title=" " alt="" coords="826,72,1014,131,1013,136,825,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1196,130,1400,170"/>
+<area shape="poly" title=" " alt="" coords="845,59,1184,120,1205,125,1204,130,1183,125,844,64"/>
 </map>
 </div>
 </div>
@@ -183,66 +183,67 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00040">40</a> of file <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html">SimpleQuadrotorControllerLQR.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                    {</div>
-<div class="line"><span class="lineno">   46</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   47</span> </div>
-<div class="line"><span class="lineno">   48</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<p class="definition">Definition at line <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">42</a> of file <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html">SimpleQuadrotorControllerLQR.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>                    {</div>
+<div class="line"><span class="lineno">   48</span><span class="keyword">namespace </span>controller {</div>
 <div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe">SimpleQuadrotorControllerLQR::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   51</span>    <span class="keywordtype">double</span> p_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_p_gain&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordtype">double</span> i_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_i_gain&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordtype">double</span> d_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_d_gain&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordtype">double</span> i_lim = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;i_lim&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   55</span>    vel_pid_.set_parameters(p_gain, i_gain, d_gain);</div>
-<div class="line"><span class="lineno">   56</span>    vel_pid_.set_integral_band(i_lim);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    max_vel_ = std::stod(params[<span class="stringliteral">&quot;max_vel&quot;</span>]);</div>
-<div class="line"><span class="lineno">   59</span>}</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b">SimpleQuadrotorControllerLQR::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   62</span>    Eigen::Vector3d des_pos = desired_state_-&gt;pos();</div>
-<div class="line"><span class="lineno">   63</span>    <span class="keywordtype">double</span> des_yaw = desired_state_-&gt;quat().yaw();</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>    Eigen::Vector3d pos = parent()-&gt;state_belief()-&gt;pos();</div>
-<div class="line"><span class="lineno">   66</span>    Eigen::Vector3d vel = parent()-&gt;state_belief()-&gt;vel();</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordtype">double</span> yaw = parent()-&gt;state_belief()-&gt;quat().yaw();</div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordtype">double</span> xy_speed = vel.head&lt;2&gt;().norm();</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>    <span class="keywordtype">double</span> yaw_dot = std::isnan(prev_yaw_) ? 0 : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;</div>
-<div class="line"><span class="lineno">   71</span>    prev_yaw_ = yaw;</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="comment">// LQR Altitude Controller:</span></div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">q1</a> = 1;</div>
-<div class="line"><span class="lineno">   75</span>    <span class="keywordtype">double</span> z_thrust = -1.0 / <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">q1</a> * (pos(2) - des_pos(2)) - sqrt(2.0 / q1) * vel(2);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="comment">// LQR Heading Controller:</span></div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">q2</a> = 1;</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordtype">double</span> turn_force = -1.0 / <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">q2</a> * sc::Angles::angle_pi(yaw - des_yaw) - sqrt(2.0 / q2) * yaw_dot;</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>    <span class="comment">// If not close to x/y position, use forward velocity:</span></div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordtype">double</span> dist = (des_pos - pos).head&lt;2&gt;().norm();</div>
-<div class="line"><span class="lineno">   83</span>    vel_pid_.set_setpoint((dist &lt; 10) ? 0 : dist / 10);</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordtype">double</span> ctrl_vel = vel_pid_.step(dt, xy_speed);</div>
+<div class="line"><span class="lineno">   50</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe">SimpleQuadrotorControllerLQR::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordtype">double</span> p_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_p_gain&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   54</span>    <span class="keywordtype">double</span> i_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_i_gain&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordtype">double</span> d_gain = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;vel_d_gain&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordtype">double</span> i_lim = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;i_lim&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   57</span>    vel_pid_.set_parameters(p_gain, i_gain, d_gain);</div>
+<div class="line"><span class="lineno">   58</span>    vel_pid_.set_integral_band(i_lim);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    max_vel_ = std::stod(params[<span class="stringliteral">&quot;max_vel&quot;</span>]);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b">SimpleQuadrotorControllerLQR::step</a>(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   64</span>    Eigen::Vector3d des_pos = desired_state_-&gt;pos();</div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordtype">double</span> des_yaw = desired_state_-&gt;quat().yaw();</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>    Eigen::Vector3d pos = parent()-&gt;state_belief()-&gt;pos();</div>
+<div class="line"><span class="lineno">   68</span>    Eigen::Vector3d vel = parent()-&gt;state_belief()-&gt;vel();</div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordtype">double</span> yaw = parent()-&gt;state_belief()-&gt;quat().yaw();</div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordtype">double</span> xy_speed = vel.head&lt;2&gt;().norm();</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordtype">double</span> yaw_dot = std::isnan(prev_yaw_) ? 0 : sc::Angles::angle_diff_rad(yaw, prev_yaw_) / dt;</div>
+<div class="line"><span class="lineno">   73</span>    prev_yaw_ = yaw;</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <span class="comment">// LQR Altitude Controller:</span></div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">q1</a> = 1;</div>
+<div class="line"><span class="lineno">   77</span>    <span class="keywordtype">double</span> z_thrust = -1.0 / <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">q1</a> * (pos(2) - des_pos(2)) - sqrt(2.0 / q1) * vel(2);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>    <span class="comment">// LQR Heading Controller:</span></div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordtype">double</span> <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">q2</a> = 1;</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordtype">double</span> turn_force = -1.0 / <a class="code hl_enumvalue" href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">q2</a> * sc::Angles::angle_pi(yaw - des_yaw) - sqrt(2.0 / q2) * yaw_dot;</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">// If not close to x/y position, use forward velocity:</span></div>
+<div class="line"><span class="lineno">   84</span>    <span class="keywordtype">double</span> dist = (des_pos - pos).head&lt;2&gt;().norm();</div>
+<div class="line"><span class="lineno">   85</span>    vel_pid_.set_setpoint((dist &lt; 10) ? 0 : dist / 10);</div>
 <div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    u_(0) = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);</div>
-<div class="line"><span class="lineno">   88</span>    u_(1) = 0;</div>
-<div class="line"><span class="lineno">   89</span>    u_(2) = z_thrust;</div>
-<div class="line"><span class="lineno">   90</span>    u_(3) = turn_force;</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   93</span>}</div>
-<div class="line"><span class="lineno">   94</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   95</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">   87</span>    <span class="keywordtype">double</span> ctrl_vel = vel_pid_.step(dt, xy_speed);</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>    u_(0) = boost::algorithm::clamp(ctrl_vel, -max_vel_, max_vel_);</div>
+<div class="line"><span class="lineno">   90</span>    u_(1) = 0;</div>
+<div class="line"><span class="lineno">   91</span>    u_(2) = z_thrust;</div>
+<div class="line"><span class="lineno">   92</span>    u_(3) = turn_force;</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   95</span>}</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   98</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR_html_a73baf76c82ef0241cd49944dcb073fbe"><div class="ttname"><a href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe">scrimmage::controller::SimpleQuadrotorControllerLQR::init</a></div><div class="ttdeci">void init(std::map&lt; std::string, std::string &gt; &amp;params) override</div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR_html_aa3c389c502de02967e7f253bb5150b3b"><div class="ttname"><a href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b">scrimmage::controller::SimpleQuadrotorControllerLQR::step</a></div><div class="ttdeci">bool step(double t, double dt) override</div></div>
-<div class="ttc" id="anamespacescrimmage_1_1motion_html_ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d"><div class="ttname"><a href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">scrimmage::motion::q1</a></div><div class="ttdeci">@ q1</div><div class="ttdef"><b>Definition</b> <a href="RigidBody6DOF_8cpp_source.html#l00051">RigidBody6DOF.cpp:51</a></div></div>
-<div class="ttc" id="anamespacescrimmage_1_1motion_html_ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807"><div class="ttname"><a href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">scrimmage::motion::q2</a></div><div class="ttdeci">@ q2</div><div class="ttdef"><b>Definition</b> <a href="RigidBody6DOF_8cpp_source.html#l00051">RigidBody6DOF.cpp:51</a></div></div>
+<div class="ttc" id="anamespacescrimmage_1_1motion_html_ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d"><div class="ttname"><a href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231fa310238dccbd019ae31f06890b3692c8d">scrimmage::motion::q1</a></div><div class="ttdeci">@ q1</div><div class="ttdef"><b>Definition</b> <a href="RigidBody6DOF_8cpp_source.html#l00053">RigidBody6DOF.cpp:53</a></div></div>
+<div class="ttc" id="anamespacescrimmage_1_1motion_html_ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807"><div class="ttname"><a href="namespacescrimmage_1_1motion.html#ac52efa0ec59ed7f040ba69815fdb231faadb8d9a8742156c0b3e0ffa632204807">scrimmage::motion::q2</a></div><div class="ttdeci">@ q2</div><div class="ttdef"><b>Definition</b> <a href="RigidBody6DOF_8cpp_source.html#l00053">RigidBody6DOF.cpp:53</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00086">ParseUtils.h:86</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="ParseUtils_8h_source.html#l00086">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe">scrimmage::controller::SimpleQuadrotorControllerLQR::init()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00053">scrimmage::controller::SimpleQuadrotorControllerLQR::max_vel_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00052">scrimmage::controller::SimpleQuadrotorControllerLQR::prev_yaw_</a>, <a class="el" href="PID_8cpp_source.html#l00101">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00091">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00097">scrimmage::PID::set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00143">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b">scrimmage::controller::SimpleQuadrotorControllerLQR::step()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00050">scrimmage::controller::SimpleQuadrotorControllerLQR::u_</a>, and <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00051">scrimmage::controller::SimpleQuadrotorControllerLQR::vel_pid_</a>.</p>
+<p class="reference">References <a class="el" href="Controller_8h_source.html#l00053">scrimmage::Controller::desired_state_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#a73baf76c82ef0241cd49944dcb073fbe">scrimmage::controller::SimpleQuadrotorControllerLQR::init()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00054">scrimmage::controller::SimpleQuadrotorControllerLQR::max_vel_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00053">scrimmage::controller::SimpleQuadrotorControllerLQR::prev_yaw_</a>, <a class="el" href="PID_8cpp_source.html#l00103">scrimmage::PID::set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00093">scrimmage::PID::set_parameters()</a>, <a class="el" href="PID_8cpp_source.html#l00099">scrimmage::PID::set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00145">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1SimpleQuadrotorControllerLQR.html#aa3c389c502de02967e7f253bb5150b3b">scrimmage::controller::SimpleQuadrotorControllerLQR::step()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00051">scrimmage::controller::SimpleQuadrotorControllerLQR::u_</a>, and <a class="el" href="SimpleQuadrotorControllerLQR_8h_source.html#l00052">scrimmage::controller::SimpleQuadrotorControllerLQR::vel_pid_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -276,7 +277,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_493ae186b74dcf5bb7869166c80f70c7.html">SimpleQuadrotorControllerLQR</a></li><li class="navelem"><a class="el" href="SimpleQuadrotorControllerLQR_8cpp.html">SimpleQuadrotorControllerLQR.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

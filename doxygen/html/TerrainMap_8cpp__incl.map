@@ -1,9 +1,9 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/interaction/TerrainGenerator/TerrainMap.cpp" name="/root/scrimmage/scrimmage/src/plugins/interaction/TerrainGenerator/TerrainMap.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="219,5,458,60"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,115,203,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,63,146,113,144,108,272,58"/>
-<area shape="rect" id="Node000003" href="$TerrainMap_8h.html" title="Brief file description." alt="" coords="227,108,450,148"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="341,60,341,94,336,94,336,60"/>
-<area shape="rect" id="Node000045" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="474,115,737,141"/>
-<area shape="poly" id="edge3_Node000001_Node000045" title=" " alt="" coords="415,58,561,108,559,113,413,63"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="232,5,471,60"/>
+<area shape="rect" id="Node000002" href="$TerrainMap_8h.html" title="Brief file description." alt="" coords="5,108,228,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="286,63,178,105,176,100,284,58"/>
+<area shape="rect" id="Node000044" title=" " alt="" coords="253,115,450,141"/>
+<area shape="poly" id="edge2_Node000001_Node000044" title=" " alt="" coords="354,60,354,101,349,101,349,60"/>
+<area shape="rect" id="Node000045" href="$ProtoConversions_8h.html" title="Brief file description." alt="" coords="475,115,737,141"/>
+<area shape="poly" id="edge3_Node000001_Node000045" title=" " alt="" coords="424,58,563,108,561,113,422,63"/>
 </map>

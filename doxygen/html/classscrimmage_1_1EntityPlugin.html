@@ -284,7 +284,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00069">69</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00071">71</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8e580a45f4fe20875f1050bdd6ffb496" name="a8e580a45f4fe20875f1050bdd6ffb496"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e580a45f4fe20875f1050bdd6ffb496">&#9670;&#160;</a></span>EntityPlugin()</h2>
@@ -301,23 +301,23 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00049">49</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   50</span>    : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>(std::make_shared&lt;Entity&gt;()),</div>
-<div class="line"><span class="lineno">   51</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a>(std::make_shared&lt;State&gt;()),</div>
-<div class="line"><span class="lineno">   52</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a>(std::make_shared&lt;std::unordered_map&lt;int, int&gt;&gt;()),</div>
-<div class="line"><span class="lineno">   53</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a>(std::make_shared&lt;std::unordered_map&lt;int, EntityPtr&gt;&gt;()),</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>(std::make_shared&lt;const Time&gt;()),</div>
-<div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>(std::make_shared&lt;ParameterServer&gt;()),</div>
-<div class="line"><span class="lineno">   56</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>(0.0),</div>
-<div class="line"><span class="lineno">   57</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a>(0.0) {}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00197">EntityPlugin.h:197</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a4549ea38b3806d0a4bf99c59e81d1166"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">scrimmage::EntityPlugin::param_server_</a></div><div class="ttdeci">ParameterServerPtr param_server_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00203">EntityPlugin.h:203</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a4c5bf12012ed5657e23a302c912cf6aa"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">scrimmage::EntityPlugin::transform_</a></div><div class="ttdeci">StatePtr transform_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a5d29d7f4de4ad7d697c0292fc9e1ab30"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">scrimmage::EntityPlugin::id_to_ent_map_</a></div><div class="ttdeci">std::shared_ptr&lt; std::unordered_map&lt; int, EntityPtr &gt; &gt; id_to_ent_map_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00191">EntityPlugin.h:191</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a6c70aabb0aa1a58ad9597ebac9b88ce6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">scrimmage::EntityPlugin::id_to_team_map_</a></div><div class="ttdeci">std::shared_ptr&lt; std::unordered_map&lt; int, int &gt; &gt; id_to_team_map_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00190">EntityPlugin.h:190</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_abdf5112e617ead20e0c39a5e4fc84993"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">scrimmage::EntityPlugin::loop_timer_</a></div><div class="ttdeci">double loop_timer_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00205">EntityPlugin.h:205</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ac97124c61fe7349018827b1ffc224e6b"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">scrimmage::EntityPlugin::loop_rate_</a></div><div class="ttdeci">double loop_rate_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00204">EntityPlugin.h:204</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00051">51</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>    : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>(std::make_shared&lt;Entity&gt;()),</div>
+<div class="line"><span class="lineno">   53</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a>(std::make_shared&lt;State&gt;()),</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a>(std::make_shared&lt;std::unordered_map&lt;int, int&gt;&gt;()),</div>
+<div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a>(std::make_shared&lt;std::unordered_map&lt;int, EntityPtr&gt;&gt;()),</div>
+<div class="line"><span class="lineno">   56</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>(std::make_shared&lt;const Time&gt;()),</div>
+<div class="line"><span class="lineno">   57</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>(std::make_shared&lt;ParameterServer&gt;()),</div>
+<div class="line"><span class="lineno">   58</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>(0.0),</div>
+<div class="line"><span class="lineno">   59</span>      <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a>(0.0) {}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00199">EntityPlugin.h:199</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a4549ea38b3806d0a4bf99c59e81d1166"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">scrimmage::EntityPlugin::param_server_</a></div><div class="ttdeci">ParameterServerPtr param_server_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00205">EntityPlugin.h:205</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a4c5bf12012ed5657e23a302c912cf6aa"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">scrimmage::EntityPlugin::transform_</a></div><div class="ttdeci">StatePtr transform_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00190">EntityPlugin.h:190</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a5d29d7f4de4ad7d697c0292fc9e1ab30"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">scrimmage::EntityPlugin::id_to_ent_map_</a></div><div class="ttdeci">std::shared_ptr&lt; std::unordered_map&lt; int, EntityPtr &gt; &gt; id_to_ent_map_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a6c70aabb0aa1a58ad9597ebac9b88ce6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">scrimmage::EntityPlugin::id_to_team_map_</a></div><div class="ttdeci">std::shared_ptr&lt; std::unordered_map&lt; int, int &gt; &gt; id_to_team_map_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00192">EntityPlugin.h:192</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_abdf5112e617ead20e0c39a5e4fc84993"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">scrimmage::EntityPlugin::loop_timer_</a></div><div class="ttdeci">double loop_timer_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00207">EntityPlugin.h:207</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ac97124c61fe7349018827b1ffc224e6b"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">scrimmage::EntityPlugin::loop_rate_</a></div><div class="ttdeci">double loop_rate_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00206">EntityPlugin.h:206</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -344,8 +344,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00059">59</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00061">61</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -375,8 +375,8 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classscrimmage_1_1Autonomy.html#ab59d053c1174402139072bc090a76a7b">scrimmage::Autonomy</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1MOOSAutonomy.html#a0a7275c0a982daffd0a7548e8127a261">scrimmage::autonomy::MOOSAutonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00074">74</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00076">76</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   76</span>{ <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -396,25 +396,25 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00134">134</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  134</span>                                               {</div>
-<div class="line"><span class="lineno">  135</span>    <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632">close</a>(t);  <span class="comment">// allow subclass to close()</span></div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;unregister_params(std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  139</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  140</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  141</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  142</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.clear();</div>
-<div class="line"><span class="lineno">  143</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  144</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>.clear();</div>
-<div class="line"><span class="lineno">  145</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a94260a029189adb45b80beecb99e6ca5"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">scrimmage::EntityPlugin::pubsub_</a></div><div class="ttdeci">PubSubPtr pubsub_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00194">EntityPlugin.h:194</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aad6a891ac2187596ff2f4f0c564c718b"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">scrimmage::EntityPlugin::shapes_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::ShapePtr &gt; shapes_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00202">EntityPlugin.h:202</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_addbc827f0665d6fa44d47bfd02f01632"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632">scrimmage::EntityPlugin::close</a></div><div class="ttdeci">virtual void close(double)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00077">EntityPlugin.h:77</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ade54ffd0cf16516a81427a38049303c3"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">scrimmage::EntityPlugin::subs_</a></div><div class="ttdeci">std::list&lt; SubscriberBasePtr &gt; subs_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00196">EntityPlugin.h:196</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00136">136</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  136</span>                                               {</div>
+<div class="line"><span class="lineno">  137</span>    <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632">close</a>(t);  <span class="comment">// allow subclass to close()</span></div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;unregister_params(std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  140</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  141</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  142</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  143</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  144</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.clear();</div>
+<div class="line"><span class="lineno">  145</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  146</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>.clear();</div>
+<div class="line"><span class="lineno">  147</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a94260a029189adb45b80beecb99e6ca5"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">scrimmage::EntityPlugin::pubsub_</a></div><div class="ttdeci">PubSubPtr pubsub_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00196">EntityPlugin.h:196</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aad6a891ac2187596ff2f4f0c564c718b"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">scrimmage::EntityPlugin::shapes_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::ShapePtr &gt; shapes_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00204">EntityPlugin.h:204</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_addbc827f0665d6fa44d47bfd02f01632"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#addbc827f0665d6fa44d47bfd02f01632">scrimmage::EntityPlugin::close</a></div><div class="ttdeci">virtual void close(double)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00079">EntityPlugin.h:79</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ade54ffd0cf16516a81427a38049303c3"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">scrimmage::EntityPlugin::subs_</a></div><div class="ttdeci">std::list&lt; SubscriberBasePtr &gt; subs_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00198">EntityPlugin.h:198</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00077">close()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00191">id_to_ent_map_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00203">param_server_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00202">shapes_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00196">subs_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00197">time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">transform_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00079">close()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">id_to_ent_map_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00205">param_server_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00204">shapes_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00198">subs_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00190">transform_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -454,10 +454,10 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="classscrimmage_1_1Autonomy.html#adc537d11be587ca48f4eb37b1eb14b80">scrimmage::Autonomy</a>, <a class="el" href="classscrimmage_1_1MotionModel.html#ae5a1d591ab7992c5a874dc8b8e119814">scrimmage::MotionModel</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1ArduPilot.html#a78ce7bde8ad8322cfd4bb54f0e0e8ea5">scrimmage::autonomy::ArduPilot</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ROSClockServer.html#adaaf7d2db3f2f847e0c1a0328b307ea9">scrimmage::interaction::ROSClockServer</a>, <a class="el" href="classscrimmage_1_1sensor_1_1AirSimSensor.html#abbf73cef6d356f0e9feca8164f29aba9">scrimmage::sensor::AirSimSensor</a>, <a class="el" href="classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a187fc4d7cf5ac939f3892a8804c41da4">scrimmage::sensor::ROSIMUSensor</a>, <a class="el" href="classscrimmage_1_1Network.html#a08ba0bc558f33fbd2f9c13b70b263fda">scrimmage::Network</a>, and <a class="el" href="classscrimmage_1_1Controller.html#a16b90041366cd5a3c695848335521d86">scrimmage::Controller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00077">77</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   77</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00079">79</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span>{}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -495,13 +495,13 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00061">61</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                                              {</div>
-<div class="line"><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">parent</a>;</div>
-<div class="line"><span class="lineno">   63</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab717f6cf97af58cc398a9ecd742814a8"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">scrimmage::EntityPlugin::parent</a></div><div class="ttdeci">virtual EntityPtr parent()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00065">EntityPlugin.cpp:65</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00063">63</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                              {</div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">parent</a>;</div>
+<div class="line"><span class="lineno">   65</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab717f6cf97af58cc398a9ecd742814a8"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">scrimmage::EntityPlugin::parent</a></div><div class="ttdeci">virtual EntityPtr parent()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00067">EntityPlugin.cpp:67</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00065">parent()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00067">parent()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -538,14 +538,14 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00065">65</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>                               {</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>;</div>
-<div class="line"><span class="lineno">   67</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00067">67</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>                               {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>;</div>
+<div class="line"><span class="lineno">   69</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00061">scrimmage::network::GPUSphereNetwork::init()</a>, <a class="el" href="Print_8cpp_source.html#l00196">scrimmage::Print::print()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerPID_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerWaypoint_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00037">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00061">set_parent()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00113">scrimmage::controller::MotionBattery::step()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00094">scrimmage::controller::UnicyclePID::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00063">scrimmage::network::GPUSphereNetwork::init()</a>, <a class="el" href="Print_8cpp_source.html#l00197">scrimmage::Print::print()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerPID_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerWaypoint_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00063">set_parent()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00114">scrimmage::controller::MotionBattery::step()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -620,13 +620,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00069">69</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>                                    {</div>
-<div class="line"><span class="lineno">   72</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties()[<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + <span class="stringliteral">&quot;/&quot;</span> + property_name] = property;</div>
-<div class="line"><span class="lineno">   73</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00041">Plugin.cpp:41</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00071">71</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>                                    {</div>
+<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties()[<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + <span class="stringliteral">&quot;/&quot;</span> + property_name] = property;</div>
+<div class="line"><span class="lineno">   75</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00042">Plugin.cpp:42</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>.</p>
+<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -656,13 +656,13 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00075">75</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>                                                                                      {</div>
-<div class="line"><span class="lineno">   76</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties().find(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + <span class="stringliteral">&quot;/&quot;</span> + property_name);</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties().end() ? nullptr : it-&gt;second;</div>
-<div class="line"><span class="lineno">   78</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00077">77</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   77</span>                                                                                      {</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties().find(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + <span class="stringliteral">&quot;/&quot;</span> + property_name);</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">return</span> it == <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;properties().end() ? nullptr : it-&gt;second;</div>
+<div class="line"><span class="lineno">   80</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>.</p>
+<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -699,12 +699,12 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00086">86</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00088">88</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   88</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4c5bf12012ed5657e23a302c912cf6aa">transform_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00188">transform_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00190">transform_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00069">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00424">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="LOSSensor_8cpp_source.html#l00097">scrimmage::sensor::LOSSensor::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">scrimmage::sensor::ContactBlobCamera::step()</a>, and <a class="el" href="LOSSensor_8cpp_source.html#l00098">scrimmage::sensor::LOSSensor::step()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -746,12 +746,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00088">88</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   88</span>                                                                                      {</div>
-<div class="line"><span class="lineno">   89</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a> = lookup;</div>
-<div class="line"><span class="lineno">   90</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00090">90</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span>                                                                                      {</div>
+<div class="line"><span class="lineno">   91</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a> = lookup;</div>
+<div class="line"><span class="lineno">   92</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00190">id_to_team_map_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00192">id_to_team_map_</a>.</p>
 
 </div>
 </div>
@@ -779,12 +779,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00092">92</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>                                                                                           {</div>
-<div class="line"><span class="lineno">   93</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a> = lookup;</div>
-<div class="line"><span class="lineno">   94</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00094">94</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>                                                                                           {</div>
+<div class="line"><span class="lineno">   95</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a> = lookup;</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00191">id_to_ent_map_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00193">id_to_ent_map_</a>.</p>
 
 </div>
 </div>
@@ -803,12 +803,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00080">80</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>                                                       {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>;</div>
-<div class="line"><span class="lineno">   82</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00082">82</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   82</span>                                                       {</div>
+<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>;</div>
+<div class="line"><span class="lineno">   84</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00202">shapes_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00204">shapes_</a>.</p>
 
 </div>
 </div>
@@ -835,11 +835,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00098">98</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   98</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>; }</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00100">100</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  100</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>; }</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00193">vars_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00195">vars_</a>.</p>
 
 </div>
 </div>
@@ -885,21 +885,21 @@ template&lt;class T , class CallbackFunc &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00101">101</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  104</span>                               {</div>
-<div class="line"><span class="lineno">  105</span>        <a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a> sub = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;subscribe&lt;T&gt;(</div>
-<div class="line"><span class="lineno">  106</span>            network_name,</div>
-<div class="line"><span class="lineno">  107</span>            topic,</div>
-<div class="line"><span class="lineno">  108</span>            callback,</div>
-<div class="line"><span class="lineno">  109</span>            0,</div>
-<div class="line"><span class="lineno">  110</span>            <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  111</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  112</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.push_back(sub);</div>
-<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">return</span> sub;</div>
-<div class="line"><span class="lineno">  114</span>    }</div>
-<div class="ttc" id="anamespacescrimmage_html_af5dac0f6daf649a2df426f590221dbd4"><div class="ttname"><a href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">scrimmage::SubscriberBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; SubscriberBase &gt; SubscriberBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00112">fwd_decl.h:112</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00103">103</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  106</span>                               {</div>
+<div class="line"><span class="lineno">  107</span>        <a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a> sub = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;subscribe&lt;T&gt;(</div>
+<div class="line"><span class="lineno">  108</span>            network_name,</div>
+<div class="line"><span class="lineno">  109</span>            topic,</div>
+<div class="line"><span class="lineno">  110</span>            callback,</div>
+<div class="line"><span class="lineno">  111</span>            0,</div>
+<div class="line"><span class="lineno">  112</span>            <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  113</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  114</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.push_back(sub);</div>
+<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">return</span> sub;</div>
+<div class="line"><span class="lineno">  116</span>    }</div>
+<div class="ttc" id="anamespacescrimmage_html_af5dac0f6daf649a2df426f590221dbd4"><div class="ttname"><a href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">scrimmage::SubscriberBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; SubscriberBase &gt; SubscriberBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00116">fwd_decl.h:116</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00196">subs_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00198">subs_</a>.</p>
 
 </div>
 </div>
@@ -951,20 +951,20 @@ template&lt;class T , class CallbackFunc &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00117">117</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  121</span>                                     {</div>
-<div class="line"><span class="lineno">  122</span>        <a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a> sub = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;subscribe&lt;T&gt;(</div>
-<div class="line"><span class="lineno">  123</span>            network_name,</div>
-<div class="line"><span class="lineno">  124</span>            topic,</div>
-<div class="line"><span class="lineno">  125</span>            callback,</div>
-<div class="line"><span class="lineno">  126</span>            max_queue_size,</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  128</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.push_back(sub);</div>
-<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">return</span> sub;</div>
-<div class="line"><span class="lineno">  131</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00119">119</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  123</span>                                     {</div>
+<div class="line"><span class="lineno">  124</span>        <a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a> sub = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;subscribe&lt;T&gt;(</div>
+<div class="line"><span class="lineno">  125</span>            network_name,</div>
+<div class="line"><span class="lineno">  126</span>            topic,</div>
+<div class="line"><span class="lineno">  127</span>            callback,</div>
+<div class="line"><span class="lineno">  128</span>            max_queue_size,</div>
+<div class="line"><span class="lineno">  129</span>            <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  130</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  131</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>.push_back(sub);</div>
+<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">return</span> sub;</div>
+<div class="line"><span class="lineno">  133</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00196">subs_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00198">subs_</a>.</p>
 
 </div>
 </div>
@@ -994,19 +994,19 @@ template&lt;class T , class CallbackFunc &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00096">96</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>                                                                            {</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;advertise(</div>
-<div class="line"><span class="lineno">   98</span>        network_name,</div>
-<div class="line"><span class="lineno">   99</span>        topic,</div>
-<div class="line"><span class="lineno">  100</span>        0,</div>
-<div class="line"><span class="lineno">  101</span>        <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  102</span>        std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  103</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00098">98</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>                                                                            {</div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;advertise(</div>
+<div class="line"><span class="lineno">  100</span>        network_name,</div>
+<div class="line"><span class="lineno">  101</span>        topic,</div>
+<div class="line"><span class="lineno">  102</span>        0,</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  104</span>        std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  105</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Boundary_8cpp_source.html#l00064">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00063">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00055">scrimmage::autonomy::GoToWaypoint::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="Predator_8cpp_source.html#l00052">scrimmage::autonomy::Predator::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00080">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00058">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00213">scrimmage::sensor::AirSimSensor::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00069">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="GPS_8cpp_source.html#l00065">scrimmage::sensor::GPS::init()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00073">scrimmage::sensor::LOSSensor::init()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00060">scrimmage::sensor::NoisyContacts::init()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00053">scrimmage::sensor::NoisyState::init()</a>, <a class="el" href="RayTrace_8cpp_source.html#l00063">scrimmage::sensor::RayTrace::init()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00056">scrimmage::sensor::SimpleINS::init()</a>, <a class="el" href="CommandStringRelay_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00079">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="FlagCaptureInteraction_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="GraphInteraction_8cpp_source.html#l00069">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="GRPCCommandString_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="RandomAttrit_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCapture_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="AltitudeAboveTerrain_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, and <a class="el" href="RigidBody6DOFStateSensor_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Boundary_8cpp_source.html#l00065">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00065">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00057">scrimmage::autonomy::GoToWaypoint::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="Predator_8cpp_source.html#l00053">scrimmage::autonomy::Predator::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00081">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00059">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00214">scrimmage::sensor::AirSimSensor::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="GPS_8cpp_source.html#l00067">scrimmage::sensor::GPS::init()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00074">scrimmage::sensor::LOSSensor::init()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00061">scrimmage::sensor::NoisyContacts::init()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00054">scrimmage::sensor::NoisyState::init()</a>, <a class="el" href="RayTrace_8cpp_source.html#l00064">scrimmage::sensor::RayTrace::init()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00057">scrimmage::sensor::SimpleINS::init()</a>, <a class="el" href="CommandStringRelay_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00080">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="FlagCaptureInteraction_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="GraphInteraction_8cpp_source.html#l00071">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="GRPCCommandString_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="RandomAttrit_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCapture_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="AltitudeAboveTerrain_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, and <a class="el" href="RigidBody6DOFStateSensor_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1115,17 +1115,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00084">84</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>                                 {</div>
-<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;advertise(</div>
-<div class="line"><span class="lineno">   89</span>        network_name,</div>
-<div class="line"><span class="lineno">   90</span>        topic,</div>
-<div class="line"><span class="lineno">   91</span>        max_queue_size,</div>
-<div class="line"><span class="lineno">   92</span>        <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">   93</span>        std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">   94</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00086">86</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>                                 {</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>-&gt;advertise(</div>
+<div class="line"><span class="lineno">   91</span>        network_name,</div>
+<div class="line"><span class="lineno">   92</span>        topic,</div>
+<div class="line"><span class="lineno">   93</span>        max_queue_size,</div>
+<div class="line"><span class="lineno">   94</span>        <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">   95</span>        std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">   96</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>.</p>
 
 </div>
 </div>
@@ -1153,11 +1153,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00139">139</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  139</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a30cfebe4d1b07a01b56a50a93d97d625">pubsub</a>; }</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a30cfebe4d1b07a01b56a50a93d97d625"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a30cfebe4d1b07a01b56a50a93d97d625">scrimmage::EntityPlugin::pubsub</a></div><div class="ttdeci">PubSubPtr pubsub()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00140">EntityPlugin.h:140</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00141">141</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a30cfebe4d1b07a01b56a50a93d97d625">pubsub</a>; }</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a30cfebe4d1b07a01b56a50a93d97d625"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a30cfebe4d1b07a01b56a50a93d97d625">scrimmage::EntityPlugin::pubsub</a></div><div class="ttdeci">PubSubPtr pubsub()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00142">EntityPlugin.h:142</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00140">pubsub()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00142">pubsub()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1194,12 +1194,12 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00140">140</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  140</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00142">142</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a94260a029189adb45b80beecb99e6ca5">pubsub_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00194">pubsub_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">pubsub_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00139">set_pubsub()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00141">set_pubsub()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1236,12 +1236,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00142">142</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  142</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00144">144</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ade54ffd0cf16516a81427a38049303c3">subs_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00196">subs_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00198">subs_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00216">scrimmage::network::GPUSphereNetwork::deliver_messages()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00234">scrimmage::network::GPUSphereNetwork::deliver_topic_messages()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00266">scrimmage::network::GPUSphereNetwork::enforce_queue_size()</a>, <a class="el" href="Network_8cpp_source.html#l00107">scrimmage::Network::step()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00087">scrimmage::network::GPUSphereNetwork::step()</a>, and <a class="el" href="src_2plugins_2autonomy_2AuctionAssign_2auction__assign_8py_source.html#l00055">auction_assign.AuctionAssign::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00218">scrimmage::network::GPUSphereNetwork::deliver_messages()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00236">scrimmage::network::GPUSphereNetwork::deliver_topic_messages()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00268">scrimmage::network::GPUSphereNetwork::enforce_queue_size()</a>, <a class="el" href="Network_8cpp_source.html#l00108">scrimmage::Network::step()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00089">scrimmage::network::GPUSphereNetwork::step()</a>, and <a class="el" href="src_2plugins_2autonomy_2AuctionAssign_2auction__assign_8py_source.html#l00055">auction_assign.AuctionAssign::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1291,10 +1291,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00144">144</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = time; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00146">146</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = time; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00197">time_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00199">time_</a>.</p>
 
 </div>
 </div>
@@ -1322,10 +1322,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00146">146</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  146</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = time; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00148">148</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  148</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a> = time; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00197">time_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00199">time_</a>.</p>
 
 </div>
 </div>
@@ -1352,12 +1352,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00147">147</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  147</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00149">149</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  149</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00197">time_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00199">time_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Print_8cpp_source.html#l00196">scrimmage::Print::print()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Print_8cpp_source.html#l00197">scrimmage::Print::print()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1388,25 +1388,25 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00105">105</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>                                                       {</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">if</span> (!s-&gt;hash_set()) {</div>
-<div class="line"><span class="lineno">  107</span>        <span class="comment">// Hash function uses entity ID, current simulation time, plugin name,</span></div>
-<div class="line"><span class="lineno">  108</span>        <span class="comment">// and a random number.</span></div>
-<div class="line"><span class="lineno">  109</span>        std::string str = <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t())</div>
-<div class="line"><span class="lineno">  110</span>                          + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;rng_uniform())</div>
-<div class="line"><span class="lineno">  111</span>                          + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;rng_uniform());</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>        std::size_t hash_id = std::hash&lt;std::string&gt;{}(str);</div>
-<div class="line"><span class="lineno">  114</span>        s-&gt;set_hash(hash_id);</div>
-<div class="line"><span class="lineno">  115</span>        s-&gt;set_hash_set(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  116</span>    }</div>
-<div class="line"><span class="lineno">  117</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>.push_back(s);</div>
-<div class="line"><span class="lineno">  118</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00107">107</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                                       {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">if</span> (!s-&gt;hash_set()) {</div>
+<div class="line"><span class="lineno">  109</span>        <span class="comment">// Hash function uses entity ID, current simulation time, plugin name,</span></div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// and a random number.</span></div>
+<div class="line"><span class="lineno">  111</span>        std::string str = <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>() + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t())</div>
+<div class="line"><span class="lineno">  112</span>                          + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;rng_uniform())</div>
+<div class="line"><span class="lineno">  113</span>                          + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;rng_uniform());</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>        std::size_t hash_id = std::hash&lt;std::string&gt;{}(str);</div>
+<div class="line"><span class="lineno">  116</span>        s-&gt;set_hash(hash_id);</div>
+<div class="line"><span class="lineno">  117</span>        s-&gt;set_hash_set(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  118</span>    }</div>
+<div class="line"><span class="lineno">  119</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aad6a891ac2187596ff2f4f0c564c718b">shapes_</a>.push_back(s);</div>
+<div class="line"><span class="lineno">  120</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">parent_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00202">shapes_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00197">time_</a>.</p>
+<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">parent_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00204">shapes_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">time_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ShapeDraw_8cpp_source.html#l00100">scrimmage::autonomy::ShapeDraw::draw_cuboid()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00078">scrimmage::autonomy::ShapeDraw::draw_ellipse()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00213">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00118">scrimmage::autonomy::ShapeDraw::draw_mesh()</a>, <a class="el" href="Boundary_8cpp_source.html#l00064">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00063">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00080">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00079">REGISTER_PLUGIN()</a>, <a class="el" href="ROSShapeViz_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00424">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00094">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00264">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00267">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00183">scrimmage::motion::Multirotor::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00100">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00161">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00219">scrimmage::autonomy::Straight::step_autonomy()</a>, and <a class="el" href="TrailMS_8cpp_source.html#l00070">scrimmage::autonomy::TrailMS::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ShapeDraw_8cpp_source.html#l00101">scrimmage::autonomy::ShapeDraw::draw_cuboid()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00079">scrimmage::autonomy::ShapeDraw::draw_ellipse()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="ShapeDraw_8cpp_source.html#l00119">scrimmage::autonomy::ShapeDraw::draw_mesh()</a>, <a class="el" href="Boundary_8cpp_source.html#l00065">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00065">scrimmage::interaction::MapGen2D::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00081">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00080">REGISTER_PLUGIN()</a>, <a class="el" href="ROSShapeViz_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00267">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00268">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00185">scrimmage::motion::Multirotor::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00101">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00163">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00220">scrimmage::autonomy::Straight::step_autonomy()</a>, and <a class="el" href="TrailMS_8cpp_source.html#l00071">scrimmage::autonomy::TrailMS::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1489,12 +1489,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00120">120</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>                                                                          {</div>
-<div class="line"><span class="lineno">  121</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a> = param_server;</div>
-<div class="line"><span class="lineno">  122</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00122">122</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>                                                                          {</div>
+<div class="line"><span class="lineno">  123</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a> = param_server;</div>
+<div class="line"><span class="lineno">  124</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00203">param_server_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00205">param_server_</a>.</p>
 
 </div>
 </div>
@@ -1540,14 +1540,14 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00155">155</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  158</span>                                                                        {}) {</div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;register_param&lt;T&gt;(</div>
-<div class="line"><span class="lineno">  160</span>            <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>,</div>
-<div class="line"><span class="lineno">  161</span>            variable,</div>
-<div class="line"><span class="lineno">  162</span>            callback,</div>
-<div class="line"><span class="lineno">  163</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  164</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00157">157</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  160</span>                                                                        {}) {</div>
+<div class="line"><span class="lineno">  161</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;register_param&lt;T&gt;(</div>
+<div class="line"><span class="lineno">  162</span>            <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>,</div>
+<div class="line"><span class="lineno">  163</span>            variable,</div>
+<div class="line"><span class="lineno">  164</span>            callback,</div>
+<div class="line"><span class="lineno">  165</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  166</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1587,12 +1587,12 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00167">167</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  167</span>                                                          {</div>
-<div class="line"><span class="lineno">  168</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;set_param&lt;T&gt;(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>, value);</div>
-<div class="line"><span class="lineno">  169</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00169">169</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  169</span>                                                          {</div>
+<div class="line"><span class="lineno">  170</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;set_param&lt;T&gt;(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>, value);</div>
+<div class="line"><span class="lineno">  171</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00203">param_server_</a>.</p>
+<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00205">param_server_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1632,14 +1632,14 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00172">172</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                 {</div>
-<div class="line"><span class="lineno">  173</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;unregister_param&lt;T&gt;(</div>
-<div class="line"><span class="lineno">  174</span>            <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>,</div>
-<div class="line"><span class="lineno">  175</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">  176</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00174">174</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  174</span>                                                 {</div>
+<div class="line"><span class="lineno">  175</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a4549ea38b3806d0a4bf99c59e81d1166">param_server_</a>-&gt;unregister_param&lt;T&gt;(</div>
+<div class="line"><span class="lineno">  176</span>            <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>,</div>
+<div class="line"><span class="lineno">  177</span>            std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">  178</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00041">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00203">param_server_</a>.</p>
+<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00205">param_server_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1676,12 +1676,12 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00179">179</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  179</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00181">181</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  181</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00204">loop_rate_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00206">loop_rate_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00181">set_loop_rate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00183">set_loop_rate()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1718,12 +1718,12 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00180">180</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  180</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a>; }</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00182">182</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  182</span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a>; }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00205">loop_timer_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00207">loop_timer_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00182">set_loop_timer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00184">set_loop_timer()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1761,11 +1761,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00181">181</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  181</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74">loop_rate</a>; }</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ac5f8154d869894c22b90ddc6a78a4d74"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74">scrimmage::EntityPlugin::loop_rate</a></div><div class="ttdeci">const double &amp; loop_rate() const</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00179">EntityPlugin.h:179</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00183">183</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  183</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74">loop_rate</a>; }</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ac5f8154d869894c22b90ddc6a78a4d74"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74">scrimmage::EntityPlugin::loop_rate</a></div><div class="ttdeci">const double &amp; loop_rate() const</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00181">EntityPlugin.h:181</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00179">loop_rate()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00204">loop_rate_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00181">loop_rate()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00206">loop_rate_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1803,11 +1803,11 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00182">182</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  182</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9">loop_timer</a>; }</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a08c2d6268501b9894a13f456dc6737a9"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9">scrimmage::EntityPlugin::loop_timer</a></div><div class="ttdeci">const double &amp; loop_timer() const</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00180">EntityPlugin.h:180</a></div></div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00184">184</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  184</span>{ <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9">loop_timer</a>; }</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a08c2d6268501b9894a13f456dc6737a9"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9">scrimmage::EntityPlugin::loop_timer</a></div><div class="ttdeci">const double &amp; loop_timer() const</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00182">EntityPlugin.h:182</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00180">loop_timer()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00205">loop_timer_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00182">loop_timer()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00207">loop_timer_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1837,18 +1837,18 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00124">124</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>                                            {</div>
-<div class="line"><span class="lineno">  125</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> -= dt;</div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> &lt;= 0.0) {</div>
-<div class="line"><span class="lineno">  127</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a> == 0 ? -1.0 : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> + (1.0 / <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>);</div>
-<div class="line"><span class="lineno">  128</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  129</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  131</span>    }</div>
-<div class="line"><span class="lineno">  132</span>}</div>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8cpp_source.html#l00126">126</a> of file <a class="el" href="EntityPlugin_8cpp_source.html">EntityPlugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  126</span>                                            {</div>
+<div class="line"><span class="lineno">  127</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> -= dt;</div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> &lt;= 0.0) {</div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a> == 0 ? -1.0 : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#abdf5112e617ead20e0c39a5e4fc84993">loop_timer_</a> + (1.0 / <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ac97124c61fe7349018827b1ffc224e6b">loop_rate_</a>);</div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  131</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  133</span>    }</div>
+<div class="line"><span class="lineno">  134</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00204">loop_rate_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00205">loop_timer_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8h_source.html#l00206">loop_rate_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00207">loop_timer_</a>.</p>
 
 </div>
 </div>
@@ -1865,7 +1865,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00150">150</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00152">152</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
 </div>
 </div>
@@ -1889,9 +1889,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00186">186</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00188">188</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00387">scrimmage::sensor::ContactBlobCamera::add_false_positives()</a>, <a class="el" href="OpenAIRewards_8cpp_source.html#l00087">scrimmage::metrics::OpenAIRewards::calc_team_scores()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00296">scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00213">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00105">draw_shape()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00075">get_scoped_property_helper()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00072">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00054">scrimmage::motion::DubinsAirplane::init()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00071">scrimmage::motion::FixedWing6DOF::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00091">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00060">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00071">scrimmage::motion::Unicycle3D::init()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00061">scrimmage::motion::UUV6DOF::init()</a>, <a class="el" href="APITester_8cpp_source.html#l00061">scrimmage::autonomy::APITester::init()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00071">scrimmage::autonomy::ArduPilot::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00061">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00118">scrimmage::autonomy::ROSAirSim::init()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00056">scrimmage::autonomy::ROSAutonomy::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00053">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00063">scrimmage::autonomy::TakeFlag::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00058">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00213">scrimmage::sensor::AirSimSensor::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00069">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00060">scrimmage::sensor::NoisyContacts::init()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00053">scrimmage::sensor::NoisyState::init()</a>, <a class="el" href="RayTrace_8cpp_source.html#l00063">scrimmage::sensor::RayTrace::init()</a>, <a class="el" href="ROSAltimeter_8cpp_source.html#l00061">scrimmage::sensor::ROSAltimeter::init()</a>, <a class="el" href="ROSCompass_8cpp_source.html#l00058">scrimmage::sensor::ROSCompass::init()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00064">scrimmage::sensor::ROSIMUSensor::init()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00056">scrimmage::sensor::SimpleINS::init()</a>, <a class="el" href="SimpleQuadrotor_8cpp_source.html#l00089">scrimmage::motion::SimpleQuadrotor::model()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">parent()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00224">scrimmage::autonomy::ArduPilot::parse_receive()</a>, <a class="el" href="CommandStringRelay_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00058">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerOmega_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerPID_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00079">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="GraphInteraction_8cpp_source.html#l00069">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="DubinsAirplane3D_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="AltitudeAboveTerrain_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFStateSensor_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00751">scrimmage::sensor::AirSimSensor::save_data()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00061">set_parent()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00578">scrimmage::sensor::ContactBlobCamera::set_plugin_params()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00069">set_scoped_property()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00256">scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00615">scrimmage::sensor::AirSimSensor::step()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00424">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="GPS_8cpp_source.html#l00080">scrimmage::sensor::GPS::step()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00097">scrimmage::sensor::LOSSensor::step()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00081">scrimmage::sensor::NoisyContacts::step()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00079">scrimmage::sensor::NoisyState::step()</a>, <a class="el" href="ROSAltimeter_8cpp_source.html#l00101">scrimmage::sensor::ROSAltimeter::step()</a>, <a class="el" href="ROSCompass_8cpp_source.html#l00079">scrimmage::sensor::ROSCompass::step()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00358">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00090">scrimmage::sensor::SimpleINS::step()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00219">scrimmage::motion::JSBSimModel::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00267">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00096">scrimmage::motion::RigidBody6DOF::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00100">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00088">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00072">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00647">scrimmage::autonomy::ROSAirSim::step_autonomy()</a>, and <a class="el" href="JSBSimModel_8cpp_source.html#l00284">scrimmage::motion::JSBSimModel::teleport()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00389">scrimmage::sensor::ContactBlobCamera::add_false_positives()</a>, <a class="el" href="OpenAIRewards_8cpp_source.html#l00088">scrimmage::metrics::OpenAIRewards::calc_team_scores()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">scrimmage::sensor::ContactBlobCamera::contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">scrimmage::sensor::ContactBlobCamera::draw_frustum()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">draw_shape()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00077">get_scoped_property_helper()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00073">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00056">scrimmage::motion::DubinsAirplane::init()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00073">scrimmage::motion::FixedWing6DOF::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00092">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00062">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00073">scrimmage::motion::Unicycle3D::init()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00063">scrimmage::motion::UUV6DOF::init()</a>, <a class="el" href="APITester_8cpp_source.html#l00063">scrimmage::autonomy::APITester::init()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00073">scrimmage::autonomy::ArduPilot::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00062">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00120">scrimmage::autonomy::ROSAirSim::init()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00058">scrimmage::autonomy::ROSAutonomy::init()</a>, <a class="el" href="ROSControl_8cpp_source.html#l00055">scrimmage::autonomy::ROSControl::init()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00065">scrimmage::autonomy::TakeFlag::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00059">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00214">scrimmage::sensor::AirSimSensor::init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">scrimmage::sensor::ContactBlobCamera::init()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00061">scrimmage::sensor::NoisyContacts::init()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00054">scrimmage::sensor::NoisyState::init()</a>, <a class="el" href="RayTrace_8cpp_source.html#l00064">scrimmage::sensor::RayTrace::init()</a>, <a class="el" href="ROSAltimeter_8cpp_source.html#l00062">scrimmage::sensor::ROSAltimeter::init()</a>, <a class="el" href="ROSCompass_8cpp_source.html#l00059">scrimmage::sensor::ROSCompass::init()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00066">scrimmage::sensor::ROSIMUSensor::init()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00057">scrimmage::sensor::SimpleINS::init()</a>, <a class="el" href="SimpleQuadrotor_8cpp_source.html#l00090">scrimmage::motion::SimpleQuadrotor::model()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">parent()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00226">scrimmage::autonomy::ArduPilot::parse_receive()</a>, <a class="el" href="CommandStringRelay_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="TrajectoryRecordPlayback_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointDispatcher_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerOmega_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="MultirotorControllerPID_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00080">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="GraphInteraction_8cpp_source.html#l00071">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="DubinsAirplane3D_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="AltitudeAboveTerrain_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFStateSensor_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00752">scrimmage::sensor::AirSimSensor::save_data()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00063">set_parent()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">scrimmage::sensor::ContactBlobCamera::set_plugin_params()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00071">set_scoped_property()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00258">scrimmage::autonomy::ArduPilot::state6dof_to_fdm_packet()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00616">scrimmage::sensor::AirSimSensor::step()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="GPS_8cpp_source.html#l00082">scrimmage::sensor::GPS::step()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00098">scrimmage::sensor::LOSSensor::step()</a>, <a class="el" href="NoisyContacts_8cpp_source.html#l00082">scrimmage::sensor::NoisyContacts::step()</a>, <a class="el" href="NoisyState_8cpp_source.html#l00080">scrimmage::sensor::NoisyState::step()</a>, <a class="el" href="ROSAltimeter_8cpp_source.html#l00102">scrimmage::sensor::ROSAltimeter::step()</a>, <a class="el" href="ROSCompass_8cpp_source.html#l00080">scrimmage::sensor::ROSCompass::step()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00360">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00091">scrimmage::sensor::SimpleINS::step()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00220">scrimmage::motion::JSBSimModel::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00268">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00098">scrimmage::motion::RigidBody6DOF::step()</a>, <a class="el" href="Boids_8cpp_source.html#l00101">scrimmage::autonomy::Boids::step_autonomy()</a>, <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00089">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00073">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAirSim_8cpp_source.html#l00649">scrimmage::autonomy::ROSAirSim::step_autonomy()</a>, and <a class="el" href="JSBSimModel_8cpp_source.html#l00285">scrimmage::motion::JSBSimModel::teleport()</a>.</p>
 
 </div>
 </div>
@@ -1915,9 +1915,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00188">188</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00190">190</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00086">transform()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00088">transform()</a>.</p>
 
 </div>
 </div>
@@ -1941,9 +1941,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00190">190</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00192">192</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="SimpleCaptureMetrics_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00088">set_id_to_team_map()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="SimpleCaptureMetrics_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00090">set_id_to_team_map()</a>.</p>
 
 </div>
 </div>
@@ -1967,9 +1967,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00191">191</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00193">193</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00273">scrimmage::network::GPUSphereNetwork::is_reachable()</a>, <a class="el" href="SphereNetwork_8cpp_source.html#l00078">scrimmage::network::SphereNetwork::is_reachable()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00079">REGISTER_PLUGIN()</a>, <a class="el" href="FlagCaptureInteraction_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00092">set_id_to_ent_map()</a>, and <a class="el" href="CPA_8cpp_source.html#l00072">scrimmage::metrics::CPA::step_metrics()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00275">scrimmage::network::GPUSphereNetwork::is_reachable()</a>, <a class="el" href="SphereNetwork_8cpp_source.html#l00080">scrimmage::network::SphereNetwork::is_reachable()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00080">REGISTER_PLUGIN()</a>, <a class="el" href="FlagCaptureInteraction_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00094">set_id_to_ent_map()</a>, and <a class="el" href="CPA_8cpp_source.html#l00073">scrimmage::metrics::CPA::step_metrics()</a>.</p>
 
 </div>
 </div>
@@ -1993,9 +1993,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00193">193</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00195">195</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00072">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00054">scrimmage::motion::DubinsAirplane::init()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00071">scrimmage::motion::FixedWing6DOF::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00091">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00060">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00057">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="SimpleCar_8cpp_source.html#l00051">scrimmage::motion::SimpleCar::init()</a>, <a class="el" href="Unicycle_8cpp_source.html#l00050">scrimmage::motion::Unicycle::init()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00071">scrimmage::motion::Unicycle3D::init()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00061">scrimmage::motion::UUV6DOF::init()</a>, <a class="el" href="APITester_8cpp_source.html#l00061">scrimmage::autonomy::APITester::init()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00071">scrimmage::autonomy::ArduPilot::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00046">scrimmage::autonomy::AvoidWalls::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00053">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00064">scrimmage::autonomy::BoundaryDefense::init()</a>, <a class="el" href="JoystickAutonomy_8cpp_source.html#l00053">scrimmage::autonomy::JoystickAutonomy::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00061">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Predator_8cpp_source.html#l00052">scrimmage::autonomy::Predator::init()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00056">scrimmage::autonomy::ROSAutonomy::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00080">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00063">scrimmage::autonomy::TakeFlag::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00058">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00058">scrimmage::controller::UnicyclePID::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00114">scrimmage::motion::SimpleAircraft::model()</a>, <a class="el" href="SimpleCar_8cpp_source.html#l00096">scrimmage::motion::SimpleCar::model()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="DirectController_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00037">REGISTER_PLUGIN()</a>, <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="JoystickController_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerDirect_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html#l00037">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerWaypoint_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00037">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegrator_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="DubinsAirplane3D_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="HarmonicOscillator_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00113">scrimmage::controller::MotionBattery::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00094">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00094">scrimmage::motion::DubinsAirplane::step()</a>, <a class="el" href="Unicycle_8cpp_source.html#l00086">scrimmage::motion::Unicycle::step()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00155">scrimmage::motion::Unicycle3D::step()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00219">scrimmage::motion::JSBSimModel::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00264">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00267">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00183">scrimmage::motion::Multirotor::step()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00235">scrimmage::motion::UUV6DOF::step()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00170">scrimmage::autonomy::ArduPilot::step_autonomy()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00062">scrimmage::autonomy::AvoidWalls::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00078">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="JoystickAutonomy_8cpp_source.html#l00057">scrimmage::autonomy::JoystickAutonomy::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00088">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00161">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00072">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00105">scrimmage::autonomy::ROSAutonomy::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00219">scrimmage::autonomy::Straight::step_autonomy()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00086">scrimmage::autonomy::TakeFlag::step_autonomy()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00098">vars()</a>, and <a class="el" href="Boids_8cpp_source.html#l00250">scrimmage::autonomy::Boids::velocity_controller()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00073">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00056">scrimmage::motion::DubinsAirplane::init()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00073">scrimmage::motion::FixedWing6DOF::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00092">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00062">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00059">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="SimpleCar_8cpp_source.html#l00053">scrimmage::motion::SimpleCar::init()</a>, <a class="el" href="Unicycle_8cpp_source.html#l00052">scrimmage::motion::Unicycle::init()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00073">scrimmage::motion::Unicycle3D::init()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00063">scrimmage::motion::UUV6DOF::init()</a>, <a class="el" href="APITester_8cpp_source.html#l00063">scrimmage::autonomy::APITester::init()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00073">scrimmage::autonomy::ArduPilot::init()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00047">scrimmage::autonomy::AvoidWalls::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00054">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00066">scrimmage::autonomy::BoundaryDefense::init()</a>, <a class="el" href="JoystickAutonomy_8cpp_source.html#l00054">scrimmage::autonomy::JoystickAutonomy::init()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00062">scrimmage::autonomy::MOOSAutonomy::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Predator_8cpp_source.html#l00053">scrimmage::autonomy::Predator::init()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00058">scrimmage::autonomy::ROSAutonomy::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00081">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00065">scrimmage::autonomy::TakeFlag::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00059">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00059">scrimmage::controller::UnicyclePID::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00116">scrimmage::motion::SimpleAircraft::model()</a>, <a class="el" href="SimpleCar_8cpp_source.html#l00098">scrimmage::motion::SimpleCar::model()</a>, <a class="el" href="WaypointGenerator_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="DirectController_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerWaypoint_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="JoystickController_8cpp_source.html#l00050">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerDirect_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerSimple_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegratorControllerWaypoint_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00038">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegrator_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="DubinsAirplane3D_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="HarmonicOscillator_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00114">scrimmage::controller::MotionBattery::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="DubinsAirplane_8cpp_source.html#l00096">scrimmage::motion::DubinsAirplane::step()</a>, <a class="el" href="Unicycle_8cpp_source.html#l00088">scrimmage::motion::Unicycle::step()</a>, <a class="el" href="Unicycle3D_8cpp_source.html#l00158">scrimmage::motion::Unicycle3D::step()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00220">scrimmage::motion::JSBSimModel::step()</a>, <a class="el" href="FixedWing6DOF_8cpp_source.html#l00267">scrimmage::motion::FixedWing6DOF::step()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00268">scrimmage::motion::JSBSimControl::step()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00185">scrimmage::motion::Multirotor::step()</a>, <a class="el" href="UUV6DOF_8cpp_source.html#l00238">scrimmage::motion::UUV6DOF::step()</a>, <a class="el" href="ArduPilot_8cpp_source.html#l00172">scrimmage::autonomy::ArduPilot::step_autonomy()</a>, <a class="el" href="AvoidWalls_8cpp_source.html#l00063">scrimmage::autonomy::AvoidWalls::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00080">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="JoystickAutonomy_8cpp_source.html#l00058">scrimmage::autonomy::JoystickAutonomy::step_autonomy()</a>, <a class="el" href="MOOSAutonomy_8cpp_source.html#l00089">scrimmage::autonomy::MOOSAutonomy::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00163">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, <a class="el" href="Predator_8cpp_source.html#l00073">scrimmage::autonomy::Predator::step_autonomy()</a>, <a class="el" href="ROSAutonomy_8cpp_source.html#l00107">scrimmage::autonomy::ROSAutonomy::step_autonomy()</a>, <a class="el" href="Straight_8cpp_source.html#l00220">scrimmage::autonomy::Straight::step_autonomy()</a>, <a class="el" href="TakeFlag_8cpp_source.html#l00088">scrimmage::autonomy::TakeFlag::step_autonomy()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00100">vars()</a>, and <a class="el" href="Boids_8cpp_source.html#l00251">scrimmage::autonomy::Boids::velocity_controller()</a>.</p>
 
 </div>
 </div>
@@ -2019,9 +2019,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00194">194</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00196">196</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00096">advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00084">advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00140">pubsub()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00139">set_pubsub()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00101">subscribe()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00117">subscribe()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00098">advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00086">advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00142">pubsub()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00141">set_pubsub()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00103">subscribe()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00119">subscribe()</a>.</p>
 
 </div>
 </div>
@@ -2045,9 +2045,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00196">196</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00198">198</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00142">subs()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00101">subscribe()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00117">subscribe()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00144">subs()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00103">subscribe()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00119">subscribe()</a>.</p>
 
 </div>
 </div>
@@ -2071,9 +2071,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00197">197</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00199">199</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00214">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00234">scrimmage::network::GPUSphereNetwork::deliver_topic_messages()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00105">draw_shape()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00147">getTime()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00062">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00058">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00080">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00064">scrimmage::sensor::ROSIMUSensor::init()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00058">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00047">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00079">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00059">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="ROSClockServer_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00751">scrimmage::sensor::AirSimSensor::save_data()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00144">set_time()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00146">set_time()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00424">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="GPS_8cpp_source.html#l00080">scrimmage::sensor::GPS::step()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00097">scrimmage::sensor::LOSSensor::step()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00358">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00090">scrimmage::sensor::SimpleINS::step()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00113">scrimmage::controller::MotionBattery::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00094">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="Network_8cpp_source.html#l00107">scrimmage::Network::step()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00087">scrimmage::network::GPUSphereNetwork::step()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00190">scrimmage::autonomy::AutonomyExecutor::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00078">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00161">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, and <a class="el" href="Straight_8cpp_source.html#l00219">scrimmage::autonomy::Straight::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AutonomyExecutor_8cpp_source.html#l00216">scrimmage::autonomy::AutonomyExecutor::call_init()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00236">scrimmage::network::GPUSphereNetwork::deliver_topic_messages()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">draw_shape()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00149">getTime()</a>, <a class="el" href="AuctionAssign_8cpp_source.html#l00063">scrimmage::autonomy::AuctionAssign::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00060">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00072">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00081">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00066">scrimmage::sensor::ROSIMUSensor::init()</a>, <a class="el" href="FlightGearMultiplayer_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00080">REGISTER_PLUGIN()</a>, <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00060">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00057">REGISTER_PLUGIN()</a>, <a class="el" href="ROSClockServer_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="AirSimSensor_8cpp_source.html#l00752">scrimmage::sensor::AirSimSensor::save_data()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00146">set_time()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00148">set_time()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">scrimmage::sensor::ContactBlobCamera::step()</a>, <a class="el" href="GPS_8cpp_source.html#l00082">scrimmage::sensor::GPS::step()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00098">scrimmage::sensor::LOSSensor::step()</a>, <a class="el" href="ROSIMUSensor_8cpp_source.html#l00360">scrimmage::sensor::ROSIMUSensor::step()</a>, <a class="el" href="SimpleINS_8cpp_source.html#l00091">scrimmage::sensor::SimpleINS::step()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00114">scrimmage::controller::MotionBattery::step()</a>, <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>, <a class="el" href="Network_8cpp_source.html#l00108">scrimmage::Network::step()</a>, <a class="el" href="GPUSphereNetwork_8cpp_source.html#l00089">scrimmage::network::GPUSphereNetwork::step()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00192">scrimmage::autonomy::AutonomyExecutor::step_autonomy()</a>, <a class="el" href="BoundaryDefense_8cpp_source.html#l00080">scrimmage::autonomy::BoundaryDefense::step_autonomy()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00163">scrimmage::autonomy::MotorSchemas::step_autonomy()</a>, and <a class="el" href="Straight_8cpp_source.html#l00220">scrimmage::autonomy::Straight::step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -2097,9 +2097,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00202">202</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00204">204</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00105">draw_shape()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00080">shapes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">draw_shape()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00082">shapes()</a>.</p>
 
 </div>
 </div>
@@ -2123,9 +2123,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00203">203</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00205">205</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00134">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00167">set_param()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00120">set_param_server()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00172">unregister_param()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00136">close_plugin()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00169">set_param()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00122">set_param_server()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00174">unregister_param()</a>.</p>
 
 </div>
 </div>
@@ -2149,9 +2149,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00204">204</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00206">206</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00179">loop_rate()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00181">set_loop_rate()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00124">step_loop_timer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00181">loop_rate()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00183">set_loop_rate()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00126">step_loop_timer()</a>.</p>
 
 </div>
 </div>
@@ -2175,9 +2175,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00205">205</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="EntityPlugin_8h_source.html#l00207">207</a> of file <a class="el" href="EntityPlugin_8h_source.html">EntityPlugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00180">loop_timer()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00182">set_loop_timer()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00124">step_loop_timer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8h_source.html#l00182">loop_timer()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00184">set_loop_timer()</a>, and <a class="el" href="EntityPlugin_8cpp_source.html#l00126">step_loop_timer()</a>.</p>
 
 </div>
 </div>
@@ -2191,7 +2191,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1EntityPlugin.html">EntityPlugin</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,15 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.cpp" name="/root/scrimmage/scrimmage/src/plugins/motion/SimpleQuadrotor/SimpleQuadrotor.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="548,5,808,60"/>
-<area shape="rect" id="Node000002" href="$Utilities_8h.html" title="Brief file description." alt="" coords="5,115,228,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="548,58,200,116,199,110,547,53"/>
-<area shape="rect" id="Node000007" href="$Entity_8h.html" title="Brief file description." alt="" coords="253,115,442,141"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="586,63,402,114,400,109,584,57"/>
-<area shape="rect" id="Node000023" href="$Angles_8h.html" title="Brief file description." alt="" coords="467,115,660,141"/>
-<area shape="poly" id="edge3_Node000001_Node000023" title=" " alt="" coords="647,62,590,108,587,104,644,58"/>
-<area shape="rect" id="Node000024" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="685,115,901,141"/>
-<area shape="poly" id="edge4_Node000001_Node000024" title=" " alt="" coords="712,58,769,104,766,108,709,62"/>
-<area shape="rect" id="Node000025" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="925,108,1129,148"/>
-<area shape="poly" id="edge5_Node000001_Node000025" title=" " alt="" coords="777,57,944,102,943,107,776,63"/>
-<area shape="rect" id="Node000026" href="$SimpleQuadrotor_8h.html" title="Brief file description." alt="" coords="1154,108,1415,148"/>
-<area shape="poly" id="edge6_Node000001_Node000026" title=" " alt="" coords="809,51,1149,103,1148,109,808,57"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="610,5,870,60"/>
+<area shape="rect" id="Node000002" href="$SimpleQuadrotor_8h.html" title="Brief file description." alt="" coords="5,108,267,148"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="610,57,272,109,271,103,609,51"/>
+<area shape="rect" id="Node000046" href="$Utilities_8h.html" title="Brief file description." alt="" coords="290,115,513,141"/>
+<area shape="poly" id="edge2_Node000001_Node000046" title=" " alt="" coords="645,63,456,114,455,109,644,57"/>
+<area shape="rect" id="Node000014" href="$Entity_8h.html" title="Brief file description." alt="" coords="537,115,727,141"/>
+<area shape="poly" id="edge3_Node000001_Node000014" title=" " alt="" coords="711,62,658,108,654,104,708,58"/>
+<area shape="rect" id="Node000047" href="$Angles_8h.html" title="Brief file description." alt="" coords="751,115,945,141"/>
+<area shape="poly" id="edge4_Node000001_Node000047" title=" " alt="" coords="772,58,826,104,822,108,769,62"/>
+<area shape="rect" id="Node000048" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="969,115,1185,141"/>
+<area shape="poly" id="edge5_Node000001_Node000048" title=" " alt="" coords="836,57,1024,109,1022,114,834,63"/>
+<area shape="rect" id="Node000049" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1210,108,1414,148"/>
+<area shape="poly" id="edge6_Node000001_Node000049" title=" " alt="" coords="871,52,1197,105,1196,110,870,58"/>
 </map>

@@ -1,15 +1,15 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="433,5,703,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="433,57,271,82,183,101,98,125,78,133,76,129,96,120,182,96,270,77,432,51"/>
-<area shape="rect" id="Node000003" href="$Utilities_8h.html" title="Brief file description." alt="" coords="110,137,333,163"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="461,77,272,136,271,131,459,72"/>
-<area shape="rect" id="Node000008" href="$Angles_8h.html" title="Brief file description." alt="" coords="357,137,550,163"/>
-<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="534,77,478,129,474,125,531,73"/>
-<area shape="rect" id="Node000009" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="575,137,791,163"/>
-<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="605,73,662,125,658,129,602,77"/>
-<area shape="rect" id="Node000013" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="815,130,1019,170"/>
-<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="677,72,844,123,842,128,676,77"/>
-<area shape="rect" id="Node000014" href="$DoubleIntegratorControllerVelYaw_8h.html" title="Brief file description." alt="" coords="1044,123,1300,177"/>
-<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="704,62,1031,120,1030,125,703,67"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="482,5,753,75"/>
+<area shape="rect" id="Node000002" href="$DoubleIntegratorControllerVelYaw_8h.html" title="Brief file description." alt="" coords="5,123,261,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="482,74,265,122,263,117,481,69"/>
+<area shape="rect" id="Node000035" title=" " alt="" coords="285,137,365,163"/>
+<area shape="poly" id="edge2_Node000001_Node000035" title=" " alt="" coords="510,77,378,125,360,134,358,129,376,120,508,72"/>
+<area shape="rect" id="Node000048" href="$Utilities_8h.html" title="Brief file description." alt="" coords="390,137,613,163"/>
+<area shape="poly" id="edge3_Node000001_Node000048" title=" " alt="" coords="583,77,526,129,523,125,579,73"/>
+<area shape="rect" id="Node000049" href="$Angles_8h.html" title="Brief file description." alt="" coords="637,137,830,163"/>
+<area shape="poly" id="edge4_Node000001_Node000049" title=" " alt="" coords="655,73,712,125,709,129,652,77"/>
+<area shape="rect" id="Node000050" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="855,137,1071,163"/>
+<area shape="poly" id="edge5_Node000001_Node000050" title=" " alt="" coords="725,72,914,131,912,136,724,77"/>
+<area shape="rect" id="Node000051" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1095,130,1299,170"/>
+<area shape="poly" id="edge6_Node000001_Node000051" title=" " alt="" coords="754,61,1083,120,1105,125,1104,130,1082,125,753,66"/>
 </map>

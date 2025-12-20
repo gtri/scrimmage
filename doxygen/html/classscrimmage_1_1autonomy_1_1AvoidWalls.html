@@ -308,7 +308,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00044">44</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00045">45</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a856deb64a6531aa643b60a8dbca4e726" name="a856deb64a6531aa643b60a8dbca4e726"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a856deb64a6531aa643b60a8dbca4e726">&#9670;&#160;</a></span>init()</h2>
@@ -336,36 +336,36 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8cpp_source.html#l00046">46</a> of file <a class="el" href="AvoidWalls_8cpp_source.html">AvoidWalls.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   46</span>                                                          {</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordtype">double</span> initial_speed = get&lt;double&gt;(<span class="stringliteral">&quot;initial_speed&quot;</span>, params, 21);</div>
-<div class="line"><span class="lineno">   48</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;avoid_distance&quot;</span>, params, 20);</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>    <span class="keyword">auto</span> pc_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sensor::RayTrace::PointCloud&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   51</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">point_cloud_</a> = msg-&gt;data;</div>
-<div class="line"><span class="lineno">   52</span>    };</div>
-<div class="line"><span class="lineno">   53</span>    subscribe&lt;sensor::RayTrace::PointCloud&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;RayTrace/pointcloud&quot;</span>, pc_cb);</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
-<div class="line"><span class="lineno">   59</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a>, initial_speed);</div>
-<div class="line"><span class="lineno">   60</span>}</div>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8cpp_source.html#l00047">47</a> of file <a class="el" href="AvoidWalls_8cpp_source.html">AvoidWalls.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   47</span>                                                          {</div>
+<div class="line"><span class="lineno">   48</span>    <span class="keywordtype">double</span> initial_speed = get&lt;double&gt;(<span class="stringliteral">&quot;initial_speed&quot;</span>, params, 21);</div>
+<div class="line"><span class="lineno">   49</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a> = get&lt;double&gt;(<span class="stringliteral">&quot;avoid_distance&quot;</span>, params, 20);</div>
+<div class="line"><span class="lineno">   50</span> </div>
+<div class="line"><span class="lineno">   51</span>    <span class="keyword">auto</span> pc_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sensor::RayTrace::PointCloud&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   52</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">point_cloud_</a> = msg-&gt;data;</div>
+<div class="line"><span class="lineno">   53</span>    };</div>
+<div class="line"><span class="lineno">   54</span>    subscribe&lt;sensor::RayTrace::PointCloud&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;RayTrace/pointcloud&quot;</span>, pc_cb);</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   57</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
+<div class="line"><span class="lineno">   60</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a>, initial_speed);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00146">VariableIO.cpp:146</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00147">VariableIO.cpp:147</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00123">VariableIO.cpp:123</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00124">VariableIO.cpp:124</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::Type::desired_heading</a></div><div class="ttdeci">@ desired_heading</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::Type::desired_speed</a></div><div class="ttdeci">@ desired_speed</div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a024ed0c32a7094114e425e80539cd1be"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">scrimmage::autonomy::AvoidWalls::speed_idx_</a></div><div class="ttdeci">uint8_t speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00054">AvoidWalls.h:54</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a173737fbbf01587c8266e8403b200eb2"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">scrimmage::autonomy::AvoidWalls::avoid_distance_</a></div><div class="ttdeci">double avoid_distance_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00050">AvoidWalls.h:50</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a31c71f7992ab34697b914659c57c7a13"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">scrimmage::autonomy::AvoidWalls::point_cloud_</a></div><div class="ttdeci">sensor::RayTrace::PointCloud point_cloud_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00051">AvoidWalls.h:51</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a76503ef46e7a63614ec1aab29cb5d442"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">scrimmage::autonomy::AvoidWalls::heading_idx_</a></div><div class="ttdeci">uint8_t heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00053">AvoidWalls.h:53</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00121">fwd_decl.h:121</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a024ed0c32a7094114e425e80539cd1be"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">scrimmage::autonomy::AvoidWalls::speed_idx_</a></div><div class="ttdeci">uint8_t speed_idx_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00055">AvoidWalls.h:55</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a173737fbbf01587c8266e8403b200eb2"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">scrimmage::autonomy::AvoidWalls::avoid_distance_</a></div><div class="ttdeci">double avoid_distance_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00051">AvoidWalls.h:51</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a31c71f7992ab34697b914659c57c7a13"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">scrimmage::autonomy::AvoidWalls::point_cloud_</a></div><div class="ttdeci">sensor::RayTrace::PointCloud point_cloud_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00052">AvoidWalls.h:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1AvoidWalls_html_a76503ef46e7a63614ec1aab29cb5d442"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">scrimmage::autonomy::AvoidWalls::heading_idx_</a></div><div class="ttdeci">uint8_t heading_idx_</div><div class="ttdef"><b>Definition</b> <a href="AvoidWalls_8h_source.html#l00054">AvoidWalls.h:54</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="AvoidWalls_8h_source.html#l00050">avoid_distance_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="AvoidWalls_8h_source.html#l00053">heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="AvoidWalls_8h_source.html#l00051">point_cloud_</a>, <a class="el" href="AvoidWalls_8h_source.html#l00054">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="AvoidWalls_8h_source.html#l00051">avoid_distance_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="AvoidWalls_8h_source.html#l00054">heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="AvoidWalls_8h_source.html#l00052">point_cloud_</a>, <a class="el" href="AvoidWalls_8h_source.html#l00055">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -417,65 +417,65 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8cpp_source.html#l00062">62</a> of file <a class="el" href="AvoidWalls_8cpp_source.html">AvoidWalls.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>                                                  {</div>
-<div class="line"><span class="lineno">   63</span>    <span class="comment">// Find closest point and move away from it</span></div>
-<div class="line"><span class="lineno">   64</span>    <span class="keywordtype">bool</span> all_close_points = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   65</span>    std::list&lt;Eigen::Vector3d&gt; points;</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">for</span> (sensor::RayTrace::PCPoint&amp; p : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">point_cloud_</a>.points) {</div>
-<div class="line"><span class="lineno">   67</span>        <span class="keywordflow">if</span> (p.point.norm() &lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a>) {</div>
-<div class="line"><span class="lineno">   68</span>            points.push_back(p.point);</div>
-<div class="line"><span class="lineno">   69</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   70</span>            all_close_points = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (!points.empty()) {</div>
-<div class="line"><span class="lineno">   75</span>        std::vector&lt;Eigen::Vector3d&gt; O_vecs;</div>
-<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">for</span> (Eigen::Vector3d&amp; p : points) {</div>
-<div class="line"><span class="lineno">   77</span>            <span class="comment">// Transform the point to global coordinate space</span></div>
-<div class="line"><span class="lineno">   78</span>            <span class="keywordtype">double</span> dist = p.norm();</div>
-<div class="line"><span class="lineno">   79</span>            p = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(p);</div>
-<div class="line"><span class="lineno">   80</span>            p += <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos();</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>            <span class="comment">// Get vector pointing towards point</span></div>
-<div class="line"><span class="lineno">   83</span>            Eigen::Vector3d diff = p - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos();</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordtype">double</span> O_mag = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a> - dist;</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>            Eigen::Vector3d O_dir = -O_mag * diff.normalized();</div>
-<div class="line"><span class="lineno">   87</span>            O_vecs.push_back(O_dir);</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>        <span class="comment">// Normalize each repulsion vector and sum</span></div>
-<div class="line"><span class="lineno">   91</span>        Eigen::Vector3d O_vec(0, 0, 0);</div>
-<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = O_vecs.begin(); it != O_vecs.end(); it++) {</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">if</span> (it-&gt;hasNaN()) {</div>
-<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">continue</span>;  <span class="comment">// ignore misbehaved vectors</span></div>
-<div class="line"><span class="lineno">   95</span>            }</div>
-<div class="line"><span class="lineno">   96</span>            O_vec += *it;</div>
-<div class="line"><span class="lineno">   97</span>        }</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>        Eigen::Vector3d dir;</div>
-<div class="line"><span class="lineno">  100</span>        <span class="comment">// Just turn left if all points are too close (reduces chattering)</span></div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">if</span> (all_close_points) {</div>
-<div class="line"><span class="lineno">  102</span>            dir = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(Eigen::Vector3d(0, -1, 0));</div>
-<div class="line"><span class="lineno">  103</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  104</span>            dir = O_vec.normalized();</div>
-<div class="line"><span class="lineno">  105</span>        }</div>
-<div class="line"><span class="lineno">  106</span>        dir *= 10;</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> heading = atan2(dir(1), dir(0));</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, heading);</div>
-<div class="line"><span class="lineno">  111</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a>, 10);</div>
-<div class="line"><span class="lineno">  112</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  113</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
-<div class="line"><span class="lineno">  114</span>    }</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  117</span>}</div>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8cpp_source.html#l00063">63</a> of file <a class="el" href="AvoidWalls_8cpp_source.html">AvoidWalls.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                  {</div>
+<div class="line"><span class="lineno">   64</span>    <span class="comment">// Find closest point and move away from it</span></div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordtype">bool</span> all_close_points = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   66</span>    std::list&lt;Eigen::Vector3d&gt; points;</div>
+<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">for</span> (sensor::RayTrace::PCPoint&amp; p : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a31c71f7992ab34697b914659c57c7a13">point_cloud_</a>.points) {</div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">if</span> (p.point.norm() &lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a>) {</div>
+<div class="line"><span class="lineno">   69</span>            points.push_back(p.point);</div>
+<div class="line"><span class="lineno">   70</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   71</span>            all_close_points = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   72</span>        }</div>
+<div class="line"><span class="lineno">   73</span>    }</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">if</span> (!points.empty()) {</div>
+<div class="line"><span class="lineno">   76</span>        std::vector&lt;Eigen::Vector3d&gt; O_vecs;</div>
+<div class="line"><span class="lineno">   77</span>        <span class="keywordflow">for</span> (Eigen::Vector3d&amp; p : points) {</div>
+<div class="line"><span class="lineno">   78</span>            <span class="comment">// Transform the point to global coordinate space</span></div>
+<div class="line"><span class="lineno">   79</span>            <span class="keywordtype">double</span> dist = p.norm();</div>
+<div class="line"><span class="lineno">   80</span>            p = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(p);</div>
+<div class="line"><span class="lineno">   81</span>            p += <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos();</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>            <span class="comment">// Get vector pointing towards point</span></div>
+<div class="line"><span class="lineno">   84</span>            Eigen::Vector3d diff = p - <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos();</div>
+<div class="line"><span class="lineno">   85</span>            <span class="keywordtype">double</span> O_mag = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a173737fbbf01587c8266e8403b200eb2">avoid_distance_</a> - dist;</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>            Eigen::Vector3d O_dir = -O_mag * diff.normalized();</div>
+<div class="line"><span class="lineno">   88</span>            O_vecs.push_back(O_dir);</div>
+<div class="line"><span class="lineno">   89</span>        }</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>        <span class="comment">// Normalize each repulsion vector and sum</span></div>
+<div class="line"><span class="lineno">   92</span>        Eigen::Vector3d O_vec(0, 0, 0);</div>
+<div class="line"><span class="lineno">   93</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = O_vecs.begin(); it != O_vecs.end(); it++) {</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">if</span> (it-&gt;hasNaN()) {</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">continue</span>;  <span class="comment">// ignore misbehaved vectors</span></div>
+<div class="line"><span class="lineno">   96</span>            }</div>
+<div class="line"><span class="lineno">   97</span>            O_vec += *it;</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>        Eigen::Vector3d dir;</div>
+<div class="line"><span class="lineno">  101</span>        <span class="comment">// Just turn left if all points are too close (reduces chattering)</span></div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (all_close_points) {</div>
+<div class="line"><span class="lineno">  103</span>            dir = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().rotate(Eigen::Vector3d(0, -1, 0));</div>
+<div class="line"><span class="lineno">  104</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  105</span>            dir = O_vec.normalized();</div>
+<div class="line"><span class="lineno">  106</span>        }</div>
+<div class="line"><span class="lineno">  107</span>        dir *= 10;</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> heading = atan2(dir(1), dir(0));</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, heading);</div>
+<div class="line"><span class="lineno">  112</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a024ed0c32a7094114e425e80539cd1be">speed_idx_</a>, 10);</div>
+<div class="line"><span class="lineno">  113</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  114</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html#a76503ef46e7a63614ec1aab29cb5d442">heading_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat().yaw());</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  118</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="AvoidWalls_8h_source.html#l00050">avoid_distance_</a>, <a class="el" href="AvoidWalls_8h_source.html#l00053">heading_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="AvoidWalls_8h_source.html#l00051">point_cloud_</a>, <a class="el" href="RayTrace_8h_source.html#l00076">scrimmage::sensor::RayTrace::PointCloud::points</a>, <a class="el" href="AvoidWalls_8h_source.html#l00054">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="AvoidWalls_8h_source.html#l00051">avoid_distance_</a>, <a class="el" href="AvoidWalls_8h_source.html#l00054">heading_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="AvoidWalls_8h_source.html#l00052">point_cloud_</a>, <a class="el" href="RayTrace_8h_source.html#l00077">scrimmage::sensor::RayTrace::PointCloud::points</a>, <a class="el" href="AvoidWalls_8h_source.html#l00055">speed_idx_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -510,9 +510,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00050">50</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00051">51</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00046">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00062">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00047">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -536,9 +536,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00051">51</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00052">52</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00046">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00062">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00047">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -562,9 +562,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00053">53</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00054">54</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00046">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00062">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00047">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -588,9 +588,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00054">54</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AvoidWalls_8h_source.html#l00055">55</a> of file <a class="el" href="AvoidWalls_8h_source.html">AvoidWalls.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00046">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00062">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AvoidWalls_8cpp_source.html#l00047">init()</a>, and <a class="el" href="AvoidWalls_8cpp_source.html#l00063">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -604,7 +604,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1AvoidWalls.html">AvoidWalls</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

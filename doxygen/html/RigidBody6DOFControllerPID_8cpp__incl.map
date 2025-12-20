@@ -1,13 +1,13 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/RigidBody6DOFControllerPID/RigidBody6DOFControllerPID.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="305,5,546,75"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,137,85,163"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,67,203,92,98,125,79,133,77,129,96,120,202,87,304,62"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="109,137,304,163"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="359,77,244,133,241,129,356,72"/>
-<area shape="rect" id="Node000004" href="$Angles_8h.html" title="Brief file description." alt="" coords="329,137,522,163"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="428,75,428,123,423,123,423,75"/>
-<area shape="rect" id="Node000005" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="546,130,750,170"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="496,72,598,122,595,126,493,77"/>
-<area shape="rect" id="Node000007" href="$RigidBody6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="775,123,1001,177"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="547,67,763,117,762,122,546,72"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="337,5,578,75"/>
+<area shape="rect" id="Node000002" href="$RigidBody6DOFControllerPID_8h.html" title="Brief file description." alt="" coords="5,123,232,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="353,77,215,121,213,116,351,72"/>
+<area shape="rect" id="Node000035" title=" " alt="" coords="256,137,336,163"/>
+<area shape="poly" id="edge2_Node000001_Node000035" title=" " alt="" coords="409,77,326,132,324,127,406,72"/>
+<area shape="rect" id="Node000047" title=" " alt="" coords="360,137,555,163"/>
+<area shape="poly" id="edge3_Node000001_Node000047" title=" " alt="" coords="460,75,460,123,455,123,455,75"/>
+<area shape="rect" id="Node000048" href="$Angles_8h.html" title="Brief file description." alt="" coords="579,137,773,163"/>
+<area shape="poly" id="edge4_Node000001_Node000048" title=" " alt="" coords="526,72,641,129,639,133,524,77"/>
+<area shape="rect" id="Node000049" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="797,130,1001,170"/>
+<area shape="poly" id="edge5_Node000001_Node000049" title=" " alt="" coords="579,68,809,124,808,129,578,73"/>
 </map>

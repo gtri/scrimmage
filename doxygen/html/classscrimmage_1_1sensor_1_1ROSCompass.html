@@ -269,7 +269,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00048">48</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00049">49</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a71c864ca681e42f16f954621b4d22931" name="a71c864ca681e42f16f954621b4d22931"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a71c864ca681e42f16f954621b4d22931">&#9670;&#160;</a></span>ROSCompass()</h2>
@@ -286,8 +286,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00056">56</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00057">57</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -318,34 +318,34 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00058">58</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                          {</div>
-<div class="line"><span class="lineno">   59</span>    <span class="comment">// Setup robot namespace</span></div>
-<div class="line"><span class="lineno">   60</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;vehicle_name&quot;</span>, params, <span class="stringliteral">&quot;none&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a> == <span class="stringliteral">&quot;none&quot;</span>) {</div>
-<div class="line"><span class="lineno">   62</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ros_namespace_prefix&quot;</span>, params, <span class="stringliteral">&quot;robot&quot;</span>);</div>
-<div class="line"><span class="lineno">   63</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> += std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
-<div class="line"><span class="lineno">   64</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   65</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a>;</div>
-<div class="line"><span class="lineno">   66</span>    }</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
-<div class="line"><span class="lineno">   69</span>        <span class="keywordtype">int</span> argc = 0;</div>
-<div class="line"><span class="lineno">   70</span>        <span class="comment">// scrimmage handles it&#39;s own SIGINT/SIGTERM shutdown in main.cpp</span></div>
-<div class="line"><span class="lineno">   71</span>        ros::init(argc, NULL, <span class="stringliteral">&quot;scrimmage&quot;</span>, ros::init_options::NoSigintHandler);</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
-<div class="line"><span class="lineno">   73</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">nh_</a> = std::make_shared&lt;ros::NodeHandle&gt;();</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>    <span class="comment">// Create Publisher</span></div>
-<div class="line"><span class="lineno">   76</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">compass_pub_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">nh_</a>-&gt;advertise&lt;sensor_msgs::MagneticField&gt;(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> + <span class="stringliteral">&quot;/compass&quot;</span>, 1);</div>
-<div class="line"><span class="lineno">   77</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00186">EntityPlugin.h:186</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_a2c6d48de87561eb8cd4b1c1c43216737"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">scrimmage::sensor::ROSCompass::ros_namespace_</a></div><div class="ttdeci">std::string ros_namespace_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00056">ROSCompass.h:56</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_a9dccc5a3d3bafbe781f94a575a751c60"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">scrimmage::sensor::ROSCompass::vehicle_name_</a></div><div class="ttdeci">std::string vehicle_name_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00055">ROSCompass.h:55</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_ae55c41228dba70a7e42e9ce0d4ea06bc"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">scrimmage::sensor::ROSCompass::compass_pub_</a></div><div class="ttdeci">ros::Publisher compass_pub_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00058">ROSCompass.h:58</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_afd3afccdce59e8171cfeb06045e650f0"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">scrimmage::sensor::ROSCompass::nh_</a></div><div class="ttdeci">std::shared_ptr&lt; ros::NodeHandle &gt; nh_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00057">ROSCompass.h:57</a></div></div>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00059">59</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                                                          {</div>
+<div class="line"><span class="lineno">   60</span>    <span class="comment">// Setup robot namespace</span></div>
+<div class="line"><span class="lineno">   61</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;vehicle_name&quot;</span>, params, <span class="stringliteral">&quot;none&quot;</span>);</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a> == <span class="stringliteral">&quot;none&quot;</span>) {</div>
+<div class="line"><span class="lineno">   63</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ros_namespace_prefix&quot;</span>, params, <span class="stringliteral">&quot;robot&quot;</span>);</div>
+<div class="line"><span class="lineno">   64</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> += std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id());</div>
+<div class="line"><span class="lineno">   65</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   66</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">vehicle_name_</a>;</div>
+<div class="line"><span class="lineno">   67</span>    }</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">if</span> (!ros::isInitialized()) {</div>
+<div class="line"><span class="lineno">   70</span>        <span class="keywordtype">int</span> argc = 0;</div>
+<div class="line"><span class="lineno">   71</span>        <span class="comment">// scrimmage handles it&#39;s own SIGINT/SIGTERM shutdown in main.cpp</span></div>
+<div class="line"><span class="lineno">   72</span>        ros::init(argc, NULL, <span class="stringliteral">&quot;scrimmage&quot;</span>, ros::init_options::NoSigintHandler);</div>
+<div class="line"><span class="lineno">   73</span>    }</div>
+<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">nh_</a> = std::make_shared&lt;ros::NodeHandle&gt;();</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>    <span class="comment">// Create Publisher</span></div>
+<div class="line"><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">compass_pub_</a> = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">nh_</a>-&gt;advertise&lt;sensor_msgs::MagneticField&gt;(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">ros_namespace_</a> + <span class="stringliteral">&quot;/compass&quot;</span>, 1);</div>
+<div class="line"><span class="lineno">   78</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_a2c6d48de87561eb8cd4b1c1c43216737"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#a2c6d48de87561eb8cd4b1c1c43216737">scrimmage::sensor::ROSCompass::ros_namespace_</a></div><div class="ttdeci">std::string ros_namespace_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00057">ROSCompass.h:57</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_a9dccc5a3d3bafbe781f94a575a751c60"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#a9dccc5a3d3bafbe781f94a575a751c60">scrimmage::sensor::ROSCompass::vehicle_name_</a></div><div class="ttdeci">std::string vehicle_name_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00056">ROSCompass.h:56</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_ae55c41228dba70a7e42e9ce0d4ea06bc"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">scrimmage::sensor::ROSCompass::compass_pub_</a></div><div class="ttdeci">ros::Publisher compass_pub_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00059">ROSCompass.h:59</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ROSCompass_html_afd3afccdce59e8171cfeb06045e650f0"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ROSCompass.html#afd3afccdce59e8171cfeb06045e650f0">scrimmage::sensor::ROSCompass::nh_</a></div><div class="ttdeci">std::shared_ptr&lt; ros::NodeHandle &gt; nh_</div><div class="ttdef"><b>Definition</b> <a href="ROSCompass_8h_source.html#l00058">ROSCompass.h:58</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ROSCompass_8h_source.html#l00058">compass_pub_</a>, <a class="el" href="ROSCompass_8h_source.html#l00057">nh_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ROSCompass_8h_source.html#l00056">ros_namespace_</a>, and <a class="el" href="ROSCompass_8h_source.html#l00055">vehicle_name_</a>.</p>
+<p class="reference">References <a class="el" href="ROSCompass_8h_source.html#l00059">compass_pub_</a>, <a class="el" href="ROSCompass_8h_source.html#l00058">nh_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ROSCompass_8h_source.html#l00057">ros_namespace_</a>, and <a class="el" href="ROSCompass_8h_source.html#l00056">vehicle_name_</a>.</p>
 
 </div>
 </div>
@@ -374,39 +374,39 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#ab406f4625b89042961f6ae8d06cbc427">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00079">79</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   79</span>                      {</div>
-<div class="line"><span class="lineno">   80</span>    <span class="comment">// Obtain current state information</span></div>
-<div class="line"><span class="lineno">   81</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>    <span class="comment">// Scrimmage is in ENU so all outputs are in ENU (East North Up).</span></div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">// Get rotation vector</span></div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">// Rotate Reverse: Get rotation between orientation of the body and ENU orientation of the north</span></div>
-<div class="line"><span class="lineno">   87</span>    <span class="comment">// pole (0, 1, 0)</span></div>
-<div class="line"><span class="lineno">   88</span>    Eigen::Vector3d rotation = state-&gt;quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>    <span class="comment">// Fill Compass Message. We&#39;re using the magnetic field message, but the info is the rotation</span></div>
-<div class="line"><span class="lineno">   91</span>    <span class="comment">// vector.</span></div>
-<div class="line"><span class="lineno">   92</span>    sensor_msgs::MagneticField compass_msg;</div>
-<div class="line"><span class="lineno">   93</span>    compass_msg.magnetic_field.x = rotation.x();</div>
-<div class="line"><span class="lineno">   94</span>    compass_msg.magnetic_field.y = rotation.y();</div>
-<div class="line"><span class="lineno">   95</span>    compass_msg.magnetic_field.z = rotation.z();</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>    <span class="comment">// Header</span></div>
-<div class="line"><span class="lineno">   98</span>    std_msgs::Header header;  <span class="comment">// empty header</span></div>
-<div class="line"><span class="lineno">   99</span>    <span class="comment">// TODO: header.frame = ? // No system for ROS Frame ID&#39;s yet</span></div>
-<div class="line"><span class="lineno">  100</span>    header.stamp = ros::Time::now();  <span class="comment">// time</span></div>
-<div class="line"><span class="lineno">  101</span>    compass_msg.header = header;</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>    <span class="comment">// Publish Compass information</span></div>
-<div class="line"><span class="lineno">  104</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">compass_pub_</a>.publish(compass_msg);</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  107</span>}</div>
-<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00052">Contact.h:52</a></div></div>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8cpp_source.html#l00080">80</a> of file <a class="el" href="ROSCompass_8cpp_source.html">ROSCompass.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>                      {</div>
+<div class="line"><span class="lineno">   81</span>    <span class="comment">// Obtain current state information</span></div>
+<div class="line"><span class="lineno">   82</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a>&amp; state = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth();</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>    <span class="comment">// Scrimmage is in ENU so all outputs are in ENU (East North Up).</span></div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>    <span class="comment">// Get rotation vector</span></div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Rotate Reverse: Get rotation between orientation of the body and ENU orientation of the north</span></div>
+<div class="line"><span class="lineno">   88</span>    <span class="comment">// pole (0, 1, 0)</span></div>
+<div class="line"><span class="lineno">   89</span>    Eigen::Vector3d rotation = state-&gt;quat().rotate_reverse(Eigen::Vector3d(0.0, 1.0, 0.0));</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    <span class="comment">// Fill Compass Message. We&#39;re using the magnetic field message, but the info is the rotation</span></div>
+<div class="line"><span class="lineno">   92</span>    <span class="comment">// vector.</span></div>
+<div class="line"><span class="lineno">   93</span>    sensor_msgs::MagneticField compass_msg;</div>
+<div class="line"><span class="lineno">   94</span>    compass_msg.magnetic_field.x = rotation.x();</div>
+<div class="line"><span class="lineno">   95</span>    compass_msg.magnetic_field.y = rotation.y();</div>
+<div class="line"><span class="lineno">   96</span>    compass_msg.magnetic_field.z = rotation.z();</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="comment">// Header</span></div>
+<div class="line"><span class="lineno">   99</span>    std_msgs::Header header;  <span class="comment">// empty header</span></div>
+<div class="line"><span class="lineno">  100</span>    <span class="comment">// TODO: header.frame = ? // No system for ROS Frame ID&#39;s yet</span></div>
+<div class="line"><span class="lineno">  101</span>    header.stamp = ros::Time::now();  <span class="comment">// time</span></div>
+<div class="line"><span class="lineno">  102</span>    compass_msg.header = header;</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>    <span class="comment">// Publish Compass information</span></div>
+<div class="line"><span class="lineno">  105</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ROSCompass.html#ae55c41228dba70a7e42e9ce0d4ea06bc">compass_pub_</a>.publish(compass_msg);</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  108</span>}</div>
+<div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00054">Contact.h:54</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ROSCompass_8h_source.html#l00058">compass_pub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00186">scrimmage::EntityPlugin::parent_</a>.</p>
+<p class="reference">References <a class="el" href="ROSCompass_8h_source.html#l00059">compass_pub_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>.</p>
 
 </div>
 </div>
@@ -431,9 +431,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00055">55</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00056">56</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00058">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00059">init()</a>.</p>
 
 </div>
 </div>
@@ -457,9 +457,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00056">56</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00057">57</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00058">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00059">init()</a>.</p>
 
 </div>
 </div>
@@ -483,9 +483,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00057">57</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00058">58</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00058">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00059">init()</a>.</p>
 
 </div>
 </div>
@@ -509,9 +509,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00058">58</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ROSCompass_8h_source.html#l00059">59</a> of file <a class="el" href="ROSCompass_8h_source.html">ROSCompass.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00058">init()</a>, and <a class="el" href="ROSCompass_8cpp_source.html#l00079">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ROSCompass_8cpp_source.html#l00059">init()</a>, and <a class="el" href="ROSCompass_8cpp_source.html#l00080">step()</a>.</p>
 
 </div>
 </div>
@@ -525,7 +525,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1ROSCompass.html">ROSCompass</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:36 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

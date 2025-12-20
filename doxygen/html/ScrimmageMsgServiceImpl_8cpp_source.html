@@ -98,34 +98,36 @@ $(document).ready(function(){initNavTree('ScrimmageMsgServiceImpl_8cpp_source.ht
 </div><!--header-->
 <div class="contents">
 <a href="ScrimmageMsgServiceImpl_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &lt;list&gt;</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="ScrimmageMsgServiceImpl_8h.html">scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h</a>&quot;</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;scrimmage/msgs/Command.grpc.pb.h&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;<a class="code" href="GRPCCommandString_8h.html">scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h</a>&gt;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;<a class="code" href="ScrimmageMsgServiceImpl_8h.html">scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h</a>&gt;</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">   40</a></span><a class="code hl_function" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl</a>(std::shared_ptr&lt;Plugin&gt; plugin)</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    : plugin_(<a class="code hl_namespace" href="namespacestd.html">std</a>::dynamic_pointer_cast&lt;interaction::GRPCCommandString&gt;(plugin)) {}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;list&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &quot;scrimmage/msgs/Command.grpc.pb.h&quot;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &quot;<a class="code" href="GRPCCommandString_8h.html">scrimmage/plugins/interaction/GRPCCommandString/GRPCCommandString.h</a>&quot;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">   42</a></span><a class="code hl_function" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl</a>(std::shared_ptr&lt;Plugin&gt; plugin)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    : plugin_(<a class="code hl_namespace" href="namespacestd.html">std</a>::dynamic_pointer_cast&lt;interaction::GRPCCommandString&gt;(plugin)) {}</div>
 </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">   43</a></span>grpc::Status <a class="code hl_function" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">scrimmage::ScrimmageMsgServiceImpl::SendCommandString</a>(</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    grpc::ServerContext* context,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">const</span> scrimmage_msgs::CommandString* cmd,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    scrimmage_msgs::CommandAck* reply) {</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    plugin_-&gt;push_msg(*cmd);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    reply-&gt;set_success(1);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">return</span> grpc::Status::OK;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="}">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">   45</a></span>grpc::Status <a class="code hl_function" href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">scrimmage::ScrimmageMsgServiceImpl::SendCommandString</a>(</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    grpc::ServerContext* context,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">const</span> scrimmage_msgs::CommandString* cmd,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    scrimmage_msgs::CommandAck* reply) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    plugin_-&gt;push_msg(*cmd);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    reply-&gt;set_success(1);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">return</span> grpc::Status::OK;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aGRPCCommandString_8h_html"><div class="ttname"><a href="GRPCCommandString_8h.html">GRPCCommandString.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aScrimmageMsgServiceImpl_8h_html"><div class="ttname"><a href="ScrimmageMsgServiceImpl_8h.html">ScrimmageMsgServiceImpl.h</a></div><div class="ttdoc">Brief file description.</div></div>
-<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a2523d7193137960cd4798c0cddb09c6a"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">scrimmage::ScrimmageMsgServiceImpl::SendCommandString</a></div><div class="ttdeci">grpc::Status SendCommandString(grpc::ServerContext *context, const scrimmage_msgs::CommandString *cmd, scrimmage_msgs::CommandAck *reply) override</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8cpp_source.html#l00043">ScrimmageMsgServiceImpl.cpp:43</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a9f97d8c854888006534d94c9779f4314"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">scrimmage::ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl</a></div><div class="ttdeci">ScrimmageMsgServiceImpl(std::shared_ptr&lt; Plugin &gt; plugin)</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8cpp_source.html#l00040">ScrimmageMsgServiceImpl.cpp:40</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a2523d7193137960cd4798c0cddb09c6a"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a2523d7193137960cd4798c0cddb09c6a">scrimmage::ScrimmageMsgServiceImpl::SendCommandString</a></div><div class="ttdeci">grpc::Status SendCommandString(grpc::ServerContext *context, const scrimmage_msgs::CommandString *cmd, scrimmage_msgs::CommandAck *reply) override</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8cpp_source.html#l00045">ScrimmageMsgServiceImpl.cpp:45</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ScrimmageMsgServiceImpl_html_a9f97d8c854888006534d94c9779f4314"><div class="ttname"><a href="classscrimmage_1_1ScrimmageMsgServiceImpl.html#a9f97d8c854888006534d94c9779f4314">scrimmage::ScrimmageMsgServiceImpl::ScrimmageMsgServiceImpl</a></div><div class="ttdeci">ScrimmageMsgServiceImpl(std::shared_ptr&lt; Plugin &gt; plugin)</div><div class="ttdef"><b>Definition</b> <a href="ScrimmageMsgServiceImpl_8cpp_source.html#l00042">ScrimmageMsgServiceImpl.cpp:42</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdoc">STL namespace.</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -134,7 +136,7 @@ $(document).ready(function(){initNavTree('ScrimmageMsgServiceImpl_8cpp_source.ht
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_f5941608f0d3d417e3bbbe056116b6fd.html">GRPCCommandString</a></li><li class="navelem"><a class="el" href="ScrimmageMsgServiceImpl_8cpp.html">ScrimmageMsgServiceImpl.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:34 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

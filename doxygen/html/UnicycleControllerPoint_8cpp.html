@@ -97,21 +97,21 @@ $(document).ready(function(){initNavTree('UnicycleControllerPoint_8cpp.html','')
 
 <p>Brief file description.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="UnicycleControllerPoint_8h_source.html">scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="UnicycleControllerPoint_8h_source.html">scrimmage/plugins/controller/UnicycleControllerPoint/UnicycleControllerPoint.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for UnicycleControllerPoint.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="UnicycleControllerPoint_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2UnicycleControllerPoint_2UnicycleControllerPoint_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2UnicycleControllerPoint_2UnicycleControllerPoint_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2UnicycleControllerPoint_2UnicycleControllerPoint_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="211,5,417,75"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="5,137,188,163"/>
-<area shape="poly" title=" " alt="" coords="248,77,134,133,131,129,245,72"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="212,130,416,170"/>
-<area shape="poly" title=" " alt="" coords="317,75,317,116,311,116,311,75"/>
-<area shape="rect" href="UnicycleControllerPoint_8h.html" title="Brief file description." alt="" coords="440,123,652,177"/>
-<area shape="poly" title=" " alt="" coords="387,72,478,114,476,119,385,77"/>
+<area shape="rect" title="Brief file description." alt="" coords="229,5,436,75"/>
+<area shape="rect" href="UnicycleControllerPoint_8h.html" title="Brief file description." alt="" coords="5,123,217,177"/>
+<area shape="poly" title=" " alt="" coords="265,77,178,119,176,114,263,72"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="241,137,424,163"/>
+<area shape="poly" title=" " alt="" coords="335,75,335,123,330,123,330,75"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="448,130,652,170"/>
+<area shape="poly" title=" " alt="" coords="401,72,501,121,498,126,399,77"/>
 </map>
 </div>
 </div>
@@ -174,51 +174,52 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00037">37</a> of file <a class="el" href="UnicycleControllerPoint_8cpp_source.html">UnicycleControllerPoint.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                    {</div>
-<div class="line"><span class="lineno">   43</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span><span class="keywordtype">void</span> UnicycleControllerPoint::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   46</span>    l_ = std::stod(params.at(<span class="stringliteral">&quot;l&quot;</span>));</div>
-<div class="line"><span class="lineno">   47</span>    gain_ = std::stod(params.at(<span class="stringliteral">&quot;gain&quot;</span>));</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>    <span class="keyword">using </span>Type = VariableIO::Type;</div>
-<div class="line"><span class="lineno">   50</span>    <span class="keyword">using </span>Dir = VariableIO::Direction;</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>    x_idx_in_ = vars_.declare(Type::position_x, Dir::In);</div>
-<div class="line"><span class="lineno">   53</span>    y_idx_in_ = vars_.declare(Type::position_y, Dir::In);</div>
-<div class="line"><span class="lineno">   54</span>    z_idx_in_ = vars_.declare(Type::position_z, Dir::In);</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>    speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);</div>
-<div class="line"><span class="lineno">   57</span>    turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);</div>
-<div class="line"><span class="lineno">   58</span>    pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);</div>
-<div class="line"><span class="lineno">   59</span>    velocity_z_idx_out_ = vars_.declare(Type::velocity_z, Dir::Out);</div>
-<div class="line"><span class="lineno">   60</span>}</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span><span class="keywordtype">bool</span> UnicycleControllerPoint::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   63</span>    Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));</div>
-<div class="line"><span class="lineno">   64</span>    Eigen::Vector2d pos_xy = parent()-&gt;state_belief()-&gt;pos().head&lt;2&gt;();</div>
-<div class="line"><span class="lineno">   65</span>    Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordtype">double</span> th = parent()-&gt;state_belief()-&gt;quat().yaw();</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    Eigen::Matrix2d M;</div>
-<div class="line"><span class="lineno">   70</span>    M &lt;&lt; cos(th), sin(th), -sin(th) / l_, cos(th) / l_;</div>
-<div class="line"><span class="lineno">   71</span>    Eigen::Vector2d u_2d = M * des_vel;</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    vars_.output(speed_idx_out_, u_2d(0));</div>
-<div class="line"><span class="lineno">   74</span>    vars_.output(turn_rate_idx_out_, u_2d(1));</div>
-<div class="line"><span class="lineno">   75</span>    vars_.output(pitch_rate_idx_out_, 0);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> des_z = vars_.input(z_idx_in_);</div>
-<div class="line"><span class="lineno">   78</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> z = parent()-&gt;state_belief()-&gt;pos()(2);</div>
-<div class="line"><span class="lineno">   79</span>    vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));</div>
-<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   81</span>}</div>
-<div class="line"><span class="lineno">   82</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   83</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="UnicycleControllerPoint_8cpp_source.html#l00038">38</a> of file <a class="el" href="UnicycleControllerPoint_8cpp_source.html">UnicycleControllerPoint.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>                    {</div>
+<div class="line"><span class="lineno">   44</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   45</span> </div>
+<div class="line"><span class="lineno">   46</span><span class="keywordtype">void</span> UnicycleControllerPoint::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   47</span>    l_ = std::stod(params.at(<span class="stringliteral">&quot;l&quot;</span>));</div>
+<div class="line"><span class="lineno">   48</span>    gain_ = std::stod(params.at(<span class="stringliteral">&quot;gain&quot;</span>));</div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span>    <span class="keyword">using </span>Type = VariableIO::Type;</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keyword">using </span>Dir = VariableIO::Direction;</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>    x_idx_in_ = vars_.declare(Type::position_x, Dir::In);</div>
+<div class="line"><span class="lineno">   54</span>    y_idx_in_ = vars_.declare(Type::position_y, Dir::In);</div>
+<div class="line"><span class="lineno">   55</span>    z_idx_in_ = vars_.declare(Type::position_z, Dir::In);</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>    speed_idx_out_ = vars_.declare(Type::speed, Dir::Out);</div>
+<div class="line"><span class="lineno">   58</span>    turn_rate_idx_out_ = vars_.declare(Type::turn_rate, Dir::Out);</div>
+<div class="line"><span class="lineno">   59</span>    pitch_rate_idx_out_ = vars_.declare(Type::pitch_rate, Dir::Out);</div>
+<div class="line"><span class="lineno">   60</span>    velocity_z_idx_out_ = vars_.declare(Type::velocity_z, Dir::Out);</div>
+<div class="line"><span class="lineno">   61</span>}</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span><span class="keywordtype">bool</span> UnicycleControllerPoint::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   64</span>    Eigen::Vector2d des_pos_xy(vars_.input(x_idx_in_), vars_.input(y_idx_in_));</div>
+<div class="line"><span class="lineno">   65</span>    Eigen::Vector2d pos_xy = parent()-&gt;state_belief()-&gt;pos().head&lt;2&gt;();</div>
+<div class="line"><span class="lineno">   66</span>    Eigen::Vector2d des_vel = gain_ * (des_pos_xy - pos_xy);</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordtype">double</span> th = parent()-&gt;state_belief()-&gt;quat().yaw();</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>    Eigen::Matrix2d M;</div>
+<div class="line"><span class="lineno">   71</span>    M &lt;&lt; cos(th), sin(th), -sin(th) / l_, cos(th) / l_;</div>
+<div class="line"><span class="lineno">   72</span>    Eigen::Vector2d u_2d = M * des_vel;</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    vars_.output(speed_idx_out_, u_2d(0));</div>
+<div class="line"><span class="lineno">   75</span>    vars_.output(turn_rate_idx_out_, u_2d(1));</div>
+<div class="line"><span class="lineno">   76</span>    vars_.output(pitch_rate_idx_out_, 0);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> des_z = vars_.input(z_idx_in_);</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> z = parent()-&gt;state_belief()-&gt;pos()(2);</div>
+<div class="line"><span class="lineno">   80</span>    vars_.output(velocity_z_idx_out_, gain_ * (des_z - z));</div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   82</span>}</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   85</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00123">scrimmage::VariableIO::declare()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00053">scrimmage::controller::UnicycleControllerPoint::gain_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a3b94227286dc95e49cb1d103776d4892">scrimmage::controller::UnicycleControllerPoint::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00142">scrimmage::VariableIO::input()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00052">scrimmage::controller::UnicycleControllerPoint::l_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00146">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00065">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00061">scrimmage::controller::UnicycleControllerPoint::pitch_rate_idx_out_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00059">scrimmage::controller::UnicycleControllerPoint::speed_idx_out_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#acdced0422061dff613b32a6a4b1ca302">scrimmage::controller::UnicycleControllerPoint::step()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00060">scrimmage::controller::UnicycleControllerPoint::turn_rate_idx_out_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00062">scrimmage::controller::UnicycleControllerPoint::velocity_z_idx_out_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00055">scrimmage::controller::UnicycleControllerPoint::x_idx_in_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00056">scrimmage::controller::UnicycleControllerPoint::y_idx_in_</a>, and <a class="el" href="UnicycleControllerPoint_8h_source.html#l00057">scrimmage::controller::UnicycleControllerPoint::z_idx_in_</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00053">scrimmage::controller::UnicycleControllerPoint::gain_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#a3b94227286dc95e49cb1d103776d4892">scrimmage::controller::UnicycleControllerPoint::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00052">scrimmage::controller::UnicycleControllerPoint::l_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00061">scrimmage::controller::UnicycleControllerPoint::pitch_rate_idx_out_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00059">scrimmage::controller::UnicycleControllerPoint::speed_idx_out_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UnicycleControllerPoint.html#acdced0422061dff613b32a6a4b1ca302">scrimmage::controller::UnicycleControllerPoint::step()</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00060">scrimmage::controller::UnicycleControllerPoint::turn_rate_idx_out_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00062">scrimmage::controller::UnicycleControllerPoint::velocity_z_idx_out_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00055">scrimmage::controller::UnicycleControllerPoint::x_idx_in_</a>, <a class="el" href="UnicycleControllerPoint_8h_source.html#l00056">scrimmage::controller::UnicycleControllerPoint::y_idx_in_</a>, and <a class="el" href="UnicycleControllerPoint_8h_source.html#l00057">scrimmage::controller::UnicycleControllerPoint::z_idx_in_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -248,7 +249,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_3efb21d6727009f0cb198622befdb016.html">UnicycleControllerPoint</a></li><li class="navelem"><a class="el" href="UnicycleControllerPoint_8cpp.html">UnicycleControllerPoint.cpp</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:43 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

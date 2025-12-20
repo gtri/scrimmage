@@ -210,8 +210,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00107">107</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  107</span>: <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a>(<span class="keyword">false</span>) {}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00109">109</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  109</span>: <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a>(<span class="keyword">false</span>) {}</div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a813d46d07eee4de094ad7508344af463"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">scrimmage::PluginManager::reload_</a></div><div class="ttdeci">bool reload_</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00210">PluginManager.h:210</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -255,39 +255,39 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00109">109</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>                                   {</div>
-<div class="line"><span class="lineno">  114</span>    <span class="comment">// make sure all files are loaded</span></div>
-<div class="line"><span class="lineno">  115</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff">files_checked_</a>) {</div>
-<div class="line"><span class="lineno">  116</span>        file_search.find_files(env_var_name, <a class="code hl_define" href="PluginManager_8h.html#a67cd30d98c359a69d822b8aefdb32eb5">LIB_EXT</a>, <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94">so_files_</a>);</div>
-<div class="line"><span class="lineno">  117</span>        <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff">files_checked_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  118</span>    }</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94">so_files_</a>) {</div>
-<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">for</span> (std::string&amp; full_path : kv.second) {</div>
-<div class="line"><span class="lineno">  122</span>            <a class="code hl_function" href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">check_library</a>(full_path);</div>
-<div class="line"><span class="lineno">  123</span>        }</div>
-<div class="line"><span class="lineno">  124</span>    }</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  127</span>    std::cout &lt;&lt; title &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; std::endl;</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00111">111</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                                   {</div>
+<div class="line"><span class="lineno">  116</span>    <span class="comment">// make sure all files are loaded</span></div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff">files_checked_</a>) {</div>
+<div class="line"><span class="lineno">  118</span>        file_search.find_files(env_var_name, <a class="code hl_define" href="PluginManager_8h.html#a67cd30d98c359a69d822b8aefdb32eb5">LIB_EXT</a>, <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94">so_files_</a>);</div>
+<div class="line"><span class="lineno">  119</span>        <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff">files_checked_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  120</span>    }</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94">so_files_</a>) {</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">for</span> (std::string&amp; full_path : kv.second) {</div>
+<div class="line"><span class="lineno">  124</span>            <a class="code hl_function" href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">check_library</a>(full_path);</div>
+<div class="line"><span class="lineno">  125</span>        }</div>
+<div class="line"><span class="lineno">  126</span>    }</div>
+<div class="line"><span class="lineno">  127</span> </div>
 <div class="line"><span class="lineno">  128</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.count(plugin_type) &gt; 0) {</div>
-<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>[plugin_type]) {</div>
-<div class="line"><span class="lineno">  131</span>            std::cout &lt;&lt; kv.first &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  132</span>        }</div>
-<div class="line"><span class="lineno">  133</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  134</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Plugin type doesn&#39;t exist: &quot;</span> &lt;&lt; plugin_type &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  135</span>    }</div>
-<div class="line"><span class="lineno">  136</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  137</span>}</div>
+<div class="line"><span class="lineno">  129</span>    std::cout &lt;&lt; title &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  130</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  131</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.count(plugin_type) &gt; 0) {</div>
+<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>[plugin_type]) {</div>
+<div class="line"><span class="lineno">  133</span>            std::cout &lt;&lt; kv.first &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  134</span>        }</div>
+<div class="line"><span class="lineno">  135</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  136</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Plugin type doesn&#39;t exist: &quot;</span> &lt;&lt; plugin_type &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  137</span>    }</div>
+<div class="line"><span class="lineno">  138</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;------------------------------&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  139</span>}</div>
 <div class="ttc" id="aPluginManager_8h_html_a67cd30d98c359a69d822b8aefdb32eb5"><div class="ttname"><a href="PluginManager_8h.html#a67cd30d98c359a69d822b8aefdb32eb5">LIB_EXT</a></div><div class="ttdeci">#define LIB_EXT</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00053">PluginManager.h:53</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a3b140447ca208ffbe84c41a9cabe53fe"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">scrimmage::PluginManager::plugins_info_</a></div><div class="ttdeci">std::map&lt; std::string, std::map&lt; std::string, PluginInfo &gt; &gt; plugins_info_</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00203">PluginManager.h:203</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a58681da376ee3249b2903e4bec73fcff"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a58681da376ee3249b2903e4bec73fcff">scrimmage::PluginManager::files_checked_</a></div><div class="ttdeci">bool files_checked_</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00206">PluginManager.h:206</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a934392285a64481797cdae98905f4a94"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a934392285a64481797cdae98905f4a94">scrimmage::PluginManager::so_files_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; so_files_</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00205">PluginManager.h:205</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_ad608b80fa37928a940723c84bb238abe"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">scrimmage::PluginManager::check_library</a></div><div class="ttdeci">int check_library(std::string lib_path)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00047">PluginManager.cpp:47</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_ad608b80fa37928a940723c84bb238abe"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">scrimmage::PluginManager::check_library</a></div><div class="ttdeci">int check_library(std::string lib_path)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00049">PluginManager.cpp:49</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PluginManager_8cpp_source.html#l00047">check_library()</a>, <a class="el" href="PluginManager_8h_source.html#l00206">files_checked_</a>, <a class="el" href="FileSearch_8cpp_source.html#l00144">scrimmage::FileSearch::find_files()</a>, <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>, <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00205">so_files_</a>.</p>
+<p class="reference">References <a class="el" href="PluginManager_8cpp_source.html#l00049">check_library()</a>, <a class="el" href="PluginManager_8h_source.html#l00206">files_checked_</a>, <a class="el" href="FileSearch_8cpp_source.html#l00146">scrimmage::FileSearch::find_files()</a>, <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>, <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00205">so_files_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -318,17 +318,17 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00139">139</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  139</span>                                           {</div>
-<div class="line"><span class="lineno">  140</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;using the following plugins:&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  141</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>) {</div>
-<div class="line"><span class="lineno">  142</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv.second) {</div>
-<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> (kv2.second.returned) {</div>
-<div class="line"><span class="lineno">  144</span>                std::cout &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot;::&quot;</span> &lt;&lt; kv2.first &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  145</span>            }</div>
-<div class="line"><span class="lineno">  146</span>        }</div>
-<div class="line"><span class="lineno">  147</span>    }</div>
-<div class="line"><span class="lineno">  148</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00141">141</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span>                                           {</div>
+<div class="line"><span class="lineno">  142</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;using the following plugins:&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>) {</div>
+<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv.second) {</div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">if</span> (kv2.second.returned) {</div>
+<div class="line"><span class="lineno">  146</span>                std::cout &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot;::&quot;</span> &lt;&lt; kv2.first &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">  147</span>            }</div>
+<div class="line"><span class="lineno">  148</span>        }</div>
+<div class="line"><span class="lineno">  149</span>    }</div>
+<div class="line"><span class="lineno">  150</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>.</p>
 
@@ -366,23 +366,23 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00195">195</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  198</span>                                 {</div>
-<div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>    <span class="keyword">auto</span> it = so_files.find(std::string(<span class="stringliteral">&quot;lib&quot;</span>) + plugin_name_so + <a class="code hl_define" href="PluginManager_8h.html#a67cd30d98c359a69d822b8aefdb32eb5">LIB_EXT</a>);</div>
-<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">if</span> (it != so_files.end()) {</div>
-<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">for</span> (std::string&amp; full_fname : it-&gt;second) {</div>
-<div class="line"><span class="lineno">  203</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">check_library</a>(full_fname) == 0) {</div>
-<div class="line"><span class="lineno">  204</span>                plugins.push_back(full_fname);</div>
-<div class="line"><span class="lineno">  205</span>            }</div>
-<div class="line"><span class="lineno">  206</span>        }</div>
-<div class="line"><span class="lineno">  207</span>        <span class="keywordflow">if</span> (plugins.size() &gt; 0) {</div>
-<div class="line"><span class="lineno">  208</span>            so_files.erase(it);</div>
-<div class="line"><span class="lineno">  209</span>        }</div>
-<div class="line"><span class="lineno">  210</span>    }</div>
-<div class="line"><span class="lineno">  211</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00197">197</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  200</span>                                 {</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>    <span class="keyword">auto</span> it = so_files.find(std::string(<span class="stringliteral">&quot;lib&quot;</span>) + plugin_name_so + <a class="code hl_define" href="PluginManager_8h.html#a67cd30d98c359a69d822b8aefdb32eb5">LIB_EXT</a>);</div>
+<div class="line"><span class="lineno">  203</span>    <span class="keywordflow">if</span> (it != so_files.end()) {</div>
+<div class="line"><span class="lineno">  204</span>        <span class="keywordflow">for</span> (std::string&amp; full_fname : it-&gt;second) {</div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1PluginManager.html#ad608b80fa37928a940723c84bb238abe">check_library</a>(full_fname) == 0) {</div>
+<div class="line"><span class="lineno">  206</span>                plugins.push_back(full_fname);</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
+<div class="line"><span class="lineno">  208</span>        }</div>
+<div class="line"><span class="lineno">  209</span>        <span class="keywordflow">if</span> (plugins.size() &gt; 0) {</div>
+<div class="line"><span class="lineno">  210</span>            so_files.erase(it);</div>
+<div class="line"><span class="lineno">  211</span>        }</div>
+<div class="line"><span class="lineno">  212</span>    }</div>
+<div class="line"><span class="lineno">  213</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PluginManager_8cpp_source.html#l00047">check_library()</a>, and <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>.</p>
+<p class="reference">References <a class="el" href="PluginManager_8cpp_source.html#l00049">check_library()</a>, and <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="PluginManager_8h_source.html#l00098">make_plugin()</a>.</p>
 <div class="dynheader">
@@ -562,16 +562,16 @@ template&lt;class T &gt; </div>
 <div class="line"><span class="lineno">  189</span>        status.status = <a class="code hl_enumvalue" href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2eadf6c5c8fdf3a4d2e845042255ac6b1a8">PluginStatus&lt;T&gt;::missing</a>;</div>
 <div class="line"><span class="lineno">  190</span>        <span class="keywordflow">return</span> status;</div>
 <div class="line"><span class="lineno">  191</span>    }</div>
-<div class="ttc" id="aParameterServer_8h_html_ae45ab2df8a8b95e6e5a052ba6b3f7e71"><div class="ttname"><a href="ParameterServer_8h.html#ae45ab2df8a8b95e6e5a052ba6b3f7e71">PluginPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Plugin &gt; PluginPtr</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8h_source.html#l00049">ParameterServer.h:49</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a20f374b8a111d815d4286e4365879082"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a20f374b8a111d815d4286e4365879082">scrimmage::PluginManager::make_plugin_helper</a></div><div class="ttdeci">PluginPtr make_plugin_helper(std::string &amp;plugin_type, std::string &amp;plugin_name)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00150">PluginManager.cpp:150</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a7f367649e9d168b8851ef48f99c4337b"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a7f367649e9d168b8851ef48f99c4337b">scrimmage::PluginManager::find_matching_plugins</a></div><div class="ttdeci">void find_matching_plugins(const std::string &amp;plugin_name_so, std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; &amp;so_files, std::list&lt; std::string &gt; &amp;plugins)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00195">PluginManager.cpp:195</a></div></div>
+<div class="ttc" id="aParameterServer_8h_html_ae45ab2df8a8b95e6e5a052ba6b3f7e71"><div class="ttname"><a href="ParameterServer_8h.html#ae45ab2df8a8b95e6e5a052ba6b3f7e71">PluginPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Plugin &gt; PluginPtr</div><div class="ttdef"><b>Definition</b> <a href="ParameterServer_8h_source.html#l00050">ParameterServer.h:50</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a20f374b8a111d815d4286e4365879082"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a20f374b8a111d815d4286e4365879082">scrimmage::PluginManager::make_plugin_helper</a></div><div class="ttdeci">PluginPtr make_plugin_helper(std::string &amp;plugin_type, std::string &amp;plugin_name)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00152">PluginManager.cpp:152</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a7f367649e9d168b8851ef48f99c4337b"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a7f367649e9d168b8851ef48f99c4337b">scrimmage::PluginManager::find_matching_plugins</a></div><div class="ttdeci">void find_matching_plugins(const std::string &amp;plugin_name_so, std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; &amp;so_files, std::list&lt; std::string &gt; &amp;plugins)</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8cpp_source.html#l00197">PluginManager.cpp:197</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginStatus_html_a70abe408d55b110b02889967c2626a2ea3ba5725529b8685170e567c5157dfc5e"><div class="ttname"><a href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2ea3ba5725529b8685170e567c5157dfc5e">scrimmage::PluginStatus::cast_failed</a></div><div class="ttdeci">@ cast_failed</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00073">PluginManager.h:73</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginStatus_html_a70abe408d55b110b02889967c2626a2ea81c1b3cc766efec6bd722a11a71204ae"><div class="ttname"><a href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2ea81c1b3cc766efec6bd722a11a71204ae">scrimmage::PluginStatus::invalid_tag</a></div><div class="ttdeci">@ invalid_tag</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00073">PluginManager.h:73</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginStatus_html_a70abe408d55b110b02889967c2626a2eac81ac1f30f30a263803b48885e37baed"><div class="ttname"><a href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2eac81ac1f30f30a263803b48885e37baed">scrimmage::PluginStatus::loaded</a></div><div class="ttdeci">@ loaded</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00073">PluginManager.h:73</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginStatus_html_a70abe408d55b110b02889967c2626a2eadf6c5c8fdf3a4d2e845042255ac6b1a8"><div class="ttname"><a href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2eadf6c5c8fdf3a4d2e845042255ac6b1a8">scrimmage::PluginStatus::missing</a></div><div class="ttdeci">@ missing</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00073">PluginManager.h:73</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginStatus_html_a70abe408d55b110b02889967c2626a2eafdda141061700676d48da2b31f41986f"><div class="ttname"><a href="classscrimmage_1_1PluginStatus.html#a70abe408d55b110b02889967c2626a2eafdda141061700676d48da2b31f41986f">scrimmage::PluginStatus::parse_failed</a></div><div class="ttdeci">@ parse_failed</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00073">PluginManager.h:73</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00206">files_checked_</a>, <a class="el" href="FileSearch_8cpp_source.html#l00144">scrimmage::FileSearch::find_files()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00195">find_matching_plugins()</a>, <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>, <a class="el" href="PluginManager_8cpp_source.html#l00150">make_plugin_helper()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00163">scrimmage::ConfigParse::params()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00104">scrimmage::ConfigParse::parse()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00058">scrimmage::ConfigParse::set_required()</a>, <a class="el" href="PluginManager_8h_source.html#l00205">so_files_</a>, and <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>.</p>
+<p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00206">files_checked_</a>, <a class="el" href="FileSearch_8cpp_source.html#l00146">scrimmage::FileSearch::find_files()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00197">find_matching_plugins()</a>, <a class="el" href="PluginManager_8h_source.html#l00053">LIB_EXT</a>, <a class="el" href="PluginManager_8cpp_source.html#l00152">make_plugin_helper()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00164">scrimmage::ConfigParse::params()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00105">scrimmage::ConfigParse::parse()</a>, <a class="el" href="PluginManager_8h_source.html#l00075">scrimmage::PluginStatus&lt; T &gt;::plugin</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00059">scrimmage::ConfigParse::set_required()</a>, <a class="el" href="PluginManager_8h_source.html#l00205">so_files_</a>, and <a class="el" href="PluginManager_8h_source.html#l00074">scrimmage::PluginStatus&lt; T &gt;::status</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -610,32 +610,32 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00176">176</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  176</span>                                                                          {</div>
-<div class="line"><span class="lineno">  177</span>    std::map&lt;std::string, std::unordered_set&lt;std::string&gt;&gt; commits;</div>
-<div class="line"><span class="lineno">  178</span>    std::string sha;</div>
-<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>) {</div>
-<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv.second) {</div>
-<div class="line"><span class="lineno">  181</span>            <a class="code hl_class" href="classscrimmage_1_1PluginInfo.html">scrimmage::PluginInfo</a>&amp; plugin_info = kv2.second;</div>
-<div class="line"><span class="lineno">  182</span>            <span class="keywordflow">if</span> (!plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#afba2836e62cb1cf223b3bb8706602cda">returned</a>)</div>
-<div class="line"><span class="lineno">  183</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>            std::string path = boost::filesystem::path(plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#a3a952dd2b2e6c71de40e49ec2388664f">path</a>).parent_path().string();</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00178">178</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  178</span>                                                                          {</div>
+<div class="line"><span class="lineno">  179</span>    std::map&lt;std::string, std::unordered_set&lt;std::string&gt;&gt; commits;</div>
+<div class="line"><span class="lineno">  180</span>    std::string sha;</div>
+<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>) {</div>
+<div class="line"><span class="lineno">  182</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv2 : kv.second) {</div>
+<div class="line"><span class="lineno">  183</span>            <a class="code hl_class" href="classscrimmage_1_1PluginInfo.html">scrimmage::PluginInfo</a>&amp; plugin_info = kv2.second;</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">if</span> (!plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#afba2836e62cb1cf223b3bb8706602cda">returned</a>)</div>
+<div class="line"><span class="lineno">  185</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">if</span> ((sha = <a class="code hl_function" href="namespacescrimmage.html#a2479d18eb03663f58bf950aa3b53b040">scrimmage::get_sha</a>(path)) != <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><span class="lineno">  188</span>                commits[sha].insert(plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#a965f316af105235e7b35c545f1e11312">name</a>);</div>
-<div class="line"><span class="lineno">  189</span>            }</div>
-<div class="line"><span class="lineno">  190</span>        }</div>
-<div class="line"><span class="lineno">  191</span>    }</div>
-<div class="line"><span class="lineno">  192</span>    <span class="keywordflow">return</span> commits;</div>
-<div class="line"><span class="lineno">  193</span>}</div>
+<div class="line"><span class="lineno">  187</span>            std::string path = boost::filesystem::path(plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#a3a952dd2b2e6c71de40e49ec2388664f">path</a>).parent_path().string();</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>            <span class="keywordflow">if</span> ((sha = <a class="code hl_function" href="namespacescrimmage.html#a2479d18eb03663f58bf950aa3b53b040">scrimmage::get_sha</a>(path)) != <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><span class="lineno">  190</span>                commits[sha].insert(plugin_info.<a class="code hl_variable" href="classscrimmage_1_1PluginInfo.html#a965f316af105235e7b35c545f1e11312">name</a>);</div>
+<div class="line"><span class="lineno">  191</span>            }</div>
+<div class="line"><span class="lineno">  192</span>        }</div>
+<div class="line"><span class="lineno">  193</span>    }</div>
+<div class="line"><span class="lineno">  194</span>    <span class="keywordflow">return</span> commits;</div>
+<div class="line"><span class="lineno">  195</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1PluginInfo_html"><div class="ttname"><a href="classscrimmage_1_1PluginInfo.html">scrimmage::PluginInfo</a></div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00061">PluginManager.h:61</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginInfo_html_a3a952dd2b2e6c71de40e49ec2388664f"><div class="ttname"><a href="classscrimmage_1_1PluginInfo.html#a3a952dd2b2e6c71de40e49ec2388664f">scrimmage::PluginInfo::path</a></div><div class="ttdeci">std::string path</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00065">PluginManager.h:65</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginInfo_html_a965f316af105235e7b35c545f1e11312"><div class="ttname"><a href="classscrimmage_1_1PluginInfo.html#a965f316af105235e7b35c545f1e11312">scrimmage::PluginInfo::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00063">PluginManager.h:63</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginInfo_html_afba2836e62cb1cf223b3bb8706602cda"><div class="ttname"><a href="classscrimmage_1_1PluginInfo.html#afba2836e62cb1cf223b3bb8706602cda">scrimmage::PluginInfo::returned</a></div><div class="ttdeci">bool returned</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00066">PluginManager.h:66</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a2479d18eb03663f58bf950aa3b53b040"><div class="ttname"><a href="namespacescrimmage.html#a2479d18eb03663f58bf950aa3b53b040">scrimmage::get_sha</a></div><div class="ttdeci">std::string get_sha(std::string &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="Utilities_8cpp_source.html#l00089">Utilities.cpp:89</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a2479d18eb03663f58bf950aa3b53b040"><div class="ttname"><a href="namespacescrimmage.html#a2479d18eb03663f58bf950aa3b53b040">scrimmage::get_sha</a></div><div class="ttdeci">std::string get_sha(std::string &amp;path)</div><div class="ttdef"><b>Definition</b> <a href="Utilities_8cpp_source.html#l00090">Utilities.cpp:90</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Utilities_8cpp_source.html#l00089">scrimmage::get_sha()</a>, <a class="el" href="PluginManager_8h_source.html#l00063">scrimmage::PluginInfo::name</a>, <a class="el" href="PluginManager_8h_source.html#l00065">scrimmage::PluginInfo::path</a>, <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00066">scrimmage::PluginInfo::returned</a>.</p>
+<p class="reference">References <a class="el" href="Utilities_8cpp_source.html#l00090">scrimmage::get_sha()</a>, <a class="el" href="PluginManager_8h_source.html#l00063">scrimmage::PluginInfo::name</a>, <a class="el" href="PluginManager_8h_source.html#l00065">scrimmage::PluginInfo::path</a>, <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00066">scrimmage::PluginInfo::returned</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -665,10 +665,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00213">213</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  213</span>                                          {</div>
-<div class="line"><span class="lineno">  214</span>    <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a> = reload;</div>
-<div class="line"><span class="lineno">  215</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00215">215</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  215</span>                                          {</div>
+<div class="line"><span class="lineno">  216</span>    <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a> = reload;</div>
+<div class="line"><span class="lineno">  217</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00210">reload_</a>.</p>
 
@@ -689,10 +689,10 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00217">217</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  217</span>                               {</div>
-<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a>;</div>
-<div class="line"><span class="lineno">  219</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00219">219</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  219</span>                               {</div>
+<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a>;</div>
+<div class="line"><span class="lineno">  221</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00210">reload_</a>.</p>
 
@@ -722,72 +722,72 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00047">47</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>                                                   {</div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordtype">void</span>* lib_handle;</div>
-<div class="line"><span class="lineno">   49</span><span class="preprocessor">#ifdef __APPLE__</span></div>
-<div class="line"><span class="lineno">   50</span>    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);</div>
-<div class="line"><span class="lineno">   51</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">   52</span>    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);</div>
-<div class="line"><span class="lineno">   53</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">if</span> (!lib_handle) {</div>
-<div class="line"><span class="lineno">   55</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Trying to open &quot;</span> &lt;&lt; lib_path;</div>
-<div class="line"><span class="lineno">   56</span>        fprintf(stdout, <span class="stringliteral">&quot;, dlopen failed: %s\n&quot;</span>, dlerror());</div>
-<div class="line"><span class="lineno">   57</span>        std::cout &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">return</span> -1;</div>
-<div class="line"><span class="lineno">   59</span>    }</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordtype">char</span>* error;</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00049">49</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   49</span>                                                   {</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordtype">void</span>* lib_handle;</div>
+<div class="line"><span class="lineno">   51</span><span class="preprocessor">#ifdef __APPLE__</span></div>
+<div class="line"><span class="lineno">   52</span>    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_GLOBAL);</div>
+<div class="line"><span class="lineno">   53</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">   54</span>    lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);</div>
+<div class="line"><span class="lineno">   55</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (!lib_handle) {</div>
+<div class="line"><span class="lineno">   57</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Trying to open &quot;</span> &lt;&lt; lib_path;</div>
+<div class="line"><span class="lineno">   58</span>        fprintf(stdout, <span class="stringliteral">&quot;, dlopen failed: %s\n&quot;</span>, dlerror());</div>
+<div class="line"><span class="lineno">   59</span>        std::cout &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><span class="lineno">   61</span>    }</div>
 <div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>    <span class="comment">// Extract the plugin type</span></div>
-<div class="line"><span class="lineno">   64</span>    <a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a26a9d48dfb0504bde3e626eace22d8ff">plugin_type_t</a> type_func;</div>
-<div class="line"><span class="lineno">   65</span>    type_func = (<a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a26a9d48dfb0504bde3e626eace22d8ff">plugin_type_t</a>)dlsym(lib_handle, <span class="stringliteral">&quot;plugin_type&quot;</span>);</div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
-<div class="line"><span class="lineno">   67</span>        <span class="comment">// fputs(error, stderr);</span></div>
-<div class="line"><span class="lineno">   68</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;plugin_type&#39;&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   69</span>        dlclose(lib_handle);</div>
-<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><span class="lineno">   71</span>    }</div>
-<div class="line"><span class="lineno">   72</span>    std::string plugin_type((*type_func)());</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>    <span class="comment">// Extract the plugin name</span></div>
-<div class="line"><span class="lineno">   75</span>    <a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a945b90b32446b030c5e4951915b7c960">plugin_name_t</a> name_func;</div>
-<div class="line"><span class="lineno">   76</span>    name_func = (<a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a945b90b32446b030c5e4951915b7c960">plugin_name_t</a>)dlsym(lib_handle, <span class="stringliteral">&quot;plugin_name&quot;</span>);</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
-<div class="line"><span class="lineno">   78</span>        <span class="comment">// fputs(error, stderr);</span></div>
-<div class="line"><span class="lineno">   79</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;plugin_name&#39;&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   80</span>        dlclose(lib_handle);</div>
-<div class="line"><span class="lineno">   81</span>        <span class="keywordflow">return</span> 3;</div>
-<div class="line"><span class="lineno">   82</span>    }</div>
-<div class="line"><span class="lineno">   83</span>    std::string plugin_name((*name_func)());</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">// Ensure the maker function exists, but we don&#39;t need to call it</span></div>
-<div class="line"><span class="lineno">   86</span>    dlsym(lib_handle, <span class="stringliteral">&quot;maker&quot;</span>);</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
-<div class="line"><span class="lineno">   88</span>        fputs(error, stderr);</div>
-<div class="line"><span class="lineno">   89</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;maker&#39;&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   90</span>        dlclose(lib_handle);</div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">return</span> 4;</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    PluginInfo info;</div>
-<div class="line"><span class="lineno">   95</span>    info.name = plugin_name;</div>
-<div class="line"><span class="lineno">   96</span>    info.type = plugin_type;</div>
-<div class="line"><span class="lineno">   97</span>    info.path = lib_path;</div>
-<div class="line"><span class="lineno">   98</span>    info.handle = lib_handle;</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>    <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>[plugin_type][plugin_name] = info;</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordtype">char</span>* error;</div>
+<div class="line"><span class="lineno">   64</span> </div>
+<div class="line"><span class="lineno">   65</span>    <span class="comment">// Extract the plugin type</span></div>
+<div class="line"><span class="lineno">   66</span>    <a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a26a9d48dfb0504bde3e626eace22d8ff">plugin_type_t</a> type_func;</div>
+<div class="line"><span class="lineno">   67</span>    type_func = (<a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a26a9d48dfb0504bde3e626eace22d8ff">plugin_type_t</a>)dlsym(lib_handle, <span class="stringliteral">&quot;plugin_type&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
+<div class="line"><span class="lineno">   69</span>        <span class="comment">// fputs(error, stderr);</span></div>
+<div class="line"><span class="lineno">   70</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;plugin_type&#39;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   71</span>        dlclose(lib_handle);</div>
+<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><span class="lineno">   73</span>    }</div>
+<div class="line"><span class="lineno">   74</span>    std::string plugin_type((*type_func)());</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>    <span class="comment">// Extract the plugin name</span></div>
+<div class="line"><span class="lineno">   77</span>    <a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a945b90b32446b030c5e4951915b7c960">plugin_name_t</a> name_func;</div>
+<div class="line"><span class="lineno">   78</span>    name_func = (<a class="code hl_typedef" href="classscrimmage_1_1PluginManager.html#a945b90b32446b030c5e4951915b7c960">plugin_name_t</a>)dlsym(lib_handle, <span class="stringliteral">&quot;plugin_name&quot;</span>);</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
+<div class="line"><span class="lineno">   80</span>        <span class="comment">// fputs(error, stderr);</span></div>
+<div class="line"><span class="lineno">   81</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;plugin_name&#39;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   82</span>        dlclose(lib_handle);</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">return</span> 3;</div>
+<div class="line"><span class="lineno">   84</span>    }</div>
+<div class="line"><span class="lineno">   85</span>    std::string plugin_name((*name_func)());</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Ensure the maker function exists, but we don&#39;t need to call it</span></div>
+<div class="line"><span class="lineno">   88</span>    dlsym(lib_handle, <span class="stringliteral">&quot;maker&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
+<div class="line"><span class="lineno">   90</span>        fputs(error, stderr);</div>
+<div class="line"><span class="lineno">   91</span>        std::cout &lt;&lt; lib_path &lt;&lt; <span class="stringliteral">&quot; doesn&#39;t contain &#39;maker&#39;&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   92</span>        dlclose(lib_handle);</div>
+<div class="line"><span class="lineno">   93</span>        <span class="keywordflow">return</span> 4;</div>
+<div class="line"><span class="lineno">   94</span>    }</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>    PluginInfo info;</div>
+<div class="line"><span class="lineno">   97</span>    info.name = plugin_name;</div>
+<div class="line"><span class="lineno">   98</span>    info.type = plugin_type;</div>
+<div class="line"><span class="lineno">   99</span>    info.path = lib_path;</div>
+<div class="line"><span class="lineno">  100</span>    info.handle = lib_handle;</div>
 <div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>    <span class="comment">// dlclose(lib_handle);</span></div>
+<div class="line"><span class="lineno">  102</span>    <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>[plugin_type][plugin_name] = info;</div>
 <div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  105</span>}</div>
+<div class="line"><span class="lineno">  104</span>    <span class="comment">// dlclose(lib_handle);</span></div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  107</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a26a9d48dfb0504bde3e626eace22d8ff"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a26a9d48dfb0504bde3e626eace22d8ff">scrimmage::PluginManager::plugin_type_t</a></div><div class="ttdeci">const char *(* plugin_type_t)()</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00081">PluginManager.h:81</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PluginManager_html_a945b90b32446b030c5e4951915b7c960"><div class="ttname"><a href="classscrimmage_1_1PluginManager.html#a945b90b32446b030c5e4951915b7c960">scrimmage::PluginManager::plugin_name_t</a></div><div class="ttdeci">const char *(* plugin_name_t)()</div><div class="ttdef"><b>Definition</b> <a href="PluginManager_8h_source.html#l00080">PluginManager.h:80</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00067">scrimmage::PluginInfo::handle</a>, <a class="el" href="PluginManager_8h_source.html#l00063">scrimmage::PluginInfo::name</a>, <a class="el" href="PluginManager_8h_source.html#l00065">scrimmage::PluginInfo::path</a>, <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00064">scrimmage::PluginInfo::type</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00195">find_matching_plugins()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00109">print_plugins()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00197">find_matching_plugins()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00111">print_plugins()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -837,32 +837,32 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00150">150</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  150</span>                                                                                          {</div>
-<div class="line"><span class="lineno">  151</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.find(plugin_type);</div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.end()) {</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keyword">auto</span> it2 = it-&gt;second.find(plugin_name);</div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> (it2 != it-&gt;second.end()) {</div>
-<div class="line"><span class="lineno">  155</span>            it2-&gt;second.returned = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a> &amp;&amp; it2-&gt;second.handle) {</div>
-<div class="line"><span class="lineno">  158</span>                dlclose(it2-&gt;second.handle);</div>
-<div class="line"><span class="lineno">  159</span>            }</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>            <a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> (*maker_func)(void);</div>
-<div class="line"><span class="lineno">  162</span>            <span class="comment">// cppcheck-suppress cstyleCast</span></div>
-<div class="line"><span class="lineno">  163</span>            maker_func = (<a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a>(*)(void))dlsym(it2-&gt;second.handle, <span class="stringliteral">&quot;maker&quot;</span>);</div>
-<div class="line"><span class="lineno">  164</span>            <span class="keywordtype">char</span>* error;</div>
-<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
-<div class="line"><span class="lineno">  166</span>                fputs(error, stderr);</div>
-<div class="line"><span class="lineno">  167</span>                <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  168</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  169</span>                <span class="keywordflow">return</span> (*maker_func)();</div>
-<div class="line"><span class="lineno">  170</span>            }</div>
-<div class="line"><span class="lineno">  171</span>        }</div>
-<div class="line"><span class="lineno">  172</span>    }</div>
-<div class="line"><span class="lineno">  173</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  174</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PluginManager_8cpp_source.html#l00152">152</a> of file <a class="el" href="PluginManager_8cpp_source.html">PluginManager.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  152</span>                                                                                          {</div>
+<div class="line"><span class="lineno">  153</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.find(plugin_type);</div>
+<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a3b140447ca208ffbe84c41a9cabe53fe">plugins_info_</a>.end()) {</div>
+<div class="line"><span class="lineno">  155</span>        <span class="keyword">auto</span> it2 = it-&gt;second.find(plugin_name);</div>
+<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">if</span> (it2 != it-&gt;second.end()) {</div>
+<div class="line"><span class="lineno">  157</span>            it2-&gt;second.returned = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PluginManager.html#a813d46d07eee4de094ad7508344af463">reload_</a> &amp;&amp; it2-&gt;second.handle) {</div>
+<div class="line"><span class="lineno">  160</span>                dlclose(it2-&gt;second.handle);</div>
+<div class="line"><span class="lineno">  161</span>            }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>            <a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> (*maker_func)(void);</div>
+<div class="line"><span class="lineno">  164</span>            <span class="comment">// cppcheck-suppress cstyleCast</span></div>
+<div class="line"><span class="lineno">  165</span>            maker_func = (<a class="code hl_typedef" href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">PluginPtr</a> (*)(void))dlsym(it2-&gt;second.handle, <span class="stringliteral">&quot;maker&quot;</span>);</div>
+<div class="line"><span class="lineno">  166</span>            <span class="keywordtype">char</span>* error;</div>
+<div class="line"><span class="lineno">  167</span>            <span class="keywordflow">if</span> ((error = dlerror()) != NULL) {</div>
+<div class="line"><span class="lineno">  168</span>                fputs(error, stderr);</div>
+<div class="line"><span class="lineno">  169</span>                <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  170</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  171</span>                <span class="keywordflow">return</span> (*maker_func)();</div>
+<div class="line"><span class="lineno">  172</span>            }</div>
+<div class="line"><span class="lineno">  173</span>        }</div>
+<div class="line"><span class="lineno">  174</span>    }</div>
+<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  176</span>}</div>
 <div class="ttc" id="anamespacescrimmage_html_a0be8fe6da405df381e9e0333281b61a3"><div class="ttname"><a href="namespacescrimmage.html#a0be8fe6da405df381e9e0333281b61a3">scrimmage::PluginPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Plugin &gt; PluginPtr</div><div class="ttdef"><b>Definition</b> <a href="Parameter_8h_source.html#l00043">Parameter.h:43</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PluginManager_8h_source.html#l00203">plugins_info_</a>, and <a class="el" href="PluginManager_8h_source.html#l00210">reload_</a>.</p>
@@ -904,7 +904,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PluginManager_8h_source.html#l00203">203</a> of file <a class="el" href="PluginManager_8h_source.html">PluginManager.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00047">check_library()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00176">get_commits()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00150">make_plugin_helper()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00109">print_plugins()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00139">print_returned_plugins()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00049">check_library()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00178">get_commits()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00152">make_plugin_helper()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00111">print_plugins()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00141">print_returned_plugins()</a>.</p>
 
 </div>
 </div>
@@ -930,7 +930,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PluginManager_8h_source.html#l00205">205</a> of file <a class="el" href="PluginManager_8h_source.html">PluginManager.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PluginManager_8h_source.html#l00098">make_plugin()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00109">print_plugins()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PluginManager_8h_source.html#l00098">make_plugin()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00111">print_plugins()</a>.</p>
 
 </div>
 </div>
@@ -956,7 +956,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PluginManager_8h_source.html#l00206">206</a> of file <a class="el" href="PluginManager_8h_source.html">PluginManager.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PluginManager_8h_source.html#l00098">make_plugin()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00109">print_plugins()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PluginManager_8h_source.html#l00098">make_plugin()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00111">print_plugins()</a>.</p>
 
 </div>
 </div>
@@ -982,7 +982,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PluginManager_8h_source.html#l00210">210</a> of file <a class="el" href="PluginManager_8h_source.html">PluginManager.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00217">get_reload()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00150">make_plugin_helper()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00213">set_reload()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PluginManager_8cpp_source.html#l00219">get_reload()</a>, <a class="el" href="PluginManager_8cpp_source.html#l00152">make_plugin_helper()</a>, and <a class="el" href="PluginManager_8cpp_source.html#l00215">set_reload()</a>.</p>
 
 </div>
 </div>
@@ -996,7 +996,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1PluginManager.html">PluginManager</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

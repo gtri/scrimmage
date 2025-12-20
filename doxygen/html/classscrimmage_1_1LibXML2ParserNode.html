@@ -206,7 +206,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00079">79</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00080">80</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa827a9574854d28360eb744988705fc8" name="aa827a9574854d28360eb744988705fc8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa827a9574854d28360eb744988705fc8">&#9670;&#160;</a></span>LibXML2ParserNode()</h2>
@@ -232,9 +232,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00082">82</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   82</span>: <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>(node) {}</div>
-<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_a447ea909a14a290163757660dae7ffac"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">scrimmage::LibXML2ParserNode::node_</a></div><div class="ttdeci">xmlNodePtr node_</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8h_source.html#l00109">LibXML2Parser.h:109</a></div></div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00084">84</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>: <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>(node) {}</div>
+<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_a447ea909a14a290163757660dae7ffac"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">scrimmage::LibXML2ParserNode::node_</a></div><div class="ttdeci">xmlNodePtr node_</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8h_source.html#l00110">LibXML2Parser.h:110</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -255,24 +255,24 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00084">84</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>                                                                               {</div>
-<div class="line"><span class="lineno">   85</span>    xmlNode* cur_node = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   86</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">is_valid_node</a>()) {</div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;children; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE &amp;&amp; xmlStrEqual(search_name, cur_node-&gt;name)) {</div>
-<div class="line"><span class="lineno">   90</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   91</span>            }</div>
-<div class="line"><span class="lineno">   92</span>        }</div>
-<div class="line"><span class="lineno">   93</span>    }</div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
-<div class="line"><span class="lineno">   95</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_a8a41e5868fafdc407d3e4708e324d275"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">scrimmage::LibXML2ParserNode::is_valid_node</a></div><div class="ttdeci">bool is_valid_node() const</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8cpp_source.html#l00156">LibXML2Parser.cpp:156</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_aa827a9574854d28360eb744988705fc8"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">scrimmage::LibXML2ParserNode::LibXML2ParserNode</a></div><div class="ttdeci">LibXML2ParserNode(xmlNodePtr node)</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8cpp_source.html#l00082">LibXML2Parser.cpp:82</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1XMLParserNode_html_a0f73b43e74387db69013ca6d2f3d6a21"><div class="ttname"><a href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name</a></div><div class="ttdeci">std::string name() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00259">XMLParser.h:259</a></div></div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00086">86</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   86</span>                                                                               {</div>
+<div class="line"><span class="lineno">   87</span>    xmlNode* cur_node = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
+<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">is_valid_node</a>()) {</div>
+<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;children; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
+<div class="line"><span class="lineno">   91</span>            <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE &amp;&amp; xmlStrEqual(search_name, cur_node-&gt;name)) {</div>
+<div class="line"><span class="lineno">   92</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   93</span>            }</div>
+<div class="line"><span class="lineno">   94</span>        }</div>
+<div class="line"><span class="lineno">   95</span>    }</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
+<div class="line"><span class="lineno">   97</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_a8a41e5868fafdc407d3e4708e324d275"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">scrimmage::LibXML2ParserNode::is_valid_node</a></div><div class="ttdeci">bool is_valid_node() const</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8cpp_source.html#l00158">LibXML2Parser.cpp:158</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1LibXML2ParserNode_html_aa827a9574854d28360eb744988705fc8"><div class="ttname"><a href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">scrimmage::LibXML2ParserNode::LibXML2ParserNode</a></div><div class="ttdeci">LibXML2ParserNode(xmlNodePtr node)</div><div class="ttdef"><b>Definition</b> <a href="LibXML2Parser_8cpp_source.html#l00084">LibXML2Parser.cpp:84</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1XMLParserNode_html_a0f73b43e74387db69013ca6d2f3d6a21"><div class="ttname"><a href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name</a></div><div class="ttdeci">std::string name() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00260">XMLParser.h:260</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8cpp_source.html#l00156">is_valid_node()</a>, <a class="el" href="XMLParser_8h_source.html#l00259">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8cpp_source.html#l00158">is_valid_node()</a>, <a class="el" href="XMLParser_8h_source.html#l00260">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -303,20 +303,20 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00097">97</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   97</span>                                                          {</div>
-<div class="line"><span class="lineno">   98</span>    xmlNode* cur_node = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">is_valid_node</a>()) {</div>
-<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;children; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE) {</div>
-<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  103</span>            }</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
-<div class="line"><span class="lineno">  105</span>    }</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
-<div class="line"><span class="lineno">  107</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00099">99</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span>                                                          {</div>
+<div class="line"><span class="lineno">  100</span>    xmlNode* cur_node = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#a8a41e5868fafdc407d3e4708e324d275">is_valid_node</a>()) {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;children; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE) {</div>
+<div class="line"><span class="lineno">  104</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  105</span>            }</div>
+<div class="line"><span class="lineno">  106</span>        }</div>
+<div class="line"><span class="lineno">  107</span>    }</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
+<div class="line"><span class="lineno">  109</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8cpp_source.html#l00156">is_valid_node()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8cpp_source.html#l00158">is_valid_node()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -346,19 +346,19 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00109">109</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  109</span>                                                                                 {</div>
-<div class="line"><span class="lineno">  110</span>    xmlNodePtr cur_node = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
-<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;next; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
-<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE &amp;&amp; xmlStrEqual(search_name, cur_node-&gt;name)) {</div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
-<div class="line"><span class="lineno">  116</span>    }</div>
-<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
-<div class="line"><span class="lineno">  118</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00111">111</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                                                 {</div>
+<div class="line"><span class="lineno">  112</span>    xmlNodePtr cur_node = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  113</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;next; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
+<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE &amp;&amp; xmlStrEqual(search_name, cur_node-&gt;name)) {</div>
+<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  117</span>        }</div>
+<div class="line"><span class="lineno">  118</span>    }</div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
+<div class="line"><span class="lineno">  120</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00259">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00260">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -387,18 +387,18 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00120">120</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>                                                            {</div>
-<div class="line"><span class="lineno">  121</span>    xmlNodePtr cur_node = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  122</span>    <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;next; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE) {</div>
-<div class="line"><span class="lineno">  124</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  125</span>        }</div>
-<div class="line"><span class="lineno">  126</span>    }</div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
-<div class="line"><span class="lineno">  128</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00122">122</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>                                                            {</div>
+<div class="line"><span class="lineno">  123</span>    xmlNodePtr cur_node = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  124</span>    <span class="keywordflow">for</span> (cur_node = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;next; cur_node != <span class="keyword">nullptr</span>; cur_node = cur_node-&gt;next) {</div>
+<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">if</span> (cur_node-&gt;type == XML_ELEMENT_NODE) {</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  127</span>        }</div>
+<div class="line"><span class="lineno">  128</span>    }</div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1LibXML2ParserNode.html#aa827a9574854d28360eb744988705fc8">LibXML2ParserNode</a>{cur_node};</div>
+<div class="line"><span class="lineno">  130</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 
 </div>
 </div>
@@ -453,19 +453,19 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00130">130</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  130</span>                                                                                         {</div>
-<div class="line"><span class="lineno">  131</span>    xmlAttrPtr cur_attr = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  132</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
-<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">for</span> (cur_attr = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;properties; cur_attr != <span class="keyword">nullptr</span>; cur_attr = cur_attr-&gt;next) {</div>
-<div class="line"><span class="lineno">  134</span>        <span class="keywordflow">if</span> (cur_attr-&gt;type == XML_ATTRIBUTE_NODE &amp;&amp; xmlStrEqual(search_name, cur_attr-&gt;name)) {</div>
-<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  136</span>        }</div>
-<div class="line"><span class="lineno">  137</span>    }</div>
-<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> LibXML2ParserAttribute{cur_attr};</div>
-<div class="line"><span class="lineno">  139</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00132">132</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  132</span>                                                                                         {</div>
+<div class="line"><span class="lineno">  133</span>    xmlAttrPtr cur_attr = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  134</span>    <span class="keyword">const</span> xmlChar* search_name = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>xmlChar*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a0f73b43e74387db69013ca6d2f3d6a21">name</a>.data());</div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">for</span> (cur_attr = <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;properties; cur_attr != <span class="keyword">nullptr</span>; cur_attr = cur_attr-&gt;next) {</div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">if</span> (cur_attr-&gt;type == XML_ATTRIBUTE_NODE &amp;&amp; xmlStrEqual(search_name, cur_attr-&gt;name)) {</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  138</span>        }</div>
+<div class="line"><span class="lineno">  139</span>    }</div>
+<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> LibXML2ParserAttribute{cur_attr};</div>
+<div class="line"><span class="lineno">  141</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00259">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="XMLParser_8h_source.html#l00260">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::name()</a>, and <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -494,12 +494,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00141">141</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>                                                                    {</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> LibXML2ParserAttribute{<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;properties};</div>
-<div class="line"><span class="lineno">  143</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00143">143</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  143</span>                                                                    {</div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> LibXML2ParserAttribute{<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;properties};</div>
+<div class="line"><span class="lineno">  145</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 
 </div>
 </div>
@@ -518,12 +518,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00145">145</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>                                             {</div>
-<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">return</span> std::string{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;name)};</div>
-<div class="line"><span class="lineno">  147</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00147">147</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  147</span>                                             {</div>
+<div class="line"><span class="lineno">  148</span>    <span class="keywordflow">return</span> std::string{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>-&gt;name)};</div>
+<div class="line"><span class="lineno">  149</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 
 </div>
 </div>
@@ -542,16 +542,16 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00149">149</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  149</span>                                              {</div>
-<div class="line"><span class="lineno">  150</span>    <span class="keywordtype">char</span>* <a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(xmlNodeGetContent(<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>));</div>
-<div class="line"><span class="lineno">  151</span>    std::string value_str = std::string{(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> != <span class="keyword">nullptr</span>) ? <a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> : <span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><span class="lineno">  152</span>    xmlFree(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a>);</div>
-<div class="line"><span class="lineno">  153</span>    <span class="keywordflow">return</span> value_str;</div>
-<div class="line"><span class="lineno">  154</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1XMLParserNode_html_a839695dffe53c9b94d4e42ffde1e3656"><div class="ttname"><a href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::value</a></div><div class="ttdeci">std::string value() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00261">XMLParser.h:261</a></div></div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00151">151</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  151</span>                                              {</div>
+<div class="line"><span class="lineno">  152</span>    <span class="keywordtype">char</span>* <a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(xmlNodeGetContent(<a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a>));</div>
+<div class="line"><span class="lineno">  153</span>    std::string value_str = std::string{(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> != <span class="keyword">nullptr</span>) ? <a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a> : <span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><span class="lineno">  154</span>    xmlFree(<a class="code hl_function" href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">value</a>);</div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">return</span> value_str;</div>
+<div class="line"><span class="lineno">  156</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1XMLParserNode_html_a839695dffe53c9b94d4e42ffde1e3656"><div class="ttname"><a href="classscrimmage_1_1XMLParserNode.html#a839695dffe53c9b94d4e42ffde1e3656">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::value</a></div><div class="ttdeci">std::string value() const</div><div class="ttdef"><b>Definition</b> <a href="XMLParser_8h_source.html#l00262">XMLParser.h:262</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>, and <a class="el" href="XMLParser_8h_source.html#l00261">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::value()</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>, and <a class="el" href="XMLParser_8h_source.html#l00262">scrimmage::XMLParserNode&lt; LibXML2ParserNode &gt;::value()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -580,14 +580,14 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00156">156</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  156</span>                                            {</div>
-<div class="line"><span class="lineno">  157</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a> != <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  158</span>}</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8cpp_source.html#l00158">158</a> of file <a class="el" href="LibXML2Parser_8cpp_source.html">LibXML2Parser.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>                                            {</div>
+<div class="line"><span class="lineno">  159</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1LibXML2ParserNode.html#a447ea909a14a290163757660dae7ffac">node_</a> != <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">  160</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00109">node_</a>.</p>
+<p class="reference">References <a class="el" href="LibXML2Parser_8h_source.html#l00110">node_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LibXML2Parser_8cpp_source.html#l00097">get_first_node()</a>, and <a class="el" href="LibXML2Parser_8cpp_source.html#l00084">get_first_node()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LibXML2Parser_8cpp_source.html#l00099">get_first_node()</a>, and <a class="el" href="LibXML2Parser_8cpp_source.html#l00086">get_first_node()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -638,10 +638,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00100">100</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  100</span>                                                                                              {</div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">return</span> lhs.node_ == rhs.node_;</div>
-<div class="line"><span class="lineno">  102</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00101">101</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>                                                                                              {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> lhs.node_ == rhs.node_;</div>
+<div class="line"><span class="lineno">  103</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -679,10 +679,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00104">104</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  104</span>                                                                                              {</div>
-<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">return</span> !(lhs == rhs);</div>
-<div class="line"><span class="lineno">  106</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00105">105</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  105</span>                                                                                              {</div>
+<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">return</span> !(lhs == rhs);</div>
+<div class="line"><span class="lineno">  107</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -707,9 +707,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00109">109</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LibXML2Parser_8h_source.html#l00110">110</a> of file <a class="el" href="LibXML2Parser_8h_source.html">LibXML2Parser.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LibXML2Parser_8cpp_source.html#l00141">get_first_attribute()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00130">get_first_attribute()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00097">get_first_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00084">get_first_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00120">get_next_sibling()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00109">get_next_sibling()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00156">is_valid_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00145">node_name()</a>, and <a class="el" href="LibXML2Parser_8cpp_source.html#l00149">node_value()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LibXML2Parser_8cpp_source.html#l00143">get_first_attribute()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00132">get_first_attribute()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00099">get_first_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00086">get_first_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00122">get_next_sibling()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00111">get_next_sibling()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00158">is_valid_node()</a>, <a class="el" href="LibXML2Parser_8cpp_source.html#l00147">node_name()</a>, and <a class="el" href="LibXML2Parser_8cpp_source.html#l00151">node_value()</a>.</p>
 
 </div>
 </div>
@@ -723,7 +723,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1LibXML2ParserNode.html">LibXML2ParserNode</a></li>
-    <li class="footer">Generated on Thu Dec 18 2025 21:59:35 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sat Dec 20 2025 00:00:44 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
