@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create a Digital Terrain Model &mdash; scrimmage 0.2.0-dev documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=dee240fc"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -171,7 +171,7 @@ structure used in this tutorial is shown below. The “Original” folders will
 contain the source data, and the “Clipped” and “Reprojected” folders will
 contain data that will be generated from the source data. We will save the
 final versions of our data to the “Output” folder.</p>
-<a class="reference internal image-reference" href="../_images/qgis_folder_structure.png"><img alt="../_images/qgis_folder_structure.png" class="align-center" src="../_images/qgis_folder_structure.png" style="width: 182.0px; height: 216.0px;" />
+<a class="reference internal image-reference" href="../_images/qgis_folder_structure.png"><img alt="../_images/qgis_folder_structure.png" class="align-center" height="216" src="../_images/qgis_folder_structure.png" width="182" />
 </a>
 </section>
 <section id="step-2-obtain-the-national-map-tnm-data">
@@ -284,7 +284,7 @@ will prompt you to save the layer’s shapefile. In the Save Layer As dialog,
 navigate to “./Miscellaneous/ClippingRect” and save the shapefile as an ESRI
 Shapefile named “ClippingRect”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_shapefile.png"><img alt="../_images/qgis_shapefile.png" class="align-center" src="../_images/qgis_shapefile.png" style="width: 177.60000000000002px; height: 242.4px;" />
+<a class="reference internal image-reference" href="../_images/qgis_shapefile.png"><img alt="../_images/qgis_shapefile.png" class="align-center" height="242" src="../_images/qgis_shapefile.png" width="178" />
 </a>
 <ol class="arabic simple" start="3">
 <li><p>Right-click on the “ClippingRect” layer in the Layers Panel and select
@@ -523,13 +523,13 @@ and make sure the elevation file looks correct in 3D.</p></li>
 <li><p>Add a layer group between “Miscellaneous” and “Imagery”. Rename it to “Building”.</p></li>
 <li><p>Using Step 5.2 as a reference, add a new polygon shapefile layer to the “Building” group. When creating this shapefile, add a new field with the name “Height” and use “Project CRS”. Save this file to a ./Building folder and name it “Building”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_shapefile2.png"><img alt="../_images/qgis_shapefile2.png" class="align-center" src="../_images/qgis_shapefile2.png" style="width: 177.60000000000002px; height: 243.20000000000002px;" />
+<a class="reference internal image-reference" href="../_images/qgis_shapefile2.png"><img alt="../_images/qgis_shapefile2.png" class="align-center" height="243" src="../_images/qgis_shapefile2.png" width="178" />
 </a>
 <ol class="arabic simple">
 <li><p>Using Step 5.4 as a reference, add polygons to the shapefile. After creating each polygon, a prompt will ask for the “ID” and “Height” values. The “ID” value can be any arbitrary value. However, the “Height” value should be the building’s height in meters.</p></li>
 <li><p>Export the shapefile to a GeoJSON file. Select the Building shapefile in the layer’s pane. Select “Layer &gt; Save As” in the top menu bar. Set the format to “GeoJSON”. Set the output file name such that its path is the ./output folder. Set the CRS to “Project CRS”. Disable “Add saved file to map”.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../_images/qgis_geojson.png"><img alt="../_images/qgis_geojson.png" class="align-center" src="../_images/qgis_geojson.png" style="width: 244.4px; height: 311.20000000000005px;" />
+<a class="reference internal image-reference" href="../_images/qgis_geojson.png"><img alt="../_images/qgis_geojson.png" class="align-center" height="311" src="../_images/qgis_geojson.png" width="244" />
 </a>
 </section>
 <section id="step-9-use-the-digital-terrain-model-in-scrimmmage">
