@@ -1,0 +1,34 @@
+{
+  "name": "SCRIMMAGE Dev Container",
+  "build": {
+    "dockerfile": "../ci/dockerfiles/ubuntu-24.04-slim-dependency-only",
+    "context": ".."
+  },
+  "workspaceFolder": "/root/scrimmage",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/root/scrimmage,type=bind,consistency=cached",
+  "runArgs": ["-v", "/tmp/.X11-unix:/tmp/.X11-unix"],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ],
+      "settings": {
+        "clangd.path": "/usr/bin/clangd",
+        "clangd.arguments": [
+          "--background-index",
+          "--compile-commands-dir=${workspaceFolder}/build"
+        ],
+        "cmake.configureArgs": [
+          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+        ],
+        "C_Cpp.intelliSenseEngine": "disabled"
+      }
+    }
+  },
+  "postCreateCommand": "echo 'Dev container ready. Run: mkdir -p build && cd build && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. && make -j$(nproc)'"
+}
