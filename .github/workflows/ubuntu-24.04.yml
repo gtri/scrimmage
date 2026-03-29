@@ -1,0 +1,185 @@
+# ==============================================================================
+# CI for Ubuntu 24.04 branch
+# ==============================================================================
+#
+# SCRIMMAGE ENVIRONMENT SETUP DESIGN
+# -----------------------------------
+# SCRIMMAGE needs several env vars to find plugins, missions, configs, etc.
+# These are set by sourcing a "setenv" file generated at cmake time.
+#
+# There are TWO install modes controlled by SETUP_HOME_CONFIG:
+#
+#   SETUP_HOME_CONFIG=ON (default, for local development)
+#   ┌─────────────────────────────────────────────────────────────────────────┐
+#   │  cmake ..                                                               │
+#   │    │                                                                    │
+#   │    ├─► Creates: ~/.scrimmage/env/scrimmage-setenv                       │
+#   │    │            (paths point to SOURCE/BUILD tree)                      │
+#   │    │                                                                    │
+#   │    └─► Creates: ~/.scrimmage/setup.bash                                 │
+#   │                 (just sources the setenv file above)                    │
+#   │                                                                         │
+#   │  User runs: source ~/.scrimmage/setup.bash                              │
+#   └─────────────────────────────────────────────────────────────────────────┘
+#
+#   SETUP_HOME_CONFIG=OFF (for CI/distribution)
+#   ┌─────────────────────────────────────────────────────────────────────────┐
+#   │  cmake .. -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=$PWD/install   │
+#   │    │                                                                    │
+#   │    └─► Does NOT touch ~/.scrimmage/                                     │
+#   │                                                                         │
+#   │  make install                                                           │
+#   │    │                                                                    │
+#   │    └─► Creates: <prefix>/etc/scrimmage/env/scrimmage-setenv             │
+#   │                 (paths point to INSTALL tree)                           │
+#   │                                                                         │
+#   │  User runs: source <prefix>/etc/scrimmage/env/scrimmage-setenv          │
+#   └─────────────────────────────────────────────────────────────────────────┘
+#
+# KEY DIFFERENCE:
+#   - setup.bash is a convenience wrapper only created in ~/.scrimmage/
+#   - scrimmage-setenv is the actual file that exports the env vars
+#   - When distributing artifacts, only scrimmage-setenv exists
+#
+# INSTALL PREFIX LAYOUT (after make install):
+#   build/install/
+#   ├── bin/                    # scrimmage binary
+#   ├── lib/scrimmage/          # core libraries
+#   ├── etc/scrimmage/
+#   │   ├── env/
+#   │   │   └── scrimmage-setenv  # <-- SOURCE THIS FILE
+#   │   ├── config/             # XML configs
+#   │   └── plugins/            # plugin descriptors
+#   └── share/scrimmage/
+#       ├── missions/           # mission XMLs
+#       └── data/               # aircraft models, etc.
+#
+# TO USE DOWNLOADED ARTIFACTS (Docker only - paths hardcoded to /root/scrimmage):
+#   1. Mount scrimmage repo to /root/scrimmage in container
+#      (VS Code dev container already has this configured)
+#   2. Extract artifact as build/
+#   3. source build/install/etc/scrimmage/env/scrimmage-setenv
+#   4. scrimmage missions/straight-no-gui.xml
+#
+# FOR HOST DEVELOPMENT: Build locally instead (paths will match your system):
+#   mkdir build && cd build && cmake .. && make -j$(nproc)
+#   source ~/.scrimmage/setup.bash
+#
+# ==============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [Ubuntu-24.04]
+  pull_request:
+    branches: [Ubuntu-24.04]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      # Uses the slim image from ci/dockerfiles/ with all deps pre-installed
+      - name: Build dependency image
+        run: |
+          docker build \
+            -f ci/dockerfiles/ubuntu-24.04-slim-dependency-only \
+            -t scrimmage-deps:24.04 .
+
+      # ==========================================================================
+      # Build 1: Coverage build (for testing and coverage reports)
+      # ==========================================================================
+      - name: Build and test with coverage
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/root/scrimmage \
+            -w /root/scrimmage \
+            scrimmage-deps:24.04 \
+            bash -ec "
+              git config --global --add safe.directory /root/scrimmage
+              apt-get update && apt-get install -y lcov
+              mkdir -p build && cd build
+              cmake .. -DBUILD_TESTS=ON -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=\$PWD/install \
+                       -DCMAKE_BUILD_TYPE=Debug \
+                       -DCMAKE_CXX_FLAGS='--coverage' \
+                       -DCMAKE_C_FLAGS='--coverage'
+              make -j\$(nproc) install
+              source install/etc/scrimmage/env/scrimmage-setenv
+              ctest --output-on-failure
+              # Generate coverage report
+              lcov --quiet --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov 2>/dev/null
+              lcov --quiet --remove coverage.info '/usr/*' '*/build/_deps/*' '*/test/*' --output-file coverage.info --ignore-errors unused 2>/dev/null
+              lcov --quiet --extract coverage.info '*/src/*' --output-file coverage-src.info --ignore-errors unused 2>/dev/null
+              echo '=== Coverage Summary ==='
+              lcov --summary coverage-src.info
+              echo ''
+              echo '=== Coverage by File ==='
+              lcov --list coverage-src.info
+            "
+
+      # Clean up coverage build before release build
+      - name: Clean coverage build
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/root/scrimmage \
+            -w /root/scrimmage \
+            scrimmage-deps:24.04 \
+            rm -rf build
+
+      # ==========================================================================
+      # Build 2: Clean release build (for GHCR)
+      # ==========================================================================
+      - name: Build scrimmage image
+        run: |
+          # Create image with scrimmage fully built and installed
+          cat > Dockerfile.scrimmage <<'EOF'
+          FROM scrimmage-deps:24.04
+          
+          COPY . /root/scrimmage
+          WORKDIR /root/scrimmage
+          
+          RUN mkdir -p build && cd build && \
+              cmake .. -DBUILD_TESTS=ON -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=$PWD/install && \
+              make -j$(nproc) install
+          
+          # Usage: source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+          EOF
+          
+          docker build -f Dockerfile.scrimmage -t scrimmage:24.04 .
+
+      - name: Smoke test mission
+        run: |
+          docker run --rm scrimmage:24.04 bash -ec "
+            source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+            scrimmage /root/scrimmage/missions/straight-no-gui.xml
+          "
+
+      # ==========================================================================
+      # Push to GitHub Container Registry (on push or manual trigger, not PRs)
+      # ==========================================================================
+      - name: Login to GHCR
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GHCR
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/scrimmage-24.04
+          SHORT_SHA=${GITHUB_SHA::7}
+          docker tag scrimmage:24.04 ${IMAGE_NAME}:${SHORT_SHA}
+          docker tag scrimmage:24.04 ${IMAGE_NAME}:latest
+          docker push ${IMAGE_NAME}:${SHORT_SHA}
+          docker push ${IMAGE_NAME}:latest
+          echo "Pushed: ${IMAGE_NAME}:${SHORT_SHA}"
+          echo "Pushed: ${IMAGE_NAME}:latest"
