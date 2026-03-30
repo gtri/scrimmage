@@ -37,7 +37,6 @@
 #include <gtest/gtest.h>
 
 #include "scrimmage/common/CSV.h"
-#include "scrimmage/parse/ParseUtils.h"
 
 namespace sc = scrimmage;
 
@@ -51,34 +50,47 @@ class CSVTest : public ::testing::Test {
     }
     std::string csv_str = "";
     std::vector<std::string> csv_lines = {
-        "my_test_bool,my_test_int,my_test_float,my_test_double",
-        "1,1,2.100000,99.987000",
-        "0,1,2.100000,99.987000",
-        "0,2,2.100000,99.987000",
-        "0,2,3.200000,99.987000",
-        "0,2,3.200000,98.987000"};
+        "my_test_bool,my_test_int,my_test_float,my_test_double,\"my,_test_string\"",
+        "1,1,2.100000,99.987000,\",test with \"\"quotes\"\", newline \n, and comma,\"",
+        "0,1,2.100000,99.987000,\",test with \"\"quotes\"\", newline \n, and comma,\"",
+        "0,2,2.100000,99.987000,\",test with \"\"quotes\"\", newline \n, and comma,\"",
+        "0,2,3.200000,99.987000,\",test with \"\"quotes\"\", newline \n, and comma,\"",
+        "0,2,3.200000,98.987000,\",test with \"\"quotes\"\", newline \n, and comma,\""};
+
+    std::vector<std::string> csv_headers = {
+        "my_test_bool",
+        "my_test_int",
+        "my_test_float",
+        "my_test_double",
+        "my,_test_string",
+    };
+    std::vector<sc::CSV::Pairs> list_of_pairs = {
+        {{"my_test_bool", 1},
+         {"my_test_int", 1},
+         {"my_test_float", 2.100000},
+         {"my_test_double", 99.987000},
+         {"my,_test_string", ",test with \"quotes\", newline \n, and comma,"}},
+        {{"my_test_bool", 0},
+         {"my_test_int", 1},
+         {"my_test_float", 2.100000},
+         {"my_test_double", 99.987000},
+         {"my,_test_string", ",test with \"quotes\", newline \n, and comma,"}},
+        {{"my_test_bool", 0},
+         {"my_test_int", 2},
+         {"my_test_float", 2.100000},
+         {"my_test_double", 99.987000},
+         {"my,_test_string", ",test with \"quotes\", newline \n, and comma,"}},
+        {{"my_test_bool", 0},
+         {"my_test_int", 2},
+         {"my_test_float", 3.200000},
+         {"my_test_double", 99.987000},
+         {"my,_test_string", ",test with \"quotes\", newline \n, and comma,"}},
+        {{"my_test_bool", 0},
+         {"my_test_int", 2},
+         {"my_test_float", 3.200000},
+         {"my_test_double", 99.987000},
+         {"my,_test_string", ",test with \"quotes\", newline \n, and comma,"}}};
 };
-
-std::list<sc::CSV::Pairs> construct_list_of_pairs(const std::vector<std::string>& csv_lines) {
-    EXPECT_GT(csv_lines.size(), static_cast<unsigned int>(0));
-
-    // Use the csv_lines list of strings to append to the CSV object
-    std::list<sc::CSV::Pairs> list_of_pairs;
-    std::vector<std::string> headers =
-        sc::str2container<std::vector<std::string>>(csv_lines[0], ",");
-    for (unsigned int i = 1; i < csv_lines.size(); i++) {
-        std::vector<std::string> items =
-            sc::str2container<std::vector<std::string>>(csv_lines[i], ",");
-        EXPECT_EQ(headers.size(), items.size());
-
-        sc::CSV::Pairs pairs;
-        for (unsigned int k = 0; k < headers.size(); k++) {
-            pairs.push_back(std::make_pair(headers[k], std::stod(items[k])));
-        }
-        list_of_pairs.push_back(pairs);
-    }
-    return list_of_pairs;
-}
 
 TEST_F(CSVTest, from_string) {
     std::string filename = "from_string.csv";
@@ -105,10 +117,9 @@ TEST_F(CSVTest, from_append) {
     std::string filename("from_append.csv");
     sc::CSV csv;
     csv.open_output(filename);
-    csv.set_column_headers(csv_lines[0]);  // Write the column headers
+    csv.set_column_headers(csv_headers);  // Write the column headers
 
     // Create a list of pairs to pass to CSV
-    auto list_of_pairs = construct_list_of_pairs(csv_lines);
     for (auto& pairs : list_of_pairs) {
         csv.append(pairs, true, true);
     }
