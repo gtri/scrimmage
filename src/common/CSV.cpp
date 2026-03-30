@@ -32,8 +32,6 @@
 
 #include "scrimmage/common/CSV.h"
 
-#include <fstream>
-#include <iomanip>
 #include <sstream>
 #include <vector>
 
@@ -43,6 +41,120 @@
 #include <scrimmage/parse/ParseUtils.h>
 
 namespace scrimmage {
+
+// Function to escape special characters in a CSV field
+std::string escape_csv_field(std::string_view field) {
+    // If the field contains a comma, a quote, or a newline, wrap it in quotes
+    bool need_to_escape = field.find_first_of(",\"\n") != std::string::npos;
+    if (!need_to_escape) {
+        return std::string(field);
+    }
+
+    std::ostringstream escaped;
+    escaped << '"';
+    for (char c : field) {
+        if (c == '"') {
+            escaped << "\"\"";  // Escape double quotes as ""
+        } else {
+            escaped << c;
+        }
+    }
+    escaped << '"';
+    return escaped.str();
+}
+
+// Function to unescape a single CSV field
+std::string unescape_csv_field(std::string_view field) {
+    // If the field starts and ends with a quote, it is escaped
+    bool is_quoted_string = field.size() >= 2 && field.front() == '"' && field.back() == '"';
+    if (!is_quoted_string) {
+        return std::string(field);
+    }
+
+    std::ostringstream unescaped;
+    bool isQuotePair = false;
+
+    // Process the part within the quotes
+    for (size_t i = 1; i < field.size() - 1; ++i) {
+        char c = field[i];
+        if (isQuotePair) {
+            if (c == '"') {  // This is the double quote -> unescape it
+                unescaped << '"';
+                isQuotePair = false;
+            } else {
+                // CSV is invalid if we find a singe quote within a single quoted field
+                throw std::runtime_error(
+                    "Invalid CSV: field wrapped by quotes but quote inside is not escaped properly "
+                    "(ex. \"field \"\"with\"\" quote\"): "
+                    + std::string(field));
+            }
+        } else {
+            if (c == '"') {
+                // First quote of a pair
+                isQuotePair = true;
+            } else {
+                unescaped << c;  // Regular character
+            }
+        }
+    }
+
+    // If `isQuotePair` is still true here, it means the quotes were improperly escaped
+    if (isQuotePair) {
+        throw std::runtime_error("Invalid CSV: unbalanced quotes in field");
+    }
+
+    return unescaped.str();
+}
+
+// Function to split a CSV string by some token while respecting escape sequences of
+// 2 double quotes """"
+std::vector<std::string> split_csv_string(std::string_view row, const char token) {
+    std::vector<std::string> fields;  // Stores the extracted fields
+    std::ostringstream currentField;  // Accumulates characters for the current field
+    bool insideQuotes = false;        // Tracks if we're inside a quoted field
+
+    for (size_t i = 0; i < row.size(); ++i) {
+        char c = row[i];
+
+        if (insideQuotes) {
+            if (c == '"') {
+                // If we see a double-quote while inside quotes, check for escape (i.e., `""`)
+                if (i + 1 < row.size() && row[i + 1] == '"') {
+                    currentField << "\"\"";
+                    ++i;  // Skip the next quote (because this is an escape sequence)
+                } else {
+                    // Exiting the quoted field
+                    insideQuotes = false;
+                    currentField << c;
+                }
+            } else {
+                // Append any other character inside quotes
+                // This is where newlines and commas can appear
+                // as valid text inside a cell
+                currentField << c;
+            }
+        } else {
+            if (c == token) {
+                // token outside quotes: field delimiter
+                fields.push_back(currentField.str());  // Add the current field to the list
+                currentField.str("");                  // Reset for the next field
+                currentField.clear();                  // Clear any error flags on the object
+            } else if (c == '"') {
+                // Start of a quoted field
+                currentField << c;
+                insideQuotes = true;
+            } else {
+                // Regular character outside quotes
+                currentField << c;
+            }
+        }
+    }
+
+    // Add the last field (if any)
+    fields.push_back(currentField.str());
+
+    return fields;
+}
 
 CSV::~CSV() {
     this->close_output();
@@ -66,19 +178,28 @@ void CSV::set_column_headers(const Headers& headers, bool write) {
     }
 }
 
-void CSV::set_column_headers(const std::string& headers, bool write) {
-    std::list<std::string> headers_vec = get_csv_line_elements(headers);
+void CSV::set_column_headers(std::string_view headers, bool write) {
+    std::vector<std::string> headers_vec = split_csv_string(headers, ',');
     set_column_headers(headers_vec, write);
+}
+
+std::string CSV::get_csv_string(const PossibleVariantTypes& v) const {
+    return std::visit(
+        StringifyVisitor{
+            .double_is_fixed = double_is_fixed_,
+            .double_is_scientific = double_is_scientific_,
+            .double_precision = double_precision_},
+        v);
 }
 
 bool CSV::append(const Pairs& pairs, bool write, bool keep_in_memory) {
 
-    for (std::pair<std::string, double> pair : pairs) {
+    for (const auto& pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
             LOG_WARN("Warning: column header doesn't exist: " << pair.first);
         }
-        table_[next_row_][it->second] = pair.second;
+        table_[next_row_][it->second] = escape_csv_field(get_csv_string(pair.second));
     }
 
     if (write) {
@@ -121,7 +242,7 @@ std::ostream& operator<<(std::ostream& os, const CSV& csv) {
 }
 
 std::string CSV::headers_to_string() const {
-    std::string result = "";
+    std::ostringstream result;
 
     // Get an ordered vector of headers
     std::vector<std::string> headers(column_headers_.size());
@@ -131,65 +252,47 @@ std::string CSV::headers_to_string() const {
 
     unsigned int i = 0;
     for (std::string header : headers) {
-        result += header;
+        result << escape_csv_field(header);
 
         if (i + 1 < headers.size()) {
-            result += ",";
+            result << ",";
         }
         i++;
     }
-    return result;
+    return result.str();
 }
 
 std::string CSV::rows_to_string() const {
-    std::string result = "";
+    std::ostringstream result;
     // Write all the rows out
     for (unsigned int i = 0; i < table_.size(); i++) {
-        result += this->row_to_string(i);
+        result << this->row_to_string(i);
         if (i < table_.size() - 1) {
-            result += "\n";
+            result << "\n";
         }
     }
-    return result;
+    return result.str();
 }
 
 std::string CSV::row_to_string(const int& row) const {
-    std::string result = "";
+    std::ostringstream result;
 
-    // Initialize a vector with no value string. Iterate over
-    // column_headers, use column index to fill in column for values.
-    std::vector<std::string> values(column_headers_.size(), no_value_str_);
     auto it_row = table_.find(row);
-    for (auto& kv : it_row->second) {
-        if (static_cast<int64_t>(kv.second) == kv.second) {
-            values[kv.first] = std::to_string(static_cast<int64_t>(kv.second));
-        } else if (static_cast<double>(kv.second) == kv.second) {
-            // default precision values for double are not enough in many cases
-            std::ostringstream conv;
-            if (double_is_fixed_) {
-                conv << std::fixed;
-            }
-            if (double_is_scientific_) {
-                conv << std::scientific;
-            }
-            conv << std::setprecision(double_precision_) << kv.second;
-            values[kv.first] = conv.str();
-        } else {
-            values[kv.first] = std::to_string(kv.second);
-        }
+    if (it_row == table_.end()) {
+        return "";
     }
 
     // Append the rows to the resultant string
     unsigned int i = 0;
-    for (std::string str : values) {
-        result += str;
+    for (auto& kv : it_row->second) {
+        result << escape_csv_field(kv.second);
 
-        if (i + 1 < values.size()) {
-            result += ",";
+        if (i + 1 < it_row->second.size()) {
+            result << ",";
         }
         i++;
     }
-    return result;
+    return result.str();
 }
 
 bool CSV::to_csv(const std::string& filename) {
@@ -215,34 +318,31 @@ bool CSV::read_csv_from_string(const std::string& csv_str, const bool& contains_
     table_.clear();
     column_headers_.clear();
 
-    std::vector<std::string> line_tokens;
-    boost::split(line_tokens, csv_str, boost::is_any_of("\n"));
+    std::vector<std::string> line_tokens = split_csv_string(csv_str, '\n');
     int row_num = 0;
     for (unsigned int line_num = 0; line_num < line_tokens.size(); line_num++) {
-        // Strip "whitespace" characters.
-        std::string line = remove_whitespace(line_tokens[line_num]);
+        std::string line = line_tokens[line_num];
 
         if (line == "")
             continue;  // Ignore lines that are empty
 
         if (line_num == 0 && contains_header) {
-            std::list<std::string> headers = get_csv_line_elements(line);
+            std::vector<std::string> headers = split_csv_string(line, ',');
             int i = 0;
-            for (auto& str : headers) {
-                column_headers_[str] = i;
+            for (const auto& str : headers) {
+                column_headers_[unescape_csv_field(str)] = i;
                 i++;
             }
         } else {
-            std::vector<std::string> tokens;
-            boost::split(tokens, line, boost::is_any_of(","));
+            std::vector<std::string> tokens = split_csv_string(line, ',');
             for (unsigned int i = 0; i < tokens.size(); i++) {
-                table_[row_num][i] = std::stod(tokens[i]);
+                table_[row_num][i] = unescape_csv_field(tokens[i]);
             }
 
             // If this is the first line and the file doesn't contain a header,
             // populate the column headers with indices based on the number of
             // comma separated values
-            if (row_num == 0 && not contains_header) {
+            if (row_num == 0 && !contains_header) {
                 for (unsigned int i = 0; i < tokens.size(); i++) {
                     column_headers_[std::to_string(i)] = i;
                 }
@@ -251,9 +351,10 @@ bool CSV::read_csv_from_string(const std::string& csv_str, const bool& contains_
             // Print a warning if the number of comma separated values doesn't
             // match the number of columns
             if (column_headers_.size() != tokens.size()) {
-                LOG_WARN("Warning the number of values (" << tokens.size() << ") on line number "
-                         << row_num
-                         << " doesn't match the number of column headers: " << column_headers_.size());
+                LOG_WARN(
+                    "Warning the number of values ("
+                    << tokens.size() << ") on line number " << row_num
+                    << " doesn't match the number of column headers: " << column_headers_.size());
             }
             row_num++;
         }
@@ -279,31 +380,6 @@ void CSV::set_no_value_string(const std::string& str) {
 
 size_t CSV::rows() {
     return table_.size();
-}
-
-double CSV::at(int row, const std::string& header) {
-    const int column = column_headers_.at(header);
-    return table_.at(row).at(column);
-}
-
-std::list<std::string> CSV::get_csv_line_elements(const std::string& str) {
-    std::list<std::string> elems;
-    std::vector<std::string> tokens;
-    boost::split(tokens, str, boost::is_any_of(","));
-    for (unsigned int i = 0; i < tokens.size(); i++) {
-        // Remove whitespace
-        tokens[i].erase(
-            std::remove_if(
-                tokens[i].begin(),
-                tokens[i].end(),
-                [](unsigned char x) { return std::isspace(x); }),
-            tokens[i].end());
-
-        if (tokens[i] != "") {
-            elems.push_back(tokens[i]);
-        }
-    }
-    return elems;
 }
 
 void CSV::write_headers() {

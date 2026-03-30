@@ -54,6 +54,6 @@ TEST(test_collisions, collisions) {
         return;
 
     const int row = csv.rows() - 1;
-    int collisions = csv.at(row, "team_coll");
+    int collisions = csv.at<int>(row, "team_coll");
     EXPECT_GT(collisions, 0);  // expect collisions
 }
