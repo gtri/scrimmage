@@ -40,6 +40,7 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -49,9 +50,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
-
-using std::cout;
-using std::endl;
 
 namespace geo = GeographicLib;
 namespace sc = scrimmage;
@@ -87,9 +85,9 @@ void ROSIMUSensor::init(std::map<std::string, std::string>& params) {
     std::string csv_filename =
         parent_->mp()->log_dir() + "/imu_data_robot" + std::to_string(parent_->id().id()) + ".csv";
     if (!csv.open_output(csv_filename, std::ios_base::app))
-        std::cout << "Couldn't create csv file" << endl;
+        LOG_ERROR("Couldn't create csv file");
     if (!csv.output_is_open())
-        cout << "File isn't open. Can't write to CSV" << endl;
+        LOG_ERROR("File isn't open. Can't write to CSV");
 
     csv.set_column_headers(
         "time, dt, ECEF_POSX, ECEF_POSY, ECEF_POSZ, ECEF_VELX, ECEF_VELY, ECEF_VELZ, bodyToEcef_X, "
@@ -255,7 +253,7 @@ Eigen::Vector3d ROSIMUSensor::get_delta_theta(
     // % .0035 deg/Hr is the quoted gyro bias for the HG9900, a navigation grade
     // % IMU
     if (errVect.norm() >= 0.0035 * (M_PI / 180.0) * (1 / 3600.0) * (inertialDeltaT) * (1 / 100.0)) {
-        cout << "Warning: Check delta-theta calculations inside get_delta_theta!!!" << endl;
+        LOG_WARN("Check delta-theta calculations inside get_delta_theta!!!");
     }
     Eigen::Vector3d DeltaThetaBodyWRTECEFInBody = dTHat;
 
@@ -455,7 +453,7 @@ bool ROSIMUSensor::step() {
         // Write IMU data to CSV
         // Write the CSV file to the root log directory file name = imu_data.csv
         if (!csv.output_is_open()) {
-            cout << "File isn't open. Can't append to CSV" << endl;
+            LOG_ERROR("File isn't open. Can't append to CSV");
         }
         csv.append(
             sc::CSV::Pairs{

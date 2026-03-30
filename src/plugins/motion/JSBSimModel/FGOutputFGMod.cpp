@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "scrimmage/log/Logger.h"
 #include "models/FGAerodynamics.h"
 #include "models/FGAuxiliary.h"
 #include "models/FGFCS.h"
@@ -99,27 +100,24 @@ FGOutputFGMod::FGOutputFGMod(FGFDMExec* fdmex) : FGOutputFG(fdmex) {
     if (fdmex->GetDebugLevel() > 0) {
         // Engine status
         if (Propulsion->GetNumEngines() > FG_MAX_ENGINES)
-            cerr << "This vehicle has " << Propulsion->GetNumEngines()
-                 << " engines, but the current " << endl
-                 << "version of FlightGear's FGNetFDM only supports " << FG_MAX_ENGINES
-                 << " engines." << endl
-                 << "Only the first " << FG_MAX_ENGINES << " engines will be used." << endl;
+            LOG_WARN("This vehicle has " << Propulsion->GetNumEngines()
+                     << " engines, but the current version of FlightGear's FGNetFDM only supports "
+                     << FG_MAX_ENGINES << " engines. Only the first " << FG_MAX_ENGINES
+                     << " engines will be used.");
 
         // Consumables
         if (Propulsion->GetNumTanks() > FG_MAX_TANKS)
-            cerr << "This vehicle has " << Propulsion->GetNumTanks() << " tanks, but the current "
-                 << endl
-                 << "version of FlightGear's FGNetFDM only supports " << FG_MAX_TANKS << " tanks."
-                 << endl
-                 << "Only the first " << FG_MAX_TANKS << " tanks will be used." << endl;
+            LOG_WARN("This vehicle has " << Propulsion->GetNumTanks()
+                     << " tanks, but the current version of FlightGear's FGNetFDM only supports "
+                     << FG_MAX_TANKS << " tanks. Only the first " << FG_MAX_TANKS
+                     << " tanks will be used.");
 
         // Gear status
         if (GroundReactions->GetNumGearUnits() > FG_MAX_WHEELS)
-            cerr << "This vehicle has " << GroundReactions->GetNumGearUnits()
-                 << " bogeys, but the current " << endl
-                 << "version of FlightGear's FGNetFDM only supports " << FG_MAX_WHEELS << " bogeys."
-                 << endl
-                 << "Only the first " << FG_MAX_WHEELS << " bogeys will be used." << endl;
+            LOG_WARN("This vehicle has " << GroundReactions->GetNumGearUnits()
+                     << " bogeys, but the current version of FlightGear's FGNetFDM only supports "
+                     << FG_MAX_WHEELS << " bogeys. Only the first " << FG_MAX_WHEELS
+                     << " bogeys will be used.");
     }
 }
 

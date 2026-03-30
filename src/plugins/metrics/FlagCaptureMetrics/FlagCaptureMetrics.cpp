@@ -32,6 +32,8 @@
 
 #include "scrimmage/plugins/metrics/FlagCaptureMetrics/FlagCaptureMetrics.h"
 
+#include <scrimmage/log/Logger.h>
+
 #include <iostream>
 #include <limits>
 
@@ -47,8 +49,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -115,11 +115,11 @@ void FlagCaptureMetrics::print_team_summaries() {
          it != team_flag_scores_.end();
          ++it) {
 
-        cout << "Team ID: " << it->first << endl;
-        cout << "Score: " << it->second.score() << endl;
-        cout << "Flags Taken: " << it->second.flags_taken() << endl;
-        cout << "Flags Captured: " << it->second.flags_captured() << endl;
-        cout << sc::generate_chars("-", 70) << endl;
+        LOG_INFO("Team ID: " << it->first);
+        LOG_INFO("Score: " << it->second.score());
+        LOG_INFO("Flags Taken: " << it->second.flags_taken());
+        LOG_INFO("Flags Captured: " << it->second.flags_captured());
+        LOG_INFO(sc::generate_chars("-", 70));
     }
 }
 

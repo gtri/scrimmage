@@ -44,16 +44,13 @@
 #include <boost/bind/bind.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/sensor/Sensor.h"
-
-using std::cerr;
-using std::cout;
-using std::endl;
 
 namespace ba = boost::asio;
 namespace sc = scrimmage;
@@ -74,20 +71,17 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
     std::string servo_map = sc::get<std::string>("servo_map", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (!sc::get_vec_of_vecs(servo_map, vecs)) {
-        cout << "Failed to parse servo map:" << servo_map << endl;
+        LOG_ERROR("Failed to parse servo map:" << servo_map);
     } else {
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 7) {
-                cout << "Invalid servo mapping: " << endl;
-                for (std::string s : vec) {
-                    cout << s << " ";
-                }
+                LOG_ERROR("Invalid servo mapping");
                 continue;
             }
 
             int servo = std::stod(vec[1]);
             if (servo >= MAX_NUM_SERVOS) {
-                cout << "Warning: servo_map contains out-of-range servo index" << endl;
+                LOG_WARN("servo_map contains out-of-range servo index");
             } else {
                 scrimmage::controller::AxisScale at(
                     servo,
@@ -125,9 +119,8 @@ void ArduPilot::init(std::map<std::string, std::string>& params) {
         to_ardupilot_port = from_ardupilot_port + 1;
     }
 
-    cout << "ArduPilot: sending to udp: " << to_ardupilot_ip << ":" << to_ardupilot_port << endl;
-    cout << "ArduPilot: listening to udp: " << to_ardupilot_ip << ":" << from_ardupilot_port
-         << endl;
+    LOG_INFO("ArduPilot: sending to udp: " << to_ardupilot_ip << ":" << to_ardupilot_port);
+    LOG_INFO("ArduPilot: listening to udp: " << to_ardupilot_ip << ":" << from_ardupilot_port);
 
     // Setup transmit socket
     tx_socket_ = std::make_shared<ba::ip::udp::socket>(
@@ -179,7 +172,7 @@ bool ArduPilot::step_autonomy(double t, double dt) {
         ntx++;
         last_ntx++;
     } catch (std::exception& e) {
-        cerr << "Exception: " << e.what() << "\n";
+        LOG_ERROR("Exception: " << e.what());
     }
 
     // Let async receive callback run
@@ -212,9 +205,9 @@ bool ArduPilot::step_autonomy(double t, double dt) {
     if (t - last_print_t > 5) {
         const auto t0 = std::chrono::system_clock::now();
         auto d = std::chrono::duration_cast<std::chrono::microseconds>(t0 - last_print_wall_t);
-        cout << "walltime: " << t0.time_since_epoch().count() << ", simtime: " << t
+        LOG_INFO("walltime: " << t0.time_since_epoch().count() << ", simtime: " << t
              << ", packets tx: " << ntx << ", rx: " << nrx
-             << ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz" << endl;
+             << ", rate: " << double(last_ntx) / double(d.count()) * 1e6 << " hz");
         last_print_t = t;
         last_print_wall_t = t0;
         last_ntx = 0;
@@ -232,10 +225,10 @@ void ArduPilot::parse_receive(const boost::system::error_code& error, std::size_
 #endif
 
     if (error) {
-        cout << "error: handle_receive" << endl;
+        LOG_ERROR("handle_receive error");
     } else if (num_bytes != sizeof(servo_packet)) {
-        cout << "Received wrong number of bytes: " << num_bytes << endl;
-        cout << "Expected number of bytes: " << sizeof(servo_packet) << endl;
+        LOG_ERROR("Received wrong number of bytes: " << num_bytes);
+        LOG_ERROR("Expected number of bytes: " << sizeof(servo_packet));
     } else {
         servo_pkt_mutex_.lock();
         for (unsigned int i = 0; i < num_bytes / sizeof(uint16_t); i++) {
@@ -328,7 +321,7 @@ ArduPilot::fdm_packet ArduPilot::state6dof_to_fdm_packet(
     }
 
     if (std::isinf(fdm_pkt.airspeed)) {
-        std::cout << "ArduPilot: Warning: velocity or wind contains infinite value." << std::endl;
+        LOG_WARN("ArduPilot: Warning: velocity or wind contains infinite value.");
         fdm_pkt.airspeed = 0.0;
     }
 

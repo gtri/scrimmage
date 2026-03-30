@@ -39,14 +39,12 @@
 #include <boost/algorithm/string/split.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Command.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -66,7 +64,7 @@ void CommandStringRelay::init(std::map<std::string, std::string>& params) {
     sc::get_vec_of_vecs(relays_str, vecs_of_vecs, " ");
     for (std::vector<std::string> vecs : vecs_of_vecs) {
         if (vecs.size() < 3) {
-            std::cout << "Invalid relay found." << std::endl;
+            LOG_WARN("Invalid relay found.");
             continue;
         }
 
@@ -88,10 +86,10 @@ void CommandStringRelay::init(std::map<std::string, std::string>& params) {
                     relay_msg->data = msg->data.value();
                     it->second->publish(relay_msg);
                 } else {
-                    cout << "CommandStringRelay: Failed to find publisher" << endl;
+                    LOG_WARN("CommandStringRelay: Failed to find publisher");
                 }
             } else {
-                cout << "CommandStrinRelay: Ignoring message" << endl;
+                LOG_WARN("CommandStringRelay: Ignoring message");
             }
         };
         subscribe<scrimmage_msgs::CommandString>(original_network, original_topic_str, cb);

@@ -39,12 +39,10 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -111,8 +109,9 @@ bool RandomAttrit::step_entity_interaction(std::list<sc::EntityPtr>& ents, doubl
         double slope = -start_num_ent_ / duration_s_;
         num_ent_ = slope * (t - start_wait_time_s_) + start_num_ent_;
     } else {
-        std::cout << "RandomAttrit: Decay method, " << decay_method_ << ", is not implemented."
-                  << std::endl;
+        std::stringstream ss;
+        ss << "RandomAttrit: Decay method, " << decay_method_ << ", is not implemented.";
+        LOG_WARN(ss.str());
     }
 
     // else if (decay_method_ == "exponential") {

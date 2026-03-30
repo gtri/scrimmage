@@ -3,6 +3,7 @@
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/gpu/GPUMotionModel.h"
 #include "scrimmage/gpu/OpenCLUtils.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 
@@ -53,9 +54,7 @@ GPUController::GPUController() {
     // const char* kernel_dir_str = std::getenv(KERNEL_PATH_ENV_VAR);
     const char* kernel_dir_str = std::getenv(KERNEL_PATH_ENV_VAR);
     if (kernel_dir_str == nullptr) {
-        std::cerr << "SCRIMMAGE_KERNEL_PATH is not defined. Did you source your "
-                     "environment"
-                  << std::endl;
+        LOG_ERROR("SCRIMMAGE_KERNEL_PATH is not defined. Did you source your environment");
     } else {
         std::vector<std::string> kernel_dirs =
             scrimmage::str2container<std::vector<std::string>>(std::string{kernel_dir_str}, ":");
@@ -157,7 +156,9 @@ cl::Program::Sources GPUController::read_kernels(const std::vector<fs::path>& ke
             }
             ifstream.open(path);
             if (ifstream.fail()) {
-                std::cerr << "Error reading kernel file \'" << path << "\'";
+                std::stringstream ss;
+                ss << "Error reading kernel file '" << path << "'";
+                LOG_ERROR(ss.str());
             } else {
                 buffer << ifstream.rdbuf();
                 std::string src = buffer.str();
@@ -198,7 +199,9 @@ void GPUController::init(MissionParsePtr mp) {
     const std::list<std::string>& kernel_names = mp->kernel_names();
     for (const std::string& kernel_name : kernel_names) {
         if (mp->attributes().count(kernel_name) == 0) {
-            std::cerr << "No Attributes for GPU Kernel \'" << kernel_name << "\'" << std::endl;
+            std::stringstream ss;
+            ss << "No Attributes for GPU Kernel '" << kernel_name << "'";
+            LOG_WARN(ss.str());
             continue;
         }
         const std::map<std::string, std::string>& plugin_attributes =
@@ -295,10 +298,7 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
     }
 
     if (device_map.size() == 0 && !opts.single_precision) {
-        std::cerr << "Warning: No Platform found that supports double precision. "
-                     "Try enabling "
-                     "single precision."
-                  << std::endl;
+        LOG_WARN("Warning: No Platform found that supports double precision. Try enabling single precision.");
         return std::nullopt;
     }
 
@@ -316,7 +316,9 @@ std::optional<cl::Device> GPUController::pick_device(const KernelBuildOpts& opts
     } else {
         for (std::string preferred_platform : opts.preferred_platforms) {
             if (device_map.count(preferred_platform) == 0) {
-                std::cerr << "Warning: No Platform named " << preferred_platform << " found.\n";
+                std::stringstream ss;
+                ss << "Warning: No Platform named " << preferred_platform << " found.";
+                LOG_WARN(ss.str());
             } else {
                 std::vector<cl::Device>& platform_devices = device_map[preferred_platform];
                 usable_devices.insert(

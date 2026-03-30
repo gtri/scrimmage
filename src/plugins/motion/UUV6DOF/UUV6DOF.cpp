@@ -38,14 +38,13 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
 using boost::algorithm::clamp;
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -119,12 +118,12 @@ bool UUV6DOF::init(
         // Parse inertia matrix
         bool valid_inertia = false;
         if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
-            cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
+            LOG_ERROR("Failed to parse inertia_matrix:" << inertia_matrix);
         } else {
             int row = 0;
             for (std::vector<std::string> vec : vecs) {
                 if (vec.size() != 3) {
-                    cout << "Invalid vector size in: " << inertia_matrix << endl;
+                    LOG_ERROR("Invalid vector size in: " << inertia_matrix);
                     break;
                 }
                 for (int i = 0; i < 3; i++) {
@@ -137,7 +136,7 @@ bool UUV6DOF::init(
             }
         }
         if (!valid_inertia) {
-            cout << "Using identity matrix for inertia." << endl;
+            LOG_WARN("Using identity matrix for inertia.");
             I_ = Eigen::Matrix3d::Identity();
         }
         I_inv_ = I_.inverse();
@@ -179,9 +178,8 @@ bool UUV6DOF::init(
     if (write_csv_) {
         csv_.open_output(
             parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv");
-        cout << "Writing log to " + parent_->mp()->log_dir() + "/"
-                    + std::to_string(parent_->id().id()) + "-states.csv"
-             << endl;
+        LOG_INFO("Writing log to " + parent_->mp()->log_dir() + "/"
+                    + std::to_string(parent_->id().id()) + "-states.csv");
 
         csv_.set_column_headers(sc::CSV::Headers{"t",      "x",        "y",     "z",     "U",
                                                  "V",      "W",        "P",     "Q",     "R",
@@ -203,7 +201,7 @@ bool UUV6DOF::init(
         if (sc::get_vec<double>("c_g", params, ", ", c_g_vec, 3)) {
             c_g_ = sc::vec2eigen(c_g_vec);
         } else {
-            cout << "Warning: Invalid center of gravity, c_g." << endl;
+            LOG_WARN("Invalid center of gravity, c_g.");
         }
     }
 
@@ -213,7 +211,7 @@ bool UUV6DOF::init(
         if (sc::get_vec<double>("c_b", params, ", ", c_b_vec, 3)) {
             c_b_ = sc::vec2eigen(c_b_vec);
         } else {
-            cout << "Warning: Invalid center of buoyancy, c_b." << endl;
+            LOG_WARN("Invalid center of buoyancy, c_b.");
         }
     }
 

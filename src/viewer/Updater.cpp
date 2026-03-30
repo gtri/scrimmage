@@ -33,6 +33,7 @@
 #include "scrimmage/viewer/Updater.h"
 
 #include <iostream>
+#include <sstream>
 #include <vtksys/SystemTools.hxx>
 
 #include <vtkArcSource.h>
@@ -105,8 +106,8 @@
 
 #include <boost/filesystem.hpp>
 
-using std::cout;
-using std::endl;
+#include "scrimmage/log/Logger.h"
+
 namespace fs = boost::filesystem;
 
 #define BILLION 1000000000L
@@ -206,8 +207,10 @@ void Updater::Execute(
         bool time_near = std::abs(msg.time() - frame_time_) < 1e-7;
 
         if (time_near and !fs::exists(log_dir_) and !log_dir_warning_) {
-            std::cout << "Updater cannot save screenshot because the log dir " << log_dir_
-                      << " does not exist" << std::endl;
+            std::stringstream ss;
+            ss << "Updater cannot save screenshot because the log dir " << log_dir_
+               << " does not exist";
+            LOG_WARN(ss.str());
             log_dir_warning_ = true;
         }
         if (time_near && fs::exists(log_dir_)) {
@@ -2010,7 +2013,9 @@ bool Updater::draw_mesh(
             base_rot);
 
         if (!model_file_found) {
-            std::cout << "Updater: Couldn't find model for " << m.name() << std::endl;
+            std::stringstream ss;
+            ss << "Updater: Couldn't find model for " << m.name();
+            LOG_WARN(ss.str());
             return false;
         }
 
@@ -2074,8 +2079,9 @@ bool Updater::draw_plane(
     // sanity checks
     if (std::abs(p.x_length()) < std::numeric_limits<double>::epsilon()
         || std::abs(p.y_length()) < std::numeric_limits<double>::epsilon()) {
-        std::cout << "Cannot draw plane: bad dimensions (" << p.x_length() << ", " << p.y_length()
-                  << ")\n";
+        std::stringstream ss;
+        ss << "Cannot draw plane: bad dimensions (" << p.x_length() << ", " << p.y_length() << ")";
+        LOG_WARN(ss.str());
         return false;
     }
     // Load texture

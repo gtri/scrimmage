@@ -45,8 +45,6 @@
 #include "scrimmage/math/State.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 

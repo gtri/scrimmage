@@ -32,6 +32,8 @@
 
 #include "scrimmage/plugins/metrics/SimpleCaptureMetrics/SimpleCaptureMetrics.h"
 
+#include <scrimmage/log/Logger.h>
+
 #include <iostream>
 #include <limits>
 
@@ -46,8 +48,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -124,11 +124,11 @@ void SimpleCaptureMetrics::print_team_summaries() {
         int team_id = kv.first;
         Score& score = kv.second;
 
-        cout << "Team ID: " << team_id << endl;
-        cout << "Score: " << score.score() << endl;
-        cout << "Team Captures: " << score.count("TeamCapture") << endl;
-        cout << "Non Team Captures: " << score.count("NonTeamCapture") << endl;
-        cout << sc::generate_chars("-", 70) << endl;
+        LOG_INFO("Team ID: " << team_id);
+        LOG_INFO("Score: " << score.score());
+        LOG_INFO("Team Captures: " << score.count("TeamCapture"));
+        LOG_INFO("Non Team Captures: " << score.count("NonTeamCapture"));
+        LOG_INFO(sc::generate_chars("-", 70));
     }
 }
 

@@ -33,6 +33,7 @@
 #include "scrimmage/plugins/network/SphereNetwork/SphereNetwork.h"
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 #include <boost/range/adaptor/map.hpp>
@@ -42,6 +43,7 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
@@ -51,8 +53,6 @@
 
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::SphereNetwork, SphereNetwork_plugin)
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace ba = boost::adaptors;
@@ -112,8 +112,9 @@ bool SphereNetwork::is_reachable(
     for (sc::ID id : neigh) {
         auto ent_neighbor = id_to_ent_map_->find(id.id());
         if (ent_neighbor == id_to_ent_map_->end()) {
-            std::cout << "Warning: Sphere Network entity id doesn't exists: " << id.id()
-                      << std::endl;
+            std::stringstream ss;
+            ss << "Warning: Sphere Network entity id doesn't exists: " << id.id();
+            LOG_WARN(ss.str());
             continue;
         }
         if (not filter_comms_plane_) {

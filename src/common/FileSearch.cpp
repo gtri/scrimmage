@@ -32,7 +32,6 @@
 
 #include "scrimmage/common/FileSearch.h"
 
-#include <iostream>
 #include <unordered_set>
 
 #include <boost/algorithm/string/predicate.hpp>
@@ -44,6 +43,7 @@
 #include <boost/range/algorithm/sort.hpp>
 #include <boost/tokenizer.hpp>
 
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ParseUtils.h"
 
 namespace fs = ::boost::filesystem;
@@ -101,7 +101,7 @@ bool FileSearch::find_file(
 
     auto dbg = [&](std::string msg) {
         if (verbose)
-            std::cout << "find_file: " << msg << std::endl;
+            LOG_INFO("find_file: " << msg);
     };
     dbg(std::string("looking for ") + search_filename);
 
@@ -130,13 +130,12 @@ bool FileSearch::find_file(
     result = filenames.back();
 
     if (filenames.size() > 1) {
-        std::cout << "===============================================" << std::endl;
-        std::cout << "WARNING: Multiple XML files with same name found" << std::endl;
+        std::ostringstream paths_ss;
         for (std::string& full_path : filenames) {
-            std::cout << full_path << std::endl;
+            paths_ss << full_path << ", ";
         }
-        std::cout << "Using XML file at: " << result << std::endl;
-        std::cout << "===============================================" << std::endl;
+        LOG_WARN("Multiple XML files with same name found: " << paths_ss.str()
+                 << "Using XML file at: " << result);
     }
     return true;
 }
@@ -150,7 +149,7 @@ void FileSearch::find_files(
     bool verbose) {
     auto dbg = [&](std::string msg) {
         if (verbose)
-            std::cout << "find_files: " << msg << std::endl;
+            LOG_INFO("find_files: " << msg);
     };
 
     auto cache_it = cache_.find(env_var);
@@ -175,7 +174,7 @@ void FileSearch::find_files(
     if (env_var.find("/") == std::string::npos) {
         const char* env_p = std::getenv(env_var.c_str());
         if (env_p == NULL) {
-            std::cout << env_var << " environment variable not set" << std::endl;
+            LOG_WARN(env_var << " environment variable not set");
             return;
         }
 
@@ -232,7 +231,7 @@ void FileSearch::find_files(
                 ++it;
             }
         } else if (env_path != env_var) {
-            std::cout << "Search path doesn't exist: " << t << std::endl;
+            LOG_WARN("Search path doesn't exist: " << t);
         }
     }
 

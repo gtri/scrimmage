@@ -38,14 +38,12 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Battery.pb.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -74,9 +72,9 @@ void MotionBattery::init(std::map<std::string, std::string>& params) {
     if (get_vec_of_vecs(sc::get<std::string>("depletion_map", params, ""), vecs)) {
         for (auto& vec : vecs) {
             if (vec.size() != 5) {
-                cout << "Invalid depletion mapping: " << endl;
-                for (std::string s : vec) {
-                    cout << s << " ";
+                LOG_ERROR("Invalid depletion mapping");
+                for (const std::string& s : vec) {
+                    LOG_ERROR("  " << s);
                 }
                 continue;
             }
@@ -84,7 +82,7 @@ void MotionBattery::init(std::map<std::string, std::string>& params) {
             std::string name = vec[0];
             auto it_name = io_map_.find(name);
             if (it_name == io_map_.end()) {
-                cout << "MotionBattery: Invalid variable name: " << name << endl;
+                LOG_ERROR("MotionBattery: Invalid variable name: " << name);
             } else {
                 it_name->second->depletion_rate = std::stod(vec[1]);
                 it_name->second->limit_when_depleted = str2bool(vec[3]);
@@ -92,7 +90,7 @@ void MotionBattery::init(std::map<std::string, std::string>& params) {
             }
         }
     } else {
-        cout << "Failed to parse depletion_map" << endl;
+        LOG_ERROR("Failed to parse depletion_map");
     }
 
     // Charging subscriber

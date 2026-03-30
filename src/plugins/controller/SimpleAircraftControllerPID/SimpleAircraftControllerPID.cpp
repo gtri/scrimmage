@@ -35,6 +35,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -52,13 +53,13 @@ namespace sc = scrimmage;
 
 void SimpleAircraftControllerPID::init(std::map<std::string, std::string>& params) {
     if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set heading PID" << std::endl;
+        LOG_ERROR("Failed to set heading PID");
     }
     if (!alt_pid_.init(params["alt_pid"], false)) {
-        std::cout << "Failed to set altitude PID" << std::endl;
+        LOG_ERROR("Failed to set altitude PID");
     }
     if (!vel_pid_.init(params["vel_pid"], false)) {
-        std::cout << "Failed to set velocity PID" << std::endl;
+        LOG_ERROR("Failed to set velocity PID");
     }
     use_roll_ = sc::str2bool(params.at("use_roll"));
     use_glide_slope_ = sc::str2bool(params.at("use_glide_slope"));

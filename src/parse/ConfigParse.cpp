@@ -38,6 +38,7 @@
 
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/Logger.h"
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
@@ -49,7 +50,6 @@
 namespace fs = boost::filesystem;
 namespace rx = rapidxml;
 
-using std::cout;
 using std::endl;
 
 namespace scrimmage {
@@ -113,13 +113,11 @@ bool ConfigParse::parse(
     bool status = file_search.find_file(filename, "xml", env_var, result, verbose);
     if (!status) {
         if (boost::algorithm::to_lower_copy(filename) != "sphere") {
-            // sphere does not have a filename so we do not
-            // need a warning message for this
-            cout << "Failed to find configuration: " << filename << endl;
+            LOG_WARN("Failed to find configuration: " << filename);
         }
         return false;
     } else if (verbose) {
-        cout << "ConfigParse: found " << result << std::endl;
+        LOG_INFO("ConfigParse: found " << result);
     }
     filename_ = result;
 
@@ -133,7 +131,7 @@ bool ConfigParse::parse(
 
     rx::xml_node<>* config_node = doc.first_node("params");
     if (config_node == 0) {
-        cout << "Missing tag: params" << endl;
+        LOG_ERROR("Missing tag: params");
         return false;
     }
 
@@ -154,7 +152,7 @@ bool ConfigParse::parse(
 
     for (std::string& node_name : required_) {
         if (params_.count(node_name) == 0) {
-            cout << "Config file is missing XML tag: " << node_name << endl;
+            LOG_ERROR("Config file is missing XML tag: " << node_name);
             return false;
         }
     }
@@ -192,7 +190,7 @@ std::string ConfigParse::stem() {
 
 void ConfigParse::print_params() {
     for (auto& kv : params_) {
-        cout << kv.first << "=" << kv.second << endl;
+        LOG_INFO(kv.first << "=" << kv.second);
     }
 }
 

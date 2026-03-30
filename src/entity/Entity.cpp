@@ -56,12 +56,10 @@
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/sensor/Sensor.h"
 #include "scrimmage/simcontrol/SimUtils.h"
-
-using std::cout;
-using std::endl;
 
 namespace sp = scrimmage_proto;
 namespace br = boost::range;
@@ -71,7 +69,6 @@ namespace scrimmage {
 
 bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     pubsub_ = sim_info.pubsub;
-    printer_ = sim_info.printer;
     global_services_ = sim_info.global_services;
     time_ = sim_info.time;
     file_search_ = sim_info.file_search;
@@ -99,7 +96,12 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
     id_.set_id(id);
     id_.set_sub_swarm_id(ent_desc_id);
-    id_.set_team_id(std::stoi(info["team_id"]));
+    try {
+        id_.set_team_id(std::stoi(info["team_id"]));
+    } catch (const std::exception& e) {
+        LOG_ERROR("Entity " << id << ": failed to parse team_id '" << info["team_id"] << "': " << e.what());
+        return false;
+    }
 
     if (mp == nullptr) {
         mp_ = std::make_shared<MissionParse>();
@@ -109,7 +111,11 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     }
 
     if (info.count("health") > 0) {
-        health_points_ = std::stoi(info["health"]);
+        try {
+            health_points_ = std::stoi(info["health"]);
+        } catch (const std::exception& e) {
+            LOG_ERROR("Entity " << id << ": failed to parse health '" << info["health"] << "': " << e.what());
+        }
     }
 
     radius_ = get<double>("radius", info, 1.0);
@@ -169,9 +175,10 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             overrides[sensor_order_name],
             plugin_tags);
         if (status.status == PluginStatus<Sensor>::cast_failed) {
-            std::cout << "Failed to open sensor plugin: " << sensor_name << std::endl;
+            LOG_ERROR("Failed to open sensor plugin: " << sensor_name);
             return false;
         } else if (status.status == PluginStatus<Sensor>::parse_failed) {
+            LOG_ERROR("Failed to parse sensor plugin config: " << sensor_name);
             return false;
         } else if (status.status == PluginStatus<Sensor>::loaded) {
             SensorPtr sensor = status.plugin;
@@ -214,11 +221,19 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             sensor->set_name(given_name);
 
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Sensor plugin params: " << given_name << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Sensor plugin params: " << given_name);
+                LOG_INFO(config_parse);
             }
-            sensor->init(config_parse.params());
+            try {
+                sensor->init(config_parse.params());
+            } catch (const std::exception& e) {
+                LOG_ERROR("Sensor plugin '" << given_name << "' threw exception during init: " << e.what());
+                return false;
+            } catch (...) {
+                LOG_ERROR("Sensor plugin '" << given_name << "' threw unknown exception during init");
+                return false;
+            }
             sensors_[given_name] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
@@ -240,9 +255,10 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             overrides["motion_model"],
             plugin_tags);
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            cout << "Failed to open motion model plugin: " << info["motion_model"] << endl;
+            LOG_ERROR("Failed to open motion model plugin: " << info["motion_model"]);
             return false;
         } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
+            LOG_ERROR("Failed to parse motion model plugin config: " << info["motion_model"]);
             return false;
         } else if (status.status == PluginStatus<MotionModel>::loaded) {
             // We have created a valid motion model
@@ -260,11 +276,19 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Motion plugin params: " << info["motion_model"] << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Motion plugin params: " << info["motion_model"]);
+                LOG_INFO(config_parse);
             }
-            motion_model_->init(info, config_parse.params());
+            try {
+                motion_model_->init(info, config_parse.params());
+            } catch (const std::exception& e) {
+                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw exception during init: " << e.what());
+                return false;
+            } catch (...) {
+                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw unknown exception during init");
+                return false;
+            }
         }
     } else if (use_gpu_motion_model) {
         gpu_motion_model->add_entity(shared_from_this());
@@ -315,9 +339,10 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             overrides[controller_name],
             plugin_tags);
         if (status.status == PluginStatus<Controller>::cast_failed) {
-            std::cout << "Failed to open controller plugin: " << controller_name << std::endl;
+            LOG_ERROR("Failed to open controller plugin: " << controller_name);
             return false;
         } else if (status.status == PluginStatus<Controller>::parse_failed) {
+            LOG_ERROR("Failed to parse controller plugin config: " << info[controller_name]);
             return false;
         } else if (status.status == PluginStatus<Controller>::loaded) {
             ControllerPtr controller = status.plugin;
@@ -358,11 +383,19 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
             // Initialize this controller.
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Controller plugin params: " << info[controller_name] << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Controller plugin params: " << info[controller_name]);
+                LOG_INFO(config_parse);
             }
-            controller->init(config_parse.params());
+            try {
+                controller->init(config_parse.params());
+            } catch (const std::exception& e) {
+                LOG_ERROR("Controller plugin '" << info[controller_name] << "' threw exception during init: " << e.what());
+                return false;
+            } catch (...) {
+                LOG_ERROR("Controller plugin '" << info[controller_name] << "' threw unknown exception during init");
+                return false;
+            }
 
             if (connect_to_motion_model && gpu_motion_model) {
                 controller->vars().create_unconnected_output();
@@ -372,17 +405,17 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             if (connect_to_motion_model) {
                 if (!gpu_motion_model
                     && !verify_io_connection(controller->vars(), motion_model_->vars())) {
-                    std::cout << "VariableIO Error: " << std::quoted(controller->name())
+                    LOG_ERROR("VariableIO Error: " << std::quoted(controller->name())
                               << " does not provide inputs required by motion model "
-                              << std::quoted(motion_model_->name()) << ": ";
+                              << std::quoted(motion_model_->name()));
                     print_io_error(motion_model_->name(), motion_model_->vars());
                     return false;
                 }
             } else if (not connect_to_motion_model) {
                 if (!verify_io_connection(controller->vars(), controllers_.back()->vars())) {
-                    std::cout << "VariableIO Error: " << std::quoted(controller->name())
+                    LOG_ERROR("VariableIO Error: " << std::quoted(controller->name())
                               << " does not provide inputs required by next controller "
-                              << std::quoted(controllers_.back()->name()) << ": ";
+                              << std::quoted(controllers_.back()->name()));
                     print_io_error(controllers_.back()->name(), controllers_.back()->vars());
                     return false;
                 }
@@ -402,13 +435,12 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     // this is a VariableIO error.
     if (motion_model_ != nullptr && motion_model_->vars().input_variable_index().size() > 0
         && controllers_.size() == 0) {
-        std::cout << "VariableIO Error: There are not any controllers that "
-                  << "provide the inputs required by " << std::quoted(motion_model_->name())
-                  << std::endl;
+        LOG_ERROR("VariableIO Error: There are not any controllers that "
+                  << "provide the inputs required by " << std::quoted(motion_model_->name()));
         print_io_error(motion_model_->name(), motion_model_->vars());
-        std::cout << "If you want to directly pass the outputs from the "
+        LOG_INFO("If you want to directly pass the outputs from the "
                   << "autonomy to the motion_model, see the DirectController "
-                  << "controller plugin." << std::endl;
+                  << "controller plugin.");
         return false;
     }
 
@@ -453,7 +485,11 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
     bool connect_entity = true;
     if (info.count("connect_entity") > 0) {
-        connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
+        try {
+            connect_entity = boost::lexical_cast<bool>(info["connect_entity"]);
+        } catch (const boost::bad_lexical_cast& e) {
+            LOG_ERROR("Entity " << id << ": failed to parse connect_entity '" << info["connect_entity"] << "': " << e.what());
+        }
     }
 
     // Verify that at least one autonomy provides the inputs to the first
@@ -464,15 +500,15 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             return verify_io_connection(autonomy->vars(), controllers_.front()->vars());
         };
         if (boost::algorithm::none_of(autonomies_, verify_io)) {
-            auto out_it = std::ostream_iterator<std::string>(std::cout, ", ");
-            std::cout << "VariableIO Error: "
+            std::ostringstream autonomy_names_ss;
+            for (const auto& a : autonomies_) {
+                autonomy_names_ss << a->name() << ", ";
+            }
+            LOG_ERROR("VariableIO Error: "
                       << "no autonomies provide inputs required by Controller "
                       << std::quoted(controllers_.front()->name())
-                      << ". Add VariableIO output declarations in ";
-            auto get_name = [&](auto& p) { return p->name(); };
-            br::copy(autonomies_ | ba::transformed(get_name), out_it);
-            std::cout << "as follows " << std::endl;
-
+                      << ". Add VariableIO output declarations in "
+                      << autonomy_names_ss.str());
             print_io_error(controllers_.front()->name(), controllers_.front()->vars());
             return false;
         }
@@ -565,9 +601,9 @@ StatePtr& Entity::state() {
 
 void Entity::set_state_belief(const StatePtr& other) {
     if (state_belief_ == state_truth_) {
-        std::cout << "Decoupling State Belief and State Truth. Ensure that you "
+        LOG_WARN("Decoupling State Belief and State Truth. Ensure that you "
                      "have an explicit "
-                  << "method of updating the state belief.\n";
+                  << "method of updating the state belief.");
         state_belief_ = std::make_shared<State>();
     }
     *state_belief_ = *other;
@@ -575,9 +611,9 @@ void Entity::set_state_belief(const StatePtr& other) {
 
 void Entity::set_state_belief(const State& other) {
     if (state_belief_ == state_truth_) {
-        std::cout << "Decoupling State Belief and State Truth. Ensure that you "
+        LOG_WARN("Decoupling State Belief and State Truth. Ensure that you "
                      "have an explicit "
-                  << "method of updating the state belief.\n";
+                  << "method of updating the state belief.");
         state_belief_ = std::make_shared<State>();
     }
     *state_belief_ = other;
@@ -736,13 +772,12 @@ bool Entity::call_service(
         // First check for a global service of this name
         bool found = global_services_->call_service(req, res, service_name);
         if (!found) {
-            std::cout << "request for service (" << service_name << ") that does not exist"
-                      << std::endl;
-            std::cout << "services are: ";
+            std::ostringstream services_ss;
             for (auto& kv : services_) {
-                std::cout << kv.first << ", ";
+                services_ss << kv.first << ", ";
             }
-            std::cout << std::endl;
+            LOG_WARN("request for service (" << service_name << ") that does not exist. "
+                      << "services are: " << services_ss.str());
             return false;
         } else {
             return true;
@@ -753,7 +788,7 @@ bool Entity::call_service(
     bool success = service(req, res);
 
     if (!success) {
-        std::cout << "call to " << service_name << " failed" << std::endl;
+        LOG_WARN("call to " << service_name << " failed");
         return false;
     } else {
         return true;
@@ -761,7 +796,7 @@ bool Entity::call_service(
 }
 
 void Entity::print(const std::string& msg) {
-    std::cout << msg << std::endl;
+    LOG_INFO(msg);
 }
 
 void Entity::close(double t) {
@@ -797,7 +832,6 @@ void Entity::close(double t) {
     plugin_manager_ = nullptr;
     file_search_ = nullptr;
     pubsub_ = nullptr;
-    printer_ = nullptr;
     global_services_ = nullptr;
     time_ = nullptr;
 }
@@ -808,9 +842,6 @@ std::unordered_map<std::string, MessageBasePtr>& Entity::properties() {
 
 void Entity::set_time_ptr(TimePtr t) {
     time_ = t;
-}
-void Entity::set_printer(PrintPtr printer) {
-    printer_ = printer;
 }
 
 void Entity::set_gpu_controller(GPUControllerPtr gpu_controller) {
@@ -827,21 +858,21 @@ void Entity::set_projection(const std::shared_ptr<GeographicLib::LocalCartesian>
 }
 
 void Entity::print_plugins(std::ostream& out) const {
-    out << "----------- Sensor -------------" << endl;
+    out << "----------- Sensor -------------" << std::endl;
     for (auto& kv : sensors_) {
-        out << kv.second->name() << endl;
+        out << kv.second->name() << std::endl;
     }
-    out << "---------- Autonomy ------------" << endl;
+    out << "---------- Autonomy ------------" << std::endl;
     for (AutonomyPtr a : autonomies_) {
-        out << a->name() << endl;
+        out << a->name() << std::endl;
     }
-    out << "---------- Controller ----------" << endl;
+    out << "---------- Controller ----------" << std::endl;
     for (ControllerPtr c : controllers_) {
-        out << c->name() << endl;
+        out << c->name() << std::endl;
     }
-    out << "----------- Motion -------------" << endl;
+    out << "----------- Motion -------------" << std::endl;
     if (motion_model_->name() != "BLANK") {
-        out << motion_model_->name() << endl;
+        out << motion_model_->name() << std::endl;
     }
 }
 

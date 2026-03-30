@@ -47,6 +47,7 @@
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/entity/EntityPluginHelper.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ConfigParse.h"
@@ -56,9 +57,6 @@
 #include "scrimmage/plugins/autonomy/MotorSchemas/BehaviorBase.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -78,7 +76,7 @@ void MotorSchemas::init(std::map<std::string, std::string>& params) {
     vz_lower_bound_ = sc::get<double>("vz_lower_bound", params, -1.0);
 
     auto max_speed_cb = [&](const double& max_speed) {
-        cout << "MotorSchemas Max speed set: " << max_speed << endl;
+        LOG_INFO("MotorSchemas Max speed set: " << max_speed);
     };
     register_param<double>("max_speed", max_speed_, max_speed_cb);
 
@@ -102,7 +100,7 @@ void MotorSchemas::init(std::map<std::string, std::string>& params) {
     std::list<PluginOverrides> plugin_overrides_list;
     if (sc::parse_plugin_vector("behaviors", params, plugin_overrides_list)
         == static_cast<unsigned int>(0)) {
-        cout << "MotorSchemas: Failed to parse any behaviors." << endl;
+        LOG_WARN("MotorSchemas: Failed to parse any behaviors.");
     }
 
     // Create the plugin for each autonomy/behavior
@@ -178,7 +176,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
             }
         }
         if (!behavior->step_autonomy(time_->t(), time_->dt())) {
-            cout << "MotorSchemas: behavior error" << endl;
+            LOG_ERROR("MotorSchemas: behavior error");
         }
 
         // Grab the desired vector and normalize to max_speed if too large
@@ -188,7 +186,7 @@ bool MotorSchemas::step_autonomy(double t, double dt) {
         }
 
         if (desired_vector.hasNaN()) {
-            cout << "Behavior error: " << behavior->name() << ", desired vector has NaN" << endl;
+            LOG_ERROR("Behavior error: " << behavior->name() << ", desired vector has NaN");
             continue;
         }
 

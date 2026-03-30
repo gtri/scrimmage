@@ -48,9 +48,6 @@
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
-using std::cout;
-using std::endl;
-
 namespace sc = scrimmage;
 
 REGISTER_PLUGIN(scrimmage::Network, scrimmage::network::LocalNetwork, LocalNetwork_plugin)

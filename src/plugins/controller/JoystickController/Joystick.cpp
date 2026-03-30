@@ -36,10 +36,8 @@
 #include <iostream>
 
 #include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ParseUtils.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -61,7 +59,7 @@ void Joystick::init(
 
     std::string dev = sc::get<std::string>("device", params, "/dev/input/js0");
     if ((joy_fd_ = open(dev.c_str(), O_RDONLY)) == -1) {
-        cout << "couldn't open joystick: " << dev << endl;
+        LOG_ERROR("couldn't open joystick: " << dev);
     }
 
     char name_of_joystick[80];
@@ -76,9 +74,9 @@ void Joystick::init(
     prev_button_state_.resize(num_of_buttons_);
 
     if (print_js_values_) {
-        cout << "Joystick detected:" << *name_of_joystick << endl;
-        cout << "\t " << num_of_axis_ << " axis" << endl;
-        cout << "\t " << num_of_buttons_ << " buttons" << endl;
+        LOG_INFO("Joystick detected:" << name_of_joystick);
+        LOG_INFO("\t " << num_of_axis_ << " axis");
+        LOG_INFO("\t " << num_of_buttons_ << " buttons");
     }
 
     fcntl(joy_fd_, F_SETFL, O_NONBLOCK);  // use non-blocking mode
@@ -86,20 +84,20 @@ void Joystick::init(
     std::string axis_map = sc::get<std::string>("axis_map", params, "");
     std::vector<std::vector<std::string>> vecs;
     if (!sc::get_vec_of_vecs(axis_map, vecs)) {
-        cout << "Failed to parse axis map:" << axis_map << endl;
+        LOG_ERROR("Failed to parse axis map:" << axis_map);
     } else {
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 7) {
-                cout << "Invalid joystick axis mapping: " << endl;
+                LOG_ERROR("Invalid joystick axis mapping: ");
                 for (std::string s : vec) {
-                    cout << s << " ";
+                    LOG_ERROR(s << " ");
                 }
                 continue;
             }
 
             int axis = std::stod(vec[1]);
             if (axis >= num_of_axis_) {
-                cout << "Warning: axis_map contains out-of-range axis index" << endl;
+                LOG_WARN("axis_map contains out-of-range axis index");
             } else {
                 AxisScale at(
                     axis,

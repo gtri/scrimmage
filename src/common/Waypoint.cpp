@@ -32,11 +32,11 @@
 #include "scrimmage/common/Waypoint.h"
 
 #include <iomanip>
-#include <iostream>
 #include <limits>
 
 #include <GeographicLib/LocalCartesian.hpp>
 
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/proto/ProtoConversions.h"
 
@@ -76,7 +76,7 @@ Waypoint::Waypoint(const scrimmage_msgs::Waypoint& wp)
         if (lla.alt_oneof_case() == sc_msgs::PositionLLA::kAltMsl) {
             alt = lla.alt_msl();
         } else {
-            std::cout << "Waypoints only support alt_msl()!" << std::endl;
+            LOG_WARN("Waypoints only support alt_msl()!");
         }
         return alt;
     };

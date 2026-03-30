@@ -49,6 +49,7 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
@@ -58,9 +59,6 @@
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 using ang = scrimmage::Angles;
 
@@ -139,7 +137,7 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string>& para
                         c.img_type = ma::ImageCaptureBase::ImageType::Infrared;
                         c.img_type_name = "Infrared";
                     } else {
-                        cout << "Error: Unknown image type: " << tokens_2[2] << endl;
+                        LOG_ERROR("Unknown image type: " << tokens_2[2]);
                         c.img_type = ma::ImageCaptureBase::ImageType::Scene;
                         c.img_type_name = "Scene";
                     }
@@ -149,12 +147,12 @@ void AirSimSensor::parse_camera_configs(std::map<std::string, std::string>& para
                     c.height = std::stoi(tokens_2[4]);
                     c.fov = std::stoi(tokens_2[5]);
 
-                    cout << "[AirSimSensor] Adding camera to Vehicle '" << vehicle_name_ << "' "
-                         << c << endl;
+                    LOG_INFO("[AirSimSensor] Adding camera to Vehicle '" << vehicle_name_ << "' "
+                         << c);
                     cam_configs_.push_back(c);
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
-                    cout << "Parse Error: Check camera_config's in AirSimSensor.xml" << endl;
+                    LOG_ERROR("Parse Error: Check camera_config's in AirSimSensor.xml");
                 }  // end try, catch
             }
         }  // end check token_1 size
@@ -175,8 +173,8 @@ void AirSimSensor::parse_lidar_configs(std::map<std::string, std::string>& param
 
             if ((tokens_2.size() == 2) && (tokens_2[0] == vehicle_name_)) {
                 try {
-                    cout << "[AirSimSensor] Adding LIDAR sensor '" << tokens_2[1]
-                         << "' to Vehicle '" << vehicle_name_ << "'." << endl;
+                    LOG_INFO("[AirSimSensor] Adding LIDAR sensor '" << tokens_2[1]
+                         << "' to Vehicle '" << vehicle_name_ << "'.");
                     lidar_names_.push_back(tokens_2[1]);
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
@@ -200,8 +198,8 @@ void AirSimSensor::parse_imu_configs(std::map<std::string, std::string>& params)
 
             if ((tokens_2.size() == 2) && (tokens_2[0] == vehicle_name_)) {
                 try {
-                    cout << "[AirSimSensor] Adding IMU sensor '" << tokens_2[1] << "' to Vehicle '"
-                         << vehicle_name_ << "'." << endl;
+                    LOG_INFO("[AirSimSensor] Adding IMU sensor '" << tokens_2[1] << "' to Vehicle '"
+                         << vehicle_name_ << "'.");
                     imu_names_.push_back(tokens_2[1]);
                 } catch (boost::bad_lexical_cast) {
                     // Parsing whitespace and possibily malformed XML.
@@ -219,12 +217,10 @@ void AirSimSensor::init(std::map<std::string, std::string>& params) {
 
     // Mission File params
     vehicle_name_ = sc::get<std::string>("vehicle_name", params, "robot1");
-    cout << "[AirSimSensor] Vehicle Name: " << vehicle_name_ << endl;
+    LOG_INFO("[AirSimSensor] Vehicle Name: " << vehicle_name_);
     save_airsim_data_ = sc::get<bool>("save_airsim_data", params, "true");
     if (save_airsim_data_) {
-        cout << "[AirSimSensor] Saving camera images and airsim_data.csv of pose to SCRIMMAGE Logs "
-                "Directory."
-             << endl;
+        LOG_INFO("[AirSimSensor] Saving camera images and airsim_data.csv of pose to SCRIMMAGE Logs Directory.");
     }
     get_image_data_ = sc::get<bool>("get_image_data", params, "true");
     get_lidar_data_ = sc::get<bool>("get_lidar_data", params, "true");
@@ -238,16 +234,15 @@ void AirSimSensor::init(std::map<std::string, std::string>& params) {
     std::string csv_filename = parent_->mp()->log_dir() + "/airsim_data_robot"
                                + std::to_string(parent_->id().id()) + ".csv";
     if (!csv.open_output(csv_filename, std::ios_base::app))
-        std::cout << "Couldn't create csv file" << endl;
+        LOG_ERROR("Couldn't create csv file");
     if (!csv.output_is_open())
-        cout << "File isn't open. Can't write to CSV" << endl;
+        LOG_ERROR("File isn't open. Can't write to CSV");
     csv.set_column_headers("frame, t, x, y, z, roll, pitch, yaw");
 
     //// Publish Images
     if (get_image_data_) {
-        cout << "[AirSimSensor] Retrieving image data within AirSimSensor::request_images() thread."
-             << endl;
-        cout << "[AirSimSensor] Image Acquisition Period = " << image_acquisition_period_ << endl;
+        LOG_INFO("[AirSimSensor] Retrieving image data within AirSimSensor::request_images() thread.");
+        LOG_INFO("[AirSimSensor] Image Acquisition Period = " << image_acquisition_period_);
         // Get camera configurations
         AirSimSensor::parse_camera_configs(params);
         img_pub_ = advertise("LocalNetwork", "AirSimImages");
@@ -258,9 +253,8 @@ void AirSimSensor::init(std::map<std::string, std::string>& params) {
 
     //// Publish Lidar
     if (get_lidar_data_) {
-        cout << "[AirSimSensor] Retrieving LIDAR data within AirSimSensor::request_lidar() thread."
-             << endl;
-        cout << "[AirSimSensor] LIDAR Acquisition Period = " << lidar_acquisition_period_ << endl;
+        LOG_INFO("[AirSimSensor] Retrieving LIDAR data within AirSimSensor::request_lidar() thread.");
+        LOG_INFO("[AirSimSensor] LIDAR Acquisition Period = " << lidar_acquisition_period_);
         AirSimSensor::parse_lidar_configs(params);
         lidar_pub_ = advertise("LocalNetwork", "AirSimLidar");
         auto lidar_msg_ = std::make_shared<sc::Message<std::vector<AirSimLidarType>>>();
@@ -270,9 +264,8 @@ void AirSimSensor::init(std::map<std::string, std::string>& params) {
 
     //// Publish Imu
     if (get_imu_data_) {
-        cout << "[AirSimSensor] Retrieving IMU data within AirSimSensor::request_imu() thread."
-             << endl;
-        cout << "[AirSimSensor] IMU Acquisition Period = " << imu_acquisition_period_ << endl;
+        LOG_INFO("[AirSimSensor] Retrieving IMU data within AirSimSensor::request_imu() thread.");
+        LOG_INFO("[AirSimSensor] IMU Acquisition Period = " << imu_acquisition_period_);
         AirSimSensor::parse_imu_configs(params);
         imu_pub_ = advertise("LocalNetwork", "AirSimImu");
         auto imu_msg_ = std::make_shared<sc::Message<std::vector<AirSimImuType>>>();
@@ -291,11 +284,8 @@ void AirSimSensor::request_images() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             // If we haven't been able to connect to AirSim, warn the user and return
             if (i == 10) {
-                cout << "\n[AirSimSensor] Warning: Image client could not connect to AirSim."
-                     << endl;
-                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE "
-                        "mission.\n"
-                     << endl;
+                LOG_WARN("[AirSimSensor] Image client could not connect to AirSim.");
+                LOG_WARN("[AirSimSensor] Please start Unreal/AirSim before the SCRIMMAGE mission.");
                 return;
             }
             std::shared_ptr<ma::RpcLibClientBase> img_client =
@@ -450,11 +440,8 @@ void AirSimSensor::request_lidar() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             // If we haven't been able to connect to AirSim, warn the user and return
             if (i == 10) {
-                cout << "\n[AirSimSensor] Warning: LIDAR client could not connect to AirSim."
-                     << endl;
-                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE "
-                        "mission.\n"
-                     << endl;
+                LOG_WARN("[AirSimSensor] LIDAR client could not connect to AirSim.");
+                LOG_WARN("[AirSimSensor] Please start Unreal/AirSim before the SCRIMMAGE mission.");
                 return;
             }
             std::shared_ptr<ma::RpcLibClientBase> lidar_client =
@@ -538,10 +525,8 @@ void AirSimSensor::request_imu() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             // If we haven't been able to connect to AirSim, warn the user and return
             if (i == 10) {
-                cout << "\n[AirSimSensor] Warning: IMU client could not connect to AirSim." << endl;
-                cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the SCRIMMAGE "
-                        "mission.\n"
-                     << endl;
+                LOG_WARN("[AirSimSensor] IMU client could not connect to AirSim.");
+                LOG_WARN("[AirSimSensor] Please start Unreal/AirSim before the SCRIMMAGE mission.");
                 return;
             }
             std::shared_ptr<ma::RpcLibClientBase> imu_client =
@@ -619,7 +604,7 @@ bool AirSimSensor::step() {
     ///////////////////////////////////////////////////////////////////////////
 
     if (!client_connected_) {
-        cout << vehicle_name_ << " Sim Client waiting for Unreal/AirSim connection - " << endl;
+        LOG_INFO(vehicle_name_ << " Sim Client waiting for Unreal/AirSim connection");
         sim_client_ = std::make_shared<ma::MultirotorRpcLibClient>(
             airsim_ip_,
             airsim_port_,
@@ -629,15 +614,11 @@ bool AirSimSensor::step() {
         for (int i = 0; i < 11; i++) {
             if (sim_client_->getConnectionState()
                 != ma::RpcLibClientBase::ConnectionState::Connected) {
-                cout << "X" << std::flush;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 // If we haven't been able to connect to AirSim, warn the user and return.
                 if (i == 10) {
-                    cout << "\n[AirSimSensor] Warning: Sim client could not connect to AirSim."
-                         << endl;
-                    cout << "[AirSimSensor] Warning: Please start Unreal/AirSim before the "
-                            "SCRIMMAGE mission.\n"
-                         << endl;
+                    LOG_WARN("[AirSimSensor] Sim client could not connect to AirSim.");
+                    LOG_WARN("[AirSimSensor] Please start Unreal/AirSim before the SCRIMMAGE mission.");
                     return false;
                 }
                 std::shared_ptr<ma::RpcLibClientBase> imu_client =
@@ -647,9 +628,8 @@ bool AirSimSensor::step() {
                         airsim_timeout_s_);
             } else {
                 client_connected_ = true;
-                cout << "[AirSimSensor] Sim Client for " << vehicle_name_
-                     << " connected to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_
-                     << endl;
+                LOG_INFO("[AirSimSensor] Sim Client for " << vehicle_name_
+                     << " connected to AirSim: ip " << airsim_ip_ << ", port " << airsim_port_);
                 break;
             }
         }
@@ -776,7 +756,7 @@ bool AirSimSensor::save_data(
 
     // Write the CSV file to the root log directory file name = airsim_data.csv
     if (!csv.output_is_open()) {
-        cout << "[AirSimSensor] File isn't open. Can't append to CSV" << endl;
+        LOG_ERROR(\"[AirSimSensor] File isn't open. Can't append to CSV\");
     }
     csv.append(
         sc::CSV::Pairs{

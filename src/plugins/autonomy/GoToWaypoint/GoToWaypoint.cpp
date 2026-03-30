@@ -38,14 +38,12 @@
 #include <GeographicLib/LocalCartesian.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -71,7 +69,7 @@ bool GoToWaypoint::step_autonomy(double t, double dt) {
 
         std::string type = waypoint_[0];
         if (type != "XYZ" && type != "GPS") {
-            std::cout << "Invalid waypoint type: " << type << std::endl;
+            LOG_ERROR("Invalid waypoint type: " << type);
         } else if (type == "XYZ") {
             parent_->projection()->Reverse(lat, lon, alt, lat, lon, alt);
         }

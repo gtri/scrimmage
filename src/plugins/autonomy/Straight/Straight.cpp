@@ -34,6 +34,7 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/math/StateWithCovariance.h"
@@ -96,8 +97,7 @@ void Straight::init(std::map<std::string, std::string>& params) {
 
     // Register the desired_z parameter with the parameter server
     auto param_cb = [&](const double& desired_z) {
-        std::cout << "desired_z param changed at: " << time_->t() << ", with value: " << desired_z
-                  << endl;
+        LOG_INFO("desired_z param changed at: " << time_->t() << ", with value: " << desired_z);
     };
     register_param<double>("desired_z", goal_(2), param_cb);
 
@@ -171,11 +171,9 @@ void Straight::init(std::map<std::string, std::string>& params) {
                 } else {
                     // other image types are int 0-255.
                     if (a.img.channels() == 4) {
-                        cout << "image channels: " << a.img.channels() << endl;
-                        cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. "
-                                "Color images will not display correctly."
-                             << endl;
-                        cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;
+                        LOG_INFO("image channels: " << a.img.channels());
+                        LOG_WARN("Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly.");
+                        LOG_WARN("Use Asset Environment versions Linux-v1.3.1+.");
                         cv::Mat tempImage;
                         cv::cvtColor(a.img, tempImage, CV_RGBA2RGB);
                         cv::imshow(window_name, tempImage);

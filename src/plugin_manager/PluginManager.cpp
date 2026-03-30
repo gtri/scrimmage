@@ -41,6 +41,7 @@
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 
@@ -54,9 +55,7 @@ int PluginManager::check_library(std::string lib_path) {
     lib_handle = dlopen(lib_path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 #endif
     if (!lib_handle) {
-        std::cout << "Trying to open " << lib_path;
-        fprintf(stdout, ", dlopen failed: %s\n", dlerror());
-        std::cout << std::endl;
+        LOG_ERROR("Failed to open " << lib_path << ", dlopen failed: " << dlerror());
         return -1;
     }
 
@@ -67,7 +66,7 @@ int PluginManager::check_library(std::string lib_path) {
     type_func = (plugin_type_t)dlsym(lib_handle, "plugin_type");
     if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
-        std::cout << lib_path << " doesn't contain 'plugin_type'" << std::endl;
+        LOG_WARN(lib_path << " doesn't contain 'plugin_type'");
         dlclose(lib_handle);
         return 1;
     }
@@ -78,7 +77,7 @@ int PluginManager::check_library(std::string lib_path) {
     name_func = (plugin_name_t)dlsym(lib_handle, "plugin_name");
     if ((error = dlerror()) != NULL) {
         // fputs(error, stderr);
-        std::cout << lib_path << " doesn't contain 'plugin_name'" << std::endl;
+        LOG_WARN(lib_path << " doesn't contain 'plugin_name'");
         dlclose(lib_handle);
         return 3;
     }
@@ -88,7 +87,7 @@ int PluginManager::check_library(std::string lib_path) {
     dlsym(lib_handle, "maker");
     if ((error = dlerror()) != NULL) {
         fputs(error, stderr);
-        std::cout << lib_path << " doesn't contain 'maker'" << std::endl;
+        LOG_WARN(lib_path << " doesn't contain 'maker'");
         dlclose(lib_handle);
         return 4;
     }
@@ -125,25 +124,25 @@ void PluginManager::print_plugins(
         }
     }
 
-    std::cout << "------------------------------" << std::endl;
-    std::cout << title << ": " << std::endl;
-    std::cout << "------------------------------" << std::endl;
+    LOG_INFO("------------------------------");
+    LOG_INFO(title << ": ");
+    LOG_INFO("------------------------------");
     if (plugins_info_.count(plugin_type) > 0) {
         for (auto& kv : plugins_info_[plugin_type]) {
-            std::cout << kv.first << std::endl;
+            LOG_INFO(kv.first);
         }
     } else {
-        std::cout << "Plugin type doesn't exist: " << plugin_type << std::endl;
+        LOG_WARN("Plugin type doesn't exist: " << plugin_type);
     }
-    std::cout << "------------------------------" << std::endl;
+    LOG_INFO("------------------------------");
 }
 
 void PluginManager::print_returned_plugins() {
-    std::cout << "using the following plugins:" << std::endl;
+    LOG_INFO("using the following plugins:");
     for (auto& kv : plugins_info_) {
         for (auto& kv2 : kv.second) {
             if (kv2.second.returned) {
-                std::cout << kv.first << "::" << kv2.first << std::endl;
+                LOG_INFO(kv.first << "::" << kv2.first);
             }
         }
     }
@@ -165,7 +164,7 @@ PluginPtr PluginManager::make_plugin_helper(std::string& plugin_type, std::strin
             maker_func = (PluginPtr (*)(void))dlsym(it2->second.handle, "maker");
             char* error;
             if ((error = dlerror()) != NULL) {
-                fputs(error, stderr);
+                LOG_ERROR("dlsym failed for plugin '" << plugin_name << "': " << error);
                 return nullptr;
             } else {
                 return (*maker_func)();

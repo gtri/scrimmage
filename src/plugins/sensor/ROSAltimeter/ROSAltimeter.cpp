@@ -47,8 +47,6 @@
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 

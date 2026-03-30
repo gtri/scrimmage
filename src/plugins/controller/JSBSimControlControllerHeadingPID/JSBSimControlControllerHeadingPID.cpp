@@ -37,6 +37,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
@@ -64,13 +65,13 @@ void JSBSimControlControllerHeadingPID::init(std::map<std::string, std::string>&
     angles_to_jsbsim_.set_output_zero_axis(ang::HeadingZero::Pos_Y);
 
     if (!roll_pid_.init(params["roll_pid"], true)) {
-        std::cout << "Failed to parse roll_pid." << std::endl;
+        LOG_ERROR("Failed to parse roll_pid.");
     }
     if (!pitch_pid_.init(params["pitch_pid"], true)) {
-        std::cout << "Failed to parse pitch_pid." << std::endl;
+        LOG_ERROR("Failed to parse pitch_pid.");
     }
     if (!yaw_pid_.init(params["yaw_pid"], true)) {
-        std::cout << "Failed to parse yaw_pid." << std::endl;
+        LOG_ERROR("Failed to parse yaw_pid.");
     }
 
     // Setup variable index for controllers

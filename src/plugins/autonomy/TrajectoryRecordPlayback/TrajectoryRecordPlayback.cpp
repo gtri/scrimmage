@@ -34,14 +34,12 @@
 #include <iostream>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/autonomy/TrajectoryRecordPlayback/TrajectoryPoint.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -72,7 +70,7 @@ void TrajectoryRecordPlayback::init(std::map<std::string, std::string>& params) 
         this->set_is_controlling(false);
 
         if (!csv_.open_output(trajectory_filename_)) {
-            cout << "Unable to open log file" << endl;
+            LOG_ERROR("Unable to open log file");
             return;
         }
         csv_.set_column_headers(
@@ -85,7 +83,7 @@ void TrajectoryRecordPlayback::init(std::map<std::string, std::string>& params) 
         this->set_is_controlling(true);
 
         if (!csv_.read_csv(trajectory_filename_)) {
-            cout << "Failed to read CSV file: " << trajectory_filename_ << endl;
+            LOG_ERROR("Failed to read CSV file: " << trajectory_filename_);
         }
 
         for (size_t r = 0; r < csv_.rows(); r++) {

@@ -39,6 +39,7 @@
 
 #include "scrimmage/common/Random.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -47,9 +48,6 @@
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -107,7 +105,7 @@ bool AltitudeAboveTerrain::step() {
         msg_noise->data = alt + (*noise_)(*gener_);
         pub_noise_->publish(msg_noise);
     } else {
-        std::cout << "AltitudeAboveTerrain: vehicle out of terrain map bounds" << endl;
+        LOG_WARN("AltitudeAboveTerrain: vehicle out of terrain map bounds");
     }
     return true;
 }

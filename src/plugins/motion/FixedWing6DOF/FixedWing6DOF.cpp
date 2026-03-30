@@ -41,15 +41,13 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 using boost::algorithm::clamp;
 
@@ -152,12 +150,12 @@ bool FixedWing6DOF::init(
     // Parse inertia matrix
     bool valid_inertia = false;
     if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
-        cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
+        LOG_ERROR("Failed to parse inertia_matrix:" << inertia_matrix);
     } else {
         int row = 0;
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 3) {
-                cout << "Invalid vector size in: " << inertia_matrix << endl;
+                LOG_ERROR("Invalid vector size in: " << inertia_matrix);
                 break;
             }
             for (int i = 0; i < 3; i++) {
@@ -174,7 +172,7 @@ bool FixedWing6DOF::init(
         }
     }
     if (!valid_inertia) {
-        cout << "Using identity matrix for inertia." << endl;
+        LOG_WARN("Using identity matrix for inertia.");
         I_ = Eigen::Matrix3d::Identity();
     }
     I_inv_ = I_.inverse();
@@ -188,9 +186,8 @@ bool FixedWing6DOF::init(
     if (write_csv_) {
         csv_.open_output(
             parent_->mp()->log_dir() + "/" + std::to_string(parent_->id().id()) + "-states.csv");
-        cout << "Writing log to " + parent_->mp()->log_dir() + "/"
-                    + std::to_string(parent_->id().id()) + "-states.csv"
-             << endl;
+        LOG_INFO("Writing log to " + parent_->mp()->log_dir() + "/"
+                    + std::to_string(parent_->id().id()) + "-states.csv");
 
         csv_.set_column_headers(
             sc::CSV::Headers{

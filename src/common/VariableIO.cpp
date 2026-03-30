@@ -34,13 +34,14 @@
 
 #include <Eigen/Dense>
 #include <iomanip>
-#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
 
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm/set_algorithm.hpp>
+
+#include "scrimmage/log/Logger.h"
 
 namespace br = boost::range;
 namespace ba = boost::adaptors;
@@ -133,7 +134,7 @@ int VariableIO::declare(Type type, Direction dir) {
     std::string var("");
     auto it = type_map_.find(type);
     if (it == type_map_.end()) {
-        std::cout << "Warning: Use of invalid VariableIO::Type" << std::endl;
+        LOG_WARN("Use of invalid VariableIO::Type");
     } else {
         var = it->second;
     }
@@ -149,12 +150,19 @@ void VariableIO::output(int i, double x) {
     // to is within the bounds of the input of the next plugin. Connect is
     // called before output to assign the shared ptr output to point to the
     // shared pointer input of the next plugin.
-    if (i < output_->size())
+    if (i < output_->size()) {
         (*output_)(i) = x;
+    } else {
+        LOG_WARN("VariableIO::output index " << i << " out of bounds (size=" << output_->size() << ")");
+    }
 }
 
 double VariableIO::output(int i) {
-    return i < output_->size() ? (*output_)(i) : NAN;
+    if (i >= output_->size()) {
+        LOG_WARN("VariableIO::output read index " << i << " out of bounds (size=" << output_->size() << "), returning NAN");
+        return NAN;
+    }
+    return (*output_)(i);
 }
 
 void connect(VariableIO& output, VariableIO& input) {
@@ -206,25 +214,24 @@ bool verify_io_connection(VariableIO& output, VariableIO& input) {
 void print_io_error(const std::string& in_name, VariableIO& v) {
     auto keys = v.input_variable_index() | ba::map_keys;
 
-    std::cout << "First, include the VariableIO class in the cpp file: "
-              << "#include \"scrimmage/common/VariableIO.h\"" << std::endl;
+    LOG_INFO("First, include the VariableIO class in the cpp file: "
+             << "#include \"scrimmage/common/VariableIO.h\"");
 
-    std::cout << "Second, place the following in its initializer: " << std::endl;
+    LOG_INFO("Second, place the following in its initializer: ");
     for (const std::string& key : keys) {
-        std::cout << "    " << key << "_idx_ = vars_.declare(" << std::quoted(key)
-                  << ", scrimmage::VariableIO::Direction::Out);" << std::endl;
+        LOG_INFO("    " << key << "_idx_ = vars_.declare(" << std::quoted(key)
+                 << ", scrimmage::VariableIO::Direction::Out);");
     }
 
-    std::cout << "Third, place the following in its step function: " << std::endl;
+    LOG_INFO("Third, place the following in its step function: ");
     for (const std::string& key : keys) {
-        std::cout << "    vars_.output(" << key << "_idx_, value_to_output);" << std::endl;
+        LOG_INFO("    vars_.output(" << key << "_idx_, value_to_output);");
     }
-    std::cout << "where value_to_output is what you want " << in_name << " to receive as its input."
-              << std::endl;
+    LOG_INFO("where value_to_output is what you want " << in_name << " to receive as its input.");
 
-    std::cout << "Third, place following in the class declaration: " << std::endl;
+    LOG_INFO("Third, place following in the class declaration: ");
     for (const std::string& key : keys) {
-        std::cout << "    uint8_t " << key << "_idx_ = 0;" << std::endl;
+        LOG_INFO("    uint8_t " << key << "_idx_ = 0;");
     }
 }
 

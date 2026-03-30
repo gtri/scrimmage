@@ -34,10 +34,12 @@
 
 #include <iostream>
 #include <limits>
+#include <sstream>
 
 #include "scrimmage/common/CSV.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/metrics/Metrics.h"
 #include "scrimmage/msgs/Collision.pb.h"
@@ -47,9 +49,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -81,7 +80,9 @@ void OpenAIRewards::init(std::map<std::string, std::string>& /*params*/) {
 
 void OpenAIRewards::print_team_summaries() {
     for (auto& kv : rewards_) {
-        std::cout << "Reward for id " << kv.first << " = " << kv.second << std::endl;
+        std::stringstream ss;
+        ss << "Reward for id " << kv.first << " = " << kv.second;
+        LOG_INFO(ss.str());
     }
 }
 
@@ -90,7 +91,7 @@ void OpenAIRewards::calc_team_scores() {
     std::string filename = parent_->mp()->log_dir() + "/rewards.csv";
 
     if (!csv.open_output(filename)) {
-        std::cout << "Couldn't create output file" << endl;
+        LOG_ERROR("Couldn't create output file");
     }
 
     csv.set_column_headers("id, reward");

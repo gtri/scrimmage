@@ -35,11 +35,10 @@
 #include <iostream>
 
 #include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -63,15 +62,15 @@ void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string>& 
     turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);
 
     if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw yaw gains" << endl;
+        LOG_ERROR("Failed to set DoubleIntegratorControllerVewYaw yaw gains");
     }
 
     if (!sc::set_pid_gains(speed_pid_, params["speed_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw speed pid" << endl;
+        LOG_ERROR("Failed to set DoubleIntegratorControllerVewYaw speed pid");
     }
 
     if (!sc::set_pid_gains(alt_pid_, params["alt_pid"])) {
-        cout << "Failed to set DoubleIntegratorControllerVewYaw alt pid" << endl;
+        LOG_ERROR("Failed to set DoubleIntegratorControllerVewYaw alt pid");
     }
 }
 

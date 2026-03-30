@@ -31,7 +31,6 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/network/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-#include <iostream>
 #include <limits>
 #include <memory>
 
@@ -40,6 +39,7 @@
 #include <scrimmage/common/Random.h>
 #include <scrimmage/common/Time.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/log/Logger.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 #include <scrimmage/plugins/network/SphereNetwork/SphereNetwork.h>
@@ -47,8 +47,10 @@
 #include <scrimmage/pubsub/Publisher.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-using std::cout;
-using std::endl;
+// Logging macros:
+//   LOG_INFO("status: " << value);
+//   LOG_WARN("unexpected state: " << state_name);
+//   LOG_ERROR("failed to load: " << filename);
 
 namespace sc = scrimmage;
 

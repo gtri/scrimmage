@@ -32,9 +32,12 @@
 
 #include "scrimmage/viewer/Viewer.h"
 
+#include <sstream>
+
 #include <boost/algorithm/string.hpp>
 #include <vtkCamera.h>
 
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -159,7 +162,7 @@ bool Viewer::run() {
 
     std::vector<double> camera_pos;
     if (!str2container(camera_pos_str, ",", camera_pos, 3)) {
-        std::cout << "camera_position should have 3 comma separated entries" << std::endl;
+        LOG_ERROR("camera_position should have 3 comma separated entries");
         return false;
     }
 
@@ -167,7 +170,7 @@ bool Viewer::run() {
 
     std::vector<double> camera_focal_pos;
     if (!str2container(camera_focal_pos_str, ",", camera_focal_pos, 3)) {
-        std::cout << "camera_focal_point should have 3 comma separated entries" << std::endl;
+        LOG_ERROR("camera_focal_point should have 3 comma separated entries");
         return false;
     }
 
@@ -193,8 +196,9 @@ bool Viewer::run() {
     } else if (view_mode == "OFFSET") {
         updater->set_view_mode(Updater::ViewMode::OFFSET);
     } else {
-        std::cout << "Unrecognized attribute \"" << view_mode << "\" for camera_view_mode"
-                  << std::endl;
+        std::stringstream ss;
+        ss << "Unrecognized attribute \"" << view_mode << "\" for camera_view_mode";
+        LOG_WARN(ss.str());
         updater->set_view_mode(Updater::ViewMode::FOLLOW);
     }
 

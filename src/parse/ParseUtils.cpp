@@ -33,12 +33,12 @@
 #include "scrimmage/parse/ParseUtils.h"
 
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <vector>
 
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/PID.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/proto/Visual.pb.h"
@@ -52,8 +52,6 @@
 #include <boost/algorithm/string/split.hpp>
 
 namespace fs = boost::filesystem;
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -64,7 +62,7 @@ bool find_terrain_files(
     ConfigParse& terrain_parse,
     std::shared_ptr<scrimmage_proto::UTMTerrain>& utm_terrain) {
     if (utm_terrain == nullptr) {
-        cout << "utm_terrain is null." << endl;
+        LOG_ERROR("utm_terrain is null.");
         return false;
     }
 
@@ -99,6 +97,12 @@ bool find_terrain_files(
             utm_terrain->set_poly_data_file(polydata_file);
             return true;
         }
+        LOG_WARN("Terrain '" << terrain_name << "' files missing - polydata: "
+                 << polydata_file << ", texture: " << texture_file);
+    } else {
+        const char* data_path = std::getenv("SCRIMMAGE_DATA_PATH");
+        LOG_WARN("Terrain '" << terrain_name << "' config not found in SCRIMMAGE_DATA_PATH="
+                 << (data_path ? data_path : "(not set)"));
     }
     return false;
 }
@@ -112,7 +116,7 @@ bool find_model_properties(
     bool& mesh_found,
     bool& texture_found) {
     if (cv == nullptr) {
-        cout << "Contact Visual is null." << endl;
+        LOG_ERROR("Contact Visual is null.");
         return false;
     }
 
@@ -153,7 +157,7 @@ bool find_model_properties(
                 cv->add_rotate(*it);
             }
         } else {
-            cout << "Error parsing: visual_rpy" << endl;
+            LOG_WARN("Error parsing: visual_rpy");
         }
     }
     if (!valid_rotate) {
@@ -168,7 +172,7 @@ bool parse_autonomy_data(
     std::map<std::string, std::string>& params,
     std::map<std::string, std::string>& data_params) {
     if (params.count("data") == 0) {
-        cout << "Missing data tag in params" << endl;
+        LOG_WARN("Missing data tag in params");
         return false;
     }
 
@@ -178,7 +182,7 @@ bool parse_autonomy_data(
     if (data.parse(overrides, params["data"], "SCRIMMAGE_DATA_PATH", file_search)) {
         data_params = data.params();
     } else {
-        cout << "Failed to find data file: " << params["data"] << endl;
+        LOG_WARN("Failed to find data file: " << params["data"]);
         return false;
     }
     return true;
@@ -233,7 +237,7 @@ bool get_vec(
             name += "_" + std::to_string(i);
         }
         if (params.count(name) == 0) {
-            cout << "Invalid name in params: " << str << endl;
+            LOG_WARN("Invalid name in params: " << str);
             return false;
         }
         vec.push_back(params[name]);
@@ -367,20 +371,27 @@ bool set_pid_gains(sc::PID& pid, std::string str, bool is_angle) {
     boost::split(str_vals, str, boost::is_any_of(","));
 
     if (str_vals.size() != 4) {
+        LOG_ERROR("PID gains string '" << str << "' invalid format (expected: p,i,d,i_lim)");
         return false;
     } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        pid.set_parameters(p, i, d);
+        try {
+            double p = std::stod(str_vals[0]);
+            double i = std::stod(str_vals[1]);
+            double d = std::stod(str_vals[2]);
+            pid.set_parameters(p, i, d);
 
-        if (is_angle) {
-            double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
-            pid.set_integral_band(i_lim);
-            pid.set_is_angle(true);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            pid.set_integral_band(i_lim);
+            if (is_angle) {
+                double i_lim = sc::Angles::deg2rad(std::stod(str_vals[3]));
+                pid.set_integral_band(i_lim);
+                pid.set_is_angle(true);
+            } else {
+                double i_lim = std::stod(str_vals[3]);
+                pid.set_integral_band(i_lim);
+                pid.set_is_angle(false);
+            }
+        } catch (const std::exception& e) {
+            LOG_ERROR("PID gains: failed to parse values from '" << str << "': " << e.what());
+            return false;
         }
     }
     return true;
@@ -394,12 +405,12 @@ unsigned int parse_plugin_vector(
     std::string plugins_str = sc::get<std::string>(key, params, "");
     std::vector<std::vector<std::string>> vecs_of_vecs;
     if (not sc::get_vec_of_vecs(plugins_str, vecs_of_vecs, " ")) {
-        cout << "Failed to parse vector of vectors" << endl;
+        LOG_WARN("Failed to parse vector of vectors");
         return 0;
     }
     for (std::vector<std::string> vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
-            std::cout << "Plugin name missing." << std::endl;
+            LOG_WARN("Plugin name missing.");
             continue;
         }
 

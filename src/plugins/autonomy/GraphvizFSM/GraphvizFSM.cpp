@@ -38,13 +38,11 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -71,7 +69,7 @@ void GraphvizFSM::init(std::map<std::string, std::string>& params) {
     dp.property("label", label_);
 
     if (!boost::read_graphviz(graph_str, fsm_graph_, dp)) {
-        cout << "Failed to parse graphviz fms" << endl;
+        LOG_ERROR("Failed to parse graphviz fms");
         return;
     }
 
@@ -83,8 +81,7 @@ void GraphvizFSM::init(std::map<std::string, std::string>& params) {
 
         int result = system("dot -Tpdf fsm.gv -o fsm.pdf");
         if (result != 0) {
-            cout << "Error during FSM pdf creation. Make sure the dot program "
-                 << "is installed." << endl;
+            LOG_ERROR("Error during FSM pdf creation. Make sure the dot program is installed.");
         }
     }
 
@@ -147,7 +144,7 @@ void GraphvizFSM::update_state_info(
     current_state_ = next_state;
 
     if (print_current_state_) {
-        cout << "Current State: " << fsm_graph_[current_state_].name << endl;
+        LOG_INFO("Current State: " << fsm_graph_[current_state_].name);
     }
     // Publish the state message
     auto msg = std::make_shared<sc::Message<std::string>>();

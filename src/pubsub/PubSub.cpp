@@ -32,15 +32,11 @@
 
 #include "scrimmage/pubsub/PubSub.h"
 
-#include <iostream>
-
 #include <boost/optional.hpp>
 
 #include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -58,8 +54,8 @@ PublisherPtr PubSub::advertise(
     const bool& enable_queue_size,
     EntityPluginPtr plugin) {
     if (pub_map_.count(network_name) == 0) {
-        cout << "WARNING: " << plugin->name() << " - Publisher unable to connect to network ("
-             << network_name << ") on topic (" << topic << ")" << endl;
+        LOG_WARN(plugin->name() << " - Publisher unable to connect to network ("
+             << network_name << ") on topic (" << topic << ")");
     }
 
     PublisherPtr pub =
@@ -75,15 +71,15 @@ boost::optional<std::list<NetworkDevicePtr>> PubSub::find_devices(
 
     auto it_network = devs.find(network_name);
     if (it_network == devs.end()) {
-        cout << "Failed to find network while setting up device." << endl;
-        cout << "Network name: " << network_name << endl;
-        cout << "Topic name: " << topic_name << endl;
+        LOG_WARN("Failed to find network while setting up device.\n"
+             << "Network name: " << network_name << "\n"
+             << "Topic name: " << topic_name);
     } else {
         auto it_topic_pub = it_network->second.find(topic_name);
         if (it_topic_pub == it_network->second.end()) {
-            cout << "Failed to find topic while setting up device." << endl;
-            cout << "Network name: " << network_name << endl;
-            cout << "Topic name: " << topic_name << endl;
+            LOG_WARN("Failed to find topic while setting up device.\n"
+                 << "Network name: " << network_name << "\n"
+                 << "Topic name: " << topic_name);
         } else {
             return boost::optional<std::list<NetworkDevicePtr>>(it_topic_pub->second);
         }
@@ -104,7 +100,7 @@ boost::optional<std::list<NetworkDevicePtr>> PubSub::find_subs(
 }
 
 void PubSub::print_str(const std::string& s) {
-    std::cout << s << std::endl;
+    LOG_INFO(s);
 }
 
 }  // namespace scrimmage

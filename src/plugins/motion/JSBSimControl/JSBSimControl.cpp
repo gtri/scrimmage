@@ -56,9 +56,6 @@
 #include <GeographicLib/LocalCartesian.hpp>
 #include <boost/algorithm/clamp.hpp>
 
-using std::cerr;
-using std::cout;
-using std::endl;
 
 #define meters2feet 3.28084
 #define feet2meters (1.0 / meters2feet)

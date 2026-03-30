@@ -31,7 +31,7 @@
  */
 
 #include "scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionMetrics.h"
-
+#include <scrimmage/log/Logger.h>
 #include <fstream>
 #include <iostream>
 
@@ -50,8 +50,6 @@
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
-using std::cout;
-using std::endl;
 
 REGISTER_PLUGIN(
     scrimmage::Metrics,
@@ -193,20 +191,16 @@ void SimpleCollisionMetrics::print_team_summaries() {
         if (it_survive != surviving_teams_.end())
             survived = true;
 
-        cout << "Team ID: " << it->first;
-        if (survived) {
-            cout << "\t(Survived round)" << endl;
-        } else {
-            cout << "\t(Didn't survive round)" << endl;
-        }
-        cout << "Score: " << it->second.score() << endl;
-        cout << "Entity Count: " << it->second.entity_count() << endl;
-        cout << "Total Flight Time: " << it->second.flight_time() << endl;
-        cout << "Total Normalized Flight Time: " << it->second.flight_time_norm() << endl;
-        cout << "Non-Team Collisions: " << it->second.non_team_collisions() << endl;
-        cout << "Team Collisions: " << it->second.team_collisions() << endl;
-        cout << "Ground Collisions: " << it->second.ground_collisions() << endl;
-        cout << sc::generate_chars("-", 70) << endl;
+        std::string survive_status = survived ? "\t(Survived round)" : "\t(Didn't survive round)";
+        LOG_INFO("Team ID: " << it->first << survive_status);
+        LOG_INFO("Score: " << it->second.score());
+        LOG_INFO("Entity Count: " << it->second.entity_count());
+        LOG_INFO("Total Flight Time: " << it->second.flight_time());
+        LOG_INFO("Total Normalized Flight Time: " << it->second.flight_time_norm());
+        LOG_INFO("Non-Team Collisions: " << it->second.non_team_collisions());
+        LOG_INFO("Team Collisions: " << it->second.team_collisions());
+        LOG_INFO("Ground Collisions: " << it->second.ground_collisions());
+        LOG_INFO(sc::generate_chars("-", 70));
     }
 }
 

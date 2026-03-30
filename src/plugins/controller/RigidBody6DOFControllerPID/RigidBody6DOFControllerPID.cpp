@@ -36,6 +36,7 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
@@ -54,7 +55,7 @@ void set_pid(sc::PID& pid, std::string str, bool is_angle) {
     boost::split(str_vals, str, boost::is_any_of(","));
 
     if (str_vals.size() != 4) {
-        std::cout << "error parsing in RigidBody6DOFControllerPID" << std::endl;
+        LOG_ERROR("error parsing in RigidBody6DOFControllerPID");
     } else {
         double p = std::stod(str_vals[0]);
         double i = std::stod(str_vals[1]);

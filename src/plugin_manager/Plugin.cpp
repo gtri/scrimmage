@@ -34,6 +34,7 @@
 #include <string>
 
 #include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Logger.h"
 
 namespace scrimmage {
 
@@ -48,8 +49,8 @@ std::string Plugin::type() {
 
 void Plugin::set_name(std::string name) {
     if (name_set_ == true) {
-        std::cout << "WARNING: Plugin name, " << name << ", being reset. "
-                  << "Should only be set once." << std::endl;
+        LOG_WARN("Plugin name, " << name << ", being reset. "
+                  << "Should only be set once.");
     }
     name_ = name;
     name_set_ = true;  // Set only once before warning.

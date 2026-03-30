@@ -36,6 +36,7 @@
 #include <limits>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
@@ -43,9 +44,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -79,7 +77,7 @@ bool ShapeDraw::step_autonomy(double t, double dt) {
 void ShapeDraw::draw_ellipse(double t, double dt) {
     ellipse_shape_->set_opacity(1.0);
     if (t > 5) {
-        std::cout << "Setting ellipse opacity to low to hide it!" << std::endl;
+        LOG_INFO("Setting ellipse opacity to low to hide it!");
         ellipse_shape_->set_opacity(0.01);
     }
 

@@ -34,6 +34,7 @@
 
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/parse/XMLParser/RapidXMLParser.h"
@@ -45,7 +46,6 @@
 #endif
 
 #include <fstream>
-#include <iostream>
 #include <regex>  //NOLINT
 #include <string>
 #include <typeinfo>
@@ -58,9 +58,6 @@
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
-
-using std::cout;
-using std::endl;
 
 namespace fs = boost::filesystem;
 namespace scrimmage {
@@ -111,7 +108,7 @@ bool MissionParse::read_file_content(const std::string& filename) {
                 .find_file(mission_filename_, "xml", "SCRIMMAGE_MISSION_PATH", result, false);
         if (!status) {
             // The mission file wasn't found. Exit.
-            cout << "SCRIMMAGE mission file not found: " << mission_filename_ << endl;
+            LOG_ERROR("SCRIMMAGE mission file not found: " << mission_filename_);
             return false;
         }
         // The mission file was found, save its path.
@@ -120,7 +117,7 @@ bool MissionParse::read_file_content(const std::string& filename) {
 
     std::ifstream file(mission_filename_.c_str());
     if (!file.is_open()) {
-        std::cout << "Failed to open mission file: " << mission_filename_ << endl;
+        LOG_ERROR("Failed to open mission file: " << mission_filename_);
         return false;
     }
 
@@ -156,7 +153,15 @@ bool MissionParse::parse_filecontents(Parser& doc) {
         mission_file_content_.begin(),
         mission_file_content_.end());          // copy
     mission_file_content_vec.push_back('\0');  // shouldn't reallocate
-    return doc.parse(mission_file_content_vec);
+    try {
+        return doc.parse(mission_file_content_vec);
+    } catch (const std::exception& e) {
+        LOG_ERROR("XML parse failed in '" << mission_filename_ << "': " << e.what());
+        return false;
+    } catch (...) {
+        LOG_ERROR("XML parse failed with unknown exception in '" << mission_filename_ << "'");
+        return false;
+    }
 }
 
 #if ENABLE_LIBXML2_PARSER
@@ -170,7 +175,15 @@ bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
     mission_file_content_vec.assign(
         mission_file_content_.begin(),
         mission_file_content_.end());  // copy
-    doc.parse(mission_file_content_vec);
+    try {
+        doc.parse(mission_file_content_vec);
+    } catch (const std::exception& e) {
+        LOG_ERROR("XML parse failed in '" << mission_filename_ << "': " << e.what());
+        return false;
+    } catch (...) {
+        LOG_ERROR("XML parse failed with unknown exception in '" << mission_filename_ << "'");
+        return false;
+    }
     mission_file_content_vec = doc.get_filecontents();
 
     mission_file_content_.assign(
@@ -179,7 +192,15 @@ bool MissionParse::parse_filecontents<LibXML2Parser>(LibXML2Parser& doc) {
     mission_file_content_ = replace_overrides(mission_file_content_);
     mission_file_content_vec.assign(mission_file_content_.begin(), mission_file_content_.end());
 
-    return doc.parse(mission_file_content_vec);
+    try {
+        return doc.parse(mission_file_content_vec);
+    } catch (const std::exception& e) {
+        LOG_ERROR("XML parse failed in '" << mission_filename_ << "': " << e.what());
+        return false;
+    } catch (...) {
+        LOG_ERROR("XML parse failed with unknown exception in '" << mission_filename_ << "'");
+        return false;
+    }
 }
 #endif
 
@@ -189,9 +210,25 @@ bool MissionParse::parse_mission() {
     //  Parse the xml tree.
 
     // Helpers to avoid passing bad strings into stoi and stod
-    auto parse_int = [&](std::string str) { return std::stoi(replace_overrides(str)); };
+    auto parse_int = [&](std::string str) {
+        const std::string val = replace_overrides(str);
+        try {
+            return std::stoi(val);
+        } catch (const std::exception& e) {
+            LOG_ERROR("Mission file: failed to parse '" << val << "' as integer: " << e.what());
+            return 0;
+        }
+    };
 
-    auto parse_double = [&](std::string str) { return std::stod(replace_overrides(str)); };
+    auto parse_double = [&](std::string str) {
+        const std::string val = replace_overrides(str);
+        try {
+            return std::stod(val);
+        } catch (const std::exception& e) {
+            LOG_ERROR("Mission file: failed to parse '" << val << "' as double: " << e.what());
+            return 0.0;
+        }
+    };
 
     Parser doc;
     // doc.set_filename(mission_filename_);
@@ -205,13 +242,13 @@ bool MissionParse::parse_mission() {
     parse_filecontents(doc);
     auto runscript_node = doc.first_node("runscript");
     if (!runscript_node.is_valid()) {
-        cout << "Missing runscript tag." << endl;
+        LOG_ERROR("Missing runscript tag.");
         return false;
     }
 
     auto run_node = runscript_node.first_node("run");
     if (!run_node.is_valid()) {
-        cout << "Missing run node" << endl;
+        LOG_ERROR("Missing run node");
         return false;
     }
 
@@ -264,7 +301,7 @@ bool MissionParse::parse_mission() {
          script_node = script_node.next_sibling("param_common")) {
         auto nm_attr = script_node.first_attribute("name");
         if (!nm_attr.is_valid()) {
-            std::cout << "warning: found param_common block without a name, skipping" << std::endl;
+            LOG_WARN("found param_common block without a name, skipping");
             continue;
         }
 
@@ -407,7 +444,7 @@ bool MissionParse::parse_mission() {
         auto nm_attr = script_node.first_attribute("name");
 
         if (!nm_attr.is_valid()) {
-            cout << "warning: found entity_common block without a name, skipping" << endl;
+            LOG_WARN("found entity_common block without a name, skipping");
             continue;
         }
 
@@ -441,8 +478,7 @@ bool MissionParse::parse_mission() {
             }
 
             if (script_info.count(node_name) > 0 && node_name.compare("team_id")) {
-                cout << "Warning: entity contains multiple tags for \"" << node_name << "\""
-                     << endl;
+                LOG_WARN("Warning: entity contains multiple tags for \"" << node_name << "\"");
             }
             script_info[node_name] = node.value();
         }
@@ -462,7 +498,7 @@ bool MissionParse::parse_mission() {
             std::string nm = nm_attr.value();
             auto it = entity_common.find(nm);
             if (it == entity_common.end()) {
-                cout << "warning: entity_common block referenced without definition" << endl;
+                LOG_WARN("entity_common block referenced without definition");
             } else {
                 script_info = it->second;
                 entity_attributes_[ent_desc_id] = entity_common_attributes[nm];
@@ -477,11 +513,11 @@ bool MissionParse::parse_mission() {
         auto team_id_node = script_node.first_node("team_id");
         if (team_id_node.is_valid()) {
             if (team_id_node.next_sibling("team_id").is_valid()) {
-                cout << "Warning: entity contains multiple tags for \"team_id\"" << endl;
+                LOG_WARN("Warning: entity contains multiple tags for \"team_id\"");
             }
             script_info["team_id"] = team_id_node.value();
         } else if (script_info.count("team_id") == 0) {
-            cout << "Warning: Team ID not set" << endl;
+            LOG_WARN("Warning: Team ID not set");
             script_info["team_id"] = std::to_string(team_id_err--);
         }
 
@@ -582,7 +618,7 @@ bool MissionParse::parse_mission() {
             }
 
             if (script_info.count(nm) > 0 && nm.compare("team_id")) {
-                cout << "Warning: entity contains multiple tags for \"" << nm << "\"" << endl;
+                LOG_WARN("Warning: entity contains multiple tags for \"" << nm << "\"");
             }
 
             script_info[nm] = trim(node.value());
@@ -633,19 +669,19 @@ bool MissionParse::parse_mission() {
         if (script_info.count("x") > 0) {
             script_info["x0"] = script_info["x"];
         } else {
-            cout << "Entity missing 'x' tag." << endl;
+            LOG_WARN("Entity missing 'x' tag.");
         }
 
         if (script_info.count("y") > 0) {
             script_info["y0"] = script_info["y"];
         } else {
-            cout << "Entity missing 'y' tag." << endl;
+            LOG_WARN("Entity missing 'y' tag.");
         }
 
         if (script_info.count("z") > 0) {
             script_info["z0"] = script_info["z"];
         } else {
-            cout << "Entity missing 'z' tag." << endl;
+            LOG_WARN("Entity missing 'z' tag.");
         }
 
         bool color_status = false;
@@ -705,9 +741,9 @@ bool MissionParse::parse_mission() {
                 gen_info.rate = rate;
 
             } else if (rate > 0 && gen_count <= 0) {
-                cout << "WARNING: Not using entity generator."
-                     << "generate_rate defined, but generate_count is "
-                     << "less than or equal to zero" << endl;
+                LOG_WARN("WARNING: Not using entity generator."
+                         "generate_rate defined, but generate_count is "
+                         "less than or equal to zero");
             }
         }
 
@@ -752,7 +788,7 @@ bool MissionParse::create_log_dir() {
     // Create the root_log_dir_ if it doesn't exist:
     if (not fs::exists(fs::path(root_log_dir_))
         && not fs::create_directories(fs::path(root_log_dir_))) {
-        cout << "Failed to create the root_log_dir: " << root_log_dir_ << endl;
+        LOG_ERROR("Failed to create the root_log_dir: " << root_log_dir_);
         return false;
     }
 
@@ -779,12 +815,11 @@ bool MissionParse::create_log_dir() {
 
     if (!log_dir_created) {
         if (!use_exact_log_path_) {
-            cout << "Unable to create log directory: " << log_dir_ << endl;
+            LOG_ERROR("Unable to create log directory: " << log_dir_);
             return false;
         } else {
-            cout << "Unable to guarantee that the directory for this run is unique and does not "
-                    "already contain scrimmage files that would be overwritten: "
-                 << log_dir_ << std::endl;
+            LOG_WARN("Unable to guarantee that the directory for this run is unique and does not "
+                     "already contain scrimmage files that would be overwritten: " << log_dir_);
             return false;
         }
     }
@@ -809,9 +844,9 @@ bool MissionParse::create_log_dir() {
     if (create_latest_dir && !use_exact_log_path_) {
         boost::system::error_code ec;
         auto print_error = [&]() {
-            cout << "Error code value: " << ec.value() << endl;
-            cout << "Error code name: " << ec.category().name() << endl;
-            cout << "Error message: " << ec.message() << endl;
+            LOG_WARN("Error code value: " << ec.value());
+            LOG_WARN("Error code name: " << ec.category().name());
+            LOG_WARN("Error message: " << ec.message());
         };
         auto fs_err = [&]() { return ec != boost::system::errc::success; };
 
@@ -821,7 +856,7 @@ bool MissionParse::create_log_dir() {
         if (fs::is_symlink(latest_sym)) {
             fs::remove(latest_sym, ec);
             if (fs_err()) {
-                cout << "WARNING: could not remove symlink to latest directory" << endl;
+                LOG_WARN("WARNING: could not remove symlink to latest directory");
                 print_error();
             }
         }
@@ -829,9 +864,9 @@ bool MissionParse::create_log_dir() {
         // Create the symlink
         fs::create_directory_symlink(fs::path(log_dir_), latest_sym, ec);
         if (fs_err()) {
-            cout << "WARNING: Unable to create latest log file symlink" << endl;
-            cout << "Couldn't create symlink log directory: " << latest_sym.string() << " -> "
-                 << fs::path(log_dir_).string() << endl;
+            LOG_WARN("WARNING: Unable to create latest log file symlink");
+            LOG_WARN("Couldn't create symlink log directory: " << latest_sym.string() << " -> "
+                     << fs::path(log_dir_).string());
             print_error();
         }
     }
@@ -962,16 +997,14 @@ bool MissionParse::parse_terrain() {
             return true;
 
         } else {
-            cout << "============================================" << endl;
-            cout << "Invalid XML Terrain settings: " << endl;
-            cout << "Hemisphere: " << terrain_parse.params()["hemisphere"] << endl;
-            cout << "Zone: " << get("zone", terrain_parse.params(), -2) << endl;
-            cout << "--------------------------------------------" << endl;
-            cout << "Geographic lib output: " << endl;
-            cout << "x_easting: " << x_easting << endl;
-            cout << "y_northing: " << y_northing << endl;
-            cout << "Zone: " << zone << endl;
-            cout << "Northern hemisphere?: " << northp << endl;
+            LOG_WARN("Invalid XML Terrain settings:"
+                     << "\n  Hemisphere: " << terrain_parse.params()["hemisphere"]
+                     << "\n  Zone: " << get("zone", terrain_parse.params(), -2)
+                     << "\n  Geographic lib output:"
+                     << "\n  x_easting: " << x_easting
+                     << "\n  y_northing: " << y_northing
+                     << "\n  Zone: " << zone
+                     << "\n  Northern hemisphere?: " << northp);
         }
     }
     return false;

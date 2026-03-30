@@ -192,13 +192,10 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     PubSubPtr& pubsub() { return pubsub_; }
 
-    PrintPtr& printer() { return printer_; }
-
     const ParameterServerPtr& param_server() { return param_server_; }
 
     double radius() { return radius_; }
     void set_time_ptr(TimePtr t);
-    void set_printer(PrintPtr printer);
     void set_gpu_controller(GPUControllerPtr gpu_controller);
     GPUControllerPtr gpu_controller();
     bool using_gpu_motion_model() const;
@@ -245,7 +242,6 @@ class Entity : public std::enable_shared_from_this<Entity> {
     FileSearchPtr file_search_;
     GPUControllerPtr gpu_controller_;
     PubSubPtr pubsub_;
-    PrintPtr printer_;
     GPUControllerPtr gpu_;
     GlobalServicePtr global_services_;
     ParameterServerPtr param_server_;

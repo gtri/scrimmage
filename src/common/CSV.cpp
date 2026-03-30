@@ -34,16 +34,13 @@
 
 #include <fstream>
 #include <iomanip>
-#include <iostream>
 #include <sstream>
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
+#include <scrimmage/log/Logger.h>
 #include <scrimmage/parse/ParseUtils.h>
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -62,7 +59,7 @@ void CSV::set_column_headers(const Headers& headers, bool write) {
 
     if (write) {
         if (!file_out_.is_open()) {
-            cout << "File isn't open. Can't write CSV headers." << endl;
+            LOG_WARN("File isn't open. Can't write CSV headers.");
         } else {
             this->write_headers();
         }
@@ -79,14 +76,14 @@ bool CSV::append(const Pairs& pairs, bool write, bool keep_in_memory) {
     for (std::pair<std::string, double> pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
-            cout << "Warning: column header doesn't exist: " << pair.first << endl;
+            LOG_WARN("Warning: column header doesn't exist: " << pair.first);
         }
         table_[next_row_][it->second] = pair.second;
     }
 
     if (write) {
         if (!file_out_.is_open()) {
-            cout << "File isn't open. Can't write CSV" << endl;
+            LOG_WARN("File isn't open. Can't write CSV");
             return false;
         }
         this->write_row(next_row_);
@@ -197,7 +194,7 @@ std::string CSV::row_to_string(const int& row) const {
 
 bool CSV::to_csv(const std::string& filename) {
     if (not this->open_output(filename)) {
-        cout << "CSV::to_csv: Failed to open file: " << filename << endl;
+        LOG_ERROR("CSV::to_csv: Failed to open file: " << filename);
         return false;
     }
 
@@ -209,7 +206,7 @@ bool CSV::to_csv(const std::string& filename) {
         this->write_row(i);
     }
     if (not this->close_output()) {
-        cout << "Failed to close CSV file." << endl;
+        LOG_WARN("Failed to close CSV file.");
     }
     return true;
 }
@@ -254,10 +251,9 @@ bool CSV::read_csv_from_string(const std::string& csv_str, const bool& contains_
             // Print a warning if the number of comma separated values doesn't
             // match the number of columns
             if (column_headers_.size() != tokens.size()) {
-                cout << "Warning the number of values (" << tokens.size() << ") on line number "
-                     << row_num
-                     << " doesn't match the number of column headers: " << column_headers_.size()
-                     << endl;
+                LOG_WARN("Warning the number of values (" << tokens.size() << ") on line number "
+                         << row_num
+                         << " doesn't match the number of column headers: " << column_headers_.size());
             }
             row_num++;
         }
@@ -268,7 +264,7 @@ bool CSV::read_csv_from_string(const std::string& csv_str, const bool& contains_
 bool CSV::read_csv(const std::string& filename, const bool& contains_header) {
     std::ifstream file(filename);
     if (not file.is_open()) {
-        cout << "Unable to open CSV file:" << filename << endl;
+        LOG_WARN("Unable to open CSV file:" << filename);
         return false;
     }
 
@@ -311,11 +307,11 @@ std::list<std::string> CSV::get_csv_line_elements(const std::string& str) {
 }
 
 void CSV::write_headers() {
-    file_out_ << headers_to_string() << endl;
+    file_out_ << headers_to_string() << std::endl;
 }
 
 void CSV::write_row(const int& row) {
-    file_out_ << row_to_string(row) << endl;
+    file_out_ << row_to_string(row) << std::endl;
 }
 
 bool CSV::equals(const CSV& other) {

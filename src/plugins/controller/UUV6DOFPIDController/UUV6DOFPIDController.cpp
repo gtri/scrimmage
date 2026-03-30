@@ -38,12 +38,12 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
-using std::cout;
-using std::endl;
+namespace sc = scrimmage;
 
 REGISTER_PLUGIN(
     scrimmage::Controller,
@@ -67,13 +67,13 @@ void UUV6DOFPIDController::init(std::map<std::string, std::string>& params) {
     rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);
 
     if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set UUV6DOFPIDController heading_pid" << endl;
+        LOG_ERROR("Failed to set UUV6DOFPIDController heading_pid");
     }
     if (!speed_pid_.init(params["speed_pid"], false)) {
-        std::cout << "Failed to set UUV6DOFPIDController speed_pid" << endl;
+        LOG_ERROR("Failed to set UUV6DOFPIDController speed_pid");
     }
     if (!pitch_pid_.init(params["pitch_pid"], false)) {
-        std::cout << "Failed to set UUV6DOFPIDController pitch_pid" << endl;
+        LOG_ERROR("Failed to set UUV6DOFPIDController pitch_pid");
     }
 }
 

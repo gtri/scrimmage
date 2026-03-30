@@ -32,9 +32,8 @@
 
 #include "scrimmage/pubsub/NetworkDevice.h"
 
-#include <iostream>
-
 #include "scrimmage/entity/EntityPlugin.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/pubsub/MessageBase.h"
 
 namespace scrimmage {
@@ -121,7 +120,7 @@ void NetworkDevice::clear_msg_list() {
 }
 
 void NetworkDevice::print_str(const std::string& msg) {
-    std::cout << msg << std::endl;
+    LOG_INFO(msg);
 }
 
 EntityPluginPtr& NetworkDevice::plugin() {

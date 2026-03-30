@@ -40,6 +40,7 @@
 #include "scrimmage/common/VariableIO.h"
 #include "scrimmage/common/Waypoint.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -49,9 +50,6 @@
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -77,11 +75,11 @@ void WaypointGenerator::init(std::map<std::string, std::string>& params) {
 
     std::vector<std::vector<std::string>> vecs;
     if (!sc::get_vec_of_vecs(waypoints, vecs)) {
-        cout << "Failed to parse waypoints:" << waypoints << endl;
+        LOG_ERROR("Failed to parse waypoints:" << waypoints);
     } else {
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 10) {
-                cout << "Invalid waypoint: " << waypoints << endl;
+                LOG_ERROR("Invalid waypoint: " << waypoints);
                 continue;
             }
 
@@ -92,7 +90,7 @@ void WaypointGenerator::init(std::map<std::string, std::string>& params) {
             std::string type = vec[0];
             std::transform(type.begin(), type.end(), type.begin(), ::toupper);
             if (type != "XYZ" && type != "GPS") {
-                cout << "Invalid waypoint type: " << type << endl;
+                LOG_ERROR("Invalid waypoint type: " << type);
             } else if (type == "XYZ") {
                 // Convert to XYZ point to GPS
                 parent_->projection()->Reverse(lat, lon, alt, lat, lon, alt);
@@ -122,7 +120,7 @@ void WaypointGenerator::init(std::map<std::string, std::string>& params) {
     } else if (mode == "racetrack") {
         wp_list_.set_mode(WaypointList::WaypointMode::racetrack);
     } else {
-        cout << "WaypointGenerator: Invalid mode. Defaulting to follow_once" << endl;
+        LOG_WARN("WaypointGenerator: Invalid mode. Defaulting to follow_once");
         wp_list_.set_mode(WaypointList::WaypointMode::follow_once);
     }
 

@@ -41,8 +41,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/PubSub.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 

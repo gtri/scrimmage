@@ -38,6 +38,7 @@
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/msgs/Simple.pb.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -88,7 +89,7 @@ bool Network::network_init(
     // Should we write a CSV file? What values should be written?
     std::string filename = get<std::string>("csv_filename", plugin_params, "");
     if (filename != "") {
-        std::cout << "Writing to CSV..." << std::endl;
+        LOG_INFO("Writing to CSV...");
         write_csv_ = true;
         csv_.open_output(mp_->log_dir() + "/" + filename);
 
