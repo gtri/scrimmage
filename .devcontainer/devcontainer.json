@@ -1,0 +1,45 @@
+// SCRIMMAGE Dev Container
+//
+// For full documentation including HPC/enroot usage, see:
+//   development-docs/CONTAINERIZED_DEVELOPMENT.md
+//
+// QUICK START:
+//   1. Open folder in VS Code → "Reopen in Container"
+//   2. mkdir -p build && cd build
+//   3. cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. && make -j$(nproc)
+//   4. source ~/.scrimmage/setup.bash
+//   5. scrimmage missions/straight-no-gui.xml
+//
+{
+  "name": "SCRIMMAGE Dev Container",
+  "build": {
+    "dockerfile": "../ci/dockerfiles/ubuntu-24.04-slim-dependency-only",
+    "context": ".."
+  },
+  "workspaceFolder": "/root/scrimmage",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/root/scrimmage,type=bind,consistency=cached",
+  "runArgs": ["-v", "/tmp/.X11-unix:/tmp/.X11-unix"],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ],
+      "settings": {
+        "clangd.path": "/usr/bin/clangd",
+        "clangd.arguments": [
+          "--background-index",
+          "--compile-commands-dir=${workspaceFolder}/build"
+        ],
+        "cmake.configureArgs": [
+          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+        ],
+        "C_Cpp.intelliSenseEngine": "disabled"
+      }
+    }
+  }
+}

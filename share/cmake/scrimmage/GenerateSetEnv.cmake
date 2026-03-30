@@ -3,7 +3,7 @@ include(CMakeParseArguments)
 function(GenerateSetEnv)
   set(options)
   set(oneValueArgs SETUP_LOCAL_CONFIG_DIR LOCAL_CONFIG_DIR SETENV_IN_FILE JSBSIM_ROOT)
-  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH KERNEL_PATH)
+  set(multiValueArgs MISSION_PATH PLUGIN_PATH PATH CONFIG_PATH DATA_PATH KERNEL_PATH LD_LIBRARY_PATH)
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
 
   if (ARG_SETUP_LOCAL_CONFIG_DIR)
@@ -46,6 +46,11 @@ function(GenerateSetEnv)
     string(REPLACE ";" ":" ARG_KERNEL_PATH "${ARG_KERNEL_PATH}")
     if (NOT "${ARG_KERNEL_PATH}" STREQUAL "")
       string(CONCAT ARG_KERNEL_PATH ":" "${ARG_KERNEL_PATH}")
+    endif()
+
+    string(REPLACE ";" ":" ARG_LD_LIBRARY_PATH "${ARG_LD_LIBRARY_PATH}")
+    if (NOT "${ARG_LD_LIBRARY_PATH}" STREQUAL "")
+      string(CONCAT ARG_LD_LIBRARY_PATH ":" "${ARG_LD_LIBRARY_PATH}")
     endif()
 
     # Write the project-setenv file
@@ -92,6 +97,10 @@ function(GenerateSetEnv)
 
   if (NOT "${ARG_PATH}" STREQUAL "")
     set(ARG_PATH ":${CMAKE_INSTALL_PREFIX}/bin")
+  endif()
+
+  if (NOT "${ARG_LD_LIBRARY_PATH}" STREQUAL "")
+    set(ARG_LD_LIBRARY_PATH ":${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}/plugin_libs")
   endif()
 
   configure_file(${ARG_SETENV_IN_FILE}
