@@ -43,9 +43,7 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/sensor/AirSimSensor/AirSimSensor.h"
-
-using std::cout;
-using std::endl;
+#include "scrimmage/log/Logger.h"
 
 namespace sc = scrimmage;
 
@@ -125,30 +123,28 @@ void ROSAirSim::init(std::map<std::string, std::string>& params) {
     pub_imu_data_ = sc::get<bool>("pub_imu_data", params, "true");
     ros_python_ = sc::get<bool>("ros_python", params, "false");
     ros_cartographer_ = sc::get<bool>("ros_cartographer", params, "false");
-    cout << " " << endl;
-    cout << "[ROSAirSim] Vehicle Name: " << vehicle_name_ << endl;
+    LOG_INFO("[ROSAirSim] Vehicle Name: " << vehicle_name_);
     if (pub_image_data_) {
-        cout << "[ROSAirSim] Publishing AirSim images to ROS." << endl;
+        LOG_INFO("[ROSAirSim] Publishing AirSim images to ROS.");
     }
     if (pub_lidar_data_) {
-        cout << "[ROSAirSim] Publishing AirSim LIDAR data to ROS." << endl;
+        LOG_INFO("[ROSAirSim] Publishing AirSim LIDAR data to ROS.");
     }
     if (pub_imu_data_) {
-        cout << "[ROSAirSim] Publishing AirSim IMU data to ROS." << endl;
+        LOG_INFO("[ROSAirSim] Publishing AirSim IMU data to ROS.");
     }
 
     if (show_camera_images_) {
-        cout << "[ROSAirSim] Showing camera images in OpenCV windows." << endl;
+        LOG_INFO("[ROSAirSim] Showing camera images in OpenCV windows.");
     }
     if (ros_python_) {
-        cout << "[ROSAirSim] Using image message for ROS Python API." << endl;
+        LOG_INFO("[ROSAirSim] Using image message for ROS Python API.");
     } else {
-        cout << "[ROSAirSim] Using Image Transports ROS message" << endl;
+        LOG_INFO("[ROSAirSim] Using Image Transports ROS message");
     }
     if (ros_cartographer_) {
-        cout << "[ROSAirSim] Using transform tree structure for ROS Cartographer." << endl;
+        LOG_INFO("[ROSAirSim] Using transform tree structure for ROS Cartographer.");
     }
-    cout << " " << endl;
 
     // initialize ros
     if (!ros::isInitialized()) {
@@ -951,11 +947,7 @@ bool ROSAirSim::step_autonomy(double t, double dt) {
                 } else {
                     // other image types are int 0-255.
                     if (a.img.channels() == 4) {
-                        cout << "image channels: " << a.img.channels() << endl;
-                        cout << "Warning: Old AirSim Linux Asset Environments have 4 channels. "
-                                "Color images will not display correctly."
-                             << endl;
-                        cout << "Warning: Use Asset Environment versions Linux-v1.3.1+." << endl;
+                        LOG_WARN(\"image channels: \" << a.img.channels());\n                        LOG_WARN(\"Old AirSim Linux Asset Environments have 4 channels. Color images will not display correctly.\");\n                        LOG_WARN(\"Use Asset Environment versions Linux-v1.3.1+.\");
                         cv::Mat tempImage;
                         cv::cvtColor(a.img, tempImage, CV_RGBA2RGB);
                         cv::imshow(window_name, tempImage);

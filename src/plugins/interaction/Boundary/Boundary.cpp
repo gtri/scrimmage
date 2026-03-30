@@ -39,6 +39,7 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
@@ -49,9 +50,6 @@
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -83,14 +81,14 @@ bool Boundary::init(
     if (type == "cuboid") {
         std::vector<double> center;
         if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
-            std::cout << "Failed to parse 'center'" << endl;
+            LOG_ERROR("Failed to parse 'center'");
             return false;
         }
         sc::set(boundary_shape_->mutable_cuboid()->mutable_center(), sc::vec2eigen(center));
 
         std::vector<double> lengths;
         if (!sc::get_vec<double>("lengths", plugin_params, " ,", lengths, 3)) {
-            std::cout << "Failed to parse 'lengths'" << endl;
+            LOG_ERROR("Failed to parse 'lengths'");
             return false;
         }
         boundary_shape_->mutable_cuboid()->set_x_length(lengths[0]);
@@ -99,7 +97,7 @@ bool Boundary::init(
 
         std::vector<double> rpy;
         if (!sc::get_vec<double>("rpy", plugin_params, " ,", rpy, 3)) {
-            std::cout << "Failed to parse 'rpy'" << endl;
+            LOG_ERROR("Failed to parse 'rpy'");
             return false;
         }
         sc::Quaternion quat(rpy[0], rpy[1], rpy[2]);
@@ -111,14 +109,14 @@ bool Boundary::init(
 
         std::vector<std::vector<std::string>> vecs;
         if (!sc::get_vec_of_vecs(polyhedron_points, vecs)) {
-            cout << "Failed to parse polyhedron_points." << endl;
+            LOG_ERROR("Failed to parse polyhedron_points.");
             return false;
         }
 
         // Convert string representation of points into Eigen::Vector3d
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 3) {
-                cout << "Invalid vector size in: " << polyhedron_points << endl;
+                LOG_ERROR("Invalid vector size in: " << polyhedron_points);
                 return false;
             }
             sp::Vector3d* point = boundary_shape_->mutable_polyhedron()->add_point();
@@ -130,21 +128,21 @@ bool Boundary::init(
         boundary_shape_->mutable_sphere()->set_radius(sc::get<double>("radius", plugin_params, 10));
         std::vector<double> center;
         if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
-            std::cout << "Failed to parse 'center'" << endl;
+            LOG_ERROR("Failed to parse 'center'");
             return false;
         }
         sc::set(boundary_shape_->mutable_sphere()->mutable_center(), sc::vec2eigen(center));
     } else if (type == "plane") {
         std::vector<double> center;
         if (!sc::get_vec<double>("center", plugin_params, " ,", center, 3)) {
-            std::cout << "Failed to parse 'center'" << endl;
+            LOG_ERROR("Failed to parse 'center'");
             return false;
         }
         sc::set(boundary_shape_->mutable_plane()->mutable_center(), sc::vec2eigen(center));  // TODO
 
         std::vector<double> rpy;
         if (!sc::get_vec<double>("rpy", plugin_params, " ,", rpy, 3)) {
-            std::cout << "Failed to parse 'rpy'" << endl;
+            LOG_ERROR("Failed to parse 'rpy'");
             return false;
         }
         sc::Quaternion quat(rpy[0], rpy[1], rpy[2]);
@@ -152,7 +150,7 @@ bool Boundary::init(
 
         std::vector<double> lengths;
         if (!sc::get_vec<double>("lengths", plugin_params, " ,", lengths, 2)) {
-            std::cout << "Failed to parse 'lengths'" << endl;
+            LOG_ERROR("Failed to parse 'lengths'");
             return false;
         }
         boundary_shape_->mutable_plane()->set_x_length(lengths[0]);
@@ -167,7 +165,7 @@ bool Boundary::init(
         boundary_shape_->mutable_plane()->set_diffuse_lighting(diffuse);
 
     } else {
-        cout << "Invalid type: " << type << endl;
+        LOG_ERROR("Invalid type: " << type);
         return false;
     }
 
@@ -175,7 +173,7 @@ bool Boundary::init(
         double opacity = sc::get<double>("opacity", plugin_params, 1.0);
         std::vector<int> color;
         if (!sc::get_vec("color", plugin_params, " ", color, 3)) {
-            cout << "Failed to parse color" << endl;
+            LOG_WARN("Failed to parse color");
             color.clear();
             color = {255, 0, 0};
         }

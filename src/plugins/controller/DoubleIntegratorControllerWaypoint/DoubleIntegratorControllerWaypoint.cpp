@@ -35,6 +35,7 @@
 #include <iostream>
 
 #include "scrimmage/common/Utilities.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
@@ -49,8 +50,7 @@ namespace controller {
 void DoubleIntegratorControllerWaypoint::init(std::map<std::string, std::string>& params) {
     std::vector<double> gain;
     if (!scrimmage::str2container(params.at("gain"), ",", gain, 2)) {
-        std::cout << "warning: did not get gain properly in DoubleIntegratorControllerWaypoint"
-                  << std::endl;
+        LOG_WARN("warning: did not get gain properly in DoubleIntegratorControllerWaypoint");
     } else {
         gain_ << gain[0], gain[1];
     }

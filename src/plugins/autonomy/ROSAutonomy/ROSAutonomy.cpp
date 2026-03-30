@@ -43,8 +43,6 @@
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/sensor/RayTrace/RayTrace.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 

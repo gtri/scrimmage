@@ -42,15 +42,13 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/motion/MotionModel.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -109,7 +107,7 @@ bool ExternalForceField::init(
                 force_change_period_vec[0],
                 force_change_period_vec[1]);
         } else {
-            cout << "Failed to parse force_change_period" << endl;
+            LOG_ERROR("Failed to parse force_change_period");
             return false;
         }
 
@@ -125,7 +123,7 @@ bool ExternalForceField::init(
                     parent_->random()->make_rng_normal(var_force_vec[0], var_force_vec[1]);
                 force_noise_.push_back(force_noise);
             } else {
-                cout << "Failed to parse variable_force_" << i << endl;
+                LOG_ERROR("Failed to parse variable_force_" << i);
                 return false;
             }
         }
@@ -134,7 +132,7 @@ bool ExternalForceField::init(
         sample_force();
 
     } else {
-        cout << "Invalid force type: " << force_type_str << endl;
+        LOG_ERROR("Invalid force type: " << force_type_str);
         return false;
     }
 

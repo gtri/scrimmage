@@ -40,6 +40,7 @@
 #include <GeographicLib/LocalCartesian.hpp>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
@@ -47,9 +48,6 @@
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -75,7 +73,7 @@ void MoveToGoalMS::init(std::map<std::string, std::string>& params) {
         if (sc::get_vec<double>("goal", params, ", ", goal_vec, 3)) {
             wp_local_ = sc::vec2eigen(goal_vec);
         } else {
-            cout << "Failed to parse MoveToGoalMS' initial goal" << endl;
+            LOG_ERROR("Failed to parse MoveToGoalMS' initial goal");
         }
     }
 

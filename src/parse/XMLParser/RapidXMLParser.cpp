@@ -140,16 +140,10 @@ bool RapidXMLParserDocument::parse_document(const std::string& filename) {
 
 bool RapidXMLParserDocument::parse_document(const std::vector<char>& filecontent) {
     filecontent_ = filecontent;
-    try {
-        // Note: This parse function can hard fail (seg fault, no exception) on
-        //       badly formatted xml data. Sometimes it'll except, sometimes not.
-        doc_.parse<rapidxml::parse_non_destructive>(filecontent_.data());
-    } catch (...) {
-        std::cerr << "scrimmage::MissionParse::parse: Exception during "
-                     "rapidxml::xml_document<>.parse<>()."
-                     "Your xml mission file may be ill-formatted\n";
-        return false;
-    }
+    // Note: This parse function can hard fail (seg fault, no exception) on
+    //       badly formatted xml data. Sometimes it'll except, sometimes not.
+    // Exceptions are caught by the caller (MissionParse) which has Logger access.
+    doc_.parse<rapidxml::parse_non_destructive>(filecontent_.data());
     return true;
 }
 

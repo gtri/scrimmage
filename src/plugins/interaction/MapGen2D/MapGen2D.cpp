@@ -43,6 +43,7 @@
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -50,9 +51,6 @@
 #include "scrimmage/plugins/interaction/MapGen2D/Map2DInfo.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/pubsub/Message.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -80,7 +78,7 @@ bool MapGen2D::init(
     sc::FileSearch file_search;
     std::map<std::string, std::string> overrides;  // empty, no overrides
     if (!map_parse.parse(overrides, plugin_params["map"], "SCRIMMAGE_DATA_PATH", file_search)) {
-        cout << "Failed to find map: " << plugin_params["map"] << endl;
+        LOG_ERROR("Failed to find map: " << plugin_params["map"]);
         return false;
     }
 
@@ -101,7 +99,7 @@ bool MapGen2D::init(
     std::vector<int> color;
     bool color_status = sc::str2container(color_str, " ", color, 3);
     if (!color_status) {
-        cout << "Warning: Failed to parse wall color." << endl;
+        LOG_WARN("Failed to parse wall color.");
         color = {0, 0, 255};
     }
 
@@ -109,7 +107,7 @@ bool MapGen2D::init(
 
     map_img_ = cv::imread(filename, cv::IMREAD_COLOR);
     if (!map_img_.data) {
-        cout << "Failed to open file: " << filename << endl;
+        LOG_ERROR("Failed to open file: " << filename);
         return false;
     }
 
@@ -146,7 +144,7 @@ bool MapGen2D::init(
     }
 
     // Publish the shapes for visualization and physics
-    cout << "Publishing shapes: " << msg->data.shape_size() << endl;
+    LOG_INFO("Publishing shapes: " << msg->data.shape_size());
     pub_shape_gen_->publish(msg);
 
     return true;
@@ -236,7 +234,7 @@ std::list<cv::Rect> MapGen2D::find_rectangles(cv::Mat& img, int threshold) {
     }
 
     if (show_map_debug_) {
-        cout << "Number of rectangles: " << rects.size() << endl;
+        LOG_INFO("Number of rectangles: " << rects.size());
         cv::imshow("Original", img);
         cv::imshow("Gray", gray);
         cv::imshow("Thresh", thresh);

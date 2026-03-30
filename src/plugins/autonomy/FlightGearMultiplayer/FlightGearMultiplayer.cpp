@@ -48,12 +48,11 @@
 
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -84,9 +83,9 @@ void FlightGearMultiplayer::init(std::map<std::string, std::string>& params) {
 
     net_address_.set(server_ip.c_str(), server_port);
     if (data_socket_->open(false) == 0) {  // Open UDP socket
-        std::cout << "Failed to open connection to: " << endl;
-        cout << "Server IP: " << net_address_.getIP() << endl;
-        cout << "Server Port: " << net_address_.getPort() << endl;
+        std::stringstream ss;
+        ss << "Failed to open connection - Server IP: " << net_address_.getIP() << ", Port: " << net_address_.getPort();
+        LOG_ERROR(ss.str());
     }
 
     // Create the flight gear header

@@ -38,14 +38,12 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -79,16 +77,16 @@ void UnicyclePID::init(std::map<std::string, std::string>& params) {
 
     // Outer loop PIDs
     if (!heading_pid_.init(params["heading_pid"], true)) {
-        std::cout << "Failed to set heading PID" << std::endl;
+        LOG_ERROR("Failed to set heading PID");
     }
     if (!pitch_pid_.init(params["pitch_pid"], false)) {
-        std::cout << "Failed to set pitch PID" << std::endl;
+        LOG_ERROR("Failed to set pitch PID");
     }
     if (!roll_pid_.init(params["roll_pid"], false)) {
-        std::cout << "Failed to set roll PID" << std::endl;
+        LOG_ERROR("Failed to set roll PID");
     }
     if (!speed_pid_.init(params["speed_pid"], false)) {
-        std::cout << "Failed to set speed PID" << std::endl;
+        LOG_ERROR("Failed to set speed PID");
     }
 }
 

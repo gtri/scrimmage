@@ -38,6 +38,7 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -46,9 +47,6 @@
 #include "scrimmage/proto/Shape.pb.h"
 
 namespace sc = scrimmage;
-
-using std::cout;
-using std::endl;
 
 REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::Multirotor, Multirotor_plugin)
 
@@ -99,12 +97,12 @@ bool Multirotor::init(
     std::string inertia_matrix = sc::get<std::string>("inertia_matrix", params, "");
     bool valid_inertia = false;
     if (!sc::get_vec_of_vecs(inertia_matrix, vecs)) {
-        cout << "Failed to parse inertia_matrix:" << inertia_matrix << endl;
+        LOG_ERROR("Failed to parse inertia_matrix:" << inertia_matrix);
     } else {
         int row = 0;
         for (std::vector<std::string> vec : vecs) {
             if (vec.size() != 3) {
-                cout << "Invalid vector size in: " << inertia_matrix << endl;
+                LOG_ERROR("Invalid vector size in: " << inertia_matrix);
                 break;
             }
             I_(row, 0) = std::stod(vec[0]);
@@ -117,7 +115,7 @@ bool Multirotor::init(
         }
     }
     if (!valid_inertia) {
-        cout << "Using identity matrix for inertia." << endl;
+        LOG_WARN("Using identity matrix for inertia.");
         I_ = Eigen::Matrix3d::Identity();
     }
     I_inv_ = I_.inverse();
@@ -132,13 +130,13 @@ bool Multirotor::init(
     std::vector<std::vector<std::string>> vecs_r;
     std::string rotor_config = sc::get<std::string>("rotor_config", params, "");
     if (!sc::get_vec_of_vecs(rotor_config, vecs_r)) {
-        cout << "Failed to parse rotor_config:" << rotor_config << endl;
+        LOG_ERROR("Failed to parse rotor_config:" << rotor_config);
         return false;
     }
 
     for (std::vector<std::string> vec : vecs_r) {
         if (vec.size() != 7) {
-            cout << "Invalid rotor_config: " << rotor_config << endl;
+            LOG_ERROR("Invalid rotor_config: " << rotor_config);
             return false;
         }
 
@@ -148,7 +146,7 @@ bool Multirotor::init(
         } else if (vec[0] == "CCW") {
             r.set_direction(Rotor::Direction::CCW);
         } else {
-            cout << "Invalid rotor direction: " << vec[0] << endl;
+            LOG_ERROR("Invalid rotor direction: " << vec[0]);
             r.set_direction(Rotor::Direction::CW);
         }
 

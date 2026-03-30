@@ -38,14 +38,12 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/autonomy/ArduPilot/PwmState.h"
 #include "scrimmage/plugins/motion/Multirotor/MultirotorState.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage::motion;
@@ -68,8 +66,7 @@ void MultirotorControllerOmega::init(std::map<std::string, std::string>& params)
     multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
 
     if (multirotor_ == nullptr) {
-        cout << "WARNING: MultirotorControllerOmega can't control the motion "
-             << "model for this entity." << endl;
+        LOG_WARN("MultirotorControllerOmega can't control the motion model for this entity.");
         u_.resize(10);
         return;
     }
@@ -91,7 +88,7 @@ bool MultirotorControllerOmega::step(double t, double dt) {
                 multirotor_->omega_min(),
                 multirotor_->omega_max());
         } else {
-            cout << "WARNING: Invalid MultirotorState input type" << endl;
+            LOG_WARN("Invalid MultirotorState input type");
         }
     } else if (d_state2) {
         u_ = sc::scale(
@@ -101,7 +98,7 @@ bool MultirotorControllerOmega::step(double t, double dt) {
             multirotor_->omega_min(),
             multirotor_->omega_max());
     } else {
-        cout << "Unable to cast desired_state to MultirotorState" << endl;
+        LOG_ERROR("Unable to cast desired_state to MultirotorState");
         u_ = Eigen::VectorXd::Zero(multirotor_->rotors().size());
     }
     return true;

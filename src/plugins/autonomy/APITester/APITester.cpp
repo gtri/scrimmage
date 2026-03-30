@@ -36,13 +36,11 @@
 #include <limits>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -78,7 +76,7 @@ void APITester::init(std::map<std::string, std::string>& params) {
 
     // Create the csv for saving the variable values
     if (!csv_.open_output(parent_->mp()->log_dir() + "/" + csv_file_name)) {
-        std::cout << "APITest: Couldn't create output file" << endl;
+        LOG_ERROR("APITest: Couldn't create output file");
     }
     csv_.set_column_headers("my_test_bool, my_test_int, my_test_float, my_test_double");
     write_my_test_values();  // Write initial values to csv

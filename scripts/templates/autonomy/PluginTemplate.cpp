@@ -31,16 +31,18 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/autonomy/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-#include <iostream>
 #include <limits>
 
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/log/Logger.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/parse/ParseUtils.h>
 #include <scrimmage/plugin_manager/RegisterPlugin.h>
 
-using std::cout;
-using std::endl;
+// Logging macros:
+//   LOG_INFO("status: " << value);
+//   LOG_WARN("unexpected state: " << state_name);
+//   LOG_ERROR("failed to load: " << filename);
 
 namespace sc = scrimmage;
 

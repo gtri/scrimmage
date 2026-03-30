@@ -32,7 +32,10 @@
 #include "scrimmage/common/GlobalService.h"
 
 #include <algorithm>
+#include <sstream>
 #include <string>
+
+#include "scrimmage/log/Logger.h"
 
 namespace scrimmage {
 
@@ -55,13 +58,13 @@ bool GlobalService::call_service(
     const std::string& service_name) {
     auto it = services_.find(service_name);
     if (it == services_.end()) {
-        std::cout << "request for global service (" << service_name << ") that does not exist"
-                  << std::endl;
-        std::cout << "Global services are: ";
+        std::ostringstream oss;
+        oss << "request for global service (" << service_name << ") that does not exist\n";
+        oss << "Global services are: ";
         for (auto& kv : services_) {
-            std::cout << kv.first << ", ";
+            oss << kv.first << ", ";
         }
-        std::cout << std::endl;
+        LOG_WARN(oss.str());
         return false;
     }
 
@@ -69,7 +72,7 @@ bool GlobalService::call_service(
     bool success = service(req, res);
 
     if (!success) {
-        std::cout << "call to " << service_name << " failed" << std::endl;
+        LOG_WARN("call to " << service_name << " failed");
         return false;
     } else {
         return true;

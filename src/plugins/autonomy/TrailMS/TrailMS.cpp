@@ -44,8 +44,6 @@
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;

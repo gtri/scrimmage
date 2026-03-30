@@ -32,6 +32,8 @@
 
 #include "scrimmage/plugins/metrics/CPA/CPA.h"
 
+#include <scrimmage/log/Logger.h>
+
 #include <iostream>
 #include <limits>
 
@@ -48,8 +50,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;
@@ -127,12 +127,12 @@ void CPA::calc_team_scores() {
 
 void CPA::print_team_summaries() {
     for (auto& kv : cpa_map_) {
-        cout << "Entity: " << kv.first;
-        cout << " | CPA: " << kv.second.distance();
-        cout << " | Closest Entity: " << kv.second.closest_entity();
-        cout << " | Time: " << kv.second.time() << std::endl;
+        LOG_INFO("Entity: " << kv.first
+            << " | CPA: " << kv.second.distance()
+            << " | Closest Entity: " << kv.second.closest_entity()
+            << " | Time: " << kv.second.time());
     }
-    cout << sc::generate_chars("-", 70) << endl;
+    LOG_INFO(sc::generate_chars("-", 70));
 }
 
 }  // namespace metrics

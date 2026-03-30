@@ -49,6 +49,7 @@
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/msgs/Graph.pb.h"
 #include "scrimmage/parse/MissionParse.h"
@@ -60,8 +61,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
-using std::cout;
-using std::endl;
 using std::stoi;
 
 namespace fs = ::boost::filesystem;
@@ -119,7 +118,7 @@ bool GraphInteraction::init(
 
     if (graph_file.is_open()) {
         boost::read_graphml(graph_file, g_, dp);
-        cout << "read graph file" << endl;
+        LOG_INFO("read graph file");
         graph_file.close();
     }
 

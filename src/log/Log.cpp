@@ -31,6 +31,7 @@
  */
 
 #include "scrimmage/log/Log.h"
+#include "scrimmage/log/Logger.h"
 
 #include <iostream>
 
@@ -52,7 +53,6 @@
 #include "scrimmage/pubsub/Message.h"
 namespace fs = boost::filesystem;
 
-using std::cout;
 using std::endl;
 
 namespace sp = scrimmage_proto;
@@ -74,7 +74,7 @@ Log::Log() : frames_output_(), shapes_output_(), utm_terrain_output_(), contact_
 bool Log::open_file(std::string filename, int& fd) {
     fd = open(filename.c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
     if (fd == -1) {
-        cout << "Failed to open file for writing: " << filename << endl;
+        LOG_ERROR("Failed to open file for writing: " << filename);
         return false;
     }
     return true;
@@ -123,7 +123,7 @@ bool Log::write_ascii(const std::string& str) {
     }
 
     if (!ascii_output_.is_open()) {
-        cout << "Failed to open file for writing: " << ascii_filename_ << endl;
+        LOG_ERROR("Failed to open file for writing: " << ascii_filename_);
         return false;
     }
 
@@ -178,32 +178,32 @@ void Log::set_drop_bin_logging(bool enable) {
 
 bool Log::parse(std::string dir) {
     if (!fs::is_directory(dir)) {
-        cout << "Log directory doesn't exist: " << dir << endl;
+        LOG_ERROR("Log directory doesn't exist: " << dir);
         return false;
     }
 
     fs::path frame_path(frames_name_);
     if (!fs::exists(frame_path) && !fs::exists(frame_path.parent_path() / "frame_0.bin")) {
-        cout << "Frames file doesn't exist: " << frames_name_ << endl;
+        LOG_WARN("Frames file doesn't exist: " << frames_name_);
     } else {
         parse(frames_name_, FRAMES);
     }
 
     fs::path shapes_path(frames_name_);
     if (!fs::exists(shapes_path) && !fs::exists(shapes_path.parent_path() / "shapes_0.bin")) {
-        cout << "Shapes file doesn't exist: " << shapes_name_ << endl;
+        LOG_WARN("Shapes file doesn't exist: " << shapes_name_);
     } else {
         parse(shapes_name_, SHAPES);
     }
 
     if (!fs::exists(fs::path(utm_terrain_name_))) {
-        cout << "UTM Terrain file doesn't exist: " << utm_terrain_name_ << endl;
+        LOG_WARN("UTM Terrain file doesn't exist: " << utm_terrain_name_);
     } else {
         parse(utm_terrain_name_, UTMTERRAIN);
     }
 
     if (!fs::exists(fs::path(contact_visual_name_))) {
-        cout << "Contact Visual file doesn't exist: " << contact_visual_name_ << endl;
+        LOG_WARN("Contact Visual file doesn't exist: " << contact_visual_name_);
     } else {
         parse(contact_visual_name_, CONTACTVISUAL);
     }
@@ -236,7 +236,7 @@ bool Log::parse(std::string filename, Log::FileType type) {
 
     int input_fd = open(filename.c_str(), O_RDONLY);
     if (input_fd == -1) {
-        cout << "Failed to open file: " << filename.c_str() << endl;
+        LOG_ERROR("Failed to open file: " << filename.c_str());
         return false;
     }
 
@@ -244,7 +244,7 @@ bool Log::parse(std::string filename, Log::FileType type) {
         std::make_shared<google::protobuf::io::FileInputStream>(input_fd);
 
     if (!input) {
-        cout << "Failed to open FileInputStream. Filename: " << filename.c_str() << endl;
+        LOG_WARN("Failed to open FileInputStream. Filename: " << filename.c_str());
     }
 
     if (type == FRAMES) {
@@ -257,9 +257,9 @@ bool Log::parse(std::string filename, Log::FileType type) {
         parse_contact_visual(filename, input);
     } else if (type == MSG) {
         // parse_contact_visual(filename, input);
-        cout << "No parser for messages yet. " << type << endl;
+        LOG_WARN("No parser for messages yet. " << type);
     } else {
-        cout << "Log parse(): Invalid parse type: " << type << endl;
+        LOG_WARN("Log parse(): Invalid parse type: " << type);
     }
     close(input_fd);
 
@@ -280,7 +280,7 @@ bool Log::parse_frames(std::string filename, ZeroCopyInputStreamPtr input) {
     } while (success);
 
     if (!clean_eof) {
-        cout << "Frames - WARNING: Clean end-of-file not detected." << endl;
+        LOG_WARN("Frames - WARNING: Clean end-of-file not detected.");
     }
     return true;
 }
@@ -298,7 +298,7 @@ bool Log::parse_shapes(std::string filename, ZeroCopyInputStreamPtr input) {
     } while (success);
 
     if (!clean_eof) {
-        cout << "Shapes - WARNING: Clean end-of-file not detected." << endl;
+        LOG_WARN("Shapes - WARNING: Clean end-of-file not detected.");
     }
     return true;
 }
@@ -316,7 +316,7 @@ bool Log::parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input) 
     } while (success);
 
     if (!clean_eof) {
-        cout << "UTMTerrain - WARNING: Clean end-of-file not detected." << endl;
+        LOG_WARN("UTMTerrain - WARNING: Clean end-of-file not detected.");
     }
     return true;
 }
@@ -334,7 +334,7 @@ bool Log::parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr inpu
     } while (success);
 
     if (!clean_eof) {
-        cout << "ContactVisual - WARNING: Clean end-of-file not detected." << endl;
+        LOG_WARN("ContactVisual - WARNING: Clean end-of-file not detected.");
     }
     return true;
 }
@@ -352,8 +352,7 @@ bool Log::writeDelimitedTo(
     // Write the size.
     const size_t raw_size = message.ByteSizeLong();
     if (raw_size > std::numeric_limits<int>::max()) {
-        std::cerr << __FILE__ << "(" << __LINE__ << "): Message size larger than max integer value"
-                  << std::endl;
+        LOG_ERROR("Message size larger than max integer value");
         return false;
     }
     const int size = static_cast<int>(raw_size);
@@ -403,12 +402,12 @@ bool Log::readDelimitedFrom(
 
     // Parse the message.
     if (!message->MergeFromCodedStream(&input)) {
-        cout << "Error: MergeFromCodedStream failed: " << filename << endl;
+        LOG_ERROR("Error: MergeFromCodedStream failed: " << filename);
         return false;
     }
 
     if (!input.ConsumedEntireMessage()) {
-        cout << "Error: ConsumedEntireMessage() failed: " << filename << endl;
+        LOG_ERROR("Error: ConsumedEntireMessage() failed: " << filename);
         return false;
     }
 

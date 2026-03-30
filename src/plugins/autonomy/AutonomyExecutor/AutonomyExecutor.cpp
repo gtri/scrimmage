@@ -34,21 +34,20 @@
 
 #include <iostream>
 #include <limits>
+#include <sstream>
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -92,7 +91,9 @@ void AutonomyExecutor::init(std::map<std::string, std::string>& params) {
         // running.
         for (sc::AutonomyPtr autonomy : running_autonomies_) {
             if (!call_init(autonomy->name(), autonomy)) {
-                cout << "AutonomyExecutor: Failed to reload init for " << autonomy->name() << endl;
+                std::stringstream ss;
+                ss << "AutonomyExecutor: Failed to reload init for " << autonomy->name();
+                LOG_ERROR(ss.str());
             }
         }
     };
@@ -104,7 +105,7 @@ void AutonomyExecutor::init(std::map<std::string, std::string>& params) {
     sc::get_vec_of_vecs(autonomies_str, vecs_of_vecs, " ");
     for (std::vector<std::string> vecs : vecs_of_vecs) {
         if (vecs.size() < 1) {
-            std::cout << "Autonomy name missing." << std::endl;
+            LOG_WARN("Autonomy name missing.");
             continue;
         }
 
@@ -142,7 +143,9 @@ void AutonomyExecutor::init(std::map<std::string, std::string>& params) {
             autonomy_params,
             std::set<std::string>{});
         if (status.status == PluginStatus<Autonomy>::cast_failed) {
-            cout << "AutonomyExecutor Failed to open autonomy plugin: " << autonomy_name << endl;
+            std::stringstream ss;
+            ss << "AutonomyExecutor Failed to open autonomy plugin: " << autonomy_name;
+            LOG_ERROR(ss.str());
         } else if (status.status == PluginStatus<Autonomy>::loaded) {
             // connect the initialized autonomy plugin's variable output with
             // the variable input to the controller. This is similar to
@@ -201,7 +204,9 @@ bool AutonomyExecutor::step_autonomy(double t, double dt) {
         }
 
         if (!autonomy->step_autonomy(time_->t(), time_->dt())) {
-            cout << "AutonomyExecutor: autonomy error- " << autonomy->name();
+            std::stringstream ss;
+            ss << "AutonomyExecutor: autonomy error- " << autonomy->name();
+            LOG_ERROR(ss.str());
         }
 
         if (show_shapes_) {

@@ -40,17 +40,15 @@ using grpc::ClientContext;
 using grpc::Status;
 #endif
 
-#include <iostream>
+#include <sstream>
 #include <thread>  // NOLINT
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Contact.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/proto/ProtoConversions.h"
 #include "scrimmage/proto/Shape.pb.h"
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -73,7 +71,9 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string& ip, int 
         builder.AddListeningPort(result, grpc::InsecureServerCredentials());
         builder.RegisterService(&frame_service);
         server_ = builder.BuildAndStart();
-        std::cout << "Server listening on " << result << std::endl;
+        std::stringstream ss;
+        ss << "Server listening on " << result;
+        LOG_INFO(ss.str());
 
         // start thread with shutdown option
         // https://stackoverflow.com/a/36182429
@@ -83,7 +83,7 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string& ip, int 
         server_->Shutdown();
         serving_thread.join();
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     } else if (mode_ == client) {
 #if ENABLE_GRPC
@@ -93,9 +93,9 @@ bool Interface::init_network(Interface::Mode_t mode, const std::string& ip, int 
         std::unique_ptr<scrimmage_proto::ScrimmageService::Stub> frame_temp(
             scrimmage_proto::ScrimmageService::NewStub(channel));
         scrimmage_stub_ = std::move(frame_temp);
-        cout << "Client connecting to " << result << endl;
+        LOG_INFO("Client connecting to " << result);
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -150,12 +150,11 @@ bool Interface::send_frame(std::shared_ptr<scrimmage_proto::Frame>& frame) {
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_frame: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_frame: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -193,12 +192,11 @@ bool Interface::send_utm_terrain(std::shared_ptr<scrimmage_proto::UTMTerrain>& u
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_utm_terrain: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_utm_terrain: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -230,12 +228,11 @@ bool Interface::send_contact_visual(std::shared_ptr<scrimmage_proto::ContactVisu
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_contact_visual: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_contact_visual: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -263,12 +260,11 @@ bool Interface::send_gui_msg(scrimmage_proto::GUIMsg& gui_msg) {
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_gui_msg: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_gui_msg: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -296,12 +292,11 @@ bool Interface::send_world_point_clicked_msg(scrimmage_proto::WorldPointClicked&
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_world_point_clicked_msg: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_world_point_clicked_msg: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -329,12 +324,11 @@ bool Interface::send_sim_info(scrimmage_proto::SimInfo& sim_info) {
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_sim_info: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_sim_info: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;
@@ -362,12 +356,11 @@ bool Interface::send_shapes(scrimmage_proto::Shapes& shapes) {
         if (status.ok()) {
             return true;
         } else {
-            cout << "send_shapes: Error code: " << status.error_code() << endl;
-            cout << status.error_message() << endl;
+            LOG_ERROR("send_shapes: Error code: " << status.error_code() << " " << status.error_message());
             return false;
         }
 #else
-        cout << "WARNING: GRPC DISABLED!" << endl;
+        LOG_WARN("WARNING: GRPC DISABLED!");
 #endif
     }
     return true;

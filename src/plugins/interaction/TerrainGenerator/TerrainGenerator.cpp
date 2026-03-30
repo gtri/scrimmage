@@ -39,14 +39,12 @@
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
@@ -83,7 +81,7 @@ bool TerrainGenerator::init(
     } else if (technique_str == "LINEAR_WALK") {
         technique = TerrainMap::Technique::LINEAR_WALK;
     } else {
-        cout << "WARNING: Invalid terrain generation technique" << endl;
+        LOG_WARN("Invalid terrain generation technique");
         technique = TerrainMap::Technique::RANDOM_WALK;
     }
 

@@ -32,6 +32,8 @@
 
 #include "scrimmage/common/PID.h"
 
+#include "scrimmage/log/Logger.h"
+
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -65,20 +67,26 @@ bool PID::init(const std::string& str, const bool& is_angle) {
     boost::split(str_vals, str, boost::is_any_of(","));
 
     if (str_vals.size() != 4) {
+        LOG_ERROR("PID::init failed: expected 4 comma-separated values (p,i,d,i_lim), got " << str_vals.size() << " in '" << str << "'");
         return false;
     } else {
-        double p = std::stod(str_vals[0]);
-        double i = std::stod(str_vals[1]);
-        double d = std::stod(str_vals[2]);
-        set_parameters(p, i, d);
+        try {
+            double p = std::stod(str_vals[0]);
+            double i = std::stod(str_vals[1]);
+            double d = std::stod(str_vals[2]);
+            set_parameters(p, i, d);
 
-        set_is_angle(is_angle);
-        if (is_angle) {
-            double i_lim = Angles::deg2rad(std::stod(str_vals[3]));
-            set_integral_band(i_lim);
-        } else {
-            double i_lim = std::stod(str_vals[3]);
-            set_integral_band(i_lim);
+            set_is_angle(is_angle);
+            if (is_angle) {
+                double i_lim = Angles::deg2rad(std::stod(str_vals[3]));
+                set_integral_band(i_lim);
+            } else {
+                double i_lim = std::stod(str_vals[3]);
+                set_integral_band(i_lim);
+            }
+        } catch (const std::exception& e) {
+            LOG_ERROR("PID::init failed to parse values from '" << str << "': " << e.what());
+            return false;
         }
     }
     return true;

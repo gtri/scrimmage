@@ -40,6 +40,7 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/motion/MotionModel.h"
 #include "scrimmage/msgs/Collision.pb.h"
@@ -614,7 +615,7 @@ bool BulletCollision::get_ray_tracing(
     auto request_cast = std::dynamic_pointer_cast<sc::Message<RayTrace::PointCloudWithId>>(request);
 
     if (request_cast == nullptr) {
-        std::cout << "Could not cast to sc::Message<RayTrace::PointCloudId> request" << std::endl;
+        LOG_ERROR("Could not cast to sc::Message<RayTrace::PointCloudId> request");
         return false;
     }
 

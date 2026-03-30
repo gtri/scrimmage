@@ -39,14 +39,12 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/GRPCCommandString/ScrimmageMsgServiceImpl.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -111,7 +109,7 @@ void GRPCCommandString::run_server() {
     builder.AddListeningPort(result, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
     std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
-    std::cout << "GRPCCommandString listening on " << result << std::endl;
+    LOG_INFO("GRPCCommandString listening on " << result);
     server->Wait();  // this function blocks (should be in thread now)
 }
 

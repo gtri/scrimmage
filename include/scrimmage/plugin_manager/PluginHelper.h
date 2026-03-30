@@ -41,12 +41,10 @@
 #include <string>
 
 #include "scrimmage/fwd_decl.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -79,10 +77,10 @@ bool load_plugins(
             plugin_tags);
 
         if (status.status == PluginStatus<T>::cast_failed) {
-            cout << "Failed to open: " << parent_class_name << ": " << plugin.name << endl;
+            LOG_ERROR("Failed to open plugin: " << parent_class_name << ": " << plugin.name);
             all_loaded = false;
         } else if (status.status == PluginStatus<T>::parse_failed) {
-            cout << "Failed to parse: " << parent_class_name << ": " << plugin.name << endl;
+            LOG_ERROR("Failed to parse plugin config: " << parent_class_name << ": " << plugin.name);
             all_loaded = false;
         } else if (status.status == PluginStatus<T>::loaded) {
             auto it_name = config_parse.params().find("name");

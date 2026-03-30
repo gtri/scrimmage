@@ -36,14 +36,12 @@
 #include <limits>
 
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.h"
 #include "scrimmage/plugins/motion/Multirotor/MultirotorState.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -61,8 +59,8 @@ void MultirotorControllerPID::init(std::map<std::string, std::string>& params) {
     multirotor_ = std::dynamic_pointer_cast<sc::motion::Multirotor>(parent_->motion());
 
     if (multirotor_ == nullptr) {
-        cout << "WARNING: MultirotorControllerOmega can't control the motion "
-             << "model for this entity." << endl;
+        LOG_WARN("MultirotorControllerOmega can't control the motion "
+             << "model for this entity.");
         u_.resize(10);
         return;
     }
@@ -71,20 +69,20 @@ void MultirotorControllerPID::init(std::map<std::string, std::string>& params) {
     u_ = Eigen::VectorXd::Zero(multirotor_->rotors().size());
 
     if (!sc::set_pid_gains(yaw_pid_, params["yaw_pid"], true)) {
-        cout << "Failed to set MultirotorControllerPID yaw gains" << endl;
+        LOG_ERROR("Failed to set MultirotorControllerPID yaw gains");
     }
 
     for (int i = 0; i < 3; i++) {
         vel_pids_.push_back(sc::PID());
         if (!sc::set_pid_gains(vel_pids_[i], params["vel_pid"])) {
-            cout << "Failed to set DoubleIntegratorControllerVewYaw vel gain" << endl;
+            LOG_ERROR("Failed to set DoubleIntegratorControllerVewYaw vel gain");
         }
     }
 
     for (int i = 0; i < 3; i++) {
         angle_pids_.push_back(sc::PID());
         if (!sc::set_pid_gains(angle_pids_[i], params["angle_pid"])) {
-            cout << "Failed to set DoubleIntegratorControllerVewYaw angle PID gains." << endl;
+            LOG_ERROR("Failed to set DoubleIntegratorControllerVewYaw angle PID gains.");
         }
     }
 }

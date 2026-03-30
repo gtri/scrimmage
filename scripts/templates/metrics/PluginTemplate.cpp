@@ -31,11 +31,11 @@
  */
 
 #include <(>>>PROJECT_NAME<<<)/plugins/metrics/(>>>PLUGIN_NAME<<<)/(>>>PLUGIN_NAME<<<).h>
-#include <iostream>
 #include <limits>
 
 #include <scrimmage/common/Utilities.h>
 #include <scrimmage/entity/Entity.h>
+#include <scrimmage/log/Logger.h>
 #include <scrimmage/math/State.h>
 #include <scrimmage/metrics/Metrics.h>
 #include <scrimmage/msgs/Collision.pb.h>
@@ -45,8 +45,10 @@
 #include <scrimmage/pubsub/Message.h>
 #include <scrimmage/pubsub/Subscriber.h>
 
-using std::cout;
-using std::endl;
+// Logging macros:
+//   LOG_INFO("status: " << value);
+//   LOG_WARN("unexpected state: " << state_name);
+//   LOG_ERROR("failed to load: " << filename);
 
 namespace sc = scrimmage;
 namespace sm = scrimmage_msgs;

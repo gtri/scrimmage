@@ -41,6 +41,7 @@
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/log/Log.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/metrics/Metrics.h"
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/ConfigParse.h"
@@ -50,9 +51,6 @@
 #include "scrimmage/pubsub/Network.h"
 #include "scrimmage/simcontrol/EntityInteraction.h"
 #include "scrimmage/simcontrol/SimControl.h"
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -79,7 +77,7 @@ bool create_ent_inters(
                 plugin_tags);
 
         if (status.status == PluginStatus<EntityInteraction>::cast_failed) {
-            cout << "Failed to load entity interaction plugin: " << ent_inter_name << endl;
+            LOG_ERROR("Failed to load entity interaction plugin: " << ent_inter_name);
         } else if (status.status == PluginStatus<EntityInteraction>::loaded) {
             EntityInteractionPtr ent_inter = status.plugin;
 
@@ -92,7 +90,6 @@ bool create_ent_inters(
             ent_inter->parent()->rtree() = info.rtree;
             ent_inter->parent()->contacts() = contacts;
             ent_inter->parent()->set_global_services(global_services);
-            ent_inter->parent()->set_printer(info.printer);
 
             // Plugin specific members
             ent_inter->set_name(name);
@@ -105,9 +102,9 @@ bool create_ent_inters(
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Entity interaction plugin params: " << name << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Entity interaction plugin params: " << name);
+                LOG_INFO(config_parse);
             }
             ent_inter->init(info.mp->params(), config_parse.params());
 
@@ -143,7 +140,7 @@ bool create_metrics(
             plugin_tags);
 
         if (status.status == PluginStatus<Metrics>::cast_failed) {
-            cout << "Failed to load metrics: " << metrics_name << endl;
+            LOG_ERROR("Failed to load metrics: " << metrics_name);
             return false;
         } else if (status.status == PluginStatus<Metrics>::loaded) {
             MetricsPtr metrics = status.plugin;
@@ -153,7 +150,6 @@ bool create_metrics(
             metrics->parent()->set_projection(info.mp->projection());
             metrics->parent()->rtree() = info.rtree;
             metrics->parent()->contacts() = contacts;
-            metrics->parent()->set_printer(info.printer);
 
             // Plugin specific members
             metrics->set_name(metrics_name);
@@ -166,9 +162,9 @@ bool create_metrics(
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Metrics plugin params: " << metrics_name << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Metrics plugin params: " << metrics_name);
+                LOG_INFO(config_parse);
             }
             metrics->init(config_parse.params());
             metrics_list.push_back(metrics);
@@ -202,7 +198,7 @@ boost::optional<std::string> run_test(
     const bool& shutdown_python) {
     SimControl simcontrol;
     if (not simcontrol.init(mission, init_python)) {
-        cout << "Failed to initialize SimControl." << endl;
+        LOG_ERROR("Failed to initialize SimControl.");
         return boost::none;
     }
 
@@ -210,7 +206,7 @@ boost::optional<std::string> run_test(
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     shutdown_handler = [&](int /*s*/) {
-        cout << endl << "Exiting gracefully" << endl;
+        LOG_INFO("Exiting gracefully");
         simcontrol.force_exit();
     };
     sa.sa_handler = signal_handler;
@@ -256,13 +252,12 @@ bool create_networks(
             plugin_tags);
 
         if (status.status == PluginStatus<Network>::cast_failed) {
-            cout << "Failed to load network plugin: " << network_name << endl;
+            LOG_ERROR("Failed to load network plugin: " << network_name);
             return false;
         } else if (status.status == PluginStatus<Network>::loaded) {
             NetworkPtr network = status.plugin;
             // If the name was overridden, use the override.
             std::string name = get<std::string>("name", config_parse.params(), network_name);
-            network->parent()->set_printer(info.printer);
             network->parent()->set_gpu_controller(info.gpu);
             network->set_name(name);
             network->set_mission_parse(info.mp);
@@ -279,9 +274,9 @@ bool create_networks(
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
-                cout << "--------------------------------" << endl;
-                cout << "Network plugin params: " << name << endl;
-                cout << config_parse;
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Network plugin params: " << name);
+                LOG_INFO(config_parse);
             }
 
             network->init(info.mp->params(), config_parse.params());

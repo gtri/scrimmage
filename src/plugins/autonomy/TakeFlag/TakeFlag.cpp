@@ -49,8 +49,6 @@
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
 
-using std::cout;
-using std::endl;
 
 namespace sm = scrimmage_msgs;
 namespace sci = scrimmage::interaction;

@@ -34,13 +34,11 @@
 
 #include <boost/algorithm/clamp.hpp>
 
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/proto/ProtoConversions.h"
 
 namespace sc = scrimmage;
 namespace sp = scrimmage_proto;
-
-using std::cout;
-using std::endl;
 
 using boost::algorithm::clamp;
 
@@ -104,7 +102,7 @@ TerrainMap::TerrainMap(const scrimmage_msgs::Terrain& terrain)
 
 bool TerrainMap::generate() {
     if (gener_ == nullptr || rng_ == nullptr) {
-        cout << "default_random_enginer is nullptr" << endl;
+        LOG_ERROR("default_random_enginer is nullptr");
         return false;
     }
 

@@ -38,13 +38,11 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/plugins/interaction/Boundary/Boundary.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 namespace sci = scrimmage::interaction;
@@ -66,7 +64,7 @@ bool EnforceBoundaryInteraction::init(
 
     std::vector<int> active_boundary_ids;
     if (!sc::get_vec<int>("active_boundary_ids", plugin_params, ", ", active_boundary_ids)) {
-        std::cout << "Failed to parse 'active_boundary_ids'" << endl;
+        LOG_ERROR("Failed to parse 'active_boundary_ids'");
         return false;
     } else {
         active_boundary_ids_ =

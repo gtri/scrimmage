@@ -45,6 +45,7 @@
 
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/fwd_decl.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/motion/Controller.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
@@ -82,9 +83,9 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
         overrides,
         plugin_tags);
     if (status.status == PluginStatus<T>::cast_failed) {
-        std::cout << "Failed to open autonomy plugin: " << autonomy_name << std::endl;
+        LOG_ERROR("Failed to open autonomy plugin: " << autonomy_name);
     } else if (status.status == PluginStatus<T>::parse_failed) {
-        std::cout << "Parsing of plugin failed: " << autonomy_name << std::endl;
+        LOG_ERROR("Failed to parse autonomy plugin config: " << autonomy_name);
     } else if (status.status == PluginStatus<T>::loaded) {
         std::shared_ptr<T> autonomy = status.plugin;
         // Connect the autonomy to the first controller
@@ -106,17 +107,30 @@ boost::optional<std::shared_ptr<T>> make_autonomy(
         param_override_func(config_parse.params());
 
         if (debug_level > 1) {
-            std::cout << "--------------------------------" << std::endl;
-            std::cout << "Autonomy plugin params: " << autonomy_name << std::endl;
-            std::cout << config_parse;
+            LOG_INFO("--------------------------------");
+            LOG_INFO("Autonomy plugin params: " << autonomy_name);
+            LOG_INFO(config_parse);
         }
-        autonomy->init(config_parse.params());
+        try {
+            autonomy->init(config_parse.params());
+        } catch (const std::exception& e) {
+            LOG_ERROR("Autonomy plugin '" << autonomy_name << "' threw exception during init: " << e.what());
+            return boost::none;
+        } catch (...) {
+            LOG_ERROR("Autonomy plugin '" << autonomy_name << "' threw unknown exception during init");
+            return boost::none;
+        }
 
         // get loop rate from plugin's params
         auto it_loop_rate = config_parse.params().find("loop_rate");
         if (it_loop_rate != config_parse.params().end()) {
-            const double loop_rate = std::stod(it_loop_rate->second);
-            autonomy->set_loop_rate(loop_rate);
+            try {
+                const double loop_rate = std::stod(it_loop_rate->second);
+                autonomy->set_loop_rate(loop_rate);
+            } catch (const std::exception& e) {
+                LOG_ERROR("Autonomy plugin '" << autonomy_name << "': invalid loop_rate '" << it_loop_rate->second << "': " << e.what());
+                return boost::none;
+            }
         }
         return boost::optional<std::shared_ptr<T>>{autonomy};
     }

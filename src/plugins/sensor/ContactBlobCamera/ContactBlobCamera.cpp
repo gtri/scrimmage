@@ -47,6 +47,7 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
@@ -218,8 +219,7 @@ void ContactBlobCamera::draw_frustum(
     double y_rot,
     double z_rot) {
     if (frustum_shapes.size() != 8) {
-        std::cerr << "ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8"
-                  << std::endl;
+        LOG_ERROR("ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8");
         return;
     }
     double sensor_footprint_height = max_detect_range_ * tan(el_thresh_ / 2) * 2;

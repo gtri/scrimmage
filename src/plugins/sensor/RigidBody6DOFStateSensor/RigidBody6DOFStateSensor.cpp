@@ -36,6 +36,7 @@
 
 #include "scrimmage/common/Random.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
@@ -45,9 +46,6 @@
 #include "scrimmage/proto/State.pb.h"
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
-
-using std::cout;
-using std::endl;
 
 REGISTER_PLUGIN(
     scrimmage::Sensor,
@@ -87,9 +85,9 @@ bool RigidBody6DOFStateSensor::step() {
         motion_ =
             std::dynamic_pointer_cast<scrimmage::motion::RigidBody6DOFBase>(parent_->motion());
         if (motion_ == nullptr) {
-            cout << "WARNING: Failed to get motion model. Currently only "
-                 << "scrimmage::motion::RigidBody6DOFBase and subclasses "
-                 << "are supported by RigidBody6DOFStateSensor" << endl;
+            LOG_WARN("Failed to get motion model. Currently only "
+                     << "scrimmage::motion::RigidBody6DOFBase and subclasses "
+                     << "are supported by RigidBody6DOFStateSensor");
             return false;
         }
     }

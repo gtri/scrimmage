@@ -61,7 +61,6 @@ struct SimUtilsInfo {
     FileSearchPtr file_search;
     RTreePtr rtree;
     PubSubPtr pubsub;
-    PrintPtr printer;
     std::shared_ptr<GeographicLib::LocalCartesian> proj;
     GlobalServicePtr global_services;
     ContactMapPtr contacts;

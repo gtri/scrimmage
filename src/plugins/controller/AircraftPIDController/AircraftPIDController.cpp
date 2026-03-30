@@ -40,14 +40,13 @@
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/State.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 
 using boost::algorithm::clamp;
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -74,7 +73,7 @@ void AircraftPIDController::init(std::map<std::string, std::string>& params) {
 
         // Outer loop heading PID
         if (!heading_pid_.init(params["heading_pid"], true)) {
-            std::cout << "Failed to set heading PID" << std::endl;
+            LOG_ERROR("Failed to set heading PID");
         }
     }
     desired_altitude_idx_ =
@@ -89,18 +88,18 @@ void AircraftPIDController::init(std::map<std::string, std::string>& params) {
 
     // Outer loop PIDs
     if (!altitude_pid_.init(params["altitude_pid"], false)) {
-        std::cout << "Failed to set altitude PID" << std::endl;
+        LOG_ERROR("Failed to set altitude PID");
     }
     if (!speed_pid_.init(params["speed_pid"], false)) {
-        std::cout << "Failed to set speed PID" << std::endl;
+        LOG_ERROR("Failed to set speed PID");
     }
 
     // Inner loop PIDs
     if (!pitch_pid_.init(params["pitch_pid"], true)) {
-        std::cout << "Failed to set pitch PID" << std::endl;
+        LOG_ERROR("Failed to set pitch PID");
     }
     if (!roll_pid_.init(params["roll_pid"], true)) {
-        std::cout << "Failed to set roll PID" << std::endl;
+        LOG_ERROR("Failed to set roll PID");
     }
 
     max_pitch_ = sc::Angles::deg2rad(sc::get<double>("max_pitch", params, max_pitch_));

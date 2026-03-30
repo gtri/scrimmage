@@ -37,6 +37,7 @@
 #include <memory>
 
 #include "scrimmage/common/Random.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/State.h"
@@ -47,9 +48,6 @@
 #include "scrimmage/pubsub/Network.h"
 #include "scrimmage/pubsub/Publisher.h"
 #include "scrimmage/pubsub/Subscriber.h"
-
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
@@ -75,16 +73,16 @@ void AuctionAssign::init(std::map<std::string, std::string>& params) {
 
     // Setup the lambda function to process the StartAuction message
     auto start_auction_callback = [&](scrimmage::MessagePtr<auction::StartAuction> msg) {
-        cout << "-----------------------------" << endl;
-        cout << "Time: " << time_->t() << endl;
-        cout << "StartAuction: entity ID (" << id_ << ")"
-             << " received message from entity ID: " << msg->data.sender_id() << endl;
+        LOG_INFO("-----------------------------");
+        LOG_INFO("Time: " << time_->t());
+        LOG_INFO("StartAuction: entity ID (" << id_ << ")"
+             << " received message from entity ID: " << msg->data.sender_id());
 
         auto msg_bid = std::make_shared<sc::Message<auction::BidAuction>>();
         msg_bid->data.set_sender_id(id_);
         const double bid = parent_->random()->rng_uniform() * 10.0;
         msg_bid->data.set_bid(bid);
-        cout << "Sending bid of " << bid << endl;
+        LOG_INFO("Sending bid of " << bid);
         bid_auction_pub_->publish(msg_bid);
     };
 
@@ -93,10 +91,10 @@ void AuctionAssign::init(std::map<std::string, std::string>& params) {
 
     // Setup the lambda function to process the BidAuction messages
     auto bid_auction_callback = [&](scrimmage::MessagePtr<auction::BidAuction> msg) {
-        cout << "-----------------------------" << endl;
-        cout << "Time: " << time_->t() << endl;
-        cout << "BidAuction: entity ID (" << id_ << ") received message from "
-             << "entity ID (" << msg->data.sender_id() << "),  bid: " << msg->data.bid() << endl;
+        LOG_INFO("-----------------------------");
+        LOG_INFO("Time: " << time_->t());
+        LOG_INFO("BidAuction: entity ID (" << id_ << ") received message from "
+             << "entity ID (" << msg->data.sender_id() << "),  bid: " << msg->data.bid());
 
         if (msg->data.bid() > max_bid_) {
             max_bid_ = msg->data.bid();
@@ -114,7 +112,7 @@ void AuctionAssign::init(std::map<std::string, std::string>& params) {
 
 bool AuctionAssign::step_autonomy(double t, double dt) {
     if (!auction_started_ && auctioneer_ && id_ == 1) {
-        cout << "Agent (" << id_ << ") starting auction" << endl;
+        LOG_INFO("Agent (" << id_ << ") starting auction");
 
         auto msg = std::make_shared<sc::Message<auction::StartAuction>>();
         msg->data.set_sender_id(id_);
@@ -126,11 +124,11 @@ bool AuctionAssign::step_autonomy(double t, double dt) {
     }
 
     if (auction_in_prog_ && t > auction_start_time_ + auction_max_time_ && id_ == 1) {
-        cout << "======================================" << endl;
-        cout << "Auction Complete" << endl;
-        cout << "Max Bidder: " << max_bid_champ_ << endl;
-        cout << "Bid: " << max_bid_ << endl;
-        cout << "======================================" << endl;
+        LOG_INFO("======================================");
+        LOG_INFO("Auction Complete");
+        LOG_INFO("Max Bidder: " << max_bid_champ_);
+        LOG_INFO("Bid: " << max_bid_);
+        LOG_INFO("======================================");
         auction_in_prog_ = false;
         auto msg = std::make_shared<sc::Message<auction::BidAuction>>();
         msg->data.set_sender_id(max_bid_champ_);

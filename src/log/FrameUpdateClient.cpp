@@ -36,7 +36,6 @@
 #include "scrimmage/proto/Scrimmage.grpc.pb.h"
 #endif
 
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -44,6 +43,7 @@
 
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/log/FrameUpdateClient.h"
+#include "scrimmage/log/Logger.h"
 #include "scrimmage/math/Angles.h"
 #include "scrimmage/math/Quaternion.h"
 
@@ -52,9 +52,6 @@ using grpc::Channel;
 using grpc::ClientContext;
 using grpc::Status;
 #endif
-
-using std::cout;
-using std::endl;
 
 namespace scrimmage {
 
@@ -111,8 +108,7 @@ bool FrameUpdateClient::send_frame(scrimmage_proto::Frame& frame) {
     if (status.ok()) {
         return true;
     } else {
-        cout << "Error code: " << status.error_code() << endl;
-        cout << status.error_message() << endl;
+        LOG_ERROR("Error code: " << status.error_code() << " " << status.error_message());
         return false;
     }
 #endif

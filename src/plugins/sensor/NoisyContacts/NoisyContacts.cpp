@@ -46,8 +46,6 @@
 #include "scrimmage/pubsub/Message.h"
 #include "scrimmage/pubsub/Publisher.h"
 
-using std::cout;
-using std::endl;
 
 namespace sc = scrimmage;
 
