@@ -53,12 +53,10 @@ struct StringifyVisitor {
     bool double_is_scientific = true;
     int double_precision = 13;
 
-    std::string operator()(int value) const { return std::to_string(value); }
-    std::string operator()(unsigned int value) const { return std::to_string(value); }
-    std::string operator()(size_t value) const { return std::to_string(value); }
-    std::string operator()(long value) const { return std::to_string(value); }
+    std::string operator()(bool value) const { return value ? "true" : "false"; }
+    std::string operator()(uint64_t value) const { return std::to_string(value); }
+    std::string operator()(int64_t value) const { return std::to_string(value); }
     std::string operator()(const std::string& value) const { return value; }
-    std::string operator()(bool value) const { return value ? "True" : "False"; }
     std::string operator()(double value) const {
         // default precision values for double are not enough in many cases
         std::ostringstream conv;
@@ -79,8 +77,7 @@ namespace scrimmage {
 class CSV {
  public:
     typedef std::list<std::string> Headers;
-    typedef std::variant<bool, size_t, unsigned int, long, int, double, std::string>
-        PossibleVariantTypes;
+    typedef std::variant<bool, uint64_t, int64_t, std::string, double> PossibleVariantTypes;
     typedef std::list<std::pair<std::string, PossibleVariantTypes>> Pairs;
 
     ~CSV();

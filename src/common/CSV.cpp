@@ -80,7 +80,7 @@ std::string CSV::get_csv_string(const PossibleVariantTypes& v) const {
 
 bool CSV::append(const Pairs& pairs, bool write, bool keep_in_memory) {
 
-    for (auto pair : pairs) {
+    for (const auto& pair : pairs) {
         auto it = column_headers_.find(pair.first);
         if (it == column_headers_.end()) {
             cout << "Warning: column header doesn't exist: " << pair.first << endl;
@@ -161,27 +161,24 @@ std::string CSV::rows_to_string() const {
 }
 
 std::string CSV::row_to_string(const int& row) const {
-    std::string result = "";
+    std::ostringstream result;
 
-    // Initialize a vector with no value string. Iterate over
-    // column_headers, use column index to fill in column for values.
-    std::vector<std::string> values(column_headers_.size(), no_value_str_);
     auto it_row = table_.find(row);
-    for (auto& kv : it_row->second) {
-        values[kv.first] = kv.second;
+    if (it_row == table_.end()) {
+        return "";
     }
 
     // Append the rows to the resultant string
     unsigned int i = 0;
-    for (std::string str : values) {
-        result += str;
+    for (auto& kv : it_row->second) {
+        result << kv.second;
 
         if (i + 1 < values.size()) {
-            result += ",";
+            result << ",";
         }
         i++;
     }
-    return result;
+    return result.str();
 }
 
 bool CSV::to_csv(const std::string& filename) {
