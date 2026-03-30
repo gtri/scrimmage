@@ -34,24 +34,62 @@
 #define INCLUDE_SCRIMMAGE_COMMON_CSV_H_
 
 #include <fstream>
+#include <iomanip>
+#include <iostream>
 #include <list>
 #include <map>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <utility>
+#include <variant>
+
+#include "scrimmage/parse/ParseUtils.h"
+
+namespace {
+
+struct StringifyVisitor {
+
+    bool double_is_fixed = true;
+    bool double_is_scientific = true;
+    int double_precision = 13;
+
+    std::string operator()(bool value) const { return value ? "true" : "false"; }
+    std::string operator()(uint32_t value) const { return std::to_string(value); }
+    std::string operator()(uint64_t value) const { return std::to_string(value); }
+    std::string operator()(int32_t value) const { return std::to_string(value); }
+    std::string operator()(int64_t value) const { return std::to_string(value); }
+    std::string operator()(const std::string& value) const { return value; }
+    std::string operator()(double value) const {
+        // default precision values for double are not enough in many cases
+        std::ostringstream conv;
+        if (double_is_fixed) {
+            conv << std::fixed;
+        }
+        if (double_is_scientific) {
+            conv << std::scientific;
+        }
+        conv << std::setprecision(double_precision) << value;
+        return conv.str();
+    }
+};
+
+}  // namespace
 
 namespace scrimmage {
 
 class CSV {
  public:
-    typedef std::list<std::string> Headers;
-    typedef std::list<std::pair<std::string, double>> Pairs;
+    typedef std::vector<std::string> Headers;
+    typedef std::variant<bool, uint32_t, uint64_t, int32_t, int64_t, std::string, double>
+        PossibleVariantTypes;
+    typedef std::vector<std::pair<std::string, PossibleVariantTypes>> Pairs;
 
     ~CSV();
 
     void set_column_headers(const Headers& headers, bool write = true);
 
-    void set_column_headers(const std::string& headers, bool write = true);
+    void set_column_headers(std::string_view headers, bool write = true);
 
     bool append(const Pairs& pairs, bool write = true, bool keep_in_memory = false);
 
@@ -75,7 +113,11 @@ class CSV {
 
     size_t rows();
 
-    double at(int row, const std::string& header);
+    template <class T1>
+    T1 at(int row, const std::string& header) {
+        const int column = column_headers_.at(header);
+        return convert<T1>(table_.at(row).at(column));
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const CSV& csv);
 
@@ -87,7 +129,7 @@ class CSV {
     void set_double_scientific(bool is_scientific) { double_is_scientific_ = is_scientific; }
 
  protected:
-    std::list<std::string> get_csv_line_elements(const std::string& str);
+    std::string get_csv_string(const PossibleVariantTypes& val) const;
 
     void write_headers();
 
@@ -100,7 +142,7 @@ class CSV {
     // Key 1 : Row Index
     // Key 2 : Column Index
     // Value : Cell Value
-    std::map<int, std::map<int, double>> table_;
+    std::map<int, std::map<int, std::string>> table_;
     int next_row_ = 0;
 
     std::ofstream file_out_;
@@ -110,7 +152,6 @@ class CSV {
     int double_precision_ = 13;
     bool double_is_fixed_ = true;
     bool double_is_scientific_ = false;
-
     std::string headers_to_string() const;
     std::string rows_to_string() const;
     std::string row_to_string(const int& i) const;

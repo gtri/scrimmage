@@ -88,19 +88,21 @@ void TrajectoryRecordPlayback::init(std::map<std::string, std::string>& params) 
 
         for (size_t r = 0; r < csv_.rows(); r++) {
             scrimmage::State desired_state;
-            desired_state.pos() << csv_.at(r, "x_d"), csv_.at(r, "y_d"), csv_.at(r, "z_d");
+            desired_state.pos() << csv_.at<double>(r, "x_d"), csv_.at<double>(r, "y_d"),
+                csv_.at<double>(r, "z_d");
 
-            desired_state.vel() << csv_.at(r, "vx_d"), csv_.at(r, "vy_d"), csv_.at(r, "vz_d");
+            desired_state.vel() << csv_.at<double>(r, "vx_d"), csv_.at<double>(r, "vy_d"),
+                csv_.at<double>(r, "vz_d");
 
             scrimmage::Quaternion quat(
-                csv_.at(r, "roll_d"),
-                csv_.at(r, "pitch_d"),
-                csv_.at(r, "yaw_d"));
+                csv_.at<double>(r, "roll_d"),
+                csv_.at<double>(r, "pitch_d"),
+                csv_.at<double>(r, "yaw_d"));
 
             desired_state.quat() = quat;
 
             TrajectoryPoint traj;
-            traj.set_t(csv_.at(r, "t"));
+            traj.set_t(csv_.at<double>(r, "t"));
             traj.set_desired_state(desired_state);
             trajs_.push_back(traj);
         }

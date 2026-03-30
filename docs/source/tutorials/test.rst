@@ -38,7 +38,7 @@ mission level functionality. A sample can be found in
         if (!summary_found) return;
 
         const int row = csv.rows() - 1;
-        double collisions = csv.at(row, "team_coll");
+        double collisions = csv.at<int>(row, "team_coll");
         EXPECT_GT(collisions, 0); // expect collisions
     }
 
@@ -71,5 +71,5 @@ that there was at least one collision in the simulation by reading the
         if (!summary_found) return;
 
         const int row = csv.rows() - 1;
-        double collisions = csv.at(row, "team_coll");
+        double collisions = csv.at<int>(row, "team_coll");
         EXPECT_GT(collisions, 0); // expect collisions
