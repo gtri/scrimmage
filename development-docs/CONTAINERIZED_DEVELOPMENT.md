@@ -12,6 +12,16 @@ This guide covers all ways to run SCRIMMAGE in containers (Docker, enroot, etc.)
 
 ---
 
+## Architecture Support
+
+SCRIMMAGE containers are available for:
+- **AMD64** (x86_64): Standard Intel/AMD processors
+- **ARM64** (aarch64): Apple Silicon (M1/M2/M3), AWS Graviton, Raspberry Pi 4+
+
+Docker will automatically pull the correct architecture for your system when using the manifest tags (`:latest` or `:${SHA}`).
+
+---
+
 ## Option A: VS Code Dev Container (Build Locally)
 
 Builds the dependency image from the Dockerfile in this repo.
@@ -37,13 +47,15 @@ This automatically configures clangd intellisense and X11 forwarding (Linux).
 
 For running scrimmage without development. Everything is baked in.
 
+### Auto-detect architecture (recommended)
+
 ```bash
 docker run -it ghcr.io/gtri/scrimmage-24.04:latest bash
 source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
 scrimmage /root/scrimmage/missions/straight-no-gui.xml
 ```
 
-For GUI support:
+### GUI support (AMD64/ARM64)
 ```bash
 xhost +local:docker
 docker run -it --rm \
@@ -51,6 +63,8 @@ docker run -it --rm \
   -e DISPLAY=$DISPLAY \
   ghcr.io/gtri/scrimmage-24.04:latest bash
 ```
+
+Note for Apple Silicon: GUI support on macOS is unreliable and not officially supported. XQuartz has significant compatibility issues, especially with Apple Silicon and OpenGL applications.
 
 ---
 
@@ -84,6 +98,8 @@ rm scrimmage-24.04+latest.sqsh
 ## Manual Docker (without VS Code)
 
 ### Build the Image
+
+This automatically builds for the host architecture (AMD64 on Intel/AMD, ARM64 on Apple Silicon). Unlike pulling pre-built images where Docker reads a multi-arch manifest from the container registry, local builds simply compile for whatever CPU is being used. Docker handles all the architecture detection automatically—the result runs natively without emulation, no special flags needed.
 
 ```bash
 cd /path/to/scrimmage

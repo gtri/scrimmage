@@ -75,6 +75,12 @@ on:
   pull_request:
     branches: [Ubuntu-24.04]
   workflow_dispatch:
+    inputs:
+      build_arm64:
+        description: 'Build ARM64 image (slow, usually not needed)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build-and-test:
@@ -82,26 +88,42 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+    strategy:
+      matrix:
+        # ARM64 only runs on manual dispatch when explicitly requested
+        platform: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.build_arm64 == 'true' && fromJSON('["amd64", "arm64"]') || fromJSON('["amd64"]') }}
+    
     steps:
       - uses: actions/checkout@v6
+
+      # Set up QEMU for cross-platform builds
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
 
       # Uses the slim image from ci/dockerfiles/ with all deps pre-installed
       - name: Build dependency image
         run: |
-          docker build \
+          docker buildx build \
+            --platform linux/${{ matrix.platform }} \
+            --load \
             -f ci/dockerfiles/ubuntu-24.04-slim-dependency-only \
-            -t scrimmage-deps:24.04 .
+            -t scrimmage-deps:24.04-${{ matrix.platform }} .
 
-      # ==========================================================================
-      # Build 1: Coverage build (for testing and coverage reports)
-      # ==========================================================================
+      # ==========================================================================================
+      # Build 1: Coverage build with tests (amd64 only - running both amd64 and arm64 is too slow)
+      # ==========================================================================================
       - name: Build and test with coverage
+        if: matrix.platform == 'amd64'
         run: |
-          docker run --rm \
+          docker run --rm --platform linux/${{ matrix.platform }} \
             -v ${{ github.workspace }}:/root/scrimmage \
             -w /root/scrimmage \
-            scrimmage-deps:24.04 \
+            scrimmage-deps:24.04-${{ matrix.platform }} \
             bash -ec "
               git config --global --add safe.directory /root/scrimmage
               apt-get update && apt-get install -y lcov
@@ -117,27 +139,37 @@ jobs:
               lcov --quiet --capture --directory . --output-file coverage.info --ignore-errors mismatch,gcov 2>/dev/null
               lcov --quiet --remove coverage.info '/usr/*' '*/build/_deps/*' '*/test/*' --output-file coverage.info --ignore-errors unused 2>/dev/null
               lcov --quiet --extract coverage.info '*/src/*' --output-file coverage-src.info --ignore-errors unused 2>/dev/null
-              echo '=== Coverage Summary ==='
+              echo '=== Coverage Summary (${{ matrix.platform }}) ==='
               lcov --summary coverage-src.info
               echo ''
               echo '=== Coverage by File ==='
               lcov --list coverage-src.info
             "
 
-      # Clean up coverage build before release build
+      # Clean up coverage build before release build (amd64 only)
       - name: Clean coverage build
+        if: matrix.platform == 'amd64'
         run: |
-          docker run --rm \
+          docker run --rm --platform linux/${{ matrix.platform }} \
             -v ${{ github.workspace }}:/root/scrimmage \
             -w /root/scrimmage \
-            scrimmage-deps:24.04 \
+            scrimmage-deps:24.04-${{ matrix.platform }} \
             rm -rf build
 
       # ==========================================================================
-      # Build 2: Clean release build (for GHCR)
+      # Build 2: Clean release build (for GHCR) - both platforms
       # ==========================================================================
       - name: Build scrimmage image
         run: |
+          # Use default docker builder (not buildx) to see local images
+          docker buildx use default || true
+          
+          # Tag platform-specific base image with simpler name for Dockerfile
+          docker tag scrimmage-deps:24.04-${{ matrix.platform }} scrimmage-deps:24.04
+          
+          # Verify the tag worked
+          docker images scrimmage-deps:24.04
+          
           # Create image with scrimmage fully built and installed
           cat > Dockerfile.scrimmage <<'EOF'
           FROM scrimmage-deps:24.04
@@ -152,11 +184,13 @@ jobs:
           # Usage: source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
           EOF
           
-          docker build -f Dockerfile.scrimmage -t scrimmage:24.04 .
+          # Use DOCKER_BUILDKIT=0 to force legacy builder that can see local images
+          DOCKER_BUILDKIT=0 docker build -f Dockerfile.scrimmage -t scrimmage:24.04-${{ matrix.platform }} .
 
       - name: Smoke test mission
         run: |
-          docker run --rm scrimmage:24.04 bash -ec "
+          docker run --rm --platform linux/${{ matrix.platform }} \
+            scrimmage:24.04-${{ matrix.platform }} bash -ec "
             source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
             scrimmage /root/scrimmage/missions/straight-no-gui.xml
           "
@@ -177,9 +211,47 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/scrimmage-24.04
           SHORT_SHA=${GITHUB_SHA::7}
-          docker tag scrimmage:24.04 ${IMAGE_NAME}:${SHORT_SHA}
-          docker tag scrimmage:24.04 ${IMAGE_NAME}:latest
-          docker push ${IMAGE_NAME}:${SHORT_SHA}
-          docker push ${IMAGE_NAME}:latest
-          echo "Pushed: ${IMAGE_NAME}:${SHORT_SHA}"
-          echo "Pushed: ${IMAGE_NAME}:latest"
+          docker tag scrimmage:24.04-${{ matrix.platform }} ${IMAGE_NAME}:${SHORT_SHA}-${{ matrix.platform }}
+          docker tag scrimmage:24.04-${{ matrix.platform }} ${IMAGE_NAME}:latest-${{ matrix.platform }}
+          docker push ${IMAGE_NAME}:${SHORT_SHA}-${{ matrix.platform }}
+          docker push ${IMAGE_NAME}:latest-${{ matrix.platform }}
+          echo "Pushed: ${IMAGE_NAME}:${SHORT_SHA}-${{ matrix.platform }}"
+          echo "Pushed: ${IMAGE_NAME}:latest-${{ matrix.platform }}"
+
+  # Create multi-arch manifest after all platforms are built (only if ARM64 was built)
+  create-manifest:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.event_name == 'workflow_dispatch' && github.event.inputs.build_arm64 == 'true'
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push manifest
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/scrimmage-24.04
+          SHORT_SHA=${GITHUB_SHA::7}
+          
+          # Create manifest for SHA tag
+          docker manifest create ${IMAGE_NAME}:${SHORT_SHA} \
+            ${IMAGE_NAME}:${SHORT_SHA}-amd64 \
+            ${IMAGE_NAME}:${SHORT_SHA}-arm64
+          docker manifest push ${IMAGE_NAME}:${SHORT_SHA}
+          
+          # Create manifest for latest tag
+          docker manifest create ${IMAGE_NAME}:latest \
+            ${IMAGE_NAME}:latest-amd64 \
+            ${IMAGE_NAME}:latest-arm64
+          docker manifest push ${IMAGE_NAME}:latest
+          
+          echo "Pushed multi-arch manifests:"
+          echo "  ${IMAGE_NAME}:${SHORT_SHA}"
+          echo "  ${IMAGE_NAME}:latest"
