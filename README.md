@@ -259,18 +259,18 @@ If you want to see the scrimmage mission on your host, you can do the following:
 1. Allow docker to connect to your local display
 2. Run the mission in the docker container
 
-   xhost +local:docker
-   docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
-   source ~/.scrimmage/setup.bash
-   scrimmage ~/scrimmage/scrimmage/missions/straight.xml
+    xhost +local:docker
+    docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
+    source ~/.scrimmage/setup.bash
+    scrimmage ~/scrimmage/scrimmage/missions/straight.xml
 
 If you want gpu access for your docker container You must do the following:
 
 1. Install the container tools for your OS/GPU to allow the container to access your host's resources properly.
-   a. For NVidia GPUS this is the [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+    a. For Nvidia GPUs this is the [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 2. include the --gpus all flag in your docker run invocation
 
-   docker run -it --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
+    docker run -it --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix scrimmage/ubuntu:latest
 
 ## Building SCRIMMAGE for CentOS or RedHat
 
