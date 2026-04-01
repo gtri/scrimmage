@@ -34,7 +34,7 @@ During the simulation, another plugin can call the ``set_param()`` function:
 
    set_param<double>("desired_z", 100.0)
 
-while will have the affect of directly modifying the value of ``desired_z_`` in
+which will have the affect of directly modifying the value of ``desired_z_`` in
 the plugin that registered that parameter. If you require a callback function
 when the parameter value is updated, you can use the optional callback form of
 the ``register_param()`` function:
