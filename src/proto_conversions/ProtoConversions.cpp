@@ -158,10 +158,10 @@ void set(scrimmage_proto::State* dst, const scrimmage::StatePtr& state) {
 }
 
 void set(scrimmage_proto::State* dst, const scrimmage::State& state) {
-    set(dst->mutable_position(), state.pos_const());
-    set(dst->mutable_linear_velocity(), state.vel_const());
-    set(dst->mutable_angular_velocity(), state.ang_vel_const());
-    set(dst->mutable_orientation(), state.quat_const());
+    set(dst->mutable_position(), state.pos());
+    set(dst->mutable_linear_velocity(), state.vel());
+    set(dst->mutable_angular_velocity(), state.ang_vel());
+    set(dst->mutable_orientation(), state.quat());
 }
 
 void set(scrimmage::Quaternion& dst, const scrimmage_proto::Quaternion& quat) {

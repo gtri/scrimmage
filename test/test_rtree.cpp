@@ -108,7 +108,7 @@ TEST(rtree_test, nearest_dist) {
     std::vector<sc::ID> rtree_neighbors;
 
     populate_tree_randomly(num_contacts, range, true, contacts, rtree, own);
-    rtree.neighbors_in_range(own.state()->pos_const(), rtree_neighbors, circ_range);
+    rtree.neighbors_in_range(own.state()->pos(), rtree_neighbors, circ_range);
 
     auto beg_it = rtree_neighbors.begin();
     auto end_it = rtree_neighbors.end();
@@ -137,7 +137,7 @@ TEST(rtree_test, nearest_n_neighbors) {
     std::vector<sc::ID> rtree_neighbors;
 
     populate_tree_randomly(num_contacts, range, false, contacts, rtree, own);
-    rtree.nearest_n_neighbors(own.state()->pos_const(), rtree_neighbors, num_neighbors);
+    rtree.nearest_n_neighbors(own.state()->pos(), rtree_neighbors, num_neighbors);
 
     ASSERT_EQ(rtree_neighbors.size(), (unsigned int)num_neighbors);
 
@@ -192,9 +192,9 @@ TEST(rtree_test, nearest_n_neighbors_minus_self) {
 
     sc::Contact& c = contacts.front();
 
-    rtree.nearest_n_neighbors(c.state()->pos_const(), rtree_neighbors, num_neighbors, c.id().id());
+    rtree.nearest_n_neighbors(c.state()->pos(), rtree_neighbors, num_neighbors, c.id().id());
     ASSERT_EQ(rtree_neighbors.size(), num_neighbors);
 
-    rtree.nearest_n_neighbors(c.state()->pos_const(), rtree_neighbors, num_neighbors);
+    rtree.nearest_n_neighbors(c.state()->pos(), rtree_neighbors, num_neighbors);
     ASSERT_EQ(rtree_neighbors.size(), num_neighbors);
 }

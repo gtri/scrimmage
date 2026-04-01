@@ -61,11 +61,6 @@ class State {
     Quaternion& quat();
     const Quaternion& quat() const;
 
-    // for backwards compatibility
-    const Eigen::Vector3d& pos_const() const;
-    const Eigen::Vector3d& vel_const() const;
-    const Eigen::Vector3d& ang_vel_const() const;
-    const Quaternion& quat_const() const;
     void set_pos(const Eigen::Vector3d& pos);
     void set_vel(const Eigen::Vector3d& vel);
     void set_ang_vel(const Eigen::Vector3d& ang_vel);

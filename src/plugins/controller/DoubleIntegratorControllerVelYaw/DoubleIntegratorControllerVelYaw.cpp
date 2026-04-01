@@ -77,7 +77,7 @@ void DoubleIntegratorControllerVelYaw::init(std::map<std::string, std::string>& 
 
 bool DoubleIntegratorControllerVelYaw::step(double t, double dt) {
     alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));
-    double alt_u = alt_pid_.step(dt, parent()->state_belief()->pos_const()(2));
+    double alt_u = alt_pid_.step(dt, parent()->state_belief()->pos()(2));
 
     double heading = vars_.input(desired_heading_idx_);
     speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));

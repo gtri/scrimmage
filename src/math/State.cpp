@@ -72,19 +72,6 @@ const Quaternion& State::quat() const {
     return quat_;
 }
 
-// for backwards compatibility
-const Eigen::Vector3d& State::pos_const() const {
-    return pos_;
-}
-const Eigen::Vector3d& State::vel_const() const {
-    return vel_;
-}
-const Eigen::Vector3d& State::ang_vel_const() const {
-    return ang_vel_;
-}
-const Quaternion& State::quat_const() const {
-    return quat_;
-}
 void State::set_pos(const Eigen::Vector3d& pos) {
     pos_ = pos;
 }

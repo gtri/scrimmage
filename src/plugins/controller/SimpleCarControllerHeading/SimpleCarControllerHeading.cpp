@@ -65,7 +65,7 @@ void SimpleCarControllerHeading::init(std::map<std::string, std::string>& params
 bool SimpleCarControllerHeading::step(double t, double dt) {
     vars_.output(output_vel_idx_, vars_.input(input_vel_idx_));
     pid_.set_setpoint(vars_.input(input_heading_idx_));
-    const double turn_rate = pid_.step(dt, parent()->state_belief()->quat_const().yaw());
+    const double turn_rate = pid_.step(dt, parent()->state_belief()->quat().yaw());
     vars_.output(output_turn_rate_idx_, turn_rate);
 
     return true;
