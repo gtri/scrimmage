@@ -1,9 +1,8 @@
 # SCRIMMAGE Multi-Agent Simulator
 
-[![Build Status](https://travis-ci.org/gtri/scrimmage.png?branch=master)](https://travis-ci.org/gtri/scrimmage)
+[![CI](https://github.com/gtri/scrimmage/actions/workflows/ubuntu-24.04.yml/badge.svg)](https://github.com/gtri/scrimmage/actions/workflows/ubuntu-24.04.yml)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/gtri/scrimmage/issues)
-[![Docker Pulls](https://img.shields.io/docker/pulls/syllogismrxs/scrimmage.svg?maxAge=2592000)](https://hub.docker.com/r/syllogismrxs/scrimmage)
-[![Join the chat at https://gitter.im/gtri-scrimmage/community](https://badges.gitter.im/gtri-scrimmage/community.svg)](https://gitter.im/gtri-scrimmage/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Docker Pulls](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fghcr-badge.elias.eu.org%2Fapi%2Fgtri%2Fscrimmage%2Fscrimmage-24.04&query=downloadCount&label=Docker%20Pulls)](ghcr.io/gtri/scrimmage-24.04:latest)
 
 ![SCRIMMAGE Logo](./docs/source/images/scrimmage_vert_black_clean_medium.png)
 
@@ -222,7 +221,7 @@ The SCRIMMAGE docker image is pushed to a public repository after a successful
 build on Travis. If docker is installed on your machine, you can obtain the
 SCRIMMAGE docker image by running the following command:
 
-    docker pull syllogismrxs/scrimmage:latest
+    docker pull ghcr.io/gtri/scrimmage-24.04:latest
 
 You can pass mission files from your host machine to the `scrimmage` executable
 inside of the docker container with the following command:
@@ -230,7 +229,7 @@ inside of the docker container with the following command:
     cd /path/to/scrimmage/missions
     docker run --name my-scrimmage \
         -v ${PWD}/straight_jsbsim.xml:/straight_jsbsim.xml \
-        syllogismrxs/scrimmage:latest /straight_jsbsim.xml
+        ghcr.io/gtri/scrimmage-24.04:latest /straight_jsbsim.xml
 
 The previous command mounts the `straight_jsbsim.xml` mission file on your host
 machine into the scrimmage container and then the `/straight_jsbsim.xml`
@@ -246,7 +245,7 @@ log files from the docker container:
 If you need to drop into a shell inside of the scrimmage container, you will
 need to overwrite the docker image's ENTRYPOINT.
 
-    docker run -it --entrypoint="/bin/bash" syllogismrxs/scrimmage:latest
+    docker run -it --entrypoint="/bin/bash" ghcr.io/gtri/scrimmage-24.04:latest
 
 Once inside of the container, you will need to source the `setup.bash` file
 manually before running a mission.
