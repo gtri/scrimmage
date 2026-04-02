@@ -1,0 +1,224 @@
+# ==============================================================================
+# Establish benchmark baselines for mission runs
+# ==============================================================================
+#
+# Runs all standalone missions against a specified image and commits the
+# resulting summary.csv for each into benchmarks/ on the current branch.
+#
+# Run this once against a known-good image to set the baseline.
+# The run-missions.yml workflow compares future runs against these files.
+#
+# HOW TRACKING WORKS
+# ------------------
+# Each mission job mounts a host directory into the container as the scrimmage
+# log dir. After the run, scrimmage will have written summary.csv there.
+# That file is renamed by mission: missions/foo.xml -> benchmarks/foo.csv
+# and uploaded as a GitHub Actions artifact named "benchmark-foo.xml".
+#
+# The commit-benchmarks job then downloads all artifacts into one directory
+# and commits the full benchmarks/ folder to the repo in a single push:
+#
+#   benchmarks/
+#     auction_assign.csv
+#     capture-the-flag.csv
+#     straight.csv
+#     ... (one file per mission, absent if the mission produced no metrics)
+#
+# run-missions.yml looks up benchmarks/${MISSION_NAME%.xml}.csv by the same
+# naming convention to find the baseline for each mission.
+#
+# TO UPDATE THE BASELINE
+# ----------------------
+# Trigger this workflow manually with the image tag you want to promote.
+# The commit will be tagged [skip ci] to avoid triggering another CI run.
+#
+# RECOMMENDED USAGE
+# -----------------
+# This workflow is manual-only (workflow_dispatch), so it never runs
+# automatically and won't clutter the Actions history on Ubuntu-24.04.
+#
+# TESTING (before initial setup on Ubuntu-24.04):
+#   1. Push this workflow to your feature branch
+#   2. Trigger "Update Benchmarks" on your feature branch with image_tag=latest
+#   3. Verify the workflow completes and commits benchmarks/*.csv files
+#   4. Trigger "Run Missions" on your feature branch with the same image_tag
+#   5. Verify the comparison tables render correctly in the step summaries
+#   6. Delete the benchmarks/ commit from your feature branch (git reset --hard HEAD~1)
+#   7. Once validated, run the initial setup on Ubuntu-24.04
+#
+# INITIAL SETUP (one-time on Ubuntu-24.04):
+#   Run this workflow once on Ubuntu-24.04 with the latest good image to
+#   establish project-wide baselines. Every feature branch that starts from
+#   Ubuntu-24.04 will inherit these benchmarks/*.csv files automatically.
+#
+# FEATURE BRANCH WORKFLOW:
+#   Feature branches typically don't need to run this — just run run-missions.yml
+#   to compare against the inherited baselines. Only re-run this if you want to
+#   reset to a different baseline (rare).
+#
+# ==============================================================================
+
+name: Update Benchmarks
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to use as the new baseline (short SHA or "latest")'
+        required: false
+        default: 'latest'
+      timeout_seconds:
+        description: 'Timeout per mission (seconds)'
+        required: false
+        default: '120'
+
+jobs:
+  run-missions:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        mission:
+          - auction_assign.xml
+          - auction_assign2.xml
+          - auction_assign3.xml
+          - batch-example-mission.xml
+          - capture-the-flag-simple.xml
+          - capture-the-flag.xml
+          - cars-2d-maze.xml
+          - cars.xml
+          - colliding_spheres.xml
+          - delay-test.xml
+          - fixed_wing_6dof.xml
+          - fsm-motor-schemas.xml
+          - harmonic-oscillator.xml
+          - multirotor-test.xml
+          - predator_prey_boids.xml
+          - random-attrit-test.xml
+          - rigid_body_6dof.xml
+          - shape_draw.xml
+          - straight-no-gui.xml
+          - straight-vs-motorschemas.xml
+          - straight.xml
+          - straight_cars.xml
+          - straight_jsbsim.xml
+          - unicycle.xml
+          - waypoint_follower.xml
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run mission ${{ matrix.mission }}
+        run: |
+          MISSION_NAME="${{ matrix.mission }}"
+          TIMEOUT="${{ github.event.inputs.timeout_seconds || '120' }}"
+          LOG_DIR="${{ runner.temp }}/mission-logs/${MISSION_NAME}"
+          mkdir -p "${LOG_DIR}"
+
+          FIXED_SEED="1000000000"
+          echo "Running mission: ${MISSION_NAME} (timeout: ${TIMEOUT}s)"
+
+          docker run --rm \
+            -v "${LOG_DIR}:/root/.scrimmage/logs" \
+            ghcr.io/${{ github.repository_owner }}/scrimmage-24.04:${{ github.event.inputs.image_tag }} \
+            bash -ec "
+              source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+
+              MISSION_SRC=/root/scrimmage/missions/${MISSION_NAME}
+              MISSION_TMP=\$(mktemp --suffix=.xml)
+              sed 's/enable_gui=\"true\"/enable_gui=\"false\"/g;
+                   s/enable_gui=\"\\\${[^}]*}\"/enable_gui=\"false\"/g;
+                   s/<!--[[:space:]]*<seed>[^<]*<\/seed>[[:space:]]*-->/<seed>${FIXED_SEED}<\/seed>/g;
+                   s/<seed>[^<]*<\/seed>/<seed>${FIXED_SEED}<\/seed>/g' \
+                  \"\$MISSION_SRC\" > \"\$MISSION_TMP\"
+              if ! grep -q '<seed>' \"\$MISSION_TMP\"; then
+                sed -i '0,/\\/>/s|/>|/>\\n  <seed>${FIXED_SEED}<\/seed>|' \"\$MISSION_TMP\"
+              fi
+
+              timeout ${TIMEOUT} scrimmage \"\$MISSION_TMP\" || {
+                exit_code=\$?
+                rm -f \"\$MISSION_TMP\"
+                if [ \$exit_code -eq 124 ]; then
+                  echo 'Mission timed out (expected for long-running simulations)'
+                  exit 0
+                fi
+                echo 'Mission failed with exit code:' \$exit_code
+                exit \$exit_code
+              }
+              rm -f \"\$MISSION_TMP\"
+            "
+
+      # Copy summary.csv to a predictable location for the commit job to collect
+      - name: Stage benchmark result
+        run: |
+          MISSION_NAME="${{ matrix.mission }}"
+          LOG_DIR="${{ runner.temp }}/mission-logs/${MISSION_NAME}"
+          BENCHMARK_STAGE="${{ runner.temp }}/benchmarks"
+          mkdir -p "${BENCHMARK_STAGE}"
+
+          SUMMARY_CSV=$(find "${LOG_DIR}" -name 'summary.csv' | head -1)
+          if [ -n "$SUMMARY_CSV" ] && [ -s "$SUMMARY_CSV" ]; then
+            cp "$SUMMARY_CSV" "${BENCHMARK_STAGE}/${MISSION_NAME%.xml}.csv"
+            echo "Staged benchmark for ${MISSION_NAME}"
+          else
+            echo "No summary.csv produced for ${MISSION_NAME} — skipping"
+          fi
+
+      - name: Upload benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-${{ matrix.mission }}
+          path: ${{ runner.temp }}/benchmarks/
+          if-no-files-found: ignore
+
+  commit-benchmarks:
+    needs: run-missions
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download all benchmark artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: benchmark-*
+          path: ${{ runner.temp }}/benchmarks
+          merge-multiple: true
+
+      - name: Commit benchmarks to repo
+        run: |
+          BENCHMARK_STAGE="${{ runner.temp }}/benchmarks"
+
+          if [ -z "$(ls -A ${BENCHMARK_STAGE} 2>/dev/null)" ]; then
+            echo "No benchmark files to commit."
+            exit 0
+          fi
+
+          mkdir -p benchmarks
+          cp ${BENCHMARK_STAGE}/*.csv benchmarks/ 2>/dev/null || true
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add benchmarks/
+          if git diff --cached --quiet; then
+            echo "Benchmarks unchanged — nothing to commit."
+          else
+            IMAGE_TAG="${{ github.event.inputs.image_tag }}"
+            git commit -m "chore: update benchmarks from image ${IMAGE_TAG} [skip ci]"
+            git push
+            echo "Benchmarks committed."
+          fi

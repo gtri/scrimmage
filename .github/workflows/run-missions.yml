@@ -1,0 +1,204 @@
+# ==============================================================================
+# Run all standalone missions (no hardware/external dependencies)
+# ==============================================================================
+#
+# This workflow runs each mission file that doesn't require:
+# - Hardware (joystick, ArduPilot, AirSim)
+# - External systems (MOOS)
+# - GPU/CUDA
+#
+# Missions are run in parallel using a matrix strategy.
+# The workflow continues even if some missions fail.
+#
+# BENCHMARK COMPARISON
+# --------------------
+# Each mission's summary.csv is compared against the baseline stored in
+# benchmarks/<mission>.csv (committed by update-benchmark.yml).
+# A markdown table is rendered in the step summary showing deltas per metric.
+#
+# CROSS-BRANCH USAGE
+# ------------------
+# The image_tag input is just a Docker tag from GHCR — it has no concept of
+# which branch built it. You can be on feature/foo, run this workflow with a
+# SHA built from main, and compare your feature changes against it.
+#
+# Example pattern:
+#   1. Ubuntu-24.04 has a known-good image a3f9c12
+#   2. You're on feature/my-change
+#   3. Run update-benchmark.yml with a3f9c12 to set your baseline
+#   4. Run this workflow with your feature image to compare against it
+#
+# RECOMMENDED USAGE
+# -----------------
+# This workflow is manual-only (workflow_dispatch), so it never runs
+# automatically and won't clutter the Actions history on Ubuntu-24.04.
+#
+# INITIAL SETUP (one-time on Ubuntu-24.04):
+#   Run update-benchmark.yml once on Ubuntu-24.04 with the latest good image
+#   to establish project-wide baselines. Every feature branch will inherit them.
+#
+# FEATURE BRANCH WORKFLOW:
+#   1. Branch from Ubuntu-24.04 (inherits benchmarks/*.csv)
+#   2. Make your changes, push, wait for CI to build your image
+#   3. Trigger this workflow with your feature image tag to compare
+#   4. When merging, squash to keep Ubuntu-24.04 history clean
+#
+# ==============================================================================
+
+name: Run Missions
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to test (short SHA or "latest")'
+        required: false
+        default: 'latest'
+      timeout_seconds:
+        description: 'Timeout per mission (seconds)'
+        required: false
+        default: '120'
+
+jobs:
+  run-missions:
+    # Only runs on manual trigger
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    strategy:
+      fail-fast: false  # Continue running other missions even if one fails
+      matrix:
+        mission:
+          # Standalone missions (no external dependencies)
+          - auction_assign.xml
+          - auction_assign2.xml
+          - auction_assign3.xml
+          - batch-example-mission.xml
+          - capture-the-flag-simple.xml
+          - capture-the-flag.xml
+          - cars-2d-maze.xml
+          - cars.xml
+          - colliding_spheres.xml
+          - delay-test.xml
+          - fixed_wing_6dof.xml
+          - fsm-motor-schemas.xml
+          - harmonic-oscillator.xml
+          - multirotor-test.xml
+          - predator_prey_boids.xml
+          - random-attrit-test.xml
+          - rigid_body_6dof.xml
+          - shape_draw.xml
+          - straight-no-gui.xml
+          - straight-vs-motorschemas.xml
+          - straight.xml
+          - straight_cars.xml
+          - straight_jsbsim.xml
+          - unicycle.xml
+          - waypoint_follower.xml
+          # Excluded (hardware/external dependencies):
+          # - arducopter.xml (ArduPilot)
+          # - arduplane.xml (ArduPilot)
+          # - arduplane_multiple.xml (ArduPilot)
+          # - joystick-*.xml (joystick)
+          # - moos-*.xml (MOOS)
+          # - quad-airsim-ex1.xml (AirSim)
+          # - rlconsensus.xml (RL/gym)
+          # - rlsimple.xml (RL/gym)
+          # - straight_gpu*.xml (GPU/CUDA)
+          # - uuv-ex1.xml (MOOS)
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run mission ${{ matrix.mission }}
+        run: |
+          MISSION_NAME="${{ matrix.mission }}"
+          TIMEOUT="${{ github.event.inputs.timeout_seconds || '120' }}"
+          LOG_DIR="${{ runner.temp }}/mission-logs/${MISSION_NAME}"
+          mkdir -p "${LOG_DIR}"
+
+          FIXED_SEED="1000000000"
+          echo "Running mission: ${MISSION_NAME} (timeout: ${TIMEOUT}s)"
+
+          docker run --rm \
+            -v "${LOG_DIR}:/root/.scrimmage/logs" \
+            ghcr.io/${{ github.repository_owner }}/scrimmage-24.04:${{ github.event.inputs.image_tag }} \
+            bash -ec "
+              source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+
+              # Patch mission: force headless and set deterministic seed
+              MISSION_SRC=/root/scrimmage/missions/${MISSION_NAME}
+              MISSION_TMP=\$(mktemp --suffix=.xml)
+              sed 's/enable_gui=\"true\"/enable_gui=\"false\"/g;
+                   s/enable_gui=\"\\\${[^}]*}\"/enable_gui=\"false\"/g;
+                   s/<!--[[:space:]]*<seed>[^<]*<\/seed>[[:space:]]*-->/<seed>${FIXED_SEED}<\/seed>/g;
+                   s/<seed>[^<]*<\/seed>/<seed>${FIXED_SEED}<\/seed>/g' \
+                  \"\$MISSION_SRC\" > \"\$MISSION_TMP\"
+              if ! grep -q '<seed>' \"\$MISSION_TMP\"; then
+                sed -i '0,/\\/>/s|/>|/>\\n  <seed>${FIXED_SEED}<\/seed>|' \"\$MISSION_TMP\"
+              fi
+
+              timeout ${TIMEOUT} scrimmage \"\$MISSION_TMP\" || {
+                exit_code=\$?
+                rm -f \"\$MISSION_TMP\"
+                if [ \$exit_code -eq 124 ]; then
+                  echo 'Mission timed out (expected for long-running simulations)'
+                  exit 0
+                fi
+                echo 'Mission failed with exit code:' \$exit_code
+                exit \$exit_code
+              }
+              rm -f \"\$MISSION_TMP\"
+            "
+
+
+          # Compare against benchmark if one exists
+          SUMMARY_CSV=$(find "${LOG_DIR}" -name 'summary.csv' | head -1)
+          BENCHMARK="benchmarks/${MISSION_NAME%.xml}.csv"
+
+          if [ -z "$SUMMARY_CSV" ] || [ ! -s "$SUMMARY_CSV" ]; then
+            echo "## ${MISSION_NAME}" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "_(no summary.csv produced)_" >> "$GITHUB_STEP_SUMMARY"
+          elif [ ! -f "$BENCHMARK" ]; then
+            echo "## ${MISSION_NAME}" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "_(no benchmark on file — run update-benchmark.yml first)_" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            cat "$SUMMARY_CSV" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            python3 .github/scripts/compare_benchmarks.py \
+              "${MISSION_NAME}" "${BENCHMARK}" "${SUMMARY_CSV}" \
+              >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.mission }}
+          path: ${{ runner.temp }}/mission-logs/${{ matrix.mission }}
+          if-no-files-found: ignore
+
+  summary:
+    needs: run-missions
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mission run summary
+        run: |
+          echo "## Mission Run Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All missions completed. Check individual job results above." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Missions run with \`enable_gui:=false\` and timeout protection." >> $GITHUB_STEP_SUMMARY
