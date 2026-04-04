@@ -60,6 +60,15 @@ void Viewer::set_enable_network(bool enable) {
 bool Viewer::init(
     const std::shared_ptr<MissionParse>& mp,
     const std::map<std::string, std::string>& camera_params) {
+
+    // Check for display availability (X11 on Linux)
+    const char* display = std::getenv("DISPLAY");
+    if (display == nullptr || display[0] == '\0') {
+        std::cerr << "Error: GUI enabled but no DISPLAY environment variable set.\n"
+                  << "Run with enable_gui:=false or set DISPLAY for X11 forwarding." << std::endl;
+        return false;
+    }
+
     renderer_ = vtkSmartPointer<vtkRenderer>::New();
     renderWindow_ = vtkSmartPointer<vtkRenderWindow>::New();
 

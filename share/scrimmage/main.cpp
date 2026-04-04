@@ -193,7 +193,9 @@ int main(int argc, char* argv[]) {
         }
 
         // Initialize the VTK GUI viewer
-        viewer->init(simcontrol.mp(), camera_params);
+        if (!viewer->init(simcontrol.mp(), camera_params)) {
+            return -1;
+        }
 
         // Run the viewer in its own thread
         auto viewer_thread_func = [&]() { viewer->run(); };
