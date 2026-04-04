@@ -5,13 +5,13 @@
   
 <!--   <run start="0.0" end="100" dt="0.0083333" 
        time_warp="1" 
-       enable_gui="true"
+       enable_gui="${enable_gui=true}"
        network_gui="false"
        start_paused="true"/> -->
 
   <run start="0.0" end="100" dt="0.001" 
        time_warp="1" 
-       enable_gui="true"
+       enable_gui="${enable_gui=true}"
        network_gui="false"
        start_paused="false"/>
   

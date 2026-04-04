@@ -1,6 +1,6 @@
 <runscript name="Flocking Mission with Single Team">
 
-  <run dt="0.1" enable_gui="true" end="200" network_gui="false" start="0.0" start_paused="false" time_warp="10"
+  <run dt="0.1" enable_gui="${enable_gui=true}" end="200" network_gui="false" start="0.0" start_paused="false" time_warp="10"
     motion_multiplier="1"/>
 
   <end_condition>time, all_dead</end_condition> 
