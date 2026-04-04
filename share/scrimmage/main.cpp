@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     std::string overrides = "";
 
     int opt;
-    while ((opt = getopt(argc, argv, "t:j:s:o:")) != -1) {
+    while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
         switch (opt) {
             case 't':
                 task_id = std::stoi(std::string(optarg));
@@ -109,9 +109,6 @@ int main(int argc, char* argv[]) {
             case 's':
                 seed = std::string(optarg);
                 seed_set = true;
-                break;
-            case 'o':
-                overrides = std::string(optarg);
                 break;
             case '?':
                 if (optopt == 't') {
@@ -126,7 +123,29 @@ int main(int argc, char* argv[]) {
     }
 
     if (optind >= argc || argc < 2) {
-        cout << "usage: " << argv[0] << " scenario.xml" << endl;
+        cout << "usage: " << argv[0] << " [var:=value ...] scenario.xml [var:=value ...]" << endl;
+        return -1;
+    }
+
+    // Parse positional arguments: args with ":=" are overrides, first without is mission file
+    std::string mission_file;
+    for (int i = optind; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg.find(":=") != std::string::npos) {
+            // This is an override
+            if (!overrides.empty()) {
+                overrides += ",";
+            }
+            overrides += arg;
+        } else if (mission_file.empty()) {
+            // First non-override arg is the mission file
+            mission_file = arg;
+        }
+    }
+
+    if (mission_file.empty()) {
+        std::cerr << "Error: No mission file specified" << endl;
+        std::cerr << "usage: " << argv[0] << " [var:=value ...] scenario.xml [var:=value ...]" << endl;
         return -1;
     }
 
@@ -136,9 +155,6 @@ int main(int argc, char* argv[]) {
     if (job_id != -1)
         simcontrol.mp()->set_job_number(job_id);
     simcontrol.mp()->set_overrides(overrides);
-
-    // Load in the mission file and parse mission parameters
-    std::string mission_file = argv[optind];
     if (not simcontrol.init(mission_file)) {
         cout << "Failed to initialize SimControl with mission file: " << mission_file << endl;
         return -1;

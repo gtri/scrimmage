@@ -72,11 +72,18 @@ void MissionParse::set_overrides(const std::string& overrides) {
     std::vector<std::string> overrides_tokens;
     split(overrides_tokens, overrides_no_space, ", ");
     for (auto& overrides_str : overrides_tokens) {
-        // Parse each key=value pair
-        std::vector<std::string> kv_tokens;
-        split(kv_tokens, overrides_str, ":= ");
+        // Parse each key:=value pair (ROS-style syntax)
+        // Normalize ":=" to "=" for splitting
+        std::string normalized = overrides_str;
+        size_t pos = normalized.find(":=");
+        if (pos != std::string::npos) {
+            normalized.replace(pos, 2, "=");
+        }
 
-        // Only add to the map if the key:value was parsed correctly
+        std::vector<std::string> kv_tokens;
+        split(kv_tokens, normalized, "=");
+
+        // Only add to the map if the key=value was parsed correctly
         if (kv_tokens.size() == 2) {
             overrides_map_[kv_tokens[0]] = kv_tokens[1];
         }
