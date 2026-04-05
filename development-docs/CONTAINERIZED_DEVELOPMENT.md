@@ -131,6 +131,70 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 
 ---
 
+## Debugging with LLDB (VS Code)
+
+The devcontainer includes LLDB and the CodeLLDB extension for integrated debugging.
+
+### Setup (one-time)
+
+Build with debug symbols:
+```bash
+cd /root/scrimmage/build
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+make -j$(nproc)
+```
+
+Or use the VS Code task: `Ctrl+Shift+P` → "Tasks: Run Task" → "cmake-configure-debug"
+
+### Debug a Mission
+
+1. Set breakpoints in your code (click left gutter)
+2. Press `F5` or go to Run → Start Debugging
+3. Select "Debug: scrimmage" (uses `missions/straight-no-gui.xml`)
+
+For other missions: use "Debug: scrimmage (pick mission)"
+
+### Debug Tests
+
+1. Open a test file (e.g., `test/test_quaternion.cpp`)
+2. Set breakpoints
+3. Run "Debug: Current Test File" from the debug dropdown
+
+### Available Debug Configurations
+
+Found in the **debug dropdown** (top of Run and Debug panel, `Ctrl+Shift+D`):
+
+| Config | Description |
+|--------|-------------|
+| Debug: scrimmage | Run scrimmage with straight-no-gui.xml |
+| Debug: scrimmage (pick mission) | Choose from common mission files |
+| Debug: Current Test File | Debug test executable matching open file (e.g., `test_quaternion.cpp` → `build/test/test_quaternion`) |
+| Debug: Attach to Process | Attach to a running scrimmage process |
+
+### Available Build Tasks
+
+Run via `Ctrl+Shift+P` → "Tasks: Run Task":
+
+| Task | Description |
+|------|-------------|
+| cmake-configure | Configure with selectable build type |
+| cmake-configure-debug | Configure with Debug build type |
+| build | Build with parallel jobs (default task) |
+| test | Run all tests with ctest |
+| clean | Clean build artifacts |
+| rebuild | Clean then build |
+
+### Terminal Debugging (without VS Code)
+
+```bash
+source ~/.scrimmage/setup.bash
+cd /root/scrimmage
+lldb build/bin/scrimmage -- missions/straight-no-gui.xml
+# step through debug with keybindings
+```
+
+---
+
 ## Neovim LSP with Docker
 
 Configure clangd to exec into a running container:

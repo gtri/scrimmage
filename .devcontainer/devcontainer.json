@@ -27,7 +27,8 @@
       "extensions": [
         "llvm-vs-code-extensions.vscode-clangd",
         "ms-vscode.cmake-tools",
-        "twxs.cmake"
+        "twxs.cmake",
+        "vadimcn.vscode-lldb"
       ],
       "settings": {
         "clangd.path": "/usr/bin/clangd",

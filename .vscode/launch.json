@@ -1,0 +1,81 @@
+{
+  // Debug configurations for SCRIMMAGE
+  // Requires: Debug build (cmake -DCMAKE_BUILD_TYPE=Debug ..)
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug: scrimmage",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/scrimmage",
+      "args": ["${workspaceFolder}/missions/straight-no-gui.xml"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "${workspaceFolder}/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "${workspaceFolder}/config",
+        "SCRIMMAGE_KERNEL_PATH": "${workspaceFolder}/src/gpu/kernels",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs",
+        "JSBSIM_ROOT": "${workspaceFolder}/data"
+      },
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: scrimmage (pick mission)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/scrimmage",
+      "args": ["${input:missionFile}"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "${workspaceFolder}/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "${workspaceFolder}/config",
+        "SCRIMMAGE_KERNEL_PATH": "${workspaceFolder}/src/gpu/kernels",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs",
+        "JSBSIM_ROOT": "${workspaceFolder}/data"
+      },
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: Current Test File",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/test/${fileBasenameNoExtension}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "${workspaceFolder}/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "${workspaceFolder}/config",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs"
+      },
+      "preLaunchTask": "build-tests",
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: Attach to Process",
+      "type": "lldb",
+      "request": "attach",
+      "pid": "${command:pickProcess}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "missionFile",
+      "type": "pickString",
+      "description": "Select a mission file",
+      "options": [
+        "missions/straight-no-gui.xml",
+        "missions/straight.xml",
+        "missions/capture-the-flag.xml",
+        "missions/predator_prey_boids.xml",
+        "missions/cars.xml"
+      ],
+      "default": "missions/straight-no-gui.xml"
+    }
+  ]
+}
