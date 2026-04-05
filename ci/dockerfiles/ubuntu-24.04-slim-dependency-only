@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     qtbase5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev \
     vim \
     clangd \
+    lldb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory to /root/scrimmage on container start

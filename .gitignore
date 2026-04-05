@@ -36,7 +36,6 @@ tags*
 **.swp
 **.DS_Store
 **.ccls*
-.vscode
 env
 .idea*
 python/scrimmage/bindings
