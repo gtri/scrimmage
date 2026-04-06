@@ -35,6 +35,7 @@
 #include <iostream>
 #include <memory>
 #include <ostream>
+#include <sstream>
 #include <string>
 #include <unordered_set>
 
@@ -95,7 +96,8 @@ int main(int argc, char* argv[]) {
 
     bool seed_set = false;
     std::string seed = "";
-    std::string overrides = "";
+    std::ostringstream overrides;
+    bool first_override = true;
 
     int opt;
     while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
@@ -132,11 +134,16 @@ int main(int argc, char* argv[]) {
     for (int i = optind; i < argc; ++i) {
         std::string arg(argv[i]);
         if (arg.find(":=") != std::string::npos) {
-            // This is an override
-            if (!overrides.empty()) {
-                overrides += ",";
+            // This is an override - normalize := to =
+            if (!first_override) {
+                overrides << ",";
             }
-            overrides += arg;
+            first_override = false;
+            // Replace := with =
+            std::string normalized = arg;
+            size_t pos = normalized.find(":=");
+            normalized.replace(pos, 2, "=");
+            overrides << normalized;
         } else if (mission_file.empty()) {
             // First non-override arg is the mission file
             mission_file = arg;
@@ -154,7 +161,7 @@ int main(int argc, char* argv[]) {
         simcontrol.mp()->set_task_number(task_id);
     if (job_id != -1)
         simcontrol.mp()->set_job_number(job_id);
-    simcontrol.mp()->set_overrides(overrides);
+    simcontrol.mp()->set_overrides(overrides.str());
     if (not simcontrol.init(mission_file)) {
         cout << "Failed to initialize SimControl with mission file: " << mission_file << endl;
         return -1;
