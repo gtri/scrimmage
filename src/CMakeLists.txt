@@ -21,7 +21,7 @@ set(SRCS
     math/StateWithCovariance.cpp
     metrics/Metrics.cpp
     network/Interface.cpp network/ScrimmageServiceImpl.cpp
-    parse/ConfigParse.cpp parse/MissionParse.cpp parse/ParseUtils.cpp
+    parse/ConfigParse.cpp parse/MissionParse.cpp parse/MissionValidation.cpp parse/ParseUtils.cpp
     #parse/XMLParser/RapidXMLParser.cpp
     plugin_manager/MotionModel.cpp plugin_manager/Plugin.cpp
     plugin_manager/PluginManager.cpp

@@ -163,7 +163,6 @@ int main(int argc, char* argv[]) {
         simcontrol.mp()->set_job_number(job_id);
     simcontrol.mp()->set_overrides(overrides.str());
     if (not simcontrol.init(mission_file)) {
-        cout << "Failed to initialize SimControl with mission file: " << mission_file << endl;
         return -1;
     }
 

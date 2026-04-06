@@ -45,8 +45,6 @@
 #include "scrimmage/proto/Color.pb.h"
 #include "scrimmage/proto/Visual.pb.h"
 
-namespace sp = scrimmage_proto;
-
 namespace scrimmage {
 
 // Key 1: Entity Description XML ID
@@ -77,6 +75,20 @@ struct GenerateInfo {
     double time_variance;
 };
 
+/// Structured metadata for entity plugins (autonomy, controller, sensor, motion_model)
+struct EntityPluginInfo {
+    std::string name;       ///< Actual plugin name (e.g., "Straight", "MotorSchemas")
+    std::string type;       ///< Plugin type: "autonomy", "controller", "motion_model", "sensor"
+    int order = 0;          ///< Execution order (0, 1, 2 for multiple plugins of same type)
+
+    /// Parameters from mission XML inline attributes (e.g., speed="21")
+    std::map<std::string, std::string> params;
+
+    int entity_block_id = -1;   ///< Which entity block this came from
+    std::string entity_name;    ///< <name>uav_entity</name> if present
+    std::string entity_tag;     ///< tag="gen_straight" if present
+};
+
 class MissionParse {
  public:
     bool create_log_dir();
@@ -105,13 +117,17 @@ class MissionParse {
     std::string log_dir();
     std::string root_log_dir();
 
-    std::map<int, AttributeMap>& entity_attributes();
-
     std::map<int, std::map<std::string, std::string>>& entity_params();
 
     std::map<int, int>& ent_id_to_block_id();
 
     EntityDesc_t& entity_descriptions();
+
+    /// Returns map<entity_block_id, map<plugin_key, EntityPluginInfo>> for all entity blocks
+    const std::map<int, std::map<std::string, EntityPluginInfo>>& all_entity_plugins() const;
+
+    /// Get plugins by type, ordered by execution order
+    std::vector<EntityPluginInfo> get_plugins_by_type(int entity_block_id, const std::string& type) const;
 
     std::map<std::string, int>& entity_tag_to_id();
 
@@ -190,16 +206,17 @@ class MissionParse {
 
     std::map<int, TeamInfo> team_info_;
 
-    std::map<int, AttributeMap> entity_attributes_;
     std::map<int, std::map<std::string, std::string>> entity_params_;
 
     // Key: Entity ID
-    // Value: XML "entity" block used to create entity
-    // This can be used to find the key for which entity_attributes_ maps to
-    // the entity XML block.
+    // Value: XML "entity" block ID used to create entity
+    // Maps runtime entity IDs to their source entity_plugins_ block ID.
     std::map<int, int> ent_id_to_block_id_;
 
     EntityDesc_t entity_descs_;
+
+    /// Key: entity block ID, Value: map of plugin key (type:name) to EntityPluginInfo
+    std::map<int, std::map<std::string, EntityPluginInfo>> entity_plugins_;
 
     bool use_exact_log_path_;
     std::string root_log_dir_;

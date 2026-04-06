@@ -61,11 +61,8 @@ namespace scrimmage {
 
 using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
 
-typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
-
 struct EntityInitParams {
     EntityInitParams() {};
-    AttributeMap overrides;
     GPUControllerPtr gpu_controller;
     GPUMotionModelPtr gpu_motion_model;
     std::map<std::string, std::string> info;
@@ -87,8 +84,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool parse_visual(
         std::map<std::string, std::string>& info,
-        MissionParsePtr mp,
-        std::map<std::string, std::string>& overrides);
+        MissionParsePtr mp);
 
     void close(double t);
     void collision();

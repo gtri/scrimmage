@@ -212,17 +212,7 @@ bool External::create_entity(
 
     std::map<std::string, std::string> info = mp_->entity_descriptions()[it_name_id->second];
 
-    AttributeMap& attr_map = mp_->entity_attributes()[it_name_id->second];
-    // bool ent_success =
-    //     entity_->init(
-    //         attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,
-    //         mp_->projection(), entity_id,
-    //         it_name_id->second, plugin_manager_, file_search, rtree, pubsub_,
-    //         printer_, time_, param_server_, global_services_, plugin_tags,
-    //         param_override_func, debug_level);
-    //
     EntityInitParams init_params;
-    init_params.overrides = attr_map;
     init_params.id = entity_id;
     init_params.info = info;
     init_params.ent_desc_id = it_name_id->second;

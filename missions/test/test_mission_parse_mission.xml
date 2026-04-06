@@ -61,6 +61,7 @@ to LocalNetwork's csv filename attribute
 <speed>20</speed> 
 </param_common>
 <network param_common="foo">LocalNetwork</network>
+<network name="CommsNetwork">SphereNetwork</network>
 
 
 

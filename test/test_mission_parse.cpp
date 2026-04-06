@@ -33,6 +33,22 @@
 
 #include "scrimmage/parse/MissionParse.h"
 
+namespace {
+
+const std::map<std::string, scrimmage::EntityPluginInfo>& get_entity_plugins(
+    const scrimmage::MissionParse& mission_parse, int entity_block_id) {
+    static const std::map<std::string, scrimmage::EntityPluginInfo> empty_plugins;
+    const auto& all_plugins = mission_parse.all_entity_plugins();
+    auto plugin_it = all_plugins.find(entity_block_id);
+    EXPECT_NE(plugin_it, all_plugins.end());
+    if (plugin_it == all_plugins.end()) {
+        return empty_plugins;
+    }
+    return plugin_it->second;
+}
+
+}  // namespace
+
 class MissionParseTest : public testing::TestWithParam<std::string> {
  protected:
     void SetUp() override {
@@ -117,8 +133,16 @@ TEST_P(MissionParseTest, mission_parse_test_unique_tags) {
 TEST_P(MissionParseTest, mission_parse_test_param_common) {
     compare_attributes(mp.attributes(), "LocalNetwork", {"csv_filename"}, {"bar.csv"});
 
-    // Autonomies are stored as "autonomy0", "autonomy1", etc...
-    compare_attributes(mp.entity_attributes()[0], "autonomy0", {"speed"}, {"20"});
+    auto &network_names = mp.network_names();
+    EXPECT_NE(std::find(network_names.begin(), network_names.end(), "CommsNetwork"),
+              network_names.end());
+    EXPECT_EQ(mp.attributes()["CommsNetwork"]["ORIGINAL_PLUGIN_NAME"], "SphereNetwork");
+
+    // Plugin params are now in all_entity_plugins()
+    const auto& plugins = get_entity_plugins(mp, 0);
+    auto it = plugins.find("autonomy:Straight");
+    ASSERT_NE(it, plugins.end());
+    EXPECT_EQ(it->second.params.at("speed"), "20");
 }
 
 TEST_P(MissionParseTest, mission_parse_test_gen_info) {
@@ -184,6 +208,7 @@ TEST_P(MissionParseTest, mission_parse_test_entities) {
     };
 
     auto descriptor_it = descriptions.begin();
+    // Entity properties (plugins are now in all_entity_plugins())
     std::map<std::string, std::string> expected_map{
         std::make_pair("name", "uav_entity"),
         std::make_pair("team_id", "1"),
@@ -198,12 +223,30 @@ TEST_P(MissionParseTest, mission_parse_test_entities) {
         std::make_pair("z", "195"),
         std::make_pair("heading", "0"),
         std::make_pair("visual_model", "zephyr-blue"),
-        std::make_pair("autonomy0", "Straight"),
-        std::make_pair("controller0", "SimpleAircraftControllerPID"),
-        std::make_pair("motion_model", "SimpleAircraft"),
     };
 
     compare_entity_descriptor(descriptor_it->second, expected_map);
+
+    // Verify plugins are in all_entity_plugins()
+    const auto& plugins = get_entity_plugins(mp, 0);
+    ASSERT_EQ(plugins.size(), 3);  // autonomy, controller, motion_model
+
+    auto it_autonomy = plugins.find("autonomy:Straight");
+    ASSERT_NE(it_autonomy, plugins.end());
+    EXPECT_EQ(it_autonomy->second.name, "Straight");
+    EXPECT_EQ(it_autonomy->second.type, "autonomy");
+    EXPECT_EQ(it_autonomy->second.order, 0);
+    EXPECT_EQ(it_autonomy->second.entity_name, "uav_entity");
+
+    auto it_controller = plugins.find("controller:SimpleAircraftControllerPID");
+    ASSERT_NE(it_controller, plugins.end());
+    EXPECT_EQ(it_controller->second.name, "SimpleAircraftControllerPID");
+    EXPECT_EQ(it_controller->second.type, "controller");
+
+    auto it_motion = plugins.find("motion_model:SimpleAircraft");
+    ASSERT_NE(it_motion, plugins.end());
+    EXPECT_EQ(it_motion->second.name, "SimpleAircraft");
+    EXPECT_EQ(it_motion->second.type, "motion_model");
 }
 
 TEST_P(MissionParseTest, mission_parse_test_team_info) {
@@ -240,6 +283,62 @@ TEST_P(MissionParseTest, mission_parse_test_team_info) {
     expected_team_info.color.set_g(77);
     expected_team_info.color.set_b(255);
     compare_team_info(team_it->second, expected_team_info);
+}
+
+TEST(MissionParseStandaloneTest, entity_common_plugins_are_imported_into_entity_plugins) {
+    scrimmage::MissionParse mp;
+    ASSERT_TRUE(mp.parse("missions/test/test_entity_common_plugins.xml"));
+
+    const auto& plugins = get_entity_plugins(mp, 0);
+    ASSERT_EQ(plugins.size(), 5);
+
+    auto it_common_auto = plugins.find("autonomy:Straight");
+    ASSERT_NE(it_common_auto, plugins.end());
+    EXPECT_EQ(it_common_auto->second.order, 0);
+    EXPECT_EQ(it_common_auto->second.params.at("speed"), "10");
+
+    auto it_entity_auto = plugins.find("autonomy:Straight:1");
+    ASSERT_NE(it_entity_auto, plugins.end());
+    EXPECT_EQ(it_entity_auto->second.order, 1);
+    EXPECT_EQ(it_entity_auto->second.params.at("speed"), "20");
+
+    auto it_controller = plugins.find("controller:SimpleAircraftControllerPID");
+    ASSERT_NE(it_controller, plugins.end());
+    EXPECT_EQ(it_controller->second.order, 0);
+    EXPECT_EQ(it_controller->second.params.at("gain"), "1.5");
+
+    auto it_motion = plugins.find("motion_model:SimpleAircraft");
+    ASSERT_NE(it_motion, plugins.end());
+    EXPECT_EQ(it_motion->second.order, 0);
+    EXPECT_EQ(it_motion->second.params.at("max_speed"), "25");
+
+    auto it_sensor = plugins.find("sensor:NoisyState");
+    ASSERT_NE(it_sensor, plugins.end());
+    EXPECT_EQ(it_sensor->second.order, 0);
+    EXPECT_EQ(it_sensor->second.params.at("noise"), "0.1");
+
+    for (const auto& [key, plugin] : plugins) {
+        EXPECT_EQ(plugin.entity_name, "entity_common_stack");
+        EXPECT_EQ(plugin.entity_tag, "common_entity");
+        EXPECT_EQ(plugin.entity_block_id, 0);
+    }
+}
+
+TEST(MissionParseStandaloneTest, entity_local_motion_model_overrides_entity_common_motion_model) {
+    scrimmage::MissionParse mp;
+    ASSERT_TRUE(mp.parse("missions/test/test_entity_common_motion_override.xml"));
+
+    const auto& plugins = get_entity_plugins(mp, 0);
+    EXPECT_EQ(plugins.count("motion_model:SimpleAircraft"), 0);
+
+    auto it_motion = plugins.find("motion_model:Ballistic");
+    ASSERT_NE(it_motion, plugins.end());
+    EXPECT_EQ(it_motion->second.order, 0);
+
+    auto motion_plugins = mp.get_plugins_by_type(0, "motion_model");
+    ASSERT_EQ(motion_plugins.size(), 1);
+    EXPECT_EQ(motion_plugins.front().name, "Ballistic");
+    EXPECT_EQ(motion_plugins.front().params.at("max_speed"), "30");
 }
 
 INSTANTIATE_TEST_SUITE_P(

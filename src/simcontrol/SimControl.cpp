@@ -51,6 +51,7 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/MissionValidation.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/sensor/Sensor.h"
@@ -201,6 +202,17 @@ bool SimControl::init(const std::string& mission_file, const bool& init_python) 
     }
     setup_logging();
 
+    // Validate all plugins referenced in the mission file
+    // This catches invalid plugin names before simulation starts
+    {
+        MissionValidation validator;
+        ValidationResult validation_result = validator.validate(mp_, *file_search_);
+        if (!validation_result.valid()) {
+            validator.print_errors(validation_result, mission_file);
+            return false;
+        }
+    }
+
 #if ENABLE_GPU_ACCELERATION == 1
     // Needs to be done after parsing mission file
     init_gpu();
@@ -333,16 +345,12 @@ bool SimControl::generate_entity(const int& ent_desc_id) {
         return false;
     }
 
-    // Get the entity attributes for the given id
-    AttributeMap plugin_attr_map = mp_->entity_attributes()[ent_desc_id];
-
-    return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
+    return generate_entity(ent_desc_id, it_params->second);
 }
 
 bool SimControl::generate_entity(
     const int& ent_desc_id,
-    std::map<std::string, std::string>& params,
-    AttributeMap& plugin_attr_map) {
+    std::map<std::string, std::string>& params) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
@@ -428,7 +436,6 @@ bool SimControl::generate_entity(
     info.gpu = gpu_;
 
     EntityInitParams init_params;
-    init_params.overrides = plugin_attr_map;
     init_params.info = params;
     init_params.id = id;
     init_params.ent_desc_id = ent_desc_id;
@@ -982,21 +989,25 @@ bool SimControl::start() {
         params["id"] = std::to_string(msg->data.entity_id());
 
         // Override any manually specified entity_params
+        // NOTE: Plugin names (autonomy, controller, motion_model, sensor) cannot be
+        // overridden at runtime. These are set in the mission XML and cannot be changed at spawn time.
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
-            params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
-        }
-
-        AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
-        for (int i = 0; i < msg->data.plugin_param().size(); i++) {
-            plugin_attr_map[msg->data.plugin_param(i).plugin_type()]
-                           [msg->data.plugin_param(i).tag_name()] =
-                               msg->data.plugin_param(i).tag_value();
+            const std::string& key = msg->data.entity_param(i).key();
+            if (kEntityPluginTypes.count(key) > 0 ||
+                (key.size() > 0 && kEntityPluginTypes.count(key.substr(0, key.find_last_not_of("0123456789") + 1)) > 0)) {
+                LOG_WARN("GenerateEntity: Ignoring plugin override '" << key << "=" 
+                         << msg->data.entity_param(i).value() << "'. "
+                         << "Plugin names cannot be changed at runtime. "
+                         << "Use separate entity templates with different tags instead.");
+                continue;
+            }
+            params[key] = msg->data.entity_param(i).value();
         }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
+        if (not this->generate_entity(it_ent_desc_id->second, params)) {
             LOG_ERROR("Failed to generate entity with tag: " << msg->data.entity_tag());
             return;
         }

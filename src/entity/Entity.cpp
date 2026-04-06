@@ -88,7 +88,6 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     int id = init_params.id;
     int ent_desc_id = init_params.ent_desc_id;
     std::map<std::string, std::string>& info = init_params.info;
-    AttributeMap& overrides = init_params.overrides;
     std::set<std::string>& plugin_tags = init_params.plugin_tags;
     std::function<void(std::map<std::string, std::string>&)> param_override_func =
         init_params.param_override_func;
@@ -107,7 +106,7 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
         mp_ = std::make_shared<MissionParse>();
     } else {
         mp_ = mp;
-        parse_visual(info, mp_, overrides["visual_model"]);
+        parse_visual(info, mp_);
     }
 
     if (info.count("health") > 0) {
@@ -159,20 +158,20 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     ////////////////////////////////////////////////////////////
     // sensor
     ////////////////////////////////////////////////////////////
-    // The MissionParser appends the order number to the sensor (e.g., sensor0,
-    // sensor1, etc.)
-    int sensor_ct = 0;
-    std::string sensor_order_name = std::string("sensor") + std::to_string(sensor_ct);
-
-    while (info.count(sensor_order_name) > 0) {
+    auto sensor_plugins = mp_->get_plugins_by_type(ent_desc_id, "sensor");
+    for (const auto& plugin_info : sensor_plugins) {
         ConfigParse config_parse;
-        std::string sensor_name = info[sensor_order_name];
+        std::string sensor_name = plugin_info.name;
+
+        // Build overrides map from plugin params
+        std::map<std::string, std::string> sensor_overrides = plugin_info.params;
+
         PluginStatus<Sensor> status = plugin_manager_->make_plugin<Sensor>(
             "scrimmage::Sensor",
             sensor_name,
             *file_search_,
             config_parse,
-            overrides[sensor_order_name],
+            sensor_overrides,
             plugin_tags);
         if (status.status == PluginStatus<Sensor>::cast_failed) {
             LOG_ERROR("Failed to open sensor plugin: " << sensor_name);
@@ -185,16 +184,16 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
             // Get sensor's offset from entity origin
             std::vector<double> tf_xyz = {0.0, 0.0, 0.0};
-            auto it_xyz = overrides[sensor_order_name].find("xyz");
-            if (it_xyz != overrides[sensor_order_name].end()) {
+            auto it_xyz = sensor_overrides.find("xyz");
+            if (it_xyz != sensor_overrides.end()) {
                 str2container(it_xyz->second, " ", tf_xyz, 3);
             }
             sensor->transform()->pos() << tf_xyz[0], tf_xyz[1], tf_xyz[2];
 
             // Get sensor's orientation relative to entity's coordinate frame
             std::vector<double> tf_rpy = {0.0, 0.0, 0.0};
-            auto it_rpy = overrides[sensor_order_name].find("rpy");
-            if (it_rpy != overrides[sensor_order_name].end()) {
+            auto it_rpy = sensor_overrides.find("rpy");
+            if (it_rpy != sensor_overrides.end()) {
                 str2container(it_rpy->second, " ", tf_rpy, 3);
             }
             sensor->transform()->quat().set(
@@ -217,7 +216,7 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
                 sensor->set_loop_rate(loop_rate);
             }
 
-            std::string given_name = sensor_name + std::to_string(sensor_ct);
+            std::string given_name = sensor_name + std::to_string(plugin_info.order);
             sensor->set_name(given_name);
 
             if (debug_level > 1) {
@@ -236,7 +235,6 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             }
             sensors_[given_name] = sensor;
         }
-        sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
     }
 
     ////////////////////////////////////////////////////////////
@@ -245,20 +243,24 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     bool use_gpu_motion_model = gpu_motion_model != nullptr;
     bool init_empty_motion_model = true;  // Still init a dummy motion model when using a gpu one.
                                           // Otherwise program may segfault during execution.
-    if (info.count("motion_model") > 0 && !use_gpu_motion_model) {
+    auto motion_plugins = mp_->get_plugins_by_type(ent_desc_id, "motion_model");
+    if (!motion_plugins.empty() && !use_gpu_motion_model) {
+        // MissionParse enforces singleton motion_model precedence, so front() is the
+        // resolved winner after entity-local overrides have replaced any inherited one.
+        const auto& motion_info = motion_plugins.front();
         ConfigParse config_parse;
         PluginStatus<MotionModel> status = plugin_manager_->make_plugin<MotionModel>(
             "scrimmage::MotionModel",
-            info["motion_model"],
+            motion_info.name,
             *file_search_,
             config_parse,
-            overrides["motion_model"],
+            motion_info.params,
             plugin_tags);
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            LOG_ERROR("Failed to open motion model plugin: " << info["motion_model"]);
+            LOG_ERROR("Failed to open motion model plugin: " << motion_info.name);
             return false;
         } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
-            LOG_ERROR("Failed to parse motion model plugin config: " << info["motion_model"]);
+            LOG_ERROR("Failed to parse motion model plugin config: " << motion_info.name);
             return false;
         } else if (status.status == PluginStatus<MotionModel>::loaded) {
             // We have created a valid motion model
@@ -272,21 +274,21 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             motion_model_->set_id_to_team_map(id_to_team_map);
             motion_model_->set_id_to_ent_map(id_to_ent_map);
             motion_model_->set_param_server(param_server_);
-            motion_model_->set_name(info["motion_model"]);
+            motion_model_->set_name(motion_info.name);
             param_override_func(config_parse.params());
 
             if (debug_level > 1) {
                 LOG_INFO("--------------------------------");
-                LOG_INFO("Motion plugin params: " << info["motion_model"]);
+                LOG_INFO("Motion plugin params: " << motion_info.name);
                 LOG_INFO(config_parse);
             }
             try {
                 motion_model_->init(info, config_parse.params());
             } catch (const std::exception& e) {
-                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw exception during init: " << e.what());
+                LOG_ERROR("MotionModel plugin '" << motion_info.name << "' threw exception during init: " << e.what());
                 return false;
             } catch (...) {
-                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw unknown exception during init");
+                LOG_ERROR("MotionModel plugin '" << motion_info.name << "' threw unknown exception during init");
                 return false;
             }
         }
@@ -308,41 +310,27 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     ////////////////////////////////////////////////////////////
     // controller
     ////////////////////////////////////////////////////////////
-    // Create a list of controller names (from XML top-down order)
-    std::list<std::string> controller_names;
-    int controller_ct = 0;
-    std::string controller_name = std::string("controller") + std::to_string(controller_ct);
-    bool valid_controller_name = true;
-    do {
-        if (info.count(controller_name) > 0) {
-            controller_names.push_back(controller_name);
-        } else {
-            valid_controller_name = false;
-        }
-        controller_name = std::string("controller") + std::to_string(++controller_ct);
-    } while (valid_controller_name);
+    auto controller_plugins = mp_->get_plugins_by_type(ent_desc_id, "controller");
 
-    // Reverse iterate over controllers, so that the VariableIO can be setup
-    // correctly. Last controller connects to motion model, second to last
-    // controller connects to the last controller.
-    for (std::list<std::string>::reverse_iterator rit = controller_names.rbegin();
-         rit != controller_names.rend();
-         ++rit) {
-        std::string controller_name = *rit;
+    // Build the controller chain from back to front. The last controller in
+    // XML order feeds the motion model, so it must be created first. Each
+    // earlier controller then connects to the controller that was just added.
+    for (auto rit = controller_plugins.rbegin(); rit != controller_plugins.rend(); ++rit) {
+        const auto& controller_info = *rit;
 
         ConfigParse config_parse;
         PluginStatus<Controller> status = plugin_manager_->make_plugin<Controller>(
             "scrimmage::Controller",
-            info[controller_name],
+            controller_info.name,
             *file_search_,
             config_parse,
-            overrides[controller_name],
+            controller_info.params,
             plugin_tags);
         if (status.status == PluginStatus<Controller>::cast_failed) {
-            LOG_ERROR("Failed to open controller plugin: " << controller_name);
+            LOG_ERROR("Failed to open controller plugin: " << controller_info.name);
             return false;
         } else if (status.status == PluginStatus<Controller>::parse_failed) {
-            LOG_ERROR("Failed to parse controller plugin config: " << info[controller_name]);
+            LOG_ERROR("Failed to parse controller plugin config: " << controller_info.name);
             return false;
         } else if (status.status == PluginStatus<Controller>::loaded) {
             ControllerPtr controller = status.plugin;
@@ -353,7 +341,7 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             controller->set_id_to_ent_map(id_to_ent_map);
             controller->set_param_server(param_server_);
             controller->set_pubsub(pubsub_);
-            controller->set_name(info[controller_name]);
+            controller->set_name(controller_info.name);
             param_override_func(config_parse.params());
 
             // get loop rate from plugin's params
@@ -384,16 +372,16 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             // Initialize this controller.
             if (debug_level > 1) {
                 LOG_INFO("--------------------------------");
-                LOG_INFO("Controller plugin params: " << info[controller_name]);
+                LOG_INFO("Controller plugin params: " << controller_info.name);
                 LOG_INFO(config_parse);
             }
             try {
                 controller->init(config_parse.params());
             } catch (const std::exception& e) {
-                LOG_ERROR("Controller plugin '" << info[controller_name] << "' threw exception during init: " << e.what());
+                LOG_ERROR("Controller plugin '" << controller_info.name << "' threw exception during init: " << e.what());
                 return false;
             } catch (...) {
-                LOG_ERROR("Controller plugin '" << info[controller_name] << "' threw unknown exception during init");
+                LOG_ERROR("Controller plugin '" << controller_info.name << "' threw unknown exception during init");
                 return false;
             }
 
@@ -447,21 +435,14 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     ////////////////////////////////////////////////////////////
     // autonomy
     ////////////////////////////////////////////////////////////
-    // Create a list of autonomy names
-    std::list<std::string> autonomy_names;
-    int autonomy_ct = 0;
-    std::string autonomy_name = std::string("autonomy") + std::to_string(autonomy_ct);
-    while (info.count(autonomy_name) > 0) {
-        autonomy_names.push_back(autonomy_name);
-        autonomy_name = std::string("autonomy") + std::to_string(++autonomy_ct);
-    }
+    auto autonomy_plugins = mp_->get_plugins_by_type(ent_desc_id, "autonomy");
 
-    // Create the autonomy plugins from the autonomy_names list.
-    for (auto autonomy_name : autonomy_names) {
+    // Create the autonomy plugins
+    for (const auto& autonomy_info : autonomy_plugins) {
         auto autonomy = make_autonomy<Autonomy>(
-            info[autonomy_name],
+            autonomy_info.name,
             plugin_manager_,
-            overrides[autonomy_name],
+            autonomy_info.params,
             parent,
             state_belief_,
             id_to_team_map,
@@ -526,12 +507,12 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
 bool Entity::parse_visual(
     std::map<std::string, std::string>& info,
-    MissionParsePtr mp,
-    std::map<std::string, std::string>& overrides) {
+    MissionParsePtr mp) {
     visual_->set_id(id_.id());
     visual_->set_opacity(1.0);
 
     ConfigParse cv_parse;
+    std::map<std::string, std::string> model_overrides;
     bool mesh_found, texture_found;
     auto it = info.find("visual_model");
     if (it == info.end()) {
@@ -542,7 +523,7 @@ bool Entity::parse_visual(
         it->second,
         cv_parse,
         *file_search_,
-        overrides,
+        model_overrides,
         visual_,
         mesh_found,
         texture_found);

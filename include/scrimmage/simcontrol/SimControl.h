@@ -206,14 +206,16 @@ class SimControl {
     bool generate_entity(const int& ent_desc_id);
 
     /**
-     * @brief Generate an entity given the entity description ID,
-     * parameters, and plugin specific params. This is utilized for
-     * GenerateEntity publishers.
+     * @brief Generate an entity with parameter overrides.
+     *
+     * @param ent_desc_id Entity block ID from the mission file.
+     * @param params Overrides for entity properties (position, color, etc.).
+     *               Plugin names (autonomy, controller, motion_model, sensor)
+     *               cannot be overridden and are ignored if present.
      */
     bool generate_entity(
         const int& ent_desc_id,
-        std::map<std::string, std::string>& params,
-        AttributeMap& plugin_attr_map);
+        std::map<std::string, std::string>& params);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
