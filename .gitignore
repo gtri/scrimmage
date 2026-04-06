@@ -40,3 +40,6 @@ env
 .idea*
 python/scrimmage/bindings
 python/dist
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
