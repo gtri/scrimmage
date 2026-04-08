@@ -105,6 +105,7 @@ $(document).ready(function(){initNavTree('RandomAttrit_8cpp.html',''); initResiz
 <code>#include &quot;<a class="el" href="Random_8h_source.html">scrimmage/common/Random.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
@@ -113,36 +114,39 @@ Include dependency graph for RandomAttrit.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="RandomAttrit_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2RandomAttrit_2RandomAttrit_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2RandomAttrit_2RandomAttrit_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2RandomAttrit_2RandomAttrit_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="515,5,746,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="522,5,753,60"/>
 <area shape="rect" href="RandomAttrit_8h.html" title="Brief file description." alt="" coords="157,108,377,148"/>
-<area shape="poly" title=" " alt="" coords="529,63,354,107,352,102,528,57"/>
+<area shape="poly" title=" " alt="" coords="534,63,355,107,354,102,532,57"/>
 <area shape="rect" href="Random_8h.html" title="Brief file description." alt="" coords="5,203,232,229"/>
-<area shape="poly" title=" " alt="" coords="515,40,412,46,302,59,207,80,171,94,146,110,133,127,125,148,120,190,115,190,120,147,128,125,142,106,169,89,206,75,301,54,411,41,515,34"/>
-<area shape="rect" title=" " alt="" coords="508,284,585,309"/>
-<area shape="poly" title=" " alt="" coords="548,62,517,82,493,109,484,130,482,151,484,174,490,196,510,238,531,272,527,275,505,241,485,198,479,175,477,151,479,128,488,107,514,78,545,58"/>
+<area shape="poly" title=" " alt="" coords="522,39,416,46,305,59,208,79,172,93,146,110,133,127,125,148,120,190,115,190,120,147,128,125,142,106,169,89,207,74,304,53,416,41,521,34"/>
+<area shape="rect" title=" " alt="" coords="583,284,660,309"/>
+<area shape="poly" title=" " alt="" coords="549,62,517,82,493,109,484,133,485,156,494,179,509,202,550,243,592,274,589,278,546,247,505,205,489,182,480,157,479,132,488,107,514,78,546,58"/>
 <area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="256,203,445,229"/>
-<area shape="poly" title=" " alt="" coords="544,63,495,83,448,110,402,152,368,194,364,190,398,148,445,106,492,78,542,58"/>
+<area shape="poly" title=" " alt="" coords="546,63,496,83,448,110,402,152,368,194,364,190,398,148,445,106,493,78,544,58"/>
 <area shape="rect" title=" " alt="" coords="503,115,566,141"/>
-<area shape="poly" title=" " alt="" coords="605,62,558,107,555,104,602,58"/>
-<area shape="rect" title=" " alt="" coords="591,115,671,141"/>
-<area shape="poly" title=" " alt="" coords="633,60,633,101,628,101,628,60"/>
-<area shape="rect" title=" " alt="" coords="695,115,753,141"/>
-<area shape="poly" title=" " alt="" coords="659,58,704,103,700,107,655,62"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="777,115,999,141"/>
-<area shape="poly" title=" " alt="" coords="704,58,845,108,843,113,702,63"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="554,203,737,229"/>
-<area shape="poly" title=" " alt="" coords="747,38,825,47,904,60,970,79,995,92,1013,106,1022,128,1012,150,908,173,728,204,727,198,906,167,1009,146,1017,128,1009,110,992,96,968,84,903,65,825,52,746,43"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="777,203,993,229"/>
-<area shape="poly" title=" " alt="" coords="746,36,831,44,917,57,990,77,1018,91,1037,106,1045,122,1045,138,1037,152,1023,164,985,185,942,202,940,197,983,181,1020,160,1032,148,1039,136,1040,123,1033,110,1015,95,988,82,916,63,831,50,746,42"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1026,196,1230,236"/>
-<area shape="poly" title=" " alt="" coords="747,41,834,51,925,65,1005,83,1036,94,1060,106,1080,122,1096,142,1118,182,1114,185,1091,145,1076,126,1057,110,1034,99,1003,88,924,70,834,56,746,46"/>
+<area shape="poly" title=" " alt="" coords="610,62,559,108,556,104,606,58"/>
+<area shape="rect" title=" " alt="" coords="568,203,648,229"/>
+<area shape="poly" title=" " alt="" coords="636,61,615,190,609,189,630,60"/>
+<area shape="rect" title=" " alt="" coords="641,115,700,141"/>
+<area shape="poly" title=" " alt="" coords="649,59,664,101,659,103,644,61"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="723,115,946,141"/>
+<area shape="poly" title=" " alt="" coords="694,58,799,107,797,112,692,62"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="971,115,1149,141"/>
+<area shape="poly" title=" " alt="" coords="753,57,995,110,994,115,752,62"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="707,203,890,229"/>
+<area shape="poly" title=" " alt="" coords="753,31,868,35,990,46,1046,56,1096,69,1136,85,1163,106,1170,117,1173,128,1163,150,1059,172,880,204,879,198,1058,167,1160,146,1167,128,1165,119,1159,110,1133,90,1094,74,1045,61,989,52,867,40,753,36"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="932,203,1148,229"/>
+<area shape="poly" title=" " alt="" coords="753,39,881,50,1015,64,1127,83,1165,94,1186,106,1195,122,1194,137,1187,151,1173,163,1136,185,1094,201,1092,196,1134,180,1170,159,1182,147,1189,135,1189,123,1182,110,1163,99,1126,88,1015,70,880,55,753,44"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1181,196,1385,236"/>
+<area shape="poly" title=" " alt="" coords="753,36,874,43,1006,56,1125,77,1173,90,1208,106,1229,122,1246,142,1272,183,1267,185,1242,145,1225,126,1205,110,1171,95,1124,82,1006,62,874,48,753,41"/>
 <area shape="poly" title=" " alt="" coords="236,150,151,199,149,194,233,146"/>
 <area shape="poly" title=" " alt="" coords="287,146,331,191,328,195,283,150"/>
-<area shape="poly" title=" " alt="" coords="181,226,495,283,494,288,180,231"/>
-<area shape="poly" title=" " alt="" coords="380,226,507,276,505,281,378,231"/>
-<area shape="poly" title=" " alt="" coords="632,231,574,277,570,273,629,227"/>
-<area shape="poly" title=" " alt="" coords="837,231,599,286,598,281,835,226"/>
-<area shape="poly" title=" " alt="" coords="1026,236,1006,239,599,292,598,286,1005,233,1025,230"/>
+<area shape="poly" title=" " alt="" coords="192,226,569,285,568,290,191,231"/>
+<area shape="poly" title=" " alt="" coords="391,226,570,278,569,283,389,231"/>
+<area shape="poly" title=" " alt="" coords="999,143,959,151,697,199,662,206,661,200,695,193,958,145,998,138"/>
+<area shape="poly" title=" " alt="" coords="774,231,661,281,658,276,772,226"/>
+<area shape="poly" title=" " alt="" coords="980,231,674,288,673,283,979,226"/>
+<area shape="poly" title=" " alt="" coords="1181,236,1160,239,887,271,674,293,674,288,886,266,1160,233,1180,231"/>
 </map>
 </div>
 </div>
@@ -203,91 +207,93 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="RandomAttrit_8cpp_source.html#l00051">51</a> of file <a class="el" href="RandomAttrit_8cpp_source.html">RandomAttrit.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>                    {</div>
-<div class="line"><span class="lineno">   57</span><span class="keyword">namespace </span>interaction {</div>
+<p class="definition">Definition at line <a class="el" href="RandomAttrit_8cpp_source.html#l00049">49</a> of file <a class="el" href="RandomAttrit_8cpp_source.html">RandomAttrit.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>                    {</div>
+<div class="line"><span class="lineno">   55</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><span class="lineno">   56</span> </div>
+<div class="line"><span class="lineno">   57</span>RandomAttrit::RandomAttrit() {}</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>RandomAttrit::RandomAttrit() {}</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span><span class="keywordtype">bool</span> RandomAttrit::init(</div>
-<div class="line"><span class="lineno">   62</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><span class="lineno">   63</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><span class="lineno">   64</span>    team_id_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;team&quot;</span>, plugin_params, -1);</div>
-<div class="line"><span class="lineno">   65</span>    decay_method_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;decay_method&quot;</span>, plugin_params, <span class="stringliteral">&quot;linear&quot;</span>);</div>
-<div class="line"><span class="lineno">   66</span>    start_wait_time_s_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;start_after&quot;</span>, plugin_params, 0.0);</div>
-<div class="line"><span class="lineno">   67</span>    duration_s_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;duration&quot;</span>, plugin_params, 10.0);</div>
-<div class="line"><span class="lineno">   68</span>    std::vector&lt;std::string&gt; stay_alive_ids_str;</div>
-<div class="line"><span class="lineno">   69</span>    <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;leave_alive&quot;</span>, plugin_params, <span class="stringliteral">&quot; &quot;</span>, stay_alive_ids_str);</div>
-<div class="line"><span class="lineno">   70</span>    std::transform(</div>
-<div class="line"><span class="lineno">   71</span>        stay_alive_ids_str.begin(),</div>
-<div class="line"><span class="lineno">   72</span>        stay_alive_ids_str.end(),</div>
-<div class="line"><span class="lineno">   73</span>        std::back_inserter(stay_alive_ids_),</div>
-<div class="line"><span class="lineno">   74</span>        [](<span class="keyword">const</span> std::string&amp; str) { return std::stoi(str); });</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>    attrit_pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;AttritAnnounce&quot;</span>);</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   78</span>}</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span><span class="keywordtype">bool</span> RandomAttrit::step_entity_interaction(std::list&lt;sc::EntityPtr&gt;&amp; ents, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">if</span> (ents.empty() || num_ent_ &lt; 0.0) {</div>
-<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   83</span>    }</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    total_num_entities_ = 0;</div>
-<div class="line"><span class="lineno">   86</span>    std::vector&lt;sc::EntityPtr&gt; cur_ents;</div>
-<div class="line"><span class="lineno">   87</span>    std::copy_if(</div>
-<div class="line"><span class="lineno">   88</span>        ents.begin(),</div>
-<div class="line"><span class="lineno">   89</span>        ents.end(),</div>
-<div class="line"><span class="lineno">   90</span>        std::back_inserter(cur_ents),</div>
-<div class="line"><span class="lineno">   91</span>        [&amp;](<span class="keyword">const</span> <a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a>&amp; ent) {</div>
-<div class="line"><span class="lineno">   92</span>            bool is_stay_alive =</div>
-<div class="line"><span class="lineno">   93</span>                std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent-&gt;id().id())</div>
-<div class="line"><span class="lineno">   94</span>                != stay_alive_ids_.end();</div>
-<div class="line"><span class="lineno">   95</span>            bool team_match = ent-&gt;id().team_id() == team_id_;</div>
-<div class="line"><span class="lineno">   96</span>            if (team_match)</div>
-<div class="line"><span class="lineno">   97</span>                total_num_entities_++;</div>
-<div class="line"><span class="lineno">   98</span>            return !is_stay_alive &amp;&amp; team_match;</div>
-<div class="line"><span class="lineno">   99</span>        });</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (t &lt; start_wait_time_s_) {</div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  103</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!started_) {</div>
-<div class="line"><span class="lineno">  104</span>        <span class="comment">// one time initialization</span></div>
-<div class="line"><span class="lineno">  105</span>        start_num_ent_ = cur_ents.size();</div>
-<div class="line"><span class="lineno">  106</span>        num_ent_ = start_num_ent_;</div>
-<div class="line"><span class="lineno">  107</span>        started_ = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  108</span>    }</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <span class="keywordflow">if</span> (decay_method_ == <span class="stringliteral">&quot;linear&quot;</span>) {</div>
-<div class="line"><span class="lineno">  111</span>        <span class="keywordtype">double</span> slope = -start_num_ent_ / duration_s_;</div>
-<div class="line"><span class="lineno">  112</span>        num_ent_ = slope * (t - start_wait_time_s_) + start_num_ent_;</div>
-<div class="line"><span class="lineno">  113</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  114</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;RandomAttrit: Decay method, &quot;</span> &lt;&lt; decay_method_ &lt;&lt; <span class="stringliteral">&quot;, is not implemented.&quot;</span></div>
-<div class="line"><span class="lineno">  115</span>                  &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  116</span>    }</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span>    <span class="comment">// else if (decay_method_ == &quot;exponential&quot;) {</span></div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">if</span> (std::ceil(num_ent_) &lt; cur_ents.size()) {</div>
-<div class="line"><span class="lineno">  121</span>        <span class="comment">// pick one to attrit</span></div>
-<div class="line"><span class="lineno">  122</span>        <span class="keywordtype">int</span> drop_id = random_.rng_uniform_int(0, cur_ents.size() - 1);</div>
-<div class="line"><span class="lineno">  123</span>        cur_ents[drop_id]-&gt;set_health_points(-1);  <span class="comment">// kill entity</span></div>
-<div class="line"><span class="lineno">  124</span> </div>
-<div class="line"><span class="lineno">  125</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;EntityPtr&gt;&gt;();</div>
-<div class="line"><span class="lineno">  126</span>        msg-&gt;data = cur_ents[drop_id];</div>
-<div class="line"><span class="lineno">  127</span>        attrit_pub_-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  128</span>    }</div>
-<div class="line"><span class="lineno">  129</span> </div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  131</span>}</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><span class="lineno">  134</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00255">Entity.h:255</a></div></div>
+<div class="line"><span class="lineno">   59</span><span class="keywordtype">bool</span> RandomAttrit::init(</div>
+<div class="line"><span class="lineno">   60</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><span class="lineno">   61</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><span class="lineno">   62</span>    team_id_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;team&quot;</span>, plugin_params, -1);</div>
+<div class="line"><span class="lineno">   63</span>    decay_method_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;decay_method&quot;</span>, plugin_params, <span class="stringliteral">&quot;linear&quot;</span>);</div>
+<div class="line"><span class="lineno">   64</span>    start_wait_time_s_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;start_after&quot;</span>, plugin_params, 0.0);</div>
+<div class="line"><span class="lineno">   65</span>    duration_s_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;duration&quot;</span>, plugin_params, 10.0);</div>
+<div class="line"><span class="lineno">   66</span>    std::vector&lt;std::string&gt; stay_alive_ids_str;</div>
+<div class="line"><span class="lineno">   67</span>    <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;leave_alive&quot;</span>, plugin_params, <span class="stringliteral">&quot; &quot;</span>, stay_alive_ids_str);</div>
+<div class="line"><span class="lineno">   68</span>    std::transform(</div>
+<div class="line"><span class="lineno">   69</span>        stay_alive_ids_str.begin(),</div>
+<div class="line"><span class="lineno">   70</span>        stay_alive_ids_str.end(),</div>
+<div class="line"><span class="lineno">   71</span>        std::back_inserter(stay_alive_ids_),</div>
+<div class="line"><span class="lineno">   72</span>        [](<span class="keyword">const</span> std::string&amp; str) { return std::stoi(str); });</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    attrit_pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;AttritAnnounce&quot;</span>);</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   76</span>}</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span><span class="keywordtype">bool</span> RandomAttrit::step_entity_interaction(std::list&lt;sc::EntityPtr&gt;&amp; ents, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">if</span> (ents.empty() || num_ent_ &lt; 0.0) {</div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   81</span>    }</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>    total_num_entities_ = 0;</div>
+<div class="line"><span class="lineno">   84</span>    std::vector&lt;sc::EntityPtr&gt; cur_ents;</div>
+<div class="line"><span class="lineno">   85</span>    std::copy_if(</div>
+<div class="line"><span class="lineno">   86</span>        ents.begin(),</div>
+<div class="line"><span class="lineno">   87</span>        ents.end(),</div>
+<div class="line"><span class="lineno">   88</span>        std::back_inserter(cur_ents),</div>
+<div class="line"><span class="lineno">   89</span>        [&amp;](<span class="keyword">const</span> <a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a>&amp; ent) {</div>
+<div class="line"><span class="lineno">   90</span>            bool is_stay_alive =</div>
+<div class="line"><span class="lineno">   91</span>                std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent-&gt;id().id())</div>
+<div class="line"><span class="lineno">   92</span>                != stay_alive_ids_.end();</div>
+<div class="line"><span class="lineno">   93</span>            bool team_match = ent-&gt;id().team_id() == team_id_;</div>
+<div class="line"><span class="lineno">   94</span>            if (team_match)</div>
+<div class="line"><span class="lineno">   95</span>                total_num_entities_++;</div>
+<div class="line"><span class="lineno">   96</span>            return !is_stay_alive &amp;&amp; team_match;</div>
+<div class="line"><span class="lineno">   97</span>        });</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">if</span> (t &lt; start_wait_time_s_) {</div>
+<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  101</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!started_) {</div>
+<div class="line"><span class="lineno">  102</span>        <span class="comment">// one time initialization</span></div>
+<div class="line"><span class="lineno">  103</span>        start_num_ent_ = cur_ents.size();</div>
+<div class="line"><span class="lineno">  104</span>        num_ent_ = start_num_ent_;</div>
+<div class="line"><span class="lineno">  105</span>        started_ = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  106</span>    }</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">if</span> (decay_method_ == <span class="stringliteral">&quot;linear&quot;</span>) {</div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordtype">double</span> slope = -start_num_ent_ / duration_s_;</div>
+<div class="line"><span class="lineno">  110</span>        num_ent_ = slope * (t - start_wait_time_s_) + start_num_ent_;</div>
+<div class="line"><span class="lineno">  111</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  112</span>        std::stringstream ss;</div>
+<div class="line"><span class="lineno">  113</span>        ss &lt;&lt; <span class="stringliteral">&quot;RandomAttrit: Decay method, &quot;</span> &lt;&lt; decay_method_ &lt;&lt; <span class="stringliteral">&quot;, is not implemented.&quot;</span>;</div>
+<div class="line"><span class="lineno">  114</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(ss.str());</div>
+<div class="line"><span class="lineno">  115</span>    }</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>    <span class="comment">// else if (decay_method_ == &quot;exponential&quot;) {</span></div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">if</span> (std::ceil(num_ent_) &lt; cur_ents.size()) {</div>
+<div class="line"><span class="lineno">  120</span>        <span class="comment">// pick one to attrit</span></div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordtype">int</span> drop_id = random_.rng_uniform_int(0, cur_ents.size() - 1);</div>
+<div class="line"><span class="lineno">  122</span>        cur_ents[drop_id]-&gt;set_health_points(-1);  <span class="comment">// kill entity</span></div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;EntityPtr&gt;&gt;();</div>
+<div class="line"><span class="lineno">  125</span>        msg-&gt;data = cur_ents[drop_id];</div>
+<div class="line"><span class="lineno">  126</span>        attrit_pub_-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  127</span>    }</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  130</span>}</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><span class="lineno">  133</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00251">Entity.h:251</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00168">ParseUtils.h:168</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00070">scrimmage::interaction::RandomAttrit::attrit_pub_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00061">scrimmage::interaction::RandomAttrit::decay_method_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00063">scrimmage::interaction::RandomAttrit::duration_s_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a3567708c88b50957a87fd12bfff86714">scrimmage::interaction::RandomAttrit::init()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00067">scrimmage::interaction::RandomAttrit::num_ent_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00068">scrimmage::interaction::RandomAttrit::random_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975">scrimmage::interaction::RandomAttrit::RandomAttrit()</a>, <a class="el" href="Random_8cpp_source.html#l00075">scrimmage::Random::rng_uniform_int()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00066">scrimmage::interaction::RandomAttrit::start_num_ent_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00062">scrimmage::interaction::RandomAttrit::start_wait_time_s_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00059">scrimmage::interaction::RandomAttrit::started_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00064">scrimmage::interaction::RandomAttrit::stay_alive_ids_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ad0ea202ddcf0f1f203f8540f177f0c87">scrimmage::interaction::RandomAttrit::step_entity_interaction()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00060">scrimmage::interaction::RandomAttrit::team_id_</a>, and <a class="el" href="RandomAttrit_8h_source.html#l00065">scrimmage::interaction::RandomAttrit::total_num_entities_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00070">scrimmage::interaction::RandomAttrit::attrit_pub_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00061">scrimmage::interaction::RandomAttrit::decay_method_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00063">scrimmage::interaction::RandomAttrit::duration_s_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a3567708c88b50957a87fd12bfff86714">scrimmage::interaction::RandomAttrit::init()</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="RandomAttrit_8h_source.html#l00067">scrimmage::interaction::RandomAttrit::num_ent_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00068">scrimmage::interaction::RandomAttrit::random_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975">scrimmage::interaction::RandomAttrit::RandomAttrit()</a>, <a class="el" href="Random_8cpp_source.html#l00075">scrimmage::Random::rng_uniform_int()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00066">scrimmage::interaction::RandomAttrit::start_num_ent_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00062">scrimmage::interaction::RandomAttrit::start_wait_time_s_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00059">scrimmage::interaction::RandomAttrit::started_</a>, <a class="el" href="RandomAttrit_8h_source.html#l00064">scrimmage::interaction::RandomAttrit::stay_alive_ids_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ad0ea202ddcf0f1f203f8540f177f0c87">scrimmage::interaction::RandomAttrit::step_entity_interaction()</a>, <a class="el" href="RandomAttrit_8h_source.html#l00060">scrimmage::interaction::RandomAttrit::team_id_</a>, and <a class="el" href="RandomAttrit_8h_source.html#l00065">scrimmage::interaction::RandomAttrit::total_num_entities_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -319,7 +325,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_859d2a45fcb4be9170509f12f1e95f92.html">RandomAttrit</a></li><li class="navelem"><a class="el" href="RandomAttrit_8cpp.html">RandomAttrit.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,0 +1,9 @@
+<map id="scrimmage::Logger::write" name="scrimmage::Logger::write">
+<area shape="rect" id="Node000001" title=" " alt="" coords="240,63,395,103"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Logger.html#adb2a6c2a51a3c7f84140938694929763" title="Log an ERROR message." alt="" coords="21,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,62,175,48,176,43,228,57"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Logger.html#a26a6fdde0fe31e4f520c6d7d04989dc1" title="Log an INFO message." alt="" coords="9,70,189,95"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="226,85,189,85,189,80,226,80"/>
+<area shape="rect" id="Node000005" href="$classscrimmage_1_1Logger.html#a15745f7a12ee0c8f2f5cd3377382b200" title="Log a WARN message." alt="" coords="5,119,192,145"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="227,106,156,122,155,117,226,100"/>
+</map>

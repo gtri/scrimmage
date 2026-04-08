@@ -443,21 +443,23 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00063">63</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                                                {</div>
-<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> = mode;</div>
-<div class="line"><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0f6b7e40ad997ac4eb9d588260966b0e">ip_</a> = ip;</div>
-<div class="line"><span class="lineno">   66</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#adc6fd8a894905036d69f8879e186520a">port_</a> = port;</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba8ecbb9dad7efab23c7d5735ab07c1852">server</a>) {</div>
-<div class="line"><span class="lineno">   69</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
-<div class="line"><span class="lineno">   70</span>        std::string result = <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0f6b7e40ad997ac4eb9d588260966b0e">ip_</a> + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#adc6fd8a894905036d69f8879e186520a">port_</a>);</div>
-<div class="line"><span class="lineno">   71</span>        ScrimmageServiceImpl frame_service(<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   72</span>        grpc::ServerBuilder builder;</div>
-<div class="line"><span class="lineno">   73</span>        builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
-<div class="line"><span class="lineno">   74</span>        builder.RegisterService(&amp;frame_service);</div>
-<div class="line"><span class="lineno">   75</span>        server_ = builder.BuildAndStart();</div>
-<div class="line"><span class="lineno">   76</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Server listening on &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00061">61</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>                                                                                {</div>
+<div class="line"><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> = mode;</div>
+<div class="line"><span class="lineno">   63</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0f6b7e40ad997ac4eb9d588260966b0e">ip_</a> = ip;</div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#adc6fd8a894905036d69f8879e186520a">port_</a> = port;</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba8ecbb9dad7efab23c7d5735ab07c1852">server</a>) {</div>
+<div class="line"><span class="lineno">   67</span><span class="preprocessor">#if ENABLE_GRPC == 1</span></div>
+<div class="line"><span class="lineno">   68</span>        std::string result = <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0f6b7e40ad997ac4eb9d588260966b0e">ip_</a> + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#adc6fd8a894905036d69f8879e186520a">port_</a>);</div>
+<div class="line"><span class="lineno">   69</span>        ScrimmageServiceImpl frame_service(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   70</span>        grpc::ServerBuilder builder;</div>
+<div class="line"><span class="lineno">   71</span>        builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
+<div class="line"><span class="lineno">   72</span>        builder.RegisterService(&amp;frame_service);</div>
+<div class="line"><span class="lineno">   73</span>        server_ = builder.BuildAndStart();</div>
+<div class="line"><span class="lineno">   74</span>        std::stringstream ss;</div>
+<div class="line"><span class="lineno">   75</span>        ss &lt;&lt; <span class="stringliteral">&quot;Server listening on &quot;</span> &lt;&lt; result;</div>
+<div class="line"><span class="lineno">   76</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(ss.str());</div>
 <div class="line"><span class="lineno">   77</span> </div>
 <div class="line"><span class="lineno">   78</span>        <span class="comment">// start thread with shutdown option</span></div>
 <div class="line"><span class="lineno">   79</span>        <span class="comment">// https://stackoverflow.com/a/36182429</span></div>
@@ -467,7 +469,7 @@ Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   83</span>        server_-&gt;Shutdown();</div>
 <div class="line"><span class="lineno">   84</span>        serving_thread.join();</div>
 <div class="line"><span class="lineno">   85</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">   86</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   86</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
 <div class="line"><span class="lineno">   87</span><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="lineno">   88</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
 <div class="line"><span class="lineno">   89</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
@@ -477,18 +479,20 @@ Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   93</span>        std::unique_ptr&lt;scrimmage_proto::ScrimmageService::Stub&gt; frame_temp(</div>
 <div class="line"><span class="lineno">   94</span>            scrimmage_proto::ScrimmageService::NewStub(channel));</div>
 <div class="line"><span class="lineno">   95</span>        scrimmage_stub_ = std::move(frame_temp);</div>
-<div class="line"><span class="lineno">   96</span>        cout &lt;&lt; <span class="stringliteral">&quot;Client connecting to &quot;</span> &lt;&lt; result &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   96</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Client connecting to &quot;</span> &lt;&lt; result);</div>
 <div class="line"><span class="lineno">   97</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">   98</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><span class="lineno">   98</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
 <div class="line"><span class="lineno">   99</span><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="lineno">  100</span>    }</div>
 <div class="line"><span class="lineno">  101</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  102</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a0d53a1d499d88305e8da6e2ce4bf70f9"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a0d53a1d499d88305e8da6e2ce4bf70f9">scrimmage::Interface::start_server</a></div><div class="ttdeci">void start_server()</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00133">ip_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8h_source.html#l00132">port_</a>, <a class="el" href="Interface_8h_source.html#l00058">server</a>, and <a class="el" href="classscrimmage_1_1Interface.html#a0d53a1d499d88305e8da6e2ce4bf70f9">start_server()</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00133">ip_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8h_source.html#l00132">port_</a>, <a class="el" href="Interface_8h_source.html#l00058">server</a>, and <a class="el" href="classscrimmage_1_1Interface.html#a0d53a1d499d88305e8da6e2ce4bf70f9">start_server()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00482">scrimmage::External::enable_outgoing_interface()</a>, <a class="el" href="Viewer_8cpp_source.html#l00117">scrimmage::Viewer::run()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00762">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00483">scrimmage::External::enable_outgoing_interface()</a>, <a class="el" href="Viewer_8cpp_source.html#l00120">scrimmage::Viewer::run()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00793">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -532,13 +536,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00452">452</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  452</span>                                      {</div>
-<div class="line"><span class="lineno">  453</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  454</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  455</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  456</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  457</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00445">445</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  445</span>                                      {</div>
+<div class="line"><span class="lineno">  446</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  447</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  448</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  449</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  450</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a0addf920a3cfbbe126d74f0f96dab509"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">scrimmage::Interface::frames_list_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Frame &gt; &gt; frames_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00135">Interface.h:135</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a5cde9c4159220a98e784a579bb888cb6"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">scrimmage::Interface::frames_mutex</a></div><div class="ttdeci">std::mutex frames_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00097">Interface.h:97</a></div></div>
 </div><!-- fragment -->
@@ -561,13 +565,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00459">459</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  459</span>                                   {</div>
-<div class="line"><span class="lineno">  460</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  461</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d">utm_terrain_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  462</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  463</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  464</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00452">452</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  452</span>                                   {</div>
+<div class="line"><span class="lineno">  453</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  454</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d">utm_terrain_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  455</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  456</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  457</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a73d1aa9c0c15cd9cad1ac567a9ef249d"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d">scrimmage::Interface::utm_terrain_list_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &gt; utm_terrain_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00136">Interface.h:136</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_ae8fd3bb5fdc526a20784264466763831"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">scrimmage::Interface::utm_terrain_mutex</a></div><div class="ttdeci">std::mutex utm_terrain_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00098">Interface.h:98</a></div></div>
 </div><!-- fragment -->
@@ -590,13 +594,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00466">466</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  466</span>                                      {</div>
-<div class="line"><span class="lineno">  467</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  468</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa423bfc81606acdec7579c3a23d24220">contact_visual_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  469</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  470</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  471</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00459">459</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  459</span>                                      {</div>
+<div class="line"><span class="lineno">  460</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  461</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa423bfc81606acdec7579c3a23d24220">contact_visual_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  462</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  463</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  464</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a0ba2937dff1f19ad5058775e20c24baf"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">scrimmage::Interface::contact_visual_mutex</a></div><div class="ttdeci">std::mutex contact_visual_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00103">Interface.h:103</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_aa423bfc81606acdec7579c3a23d24220"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aa423bfc81606acdec7579c3a23d24220">scrimmage::Interface::contact_visual_list_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &gt; contact_visual_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00137">Interface.h:137</a></div></div>
 </div><!-- fragment -->
@@ -619,13 +623,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00473">473</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  473</span>                               {</div>
-<div class="line"><span class="lineno">  474</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  475</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad6378baa282e4a385724a92fb727eecc">gui_msg_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  476</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  477</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  478</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00466">466</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  466</span>                               {</div>
+<div class="line"><span class="lineno">  467</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  468</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad6378baa282e4a385724a92fb727eecc">gui_msg_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  469</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  470</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  471</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_ad6378baa282e4a385724a92fb727eecc"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ad6378baa282e4a385724a92fb727eecc">scrimmage::Interface::gui_msg_list_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::GUIMsg &gt; gui_msg_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00139">Interface.h:139</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_add83fabfb575c39079b1671d6a3f0c7e"><div class="ttname"><a href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">scrimmage::Interface::gui_msg_mutex</a></div><div class="ttdeci">std::mutex gui_msg_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00099">Interface.h:99</a></div></div>
 </div><!-- fragment -->
@@ -648,13 +652,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00480">480</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  480</span>                                               {</div>
-<div class="line"><span class="lineno">  481</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  482</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a7a2ce9b2f851f0d22091c6b8f5de70a8">world_point_clicked_msg_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  483</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  484</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  485</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00473">473</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  473</span>                                               {</div>
+<div class="line"><span class="lineno">  474</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  475</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a7a2ce9b2f851f0d22091c6b8f5de70a8">world_point_clicked_msg_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  476</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  477</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  478</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a7a2ce9b2f851f0d22091c6b8f5de70a8"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a7a2ce9b2f851f0d22091c6b8f5de70a8">scrimmage::Interface::world_point_clicked_msg_list_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::WorldPointClicked &gt; world_point_clicked_msg_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00140">Interface.h:140</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_aeeefe0f9c874e889e28a236a6dbbcdf2"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">scrimmage::Interface::world_point_clicked_msg_mutex</a></div><div class="ttdeci">std::mutex world_point_clicked_msg_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00100">Interface.h:100</a></div></div>
 </div><!-- fragment -->
@@ -677,13 +681,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00487">487</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  487</span>                                {</div>
-<div class="line"><span class="lineno">  488</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  489</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  490</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  491</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  492</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00480">480</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  480</span>                                {</div>
+<div class="line"><span class="lineno">  481</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  482</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  483</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  484</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  485</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a2a6a7e6627189ecbe08392d4612ecebb"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">scrimmage::Interface::sim_info_list_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::SimInfo &gt; sim_info_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00141">Interface.h:141</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a55cd14f8079ac05667efd09a11e46529"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">scrimmage::Interface::sim_info_mutex</a></div><div class="ttdeci">std::mutex sim_info_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00101">Interface.h:101</a></div></div>
 </div><!-- fragment -->
@@ -706,13 +710,13 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00494">494</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  494</span>                              {</div>
-<div class="line"><span class="lineno">  495</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  496</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.empty();</div>
-<div class="line"><span class="lineno">  497</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  498</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  499</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00487">487</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  487</span>                              {</div>
+<div class="line"><span class="lineno">  488</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  489</span>    <span class="keywordtype">bool</span> status = !<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.empty();</div>
+<div class="line"><span class="lineno">  490</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  491</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><span class="lineno">  492</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a8a747f60b92f1a279a55a28bf40c1ab6"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">scrimmage::Interface::shapes_list_</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::Shapes &gt; shapes_list_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00142">Interface.h:142</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_aae8a5fb3a4d5fa66b0d00893ebe75ec1"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">scrimmage::Interface::shapes_mutex</a></div><div class="ttdeci">std::mutex shapes_mutex</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00102">Interface.h:102</a></div></div>
 </div><!-- fragment -->
@@ -787,20 +791,20 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  150</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
 <div class="line"><span class="lineno">  151</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  152</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  153</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_frame: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  154</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  156</span>        }</div>
-<div class="line"><span class="lineno">  157</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  158</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  160</span>    }</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  162</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_a036769ec6f8914c9463885060da2db92"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a036769ec6f8914c9463885060da2db92">scrimmage::Interface::push_frame</a></div><div class="ttdeci">bool push_frame(std::shared_ptr&lt; scrimmage_proto::Frame &gt; &amp;frame)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00400">Interface.cpp:400</a></div></div>
+<div class="line"><span class="lineno">  153</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_frame: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  155</span>        }</div>
+<div class="line"><span class="lineno">  156</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  157</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  158</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  159</span>    }</div>
+<div class="line"><span class="lineno">  160</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  161</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_a036769ec6f8914c9463885060da2db92"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a036769ec6f8914c9463885060da2db92">scrimmage::Interface::push_frame</a></div><div class="ttdeci">bool push_frame(std::shared_ptr&lt; scrimmage_proto::Frame &gt; &amp;frame)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00393">Interface.cpp:393</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a14a370f5cfb6f7232c0d43ef2721e686"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">scrimmage::Interface::client_timeout_</a></div><div class="ttdeci">unsigned int client_timeout_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00152">Interface.h:152</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00400">push_frame()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00393">push_frame()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -830,51 +834,50 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00170">170</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  170</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  171</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a>) {</div>
-<div class="line"><span class="lineno">  172</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d">utm_terrain_cache_</a> = <a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>;</div>
-<div class="line"><span class="lineno">  173</span>    }</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  176</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1">push_utm_terrain</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>);</div>
-<div class="line"><span class="lineno">  177</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  178</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  179</span>        scrimmage_proto::BlankReply reply;</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  182</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  183</span>        grpc::ClientContext context;</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  186</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  187</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  188</span>        context.set_deadline(deadline);</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  191</span>        status = scrimmage_stub_-&gt;SendUTMTerrain(&amp;context, *<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>, &amp;reply);</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  195</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  196</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_utm_terrain: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  197</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  198</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  199</span>        }</div>
-<div class="line"><span class="lineno">  200</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  201</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  202</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  203</span>    }</div>
-<div class="line"><span class="lineno">  204</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  205</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00169">169</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  169</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a>) {</div>
+<div class="line"><span class="lineno">  171</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d">utm_terrain_cache_</a> = <a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>;</div>
+<div class="line"><span class="lineno">  172</span>    }</div>
+<div class="line"><span class="lineno">  173</span> </div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  175</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1">push_utm_terrain</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>);</div>
+<div class="line"><span class="lineno">  176</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  177</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  178</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  181</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  182</span>        grpc::ClientContext context;</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  185</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  186</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  187</span>        context.set_deadline(deadline);</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  190</span>        status = scrimmage_stub_-&gt;SendUTMTerrain(&amp;context, *<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>, &amp;reply);</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  193</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  194</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  195</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_utm_terrain: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  196</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  197</span>        }</div>
+<div class="line"><span class="lineno">  198</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  199</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  200</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  201</span>    }</div>
+<div class="line"><span class="lineno">  202</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  203</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a49b70d7f232aa2b1ff6ce12285ac5819"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">scrimmage::Interface::caching_enabled_</a></div><div class="ttdeci">bool caching_enabled_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00155">Interface.h:155</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_aac3e2b5359edb6a6787dcc94b166e3f0"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">scrimmage::Interface::utm_terrain</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &gt; &amp; utm_terrain()</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00107">Interface.h:107</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_ab95a643cb961bbb848a8f9e1d3e69ba1"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1">scrimmage::Interface::push_utm_terrain</a></div><div class="ttdeci">bool push_utm_terrain(std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &amp;utm_terrain)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00410">Interface.cpp:410</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_ab95a643cb961bbb848a8f9e1d3e69ba1"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ab95a643cb961bbb848a8f9e1d3e69ba1">scrimmage::Interface::push_utm_terrain</a></div><div class="ttdeci">bool push_utm_terrain(std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &amp;utm_terrain)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00403">Interface.cpp:403</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_abf0a02cb8d0568afe215f741cf19715d"><div class="ttname"><a href="classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d">scrimmage::Interface::utm_terrain_cache_</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; utm_terrain_cache_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00156">Interface.h:156</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00410">push_utm_terrain()</a>, <a class="el" href="Interface_8h_source.html#l00058">shared</a>, <a class="el" href="Interface_8h_source.html#l00107">utm_terrain()</a>, and <a class="el" href="Interface_8h_source.html#l00156">utm_terrain_cache_</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00403">push_utm_terrain()</a>, <a class="el" href="Interface_8h_source.html#l00058">shared</a>, <a class="el" href="Interface_8h_source.html#l00107">utm_terrain()</a>, and <a class="el" href="Interface_8h_source.html#l00156">utm_terrain_cache_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00376">send_cached()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00369">send_cached()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -917,49 +920,48 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00207">207</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  207</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a>) {</div>
-<div class="line"><span class="lineno">  209</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa2a471d9c066f3c18d3974b410a23849">contact_visual_cache_</a>.push_back(cv);</div>
-<div class="line"><span class="lineno">  210</span>    }</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  213</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a711c9c54c42c80f6079ba168f35f7f8c">push_contact_visual</a>(cv);</div>
-<div class="line"><span class="lineno">  214</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  215</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  216</span>        scrimmage_proto::BlankReply reply;</div>
-<div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  219</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  220</span>        grpc::ClientContext context;</div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  223</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  224</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  225</span>        context.set_deadline(deadline);</div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  228</span>        status = scrimmage_stub_-&gt;SendContactVisual(&amp;context, *cv, &amp;reply);</div>
-<div class="line"><span class="lineno">  229</span> </div>
-<div class="line"><span class="lineno">  230</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  232</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  233</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_contact_visual: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  234</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  236</span>        }</div>
-<div class="line"><span class="lineno">  237</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  238</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  239</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  240</span>    }</div>
-<div class="line"><span class="lineno">  241</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  242</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_a711c9c54c42c80f6079ba168f35f7f8c"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a711c9c54c42c80f6079ba168f35f7f8c">scrimmage::Interface::push_contact_visual</a></div><div class="ttdeci">bool push_contact_visual(std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &amp;cv)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00393">Interface.cpp:393</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00205">205</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  205</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  206</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a>) {</div>
+<div class="line"><span class="lineno">  207</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa2a471d9c066f3c18d3974b410a23849">contact_visual_cache_</a>.push_back(cv);</div>
+<div class="line"><span class="lineno">  208</span>    }</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  211</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a711c9c54c42c80f6079ba168f35f7f8c">push_contact_visual</a>(cv);</div>
+<div class="line"><span class="lineno">  212</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  213</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  214</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  215</span> </div>
+<div class="line"><span class="lineno">  216</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  217</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  218</span>        grpc::ClientContext context;</div>
+<div class="line"><span class="lineno">  219</span> </div>
+<div class="line"><span class="lineno">  220</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  221</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  222</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  223</span>        context.set_deadline(deadline);</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  226</span>        status = scrimmage_stub_-&gt;SendContactVisual(&amp;context, *cv, &amp;reply);</div>
+<div class="line"><span class="lineno">  227</span> </div>
+<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  229</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  230</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  231</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_contact_visual: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  233</span>        }</div>
+<div class="line"><span class="lineno">  234</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  235</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  236</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  237</span>    }</div>
+<div class="line"><span class="lineno">  238</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  239</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_a711c9c54c42c80f6079ba168f35f7f8c"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a711c9c54c42c80f6079ba168f35f7f8c">scrimmage::Interface::push_contact_visual</a></div><div class="ttdeci">bool push_contact_visual(std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &amp;cv)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00386">Interface.cpp:386</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_aa2a471d9c066f3c18d3974b410a23849"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aa2a471d9c066f3c18d3974b410a23849">scrimmage::Interface::contact_visual_cache_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &gt; contact_visual_cache_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00157">Interface.h:157</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00157">contact_visual_cache_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00393">push_contact_visual()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00157">contact_visual_cache_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00386">push_contact_visual()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00376">send_cached()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00369">send_cached()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -999,16 +1001,16 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00400">400</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  400</span>                                                                     {</div>
-<div class="line"><span class="lineno">  401</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  402</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.push_back(frame);</div>
-<div class="line"><span class="lineno">  403</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
-<div class="line"><span class="lineno">  404</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.pop_front();</div>
-<div class="line"><span class="lineno">  405</span>    }</div>
-<div class="line"><span class="lineno">  406</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  407</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  408</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00393">393</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  393</span>                                                                     {</div>
+<div class="line"><span class="lineno">  394</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  395</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.push_back(frame);</div>
+<div class="line"><span class="lineno">  396</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
+<div class="line"><span class="lineno">  397</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0addf920a3cfbbe126d74f0f96dab509">frames_list_</a>.pop_front();</div>
+<div class="line"><span class="lineno">  398</span>    }</div>
+<div class="line"><span class="lineno">  399</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a5cde9c4159220a98e784a579bb888cb6">frames_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  400</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  401</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a23d06a2d09cc1c4c3ae5b07c62c34a33"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">scrimmage::Interface::max_queue_size_</a></div><div class="ttdeci">unsigned int max_queue_size_</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00144">Interface.h:144</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00135">frames_list_</a>, <a class="el" href="Interface_8h_source.html#l00097">frames_mutex</a>, and <a class="el" href="Interface_8h_source.html#l00144">max_queue_size_</a>.</p>
@@ -1043,17 +1045,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00410">410</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  410</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  411</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  412</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d">utm_terrain_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>);</div>
-<div class="line"><span class="lineno">  413</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  414</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  415</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00403">403</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  403</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  404</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  405</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a73d1aa9c0c15cd9cad1ac567a9ef249d">utm_terrain_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#aac3e2b5359edb6a6787dcc94b166e3f0">utm_terrain</a>);</div>
+<div class="line"><span class="lineno">  406</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ae8fd3bb5fdc526a20784264466763831">utm_terrain_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  407</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  408</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00107">utm_terrain()</a>, <a class="el" href="Interface_8h_source.html#l00136">utm_terrain_list_</a>, and <a class="el" href="Interface_8h_source.html#l00098">utm_terrain_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1093,17 +1095,17 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00393">393</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  393</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  394</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  395</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa423bfc81606acdec7579c3a23d24220">contact_visual_list_</a>.push_back(cv);</div>
-<div class="line"><span class="lineno">  396</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  397</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  398</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00386">386</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  386</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  387</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  388</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa423bfc81606acdec7579c3a23d24220">contact_visual_list_</a>.push_back(cv);</div>
+<div class="line"><span class="lineno">  389</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a0ba2937dff1f19ad5058775e20c24baf">contact_visual_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  390</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  391</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00137">contact_visual_list_</a>, and <a class="el" href="Interface_8h_source.html#l00103">contact_visual_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1133,43 +1135,42 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00244">244</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  244</span>                                                           {</div>
-<div class="line"><span class="lineno">  245</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  246</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a7169583da8b2389c5208441078776271">push_gui_msg</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>);</div>
-<div class="line"><span class="lineno">  247</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  248</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  249</span>        scrimmage_proto::BlankReply reply;</div>
-<div class="line"><span class="lineno">  250</span> </div>
-<div class="line"><span class="lineno">  251</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  252</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  253</span>        grpc::ClientContext context;</div>
-<div class="line"><span class="lineno">  254</span> </div>
-<div class="line"><span class="lineno">  255</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  256</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  257</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  258</span>        context.set_deadline(deadline);</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00241">241</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  241</span>                                                           {</div>
+<div class="line"><span class="lineno">  242</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  243</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a7169583da8b2389c5208441078776271">push_gui_msg</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>);</div>
+<div class="line"><span class="lineno">  244</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  245</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  246</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  247</span> </div>
+<div class="line"><span class="lineno">  248</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  249</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  250</span>        grpc::ClientContext context;</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  253</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  254</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  255</span>        context.set_deadline(deadline);</div>
+<div class="line"><span class="lineno">  256</span> </div>
+<div class="line"><span class="lineno">  257</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  258</span>        status = scrimmage_stub_-&gt;SendGUIMsg(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>, &amp;reply);</div>
 <div class="line"><span class="lineno">  259</span> </div>
-<div class="line"><span class="lineno">  260</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  261</span>        status = scrimmage_stub_-&gt;SendGUIMsg(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>, &amp;reply);</div>
-<div class="line"><span class="lineno">  262</span> </div>
-<div class="line"><span class="lineno">  263</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  265</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  266</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_gui_msg: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  267</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  268</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  269</span>        }</div>
-<div class="line"><span class="lineno">  270</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  271</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  272</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  273</span>    }</div>
-<div class="line"><span class="lineno">  274</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  275</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_a7169583da8b2389c5208441078776271"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a7169583da8b2389c5208441078776271">scrimmage::Interface::push_gui_msg</a></div><div class="ttdeci">bool push_gui_msg(scrimmage_proto::GUIMsg &amp;gui_msg)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00417">Interface.cpp:417</a></div></div>
+<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  261</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  262</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  263</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_gui_msg: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  265</span>        }</div>
+<div class="line"><span class="lineno">  266</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  267</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  268</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  269</span>    }</div>
+<div class="line"><span class="lineno">  270</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  271</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_a7169583da8b2389c5208441078776271"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a7169583da8b2389c5208441078776271">scrimmage::Interface::push_gui_msg</a></div><div class="ttdeci">bool push_gui_msg(scrimmage_proto::GUIMsg &amp;gui_msg)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00410">Interface.cpp:410</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a96b0d3debc8f4c2bf8ed1b34db94a895"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">scrimmage::Interface::gui_msg</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::GUIMsg &gt; &amp; gui_msg()</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00115">Interface.h:115</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00115">gui_msg()</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00417">push_gui_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00115">gui_msg()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00410">push_gui_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1202,17 +1203,17 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00417">417</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  417</span>                                                           {</div>
-<div class="line"><span class="lineno">  418</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  419</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad6378baa282e4a385724a92fb727eecc">gui_msg_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>);</div>
-<div class="line"><span class="lineno">  420</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  421</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  422</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00410">410</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  410</span>                                                           {</div>
+<div class="line"><span class="lineno">  411</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  412</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad6378baa282e4a385724a92fb727eecc">gui_msg_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a96b0d3debc8f4c2bf8ed1b34db94a895">gui_msg</a>);</div>
+<div class="line"><span class="lineno">  413</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#add83fabfb575c39079b1671d6a3f0c7e">gui_msg_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  414</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  415</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00115">gui_msg()</a>, <a class="el" href="Interface_8h_source.html#l00139">gui_msg_list_</a>, and <a class="el" href="Interface_8h_source.html#l00099">gui_msg_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00244">send_gui_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00241">send_gui_msg()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1252,42 +1253,41 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00277">277</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  277</span>                                                                                  {</div>
-<div class="line"><span class="lineno">  278</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  279</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#af1d36120d665493ee2a51d17572e03d1">push_world_point_clicked_msg</a>(msg);</div>
-<div class="line"><span class="lineno">  280</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  281</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  282</span>        scrimmage_proto::BlankReply reply;</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00273">273</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  273</span>                                                                                  {</div>
+<div class="line"><span class="lineno">  274</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  275</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#af1d36120d665493ee2a51d17572e03d1">push_world_point_clicked_msg</a>(msg);</div>
+<div class="line"><span class="lineno">  276</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  277</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  278</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  279</span> </div>
+<div class="line"><span class="lineno">  280</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  281</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  282</span>        grpc::ClientContext context;</div>
 <div class="line"><span class="lineno">  283</span> </div>
-<div class="line"><span class="lineno">  284</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  285</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  286</span>        grpc::ClientContext context;</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  289</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  290</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  291</span>        context.set_deadline(deadline);</div>
-<div class="line"><span class="lineno">  292</span> </div>
-<div class="line"><span class="lineno">  293</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  294</span>        status = scrimmage_stub_-&gt;SendWorldPointClicked(&amp;context, msg, &amp;reply);</div>
-<div class="line"><span class="lineno">  295</span> </div>
-<div class="line"><span class="lineno">  296</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  297</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  298</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  299</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_world_point_clicked_msg: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  300</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  301</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  302</span>        }</div>
-<div class="line"><span class="lineno">  303</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  304</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  305</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  306</span>    }</div>
-<div class="line"><span class="lineno">  307</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  308</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_af1d36120d665493ee2a51d17572e03d1"><div class="ttname"><a href="classscrimmage_1_1Interface.html#af1d36120d665493ee2a51d17572e03d1">scrimmage::Interface::push_world_point_clicked_msg</a></div><div class="ttdeci">bool push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &amp;msg)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00424">Interface.cpp:424</a></div></div>
+<div class="line"><span class="lineno">  284</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  285</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  286</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  287</span>        context.set_deadline(deadline);</div>
+<div class="line"><span class="lineno">  288</span> </div>
+<div class="line"><span class="lineno">  289</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  290</span>        status = scrimmage_stub_-&gt;SendWorldPointClicked(&amp;context, msg, &amp;reply);</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  293</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  294</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  295</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_world_point_clicked_msg: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  296</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  297</span>        }</div>
+<div class="line"><span class="lineno">  298</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  299</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  300</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  301</span>    }</div>
+<div class="line"><span class="lineno">  302</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  303</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_af1d36120d665493ee2a51d17572e03d1"><div class="ttname"><a href="classscrimmage_1_1Interface.html#af1d36120d665493ee2a51d17572e03d1">scrimmage::Interface::push_world_point_clicked_msg</a></div><div class="ttdeci">bool push_world_point_clicked_msg(scrimmage_proto::WorldPointClicked &amp;msg)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00417">Interface.cpp:417</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00424">push_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00417">push_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1317,17 +1317,17 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00424">424</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  424</span>                                                                                  {</div>
-<div class="line"><span class="lineno">  425</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  426</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a7a2ce9b2f851f0d22091c6b8f5de70a8">world_point_clicked_msg_list_</a>.push_back(msg);</div>
-<div class="line"><span class="lineno">  427</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  428</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  429</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00417">417</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  417</span>                                                                                  {</div>
+<div class="line"><span class="lineno">  418</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  419</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a7a2ce9b2f851f0d22091c6b8f5de70a8">world_point_clicked_msg_list_</a>.push_back(msg);</div>
+<div class="line"><span class="lineno">  420</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aeeefe0f9c874e889e28a236a6dbbcdf2">world_point_clicked_msg_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  421</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  422</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00140">world_point_clicked_msg_list_</a>, and <a class="el" href="Interface_8h_source.html#l00100">world_point_clicked_msg_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00277">send_world_point_clicked_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00273">send_world_point_clicked_msg()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1357,43 +1357,42 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00310">310</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  310</span>                                                              {</div>
-<div class="line"><span class="lineno">  311</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  312</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#aa014aa92f087668e77c73aee8f639ad0">push_sim_info</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>);</div>
-<div class="line"><span class="lineno">  313</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  314</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  315</span>        scrimmage_proto::BlankReply reply;</div>
-<div class="line"><span class="lineno">  316</span> </div>
-<div class="line"><span class="lineno">  317</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  318</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  319</span>        grpc::ClientContext context;</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00305">305</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  305</span>                                                              {</div>
+<div class="line"><span class="lineno">  306</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  307</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#aa014aa92f087668e77c73aee8f639ad0">push_sim_info</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>);</div>
+<div class="line"><span class="lineno">  308</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  309</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  310</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  311</span> </div>
+<div class="line"><span class="lineno">  312</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  313</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  314</span>        grpc::ClientContext context;</div>
+<div class="line"><span class="lineno">  315</span> </div>
+<div class="line"><span class="lineno">  316</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  317</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  318</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  319</span>        context.set_deadline(deadline);</div>
 <div class="line"><span class="lineno">  320</span> </div>
-<div class="line"><span class="lineno">  321</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  322</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  323</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  324</span>        context.set_deadline(deadline);</div>
-<div class="line"><span class="lineno">  325</span> </div>
-<div class="line"><span class="lineno">  326</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  327</span>        status = scrimmage_stub_-&gt;SendSimInfo(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>, &amp;reply);</div>
-<div class="line"><span class="lineno">  328</span> </div>
-<div class="line"><span class="lineno">  329</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  330</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  331</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  332</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_sim_info: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  333</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  334</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  335</span>        }</div>
-<div class="line"><span class="lineno">  336</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  337</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  338</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  339</span>    }</div>
-<div class="line"><span class="lineno">  340</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  341</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_aa014aa92f087668e77c73aee8f639ad0"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aa014aa92f087668e77c73aee8f639ad0">scrimmage::Interface::push_sim_info</a></div><div class="ttdeci">bool push_sim_info(scrimmage_proto::SimInfo &amp;sim_info)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00431">Interface.cpp:431</a></div></div>
+<div class="line"><span class="lineno">  321</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  322</span>        status = scrimmage_stub_-&gt;SendSimInfo(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>, &amp;reply);</div>
+<div class="line"><span class="lineno">  323</span> </div>
+<div class="line"><span class="lineno">  324</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  325</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  326</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  327</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_sim_info: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  328</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  329</span>        }</div>
+<div class="line"><span class="lineno">  330</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  331</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  332</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  333</span>    }</div>
+<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  335</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_aa014aa92f087668e77c73aee8f639ad0"><div class="ttname"><a href="classscrimmage_1_1Interface.html#aa014aa92f087668e77c73aee8f639ad0">scrimmage::Interface::push_sim_info</a></div><div class="ttdeci">bool push_sim_info(scrimmage_proto::SimInfo &amp;sim_info)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00424">Interface.cpp:424</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_ad52b8b549d68274ce4ae4fb895ed1235"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">scrimmage::Interface::sim_info</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::SimInfo &gt; &amp; sim_info()</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00121">Interface.h:121</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00431">push_sim_info()</a>, <a class="el" href="Interface_8h_source.html#l00058">shared</a>, and <a class="el" href="Interface_8h_source.html#l00121">sim_info()</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00424">push_sim_info()</a>, <a class="el" href="Interface_8h_source.html#l00058">shared</a>, and <a class="el" href="Interface_8h_source.html#l00121">sim_info()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1426,20 +1425,20 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00431">431</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  431</span>                                                              {</div>
-<div class="line"><span class="lineno">  432</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  433</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>);</div>
-<div class="line"><span class="lineno">  434</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
-<div class="line"><span class="lineno">  435</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.pop_front();</div>
-<div class="line"><span class="lineno">  436</span>    }</div>
-<div class="line"><span class="lineno">  437</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  438</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  439</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00424">424</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  424</span>                                                              {</div>
+<div class="line"><span class="lineno">  425</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  426</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#ad52b8b549d68274ce4ae4fb895ed1235">sim_info</a>);</div>
+<div class="line"><span class="lineno">  427</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
+<div class="line"><span class="lineno">  428</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a2a6a7e6627189ecbe08392d4612ecebb">sim_info_list_</a>.pop_front();</div>
+<div class="line"><span class="lineno">  429</span>    }</div>
+<div class="line"><span class="lineno">  430</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a55cd14f8079ac05667efd09a11e46529">sim_info_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  431</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  432</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00144">max_queue_size_</a>, <a class="el" href="Interface_8h_source.html#l00121">sim_info()</a>, <a class="el" href="Interface_8h_source.html#l00141">sim_info_list_</a>, and <a class="el" href="Interface_8h_source.html#l00101">sim_info_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00310">send_sim_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00305">send_sim_info()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1479,43 +1478,42 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00343">343</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  343</span>                                                         {</div>
-<div class="line"><span class="lineno">  344</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
-<div class="line"><span class="lineno">  345</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#ab304c45169c8879e80bee38db3f36cbf">push_shapes</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>);</div>
-<div class="line"><span class="lineno">  346</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
-<div class="line"><span class="lineno">  347</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
-<div class="line"><span class="lineno">  348</span>        scrimmage_proto::BlankReply reply;</div>
-<div class="line"><span class="lineno">  349</span> </div>
-<div class="line"><span class="lineno">  350</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
-<div class="line"><span class="lineno">  351</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
-<div class="line"><span class="lineno">  352</span>        grpc::ClientContext context;</div>
-<div class="line"><span class="lineno">  353</span> </div>
-<div class="line"><span class="lineno">  354</span>        <span class="comment">// Set timeout for API</span></div>
-<div class="line"><span class="lineno">  355</span>        std::chrono::system_clock::time_point deadline =</div>
-<div class="line"><span class="lineno">  356</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
-<div class="line"><span class="lineno">  357</span>        context.set_deadline(deadline);</div>
-<div class="line"><span class="lineno">  358</span> </div>
-<div class="line"><span class="lineno">  359</span>        grpc::Status status;</div>
-<div class="line"><span class="lineno">  360</span>        status = scrimmage_stub_-&gt;SendShapes(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>, &amp;reply);</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
-<div class="line"><span class="lineno">  363</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  364</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  365</span>            cout &lt;&lt; <span class="stringliteral">&quot;send_shapes: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  366</span>            cout &lt;&lt; status.error_message() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  367</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  368</span>        }</div>
-<div class="line"><span class="lineno">  369</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  370</span>        cout &lt;&lt; <span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  371</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  372</span>    }</div>
-<div class="line"><span class="lineno">  373</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  374</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00337">337</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  337</span>                                                         {</div>
+<div class="line"><span class="lineno">  338</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704bae547b628f93051c508f6bf9fc76dcd4d">shared</a>) {</div>
+<div class="line"><span class="lineno">  339</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#ab304c45169c8879e80bee38db3f36cbf">push_shapes</a>(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>);</div>
+<div class="line"><span class="lineno">  340</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#ad1f47e3885bdc182091903e3e05f070c">mode_</a> == <a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">client</a>) {</div>
+<div class="line"><span class="lineno">  341</span><span class="preprocessor">#if ENABLE_GRPC</span></div>
+<div class="line"><span class="lineno">  342</span>        scrimmage_proto::BlankReply reply;</div>
+<div class="line"><span class="lineno">  343</span> </div>
+<div class="line"><span class="lineno">  344</span>        <span class="comment">// Context for the client. It could be used to convey extra information to</span></div>
+<div class="line"><span class="lineno">  345</span>        <span class="comment">// the server and/or tweak certain RPC behaviors.</span></div>
+<div class="line"><span class="lineno">  346</span>        grpc::ClientContext context;</div>
+<div class="line"><span class="lineno">  347</span> </div>
+<div class="line"><span class="lineno">  348</span>        <span class="comment">// Set timeout for API</span></div>
+<div class="line"><span class="lineno">  349</span>        std::chrono::system_clock::time_point deadline =</div>
+<div class="line"><span class="lineno">  350</span>            std::chrono::system_clock::now() + std::chrono::seconds(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a14a370f5cfb6f7232c0d43ef2721e686">client_timeout_</a>);</div>
+<div class="line"><span class="lineno">  351</span>        context.set_deadline(deadline);</div>
+<div class="line"><span class="lineno">  352</span> </div>
+<div class="line"><span class="lineno">  353</span>        grpc::Status status;</div>
+<div class="line"><span class="lineno">  354</span>        status = scrimmage_stub_-&gt;SendShapes(&amp;context, <a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>, &amp;reply);</div>
+<div class="line"><span class="lineno">  355</span> </div>
+<div class="line"><span class="lineno">  356</span>        <span class="keywordflow">if</span> (status.ok()) {</div>
+<div class="line"><span class="lineno">  357</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  358</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  359</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;send_shapes: Error code: &quot;</span> &lt;&lt; status.error_code() &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; status.error_message());</div>
+<div class="line"><span class="lineno">  360</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  361</span>        }</div>
+<div class="line"><span class="lineno">  362</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  363</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;WARNING: GRPC DISABLED!&quot;</span>);</div>
+<div class="line"><span class="lineno">  364</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  365</span>    }</div>
+<div class="line"><span class="lineno">  366</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  367</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a23b6bc69abd42264320a871dd44f1e10"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">scrimmage::Interface::shapes</a></div><div class="ttdeci">std::list&lt; scrimmage_proto::Shapes &gt; &amp; shapes()</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00123">Interface.h:123</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_ab304c45169c8879e80bee38db3f36cbf"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ab304c45169c8879e80bee38db3f36cbf">scrimmage::Interface::push_shapes</a></div><div class="ttdeci">bool push_shapes(scrimmage_proto::Shapes &amp;shapes)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00441">Interface.cpp:441</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_ab304c45169c8879e80bee38db3f36cbf"><div class="ttname"><a href="classscrimmage_1_1Interface.html#ab304c45169c8879e80bee38db3f36cbf">scrimmage::Interface::push_shapes</a></div><div class="ttdeci">bool push_shapes(scrimmage_proto::Shapes &amp;shapes)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00434">Interface.cpp:434</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00441">push_shapes()</a>, <a class="el" href="Interface_8h_source.html#l00123">shapes()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00058">client</a>, <a class="el" href="Interface_8h_source.html#l00152">client_timeout_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Interface_8h_source.html#l00131">mode_</a>, <a class="el" href="Interface_8cpp_source.html#l00434">push_shapes()</a>, <a class="el" href="Interface_8h_source.html#l00123">shapes()</a>, and <a class="el" href="Interface_8h_source.html#l00058">shared</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1548,21 +1546,21 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00441">441</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  441</span>                                                         {</div>
-<div class="line"><span class="lineno">  442</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  443</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>);</div>
-<div class="line"><span class="lineno">  444</span> </div>
-<div class="line"><span class="lineno">  445</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
-<div class="line"><span class="lineno">  446</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.pop_front();</div>
-<div class="line"><span class="lineno">  447</span>    }</div>
-<div class="line"><span class="lineno">  448</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  449</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  450</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00434">434</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  434</span>                                                         {</div>
+<div class="line"><span class="lineno">  435</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  436</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.push_back(<a class="code hl_function" href="classscrimmage_1_1Interface.html#a23b6bc69abd42264320a871dd44f1e10">shapes</a>);</div>
+<div class="line"><span class="lineno">  437</span> </div>
+<div class="line"><span class="lineno">  438</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.size() &gt; <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a23d06a2d09cc1c4c3ae5b07c62c34a33">max_queue_size_</a>) {</div>
+<div class="line"><span class="lineno">  439</span>        <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a8a747f60b92f1a279a55a28bf40c1ab6">shapes_list_</a>.pop_front();</div>
+<div class="line"><span class="lineno">  440</span>    }</div>
+<div class="line"><span class="lineno">  441</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aae8a5fb3a4d5fa66b0d00893ebe75ec1">shapes_mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  442</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  443</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00144">max_queue_size_</a>, <a class="el" href="Interface_8h_source.html#l00123">shapes()</a>, <a class="el" href="Interface_8h_source.html#l00142">shapes_list_</a>, and <a class="el" href="Interface_8h_source.html#l00102">shapes_mutex</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00343">send_shapes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00337">send_shapes()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1646,7 +1644,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00136">utm_terrain_list_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00410">push_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00403">push_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1723,7 +1721,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00139">gui_msg_list_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00417">push_gui_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00244">send_gui_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00410">push_gui_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00241">send_gui_msg()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1800,7 +1798,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00141">sim_info_list_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00431">push_sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00310">send_sim_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00424">push_sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00305">send_sim_info()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1845,7 +1843,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Interface_8h_source.html#l00142">shapes_list_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00441">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00343">send_shapes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00434">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00337">send_shapes()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1877,27 +1875,27 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00376">376</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  376</span>                            {</div>
-<div class="line"><span class="lineno">  377</span>    <span class="comment">// Disable caching during retransmission, so we don&#39;t double save</span></div>
-<div class="line"><span class="lineno">  378</span>    <span class="comment">// cached data</span></div>
-<div class="line"><span class="lineno">  379</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  380</span> </div>
-<div class="line"><span class="lineno">  381</span>    <span class="comment">// Resend terrain data...</span></div>
-<div class="line"><span class="lineno">  382</span>    <a class="code hl_function" href="classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db">send_utm_terrain</a>(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d">utm_terrain_cache_</a>);</div>
-<div class="line"><span class="lineno">  383</span> </div>
-<div class="line"><span class="lineno">  384</span>    <span class="comment">// Resend contact visual data...</span></div>
-<div class="line"><span class="lineno">  385</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> cv : <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa2a471d9c066f3c18d3974b410a23849">contact_visual_cache_</a>) {</div>
-<div class="line"><span class="lineno">  386</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5">send_contact_visual</a>(cv);</div>
-<div class="line"><span class="lineno">  387</span>    }</div>
-<div class="line"><span class="lineno">  388</span> </div>
-<div class="line"><span class="lineno">  389</span>    <span class="comment">// Back to normal caching mode</span></div>
-<div class="line"><span class="lineno">  390</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  391</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_a2a39c0bb93bead7b09c01b5ab05ce2db"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db">scrimmage::Interface::send_utm_terrain</a></div><div class="ttdeci">bool send_utm_terrain(std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &amp;utm_terrain)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00170">Interface.cpp:170</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Interface_html_a8829b8a3d0dcc141547e1778b3e98fd5"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5">scrimmage::Interface::send_contact_visual</a></div><div class="ttdeci">bool send_contact_visual(std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &amp;cv)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00207">Interface.cpp:207</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Interface_8cpp_source.html#l00369">369</a> of file <a class="el" href="Interface_8cpp_source.html">Interface.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  369</span>                            {</div>
+<div class="line"><span class="lineno">  370</span>    <span class="comment">// Disable caching during retransmission, so we don&#39;t double save</span></div>
+<div class="line"><span class="lineno">  371</span>    <span class="comment">// cached data</span></div>
+<div class="line"><span class="lineno">  372</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  373</span> </div>
+<div class="line"><span class="lineno">  374</span>    <span class="comment">// Resend terrain data...</span></div>
+<div class="line"><span class="lineno">  375</span>    <a class="code hl_function" href="classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db">send_utm_terrain</a>(<a class="code hl_variable" href="classscrimmage_1_1Interface.html#abf0a02cb8d0568afe215f741cf19715d">utm_terrain_cache_</a>);</div>
+<div class="line"><span class="lineno">  376</span> </div>
+<div class="line"><span class="lineno">  377</span>    <span class="comment">// Resend contact visual data...</span></div>
+<div class="line"><span class="lineno">  378</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> cv : <a class="code hl_variable" href="classscrimmage_1_1Interface.html#aa2a471d9c066f3c18d3974b410a23849">contact_visual_cache_</a>) {</div>
+<div class="line"><span class="lineno">  379</span>        <a class="code hl_function" href="classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5">send_contact_visual</a>(cv);</div>
+<div class="line"><span class="lineno">  380</span>    }</div>
+<div class="line"><span class="lineno">  381</span> </div>
+<div class="line"><span class="lineno">  382</span>    <span class="comment">// Back to normal caching mode</span></div>
+<div class="line"><span class="lineno">  383</span>    <a class="code hl_variable" href="classscrimmage_1_1Interface.html#a49b70d7f232aa2b1ff6ce12285ac5819">caching_enabled_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  384</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_a2a39c0bb93bead7b09c01b5ab05ce2db"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a2a39c0bb93bead7b09c01b5ab05ce2db">scrimmage::Interface::send_utm_terrain</a></div><div class="ttdeci">bool send_utm_terrain(std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &amp;utm_terrain)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00169">Interface.cpp:169</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Interface_html_a8829b8a3d0dcc141547e1778b3e98fd5"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a8829b8a3d0dcc141547e1778b3e98fd5">scrimmage::Interface::send_contact_visual</a></div><div class="ttdeci">bool send_contact_visual(std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &amp;cv)</div><div class="ttdef"><b>Definition</b> <a href="Interface_8cpp_source.html#l00205">Interface.cpp:205</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00157">contact_visual_cache_</a>, <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>, and <a class="el" href="Interface_8h_source.html#l00156">utm_terrain_cache_</a>.</p>
+<p class="reference">References <a class="el" href="Interface_8h_source.html#l00155">caching_enabled_</a>, <a class="el" href="Interface_8h_source.html#l00157">contact_visual_cache_</a>, <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>, and <a class="el" href="Interface_8h_source.html#l00156">utm_terrain_cache_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1983,7 +1981,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00063">init_network()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00061">init_network()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2012,7 +2010,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00097">97</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00452">frames_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00400">push_frame()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00445">frames_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00393">push_frame()</a>.</p>
 
 </div>
 </div>
@@ -2030,7 +2028,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00098">98</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00410">push_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00459">utm_terrain_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00403">push_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00452">utm_terrain_update()</a>.</p>
 
 </div>
 </div>
@@ -2048,7 +2046,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00099">99</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00473">gui_msg_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00417">push_gui_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00466">gui_msg_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00410">push_gui_msg()</a>.</p>
 
 </div>
 </div>
@@ -2066,7 +2064,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00100">100</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00424">push_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00480">world_point_clicked_msg_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00417">push_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00473">world_point_clicked_msg_update()</a>.</p>
 
 </div>
 </div>
@@ -2084,7 +2082,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00101">101</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00431">push_sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00487">sim_info_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00424">push_sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00480">sim_info_update()</a>.</p>
 
 </div>
 </div>
@@ -2102,7 +2100,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00102">102</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00441">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00494">shapes_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00434">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00487">shapes_update()</a>.</p>
 
 </div>
 </div>
@@ -2120,7 +2118,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00103">103</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00466">contact_visual_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00393">push_contact_visual()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00459">contact_visual_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00386">push_contact_visual()</a>.</p>
 
 </div>
 </div>
@@ -2146,7 +2144,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00131">131</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00063">init_network()</a>, <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00131">send_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00244">send_gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00343">send_shapes()</a>, <a class="el" href="Interface_8cpp_source.html#l00310">send_sim_info()</a>, <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>, <a class="el" href="Interface_8cpp_source.html#l00277">send_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00060">set_mode()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00061">init_network()</a>, <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00131">send_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00241">send_gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00337">send_shapes()</a>, <a class="el" href="Interface_8cpp_source.html#l00305">send_sim_info()</a>, <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>, <a class="el" href="Interface_8cpp_source.html#l00273">send_world_point_clicked_msg()</a>, and <a class="el" href="Interface_8h_source.html#l00060">set_mode()</a>.</p>
 
 </div>
 </div>
@@ -2172,7 +2170,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00132">132</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00063">init_network()</a>, and <a class="el" href="Interface_8h_source.html#l00062">set_port()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00061">init_network()</a>, and <a class="el" href="Interface_8h_source.html#l00062">set_port()</a>.</p>
 
 </div>
 </div>
@@ -2198,7 +2196,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00133">133</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00063">init_network()</a>, and <a class="el" href="Interface_8h_source.html#l00061">set_ip()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00061">init_network()</a>, and <a class="el" href="Interface_8h_source.html#l00061">set_ip()</a>.</p>
 
 </div>
 </div>
@@ -2224,7 +2222,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00135">135</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00105">frames()</a>, <a class="el" href="Interface_8cpp_source.html#l00452">frames_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00400">push_frame()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00105">frames()</a>, <a class="el" href="Interface_8cpp_source.html#l00445">frames_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00393">push_frame()</a>.</p>
 
 </div>
 </div>
@@ -2250,7 +2248,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00136">136</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00410">push_utm_terrain()</a>, <a class="el" href="Interface_8h_source.html#l00107">utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00459">utm_terrain_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00403">push_utm_terrain()</a>, <a class="el" href="Interface_8h_source.html#l00107">utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00452">utm_terrain_update()</a>.</p>
 
 </div>
 </div>
@@ -2276,7 +2274,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00137">137</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00111">contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00466">contact_visual_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00393">push_contact_visual()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00111">contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00459">contact_visual_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00386">push_contact_visual()</a>.</p>
 
 </div>
 </div>
@@ -2302,7 +2300,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00139">139</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00115">gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00473">gui_msg_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00417">push_gui_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8h_source.html#l00115">gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00466">gui_msg_update()</a>, and <a class="el" href="Interface_8cpp_source.html#l00410">push_gui_msg()</a>.</p>
 
 </div>
 </div>
@@ -2328,7 +2326,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00140">140</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00424">push_world_point_clicked_msg()</a>, <a class="el" href="Interface_8h_source.html#l00117">world_point_clicked_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00480">world_point_clicked_msg_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00417">push_world_point_clicked_msg()</a>, <a class="el" href="Interface_8h_source.html#l00117">world_point_clicked_msg()</a>, and <a class="el" href="Interface_8cpp_source.html#l00473">world_point_clicked_msg_update()</a>.</p>
 
 </div>
 </div>
@@ -2354,7 +2352,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00141">141</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00431">push_sim_info()</a>, <a class="el" href="Interface_8h_source.html#l00121">sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00487">sim_info_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00424">push_sim_info()</a>, <a class="el" href="Interface_8h_source.html#l00121">sim_info()</a>, and <a class="el" href="Interface_8cpp_source.html#l00480">sim_info_update()</a>.</p>
 
 </div>
 </div>
@@ -2380,7 +2378,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00142">142</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00441">push_shapes()</a>, <a class="el" href="Interface_8h_source.html#l00123">shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00494">shapes_update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00434">push_shapes()</a>, <a class="el" href="Interface_8h_source.html#l00123">shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00487">shapes_update()</a>.</p>
 
 </div>
 </div>
@@ -2406,7 +2404,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00144">144</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00400">push_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00441">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00431">push_sim_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00393">push_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00434">push_shapes()</a>, and <a class="el" href="Interface_8cpp_source.html#l00424">push_sim_info()</a>.</p>
 
 </div>
 </div>
@@ -2432,7 +2430,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00152">152</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00131">send_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00244">send_gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00343">send_shapes()</a>, <a class="el" href="Interface_8cpp_source.html#l00310">send_sim_info()</a>, <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00277">send_world_point_clicked_msg()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00104">check_ready()</a>, <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>, <a class="el" href="Interface_8cpp_source.html#l00131">send_frame()</a>, <a class="el" href="Interface_8cpp_source.html#l00241">send_gui_msg()</a>, <a class="el" href="Interface_8cpp_source.html#l00337">send_shapes()</a>, <a class="el" href="Interface_8cpp_source.html#l00305">send_sim_info()</a>, <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>, and <a class="el" href="Interface_8cpp_source.html#l00273">send_world_point_clicked_msg()</a>.</p>
 
 </div>
 </div>
@@ -2458,7 +2456,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00155">155</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00376">send_cached()</a>, <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>, and <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00369">send_cached()</a>, <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>, and <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>.</p>
 
 </div>
 </div>
@@ -2484,7 +2482,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00156">156</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00376">send_cached()</a>, and <a class="el" href="Interface_8cpp_source.html#l00170">send_utm_terrain()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00369">send_cached()</a>, and <a class="el" href="Interface_8cpp_source.html#l00169">send_utm_terrain()</a>.</p>
 
 </div>
 </div>
@@ -2510,7 +2508,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Interface_8h_source.html#l00157">157</a> of file <a class="el" href="Interface_8h_source.html">Interface.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00376">send_cached()</a>, and <a class="el" href="Interface_8cpp_source.html#l00207">send_contact_visual()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Interface_8cpp_source.html#l00369">send_cached()</a>, and <a class="el" href="Interface_8cpp_source.html#l00205">send_contact_visual()</a>.</p>
 
 </div>
 </div>
@@ -2524,7 +2522,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Interface.html">Interface</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

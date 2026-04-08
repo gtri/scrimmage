@@ -214,6 +214,7 @@ var hierarchy =
     [ "scrimmage::KernelBuildOpts", "structscrimmage_1_1KernelBuildOpts.html", null ],
     [ "scrimmage::autonomy::GraphvizFSM::label_t", "structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1label__t.html", null ],
     [ "scrimmage::Log", "classscrimmage_1_1Log.html", null ],
+    [ "scrimmage::Logger", "classscrimmage_1_1Logger.html", null ],
     [ "scrimmage::interaction::Map2DInfo", "classscrimmage_1_1interaction_1_1Map2DInfo.html", null ],
     [ "scrimmage::MessageBase", "classscrimmage_1_1MessageBase.html", [
       [ "scrimmage::Message< T >", "classscrimmage_1_1Message.html", null ]
@@ -235,6 +236,7 @@ var hierarchy =
     [ "scrimmage::ParameterServer", "classscrimmage_1_1ParameterServer.html", null ],
     [ "scrimmage::sensor::RayTrace::PCPoint", "classscrimmage_1_1sensor_1_1RayTrace_1_1PCPoint.html", null ],
     [ "scrimmage::sensor::RayTrace::PCRay", "classscrimmage_1_1sensor_1_1RayTrace_1_1PCRay.html", null ],
+    [ "scrimmage::Logger::PendingMessage", "structscrimmage_1_1Logger_1_1PendingMessage.html", null ],
     [ "scrimmage::PID", "classscrimmage_1_1PID.html", null ],
     [ "scrimmage::PluginAndConfig< T >", "structscrimmage_1_1PluginAndConfig.html", null ],
     [ "scrimmage::PluginInfo", "classscrimmage_1_1PluginInfo.html", null ],
@@ -245,9 +247,6 @@ var hierarchy =
       [ "scrimmage::sensor::RayTrace::PointCloudWithId", "classscrimmage_1_1sensor_1_1RayTrace_1_1PointCloudWithId.html", null ]
     ] ],
     [ "scrimmage::interaction::BulletCollision::PointCloudDescription", "structscrimmage_1_1interaction_1_1BulletCollision_1_1PointCloudDescription.html", null ],
-    [ "scrimmage::Print", "classscrimmage_1_1Print.html", null ],
-    [ "scrimmage::PrintData", "structscrimmage_1_1PrintData.html", null ],
-    [ "scrimmage::PrintEnums", "structscrimmage_1_1PrintEnums.html", null ],
     [ "scrimmage::PubSub", "classscrimmage_1_1PubSub.html", null ],
     [ "Eigen::Quaternion", null, [
       [ "scrimmage::Quaternion", "classscrimmage_1_1Quaternion.html", null ]

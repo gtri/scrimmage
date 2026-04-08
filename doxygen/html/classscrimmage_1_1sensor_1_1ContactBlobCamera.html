@@ -394,144 +394,144 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Sensor.html#a6916ce9ac4b1850735c6407b706eef42">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">71</a> of file <a class="el" href="ContactBlobCamera_8cpp_source.html">ContactBlobCamera.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>                                                                 {</div>
-<div class="line"><span class="lineno">   72</span>    std::stringstream ss;</div>
-<div class="line"><span class="lineno">   73</span>    ss &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id();</div>
-<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aecadb8c24a6dcf68225548fda8b2c55b">parameters_file_</a>.open(</div>
-<div class="line"><span class="lineno">   75</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/blob_sensor_parameters_&quot;</span> + ss.str() + <span class="stringliteral">&quot;.txt&quot;</span>);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a361cd1f762c8deddda60709235fbed30">gener_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a844f32e20407ac1a2f3c6a7e21764c0e">window_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;window_name&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a844f32e20407ac1a2f3c6a7e21764c0e">window_name_</a>);</div>
-<div class="line"><span class="lineno">   80</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a9d640226a1379244307d70de5ae0dea8">ignore_real_entities_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;ignore_real_entities&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a9d640226a1379244307d70de5ae0dea8">ignore_real_entities_</a>);</div>
-<div class="line"><span class="lineno">   81</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1b002f97cfec7d34b1895e99f6a11582">show_image_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_image&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1b002f97cfec7d34b1895e99f6a11582">show_image_</a>);</div>
-<div class="line"><span class="lineno">   82</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ad2a2553c84d9976c365af16a41b6d0f4">show_frustum_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_frustum&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ad2a2553c84d9976c365af16a41b6d0f4">show_frustum_</a>);</div>
-<div class="line"><span class="lineno">   83</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;log_detections&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a>);</div>
-<div class="line"><span class="lineno">   84</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aece05117c4efc0e78dbf1201da2dec7f">show_sim_contacts_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_sim_contacts&quot;</span>, params, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    <span class="comment">// Parse the simulated detections</span></div>
-<div class="line"><span class="lineno">   87</span>    std::string sim_det_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;simulated_detections&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">   88</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs;</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">get_vec_of_vecs</a>(sim_det_str, vecs, <span class="stringliteral">&quot;, &quot;</span>)) {</div>
-<div class="line"><span class="lineno">   90</span>        <span class="keywordtype">int</span> i = 0;</div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; vec : vecs) {</div>
-<div class="line"><span class="lineno">   92</span>            <span class="comment">// First, assume the description is in XYZ</span></div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordtype">int</span> <span class="keywordtype">id</span> = std::stoi(vec[1]);</div>
-<div class="line"><span class="lineno">   94</span>            <span class="keywordtype">double</span> radius = std::stod(vec[2]);</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordtype">double</span> x = std::stod(vec[3]);</div>
-<div class="line"><span class="lineno">   96</span>            <span class="keywordtype">double</span> y = std::stod(vec[4]);</div>
-<div class="line"><span class="lineno">   97</span>            <span class="keywordtype">double</span> z = std::stod(vec[5]);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            <span class="keywordflow">if</span> (vec[0] == <span class="stringliteral">&quot;GPS&quot;</span>) {</div>
-<div class="line"><span class="lineno">  100</span>                <span class="comment">// If the description is in GPS, convert to local cartesian</span></div>
-<div class="line"><span class="lineno">  101</span>                <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Forward(x, y, z, x, y, z);</div>
-<div class="line"><span class="lineno">  102</span>            }</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>            <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> quat(std::stod(vec[6]), std::stod(vec[7]), std::stod(vec[8]));</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>            <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a> cnt_state = std::make_shared&lt;sc::State&gt;(</div>
-<div class="line"><span class="lineno">  107</span>                Eigen::Vector3d(x, y, z),</div>
-<div class="line"><span class="lineno">  108</span>                Eigen::Vector3d(0, 0, 0),</div>
+<p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">72</a> of file <a class="el" href="ContactBlobCamera_8cpp_source.html">ContactBlobCamera.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   72</span>                                                                 {</div>
+<div class="line"><span class="lineno">   73</span>    std::stringstream ss;</div>
+<div class="line"><span class="lineno">   74</span>    ss &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id();</div>
+<div class="line"><span class="lineno">   75</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aecadb8c24a6dcf68225548fda8b2c55b">parameters_file_</a>.open(</div>
+<div class="line"><span class="lineno">   76</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/blob_sensor_parameters_&quot;</span> + ss.str() + <span class="stringliteral">&quot;.txt&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a361cd1f762c8deddda60709235fbed30">gener_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a844f32e20407ac1a2f3c6a7e21764c0e">window_name_</a> = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;window_name&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a844f32e20407ac1a2f3c6a7e21764c0e">window_name_</a>);</div>
+<div class="line"><span class="lineno">   81</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a9d640226a1379244307d70de5ae0dea8">ignore_real_entities_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;ignore_real_entities&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a9d640226a1379244307d70de5ae0dea8">ignore_real_entities_</a>);</div>
+<div class="line"><span class="lineno">   82</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1b002f97cfec7d34b1895e99f6a11582">show_image_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_image&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1b002f97cfec7d34b1895e99f6a11582">show_image_</a>);</div>
+<div class="line"><span class="lineno">   83</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ad2a2553c84d9976c365af16a41b6d0f4">show_frustum_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_frustum&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ad2a2553c84d9976c365af16a41b6d0f4">show_frustum_</a>);</div>
+<div class="line"><span class="lineno">   84</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;log_detections&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a>);</div>
+<div class="line"><span class="lineno">   85</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aece05117c4efc0e78dbf1201da2dec7f">show_sim_contacts_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_sim_contacts&quot;</span>, params, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Parse the simulated detections</span></div>
+<div class="line"><span class="lineno">   88</span>    std::string sim_det_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;simulated_detections&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs;</div>
+<div class="line"><span class="lineno">   90</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">get_vec_of_vecs</a>(sim_det_str, vecs, <span class="stringliteral">&quot;, &quot;</span>)) {</div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; vec : vecs) {</div>
+<div class="line"><span class="lineno">   93</span>            <span class="comment">// First, assume the description is in XYZ</span></div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordtype">int</span> <span class="keywordtype">id</span> = std::stoi(vec[1]);</div>
+<div class="line"><span class="lineno">   95</span>            <span class="keywordtype">double</span> radius = std::stod(vec[2]);</div>
+<div class="line"><span class="lineno">   96</span>            <span class="keywordtype">double</span> x = std::stod(vec[3]);</div>
+<div class="line"><span class="lineno">   97</span>            <span class="keywordtype">double</span> y = std::stod(vec[4]);</div>
+<div class="line"><span class="lineno">   98</span>            <span class="keywordtype">double</span> z = std::stod(vec[5]);</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">if</span> (vec[0] == <span class="stringliteral">&quot;GPS&quot;</span>) {</div>
+<div class="line"><span class="lineno">  101</span>                <span class="comment">// If the description is in GPS, convert to local cartesian</span></div>
+<div class="line"><span class="lineno">  102</span>                <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;projection()-&gt;Forward(x, y, z, x, y, z);</div>
+<div class="line"><span class="lineno">  103</span>            }</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>            <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> quat(std::stod(vec[6]), std::stod(vec[7]), std::stod(vec[8]));</div>
+<div class="line"><span class="lineno">  106</span> </div>
+<div class="line"><span class="lineno">  107</span>            <a class="code hl_typedef" href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">sc::StatePtr</a> cnt_state = std::make_shared&lt;sc::State&gt;(</div>
+<div class="line"><span class="lineno">  108</span>                Eigen::Vector3d(x, y, z),</div>
 <div class="line"><span class="lineno">  109</span>                Eigen::Vector3d(0, 0, 0),</div>
-<div class="line"><span class="lineno">  110</span>                quat);</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>            <a class="code hl_class" href="classscrimmage_1_1Contact.html">sc::Contact</a> cnt(<a class="code hl_class" href="classscrimmage_1_1ID.html">sc::ID</a>(<span class="keywordtype">id</span>, 0, 0), cnt_state);</div>
-<div class="line"><span class="lineno">  113</span>            cnt.set_type(sc::Contact::Type::MESH);</div>
-<div class="line"><span class="lineno">  114</span>            cnt.set_radius(radius);</div>
-<div class="line"><span class="lineno">  115</span>            cnt.set_active(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>            <span class="comment">// Allow multiple simulated contacts to have the same ID</span></div>
-<div class="line"><span class="lineno">  118</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51d30310a5fdd041db5dc90981eb117d">sim_contacts_</a>[i++] = cnt;</div>
-<div class="line"><span class="lineno">  119</span>        }</div>
-<div class="line"><span class="lineno">  120</span>    }</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>    <span class="comment">// override default parameters</span></div>
-<div class="line"><span class="lineno">  123</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;senderId&quot;</span>] = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id();</div>
-<div class="line"><span class="lineno">  124</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;camera_id&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;camera_id&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8e68a90c17cb53a6c2fe000a9749566a">camera_id_</a>);</div>
-<div class="line"><span class="lineno">  125</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;img_width&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;img_width&quot;</span>, params, 800);</div>
-<div class="line"><span class="lineno">  126</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;img_height&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;img_height&quot;</span>, params, 600);</div>
-<div class="line"><span class="lineno">  127</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;max_detect_range&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;max_detect_range&quot;</span>, params, 1000);</div>
-<div class="line"><span class="lineno">  128</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;focal_length&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;focal_length&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">  129</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fps&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;frames_per_second&quot;</span>, params, 10);</div>
-<div class="line"><span class="lineno">  130</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;az_thresh&quot;</span>] = sc::Angles::deg2rad(sc::get&lt;double&gt;(<span class="stringliteral">&quot;azimuth_fov&quot;</span>, params, 360));</div>
-<div class="line"><span class="lineno">  131</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;el_thresh&quot;</span>] =</div>
-<div class="line"><span class="lineno">  132</span>        sc::Angles::deg2rad(sc::get&lt;double&gt;(<span class="stringliteral">&quot;elevation_fov&quot;</span>, params, 360));</div>
-<div class="line"><span class="lineno">  133</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fn_prob&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;false_negative_probability&quot;</span>, params, 0.1);</div>
-<div class="line"><span class="lineno">  134</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fp_prob&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;false_positive_probability&quot;</span>, params, 0.1);</div>
-<div class="line"><span class="lineno">  135</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;max_false_positives&quot;</span>] =</div>
-<div class="line"><span class="lineno">  136</span>        sc::get&lt;int&gt;(<span class="stringliteral">&quot;max_false_positives_per_frame&quot;</span>, params, 10);</div>
-<div class="line"><span class="lineno">  137</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;std_dev_w&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;std_dev_width&quot;</span>, params, 10);</div>
-<div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;std_dev_h&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;std_dev_height&quot;</span>, params, 10);</div>
+<div class="line"><span class="lineno">  110</span>                Eigen::Vector3d(0, 0, 0),</div>
+<div class="line"><span class="lineno">  111</span>                quat);</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>            <a class="code hl_class" href="classscrimmage_1_1Contact.html">sc::Contact</a> cnt(<a class="code hl_class" href="classscrimmage_1_1ID.html">sc::ID</a>(<span class="keywordtype">id</span>, 0, 0), cnt_state);</div>
+<div class="line"><span class="lineno">  114</span>            cnt.set_type(sc::Contact::Type::MESH);</div>
+<div class="line"><span class="lineno">  115</span>            cnt.set_radius(radius);</div>
+<div class="line"><span class="lineno">  116</span>            cnt.set_active(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>            <span class="comment">// Allow multiple simulated contacts to have the same ID</span></div>
+<div class="line"><span class="lineno">  119</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a51d30310a5fdd041db5dc90981eb117d">sim_contacts_</a>[i++] = cnt;</div>
+<div class="line"><span class="lineno">  120</span>        }</div>
+<div class="line"><span class="lineno">  121</span>    }</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>    <span class="comment">// override default parameters</span></div>
+<div class="line"><span class="lineno">  124</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;senderId&quot;</span>] = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id();</div>
+<div class="line"><span class="lineno">  125</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;camera_id&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;camera_id&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8e68a90c17cb53a6c2fe000a9749566a">camera_id_</a>);</div>
+<div class="line"><span class="lineno">  126</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;img_width&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;img_width&quot;</span>, params, 800);</div>
+<div class="line"><span class="lineno">  127</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;img_height&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;img_height&quot;</span>, params, 600);</div>
+<div class="line"><span class="lineno">  128</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;max_detect_range&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;max_detect_range&quot;</span>, params, 1000);</div>
+<div class="line"><span class="lineno">  129</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;focal_length&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;focal_length&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">  130</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fps&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;frames_per_second&quot;</span>, params, 10);</div>
+<div class="line"><span class="lineno">  131</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;az_thresh&quot;</span>] = sc::Angles::deg2rad(sc::get&lt;double&gt;(<span class="stringliteral">&quot;azimuth_fov&quot;</span>, params, 360));</div>
+<div class="line"><span class="lineno">  132</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;el_thresh&quot;</span>] =</div>
+<div class="line"><span class="lineno">  133</span>        sc::Angles::deg2rad(sc::get&lt;double&gt;(<span class="stringliteral">&quot;elevation_fov&quot;</span>, params, 360));</div>
+<div class="line"><span class="lineno">  134</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fn_prob&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;false_negative_probability&quot;</span>, params, 0.1);</div>
+<div class="line"><span class="lineno">  135</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;fp_prob&quot;</span>] = sc::get&lt;double&gt;(<span class="stringliteral">&quot;false_positive_probability&quot;</span>, params, 0.1);</div>
+<div class="line"><span class="lineno">  136</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;max_false_positives&quot;</span>] =</div>
+<div class="line"><span class="lineno">  137</span>        sc::get&lt;int&gt;(<span class="stringliteral">&quot;max_false_positives_per_frame&quot;</span>, params, 10);</div>
+<div class="line"><span class="lineno">  138</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;std_dev_w&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;std_dev_width&quot;</span>, params, 10);</div>
 <div class="line"><span class="lineno">  139</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;std_dev_h&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;std_dev_height&quot;</span>, params, 10);</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>    <a class="code hl_function" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110">set_plugin_params</a>(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>);</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a>) {</div>
-<div class="line"><span class="lineno">  144</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ac448af93dd1c843544fbd7e265e885c0">detections_file_</a>.open(</div>
-<div class="line"><span class="lineno">  145</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/blob_sensor_detections_&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8e68a90c17cb53a6c2fe000a9749566a">camera_id_</a>)</div>
-<div class="line"><span class="lineno">  146</span>            + <span class="stringliteral">&quot;.txt&quot;</span>);</div>
-<div class="line"><span class="lineno">  147</span>    }</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">  150</span>        std::string tag_name = <span class="stringliteral">&quot;pos_noise_&quot;</span> + std::to_string(i);</div>
-<div class="line"><span class="lineno">  151</span>        std::vector&lt;double&gt; vec;</div>
-<div class="line"><span class="lineno">  152</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">if</span> (status) {</div>
-<div class="line"><span class="lineno">  154</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a533eb31704ffa32b78efdc3faac2a938">pos_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
-<div class="line"><span class="lineno">  155</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  156</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a533eb31704ffa32b78efdc3faac2a938">pos_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
-<div class="line"><span class="lineno">  157</span>        }</div>
-<div class="line"><span class="lineno">  158</span>    }</div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">  161</span>        std::string tag_name = <span class="stringliteral">&quot;orient_noise_&quot;</span> + std::to_string(i);</div>
-<div class="line"><span class="lineno">  162</span>        std::vector&lt;double&gt; vec;</div>
-<div class="line"><span class="lineno">  163</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
-<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">if</span> (status) {</div>
-<div class="line"><span class="lineno">  165</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a4598106272096af602d6951f923aea50">orient_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
-<div class="line"><span class="lineno">  166</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  167</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a4598106272096af602d6951f923aea50">orient_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
-<div class="line"><span class="lineno">  168</span>        }</div>
-<div class="line"><span class="lineno">  169</span>    }</div>
-<div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">  172</span>        std::string tag_name = <span class="stringliteral">&quot;size_noise_&quot;</span> + std::to_string(i);</div>
-<div class="line"><span class="lineno">  173</span>        std::vector&lt;double&gt; vec;</div>
-<div class="line"><span class="lineno">  174</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
-<div class="line"><span class="lineno">  175</span>        <span class="keywordflow">if</span> (status) {</div>
-<div class="line"><span class="lineno">  176</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05">size_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
-<div class="line"><span class="lineno">  177</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  178</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05">size_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
-<div class="line"><span class="lineno">  179</span>        }</div>
-<div class="line"><span class="lineno">  180</span>    }</div>
-<div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  185</span>    <span class="keyword">auto</span> params_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">sc::MessagePtr&lt;std::map&lt;std::string, double&gt;</a>&gt; msg) {</div>
-<div class="line"><span class="lineno">  186</span>        <a class="code hl_function" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110">set_plugin_params</a>(msg-&gt;data);</div>
-<div class="line"><span class="lineno">  187</span>    };</div>
-<div class="line"><span class="lineno">  188</span>    subscribe&lt;std::map&lt;std::string, double&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;BlobPluginParams&quot;</span>, params_cb);</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  193</span>    <span class="keyword">auto</span> rpy_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">sc::MessagePtr&lt;std::vector&lt;double&gt;</a>&gt; msg) {</div>
-<div class="line"><span class="lineno">  194</span>        <span class="keywordtype">double</span> roll = sc::Angles::deg2rad(msg-&gt;data[0]);</div>
-<div class="line"><span class="lineno">  195</span>        <span class="keywordtype">double</span> pitch = sc::Angles::deg2rad(msg-&gt;data[1]);</div>
-<div class="line"><span class="lineno">  196</span>        <span class="keywordtype">double</span> yaw = sc::Angles::deg2rad(msg-&gt;data[2]);</div>
-<div class="line"><span class="lineno">  197</span>        this-&gt;<a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f">transform</a>()-&gt;quat().set(roll, pitch, yaw);</div>
-<div class="line"><span class="lineno">  198</span>    };</div>
-<div class="line"><span class="lineno">  199</span>    subscribe&lt;std::vector&lt;double&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;BlobPluginRPY&quot;</span>, rpy_cb);</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>    <span class="comment">// Publish the resulting bounding boxes</span></div>
-<div class="line"><span class="lineno">  202</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a229ecb6d3c25058bdee7182fb115fc68">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactBlobCamera&quot;</span>);</div>
-<div class="line"><span class="lineno">  203</span> </div>
-<div class="line"><span class="lineno">  204</span>    <span class="comment">// Initialize frustum shapes</span></div>
-<div class="line"><span class="lineno">  205</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a986043b201351d74d6ec92ede5407871">frustum_shapes_</a>.resize(8);</div>
-<div class="line"><span class="lineno">  206</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; shape : <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a986043b201351d74d6ec92ede5407871">frustum_shapes_</a>) {</div>
-<div class="line"><span class="lineno">  207</span>        shape = std::make_shared&lt;scrimmage_proto::Shape&gt;();</div>
-<div class="line"><span class="lineno">  208</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(shape-&gt;mutable_color(), 0, 255, 0);</div>
-<div class="line"><span class="lineno">  209</span>        shape-&gt;set_opacity(1.0);</div>
-<div class="line"><span class="lineno">  210</span>        shape-&gt;set_persistent(<span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">  211</span>        shape-&gt;set_persist_duration(0.0);</div>
-<div class="line"><span class="lineno">  212</span>    }</div>
-<div class="line"><span class="lineno">  213</span>}</div>
+<div class="line"><span class="lineno">  140</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>[<span class="stringliteral">&quot;std_dev_h&quot;</span>] = sc::get&lt;int&gt;(<span class="stringliteral">&quot;std_dev_height&quot;</span>, params, 10);</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>    <a class="code hl_function" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110">set_plugin_params</a>(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8d2b7ed29117e50d30d07b354dc027ce">plugin_params_</a>);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a535f07e2428d9b65422d624fb42c564f">log_detections_</a>) {</div>
+<div class="line"><span class="lineno">  145</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ac448af93dd1c843544fbd7e265e885c0">detections_file_</a>.open(</div>
+<div class="line"><span class="lineno">  146</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/blob_sensor_detections_&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a8e68a90c17cb53a6c2fe000a9749566a">camera_id_</a>)</div>
+<div class="line"><span class="lineno">  147</span>            + <span class="stringliteral">&quot;.txt&quot;</span>);</div>
+<div class="line"><span class="lineno">  148</span>    }</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  151</span>        std::string tag_name = <span class="stringliteral">&quot;pos_noise_&quot;</span> + std::to_string(i);</div>
+<div class="line"><span class="lineno">  152</span>        std::vector&lt;double&gt; vec;</div>
+<div class="line"><span class="lineno">  153</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
+<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> (status) {</div>
+<div class="line"><span class="lineno">  155</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a533eb31704ffa32b78efdc3faac2a938">pos_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
+<div class="line"><span class="lineno">  156</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  157</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a533eb31704ffa32b78efdc3faac2a938">pos_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
+<div class="line"><span class="lineno">  158</span>        }</div>
+<div class="line"><span class="lineno">  159</span>    }</div>
+<div class="line"><span class="lineno">  160</span> </div>
+<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  162</span>        std::string tag_name = <span class="stringliteral">&quot;orient_noise_&quot;</span> + std::to_string(i);</div>
+<div class="line"><span class="lineno">  163</span>        std::vector&lt;double&gt; vec;</div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
+<div class="line"><span class="lineno">  165</span>        <span class="keywordflow">if</span> (status) {</div>
+<div class="line"><span class="lineno">  166</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a4598106272096af602d6951f923aea50">orient_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
+<div class="line"><span class="lineno">  167</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  168</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a4598106272096af602d6951f923aea50">orient_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
+<div class="line"><span class="lineno">  169</span>        }</div>
+<div class="line"><span class="lineno">  170</span>    }</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  173</span>        std::string tag_name = <span class="stringliteral">&quot;size_noise_&quot;</span> + std::to_string(i);</div>
+<div class="line"><span class="lineno">  174</span>        std::vector&lt;double&gt; vec;</div>
+<div class="line"><span class="lineno">  175</span>        <span class="keywordtype">bool</span> status = <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(tag_name, params, <span class="stringliteral">&quot; &quot;</span>, vec, 2);</div>
+<div class="line"><span class="lineno">  176</span>        <span class="keywordflow">if</span> (status) {</div>
+<div class="line"><span class="lineno">  177</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05">size_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]));</div>
+<div class="line"><span class="lineno">  178</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  179</span>            <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a843375e45026b8a960e2ae82c5202d05">size_noise_</a>.push_back(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0, 1));</div>
+<div class="line"><span class="lineno">  180</span>        }</div>
+<div class="line"><span class="lineno">  181</span>    }</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  186</span>    <span class="keyword">auto</span> params_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">sc::MessagePtr&lt;std::map&lt;std::string, double&gt;</a>&gt; msg) {</div>
+<div class="line"><span class="lineno">  187</span>        <a class="code hl_function" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a1a55d348ee3af87bdb66e21d095e8110">set_plugin_params</a>(msg-&gt;data);</div>
+<div class="line"><span class="lineno">  188</span>    };</div>
+<div class="line"><span class="lineno">  189</span>    subscribe&lt;std::map&lt;std::string, double&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;BlobPluginParams&quot;</span>, params_cb);</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  194</span>    <span class="keyword">auto</span> rpy_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">sc::MessagePtr&lt;std::vector&lt;double&gt;</a>&gt; msg) {</div>
+<div class="line"><span class="lineno">  195</span>        <span class="keywordtype">double</span> roll = sc::Angles::deg2rad(msg-&gt;data[0]);</div>
+<div class="line"><span class="lineno">  196</span>        <span class="keywordtype">double</span> pitch = sc::Angles::deg2rad(msg-&gt;data[1]);</div>
+<div class="line"><span class="lineno">  197</span>        <span class="keywordtype">double</span> yaw = sc::Angles::deg2rad(msg-&gt;data[2]);</div>
+<div class="line"><span class="lineno">  198</span>        this-&gt;<a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f">transform</a>()-&gt;quat().set(roll, pitch, yaw);</div>
+<div class="line"><span class="lineno">  199</span>    };</div>
+<div class="line"><span class="lineno">  200</span>    subscribe&lt;std::vector&lt;double&gt;&gt;(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;BlobPluginRPY&quot;</span>, rpy_cb);</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>    <span class="comment">// Publish the resulting bounding boxes</span></div>
+<div class="line"><span class="lineno">  203</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a229ecb6d3c25058bdee7182fb115fc68">pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ContactBlobCamera&quot;</span>);</div>
+<div class="line"><span class="lineno">  204</span> </div>
+<div class="line"><span class="lineno">  205</span>    <span class="comment">// Initialize frustum shapes</span></div>
+<div class="line"><span class="lineno">  206</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a986043b201351d74d6ec92ede5407871">frustum_shapes_</a>.resize(8);</div>
+<div class="line"><span class="lineno">  207</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp;&amp; shape : <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a986043b201351d74d6ec92ede5407871">frustum_shapes_</a>) {</div>
+<div class="line"><span class="lineno">  208</span>        shape = std::make_shared&lt;scrimmage_proto::Shape&gt;();</div>
+<div class="line"><span class="lineno">  209</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(shape-&gt;mutable_color(), 0, 255, 0);</div>
+<div class="line"><span class="lineno">  210</span>        shape-&gt;set_opacity(1.0);</div>
+<div class="line"><span class="lineno">  211</span>        shape-&gt;set_persistent(<span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">  212</span>        shape-&gt;set_persist_duration(0.0);</div>
+<div class="line"><span class="lineno">  213</span>    }</div>
+<div class="line"><span class="lineno">  214</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Contact_html"><div class="ttname"><a href="classscrimmage_1_1Contact.html">scrimmage::Contact</a></div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00056">Contact.h:56</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a26d8c93d8039fe6723ee7ce54e854f9f"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a26d8c93d8039fe6723ee7ce54e854f9f">scrimmage::EntityPlugin::transform</a></div><div class="ttdeci">StatePtr transform()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00088">EntityPlugin.h:88</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
@@ -557,12 +557,12 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_aecadb8c24a6dcf68225548fda8b2c55b"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aecadb8c24a6dcf68225548fda8b2c55b">scrimmage::sensor::ContactBlobCamera::parameters_file_</a></div><div class="ttdeci">std::ofstream parameters_file_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00061">ContactBlobCamera.h:61</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_aece05117c4efc0e78dbf1201da2dec7f"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aece05117c4efc0e78dbf1201da2dec7f">scrimmage::sensor::ContactBlobCamera::show_sim_contacts_</a></div><div class="ttdeci">bool show_sim_contacts_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00117">ContactBlobCamera.h:117</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a1193e07c92b1e6cebba927efd1596f53"><div class="ttname"><a href="namespacescrimmage.html#a1193e07c92b1e6cebba927efd1596f53">scrimmage::StatePtr</a></div><div class="ttdeci">std::shared_ptr&lt; State &gt; StatePtr</div><div class="ttdef"><b>Definition</b> <a href="Contact_8h_source.html#l00054">Contact.h:54</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00274">ParseUtils.cpp:274</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00278">ParseUtils.cpp:278</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00168">ParseUtils.h:168</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00092">camera_id_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">detections_file_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00123">frustum_shapes_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00063">gener_</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00274">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="Contact_8cpp_source.html#l00066">scrimmage::Contact::id()</a>, <a class="el" href="ID_8cpp_source.html#l00056">scrimmage::ID::id()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00113">ignore_real_entities_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00116">log_detections_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00065">orient_noise_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">parameters_file_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00091">plugin_params_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00064">pos_noise_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00111">pub_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="Contact_8cpp_source.html#l00094">scrimmage::Contact::set_active()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, <a class="el" href="Contact_8cpp_source.html#l00098">scrimmage::Contact::set_radius()</a>, <a class="el" href="Contact_8cpp_source.html#l00082">scrimmage::Contact::set_type()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00115">show_frustum_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00114">show_image_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00117">show_sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00126">sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00066">size_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00088">scrimmage::EntityPlugin::transform()</a>, and <a class="el" href="ContactBlobCamera_8h_source.html#l00122">window_name_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00092">camera_id_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">detections_file_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00123">frustum_shapes_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00063">gener_</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00278">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="Contact_8cpp_source.html#l00066">scrimmage::Contact::id()</a>, <a class="el" href="ID_8cpp_source.html#l00056">scrimmage::ID::id()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00113">ignore_real_entities_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00116">log_detections_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00065">orient_noise_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">parameters_file_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00091">plugin_params_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00064">pos_noise_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00111">pub_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="Contact_8cpp_source.html#l00094">scrimmage::Contact::set_active()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, <a class="el" href="Contact_8cpp_source.html#l00098">scrimmage::Contact::set_radius()</a>, <a class="el" href="Contact_8cpp_source.html#l00082">scrimmage::Contact::set_type()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00115">show_frustum_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00114">show_image_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00117">show_sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00126">sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00066">size_noise_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00088">scrimmage::EntityPlugin::transform()</a>, and <a class="el" href="ContactBlobCamera_8h_source.html#l00122">window_name_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -724,7 +724,7 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a3002a65ceca6368376cd9bb287bcc3d8"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a3002a65ceca6368376cd9bb287bcc3d8">scrimmage::sensor::ContactBlobCamera::contact_send_dt_</a></div><div class="ttdeci">double contact_send_dt_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00120">ContactBlobCamera.h:120</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a3b23bd95b592355db107f9b15e03a78e"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a3b23bd95b592355db107f9b15e03a78e">scrimmage::sensor::ContactBlobCamera::last_contact_send_time_</a></div><div class="ttdeci">double last_contact_send_time_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00119">ContactBlobCamera.h:119</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a537e5e1a19e305279e0a35cb7cd16237"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a537e5e1a19e305279e0a35cb7cd16237">scrimmage::sensor::ContactBlobCamera::el_thresh_</a></div><div class="ttdeci">double el_thresh_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00099">ContactBlobCamera.h:99</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a54eb6469a983baf23ccb86ac7405482c"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c">scrimmage::sensor::ContactBlobCamera::draw_frustum</a></div><div class="ttdeci">void draw_frustum(const std::vector&lt; scrimmage_proto::ShapePtr &gt; &amp;frustum, double x_rot, double y_rot, double z_rot)</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8cpp_source.html#l00215">ContactBlobCamera.cpp:215</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a54eb6469a983baf23ccb86ac7405482c"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a54eb6469a983baf23ccb86ac7405482c">scrimmage::sensor::ContactBlobCamera::draw_frustum</a></div><div class="ttdeci">void draw_frustum(const std::vector&lt; scrimmage_proto::ShapePtr &gt; &amp;frustum, double x_rot, double y_rot, double z_rot)</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8cpp_source.html#l00216">ContactBlobCamera.cpp:216</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a569d7bed16cb2c947a344457fdc0053e"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a569d7bed16cb2c947a344457fdc0053e">scrimmage::sensor::ContactBlobCamera::last_frame_t_</a></div><div class="ttdeci">double last_frame_t_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00109">ContactBlobCamera.h:109</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a76736d68a4a1ae8f069b813c52ed7654"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a76736d68a4a1ae8f069b813c52ed7654">scrimmage::sensor::ContactBlobCamera::img_height_</a></div><div class="ttdeci">int img_height_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00094">ContactBlobCamera.h:94</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_a80ca9f4c04b49577f47a146a295f4cd1"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a80ca9f4c04b49577f47a146a295f4cd1">scrimmage::sensor::ContactBlobCamera::max_false_positives_</a></div><div class="ttdeci">int max_false_positives_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00102">ContactBlobCamera.h:102</a></div></div>
@@ -738,7 +738,7 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_ae267feb143893846829eb559989de947"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#ae267feb143893846829eb559989de947">scrimmage::sensor::ContactBlobCamera::focal_length_</a></div><div class="ttdeci">double focal_length_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00096">ContactBlobCamera.h:96</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1sensor_1_1ContactBlobCamera_html_af130d415e6e196c21f024eba727df56d"><div class="ttname"><a href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#af130d415e6e196c21f024eba727df56d">scrimmage::sensor::ContactBlobCamera::img_width_</a></div><div class="ttdeci">int img_width_</div><div class="ttdef"><b>Definition</b> <a href="ContactBlobCamera_8h_source.html#l00093">ContactBlobCamera.h:93</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ContactBlobCamera_8cpp_source.html#l00389">add_false_positives()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00098">az_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00092">camera_id_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00120">contact_send_dt_</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">detections_file_</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">draw_frustum()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00099">el_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00100">fn_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00096">focal_length_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00101">fp_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00097">fps_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00108">frame_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00123">frustum_shapes_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00113">ignore_real_entities_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00094">img_height_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00093">img_width_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00119">last_contact_send_time_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00109">last_frame_t_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00116">log_detections_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00095">max_detect_range_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00102">max_false_positives_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="Quaternion_8cpp_source.html#l00109">scrimmage::Quaternion::pitch()</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00111">pub_</a>, <a class="el" href="State_8cpp_source.html#l00059">scrimmage::State::quat()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00105">scrimmage::Quaternion::roll()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00115">show_frustum_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00114">show_image_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00117">show_sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00126">sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00124">sim_tgt_sphere_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00088">scrimmage::EntityPlugin::transform()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00122">window_name_</a>, and <a class="el" href="Quaternion_8cpp_source.html#l00119">scrimmage::Quaternion::yaw()</a>.</p>
+<p class="reference">References <a class="el" href="ContactBlobCamera_8cpp_source.html#l00389">add_false_positives()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00098">az_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00092">camera_id_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00120">contact_send_dt_</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">detections_file_</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00216">draw_frustum()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00099">el_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00100">fn_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00096">focal_length_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00101">fp_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00097">fps_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00108">frame_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00123">frustum_shapes_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00113">ignore_real_entities_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00094">img_height_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00093">img_width_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00119">last_contact_send_time_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00109">last_frame_t_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00116">log_detections_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00095">max_detect_range_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00102">max_false_positives_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="Quaternion_8cpp_source.html#l00109">scrimmage::Quaternion::pitch()</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00111">pub_</a>, <a class="el" href="State_8cpp_source.html#l00059">scrimmage::State::quat()</a>, <a class="el" href="Quaternion_8cpp_source.html#l00105">scrimmage::Quaternion::roll()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00115">show_frustum_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00114">show_image_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00117">show_sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00126">sim_contacts_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00124">sim_tgt_sphere_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00088">scrimmage::EntityPlugin::transform()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00122">window_name_</a>, and <a class="el" href="Quaternion_8cpp_source.html#l00119">scrimmage::Quaternion::yaw()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1312,7 +1312,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="ContactBlobCamera_8h_source.html#l00098">az_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00092">camera_id_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00106">canvas_height_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00105">canvas_width_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00099">el_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00100">fn_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00096">focal_length_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00101">fp_prob_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00097">fps_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00094">img_height_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00093">img_width_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00095">max_detect_range_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00102">max_false_positives_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00061">parameters_file_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00104">std_dev_h_</a>, and <a class="el" href="ContactBlobCamera_8h_source.html#l00103">std_dev_w_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1372,11 +1372,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">215</a> of file <a class="el" href="ContactBlobCamera_8cpp_source.html">ContactBlobCamera.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>                  {</div>
-<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">if</span> (frustum_shapes.size() != 8) {</div>
-<div class="line"><span class="lineno">  221</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8&quot;</span></div>
-<div class="line"><span class="lineno">  222</span>                  &lt;&lt; std::endl;</div>
+<p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8cpp_source.html#l00216">216</a> of file <a class="el" href="ContactBlobCamera_8cpp_source.html">ContactBlobCamera.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  220</span>                  {</div>
+<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">if</span> (frustum_shapes.size() != 8) {</div>
+<div class="line"><span class="lineno">  222</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;ContactBlobCamera::draw_frustum: ERROR: input shape vector must be size 8&quot;</span>);</div>
 <div class="line"><span class="lineno">  223</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  224</span>    }</div>
 <div class="line"><span class="lineno">  225</span>    <span class="keywordtype">double</span> sensor_footprint_height = <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#aba66e2e5837e2e54ff377af84e5c2a2c">max_detect_range_</a> * tan(<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html#a537e5e1a19e305279e0a35cb7cd16237">el_thresh_</a> / 2) * 2;</div>
@@ -1451,9 +1450,10 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  294</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(shape);</div>
 <div class="line"><span class="lineno">  295</span>    }</div>
 <div class="line"><span class="lineno">  296</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a859b1ab7643002025a5c60083bbd5298"><div class="ttname"><a href="namespacescrimmage.html#a859b1ab7643002025a5c60083bbd5298">scrimmage::path_to_lines</a></div><div class="ttdeci">void path_to_lines(std::vector&lt; Eigen::Vector3d &gt; &amp;path, std::shared_ptr&lt; scrimmage_proto::Shape &gt; sample_line, std::shared_ptr&lt; EntityPlugin &gt; p)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00240">ProtoConversions.cpp:240</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="ContactBlobCamera_8h_source.html#l00098">az_thresh_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00099">el_thresh_</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00095">max_detect_range_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00240">scrimmage::path_to_lines()</a>, and <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>.</p>
+<p class="reference">References <a class="el" href="ContactBlobCamera_8h_source.html#l00098">az_thresh_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00099">el_thresh_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="ContactBlobCamera_8h_source.html#l00095">max_detect_range_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00240">scrimmage::path_to_lines()</a>, and <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 <div class="dynheader">
@@ -1507,7 +1507,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00061">61</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>.</p>
 
 </div>
 </div>
@@ -1533,7 +1533,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00061">61</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -1559,7 +1559,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00063">63</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 
 </div>
 </div>
@@ -1585,7 +1585,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00064">64</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 
 </div>
 </div>
@@ -1611,7 +1611,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00065">65</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 
 </div>
 </div>
@@ -1637,7 +1637,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00066">66</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 
 </div>
 </div>
@@ -1663,7 +1663,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00091">91</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>.</p>
 
 </div>
 </div>
@@ -1689,7 +1689,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00092">92</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -1767,7 +1767,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00095">95</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00298">contacts_to_bounding_boxes()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00216">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -1845,7 +1845,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00098">98</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00537">in_field_of_view()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00216">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00537">in_field_of_view()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -1871,7 +1871,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00099">99</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00215">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00537">in_field_of_view()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00216">draw_frustum()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00537">in_field_of_view()</a>, <a class="el" href="ContactBlobCamera_8cpp_source.html#l00580">set_plugin_params()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2131,7 +2131,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00111">111</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2157,7 +2157,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00113">113</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2183,7 +2183,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00114">114</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2209,7 +2209,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00115">115</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2235,7 +2235,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00116">116</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2261,7 +2261,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00117">117</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2339,7 +2339,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00122">122</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2365,7 +2365,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00123">123</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2417,7 +2417,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ContactBlobCamera_8h_source.html#l00126">126</a> of file <a class="el" href="ContactBlobCamera_8h_source.html">ContactBlobCamera.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00071">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ContactBlobCamera_8cpp_source.html#l00072">init()</a>, and <a class="el" href="ContactBlobCamera_8cpp_source.html#l00426">step()</a>.</p>
 
 </div>
 </div>
@@ -2431,7 +2431,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1sensor.html">sensor</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1sensor_1_1ContactBlobCamera.html">ContactBlobCamera</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:29 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

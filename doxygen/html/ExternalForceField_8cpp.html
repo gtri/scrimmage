@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('ExternalForceField_8cpp.html',''); ini
 <code>#include &quot;<a class="el" href="Time_8h_source.html">scrimmage/common/Time.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MotionModel_8h_source.html">scrimmage/motion/MotionModel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
@@ -117,49 +118,52 @@ Include dependency graph for ExternalForceField.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="ExternalForceField_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2ExternalForceField_2ExternalForceField_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2ExternalForceField_2ExternalForceField_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2ExternalForceField_2ExternalForceField_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="588,5,826,75"/>
-<area shape="rect" href="ExternalForceField_8h.html" title="Brief file description." alt="" coords="49,123,288,177"/>
-<area shape="poly" title=" " alt="" coords="588,68,302,125,301,120,587,63"/>
-<area shape="rect" title=" " alt="" coords="683,387,760,412"/>
-<area shape="poly" title=" " alt="" coords="588,50,429,61,257,76,112,98,64,111,38,125,15,158,8,188,14,215,33,241,61,265,98,289,188,336,228,351,282,362,416,380,556,389,669,394,669,399,556,395,415,385,281,368,226,356,186,341,95,293,58,269,29,244,10,218,3,188,10,156,35,121,62,106,111,93,256,71,429,55,587,45"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="170,225,359,251"/>
-<area shape="poly" title=" " alt="" coords="588,52,532,62,473,76,414,97,359,125,334,145,312,168,279,215,275,212,308,165,330,141,356,120,412,92,471,71,531,57,587,47"/>
-<area shape="rect" href="Message_8h.html" title="Brief file description." alt="" coords="302,306,522,331"/>
-<area shape="poly" title=" " alt="" coords="588,61,530,72,476,87,431,104,404,124,393,144,386,165,384,211,393,256,404,292,399,294,387,257,379,212,381,164,388,142,400,121,429,99,474,82,529,67,587,55"/>
-<area shape="rect" title=" " alt="" coords="414,137,494,163"/>
-<area shape="poly" title=" " alt="" coords="621,77,507,125,489,133,487,129,505,120,619,72"/>
-<area shape="rect" title=" " alt="" coords="518,137,576,163"/>
-<area shape="poly" title=" " alt="" coords="659,77,577,132,574,127,656,72"/>
-<area shape="rect" title=" " alt="" coords="601,137,669,163"/>
-<area shape="poly" title=" " alt="" coords="687,76,653,127,648,124,683,73"/>
-<area shape="rect" href="Random_8h.html" title="Brief file description." alt="" coords="474,225,700,251"/>
-<area shape="poly" title=" " alt="" coords="710,75,704,126,696,154,683,179,659,204,631,221,628,217,655,199,678,176,691,152,699,125,705,75"/>
-<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="619,306,824,331"/>
-<area shape="poly" title=" " alt="" coords="712,75,723,292,718,292,706,75"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="794,137,1017,163"/>
-<area shape="poly" title=" " alt="" coords="770,72,874,128,871,133,768,77"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="805,225,988,251"/>
-<area shape="poly" title=" " alt="" coords="827,54,889,65,949,80,999,98,1017,109,1031,121,1039,135,1042,150,1039,164,1031,179,1004,206,970,223,968,218,1001,201,1026,176,1034,162,1036,149,1034,137,1026,124,1014,113,997,103,948,85,888,70,826,59"/>
-<area shape="rect" href="MotionModel_8h.html" title="Brief file description." alt="" coords="898,306,1145,331"/>
-<area shape="poly" title=" " alt="" coords="827,51,896,62,963,77,1019,96,1040,108,1055,121,1061,135,1062,154,1057,200,1033,293,1028,292,1052,199,1057,154,1055,136,1050,124,1037,112,1017,101,961,82,895,67,826,56"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1068,225,1284,251"/>
-<area shape="poly" title=" " alt="" coords="827,50,912,61,998,76,1073,96,1103,108,1125,121,1144,141,1158,165,1174,211,1169,213,1153,167,1140,144,1121,125,1101,112,1072,101,997,82,911,66,826,55"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1220,299,1424,339"/>
-<area shape="poly" title=" " alt="" coords="827,45,904,54,989,68,1077,90,1161,120,1206,140,1240,160,1269,185,1299,224,1313,254,1321,285,1316,286,1308,256,1294,227,1265,189,1237,164,1204,145,1159,125,1076,95,988,73,903,59,826,50"/>
-<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="1359,225,1580,251"/>
-<area shape="poly" title=" " alt="" coords="827,46,961,56,1109,72,1245,93,1300,106,1342,120,1376,140,1407,165,1454,213,1450,216,1404,169,1373,144,1339,125,1298,111,1244,98,1109,77,961,61,826,51"/>
-<area shape="poly" title=" " alt="" coords="161,178,154,213,155,232,160,250,180,283,201,304,229,320,265,336,299,347,344,357,455,373,669,392,669,397,454,378,343,362,297,352,263,341,226,325,198,308,175,286,155,252,150,233,149,213,156,177"/>
-<area shape="poly" title=" " alt="" coords="200,175,243,214,239,218,196,179"/>
-<area shape="poly" title=" " alt="" coords="266,251,270,294,277,317,292,337,319,353,359,366,462,384,575,392,669,395,669,401,574,398,461,389,357,371,317,358,288,341,273,320,264,295,261,251"/>
-<area shape="poly" title=" " alt="" coords="288,248,380,297,377,302,285,253"/>
-<area shape="poly" title=" " alt="" coords="458,329,671,382,669,388,457,334"/>
-<area shape="poly" title=" " alt="" coords="589,251,592,292,598,316,609,337,637,363,671,380,669,385,634,367,605,340,593,318,586,293,584,251"/>
-<area shape="poly" title=" " alt="" coords="724,332,724,373,719,373,719,332"/>
-<area shape="poly" title=" " alt="" coords="894,252,874,294,858,319,838,341,805,365,769,384,766,379,802,361,835,337,853,315,869,291,889,250"/>
-<area shape="poly" title=" " alt="" coords="979,334,775,387,773,382,977,329"/>
-<area shape="poly" title=" " alt="" coords="1181,251,1180,294,1173,319,1158,341,1130,358,1089,372,1039,382,984,390,870,398,774,401,774,395,870,393,984,385,1039,377,1088,367,1128,353,1155,337,1168,317,1175,294,1175,251"/>
-<area shape="poly" title=" " alt="" coords="1220,339,1201,341,775,395,774,389,1200,336,1219,333"/>
-<area shape="poly" title=" " alt="" coords="1472,251,1465,295,1454,320,1437,341,1399,355,1332,367,1144,384,936,395,775,400,774,394,936,389,1144,379,1332,362,1398,350,1434,336,1450,317,1460,294,1467,250"/>
+<area shape="rect" title="Brief file description." alt="" coords="680,5,919,75"/>
+<area shape="rect" href="ExternalForceField_8h.html" title="Brief file description." alt="" coords="5,123,244,177"/>
+<area shape="poly" title=" " alt="" coords="680,61,264,125,258,126,257,121,263,120,680,56"/>
+<area shape="rect" title=" " alt="" coords="975,387,1053,412"/>
+<area shape="poly" title=" " alt="" coords="680,47,583,58,537,68,495,81,463,98,442,119,437,131,435,144,438,159,446,176,468,209,493,238,522,264,554,287,624,325,698,353,774,372,845,385,962,395,961,400,845,390,773,377,697,358,622,330,551,291,519,268,489,242,463,212,441,179,433,161,430,145,431,130,437,116,460,93,493,76,535,62,582,53,679,42"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="106,233,295,258"/>
+<area shape="poly" title=" " alt="" coords="680,55,474,83,381,102,343,113,315,125,295,141,269,167,220,224,216,220,265,163,291,137,313,120,341,108,379,97,473,77,679,50"/>
+<area shape="rect" href="Message_8h.html" title="Brief file description." alt="" coords="191,313,411,339"/>
+<area shape="poly" title=" " alt="" coords="680,53,590,63,498,78,418,98,388,111,367,125,348,155,331,203,308,300,303,299,326,201,343,152,363,121,386,106,417,93,497,73,589,57,679,47"/>
+<area shape="rect" title=" " alt="" coords="607,233,687,258"/>
+<area shape="poly" title=" " alt="" coords="680,57,613,68,548,83,494,101,475,112,461,124,454,137,451,150,454,162,461,176,488,202,522,221,559,232,594,238,593,244,557,237,520,226,485,207,457,179,449,164,446,150,449,136,457,121,472,108,492,97,547,77,612,63,679,52"/>
+<area shape="rect" title=" " alt="" coords="471,137,530,163"/>
+<area shape="poly" title=" " alt="" coords="681,75,612,98,544,125,530,133,528,128,542,120,610,93,679,70"/>
+<area shape="rect" title=" " alt="" coords="555,137,623,163"/>
+<area shape="poly" title=" " alt="" coords="731,77,637,125,622,133,619,128,634,120,729,72"/>
+<area shape="rect" href="Random_8h.html" title="Brief file description." alt="" coords="750,313,977,339"/>
+<area shape="poly" title=" " alt="" coords="821,74,841,122,852,170,859,219,865,299,860,299,854,220,847,171,835,123,816,76"/>
+<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="901,233,1106,258"/>
+<area shape="poly" title=" " alt="" coords="919,52,985,63,1050,78,1103,97,1123,108,1137,121,1146,135,1148,149,1145,164,1138,179,1124,196,1106,210,1068,230,1065,226,1103,206,1120,192,1133,176,1140,162,1143,149,1141,137,1133,124,1120,113,1101,102,1048,83,984,68,918,57"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="900,137,1123,163"/>
+<area shape="poly" title=" " alt="" coords="866,72,978,129,975,133,864,77"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="647,137,826,163"/>
+<area shape="poly" title=" " alt="" coords="782,76,753,127,748,124,778,73"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1052,313,1235,339"/>
+<area shape="poly" title=" " alt="" coords="919,50,992,60,1063,75,1122,95,1145,107,1160,121,1167,135,1170,155,1168,203,1152,300,1147,299,1163,203,1164,155,1162,137,1156,124,1141,112,1120,100,1061,81,991,66,919,55"/>
+<area shape="rect" href="MotionModel_8h.html" title="Brief file description." alt="" coords="1180,233,1427,258"/>
+<area shape="poly" title=" " alt="" coords="919,50,1007,62,1097,77,1176,97,1207,108,1230,120,1254,142,1273,168,1298,218,1293,221,1269,171,1250,146,1227,125,1205,113,1174,102,1096,82,1006,67,918,56"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1333,313,1549,339"/>
+<area shape="poly" title=" " alt="" coords="919,47,998,57,1088,71,1180,92,1269,120,1325,138,1370,154,1407,179,1425,199,1442,224,1449,243,1452,263,1449,300,1444,300,1447,263,1444,244,1437,227,1421,202,1404,183,1367,159,1323,143,1268,125,1179,97,1087,76,998,62,918,52"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1501,225,1705,265"/>
+<area shape="poly" title=" " alt="" coords="919,44,1065,52,1228,67,1377,90,1438,104,1483,120,1514,139,1542,163,1585,212,1581,216,1538,167,1511,144,1481,125,1436,109,1376,95,1227,73,1064,58,919,49"/>
+<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="1630,313,1851,339"/>
+<area shape="poly" title=" " alt="" coords="919,46,1252,74,1416,95,1483,107,1535,120,1593,138,1640,154,1680,180,1720,224,1731,242,1737,262,1743,299,1738,300,1732,263,1726,244,1716,227,1676,184,1637,159,1592,143,1533,125,1482,112,1416,100,1251,80,919,51"/>
+<area shape="poly" title=" " alt="" coords="111,179,95,220,92,243,97,265,109,290,122,309,140,323,166,336,213,348,295,358,525,376,961,394,961,399,524,381,295,364,212,353,164,341,137,327,118,312,104,293,91,266,87,243,89,219,106,177"/>
+<area shape="poly" title=" " alt="" coords="148,176,184,220,180,223,144,179"/>
+<area shape="poly" title=" " alt="" coords="194,260,184,277,175,298,172,319,180,337,195,346,221,355,299,370,404,380,524,388,773,395,962,396,962,401,773,400,524,393,403,386,298,375,219,360,193,351,176,340,167,320,170,297,179,275,190,257"/>
+<area shape="poly" title=" " alt="" coords="217,256,277,303,273,307,214,260"/>
+<area shape="poly" title=" " alt="" coords="411,336,962,390,961,395,411,341"/>
+<area shape="poly" title=" " alt="" coords="889,336,978,378,976,383,886,341"/>
+<area shape="poly" title=" " alt="" coords="1007,258,1015,373,1010,373,1001,258"/>
+<area shape="poly" title=" " alt="" coords="728,165,670,224,666,221,724,161"/>
+<area shape="poly" title=" " alt="" coords="1124,341,1049,382,1046,377,1121,336"/>
+<area shape="poly" title=" " alt="" coords="1302,259,1284,299,1268,322,1249,341,1205,366,1157,383,1109,393,1067,399,1066,393,1108,388,1155,378,1203,361,1246,337,1264,318,1279,297,1297,257"/>
+<area shape="poly" title=" " alt="" coords="1373,341,1067,392,1066,387,1372,336"/>
+<area shape="poly" title=" " alt="" coords="1603,267,1590,305,1578,325,1562,341,1523,360,1468,374,1402,385,1330,393,1184,400,1066,401,1066,396,1183,395,1329,387,1401,380,1467,369,1521,355,1559,336,1574,321,1585,303,1598,265"/>
+<area shape="poly" title=" " alt="" coords="1630,341,1067,396,1066,390,1630,335"/>
 </map>
 </div>
 </div>
@@ -222,150 +226,151 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ExternalForceField_8cpp_source.html#l00057">57</a> of file <a class="el" href="ExternalForceField_8cpp_source.html">ExternalForceField.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>                    {</div>
-<div class="line"><span class="lineno">   63</span><span class="keyword">namespace </span>interaction {</div>
+<p class="definition">Definition at line <a class="el" href="ExternalForceField_8cpp_source.html#l00055">55</a> of file <a class="el" href="ExternalForceField_8cpp_source.html">ExternalForceField.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>                    {</div>
+<div class="line"><span class="lineno">   61</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>ExternalForceField::ExternalForceField() {}</div>
 <div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>ExternalForceField::ExternalForceField() {}</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span><span class="keywordtype">bool</span> ExternalForceField::init(</div>
-<div class="line"><span class="lineno">   68</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><span class="lineno">   69</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Force_Field&quot;</span>);</div>
-<div class="line"><span class="lineno">   72</span>    <span class="comment">// Parse the force type</span></div>
-<div class="line"><span class="lineno">   73</span>    std::string force_type_str = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;force_type&quot;</span>, plugin_params, <span class="stringliteral">&quot;constant&quot;</span>);</div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (force_type_str == <span class="stringliteral">&quot;constant&quot;</span>) {</div>
-<div class="line"><span class="lineno">   75</span>        force_type_ = Constant;</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        <span class="comment">// Parse the constant force</span></div>
-<div class="line"><span class="lineno">   78</span>        std::vector&lt;double&gt; force_vec;</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
-<div class="line"><span class="lineno">   81</span>                <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_force&quot;</span>, plugin_params, <span class="stringliteral">&quot;0, 0, 0&quot;</span>),</div>
-<div class="line"><span class="lineno">   82</span>                <span class="stringliteral">&quot;, &quot;</span>,</div>
-<div class="line"><span class="lineno">   83</span>                force_vec,</div>
-<div class="line"><span class="lineno">   84</span>                3)) {</div>
-<div class="line"><span class="lineno">   85</span>            <span class="keywordflow">if</span> (force_vec[0] == 99) {</div>
-<div class="line"><span class="lineno">   86</span>                mag_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_mag&quot;</span>, plugin_params, mag_);</div>
-<div class="line"><span class="lineno">   87</span>                ang_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_dir&quot;</span>, plugin_params, ang_);</div>
-<div class="line"><span class="lineno">   88</span>                ang_ *= M_PI / 180;</div>
-<div class="line"><span class="lineno">   89</span>                <span class="comment">// calc x y force, set force_v, publish global mag, angle</span></div>
-<div class="line"><span class="lineno">   90</span>                force_vec[0] = mag_ * cos(ang_);</div>
-<div class="line"><span class="lineno">   91</span>                force_vec[1] = mag_ * sin(ang_);</div>
-<div class="line"><span class="lineno">   92</span>                force_vec[2] = 0;</div>
-<div class="line"><span class="lineno">   93</span>            }</div>
-<div class="line"><span class="lineno">   94</span>            <span class="comment">// std::cout &lt;&lt; &quot;Force is [0]: &quot; &lt;&lt; force_vec[0] &lt;&lt; &quot;, [1]: &quot; &lt;&lt; force_vec[1] &lt;&lt;</span></div>
-<div class="line"><span class="lineno">   95</span>            <span class="comment">// std::endl;</span></div>
-<div class="line"><span class="lineno">   96</span>            force_ &lt;&lt; force_vec[0], force_vec[1], force_vec[2];</div>
-<div class="line"><span class="lineno">   97</span>        }</div>
-<div class="line"><span class="lineno">   98</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (force_type_str == <span class="stringliteral">&quot;variable&quot;</span>) {</div>
-<div class="line"><span class="lineno">   99</span>        force_type_ = Variable;</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>        <span class="comment">// Parse the force change period</span></div>
-<div class="line"><span class="lineno">  102</span>        std::vector&lt;double&gt; force_change_period_vec;</div>
-<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
-<div class="line"><span class="lineno">  104</span>                <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;force_change_period&quot;</span>, plugin_params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>),</div>
-<div class="line"><span class="lineno">  105</span>                <span class="stringliteral">&quot;, &quot;</span>,</div>
-<div class="line"><span class="lineno">  106</span>                force_change_period_vec,</div>
-<div class="line"><span class="lineno">  107</span>                2)) {</div>
-<div class="line"><span class="lineno">  108</span>            force_change_period_noise_ = parent_-&gt;random()-&gt;make_rng_normal(</div>
-<div class="line"><span class="lineno">  109</span>                force_change_period_vec[0],</div>
-<div class="line"><span class="lineno">  110</span>                force_change_period_vec[1]);</div>
-<div class="line"><span class="lineno">  111</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  112</span>            cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse force_change_period&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  113</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  114</span>        }</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>        <span class="comment">// Parse the variable force magnitudes</span></div>
-<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">  118</span>            std::vector&lt;double&gt; var_force_vec;</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
-<div class="line"><span class="lineno">  120</span>                    <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;variable_force_&quot;</span> + std::to_string(i), plugin_params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>),</div>
-<div class="line"><span class="lineno">  121</span>                    <span class="stringliteral">&quot;, &quot;</span>,</div>
-<div class="line"><span class="lineno">  122</span>                    var_force_vec,</div>
-<div class="line"><span class="lineno">  123</span>                    2)) {</div>
-<div class="line"><span class="lineno">  124</span>                <span class="keyword">auto</span> force_noise =</div>
-<div class="line"><span class="lineno">  125</span>                    parent_-&gt;random()-&gt;make_rng_normal(var_force_vec[0], var_force_vec[1]);</div>
-<div class="line"><span class="lineno">  126</span>                force_noise_.push_back(force_noise);</div>
-<div class="line"><span class="lineno">  127</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  128</span>                cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse variable_force_&quot;</span> &lt;&lt; i &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  130</span>            }</div>
-<div class="line"><span class="lineno">  131</span>        }</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>        <span class="comment">// Sample the first variable force</span></div>
-<div class="line"><span class="lineno">  134</span>        sample_force();</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  137</span>        cout &lt;&lt; <span class="stringliteral">&quot;Invalid force type: &quot;</span> &lt;&lt; force_type_str &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>    <span class="comment">// moment periods</span></div>
-<div class="line"><span class="lineno">  142</span>    roll_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_roll_period&quot;</span>, plugin_params, roll_period_);</div>
-<div class="line"><span class="lineno">  143</span>    pitch_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_pitch_period&quot;</span>, plugin_params, pitch_period_);</div>
-<div class="line"><span class="lineno">  144</span>    yaw_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_yaw_period&quot;</span>, plugin_params, yaw_period_);</div>
-<div class="line"><span class="lineno">  145</span> </div>
-<div class="line"><span class="lineno">  146</span>    <span class="comment">// moment amplitudes</span></div>
-<div class="line"><span class="lineno">  147</span>    roll_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_roll_amplitude&quot;</span>, plugin_params, roll_amp_);</div>
-<div class="line"><span class="lineno">  148</span>    pitch_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_pitch_amplitude&quot;</span>, plugin_params, pitch_amp_);</div>
-<div class="line"><span class="lineno">  149</span>    yaw_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_yaw_amplitude&quot;</span>, plugin_params, yaw_amp_);</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  152</span>}</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span><span class="keywordtype">bool</span> ExternalForceField::step_entity_interaction(</div>
-<div class="line"><span class="lineno">  155</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
-<div class="line"><span class="lineno">  156</span>    <span class="keywordtype">double</span> t,</div>
-<div class="line"><span class="lineno">  157</span>    <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  158</span>    <span class="keywordflow">if</span> (force_type_ == Variable) {</div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordflow">if</span> (time_-&gt;t() &gt;= next_sample_time_) {</div>
-<div class="line"><span class="lineno">  160</span>            sample_force();</div>
-<div class="line"><span class="lineno">  161</span>        }</div>
-<div class="line"><span class="lineno">  162</span>    }</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>    <span class="keyword">auto</span> msg_force = std::make_shared&lt;sc::Message&lt;Eigen::Vector3d&gt;&gt;();</div>
-<div class="line"><span class="lineno">  165</span>    msg_force-&gt;data = force_;</div>
-<div class="line"><span class="lineno">  166</span>    pub_-&gt;publish(msg_force);</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>    moment_(0) = roll_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / roll_period_);</div>
-<div class="line"><span class="lineno">  169</span>    moment_(1) = pitch_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / pitch_period_);</div>
-<div class="line"><span class="lineno">  170</span>    moment_(2) = yaw_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / yaw_period_);</div>
-<div class="line"><span class="lineno">  171</span> </div>
-<div class="line"><span class="lineno">  172</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; ent : ents) {</div>
-<div class="line"><span class="lineno">  173</span>        ent-&gt;motion()-&gt;set_external_force(force_);</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>        <span class="comment">// Only apply moment force within z-boundary. Scale magnitude.</span></div>
-<div class="line"><span class="lineno">  176</span>        <span class="keywordflow">if</span> (ent-&gt;state_truth()-&gt;pos()(2) &gt;= moment_enable_min_z_</div>
-<div class="line"><span class="lineno">  177</span>            &amp;&amp; ent-&gt;state_truth()-&gt;pos()(2) &lt;= moment_enable_max_z_) {</div>
-<div class="line"><span class="lineno">  178</span>            <span class="keywordtype">double</span> <a class="code hl_function" href="namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da">scale</a> = (ent-&gt;state_truth()-&gt;pos()(2) - moment_enable_min_z_)</div>
-<div class="line"><span class="lineno">  179</span>                           / (moment_enable_max_z_ - moment_enable_min_z_);</div>
-<div class="line"><span class="lineno">  180</span>            ent-&gt;motion()-&gt;set_external_moment(moment_ * scale);</div>
-<div class="line"><span class="lineno">  181</span>        }</div>
-<div class="line"><span class="lineno">  182</span>    }</div>
-<div class="line"><span class="lineno">  183</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  184</span>}</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span><span class="keywordtype">void</span> ExternalForceField::sample_force() {</div>
-<div class="line"><span class="lineno">  187</span>    <span class="keyword">auto</span> gener = parent_-&gt;random()-&gt;gener();</div>
-<div class="line"><span class="lineno">  188</span> </div>
-<div class="line"><span class="lineno">  189</span>    <span class="comment">// Sample the force</span></div>
-<div class="line"><span class="lineno">  190</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
-<div class="line"><span class="lineno">  191</span>        force_[i] = (*force_noise_[i])(*gener);</div>
-<div class="line"><span class="lineno">  192</span>    }</div>
-<div class="line"><span class="lineno">  193</span> </div>
-<div class="line"><span class="lineno">  194</span>    <span class="comment">// Determine when the next sample time will take place</span></div>
-<div class="line"><span class="lineno">  195</span>    next_sample_time_ = time_-&gt;t() + (*force_change_period_noise_)(*gener);</div>
-<div class="line"><span class="lineno">  196</span>}</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><span class="lineno">  199</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">   65</span><span class="keywordtype">bool</span> ExternalForceField::init(</div>
+<div class="line"><span class="lineno">   66</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><span class="lineno">   67</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>    pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Force_Field&quot;</span>);</div>
+<div class="line"><span class="lineno">   70</span>    <span class="comment">// Parse the force type</span></div>
+<div class="line"><span class="lineno">   71</span>    std::string force_type_str = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;force_type&quot;</span>, plugin_params, <span class="stringliteral">&quot;constant&quot;</span>);</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (force_type_str == <span class="stringliteral">&quot;constant&quot;</span>) {</div>
+<div class="line"><span class="lineno">   73</span>        force_type_ = Constant;</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>        <span class="comment">// Parse the constant force</span></div>
+<div class="line"><span class="lineno">   76</span>        std::vector&lt;double&gt; force_vec;</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
+<div class="line"><span class="lineno">   79</span>                <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_force&quot;</span>, plugin_params, <span class="stringliteral">&quot;0, 0, 0&quot;</span>),</div>
+<div class="line"><span class="lineno">   80</span>                <span class="stringliteral">&quot;, &quot;</span>,</div>
+<div class="line"><span class="lineno">   81</span>                force_vec,</div>
+<div class="line"><span class="lineno">   82</span>                3)) {</div>
+<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">if</span> (force_vec[0] == 99) {</div>
+<div class="line"><span class="lineno">   84</span>                mag_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_mag&quot;</span>, plugin_params, mag_);</div>
+<div class="line"><span class="lineno">   85</span>                ang_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;constant_dir&quot;</span>, plugin_params, ang_);</div>
+<div class="line"><span class="lineno">   86</span>                ang_ *= M_PI / 180;</div>
+<div class="line"><span class="lineno">   87</span>                <span class="comment">// calc x y force, set force_v, publish global mag, angle</span></div>
+<div class="line"><span class="lineno">   88</span>                force_vec[0] = mag_ * cos(ang_);</div>
+<div class="line"><span class="lineno">   89</span>                force_vec[1] = mag_ * sin(ang_);</div>
+<div class="line"><span class="lineno">   90</span>                force_vec[2] = 0;</div>
+<div class="line"><span class="lineno">   91</span>            }</div>
+<div class="line"><span class="lineno">   92</span>            <span class="comment">// std::cout &lt;&lt; &quot;Force is [0]: &quot; &lt;&lt; force_vec[0] &lt;&lt; &quot;, [1]: &quot; &lt;&lt; force_vec[1] &lt;&lt;</span></div>
+<div class="line"><span class="lineno">   93</span>            <span class="comment">// std::endl;</span></div>
+<div class="line"><span class="lineno">   94</span>            force_ &lt;&lt; force_vec[0], force_vec[1], force_vec[2];</div>
+<div class="line"><span class="lineno">   95</span>        }</div>
+<div class="line"><span class="lineno">   96</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (force_type_str == <span class="stringliteral">&quot;variable&quot;</span>) {</div>
+<div class="line"><span class="lineno">   97</span>        force_type_ = Variable;</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>        <span class="comment">// Parse the force change period</span></div>
+<div class="line"><span class="lineno">  100</span>        std::vector&lt;double&gt; force_change_period_vec;</div>
+<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
+<div class="line"><span class="lineno">  102</span>                <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;force_change_period&quot;</span>, plugin_params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>),</div>
+<div class="line"><span class="lineno">  103</span>                <span class="stringliteral">&quot;, &quot;</span>,</div>
+<div class="line"><span class="lineno">  104</span>                force_change_period_vec,</div>
+<div class="line"><span class="lineno">  105</span>                2)) {</div>
+<div class="line"><span class="lineno">  106</span>            force_change_period_noise_ = parent_-&gt;random()-&gt;make_rng_normal(</div>
+<div class="line"><span class="lineno">  107</span>                force_change_period_vec[0],</div>
+<div class="line"><span class="lineno">  108</span>                force_change_period_vec[1]);</div>
+<div class="line"><span class="lineno">  109</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  110</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to parse force_change_period&quot;</span>);</div>
+<div class="line"><span class="lineno">  111</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  112</span>        }</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>        <span class="comment">// Parse the variable force magnitudes</span></div>
+<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  116</span>            std::vector&lt;double&gt; var_force_vec;</div>
+<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(</div>
+<div class="line"><span class="lineno">  118</span>                    <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;variable_force_&quot;</span> + std::to_string(i), plugin_params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>),</div>
+<div class="line"><span class="lineno">  119</span>                    <span class="stringliteral">&quot;, &quot;</span>,</div>
+<div class="line"><span class="lineno">  120</span>                    var_force_vec,</div>
+<div class="line"><span class="lineno">  121</span>                    2)) {</div>
+<div class="line"><span class="lineno">  122</span>                <span class="keyword">auto</span> force_noise =</div>
+<div class="line"><span class="lineno">  123</span>                    parent_-&gt;random()-&gt;make_rng_normal(var_force_vec[0], var_force_vec[1]);</div>
+<div class="line"><span class="lineno">  124</span>                force_noise_.push_back(force_noise);</div>
+<div class="line"><span class="lineno">  125</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  126</span>                <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to parse variable_force_&quot;</span> &lt;&lt; i);</div>
+<div class="line"><span class="lineno">  127</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  128</span>            }</div>
+<div class="line"><span class="lineno">  129</span>        }</div>
+<div class="line"><span class="lineno">  130</span> </div>
+<div class="line"><span class="lineno">  131</span>        <span class="comment">// Sample the first variable force</span></div>
+<div class="line"><span class="lineno">  132</span>        sample_force();</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  135</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Invalid force type: &quot;</span> &lt;&lt; force_type_str);</div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  137</span>    }</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>    <span class="comment">// moment periods</span></div>
+<div class="line"><span class="lineno">  140</span>    roll_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_roll_period&quot;</span>, plugin_params, roll_period_);</div>
+<div class="line"><span class="lineno">  141</span>    pitch_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_pitch_period&quot;</span>, plugin_params, pitch_period_);</div>
+<div class="line"><span class="lineno">  142</span>    yaw_period_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_yaw_period&quot;</span>, plugin_params, yaw_period_);</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <span class="comment">// moment amplitudes</span></div>
+<div class="line"><span class="lineno">  145</span>    roll_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_roll_amplitude&quot;</span>, plugin_params, roll_amp_);</div>
+<div class="line"><span class="lineno">  146</span>    pitch_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_pitch_amplitude&quot;</span>, plugin_params, pitch_amp_);</div>
+<div class="line"><span class="lineno">  147</span>    yaw_amp_ = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;moment_yaw_amplitude&quot;</span>, plugin_params, yaw_amp_);</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  150</span>}</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span><span class="keywordtype">bool</span> ExternalForceField::step_entity_interaction(</div>
+<div class="line"><span class="lineno">  153</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
+<div class="line"><span class="lineno">  154</span>    <span class="keywordtype">double</span> t,</div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">if</span> (force_type_ == Variable) {</div>
+<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">if</span> (time_-&gt;t() &gt;= next_sample_time_) {</div>
+<div class="line"><span class="lineno">  158</span>            sample_force();</div>
+<div class="line"><span class="lineno">  159</span>        }</div>
+<div class="line"><span class="lineno">  160</span>    }</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>    <span class="keyword">auto</span> msg_force = std::make_shared&lt;sc::Message&lt;Eigen::Vector3d&gt;&gt;();</div>
+<div class="line"><span class="lineno">  163</span>    msg_force-&gt;data = force_;</div>
+<div class="line"><span class="lineno">  164</span>    pub_-&gt;publish(msg_force);</div>
+<div class="line"><span class="lineno">  165</span> </div>
+<div class="line"><span class="lineno">  166</span>    moment_(0) = roll_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / roll_period_);</div>
+<div class="line"><span class="lineno">  167</span>    moment_(1) = pitch_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / pitch_period_);</div>
+<div class="line"><span class="lineno">  168</span>    moment_(2) = yaw_amp_ * sin(time_-&gt;t() * 2 * M_PI * 1.0 / yaw_period_);</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; ent : ents) {</div>
+<div class="line"><span class="lineno">  171</span>        ent-&gt;motion()-&gt;set_external_force(force_);</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>        <span class="comment">// Only apply moment force within z-boundary. Scale magnitude.</span></div>
+<div class="line"><span class="lineno">  174</span>        <span class="keywordflow">if</span> (ent-&gt;state_truth()-&gt;pos()(2) &gt;= moment_enable_min_z_</div>
+<div class="line"><span class="lineno">  175</span>            &amp;&amp; ent-&gt;state_truth()-&gt;pos()(2) &lt;= moment_enable_max_z_) {</div>
+<div class="line"><span class="lineno">  176</span>            <span class="keywordtype">double</span> <a class="code hl_function" href="namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da">scale</a> = (ent-&gt;state_truth()-&gt;pos()(2) - moment_enable_min_z_)</div>
+<div class="line"><span class="lineno">  177</span>                           / (moment_enable_max_z_ - moment_enable_min_z_);</div>
+<div class="line"><span class="lineno">  178</span>            ent-&gt;motion()-&gt;set_external_moment(moment_ * scale);</div>
+<div class="line"><span class="lineno">  179</span>        }</div>
+<div class="line"><span class="lineno">  180</span>    }</div>
+<div class="line"><span class="lineno">  181</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  182</span>}</div>
+<div class="line"><span class="lineno">  183</span> </div>
+<div class="line"><span class="lineno">  184</span><span class="keywordtype">void</span> ExternalForceField::sample_force() {</div>
+<div class="line"><span class="lineno">  185</span>    <span class="keyword">auto</span> gener = parent_-&gt;random()-&gt;gener();</div>
+<div class="line"><span class="lineno">  186</span> </div>
+<div class="line"><span class="lineno">  187</span>    <span class="comment">// Sample the force</span></div>
+<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 3; i++) {</div>
+<div class="line"><span class="lineno">  189</span>        force_[i] = (*force_noise_[i])(*gener);</div>
+<div class="line"><span class="lineno">  190</span>    }</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>    <span class="comment">// Determine when the next sample time will take place</span></div>
+<div class="line"><span class="lineno">  193</span>    next_sample_time_ = time_-&gt;t() + (*force_change_period_noise_)(*gener);</div>
+<div class="line"><span class="lineno">  194</span>}</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><span class="lineno">  197</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00101">ParseUtils.h:101</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ad2db458678bcd083ebac042fe72e81da"><div class="ttname"><a href="namespacescrimmage.html#ad2db458678bcd083ebac042fe72e81da">scrimmage::scale</a></div><div class="ttdeci">T scale(const T &amp;input, const T &amp;in_min, const T &amp;in_max, const T &amp;out_min, const T &amp;out_max)</div><div class="ttdef"><b>Definition</b> <a href="Utilities_8h_source.html#l00072">Utilities.h:72</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ExternalForceField_8h_source.html#l00079">scrimmage::interaction::ExternalForceField::ang_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00051">scrimmage::interaction::ExternalForceField::Constant</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a436dce22b8cfbcdc7fe76e9db0a0336a">scrimmage::interaction::ExternalForceField::ExternalForceField()</a>, <a class="el" href="ExternalForceField_8h_source.html#l00062">scrimmage::interaction::ExternalForceField::force_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00064">scrimmage::interaction::ExternalForceField::force_change_period_noise_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00065">scrimmage::interaction::ExternalForceField::force_noise_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00061">scrimmage::interaction::ExternalForceField::force_type_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a2f3d205ed4e61282749862b43071bc4e">scrimmage::interaction::ExternalForceField::init()</a>, <a class="el" href="ExternalForceField_8h_source.html#l00078">scrimmage::interaction::ExternalForceField::mag_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00080">scrimmage::interaction::ExternalForceField::moment_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00071">scrimmage::interaction::ExternalForceField::moment_enable_max_z_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00070">scrimmage::interaction::ExternalForceField::moment_enable_min_z_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00067">scrimmage::interaction::ExternalForceField::next_sample_time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00076">scrimmage::interaction::ExternalForceField::pitch_amp_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00073">scrimmage::interaction::ExternalForceField::pitch_period_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00060">scrimmage::interaction::ExternalForceField::pub_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00075">scrimmage::interaction::ExternalForceField::roll_amp_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00072">scrimmage::interaction::ExternalForceField::roll_period_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#ab160bafd50031d6ac6023bb1718b3ef7">scrimmage::interaction::ExternalForceField::sample_force()</a>, <a class="el" href="Utilities_8h_source.html#l00072">scrimmage::scale()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a6f284656ceed8599c5dec4904f360178">scrimmage::interaction::ExternalForceField::step_entity_interaction()</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00051">scrimmage::interaction::ExternalForceField::Variable</a>, <a class="el" href="ExternalForceField_8h_source.html#l00077">scrimmage::interaction::ExternalForceField::yaw_amp_</a>, and <a class="el" href="ExternalForceField_8h_source.html#l00074">scrimmage::interaction::ExternalForceField::yaw_period_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="ExternalForceField_8h_source.html#l00079">scrimmage::interaction::ExternalForceField::ang_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00051">scrimmage::interaction::ExternalForceField::Constant</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a436dce22b8cfbcdc7fe76e9db0a0336a">scrimmage::interaction::ExternalForceField::ExternalForceField()</a>, <a class="el" href="ExternalForceField_8h_source.html#l00062">scrimmage::interaction::ExternalForceField::force_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00064">scrimmage::interaction::ExternalForceField::force_change_period_noise_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00065">scrimmage::interaction::ExternalForceField::force_noise_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00061">scrimmage::interaction::ExternalForceField::force_type_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a2f3d205ed4e61282749862b43071bc4e">scrimmage::interaction::ExternalForceField::init()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="ExternalForceField_8h_source.html#l00078">scrimmage::interaction::ExternalForceField::mag_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00080">scrimmage::interaction::ExternalForceField::moment_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00071">scrimmage::interaction::ExternalForceField::moment_enable_max_z_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00070">scrimmage::interaction::ExternalForceField::moment_enable_min_z_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00067">scrimmage::interaction::ExternalForceField::next_sample_time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00076">scrimmage::interaction::ExternalForceField::pitch_amp_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00073">scrimmage::interaction::ExternalForceField::pitch_period_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00060">scrimmage::interaction::ExternalForceField::pub_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00075">scrimmage::interaction::ExternalForceField::roll_amp_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00072">scrimmage::interaction::ExternalForceField::roll_period_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#ab160bafd50031d6ac6023bb1718b3ef7">scrimmage::interaction::ExternalForceField::sample_force()</a>, <a class="el" href="Utilities_8h_source.html#l00072">scrimmage::scale()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1ExternalForceField.html#a6f284656ceed8599c5dec4904f360178">scrimmage::interaction::ExternalForceField::step_entity_interaction()</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="ExternalForceField_8h_source.html#l00051">scrimmage::interaction::ExternalForceField::Variable</a>, <a class="el" href="ExternalForceField_8h_source.html#l00077">scrimmage::interaction::ExternalForceField::yaw_amp_</a>, and <a class="el" href="ExternalForceField_8h_source.html#l00074">scrimmage::interaction::ExternalForceField::yaw_period_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -399,7 +404,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_18358441837f4cb0340af973a5a22b69.html">ExternalForceField</a></li><li class="navelem"><a class="el" href="ExternalForceField_8cpp.html">ExternalForceField.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

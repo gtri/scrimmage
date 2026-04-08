@@ -1,8 +1,10 @@
 <map id="scrimmage::SimControl::init" name="scrimmage::SimControl::init">
-<area shape="rect" id="Node000001" title="Initialize a scrimmage simulation." alt="" coords="5,49,180,89"/>
+<area shape="rect" id="Node000001" title="Initialize a scrimmage simulation." alt="" coords="5,93,180,133"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#aa649c6ffddf4dbfc28593f8774f2ab07" title="Searches for Hardware Acceleration Devices." alt="" coords="228,5,403,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,49,214,43,215,48,181,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,91,227,55,245,48,247,53,229,60,142,96"/>
 <area shape="rect" id="Node000003" href="$classscrimmage_1_1SimControl.html#a94bc3fc4d66ec8deef92ba821036acda" title="Pause (true) or unpause (false) the simulation." alt="" coords="228,93,403,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,84,215,91,214,96,180,89"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,111,214,111,214,116,180,116"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1SimControl.html#a9b623d54053dac12675f71cdae90354c" title=" " alt="" coords="228,157,403,197"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="164,131,233,151,231,156,162,136"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="274,94,271,84,278,74,293,69,315,67,341,70,355,77,353,82,340,75,315,72,294,74,281,79,277,85,279,92"/>
 </map>

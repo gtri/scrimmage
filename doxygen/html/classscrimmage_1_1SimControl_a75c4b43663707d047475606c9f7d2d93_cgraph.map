@@ -1,64 +1,62 @@
 <map id="scrimmage::SimControl::start" name="scrimmage::SimControl::start">
-<area shape="rect" id="Node000001" title="Starts the mission by generating entities and setting up logging." alt="" coords="5,721,180,761"/>
+<area shape="rect" id="Node000001" title="Starts the mission by generating entities and setting up logging." alt="" coords="5,692,180,732"/>
 <area shape="rect" id="Node000002" href="$namespacescrimmage.html#a775ab9a9f8a2f9a1e52cf1fc9b061b2a" title=" " alt="" coords="247,5,419,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,721,103,589,127,389,145,285,167,189,194,110,209,79,226,56,234,48,238,52,230,59,214,82,199,112,172,191,150,286,132,390,108,589,98,721"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,692,104,564,129,373,147,274,169,183,195,107,210,78,226,56,234,48,238,52,230,59,214,81,200,109,174,184,152,275,134,374,109,565,98,692"/>
 <area shape="rect" id="Node000004" href="$namespacescrimmage.html#a783262d74c3a9106368b68f3f5b58e2a" title=" " alt="" coords="233,70,433,95"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="93,721,104,596,128,411,146,314,168,226,195,154,210,126,226,105,230,101,234,105,230,108,214,129,199,156,173,228,151,316,134,411,109,597,98,721"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="93,692,105,572,130,396,148,304,170,220,196,152,210,125,226,105,230,101,234,105,230,108,215,128,201,154,175,222,153,305,135,396,110,573,98,692"/>
 <area shape="rect" id="Node000005" href="$namespacescrimmage.html#af68f063479d40a9401a8e48e3f702d1b" title=" " alt="" coords="228,119,439,145"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="93,721,107,607,133,439,152,352,173,273,198,207,211,182,226,162,243,149,246,153,230,166,216,185,203,210,178,275,157,354,139,440,112,607,99,721"/>
-<area shape="rect" id="Node000006" href="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc" title=" " alt="" coords="493,169,668,209"/>
-<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="93,721,106,612,132,456,150,376,171,303,197,245,211,222,226,206,255,186,287,172,321,163,356,158,425,157,489,164,488,170,425,162,356,163,322,168,289,177,258,191,230,210,215,226,201,247,176,305,155,377,137,457,111,613,99,721"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="94,691,108,582,135,424,154,342,175,267,199,205,226,162,243,149,246,153,230,166,204,207,180,268,159,343,141,425,113,583,99,692"/>
+<area shape="rect" id="Node000006" href="$classscrimmage_1_1SimControl.html#a42b4312811a80126cf6e8066347ae1fc" title=" " alt="" coords="493,168,668,208"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="94,691,109,591,136,449,154,376,175,310,199,256,226,221,254,201,284,186,317,176,350,169,417,164,480,167,479,173,417,169,351,174,318,181,286,191,257,206,230,225,204,259,180,312,159,377,141,450,114,592,99,692"/>
 <area shape="rect" id="Node000007" href="$classscrimmage_1_1SimControl.html#ab63c50d27f62a87431d5b318349f374f" title="Returns true if mission file requests a GUI." alt="" coords="246,577,421,617"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="111,719,161,673,193,648,227,627,241,620,243,625,229,632,196,653,164,677,115,723"/>
-<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time." alt="" coords="246,220,421,260"/>
-<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="91,721,95,641,101,585,112,523,129,458,153,393,185,331,226,277,239,265,243,269,230,280,189,334,158,395,134,459,117,524,107,585,100,641,96,721"/>
-<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID." alt="" coords="493,271,668,311"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="91,721,93,644,99,591,110,534,126,475,150,417,183,365,226,321,245,310,270,302,334,291,407,286,479,285,480,290,408,292,334,296,271,307,247,315,230,325,187,368,155,420,131,477,115,535,104,592,99,644,96,721"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="121,689,169,658,227,627,245,619,247,624,229,632,172,663,124,694"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#a185709803485640b63454f811b7f7cf5" title="Generate entities based on the current time." alt="" coords="246,271,421,311"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="92,691,99,622,119,522,136,468,159,415,189,365,226,321,233,315,236,319,230,325,193,368,164,417,141,470,124,524,104,622,97,692"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#a05b938496dfe3beae0394413ed80e949" title="Generate an entity given the entity description ID." alt="" coords="493,265,668,305"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="94,692,109,597,137,465,155,398,176,337,200,288,226,257,261,237,299,225,339,220,380,222,458,236,524,258,522,263,457,241,379,227,339,226,300,230,263,241,230,261,204,291,181,339,160,399,142,466,115,598,99,692"/>
 <area shape="rect" id="Node000011" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="487,406,675,431"/>
-<area shape="poly" id="edge32_Node000001_Node000011" title=" " alt="" coords="97,720,112,674,137,614,175,552,199,524,227,499,510,432,512,437,229,504,203,527,179,555,142,617,117,676,102,722"/>
+<area shape="poly" id="edge31_Node000001_Node000011" title=" " alt="" coords="104,690,153,627,187,592,227,563,256,548,283,540,331,534,380,530,407,523,438,512,501,476,552,438,556,442,504,481,440,517,408,529,381,535,332,539,284,545,258,553,229,568,191,596,157,631,109,694"/>
 <area shape="rect" id="Node000012" href="$namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="271,642,395,667"/>
-<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="132,719,227,677,258,668,259,673,229,683,134,724"/>
+<area shape="poly" id="edge13_Node000001_Node000012" title=" " alt="" coords="177,689,266,668,267,673,178,695"/>
 <area shape="rect" id="Node000013" href="$classscrimmage_1_1Interface.html#a6e2af3bf92eaf332bb20b55f4aecfe44" title=" " alt="" coords="253,692,414,732"/>
-<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="180,728,239,721,239,726,181,733"/>
-<area shape="rect" id="Node000015" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation." alt="" coords="493,777,668,817"/>
-<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="181,749,480,783,480,789,180,754"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="180,709,239,709,239,715,180,715"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1SimControl.html#a540317d6faa8db11eb69d858aafd0bbe" title="Get the paused (true) or unpaused (false) state of the simulation." alt="" coords="493,784,668,824"/>
+<area shape="poly" id="edge15_Node000001_Node000015" title=" " alt="" coords="115,730,164,771,195,791,229,805,292,820,358,825,422,824,480,819,480,824,422,830,358,831,291,825,227,811,193,796,161,775,112,734"/>
 <area shape="rect" id="Node000016" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="246,871,421,911"/>
-<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="114,760,163,808,195,834,229,856,243,863,240,868,227,861,192,838,160,812,110,764"/>
-<area shape="rect" id="Node000017" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title=" " alt="" coords="246,807,421,847"/>
-<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="151,759,264,800,262,805,149,764"/>
+<area shape="poly" id="edge16_Node000001_Node000016" title=" " alt="" coords="111,731,160,789,193,821,229,850,253,863,251,868,227,854,189,825,156,793,107,734"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1SimControl.html#a2f483e64a57af5f83506a34eecd5aed8" title=" " alt="" coords="246,756,421,796"/>
+<area shape="poly" id="edge17_Node000001_Node000017" title=" " alt="" coords="169,729,245,750,244,755,168,735"/>
 <area shape="rect" id="Node000021" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="246,935,421,975"/>
-<area shape="poly" id="edge19_Node000001_Node000021" title=" " alt="" coords="106,760,124,795,152,838,187,883,230,921,238,926,235,931,226,925,183,886,147,841,120,798,101,763"/>
-<area shape="rect" id="Node000022" href="$classscrimmage_1_1SimControl.html#af0f4e3af5800a60a4002843489685545" title=" " alt="" coords="235,513,431,553"/>
-<area shape="poly" id="edge20_Node000001_Node000022" title=" " alt="" coords="102,720,121,686,148,644,184,600,226,563,235,557,238,562,230,567,188,604,153,647,125,689,106,722"/>
-<area shape="rect" id="Node000024" href="$classscrimmage_1_1SimControl.html#ab54f2aa79271eb44a876bf536b5c6eb8" title="Sends terrain to visualizers and log files." alt="" coords="246,335,421,375"/>
-<area shape="poly" id="edge22_Node000001_Node000024" title=" " alt="" coords="93,721,102,656,123,566,141,517,163,469,191,424,226,385,232,379,236,383,230,389,196,427,168,472,146,519,129,568,107,657,98,721"/>
+<area shape="poly" id="edge19_Node000001_Node000021" title=" " alt="" coords="104,731,121,771,147,822,184,875,206,899,230,921,237,926,234,930,226,925,202,903,180,879,143,825,116,773,99,733"/>
+<area shape="rect" id="Node000022" href="$classscrimmage_1_1SimControl.html#af0f4e3af5800a60a4002843489685545" title=" " alt="" coords="235,335,431,375"/>
+<area shape="poly" id="edge20_Node000001_Node000022" title=" " alt="" coords="94,691,104,632,127,549,144,505,166,461,193,421,226,385,232,380,235,384,230,389,198,424,171,464,149,507,132,551,110,633,99,692"/>
+<area shape="rect" id="Node000024" href="$classscrimmage_1_1SimControl.html#ab54f2aa79271eb44a876bf536b5c6eb8" title="Sends terrain to visualizers and log files." alt="" coords="246,399,421,439"/>
+<area shape="poly" id="edge22_Node000001_Node000024" title=" " alt="" coords="96,691,110,642,136,577,174,508,198,476,226,449,233,444,236,448,230,453,202,480,178,511,140,579,115,644,101,693"/>
 <area shape="rect" id="Node000025" href="$namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846" title=" " alt="" coords="272,999,395,1025"/>
-<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="102,761,116,807,142,868,179,931,203,960,230,984,260,1000,257,1005,226,989,199,964,175,934,137,871,111,809,96,762"/>
+<area shape="poly" id="edge24_Node000001_Node000025" title=" " alt="" coords="100,732,113,783,138,852,155,888,176,924,201,956,230,985,260,1000,257,1005,226,989,197,960,171,927,150,891,133,854,108,785,95,733"/>
 <area shape="rect" id="Node000026" href="$classscrimmage_1_1DelayedTask.html#a07715b01acc7a24519c8681e23541a46" title=" " alt="" coords="240,1049,427,1089"/>
-<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="100,761,112,816,136,890,153,929,174,968,200,1004,230,1035,235,1040,232,1044,226,1039,196,1007,170,971,148,931,131,892,107,817,95,762"/>
-<area shape="rect" id="Node000027" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time." alt="" coords="246,399,421,439"/>
-<area shape="poly" id="edge26_Node000001_Node000027" title=" " alt="" coords="95,720,109,668,134,597,172,522,197,487,226,455,243,443,246,447,230,459,201,490,177,525,139,599,114,670,101,722"/>
-<area shape="rect" id="Node000028" href="$classscrimmage_1_1SimControl.html#a9b623d54053dac12675f71cdae90354c" title=" " alt="" coords="246,1113,421,1153"/>
-<area shape="poly" id="edge28_Node000001_Node000028" title=" " alt="" coords="98,761,107,826,128,917,145,966,167,1015,195,1060,230,1099,236,1105,232,1109,226,1103,191,1063,162,1017,140,968,123,919,101,827,93,762"/>
-<area shape="rect" id="Node000029" href="$classscrimmage_1_1SimControl.html#a1390b96c4e0b0ea9c1abc7c404027b6b" title=" " alt="" coords="246,1177,421,1217"/>
-<area shape="poly" id="edge29_Node000001_Node000029" title=" " alt="" coords="97,761,102,836,120,944,137,1003,160,1061,191,1116,230,1163,236,1169,232,1173,226,1167,186,1119,155,1064,132,1005,115,945,97,837,91,762"/>
-<area shape="rect" id="Node000035" href="$classscrimmage_1_1SimControl.html#aaabddab46a1581c6694adaecbf8c6c27" title=" " alt="" coords="246,1241,421,1281"/>
-<area shape="poly" id="edge30_Node000001_Node000035" title=" " alt="" coords="96,762,97,847,103,906,113,971,129,1040,153,1108,186,1171,230,1228,236,1233,232,1237,226,1231,182,1174,148,1110,124,1041,107,972,97,906,92,847,90,762"/>
-<area shape="rect" id="Node000037" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="255,1306,411,1331"/>
-<area shape="poly" id="edge31_Node000001_Node000037" title=" " alt="" coords="99,761,112,871,139,1031,157,1114,178,1189,203,1251,216,1274,230,1291,244,1302,241,1307,226,1295,212,1277,198,1253,173,1191,152,1115,134,1032,107,872,93,762"/>
-<area shape="rect" id="Node000038" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title=" " alt="" coords="240,1356,427,1396"/>
-<area shape="poly" id="edge33_Node000001_Node000038" title=" " alt="" coords="98,762,111,880,137,1055,155,1145,177,1228,202,1296,215,1322,230,1342,234,1346,230,1350,226,1346,211,1325,197,1299,172,1230,150,1147,132,1056,106,881,93,762"/>
-<area shape="rect" id="Node000040" href="$classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb" title=" " alt="" coords="246,1420,421,1460"/>
-<area shape="poly" id="edge34_Node000001_Node000040" title=" " alt="" coords="98,762,109,891,133,1085,151,1186,173,1279,199,1355,214,1384,230,1406,236,1412,233,1416,226,1410,210,1387,194,1357,168,1280,146,1187,128,1086,104,892,93,762"/>
-<area shape="rect" id="Node000081" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="228,1485,439,1510"/>
-<area shape="poly" id="edge35_Node000001_Node000081" title=" " alt="" coords="97,761,106,902,128,1116,145,1228,168,1330,196,1414,212,1446,230,1470,235,1475,231,1479,226,1474,208,1449,191,1416,163,1332,140,1229,123,1117,101,903,92,762"/>
-<area shape="poly" id="edge7_Node000008_Node000006" title=" " alt="" coords="420,220,479,207,480,213,421,225"/>
-<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="421,255,480,267,479,273,420,260"/>
-<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="364,258,552,396,549,400,361,262"/>
-<area shape="poly" id="edge9_Node000009_Node000009" title=" " alt="" coords="535,271,532,261,540,252,556,246,581,244,609,247,625,254,622,259,608,252,581,249,557,251,543,256,537,262,540,270"/>
+<area shape="poly" id="edge25_Node000001_Node000026" title=" " alt="" coords="99,732,110,791,132,873,149,917,171,960,198,1000,230,1035,235,1040,232,1044,226,1039,193,1003,166,963,144,919,127,875,104,792,94,733"/>
+<area shape="rect" id="Node000027" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time." alt="" coords="246,463,421,503"/>
+<area shape="poly" id="edge26_Node000001_Node000027" title=" " alt="" coords="101,690,119,654,147,608,183,561,226,519,247,506,249,511,230,523,187,564,151,611,124,657,105,693"/>
+<area shape="rect" id="Node000028" href="$classscrimmage_1_1SimControl.html#a1390b96c4e0b0ea9c1abc7c404027b6b" title=" " alt="" coords="246,1113,421,1153"/>
+<area shape="poly" id="edge28_Node000001_Node000028" title=" " alt="" coords="97,732,104,802,124,900,141,954,164,1007,193,1056,230,1099,236,1105,233,1109,226,1103,189,1059,159,1009,136,956,119,902,99,802,92,733"/>
+<area shape="rect" id="Node000034" href="$classscrimmage_1_1SimControl.html#aaabddab46a1581c6694adaecbf8c6c27" title=" " alt="" coords="246,1177,421,1217"/>
+<area shape="poly" id="edge29_Node000001_Node000034" title=" " alt="" coords="96,732,100,811,106,866,117,927,133,990,157,1053,189,1112,230,1164,236,1169,232,1173,226,1167,184,1115,152,1055,128,992,111,928,101,867,94,812,91,732"/>
+<area shape="rect" id="Node000036" href="$namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96" title=" " alt="" coords="255,1242,411,1267"/>
+<area shape="poly" id="edge30_Node000001_Node000036" title=" " alt="" coords="99,732,114,836,141,986,160,1063,181,1132,204,1189,230,1227,244,1238,241,1242,226,1231,199,1192,175,1134,154,1064,136,987,109,837,94,733"/>
+<area shape="rect" id="Node000037" href="$classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17" title=" " alt="" coords="240,1292,427,1332"/>
+<area shape="poly" id="edge32_Node000001_Node000037" title=" " alt="" coords="99,732,113,845,139,1009,157,1094,179,1172,203,1235,230,1278,234,1282,230,1286,226,1282,198,1238,174,1173,152,1095,134,1010,107,846,93,733"/>
+<area shape="rect" id="Node000039" href="$classscrimmage_1_1SimControl.html#ad2b1fe5f29dc47f8270b18dda5b68abb" title=" " alt="" coords="246,1356,421,1396"/>
+<area shape="poly" id="edge33_Node000001_Node000039" title=" " alt="" coords="98,732,110,855,135,1039,153,1134,175,1222,201,1294,215,1321,230,1342,236,1348,233,1352,226,1346,210,1324,196,1296,170,1223,148,1136,130,1040,105,856,93,732"/>
+<area shape="rect" id="Node000081" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="228,1421,439,1446"/>
+<area shape="poly" id="edge34_Node000001_Node000081" title=" " alt="" coords="98,732,107,867,130,1071,148,1176,170,1273,197,1353,213,1383,230,1406,235,1411,231,1415,226,1410,208,1386,192,1355,165,1275,142,1177,125,1071,102,867,92,732"/>
+<area shape="poly" id="edge7_Node000008_Node000006" title=" " alt="" coords="381,268,518,211,520,216,383,273"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="421,286,480,285,480,290,421,291"/>
+<area shape="poly" id="edge10_Node000008_Node000011" title=" " alt="" coords="411,308,440,320,503,358,555,395,552,400,500,362,437,325,409,313"/>
+<area shape="poly" id="edge9_Node000009_Node000009" title=" " alt="" coords="535,266,532,256,540,246,556,241,581,239,609,242,625,249,622,254,608,247,581,244,557,246,543,251,537,257,540,264"/>
 <area shape="poly" id="edge11_Node000011_Node000011" title=" " alt="" coords="541,408,532,398,537,388,553,382,581,379,615,383,625,388,629,394,624,397,622,392,614,388,581,385,554,387,540,392,538,397,545,404"/>
-<area shape="poly" id="edge18_Node000017_Node000015" title=" " alt="" coords="421,814,479,807,480,812,421,819"/>
-<area shape="poly" id="edge21_Node000022_Node000011" title=" " alt="" coords="392,511,438,492,545,436,547,441,440,497,394,516"/>
-<area shape="poly" id="edge23_Node000024_Node000011" title=" " alt="" coords="412,372,518,400,517,405,411,377"/>
-<area shape="poly" id="edge27_Node000027_Node000011" title=" " alt="" coords="421,416,473,416,473,421,421,421"/>
+<area shape="poly" id="edge18_Node000017_Node000015" title=" " alt="" coords="421,783,480,790,479,795,421,789"/>
+<area shape="poly" id="edge21_Node000022_Node000011" title=" " alt="" coords="412,372,518,400,517,405,411,377"/>
+<area shape="poly" id="edge23_Node000024_Node000011" title=" " alt="" coords="421,416,473,416,473,421,421,421"/>
+<area shape="poly" id="edge27_Node000027_Node000011" title=" " alt="" coords="411,460,517,432,518,437,412,465"/>
 </map>

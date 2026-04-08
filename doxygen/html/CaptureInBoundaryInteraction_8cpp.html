@@ -227,113 +227,113 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00060">60</a> of file <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html">CaptureInBoundaryInteraction.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   65</span>                    {</div>
-<div class="line"><span class="lineno">   66</span><span class="keyword">namespace </span>interaction {</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>CaptureInBoundaryInteraction::CaptureInBoundaryInteraction()</div>
-<div class="line"><span class="lineno">   69</span>    : capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {}</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span><span class="keywordtype">bool</span> CaptureInBoundaryInteraction::init(</div>
-<div class="line"><span class="lineno">   72</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><span class="lineno">   73</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>    capture_range_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;capture_range&quot;</span>, plugin_params, 5.0);</div>
-<div class="line"><span class="lineno">   76</span>    boundary_id_ = sc::get&lt;int&gt;(<span class="stringliteral">&quot;boundary_id&quot;</span>, plugin_params, 1);</div>
-<div class="line"><span class="lineno">   77</span>    cool_down_period_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;cool_down_period&quot;</span>, plugin_params, 0.0);</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>    <span class="keyword">auto</span> callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sp::Shape&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">if</span> (msg-&gt;data.id().id() == boundary_id_) {</div>
-<div class="line"><span class="lineno">   81</span>            boundary_shape_ = msg-&gt;data;</div>
-<div class="line"><span class="lineno">   82</span>            boundary_ = sci::Boundary::make_boundary(msg-&gt;data);</div>
-<div class="line"><span class="lineno">   83</span>        }</div>
-<div class="line"><span class="lineno">   84</span>    };</div>
-<div class="line"><span class="lineno">   85</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, callback);</div>
+<p class="definition">Definition at line <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html#l00058">58</a> of file <a class="el" href="CaptureInBoundaryInteraction_8cpp_source.html">CaptureInBoundaryInteraction.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                    {</div>
+<div class="line"><span class="lineno">   64</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>CaptureInBoundaryInteraction::CaptureInBoundaryInteraction()</div>
+<div class="line"><span class="lineno">   67</span>    : capture_range_(5.0), boundary_id_(0), cool_down_period_(0.0) {}</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span><span class="keywordtype">bool</span> CaptureInBoundaryInteraction::init(</div>
+<div class="line"><span class="lineno">   70</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><span class="lineno">   71</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>    capture_range_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;capture_range&quot;</span>, plugin_params, 5.0);</div>
+<div class="line"><span class="lineno">   74</span>    boundary_id_ = sc::get&lt;int&gt;(<span class="stringliteral">&quot;boundary_id&quot;</span>, plugin_params, 1);</div>
+<div class="line"><span class="lineno">   75</span>    cool_down_period_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;cool_down_period&quot;</span>, plugin_params, 0.0);</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>    <span class="keyword">auto</span> callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sp::Shape&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   78</span>        <span class="keywordflow">if</span> (msg-&gt;data.id().id() == boundary_id_) {</div>
+<div class="line"><span class="lineno">   79</span>            boundary_shape_ = msg-&gt;data;</div>
+<div class="line"><span class="lineno">   80</span>            boundary_ = sci::Boundary::make_boundary(msg-&gt;data);</div>
+<div class="line"><span class="lineno">   81</span>        }</div>
+<div class="line"><span class="lineno">   82</span>    };</div>
+<div class="line"><span class="lineno">   83</span>    subscribe&lt;sp::Shape&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Boundary&quot;</span>, callback);</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>    non_team_capture_pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;NonTeamCapture&quot;</span>);</div>
 <div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    non_team_capture_pub_ = advertise(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;NonTeamCapture&quot;</span>);</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   90</span>}</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span><span class="keywordtype">bool</span> CaptureInBoundaryInteraction::step_entity_interaction(</div>
-<div class="line"><span class="lineno">   93</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordtype">double</span> t,</div>
-<div class="line"><span class="lineno">   95</span>    <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">if</span> (boundary_ == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">   97</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   98</span>    }</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>    <span class="comment">// Key : Possibly captured entity</span></div>
-<div class="line"><span class="lineno">  101</span>    <span class="comment">// Value: Entity performing the capture</span></div>
-<div class="line"><span class="lineno">  102</span>    std::map&lt;int, int&gt; possible_captures;</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="comment">// Search over all entities whose team ID is the same as this boundary&#39;s</span></div>
-<div class="line"><span class="lineno">  105</span>    <span class="comment">// team id and are within this boundary.</span></div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
-<div class="line"><span class="lineno">  107</span>        <span class="comment">// Determine if this entity has captured any other entities within the</span></div>
-<div class="line"><span class="lineno">  108</span>        <span class="comment">// cool down period.</span></div>
-<div class="line"><span class="lineno">  109</span>        <span class="keywordtype">bool</span> cool_down_expired = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  110</span>        <span class="keyword">auto</span> it = prev_capture_times_.find(ent-&gt;id().id());</div>
-<div class="line"><span class="lineno">  111</span>        <span class="keywordflow">if</span> (it != prev_capture_times_.end()) {</div>
-<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">if</span> (time_-&gt;t() &lt;= (it-&gt;second + cool_down_period_)) {</div>
-<div class="line"><span class="lineno">  113</span>                cool_down_expired = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  114</span>            }</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">if</span> (cool_down_expired &amp;&amp; ent-&gt;id().team_id() == boundary_shape_.id().team_id()</div>
-<div class="line"><span class="lineno">  118</span>            &amp;&amp; boundary_-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>            <span class="comment">// Find all entities within capture range of this entity</span></div>
-<div class="line"><span class="lineno">  121</span>            std::vector&lt;ID&gt; rtree_neighbors;</div>
-<div class="line"><span class="lineno">  122</span>            parent_-&gt;rtree()-&gt;neighbors_in_range(</div>
-<div class="line"><span class="lineno">  123</span>                ent-&gt;state_truth()-&gt;pos(),</div>
-<div class="line"><span class="lineno">  124</span>                rtree_neighbors,</div>
-<div class="line"><span class="lineno">  125</span>                capture_range_,</div>
-<div class="line"><span class="lineno">  126</span>                ent-&gt;id().id());</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>            <span class="comment">// Only copy IDs whose team ID isn&#39;t the same as the boundary&#39;s</span></div>
-<div class="line"><span class="lineno">  129</span>            <span class="comment">// team ID.</span></div>
-<div class="line"><span class="lineno">  130</span>            <span class="keywordflow">for</span> (ID&amp; <span class="keywordtype">id</span> : rtree_neighbors) {</div>
-<div class="line"><span class="lineno">  131</span>                <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.team_id() != boundary_shape_.id().team_id()) {</div>
-<div class="line"><span class="lineno">  132</span>                    possible_captures[<span class="keywordtype">id</span>.id()] = ent-&gt;id().id();</div>
-<div class="line"><span class="lineno">  133</span>                }</div>
-<div class="line"><span class="lineno">  134</span>            }</div>
-<div class="line"><span class="lineno">  135</span>        }</div>
-<div class="line"><span class="lineno">  136</span>    }</div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span>    <span class="comment">// For all entities that are possibly captured, determine if they are</span></div>
-<div class="line"><span class="lineno">  139</span>    <span class="comment">// within the boundary</span></div>
-<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
-<div class="line"><span class="lineno">  141</span>        <span class="keyword">auto</span> it = possible_captures.find(ent-&gt;id().id());</div>
-<div class="line"><span class="lineno">  142</span>        <span class="keywordflow">if</span> (it != possible_captures.end()) {</div>
-<div class="line"><span class="lineno">  143</span>            <span class="comment">// If the entity hasn&#39;t been captured yet and it&#39;s within the</span></div>
-<div class="line"><span class="lineno">  144</span>            <span class="comment">// boundary, it is captured</span></div>
-<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">if</span> (already_captured_.count(it-&gt;first) == 0</div>
-<div class="line"><span class="lineno">  146</span>                &amp;&amp; boundary_-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
-<div class="line"><span class="lineno">  147</span>                ent-&gt;collision();</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>                <span class="comment">// Keep track of all captured entities</span></div>
-<div class="line"><span class="lineno">  150</span>                already_captured_.insert(it-&gt;first);</div>
-<div class="line"><span class="lineno">  151</span> </div>
-<div class="line"><span class="lineno">  152</span>                <span class="comment">// Keep track of the capture time to limit the capture rate</span></div>
-<div class="line"><span class="lineno">  153</span>                prev_capture_times_[it-&gt;second] = time_-&gt;t();</div>
-<div class="line"><span class="lineno">  154</span> </div>
-<div class="line"><span class="lineno">  155</span>                <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;sm::NonTeamCapture&gt;&gt;();</div>
-<div class="line"><span class="lineno">  156</span>                msg-&gt;data.set_source_id(it-&gt;second);</div>
-<div class="line"><span class="lineno">  157</span>                msg-&gt;data.set_target_id(it-&gt;first);</div>
-<div class="line"><span class="lineno">  158</span>                non_team_capture_pub_-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  159</span>                <span class="comment">// std::cout &lt;&lt; &quot;ID &quot; &lt;&lt; it-&gt;second &lt;&lt; &quot; captured &quot; &lt;&lt; it-&gt;first</span></div>
-<div class="line"><span class="lineno">  160</span>                <span class="comment">//           &lt;&lt; std::endl;</span></div>
-<div class="line"><span class="lineno">  161</span>            }</div>
-<div class="line"><span class="lineno">  162</span>        }</div>
-<div class="line"><span class="lineno">  163</span>    }</div>
-<div class="line"><span class="lineno">  164</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  165</span>}</div>
-<div class="line"><span class="lineno">  166</span> </div>
-<div class="line"><span class="lineno">  167</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><span class="lineno">  168</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00255">Entity.h:255</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   88</span>}</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span><span class="keywordtype">bool</span> CaptureInBoundaryInteraction::step_entity_interaction(</div>
+<div class="line"><span class="lineno">   91</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordtype">double</span> t,</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">if</span> (boundary_ == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="comment">// Key : Possibly captured entity</span></div>
+<div class="line"><span class="lineno">   99</span>    <span class="comment">// Value: Entity performing the capture</span></div>
+<div class="line"><span class="lineno">  100</span>    std::map&lt;int, int&gt; possible_captures;</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    <span class="comment">// Search over all entities whose team ID is the same as this boundary&#39;s</span></div>
+<div class="line"><span class="lineno">  103</span>    <span class="comment">// team id and are within this boundary.</span></div>
+<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
+<div class="line"><span class="lineno">  105</span>        <span class="comment">// Determine if this entity has captured any other entities within the</span></div>
+<div class="line"><span class="lineno">  106</span>        <span class="comment">// cool down period.</span></div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordtype">bool</span> cool_down_expired = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  108</span>        <span class="keyword">auto</span> it = prev_capture_times_.find(ent-&gt;id().id());</div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">if</span> (it != prev_capture_times_.end()) {</div>
+<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">if</span> (time_-&gt;t() &lt;= (it-&gt;second + cool_down_period_)) {</div>
+<div class="line"><span class="lineno">  111</span>                cool_down_expired = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  112</span>            }</div>
+<div class="line"><span class="lineno">  113</span>        }</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">if</span> (cool_down_expired &amp;&amp; ent-&gt;id().team_id() == boundary_shape_.id().team_id()</div>
+<div class="line"><span class="lineno">  116</span>            &amp;&amp; boundary_-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>            <span class="comment">// Find all entities within capture range of this entity</span></div>
+<div class="line"><span class="lineno">  119</span>            std::vector&lt;ID&gt; rtree_neighbors;</div>
+<div class="line"><span class="lineno">  120</span>            parent_-&gt;rtree()-&gt;neighbors_in_range(</div>
+<div class="line"><span class="lineno">  121</span>                ent-&gt;state_truth()-&gt;pos(),</div>
+<div class="line"><span class="lineno">  122</span>                rtree_neighbors,</div>
+<div class="line"><span class="lineno">  123</span>                capture_range_,</div>
+<div class="line"><span class="lineno">  124</span>                ent-&gt;id().id());</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>            <span class="comment">// Only copy IDs whose team ID isn&#39;t the same as the boundary&#39;s</span></div>
+<div class="line"><span class="lineno">  127</span>            <span class="comment">// team ID.</span></div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">for</span> (ID&amp; <span class="keywordtype">id</span> : rtree_neighbors) {</div>
+<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">if</span> (<span class="keywordtype">id</span>.team_id() != boundary_shape_.id().team_id()) {</div>
+<div class="line"><span class="lineno">  130</span>                    possible_captures[<span class="keywordtype">id</span>.id()] = ent-&gt;id().id();</div>
+<div class="line"><span class="lineno">  131</span>                }</div>
+<div class="line"><span class="lineno">  132</span>            }</div>
+<div class="line"><span class="lineno">  133</span>        }</div>
+<div class="line"><span class="lineno">  134</span>    }</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>    <span class="comment">// For all entities that are possibly captured, determine if they are</span></div>
+<div class="line"><span class="lineno">  137</span>    <span class="comment">// within the boundary</span></div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a> ent : ents) {</div>
+<div class="line"><span class="lineno">  139</span>        <span class="keyword">auto</span> it = possible_captures.find(ent-&gt;id().id());</div>
+<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">if</span> (it != possible_captures.end()) {</div>
+<div class="line"><span class="lineno">  141</span>            <span class="comment">// If the entity hasn&#39;t been captured yet and it&#39;s within the</span></div>
+<div class="line"><span class="lineno">  142</span>            <span class="comment">// boundary, it is captured</span></div>
+<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> (already_captured_.count(it-&gt;first) == 0</div>
+<div class="line"><span class="lineno">  144</span>                &amp;&amp; boundary_-&gt;contains(ent-&gt;state_truth()-&gt;pos())) {</div>
+<div class="line"><span class="lineno">  145</span>                ent-&gt;collision();</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>                <span class="comment">// Keep track of all captured entities</span></div>
+<div class="line"><span class="lineno">  148</span>                already_captured_.insert(it-&gt;first);</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>                <span class="comment">// Keep track of the capture time to limit the capture rate</span></div>
+<div class="line"><span class="lineno">  151</span>                prev_capture_times_[it-&gt;second] = time_-&gt;t();</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>                <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;sm::NonTeamCapture&gt;&gt;();</div>
+<div class="line"><span class="lineno">  154</span>                msg-&gt;data.set_source_id(it-&gt;second);</div>
+<div class="line"><span class="lineno">  155</span>                msg-&gt;data.set_target_id(it-&gt;first);</div>
+<div class="line"><span class="lineno">  156</span>                non_team_capture_pub_-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  157</span>                <span class="comment">// std::cout &lt;&lt; &quot;ID &quot; &lt;&lt; it-&gt;second &lt;&lt; &quot; captured &quot; &lt;&lt; it-&gt;first</span></div>
+<div class="line"><span class="lineno">  158</span>                <span class="comment">//           &lt;&lt; std::endl;</span></div>
+<div class="line"><span class="lineno">  159</span>            }</div>
+<div class="line"><span class="lineno">  160</span>        }</div>
+<div class="line"><span class="lineno">  161</span>    }</div>
+<div class="line"><span class="lineno">  162</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  163</span>}</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><span class="lineno">  166</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00251">Entity.h:251</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00070">scrimmage::interaction::CaptureInBoundaryInteraction::already_captured_</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00062">scrimmage::interaction::CaptureInBoundaryInteraction::boundary_</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00065">scrimmage::interaction::CaptureInBoundaryInteraction::boundary_id_</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00063">scrimmage::interaction::CaptureInBoundaryInteraction::boundary_shape_</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00064">scrimmage::interaction::CaptureInBoundaryInteraction::capture_range_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1CaptureInBoundaryInteraction.html#aab58e440e70cca71ebe661302e14bed5">scrimmage::interaction::CaptureInBoundaryInteraction::CaptureInBoundaryInteraction()</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00066">scrimmage::interaction::CaptureInBoundaryInteraction::cool_down_period_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1CaptureInBoundaryInteraction.html#ae62fe98b66c7cbff8e6c23b938c619b4">scrimmage::interaction::CaptureInBoundaryInteraction::init()</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00069">scrimmage::interaction::CaptureInBoundaryInteraction::non_team_capture_pub_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="CaptureInBoundaryInteraction_8h_source.html#l00067">scrimmage::interaction::CaptureInBoundaryInteraction::prev_capture_times_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1CaptureInBoundaryInteraction.html#a8c7ac66294df83578c943b607b716508">scrimmage::interaction::CaptureInBoundaryInteraction::step_entity_interaction()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>.</p>
 <div class="dynheader">
@@ -361,7 +361,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_036589151d75860ca19b92e426662b5c.html">CaptureInBoundaryInteraction</a></li><li class="navelem"><a class="el" href="CaptureInBoundaryInteraction_8cpp.html">CaptureInBoundaryInteraction.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

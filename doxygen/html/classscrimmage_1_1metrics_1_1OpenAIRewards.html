@@ -301,10 +301,10 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00062">62</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   62</span>                             : <a class="code hl_function" href="classscrimmage_1_1Metrics.html#a9aa508f1af57dd9c27d41fe7315564a5">Metrics</a>() {</div>
-<div class="line"><span class="lineno">   63</span>    <a class="code hl_variable" href="classscrimmage_1_1Metrics.html#ade3823aa69045bb9e895e96881263cfa">print_team_summary_</a> = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   64</span>}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00061">61</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>                             : <a class="code hl_function" href="classscrimmage_1_1Metrics.html#a9aa508f1af57dd9c27d41fe7315564a5">Metrics</a>() {</div>
+<div class="line"><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1Metrics.html#ade3823aa69045bb9e895e96881263cfa">print_team_summary_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   63</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Metrics_html_a9aa508f1af57dd9c27d41fe7315564a5"><div class="ttname"><a href="classscrimmage_1_1Metrics.html#a9aa508f1af57dd9c27d41fe7315564a5">scrimmage::Metrics::Metrics</a></div><div class="ttdeci">Metrics()</div><div class="ttdef"><b>Definition</b> <a href="Metrics_8cpp_source.html#l00041">Metrics.cpp:41</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Metrics_html_ade3823aa69045bb9e895e96881263cfa"><div class="ttname"><a href="classscrimmage_1_1Metrics.html#ade3823aa69045bb9e895e96881263cfa">scrimmage::Metrics::print_team_summary_</a></div><div class="ttdeci">bool print_team_summary_</div><div class="ttdef"><b>Definition</b> <a href="Metrics_8h_source.html#l00073">Metrics.h:73</a></div></div>
 </div><!-- fragment -->
@@ -339,22 +339,22 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Metrics.html#ad0cdae50d6f34b1f9ff46a2895dbd2dd">scrimmage::Metrics</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00066">66</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   66</span>                                                        {</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keyword">auto</span> cb = [&amp;](<span class="keyword">auto</span> msg) {</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordtype">size_t</span> id;</div>
-<div class="line"><span class="lineno">   69</span>        <span class="keywordtype">double</span> reward;</div>
-<div class="line"><span class="lineno">   70</span>        std::tie(<span class="keywordtype">id</span>, reward) = msg-&gt;data;</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>.find(<span class="keywordtype">id</span>);</div>
-<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>.end()) {</div>
-<div class="line"><span class="lineno">   73</span>            <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>[id] = reward;</div>
-<div class="line"><span class="lineno">   74</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   75</span>            it-&gt;second += reward;</div>
-<div class="line"><span class="lineno">   76</span>        }</div>
-<div class="line"><span class="lineno">   77</span>        <a class="code hl_variable" href="classscrimmage_1_1Metrics.html#ade3823aa69045bb9e895e96881263cfa">print_team_summary_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   78</span>    };</div>
-<div class="line"><span class="lineno">   79</span>    subscribe&lt;std::pair&lt;size_t, double&gt;&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;reward&quot;</span>, cb);</div>
-<div class="line"><span class="lineno">   80</span>}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00065">65</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>                                                        {</div>
+<div class="line"><span class="lineno">   66</span>    <span class="keyword">auto</span> cb = [&amp;](<span class="keyword">auto</span> msg) {</div>
+<div class="line"><span class="lineno">   67</span>        <span class="keywordtype">size_t</span> id;</div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordtype">double</span> reward;</div>
+<div class="line"><span class="lineno">   69</span>        std::tie(<span class="keywordtype">id</span>, reward) = msg-&gt;data;</div>
+<div class="line"><span class="lineno">   70</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>.find(<span class="keywordtype">id</span>);</div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>.end()) {</div>
+<div class="line"><span class="lineno">   72</span>            <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>[id] = reward;</div>
+<div class="line"><span class="lineno">   73</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   74</span>            it-&gt;second += reward;</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
+<div class="line"><span class="lineno">   76</span>        <a class="code hl_variable" href="classscrimmage_1_1Metrics.html#ade3823aa69045bb9e895e96881263cfa">print_team_summary_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   77</span>    };</div>
+<div class="line"><span class="lineno">   78</span>    subscribe&lt;std::pair&lt;size_t, double&gt;&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;reward&quot;</span>, cb);</div>
+<div class="line"><span class="lineno">   79</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1metrics_1_1OpenAIRewards_html_a818ee7418481d536fb25cc20d2782adf"><div class="ttname"><a href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">scrimmage::metrics::OpenAIRewards::rewards_</a></div><div class="ttdeci">std::map&lt; size_t, double &gt; rewards_</div><div class="ttdef"><b>Definition</b> <a href="OpenAIRewards_8h_source.html#l00054">OpenAIRewards.h:54</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Metrics_8h_source.html#l00073">scrimmage::Metrics::print_team_summary_</a>, and <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>.</p>
@@ -427,14 +427,17 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Metrics.html#aac72ca61b77d68d7b0217f70f3a1853d">scrimmage::Metrics</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00082">82</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   82</span>                                         {</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>) {</div>
-<div class="line"><span class="lineno">   84</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Reward for id &quot;</span> &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; kv.second &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   85</span>    }</div>
-<div class="line"><span class="lineno">   86</span>}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00081">81</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>                                         {</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>) {</div>
+<div class="line"><span class="lineno">   83</span>        std::stringstream ss;</div>
+<div class="line"><span class="lineno">   84</span>        ss &lt;&lt; <span class="stringliteral">&quot;Reward for id &quot;</span> &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; kv.second;</div>
+<div class="line"><span class="lineno">   85</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(ss.str());</div>
+<div class="line"><span class="lineno">   86</span>    }</div>
+<div class="line"><span class="lineno">   87</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>.</p>
+<p class="reference">References <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, and <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>.</p>
 
 </div>
 </div>
@@ -463,25 +466,26 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Metrics.html#af0be3d3c568df1ca9cdf8ed2f0ef179c">scrimmage::Metrics</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00088">88</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   88</span>                                     {</div>
-<div class="line"><span class="lineno">   89</span>    CSV csv;</div>
-<div class="line"><span class="lineno">   90</span>    std::string filename = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/rewards.csv&quot;</span>;</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">if</span> (!csv.open_output(filename)) {</div>
-<div class="line"><span class="lineno">   93</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Couldn&#39;t create output file&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   94</span>    }</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>    csv.set_column_headers(<span class="stringliteral">&quot;id, reward&quot;</span>);</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>) {</div>
-<div class="line"><span class="lineno">   98</span>        csv.append(<a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">CSV::Pairs</a>{{<span class="stringliteral">&quot;id&quot;</span>, kv.first}, {<span class="stringliteral">&quot;reward&quot;</span>, kv.second}});</div>
-<div class="line"><span class="lineno">   99</span>    }</div>
-<div class="line"><span class="lineno">  100</span>    csv.close_output();</div>
-<div class="line"><span class="lineno">  101</span>}</div>
+<p class="definition">Definition at line <a class="el" href="OpenAIRewards_8cpp_source.html#l00089">89</a> of file <a class="el" href="OpenAIRewards_8cpp_source.html">OpenAIRewards.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>                                     {</div>
+<div class="line"><span class="lineno">   90</span>    CSV csv;</div>
+<div class="line"><span class="lineno">   91</span>    std::string filename = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;mp()-&gt;log_dir() + <span class="stringliteral">&quot;/rewards.csv&quot;</span>;</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">if</span> (!csv.open_output(filename)) {</div>
+<div class="line"><span class="lineno">   94</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Couldn&#39;t create output file&quot;</span>);</div>
+<div class="line"><span class="lineno">   95</span>    }</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>    csv.set_column_headers(<span class="stringliteral">&quot;id, reward&quot;</span>);</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>) {</div>
+<div class="line"><span class="lineno">   99</span>        csv.append(<a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">CSV::Pairs</a>{{<span class="stringliteral">&quot;id&quot;</span>, kv.first}, {<span class="stringliteral">&quot;reward&quot;</span>, kv.second}});</div>
+<div class="line"><span class="lineno">  100</span>    }</div>
+<div class="line"><span class="lineno">  101</span>    csv.close_output();</div>
+<div class="line"><span class="lineno">  102</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1CSV_html_ad547dee804921ef5ac99ecb505a27162"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">scrimmage::CSV::Pairs</a></div><div class="ttdeci">std::list&lt; std::pair&lt; std::string, double &gt; &gt; Pairs</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00048">CSV.h:48</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00077">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00110">scrimmage::CSV::close_output()</a>, <a class="el" href="CSV_8cpp_source.html#l00101">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>, and <a class="el" href="CSV_8cpp_source.html#l00054">scrimmage::CSV::set_column_headers()</a>.</p>
+<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00074">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00107">scrimmage::CSV::close_output()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="CSV_8cpp_source.html#l00098">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>, and <a class="el" href="CSV_8cpp_source.html#l00051">scrimmage::CSV::set_column_headers()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -548,7 +552,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="OpenAIRewards_8h_source.html#l00054">54</a> of file <a class="el" href="OpenAIRewards_8h_source.html">OpenAIRewards.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="OpenAIRewards_8cpp_source.html#l00088">calc_team_scores()</a>, <a class="el" href="OpenAIRewards_8cpp_source.html#l00066">init()</a>, and <a class="el" href="OpenAIRewards_8cpp_source.html#l00082">print_team_summaries()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="OpenAIRewards_8cpp_source.html#l00089">calc_team_scores()</a>, <a class="el" href="OpenAIRewards_8cpp_source.html#l00065">init()</a>, and <a class="el" href="OpenAIRewards_8cpp_source.html#l00081">print_team_summaries()</a>.</p>
 
 </div>
 </div>
@@ -562,7 +566,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1metrics.html">metrics</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html">OpenAIRewards</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

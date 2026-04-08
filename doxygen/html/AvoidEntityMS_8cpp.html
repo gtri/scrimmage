@@ -197,105 +197,105 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AvoidEntityMS_8cpp_source.html#l00051">51</a> of file <a class="el" href="AvoidEntityMS_8cpp_source.html">AvoidEntityMS.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>                    {</div>
-<div class="line"><span class="lineno">   57</span><span class="keyword">namespace </span>autonomy {</div>
-<div class="line"><span class="lineno">   58</span><span class="keyword">namespace </span>motor_schemas {</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>AvoidEntityMS::AvoidEntityMS()</div>
-<div class="line"><span class="lineno">   61</span>    : sphere_of_influence_(10.0), minimum_range_(5.0), avoid_non_team_(true) {}</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span><span class="keywordtype">void</span> AvoidEntityMS::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   64</span>    sphere_of_influence_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;sphere_of_influence&quot;</span>, params, 10);</div>
-<div class="line"><span class="lineno">   65</span>    minimum_range_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;minimum_range&quot;</span>, params, 5);</div>
-<div class="line"><span class="lineno">   66</span>    avoid_non_team_ = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;avoid_non_team&quot;</span>, params, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">   67</span>    show_shapes_ = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_shapes&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    configure_contacts(params);</div>
-<div class="line"><span class="lineno">   70</span>}</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span><span class="keywordtype">void</span> AvoidEntityMS::avoidance_vectors(ContactMap&amp; contacts, std::vector&lt;Eigen::Vector3d&gt;&amp; O_vecs) {</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = contacts.begin(); it != contacts.end(); it++) {</div>
-<div class="line"><span class="lineno">   74</span>        <span class="comment">// Ignore own position / id</span></div>
-<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">if</span> (it-&gt;second.id().id() == parent_-&gt;id().id()) {</div>
-<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   77</span>        }</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>        <span class="keywordflow">if</span> (!avoid_non_team_ &amp;&amp; it-&gt;second.id().team_id() != parent_-&gt;id().team_id()) {</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   81</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="AvoidEntityMS_8cpp_source.html#l00049">49</a> of file <a class="el" href="AvoidEntityMS_8cpp_source.html">AvoidEntityMS.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>                    {</div>
+<div class="line"><span class="lineno">   55</span><span class="keyword">namespace </span>autonomy {</div>
+<div class="line"><span class="lineno">   56</span><span class="keyword">namespace </span>motor_schemas {</div>
+<div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span>AvoidEntityMS::AvoidEntityMS()</div>
+<div class="line"><span class="lineno">   59</span>    : sphere_of_influence_(10.0), minimum_range_(5.0), avoid_non_team_(true) {}</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span><span class="keywordtype">void</span> AvoidEntityMS::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   62</span>    sphere_of_influence_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;sphere_of_influence&quot;</span>, params, 10);</div>
+<div class="line"><span class="lineno">   63</span>    minimum_range_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;minimum_range&quot;</span>, params, 5);</div>
+<div class="line"><span class="lineno">   64</span>    avoid_non_team_ = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;avoid_non_team&quot;</span>, params, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">   65</span>    show_shapes_ = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_shapes&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>    configure_contacts(params);</div>
+<div class="line"><span class="lineno">   68</span>}</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span><span class="keywordtype">void</span> AvoidEntityMS::avoidance_vectors(ContactMap&amp; contacts, std::vector&lt;Eigen::Vector3d&gt;&amp; O_vecs) {</div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = contacts.begin(); it != contacts.end(); it++) {</div>
+<div class="line"><span class="lineno">   72</span>        <span class="comment">// Ignore own position / id</span></div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">if</span> (it-&gt;second.id().id() == parent_-&gt;id().id()) {</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   75</span>        }</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>        <span class="keywordflow">if</span> (!avoid_non_team_ &amp;&amp; it-&gt;second.id().team_id() != parent_-&gt;id().team_id()) {</div>
+<div class="line"><span class="lineno">   78</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   79</span>        }</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>        Eigen::Vector3d diff = it-&gt;second.state()-&gt;pos() - state_-&gt;pos();</div>
 <div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>        Eigen::Vector3d diff = it-&gt;second.state()-&gt;pos() - state_-&gt;pos();</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>        <span class="keywordtype">double</span> O_mag = 0;</div>
-<div class="line"><span class="lineno">   86</span>        <span class="keywordtype">double</span> dist = diff.norm();</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">if</span> (dist &gt; sphere_of_influence_) {</div>
-<div class="line"><span class="lineno">   89</span>            O_mag = 0;</div>
-<div class="line"><span class="lineno">   90</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (minimum_range_ &lt; dist &amp;&amp; dist &lt;= sphere_of_influence_) {</div>
-<div class="line"><span class="lineno">   91</span>            O_mag = (sphere_of_influence_ - dist) / (sphere_of_influence_ - minimum_range_);</div>
-<div class="line"><span class="lineno">   92</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dist &lt;= minimum_range_) {</div>
-<div class="line"><span class="lineno">   93</span>            O_mag = 1e10;</div>
-<div class="line"><span class="lineno">   94</span>        }</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>        Eigen::Vector3d O_dir = -O_mag * diff.normalized();</div>
-<div class="line"><span class="lineno">   97</span>        O_vecs.push_back(O_dir);</div>
-<div class="line"><span class="lineno">   98</span>    }</div>
-<div class="line"><span class="lineno">   99</span>}</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span><span class="keywordtype">bool</span> AvoidEntityMS::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  102</span>    <span class="comment">// Compute repulsion vector from each robot contact</span></div>
-<div class="line"><span class="lineno">  103</span>    std::vector&lt;Eigen::Vector3d&gt; O_vecs;</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">if</span> (use_truth_contacts_) {</div>
-<div class="line"><span class="lineno">  106</span>        avoidance_vectors(*contacts_, O_vecs);</div>
-<div class="line"><span class="lineno">  107</span>    }</div>
-<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">if</span> (use_noisy_contacts_) {</div>
-<div class="line"><span class="lineno">  109</span>        avoidance_vectors(noisy_contacts_, O_vecs);</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>    <span class="comment">// Normalize each repulsion vector and sum</span></div>
-<div class="line"><span class="lineno">  113</span>    desired_vector_ &lt;&lt; 0, 0, 0;</div>
-<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = O_vecs.begin(); it != O_vecs.end(); it++) {</div>
-<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">if</span> (it-&gt;hasNaN()) {</div>
-<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">continue</span>;  <span class="comment">// ignore misbehaved vectors</span></div>
-<div class="line"><span class="lineno">  117</span>        }</div>
-<div class="line"><span class="lineno">  118</span>        desired_vector_ += *it;</div>
-<div class="line"><span class="lineno">  119</span>    }</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordtype">double</span> O_mag = 0;</div>
+<div class="line"><span class="lineno">   84</span>        <span class="keywordtype">double</span> dist = diff.norm();</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">if</span> (dist &gt; sphere_of_influence_) {</div>
+<div class="line"><span class="lineno">   87</span>            O_mag = 0;</div>
+<div class="line"><span class="lineno">   88</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (minimum_range_ &lt; dist &amp;&amp; dist &lt;= sphere_of_influence_) {</div>
+<div class="line"><span class="lineno">   89</span>            O_mag = (sphere_of_influence_ - dist) / (sphere_of_influence_ - minimum_range_);</div>
+<div class="line"><span class="lineno">   90</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dist &lt;= minimum_range_) {</div>
+<div class="line"><span class="lineno">   91</span>            O_mag = 1e10;</div>
+<div class="line"><span class="lineno">   92</span>        }</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>        Eigen::Vector3d O_dir = -O_mag * diff.normalized();</div>
+<div class="line"><span class="lineno">   95</span>        O_vecs.push_back(O_dir);</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
+<div class="line"><span class="lineno">   97</span>}</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span><span class="keywordtype">bool</span> AvoidEntityMS::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  100</span>    <span class="comment">// Compute repulsion vector from each robot contact</span></div>
+<div class="line"><span class="lineno">  101</span>    std::vector&lt;Eigen::Vector3d&gt; O_vecs;</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">if</span> (use_truth_contacts_) {</div>
+<div class="line"><span class="lineno">  104</span>        avoidance_vectors(*contacts_, O_vecs);</div>
+<div class="line"><span class="lineno">  105</span>    }</div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">if</span> (use_noisy_contacts_) {</div>
+<div class="line"><span class="lineno">  107</span>        avoidance_vectors(noisy_contacts_, O_vecs);</div>
+<div class="line"><span class="lineno">  108</span>    }</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>    <span class="comment">// Normalize each repulsion vector and sum</span></div>
+<div class="line"><span class="lineno">  111</span>    desired_vector_ &lt;&lt; 0, 0, 0;</div>
+<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = O_vecs.begin(); it != O_vecs.end(); it++) {</div>
+<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">if</span> (it-&gt;hasNaN()) {</div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">continue</span>;  <span class="comment">// ignore misbehaved vectors</span></div>
+<div class="line"><span class="lineno">  115</span>        }</div>
+<div class="line"><span class="lineno">  116</span>        desired_vector_ += *it;</div>
+<div class="line"><span class="lineno">  117</span>    }</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>    desired_vector_ *= max_vector_length_;</div>
 <div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>    desired_vector_ *= max_vector_length_;</div>
-<div class="line"><span class="lineno">  122</span> </div>
-<div class="line"><span class="lineno">  123</span>    <span class="keywordflow">if</span> (show_shapes_) {</div>
-<div class="line"><span class="lineno">  124</span>        <span class="comment">// Draw the sphere of influence</span></div>
-<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">if</span> (circle_shape_ == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">  126</span>            circle_shape_ = sc::shape::make_circle(</div>
-<div class="line"><span class="lineno">  127</span>                state_-&gt;pos(),</div>
-<div class="line"><span class="lineno">  128</span>                state_-&gt;quat(),</div>
-<div class="line"><span class="lineno">  129</span>                sphere_of_influence_,</div>
-<div class="line"><span class="lineno">  130</span>                Eigen::Vector3d(0, 255, 0),</div>
-<div class="line"><span class="lineno">  131</span>                0.2);</div>
-<div class="line"><span class="lineno">  132</span>        }</div>
-<div class="line"><span class="lineno">  133</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(circle_shape_-&gt;mutable_circle()-&gt;mutable_center(), state_-&gt;pos());</div>
-<div class="line"><span class="lineno">  134</span>        draw_shape(circle_shape_);</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">if</span> (line_shape_ == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">  137</span>            line_shape_ = sc::shape::make_line(</div>
-<div class="line"><span class="lineno">  138</span>                state_-&gt;pos(),</div>
-<div class="line"><span class="lineno">  139</span>                desired_vector_ + state_-&gt;pos(),</div>
-<div class="line"><span class="lineno">  140</span>                Eigen::Vector3d(0, 0, 0),</div>
-<div class="line"><span class="lineno">  141</span>                0.75);</div>
-<div class="line"><span class="lineno">  142</span>        }</div>
-<div class="line"><span class="lineno">  143</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(line_shape_-&gt;mutable_line()-&gt;mutable_start(), state_-&gt;pos());</div>
-<div class="line"><span class="lineno">  144</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(line_shape_-&gt;mutable_line()-&gt;mutable_end(), desired_vector_ + state_-&gt;pos());</div>
-<div class="line"><span class="lineno">  145</span>        draw_shape(line_shape_);</div>
-<div class="line"><span class="lineno">  146</span>    }</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  149</span>}</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>}  <span class="comment">// namespace motor_schemas</span></div>
-<div class="line"><span class="lineno">  152</span>}  <span class="comment">// namespace autonomy</span></div>
-<div class="line"><span class="lineno">  153</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">if</span> (show_shapes_) {</div>
+<div class="line"><span class="lineno">  122</span>        <span class="comment">// Draw the sphere of influence</span></div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (circle_shape_ == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><span class="lineno">  124</span>            circle_shape_ = sc::shape::make_circle(</div>
+<div class="line"><span class="lineno">  125</span>                state_-&gt;pos(),</div>
+<div class="line"><span class="lineno">  126</span>                state_-&gt;quat(),</div>
+<div class="line"><span class="lineno">  127</span>                sphere_of_influence_,</div>
+<div class="line"><span class="lineno">  128</span>                Eigen::Vector3d(0, 255, 0),</div>
+<div class="line"><span class="lineno">  129</span>                0.2);</div>
+<div class="line"><span class="lineno">  130</span>        }</div>
+<div class="line"><span class="lineno">  131</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(circle_shape_-&gt;mutable_circle()-&gt;mutable_center(), state_-&gt;pos());</div>
+<div class="line"><span class="lineno">  132</span>        draw_shape(circle_shape_);</div>
+<div class="line"><span class="lineno">  133</span> </div>
+<div class="line"><span class="lineno">  134</span>        <span class="keywordflow">if</span> (line_shape_ == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><span class="lineno">  135</span>            line_shape_ = sc::shape::make_line(</div>
+<div class="line"><span class="lineno">  136</span>                state_-&gt;pos(),</div>
+<div class="line"><span class="lineno">  137</span>                desired_vector_ + state_-&gt;pos(),</div>
+<div class="line"><span class="lineno">  138</span>                Eigen::Vector3d(0, 0, 0),</div>
+<div class="line"><span class="lineno">  139</span>                0.75);</div>
+<div class="line"><span class="lineno">  140</span>        }</div>
+<div class="line"><span class="lineno">  141</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(line_shape_-&gt;mutable_line()-&gt;mutable_start(), state_-&gt;pos());</div>
+<div class="line"><span class="lineno">  142</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(line_shape_-&gt;mutable_line()-&gt;mutable_end(), desired_vector_ + state_-&gt;pos());</div>
+<div class="line"><span class="lineno">  143</span>        draw_shape(line_shape_);</div>
+<div class="line"><span class="lineno">  144</span>    }</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  147</span>}</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>}  <span class="comment">// namespace motor_schemas</span></div>
+<div class="line"><span class="lineno">  150</span>}  <span class="comment">// namespace autonomy</span></div>
+<div class="line"><span class="lineno">  151</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="AvoidEntityMS_8h_source.html#l00056">scrimmage::autonomy::motor_schemas::AvoidEntityMS::avoid_non_team_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a79ea069a342ba5289db22324f46b62ce">scrimmage::autonomy::motor_schemas::AvoidEntityMS::avoidance_vectors()</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#a844792b88e00227b24cff1210079a3e3">scrimmage::autonomy::motor_schemas::AvoidEntityMS::AvoidEntityMS()</a>, <a class="el" href="AvoidEntityMS_8h_source.html#l00058">scrimmage::autonomy::motor_schemas::AvoidEntityMS::circle_shape_</a>, <a class="el" href="BehaviorBase_8cpp_source.html#l00060">scrimmage::autonomy::motor_schemas::BehaviorBase::configure_contacts()</a>, <a class="el" href="Autonomy_8h_source.html#l00085">scrimmage::Autonomy::contacts_</a>, <a class="el" href="BehaviorBase_8h_source.html#l00057">scrimmage::autonomy::motor_schemas::BehaviorBase::desired_vector_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="AvoidEntityMS_8h_source.html#l00059">scrimmage::autonomy::motor_schemas::AvoidEntityMS::line_shape_</a>, <a class="el" href="BehaviorBase_8h_source.html#l00059">scrimmage::autonomy::motor_schemas::BehaviorBase::max_vector_length_</a>, <a class="el" href="AvoidEntityMS_8h_source.html#l00055">scrimmage::autonomy::motor_schemas::AvoidEntityMS::minimum_range_</a>, <a class="el" href="BehaviorBase_8h_source.html#l00065">scrimmage::autonomy::motor_schemas::BehaviorBase::noisy_contacts_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="AvoidEntityMS_8h_source.html#l00061">scrimmage::autonomy::motor_schemas::AvoidEntityMS::show_shapes_</a>, <a class="el" href="AvoidEntityMS_8h_source.html#l00054">scrimmage::autonomy::motor_schemas::AvoidEntityMS::sphere_of_influence_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1motor__schemas_1_1AvoidEntityMS.html#af1b13d2bfac46662f016ad5705044365">scrimmage::autonomy::motor_schemas::AvoidEntityMS::step_autonomy()</a>, <a class="el" href="BehaviorBase_8h_source.html#l00063">scrimmage::autonomy::motor_schemas::BehaviorBase::use_noisy_contacts_</a>, and <a class="el" href="BehaviorBase_8h_source.html#l00062">scrimmage::autonomy::motor_schemas::BehaviorBase::use_truth_contacts_</a>.</p>
@@ -330,7 +330,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_b9dac7b06c5b8f5a15bf4c0dac62b7e4.html">AvoidEntityMS</a></li><li class="navelem"><a class="el" href="AvoidEntityMS_8cpp.html">AvoidEntityMS.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

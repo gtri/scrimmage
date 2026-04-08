@@ -101,40 +101,40 @@ $(document).ready(function(){initNavTree('SubscriberBase_8cpp_source.html',''); 
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="SubscriberBase_8h.html">scrimmage/pubsub/SubscriberBase.h</a>&quot;</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;iomanip&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &quot;<a class="code" href="EntityPlugin_8h.html">scrimmage/entity/EntityPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &quot;<a class="code" href="EntityPlugin_8h.html">scrimmage/entity/EntityPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &quot;<a class="code" href="Logger_8h.html">scrimmage/log/Logger.h</a>&quot;</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
 <div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classscrimmage_1_1SubscriberBase.html#a3e1562819394a3efd86aacf26728aead">   43</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1SubscriberBase.html#a3e1562819394a3efd86aacf26728aead">SubscriberBase::print_err</a>(<span class="keyword">const</span> std::string&amp; type, <a class="code hl_typedef" href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">MessageBasePtr</a> msg)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;WARNING: could not cast on topic &quot;</span> &lt;&lt; std::quoted(<a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#a99ad72cb0823ebaade3afb85884aec53">topic_</a>) &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;  subscriber: type (&quot;</span> &lt;&lt; type &lt;&lt; <span class="stringliteral">&quot;), plugin (&quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#ae0d16ecf43af1ecf74b6d907b364b225">plugin_</a>-&gt;name() &lt;&lt; <span class="stringliteral">&quot;), id (&quot;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>              &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#ae0d16ecf43af1ecf74b6d907b364b225">plugin_</a>-&gt;parent()-&gt;id().id() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">if</span> (msg-&gt;debug_info != <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        std::cout &lt;&lt; msg-&gt;debug_info &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;could not cast on topic &quot;</span> &lt;&lt; std::quoted(<a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#a99ad72cb0823ebaade3afb85884aec53">topic_</a>) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>              &lt;&lt; <span class="stringliteral">&quot;  subscriber: type (&quot;</span> &lt;&lt; type &lt;&lt; <span class="stringliteral">&quot;), plugin (&quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#ae0d16ecf43af1ecf74b6d907b364b225">plugin_</a>-&gt;name() &lt;&lt; <span class="stringliteral">&quot;), id (&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>              &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1NetworkDevice.html#ae0d16ecf43af1ecf74b6d907b364b225">plugin_</a>-&gt;parent()-&gt;id().id() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>              &lt;&lt; (msg-&gt;debug_info != <span class="stringliteral">&quot;&quot;</span> ? <span class="stringliteral">&quot;\n&quot;</span> + msg-&gt;debug_info : <span class="stringliteral">&quot;&quot;</span>));</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aEntityPlugin_8h_html"><div class="ttname"><a href="EntityPlugin_8h.html">EntityPlugin.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aEntity_8h_html"><div class="ttname"><a href="Entity_8h.html">Entity.h</a></div><div class="ttdoc">Brief file description.</div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aSubscriberBase_8h_html"><div class="ttname"><a href="SubscriberBase_8h.html">SubscriberBase.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aclassscrimmage_1_1NetworkDevice_html_a99ad72cb0823ebaade3afb85884aec53"><div class="ttname"><a href="classscrimmage_1_1NetworkDevice.html#a99ad72cb0823ebaade3afb85884aec53">scrimmage::NetworkDevice::topic_</a></div><div class="ttdeci">std::string topic_</div><div class="ttdef"><b>Definition</b> <a href="NetworkDevice_8h_source.html#l00191">NetworkDevice.h:191</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1NetworkDevice_html_ae0d16ecf43af1ecf74b6d907b364b225"><div class="ttname"><a href="classscrimmage_1_1NetworkDevice.html#ae0d16ecf43af1ecf74b6d907b364b225">scrimmage::NetworkDevice::plugin_</a></div><div class="ttdeci">EntityPluginPtr plugin_</div><div class="ttdef"><b>Definition</b> <a href="NetworkDevice_8h_source.html#l00194">NetworkDevice.h:194</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1SubscriberBase_html_a3e1562819394a3efd86aacf26728aead"><div class="ttname"><a href="classscrimmage_1_1SubscriberBase.html#a3e1562819394a3efd86aacf26728aead">scrimmage::SubscriberBase::print_err</a></div><div class="ttdeci">void print_err(const std::string &amp;type, MessageBasePtr msg) const</div><div class="ttdef"><b>Definition</b> <a href="SubscriberBase_8cpp_source.html#l00043">SubscriberBase.cpp:43</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00119">fwd_decl.h:119</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00116">fwd_decl.h:116</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_12b846ca4b7b145c86288e7a8e60f990.html">pubsub</a></li><li class="navelem"><a class="el" href="SubscriberBase_8cpp.html">SubscriberBase.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

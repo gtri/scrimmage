@@ -369,97 +369,99 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MotorSchemas_8cpp_source.html#l00072">72</a> of file <a class="el" href="MotorSchemas_8cpp_source.html">MotorSchemas.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   72</span>                                                            {</div>
-<div class="line"><span class="lineno">   73</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;show_shapes&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad6faf0e61d39bc88e9547a7fc43ff316">pub_vel_vec_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;pub_vel_vec&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   75</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, 21);</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a29ba1f3cf464a9020b617dfec6386739">add_lower_bound_to_vz_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;add_lower_bound_to_vz&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   78</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a734b98e5226a957d7858e43ea0bd5c57">vz_lower_bound_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;vz_lower_bound&quot;</span>, params, -1.0);</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>    <span class="keyword">auto</span> max_speed_cb = [&amp;](<span class="keyword">const</span> <span class="keywordtype">double</span>&amp; max_speed) {</div>
-<div class="line"><span class="lineno">   81</span>        cout &lt;&lt; <span class="stringliteral">&quot;MotorSchemas Max speed set: &quot;</span> &lt;&lt; max_speed &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   82</span>    };</div>
-<div class="line"><span class="lineno">   83</span>    register_param&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>, max_speed_cb);</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="comment">// Subscribe to state information</span></div>
-<div class="line"><span class="lineno">   86</span>    std::string state_topic_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;state_topic_name&quot;</span>, params, <span class="stringliteral">&quot;State&quot;</span>);</div>
-<div class="line"><span class="lineno">   87</span>    std::string network_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;network_name&quot;</span>, params, <span class="stringliteral">&quot;LocalNetwork&quot;</span>);</div>
-<div class="line"><span class="lineno">   88</span>    <span class="keyword">auto</span> state_callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;std::string&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   89</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ac43139d03627c58a759939b36e442e54">current_state_</a> = msg-&gt;data;</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>        <span class="comment">// Get the currently running behaviors</span></div>
-<div class="line"><span class="lineno">   92</span>        <span class="keyword">auto</span> behavior_list = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>.find(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ac43139d03627c58a759939b36e442e54">current_state_</a>);</div>
-<div class="line"><span class="lineno">   93</span>        <span class="keywordflow">if</span> (behavior_list != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>.end()) {</div>
-<div class="line"><span class="lineno">   94</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = behavior_list-&gt;second;</div>
-<div class="line"><span class="lineno">   95</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   96</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>;</div>
-<div class="line"><span class="lineno">   97</span>        }</div>
-<div class="line"><span class="lineno">   98</span>    };</div>
-<div class="line"><span class="lineno">   99</span>    subscribe&lt;std::string&gt;(network_name, state_topic_name, state_callback);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>    <span class="comment">// Parse the autonomy vectors</span></div>
-<div class="line"><span class="lineno">  102</span>    std::list&lt;PluginOverrides&gt; plugin_overrides_list;</div>
-<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201">sc::parse_plugin_vector</a>(<span class="stringliteral">&quot;behaviors&quot;</span>, params, plugin_overrides_list)</div>
-<div class="line"><span class="lineno">  104</span>        == <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span><span class="keyword">&gt;</span>(0)) {</div>
-<div class="line"><span class="lineno">  105</span>        cout &lt;&lt; <span class="stringliteral">&quot;MotorSchemas: Failed to parse any behaviors.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  106</span>    }</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>    <span class="comment">// Create the plugin for each autonomy/behavior</span></div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; plugin_override : plugin_overrides_list) {</div>
-<div class="line"><span class="lineno">  110</span>        <span class="keyword">auto</span> behavior = make_autonomy&lt;ms::BehaviorBase&gt;(</div>
-<div class="line"><span class="lineno">  111</span>            plugin_override.name,</div>
-<div class="line"><span class="lineno">  112</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;plugin_manager(),</div>
-<div class="line"><span class="lineno">  113</span>            plugin_override.overrides,</div>
-<div class="line"><span class="lineno">  114</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>,</div>
-<div class="line"><span class="lineno">  115</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>,</div>
-<div class="line"><span class="lineno">  116</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a>,</div>
-<div class="line"><span class="lineno">  117</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a>,</div>
-<div class="line"><span class="lineno">  118</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a>,</div>
-<div class="line"><span class="lineno">  119</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>,</div>
-<div class="line"><span class="lineno">  120</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;file_search(),</div>
-<div class="line"><span class="lineno">  121</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a>,</div>
-<div class="line"><span class="lineno">  122</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;pubsub(),</div>
-<div class="line"><span class="lineno">  123</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>,</div>
-<div class="line"><span class="lineno">  124</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;param_server());</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>        <span class="keywordflow">if</span> (behavior) {</div>
-<div class="line"><span class="lineno">  127</span>            <span class="comment">// Extract the gain for this plugin and apply it</span></div>
-<div class="line"><span class="lineno">  128</span>            (*behavior)-&gt;set_gain(sc::get&lt;double&gt;(<span class="stringliteral">&quot;gain&quot;</span>, plugin_override.overrides, 1.0));</div>
-<div class="line"><span class="lineno">  129</span>            (*behavior)-&gt;set_max_vector_length(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>);</div>
-<div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>            <span class="comment">// Determine which states in which this behavior is active</span></div>
-<div class="line"><span class="lineno">  132</span>            std::vector&lt;std::string&gt; states;</div>
-<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;states&quot;</span>, plugin_override.overrides, <span class="stringliteral">&quot; ,&quot;</span>, states)) {</div>
-<div class="line"><span class="lineno">  134</span>                <span class="keywordflow">for</span> (std::string <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a> : states) {</div>
-<div class="line"><span class="lineno">  135</span>                    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>[<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a>].push_back(*behavior);</div>
-<div class="line"><span class="lineno">  136</span>                }</div>
-<div class="line"><span class="lineno">  137</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  138</span>                <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>.push_back(*behavior);</div>
-<div class="line"><span class="lineno">  139</span>            }</div>
-<div class="line"><span class="lineno">  140</span>        }</div>
-<div class="line"><span class="lineno">  141</span>    }</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>    <span class="comment">// Add the default behaviors to each declared state</span></div>
-<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage_1_1autonomy_1_1motor__schemas.html#a3940eddb54c8623a6fd4772f569c3af7">motor_schemas::BehaviorBasePtr</a> behavior : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>) {</div>
-<div class="line"><span class="lineno">  145</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>) {</div>
-<div class="line"><span class="lineno">  146</span>            kv.second.push_back(behavior);</div>
-<div class="line"><span class="lineno">  147</span>        }</div>
-<div class="line"><span class="lineno">  148</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="MotorSchemas_8cpp_source.html#l00070">70</a> of file <a class="el" href="MotorSchemas_8cpp_source.html">MotorSchemas.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   70</span>                                                            {</div>
+<div class="line"><span class="lineno">   71</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;show_shapes&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   72</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad6faf0e61d39bc88e9547a7fc43ff316">pub_vel_vec_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;pub_vel_vec&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   73</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, params, 21);</div>
+<div class="line"><span class="lineno">   74</span> </div>
+<div class="line"><span class="lineno">   75</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a29ba1f3cf464a9020b617dfec6386739">add_lower_bound_to_vz_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;add_lower_bound_to_vz&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   76</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a734b98e5226a957d7858e43ea0bd5c57">vz_lower_bound_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;vz_lower_bound&quot;</span>, params, -1.0);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <span class="keyword">auto</span> max_speed_cb = [&amp;](<span class="keyword">const</span> <span class="keywordtype">double</span>&amp; max_speed) {</div>
+<div class="line"><span class="lineno">   79</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;MotorSchemas Max speed set: &quot;</span> &lt;&lt; max_speed);</div>
+<div class="line"><span class="lineno">   80</span>    };</div>
+<div class="line"><span class="lineno">   81</span>    register_param&lt;double&gt;(<span class="stringliteral">&quot;max_speed&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>, max_speed_cb);</div>
+<div class="line"><span class="lineno">   82</span> </div>
+<div class="line"><span class="lineno">   83</span>    <span class="comment">// Subscribe to state information</span></div>
+<div class="line"><span class="lineno">   84</span>    std::string state_topic_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;state_topic_name&quot;</span>, params, <span class="stringliteral">&quot;State&quot;</span>);</div>
+<div class="line"><span class="lineno">   85</span>    std::string network_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;network_name&quot;</span>, params, <span class="stringliteral">&quot;LocalNetwork&quot;</span>);</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keyword">auto</span> state_callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;std::string&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   87</span>        <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ac43139d03627c58a759939b36e442e54">current_state_</a> = msg-&gt;data;</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>        <span class="comment">// Get the currently running behaviors</span></div>
+<div class="line"><span class="lineno">   90</span>        <span class="keyword">auto</span> behavior_list = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>.find(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ac43139d03627c58a759939b36e442e54">current_state_</a>);</div>
+<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">if</span> (behavior_list != <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>.end()) {</div>
+<div class="line"><span class="lineno">   92</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = behavior_list-&gt;second;</div>
+<div class="line"><span class="lineno">   93</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   94</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>;</div>
+<div class="line"><span class="lineno">   95</span>        }</div>
+<div class="line"><span class="lineno">   96</span>    };</div>
+<div class="line"><span class="lineno">   97</span>    subscribe&lt;std::string&gt;(network_name, state_topic_name, state_callback);</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span>    <span class="comment">// Parse the autonomy vectors</span></div>
+<div class="line"><span class="lineno">  100</span>    std::list&lt;PluginOverrides&gt; plugin_overrides_list;</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201">sc::parse_plugin_vector</a>(<span class="stringliteral">&quot;behaviors&quot;</span>, params, plugin_overrides_list)</div>
+<div class="line"><span class="lineno">  102</span>        == <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">int</span><span class="keyword">&gt;</span>(0)) {</div>
+<div class="line"><span class="lineno">  103</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;MotorSchemas: Failed to parse any behaviors.&quot;</span>);</div>
+<div class="line"><span class="lineno">  104</span>    }</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>    <span class="comment">// Create the plugin for each autonomy/behavior</span></div>
+<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; plugin_override : plugin_overrides_list) {</div>
+<div class="line"><span class="lineno">  108</span>        <span class="keyword">auto</span> behavior = make_autonomy&lt;ms::BehaviorBase&gt;(</div>
+<div class="line"><span class="lineno">  109</span>            plugin_override.name,</div>
+<div class="line"><span class="lineno">  110</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;plugin_manager(),</div>
+<div class="line"><span class="lineno">  111</span>            plugin_override.overrides,</div>
+<div class="line"><span class="lineno">  112</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>,</div>
+<div class="line"><span class="lineno">  113</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>,</div>
+<div class="line"><span class="lineno">  114</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a6c70aabb0aa1a58ad9597ebac9b88ce6">id_to_team_map_</a>,</div>
+<div class="line"><span class="lineno">  115</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">id_to_ent_map_</a>,</div>
+<div class="line"><span class="lineno">  116</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">proj_</a>,</div>
+<div class="line"><span class="lineno">  117</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#ac612004b31762bd5ee8e6e6bc4694e2d">contacts_</a>,</div>
+<div class="line"><span class="lineno">  118</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;file_search(),</div>
+<div class="line"><span class="lineno">  119</span>            <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a84be7e208966e33d3ad1be9bff2ddc79">rtree_</a>,</div>
+<div class="line"><span class="lineno">  120</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;pubsub(),</div>
+<div class="line"><span class="lineno">  121</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>,</div>
+<div class="line"><span class="lineno">  122</span>            <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;param_server());</div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>        <span class="keywordflow">if</span> (behavior) {</div>
+<div class="line"><span class="lineno">  125</span>            <span class="comment">// Extract the gain for this plugin and apply it</span></div>
+<div class="line"><span class="lineno">  126</span>            (*behavior)-&gt;set_gain(sc::get&lt;double&gt;(<span class="stringliteral">&quot;gain&quot;</span>, plugin_override.overrides, 1.0));</div>
+<div class="line"><span class="lineno">  127</span>            (*behavior)-&gt;set_max_vector_length(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>);</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>            <span class="comment">// Determine which states in which this behavior is active</span></div>
+<div class="line"><span class="lineno">  130</span>            std::vector&lt;std::string&gt; states;</div>
+<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;states&quot;</span>, plugin_override.overrides, <span class="stringliteral">&quot; ,&quot;</span>, states)) {</div>
+<div class="line"><span class="lineno">  132</span>                <span class="keywordflow">for</span> (std::string <a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a> : states) {</div>
+<div class="line"><span class="lineno">  133</span>                    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>[<a class="code hl_function" href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">state</a>].push_back(*behavior);</div>
+<div class="line"><span class="lineno">  134</span>                }</div>
+<div class="line"><span class="lineno">  135</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  136</span>                <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>.push_back(*behavior);</div>
+<div class="line"><span class="lineno">  137</span>            }</div>
+<div class="line"><span class="lineno">  138</span>        }</div>
+<div class="line"><span class="lineno">  139</span>    }</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>    <span class="comment">// Add the default behaviors to each declared state</span></div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage_1_1autonomy_1_1motor__schemas.html#a3940eddb54c8623a6fd4772f569c3af7">motor_schemas::BehaviorBasePtr</a> behavior : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>) {</div>
+<div class="line"><span class="lineno">  143</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a474666c5c71bdb3d6d228fccea662c91">behaviors_</a>) {</div>
+<div class="line"><span class="lineno">  144</span>            kv.second.push_back(behavior);</div>
+<div class="line"><span class="lineno">  145</span>        }</div>
+<div class="line"><span class="lineno">  146</span>    }</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>;</div>
 <div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a> = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a7b0dece0c8b7d98fe9e931829e186aea">default_behaviors_</a>;</div>
-<div class="line"><span class="lineno">  151</span> </div>
-<div class="line"><span class="lineno">  152</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad84c82b9eb20a54b4d239e792685cc4b">desired_alt_idx_</a> =</div>
-<div class="line"><span class="lineno">  153</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">VariableIO::Type::desired_altitude</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  154</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  155</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ae84312312cc7e605f894f7a0ee28e844">desired_heading_idx_</a> =</div>
-<div class="line"><span class="lineno">  156</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a3a6f1a64728f255125de435b9e76a89d">output_vel_x_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">VariableIO::Type::velocity_x</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  159</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3">output_vel_y_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">VariableIO::Type::velocity_y</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  160</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#af9a5cceec6510ffa766d46e0c0854d9d">output_vel_z_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">VariableIO::Type::velocity_z</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">  161</span>}</div>
+<div class="line"><span class="lineno">  150</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad84c82b9eb20a54b4d239e792685cc4b">desired_alt_idx_</a> =</div>
+<div class="line"><span class="lineno">  151</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">VariableIO::Type::desired_altitude</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  152</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730">desired_speed_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">VariableIO::Type::desired_speed</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  153</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ae84312312cc7e605f894f7a0ee28e844">desired_heading_idx_</a> =</div>
+<div class="line"><span class="lineno">  154</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">VariableIO::Type::desired_heading</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a3a6f1a64728f255125de435b9e76a89d">output_vel_x_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">VariableIO::Type::velocity_x</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  157</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3">output_vel_y_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">VariableIO::Type::velocity_y</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  158</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#af9a5cceec6510ffa766d46e0c0854d9d">output_vel_z_idx_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(<a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">VariableIO::Type::velocity_z</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">  159</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a012b5eefb90d4194e6918de325c01968"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a012b5eefb90d4194e6918de325c01968">scrimmage::Autonomy::proj_</a></div><div class="ttdeci">std::shared_ptr&lt; GeographicLib::LocalCartesian &gt; proj_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00081">Autonomy.h:81</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a2447e9949d67c8d2eb942f713fad264d"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">scrimmage::Autonomy::state_</a></div><div class="ttdeci">StatePtr state_</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00083">Autonomy.h:83</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Autonomy_html_a3e208e2d4a2eee303007e519c7cc64ca"><div class="ttname"><a href="classscrimmage_1_1Autonomy.html#a3e208e2d4a2eee303007e519c7cc64ca">scrimmage::Autonomy::state</a></div><div class="ttdeci">StatePtr &amp; state()</div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8cpp_source.html#l00067">Autonomy.cpp:67</a></div></div>
@@ -471,7 +473,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00124">VariableIO.cpp:124</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00125">VariableIO.cpp:125</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::Type::velocity_x</a></div><div class="ttdeci">@ velocity_x</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::Type::velocity_y</a></div><div class="ttdeci">@ velocity_y</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::Type::desired_altitude</a></div><div class="ttdeci">@ desired_altitude</div></div>
@@ -495,11 +497,11 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1MotorSchemas_html_af9a5cceec6510ffa766d46e0c0854d9d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#af9a5cceec6510ffa766d46e0c0854d9d">scrimmage::autonomy::MotorSchemas::output_vel_z_idx_</a></div><div class="ttdeci">int output_vel_z_idx_</div><div class="ttdef"><b>Definition</b> <a href="MotorSchemas_8h_source.html#l00066">MotorSchemas.h:66</a></div></div>
 <div class="ttc" id="anamespacescrimmage_1_1autonomy_1_1motor__schemas_html_a3940eddb54c8623a6fd4772f569c3af7"><div class="ttname"><a href="namespacescrimmage_1_1autonomy_1_1motor__schemas.html#a3940eddb54c8623a6fd4772f569c3af7">scrimmage::autonomy::motor_schemas::BehaviorBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; BehaviorBase &gt; BehaviorBasePtr</div><div class="ttdef"><b>Definition</b> <a href="BehaviorBase_8h_source.html#l00070">BehaviorBase.h:70</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a40ffe5db15e407e7488ee232e2104201"><div class="ttname"><a href="namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201">scrimmage::parse_plugin_vector</a></div><div class="ttdeci">unsigned int parse_plugin_vector(const std::string &amp;key, std::map&lt; std::string, std::string &gt; &amp;params, std::list&lt; PluginOverrides &gt; &amp;plugin_overrides_list)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00389">ParseUtils.cpp:389</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a40ffe5db15e407e7488ee232e2104201"><div class="ttname"><a href="namespacescrimmage.html#a40ffe5db15e407e7488ee232e2104201">scrimmage::parse_plugin_vector</a></div><div class="ttdeci">unsigned int parse_plugin_vector(const std::string &amp;key, std::map&lt; std::string, std::string &gt; &amp;params, std::list&lt; PluginOverrides &gt; &amp;plugin_overrides_list)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00400">ParseUtils.cpp:400</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00168">ParseUtils.h:168</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="MotorSchemas_8h_source.html#l00057">add_lower_bound_to_vz_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00070">behaviors_</a>, <a class="el" href="Autonomy_8h_source.html#l00085">scrimmage::Autonomy::contacts_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00072">current_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00068">current_state_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00071">default_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00061">desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="MotorSchemas_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="MotorSchemas_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::id_to_ent_map_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00192">scrimmage::EntityPlugin::id_to_team_map_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00055">max_speed_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="MotorSchemas_8h_source.html#l00064">output_vel_x_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00065">output_vel_y_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00066">output_vel_z_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00389">scrimmage::parse_plugin_vector()</a>, <a class="el" href="Autonomy_8h_source.html#l00081">scrimmage::Autonomy::proj_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00054">pub_vel_vec_</a>, <a class="el" href="Autonomy_8h_source.html#l00086">scrimmage::Autonomy::rtree_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00053">show_shapes_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00067">scrimmage::Autonomy::state()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>, and <a class="el" href="MotorSchemas_8h_source.html#l00058">vz_lower_bound_</a>.</p>
+<p class="reference">References <a class="el" href="MotorSchemas_8h_source.html#l00057">add_lower_bound_to_vz_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00070">behaviors_</a>, <a class="el" href="Autonomy_8h_source.html#l00085">scrimmage::Autonomy::contacts_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00072">current_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00068">current_state_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00071">default_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00061">desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="MotorSchemas_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="MotorSchemas_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="ParseUtils_8h_source.html#l00168">scrimmage::get_vec()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::id_to_ent_map_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00192">scrimmage::EntityPlugin::id_to_team_map_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="MotorSchemas_8h_source.html#l00055">max_speed_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="MotorSchemas_8h_source.html#l00064">output_vel_x_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00065">output_vel_y_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00066">output_vel_z_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00400">scrimmage::parse_plugin_vector()</a>, <a class="el" href="Autonomy_8h_source.html#l00081">scrimmage::Autonomy::proj_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00054">pub_vel_vec_</a>, <a class="el" href="Autonomy_8h_source.html#l00086">scrimmage::Autonomy::rtree_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00053">show_shapes_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00067">scrimmage::Autonomy::state()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a0383481c6642464fecb828aa055c58a2">scrimmage::VariableIO::velocity_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2e01ec63404b107b8087f599c50ae6fd">scrimmage::VariableIO::velocity_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a63134c4000b3105e229d37ab019b013f">scrimmage::VariableIO::velocity_z</a>, and <a class="el" href="MotorSchemas_8h_source.html#l00058">vz_lower_bound_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -557,110 +559,111 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MotorSchemas_8cpp_source.html#l00163">163</a> of file <a class="el" href="MotorSchemas_8cpp_source.html">MotorSchemas.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  163</span>                                                    {</div>
-<div class="line"><span class="lineno">  164</span>    <span class="comment">// Run all sub behaviors</span></div>
-<div class="line"><span class="lineno">  165</span>    <span class="keywordtype">double</span> vec_w_gain_sum = 0;</div>
-<div class="line"><span class="lineno">  166</span>    Eigen::Vector3d vec_w_gain(0, 0, 0);</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage_1_1autonomy_1_1motor__schemas.html#a3940eddb54c8623a6fd4772f569c3af7">motor_schemas::BehaviorBasePtr</a>&amp; behavior : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a>) {</div>
-<div class="line"><span class="lineno">  169</span>        behavior-&gt;shapes().clear();</div>
+<p class="definition">Definition at line <a class="el" href="MotorSchemas_8cpp_source.html#l00161">161</a> of file <a class="el" href="MotorSchemas_8cpp_source.html">MotorSchemas.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  161</span>                                                    {</div>
+<div class="line"><span class="lineno">  162</span>    <span class="comment">// Run all sub behaviors</span></div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordtype">double</span> vec_w_gain_sum = 0;</div>
+<div class="line"><span class="lineno">  164</span>    Eigen::Vector3d vec_w_gain(0, 0, 0);</div>
+<div class="line"><span class="lineno">  165</span> </div>
+<div class="line"><span class="lineno">  166</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage_1_1autonomy_1_1motor__schemas.html#a3940eddb54c8623a6fd4772f569c3af7">motor_schemas::BehaviorBasePtr</a>&amp; behavior : <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6af08b943d789f35d776b14103b935e6">current_behaviors_</a>) {</div>
+<div class="line"><span class="lineno">  167</span>        behavior-&gt;shapes().clear();</div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>        <span class="comment">// cout &lt;&lt; &quot;Behavior: &quot; &lt;&lt; behavior-&gt;name() &lt;&lt; endl;</span></div>
 <div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>        <span class="comment">// cout &lt;&lt; &quot;Behavior: &quot; &lt;&lt; behavior-&gt;name() &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>        <span class="comment">// Execute callbacks for received messages before calling</span></div>
-<div class="line"><span class="lineno">  174</span>        <span class="comment">// step_autonomy</span></div>
-<div class="line"><span class="lineno">  175</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a>&amp; sub : behavior-&gt;<a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a1de39d9c6669e944281273d913d76395">subs</a>()) {</div>
-<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : sub-&gt;pop_msgs&lt;<a class="code hl_namespace" href="namespacescrimmage.html">sc</a>::MessageBase&gt;()) {</div>
-<div class="line"><span class="lineno">  177</span>                sub-&gt;accept(msg);</div>
-<div class="line"><span class="lineno">  178</span>            }</div>
-<div class="line"><span class="lineno">  179</span>        }</div>
-<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">if</span> (!behavior-&gt;step_autonomy(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t(), <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;dt())) {</div>
-<div class="line"><span class="lineno">  181</span>            cout &lt;&lt; <span class="stringliteral">&quot;MotorSchemas: behavior error&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  182</span>        }</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>        <span class="comment">// Grab the desired vector and normalize to max_speed if too large</span></div>
-<div class="line"><span class="lineno">  185</span>        Eigen::Vector3d desired_vector = behavior-&gt;desired_vector();</div>
-<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">if</span> (desired_vector.norm() &gt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>) {</div>
-<div class="line"><span class="lineno">  187</span>            desired_vector = desired_vector.normalized() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>;</div>
-<div class="line"><span class="lineno">  188</span>        }</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>        <span class="keywordflow">if</span> (desired_vector.hasNaN()) {</div>
-<div class="line"><span class="lineno">  191</span>            cout &lt;&lt; <span class="stringliteral">&quot;Behavior error: &quot;</span> &lt;&lt; behavior-&gt;name() &lt;&lt; <span class="stringliteral">&quot;, desired vector has NaN&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  192</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  193</span>        }</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span>        <span class="comment">// cout &lt;&lt; &quot;desired_vector: &quot; &lt;&lt; desired_vector &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  196</span>        <span class="comment">// cout &lt;&lt; &quot;gain: &quot; &lt;&lt; behavior-&gt;gain() &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  197</span>        <span class="comment">// cout &lt;&lt; &quot;desired_vector.norm(): &quot; &lt;&lt; desired_vector.norm() &lt;&lt; endl;</span></div>
-<div class="line"><span class="lineno">  198</span> </div>
-<div class="line"><span class="lineno">  199</span>        <span class="comment">// Keep a running sum of all vectors with gains</span></div>
-<div class="line"><span class="lineno">  200</span>        vec_w_gain += desired_vector * behavior-&gt;gain();</div>
-<div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>        <span class="comment">// Keep a running sum of all gains that have an effective vector</span></div>
-<div class="line"><span class="lineno">  203</span>        Eigen::Vector3d desired_vector_normalized = desired_vector.normalized();</div>
-<div class="line"><span class="lineno">  204</span>        <span class="keywordflow">if</span> (!desired_vector_normalized.hasNaN()) {</div>
-<div class="line"><span class="lineno">  205</span>            vec_w_gain_sum += desired_vector.normalized().norm() * behavior-&gt;gain();</div>
-<div class="line"><span class="lineno">  206</span>        }</div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a>) {</div>
-<div class="line"><span class="lineno">  209</span>            std::for_each(behavior-&gt;shapes().begin(), behavior-&gt;shapes().end(), [&amp;](<span class="keyword">auto</span>&amp; s) {</div>
-<div class="line"><span class="lineno">  210</span>                this-&gt;draw_shape(s);</div>
-<div class="line"><span class="lineno">  211</span>            });</div>
-<div class="line"><span class="lineno">  212</span>        }</div>
-<div class="line"><span class="lineno">  213</span>        behavior-&gt;shapes().clear();</div>
-<div class="line"><span class="lineno">  214</span>    }</div>
+<div class="line"><span class="lineno">  171</span>        <span class="comment">// Execute callbacks for received messages before calling</span></div>
+<div class="line"><span class="lineno">  172</span>        <span class="comment">// step_autonomy</span></div>
+<div class="line"><span class="lineno">  173</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">SubscriberBasePtr</a>&amp; sub : behavior-&gt;<a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#a1de39d9c6669e944281273d913d76395">subs</a>()) {</div>
+<div class="line"><span class="lineno">  174</span>            <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : sub-&gt;pop_msgs&lt;<a class="code hl_namespace" href="namespacescrimmage.html">sc</a>::MessageBase&gt;()) {</div>
+<div class="line"><span class="lineno">  175</span>                sub-&gt;accept(msg);</div>
+<div class="line"><span class="lineno">  176</span>            }</div>
+<div class="line"><span class="lineno">  177</span>        }</div>
+<div class="line"><span class="lineno">  178</span>        <span class="keywordflow">if</span> (!behavior-&gt;step_autonomy(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;t(), <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;dt())) {</div>
+<div class="line"><span class="lineno">  179</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;MotorSchemas: behavior error&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>        }</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>        <span class="comment">// Grab the desired vector and normalize to max_speed if too large</span></div>
+<div class="line"><span class="lineno">  183</span>        Eigen::Vector3d desired_vector = behavior-&gt;desired_vector();</div>
+<div class="line"><span class="lineno">  184</span>        <span class="keywordflow">if</span> (desired_vector.norm() &gt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>) {</div>
+<div class="line"><span class="lineno">  185</span>            desired_vector = desired_vector.normalized() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>;</div>
+<div class="line"><span class="lineno">  186</span>        }</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>        <span class="keywordflow">if</span> (desired_vector.hasNaN()) {</div>
+<div class="line"><span class="lineno">  189</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Behavior error: &quot;</span> &lt;&lt; behavior-&gt;name() &lt;&lt; <span class="stringliteral">&quot;, desired vector has NaN&quot;</span>);</div>
+<div class="line"><span class="lineno">  190</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  191</span>        }</div>
+<div class="line"><span class="lineno">  192</span> </div>
+<div class="line"><span class="lineno">  193</span>        <span class="comment">// cout &lt;&lt; &quot;desired_vector: &quot; &lt;&lt; desired_vector &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">  194</span>        <span class="comment">// cout &lt;&lt; &quot;gain: &quot; &lt;&lt; behavior-&gt;gain() &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">  195</span>        <span class="comment">// cout &lt;&lt; &quot;desired_vector.norm(): &quot; &lt;&lt; desired_vector.norm() &lt;&lt; endl;</span></div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>        <span class="comment">// Keep a running sum of all vectors with gains</span></div>
+<div class="line"><span class="lineno">  198</span>        vec_w_gain += desired_vector * behavior-&gt;gain();</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>        <span class="comment">// Keep a running sum of all gains that have an effective vector</span></div>
+<div class="line"><span class="lineno">  201</span>        Eigen::Vector3d desired_vector_normalized = desired_vector.normalized();</div>
+<div class="line"><span class="lineno">  202</span>        <span class="keywordflow">if</span> (!desired_vector_normalized.hasNaN()) {</div>
+<div class="line"><span class="lineno">  203</span>            vec_w_gain_sum += desired_vector.normalized().norm() * behavior-&gt;gain();</div>
+<div class="line"><span class="lineno">  204</span>        }</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a>) {</div>
+<div class="line"><span class="lineno">  207</span>            std::for_each(behavior-&gt;shapes().begin(), behavior-&gt;shapes().end(), [&amp;](<span class="keyword">auto</span>&amp; s) {</div>
+<div class="line"><span class="lineno">  208</span>                this-&gt;draw_shape(s);</div>
+<div class="line"><span class="lineno">  209</span>            });</div>
+<div class="line"><span class="lineno">  210</span>        }</div>
+<div class="line"><span class="lineno">  211</span>        behavior-&gt;shapes().clear();</div>
+<div class="line"><span class="lineno">  212</span>    }</div>
+<div class="line"><span class="lineno">  213</span> </div>
+<div class="line"><span class="lineno">  214</span>    Eigen::Vector3d vel_result = vec_w_gain / vec_w_gain_sum;</div>
 <div class="line"><span class="lineno">  215</span> </div>
-<div class="line"><span class="lineno">  216</span>    Eigen::Vector3d vel_result = vec_w_gain / vec_w_gain_sum;</div>
-<div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>    <span class="comment">// If the vel_result has a NaN value, just go straight. NaNs occur during</span></div>
-<div class="line"><span class="lineno">  219</span>    <span class="comment">// initialization of some behaviors.</span></div>
-<div class="line"><span class="lineno">  220</span>    <span class="keywordflow">if</span> (vel_result.hasNaN()) {</div>
-<div class="line"><span class="lineno">  221</span>        vel_result = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat() * Eigen::Vector3d::UnitX() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>;</div>
-<div class="line"><span class="lineno">  222</span>    }</div>
-<div class="line"><span class="lineno">  223</span> </div>
-<div class="line"><span class="lineno">  225</span>    <span class="comment">// Publish the resultant velocity vector or</span></div>
-<div class="line"><span class="lineno">  226</span>    <span class="comment">// Convert resultant vector into heading / speed / altitude command:</span></div>
-<div class="line"><span class="lineno">  228</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad6faf0e61d39bc88e9547a7fc43ff316">pub_vel_vec_</a>) {</div>
-<div class="line"><span class="lineno">  229</span>        <span class="comment">// Add a lower bound on the z-component of the resulting velocity vector</span></div>
-<div class="line"><span class="lineno">  230</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a29ba1f3cf464a9020b617dfec6386739">add_lower_bound_to_vz_</a>) {</div>
-<div class="line"><span class="lineno">  231</span>            vel_result(2) = std::max(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a734b98e5226a957d7858e43ea0bd5c57">vz_lower_bound_</a>, vel_result(2));</div>
-<div class="line"><span class="lineno">  232</span>        }</div>
-<div class="line"><span class="lineno">  233</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a3a6f1a64728f255125de435b9e76a89d">output_vel_x_idx_</a>, vel_result(0));</div>
-<div class="line"><span class="lineno">  234</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3">output_vel_y_idx_</a>, vel_result(1));</div>
-<div class="line"><span class="lineno">  235</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#af9a5cceec6510ffa766d46e0c0854d9d">output_vel_z_idx_</a>, vel_result(2));</div>
-<div class="line"><span class="lineno">  236</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  237</span>        <span class="keywordtype">double</span> heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));</div>
-<div class="line"><span class="lineno">  238</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad84c82b9eb20a54b4d239e792685cc4b">desired_alt_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2) + vel_result(2));</div>
-<div class="line"><span class="lineno">  239</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730">desired_speed_idx_</a>, vel_result.norm());</div>
-<div class="line"><span class="lineno">  240</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ae84312312cc7e605f894f7a0ee28e844">desired_heading_idx_</a>, heading);</div>
-<div class="line"><span class="lineno">  241</span>    }</div>
-<div class="line"><span class="lineno">  242</span> </div>
-<div class="line"><span class="lineno">  244</span>    <span class="comment">// Draw important shapes</span></div>
-<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a>) {</div>
-<div class="line"><span class="lineno">  247</span>        <span class="comment">// Draw resultant vector:</span></div>
-<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a> == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">  249</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a> = sc::shape::make_line(</div>
-<div class="line"><span class="lineno">  250</span>                <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos(),</div>
-<div class="line"><span class="lineno">  251</span>                vel_result + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos(),</div>
-<div class="line"><span class="lineno">  252</span>                Eigen::Vector3d(255, 255, 0),</div>
-<div class="line"><span class="lineno">  253</span>                0.75);</div>
-<div class="line"><span class="lineno">  254</span>        }</div>
-<div class="line"><span class="lineno">  255</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>-&gt;mutable_line()-&gt;mutable_start(), <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos());</div>
-<div class="line"><span class="lineno">  256</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>-&gt;mutable_line()-&gt;mutable_end(), vel_result + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos());</div>
-<div class="line"><span class="lineno">  257</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>);</div>
-<div class="line"><span class="lineno">  258</span>    }</div>
-<div class="line"><span class="lineno">  259</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  260</span>}</div>
+<div class="line"><span class="lineno">  216</span>    <span class="comment">// If the vel_result has a NaN value, just go straight. NaNs occur during</span></div>
+<div class="line"><span class="lineno">  217</span>    <span class="comment">// initialization of some behaviors.</span></div>
+<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">if</span> (vel_result.hasNaN()) {</div>
+<div class="line"><span class="lineno">  219</span>        vel_result = <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;quat() * Eigen::Vector3d::UnitX() * <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a874f87b949e67bd011f08eb7ef76ac00">max_speed_</a>;</div>
+<div class="line"><span class="lineno">  220</span>    }</div>
+<div class="line"><span class="lineno">  221</span> </div>
+<div class="line"><span class="lineno">  223</span>    <span class="comment">// Publish the resultant velocity vector or</span></div>
+<div class="line"><span class="lineno">  224</span>    <span class="comment">// Convert resultant vector into heading / speed / altitude command:</span></div>
+<div class="line"><span class="lineno">  226</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad6faf0e61d39bc88e9547a7fc43ff316">pub_vel_vec_</a>) {</div>
+<div class="line"><span class="lineno">  227</span>        <span class="comment">// Add a lower bound on the z-component of the resulting velocity vector</span></div>
+<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a29ba1f3cf464a9020b617dfec6386739">add_lower_bound_to_vz_</a>) {</div>
+<div class="line"><span class="lineno">  229</span>            vel_result(2) = std::max(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a734b98e5226a957d7858e43ea0bd5c57">vz_lower_bound_</a>, vel_result(2));</div>
+<div class="line"><span class="lineno">  230</span>        }</div>
+<div class="line"><span class="lineno">  231</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a3a6f1a64728f255125de435b9e76a89d">output_vel_x_idx_</a>, vel_result(0));</div>
+<div class="line"><span class="lineno">  232</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a6987be7857d998b28620c08b363230c3">output_vel_y_idx_</a>, vel_result(1));</div>
+<div class="line"><span class="lineno">  233</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#af9a5cceec6510ffa766d46e0c0854d9d">output_vel_z_idx_</a>, vel_result(2));</div>
+<div class="line"><span class="lineno">  234</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  235</span>        <span class="keywordtype">double</span> heading = sc::Angles::angle_2pi(atan2(vel_result(1), vel_result(0)));</div>
+<div class="line"><span class="lineno">  236</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ad84c82b9eb20a54b4d239e792685cc4b">desired_alt_idx_</a>, <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos()(2) + vel_result(2));</div>
+<div class="line"><span class="lineno">  237</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a722c51019636f6621933ec3ccf4bf730">desired_speed_idx_</a>, vel_result.norm());</div>
+<div class="line"><span class="lineno">  238</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ae84312312cc7e605f894f7a0ee28e844">desired_heading_idx_</a>, heading);</div>
+<div class="line"><span class="lineno">  239</span>    }</div>
+<div class="line"><span class="lineno">  240</span> </div>
+<div class="line"><span class="lineno">  242</span>    <span class="comment">// Draw important shapes</span></div>
+<div class="line"><span class="lineno">  244</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#a61648a8324d55b2ce86f710d9c6b15ab">show_shapes_</a>) {</div>
+<div class="line"><span class="lineno">  245</span>        <span class="comment">// Draw resultant vector:</span></div>
+<div class="line"><span class="lineno">  246</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a> == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><span class="lineno">  247</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a> = sc::shape::make_line(</div>
+<div class="line"><span class="lineno">  248</span>                <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos(),</div>
+<div class="line"><span class="lineno">  249</span>                vel_result + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos(),</div>
+<div class="line"><span class="lineno">  250</span>                Eigen::Vector3d(255, 255, 0),</div>
+<div class="line"><span class="lineno">  251</span>                0.75);</div>
+<div class="line"><span class="lineno">  252</span>        }</div>
+<div class="line"><span class="lineno">  253</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>-&gt;mutable_line()-&gt;mutable_start(), <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos());</div>
+<div class="line"><span class="lineno">  254</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>-&gt;mutable_line()-&gt;mutable_end(), vel_result + <a class="code hl_variable" href="classscrimmage_1_1Autonomy.html#a2447e9949d67c8d2eb942f713fad264d">state_</a>-&gt;pos());</div>
+<div class="line"><span class="lineno">  255</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">line_shape_</a>);</div>
+<div class="line"><span class="lineno">  256</span>    }</div>
+<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  258</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1de39d9c6669e944281273d913d76395"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1de39d9c6669e944281273d913d76395">scrimmage::EntityPlugin::subs</a></div><div class="ttdeci">std::list&lt; SubscriberBasePtr &gt; subs()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00144">EntityPlugin.h:144</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab2476217710e16f4965f9c9432726098"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">scrimmage::EntityPlugin::draw_shape</a></div><div class="ttdeci">void draw_shape(scrimmage_proto::ShapePtr s)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00107">EntityPlugin.cpp:107</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00147">VariableIO.cpp:147</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00148">VariableIO.cpp:148</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1MotorSchemas_html_ada8341e0e3e871b254f77073b374becd"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1MotorSchemas.html#ada8341e0e3e871b254f77073b374becd">scrimmage::autonomy::MotorSchemas::line_shape_</a></div><div class="ttdeci">scrimmage_proto::ShapePtr line_shape_</div><div class="ttdef"><b>Definition</b> <a href="MotorSchemas_8h_source.html#l00074">MotorSchemas.h:74</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_af5dac0f6daf649a2df426f590221dbd4"><div class="ttname"><a href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">scrimmage::SubscriberBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; SubscriberBase &gt; SubscriberBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00116">fwd_decl.h:116</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_af5dac0f6daf649a2df426f590221dbd4"><div class="ttname"><a href="namespacescrimmage.html#af5dac0f6daf649a2df426f590221dbd4">scrimmage::SubscriberBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; SubscriberBase &gt; SubscriberBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00113">fwd_decl.h:113</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="MotorSchemas_8h_source.html#l00057">add_lower_bound_to_vz_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00072">current_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00061">desired_alt_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00074">line_shape_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00055">max_speed_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00064">output_vel_x_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00065">output_vel_y_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00066">output_vel_z_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00054">pub_vel_vec_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00053">show_shapes_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="MotorSchemas_8h_source.html#l00058">vz_lower_bound_</a>.</p>
+<p class="reference">References <a class="el" href="MotorSchemas_8h_source.html#l00057">add_lower_bound_to_vz_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00072">current_behaviors_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00061">desired_alt_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00060">desired_heading_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00062">desired_speed_idx_</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00074">line_shape_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="MotorSchemas_8h_source.html#l00055">max_speed_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00064">output_vel_x_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00065">output_vel_y_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00066">output_vel_z_idx_</a>, <a class="el" href="MotorSchemas_8h_source.html#l00054">pub_vel_vec_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="MotorSchemas_8h_source.html#l00053">show_shapes_</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="MotorSchemas_8h_source.html#l00058">vz_lower_bound_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -701,7 +704,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00053">53</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -727,7 +730,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00054">54</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -753,7 +756,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00055">55</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -779,7 +782,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00057">57</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -805,7 +808,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00058">58</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -831,7 +834,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00060">60</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -857,7 +860,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00061">61</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -883,7 +886,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00062">62</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -909,7 +912,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00064">64</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -935,7 +938,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00065">65</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -961,7 +964,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00066">66</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -987,7 +990,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00068">68</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>.</p>
 
 </div>
 </div>
@@ -1013,7 +1016,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00070">70</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>.</p>
 
 </div>
 </div>
@@ -1039,7 +1042,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00071">71</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +1068,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00072">72</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00072">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00070">init()</a>, and <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1091,7 +1094,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotorSchemas_8h_source.html#l00074">74</a> of file <a class="el" href="MotorSchemas_8h_source.html">MotorSchemas.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00163">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotorSchemas_8cpp_source.html#l00161">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -1105,7 +1108,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1MotorSchemas.html">MotorSchemas</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

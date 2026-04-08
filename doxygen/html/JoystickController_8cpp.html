@@ -193,22 +193,22 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="JoystickController_8cpp_source.html#l00050">50</a> of file <a class="el" href="JoystickController_8cpp_source.html">JoystickController.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                    {</div>
-<div class="line"><span class="lineno">   56</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span><span class="keywordtype">void</span> JoystickController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   59</span>    joystick_.init(params, vars_, std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
-<div class="line"><span class="lineno">   60</span>}</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span><span class="keywordtype">bool</span> JoystickController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> joystick_.step(t, dt, vars_);</div>
-<div class="line"><span class="lineno">   64</span>}</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   67</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="JoystickController_8cpp_source.html#l00048">48</a> of file <a class="el" href="JoystickController_8cpp_source.html">JoystickController.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>                    {</div>
+<div class="line"><span class="lineno">   54</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span><span class="keywordtype">void</span> JoystickController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   57</span>    joystick_.init(params, vars_, std::static_pointer_cast&lt;EntityPlugin&gt;(shared_from_this()));</div>
+<div class="line"><span class="lineno">   58</span>}</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span><span class="keywordtype">bool</span> JoystickController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">return</span> joystick_.step(t, dt, vars_);</div>
+<div class="line"><span class="lineno">   62</span>}</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   65</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="classscrimmage_1_1controller_1_1JoystickController.html#ab718f199ca42679861331df0d5ef67ac">scrimmage::controller::JoystickController::init()</a>, <a class="el" href="Joystick_8cpp_source.html#l00056">scrimmage::controller::Joystick::init()</a>, <a class="el" href="JoystickController_8h_source.html#l00061">scrimmage::controller::JoystickController::joystick_</a>, <a class="el" href="classscrimmage_1_1controller_1_1JoystickController.html#ac395dfefd2d801a3d904fc1bfe76b30b">scrimmage::controller::JoystickController::step()</a>, <a class="el" href="Joystick_8cpp_source.html#l00126">scrimmage::controller::Joystick::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="classscrimmage_1_1controller_1_1JoystickController.html#ab718f199ca42679861331df0d5ef67ac">scrimmage::controller::JoystickController::init()</a>, <a class="el" href="Joystick_8cpp_source.html#l00054">scrimmage::controller::Joystick::init()</a>, <a class="el" href="JoystickController_8h_source.html#l00061">scrimmage::controller::JoystickController::joystick_</a>, <a class="el" href="classscrimmage_1_1controller_1_1JoystickController.html#ac395dfefd2d801a3d904fc1bfe76b30b">scrimmage::controller::JoystickController::step()</a>, <a class="el" href="Joystick_8cpp_source.html#l00124">scrimmage::controller::Joystick::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -234,7 +234,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_dcef5d47f93f05b41cc849cd6b01939d.html">JoystickController</a></li><li class="navelem"><a class="el" href="JoystickController_8cpp.html">JoystickController.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

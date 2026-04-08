@@ -1,29 +1,32 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.cpp" name="/root/scrimmage/scrimmage/src/plugins/controller/MultirotorControllerOmega/MultirotorControllerOmega.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="395,5,623,75"/>
-<area shape="rect" id="Node000002" href="$MultirotorControllerOmega_8h.html" title="Brief file description." alt="" coords="88,123,301,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="412,77,284,121,283,116,410,72"/>
-<area shape="rect" id="Node000053" href="$MultirotorState_8h.html" title="Brief file description." alt="" coords="38,225,242,265"/>
-<area shape="poly" id="edge15_Node000001_Node000053" title=" " alt="" coords="395,49,303,58,208,72,127,94,98,108,78,124,71,137,69,148,78,176,90,196,105,214,101,218,86,200,73,178,64,149,65,135,74,121,95,104,125,89,207,67,302,53,395,44"/>
-<area shape="rect" id="Node000013" href="$State_8h.html" title="Brief file description." alt="" coords="166,313,348,339"/>
-<area shape="poly" id="edge10_Node000001_Node000013" title=" " alt="" coords="395,52,301,62,203,77,118,97,86,110,63,125,31,157,12,191,8,209,9,227,16,245,27,264,46,278,77,290,156,308,154,314,75,295,43,282,23,267,11,247,4,228,3,208,7,190,27,154,59,121,84,106,117,92,202,71,300,56,394,46"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="843,387,919,412"/>
-<area shape="poly" id="edge7_Node000001_Node000016" title=" " alt="" coords="623,40,852,45,1122,58,1248,68,1357,82,1437,99,1465,109,1482,121,1506,154,1514,186,1509,215,1491,241,1464,264,1427,286,1384,305,1335,322,1227,350,1116,372,934,396,933,391,1115,366,1226,345,1334,317,1382,300,1425,281,1461,260,1487,237,1504,213,1509,186,1501,157,1478,125,1462,114,1436,104,1356,87,1248,74,1121,63,852,50,623,45"/>
-<area shape="rect" id="Node000037" title=" " alt="" coords="376,137,456,163"/>
-<area shape="poly" id="edge5_Node000001_Node000037" title=" " alt="" coords="482,76,437,128,433,125,478,73"/>
-<area shape="rect" id="Node000054" title=" " alt="" coords="480,137,538,163"/>
-<area shape="poly" id="edge6_Node000001_Node000054" title=" " alt="" coords="512,75,512,123,506,123,506,75"/>
-<area shape="rect" id="Node000055" href="$Utilities_8h.html" title="Brief file description." alt="" coords="562,137,784,163"/>
-<area shape="poly" id="edge8_Node000001_Node000055" title=" " alt="" coords="562,72,645,127,642,132,559,77"/>
-<area shape="rect" id="Node000020" href="$Entity_8h.html" title="Brief file description." alt="" coords="809,137,998,163"/>
-<area shape="poly" id="edge9_Node000001_Node000020" title=" " alt="" coords="624,70,850,131,848,136,623,75"/>
-<area shape="rect" id="Node000056" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1022,137,1238,163"/>
-<area shape="poly" id="edge11_Node000001_Node000056" title=" " alt="" coords="624,55,806,84,1011,120,1068,132,1067,137,1010,125,805,89,623,61"/>
-<area shape="rect" id="Node000057" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1263,130,1467,170"/>
-<area shape="poly" id="edge12_Node000001_Node000057" title=" " alt="" coords="624,47,909,74,1080,95,1251,120,1276,125,1275,130,1250,125,1080,100,909,79,623,52"/>
-<area shape="rect" id="Node000058" href="$PwmState_8h.html" title="Brief file description." alt="" coords="266,225,482,265"/>
-<area shape="poly" id="edge13_Node000001_Node000058" title=" " alt="" coords="417,77,388,98,366,124,358,145,357,168,365,212,359,213,351,168,353,144,362,121,385,94,414,73"/>
-<area shape="poly" id="edge2_Node000002_Node000053" title=" " alt="" coords="181,179,160,215,156,212,177,176"/>
-<area shape="poly" id="edge3_Node000053_Node000013" title=" " alt="" coords="170,263,230,304,227,308,167,268"/>
-<area shape="poly" id="edge4_Node000013_Node000016" title=" " alt="" coords="349,335,830,390,829,395,348,340"/>
-<area shape="poly" id="edge14_Node000058_Node000013" title=" " alt="" coords="348,268,287,308,284,304,345,263"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="700,5,928,75"/>
+<area shape="rect" id="Node000002" href="$MultirotorControllerOmega_8h.html" title="Brief file description." alt="" coords="35,123,249,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="700,61,288,125,263,130,262,124,287,120,699,56"/>
+<area shape="rect" id="Node000053" href="$MultirotorState_8h.html" title="Brief file description." alt="" coords="5,225,209,265"/>
+<area shape="poly" id="edge17_Node000001_Node000053" title=" " alt="" coords="700,58,548,84,465,103,384,125,322,150,262,180,164,222,162,217,260,175,320,145,382,120,464,98,547,79,699,53"/>
+<area shape="rect" id="Node000013" href="$State_8h.html" title="Brief file description." alt="" coords="324,313,507,339"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="700,59,637,71,575,86,524,104,490,125,478,141,472,157,471,190,474,225,472,245,464,267,439,305,434,302,460,264,466,244,469,225,466,190,467,156,474,139,487,121,521,99,574,81,636,66,699,54"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="1011,387,1087,412"/>
+<area shape="poly" id="edge7_Node000001_Node000016" title=" " alt="" coords="929,40,1150,46,1410,59,1532,70,1636,83,1713,100,1740,110,1756,121,1783,159,1792,195,1785,227,1763,255,1729,280,1685,302,1632,321,1573,338,1444,363,1312,381,1101,398,1101,393,1311,376,1443,358,1572,332,1631,316,1683,297,1726,276,1759,251,1780,225,1787,195,1778,162,1752,125,1737,114,1712,105,1635,88,1531,75,1410,65,1150,51,928,45"/>
+<area shape="rect" id="Node000037" title=" " alt="" coords="885,233,965,258"/>
+<area shape="poly" id="edge5_Node000001_Node000037" title=" " alt="" coords="929,45,1018,54,1109,68,1187,90,1216,104,1236,121,1247,137,1251,152,1249,166,1241,179,1214,199,1174,215,1126,227,1074,235,979,244,978,239,1073,230,1125,221,1172,210,1212,195,1238,175,1244,165,1245,153,1242,139,1232,124,1213,109,1185,95,1108,74,1017,59,928,50"/>
+<area shape="rect" id="Node000054" title=" " alt="" coords="703,137,762,163"/>
+<area shape="poly" id="edge6_Node000001_Node000054" title=" " alt="" coords="791,76,752,128,748,124,787,73"/>
+<area shape="rect" id="Node000055" href="$Utilities_8h.html" title="Brief file description." alt="" coords="785,137,1008,163"/>
+<area shape="poly" id="edge8_Node000001_Node000055" title=" " alt="" coords="842,73,881,124,877,128,838,76"/>
+<area shape="rect" id="Node000020" href="$Entity_8h.html" title="Brief file description." alt="" coords="1033,137,1222,163"/>
+<area shape="poly" id="edge9_Node000001_Node000020" title=" " alt="" coords="912,72,1082,130,1080,135,911,77"/>
+<area shape="rect" id="Node000056" href="$Logger_8h.html" title=" " alt="" coords="501,137,679,163"/>
+<area shape="poly" id="edge10_Node000001_Node000056" title=" " alt="" coords="746,77,628,134,625,129,743,72"/>
+<area shape="rect" id="Node000059" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1297,137,1513,163"/>
+<area shape="poly" id="edge13_Node000001_Node000059" title=" " alt="" coords="929,58,1278,120,1339,132,1338,137,1278,125,928,63"/>
+<area shape="rect" id="Node000060" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1537,130,1741,170"/>
+<area shape="poly" id="edge14_Node000001_Node000060" title=" " alt="" coords="929,48,1201,75,1363,95,1525,120,1549,124,1548,130,1524,125,1363,101,1201,81,928,53"/>
+<area shape="rect" id="Node000061" href="$PwmState_8h.html" title="Brief file description." alt="" coords="234,225,450,265"/>
+<area shape="poly" id="edge15_Node000001_Node000061" title=" " alt="" coords="700,50,639,59,573,73,507,95,446,125,420,144,397,168,362,215,357,212,393,164,417,140,443,120,505,90,572,68,638,54,700,45"/>
+<area shape="poly" id="edge2_Node000002_Node000053" title=" " alt="" coords="135,179,122,214,117,212,130,177"/>
+<area shape="poly" id="edge3_Node000053_Node000013" title=" " alt="" coords="182,263,358,307,356,312,180,268"/>
+<area shape="poly" id="edge4_Node000013_Node000016" title=" " alt="" coords="507,335,997,390,997,395,506,340"/>
+<area shape="poly" id="edge11_Node000056_Node000037" title=" " alt="" coords="632,160,872,227,871,232,630,165"/>
+<area shape="poly" id="edge16_Node000061_Node000013" title=" " alt="" coords="362,264,397,301,393,305,358,267"/>
 </map>

@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('GraphvizFSM_8cpp.html',''); initResiza
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;boost/algorithm/string/replace.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
@@ -111,25 +112,28 @@ Include dependency graph for GraphvizFSM.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="GraphvizFSM_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2GraphvizFSM_2GraphvizFSM_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2GraphvizFSM_2GraphvizFSM_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2GraphvizFSM_2GraphvizFSM_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="605,5,833,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="655,5,883,60"/>
 <area shape="rect" href="GraphvizFSM_8h.html" title="Brief file description." alt="" coords="5,108,221,148"/>
-<area shape="poly" title=" " alt="" coords="605,54,236,110,235,105,604,49"/>
-<area shape="rect" title=" " alt="" coords="245,115,325,141"/>
-<area shape="poly" title=" " alt="" coords="605,54,476,78,338,111,328,113,327,108,337,105,475,73,604,49"/>
-<area shape="rect" title=" " alt="" coords="349,115,408,141"/>
-<area shape="poly" title=" " alt="" coords="605,60,514,82,421,111,415,113,413,108,419,105,513,77,604,55"/>
-<area shape="rect" title=" " alt="" coords="433,108,599,148"/>
-<area shape="poly" title=" " alt="" coords="663,62,570,105,568,100,661,58"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="624,115,813,141"/>
-<area shape="poly" title=" " alt="" coords="721,60,721,101,716,101,716,60"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="838,115,1021,141"/>
-<area shape="poly" title=" " alt="" coords="779,58,892,107,890,112,777,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1045,115,1261,141"/>
-<area shape="poly" title=" " alt="" coords="833,56,1087,110,1086,115,832,61"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1286,108,1490,148"/>
-<area shape="poly" title=" " alt="" coords="833,46,1272,105,1272,110,833,51"/>
-<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="1515,115,1736,141"/>
-<area shape="poly" title=" " alt="" coords="833,40,1136,66,1503,105,1542,111,1542,116,1502,111,1136,72,833,45"/>
+<area shape="poly" title=" " alt="" coords="656,52,240,111,235,111,234,106,240,105,655,47"/>
+<area shape="rect" title=" " alt="" coords="525,196,605,221"/>
+<area shape="poly" title=" " alt="" coords="655,38,550,43,439,55,389,64,345,77,309,92,286,110,277,123,274,134,275,144,280,153,302,169,337,181,425,197,511,203,511,209,424,202,335,186,300,174,276,157,270,146,268,134,272,120,282,106,307,87,343,72,388,59,439,50,549,38,655,32"/>
+<area shape="rect" title=" " alt="" coords="296,115,355,141"/>
+<area shape="poly" title=" " alt="" coords="656,51,517,74,442,91,369,111,362,113,361,108,367,105,441,85,516,69,655,45"/>
+<area shape="rect" title=" " alt="" coords="379,108,546,148"/>
+<area shape="poly" title=" " alt="" coords="684,63,538,107,537,101,682,58"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="571,115,760,141"/>
+<area shape="poly" title=" " alt="" coords="742,62,690,108,687,104,738,58"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="784,115,963,141"/>
+<area shape="poly" title=" " alt="" coords="801,58,852,104,848,108,797,62"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="987,115,1170,141"/>
+<area shape="poly" title=" " alt="" coords="857,58,1029,109,1027,114,856,63"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1195,115,1411,141"/>
+<area shape="poly" title=" " alt="" coords="884,51,1224,110,1223,116,883,57"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1435,108,1639,148"/>
+<area shape="poly" title=" " alt="" coords="884,43,1127,69,1422,105,1421,111,1126,74,883,48"/>
+<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="1664,115,1885,141"/>
+<area shape="poly" title=" " alt="" coords="884,38,1228,64,1440,83,1652,105,1692,111,1692,116,1652,111,1439,88,1228,69,883,44"/>
+<area shape="poly" title=" " alt="" coords="829,143,620,196,618,191,828,138"/>
 </map>
 </div>
 </div>
@@ -167,7 +171,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_6e8aa965ee1b017e6f88b890b11677d2.html">GraphvizFSM</a></li><li class="navelem"><a class="el" href="GraphvizFSM_8cpp.html">GraphvizFSM.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

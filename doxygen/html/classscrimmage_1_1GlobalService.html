@@ -152,10 +152,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00039">39</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   39</span>                             {</div>
-<div class="line"><span class="lineno">   40</span>    <span class="comment">// No-op</span></div>
-<div class="line"><span class="lineno">   41</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00042">42</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                             {</div>
+<div class="line"><span class="lineno">   43</span>    <span class="comment">// No-op</span></div>
+<div class="line"><span class="lineno">   44</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -174,11 +174,11 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00043">43</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   43</span>                              {</div>
-<div class="line"><span class="lineno">   44</span>    <span class="comment">// Clean up the services</span></div>
-<div class="line"><span class="lineno">   45</span>    <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.clear();</div>
-<div class="line"><span class="lineno">   46</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00046">46</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                              {</div>
+<div class="line"><span class="lineno">   47</span>    <span class="comment">// Clean up the services</span></div>
+<div class="line"><span class="lineno">   48</span>    <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.clear();</div>
+<div class="line"><span class="lineno">   49</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1GlobalService_html_a4768f2f8a1dda839adc9490dd70ffb49"><div class="ttname"><a href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">scrimmage::GlobalService::services_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, Service &gt; services_</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8h_source.html#l00093">GlobalService.h:93</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="GlobalService_8h_source.html#l00093">services_</a>.</p>
@@ -201,10 +201,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00048">48</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   48</span>                                                              {</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>;</div>
-<div class="line"><span class="lineno">   50</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00051">51</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                              {</div>
+<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>;</div>
+<div class="line"><span class="lineno">   53</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="GlobalService_8h_source.html#l00093">services_</a>.</p>
 
@@ -242,33 +242,34 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00052">52</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                                   {</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.find(service_name);</div>
-<div class="line"><span class="lineno">   57</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.end()) {</div>
-<div class="line"><span class="lineno">   58</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;request for global service (&quot;</span> &lt;&lt; service_name &lt;&lt; <span class="stringliteral">&quot;) that does not exist&quot;</span></div>
-<div class="line"><span class="lineno">   59</span>                  &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   60</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Global services are: &quot;</span>;</div>
-<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>) {</div>
-<div class="line"><span class="lineno">   62</span>            std::cout &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><span class="lineno">   63</span>        }</div>
-<div class="line"><span class="lineno">   64</span>        std::cout &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   65</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   66</span>    }</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a86940d8d370dc71855b6a5c81cb93e53">Service</a>&amp; service = it-&gt;second;</div>
-<div class="line"><span class="lineno">   69</span>    <span class="keywordtype">bool</span> success = service(req, res);</div>
+<p class="definition">Definition at line <a class="el" href="GlobalService_8cpp_source.html#l00055">55</a> of file <a class="el" href="GlobalService_8cpp_source.html">GlobalService.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                                   {</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.find(service_name);</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>.end()) {</div>
+<div class="line"><span class="lineno">   61</span>        std::ostringstream oss;</div>
+<div class="line"><span class="lineno">   62</span>        oss &lt;&lt; <span class="stringliteral">&quot;request for global service (&quot;</span> &lt;&lt; service_name &lt;&lt; <span class="stringliteral">&quot;) that does not exist\n&quot;</span>;</div>
+<div class="line"><span class="lineno">   63</span>        oss &lt;&lt; <span class="stringliteral">&quot;Global services are: &quot;</span>;</div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1GlobalService.html#a4768f2f8a1dda839adc9490dd70ffb49">services_</a>) {</div>
+<div class="line"><span class="lineno">   65</span>            oss &lt;&lt; kv.first &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><span class="lineno">   66</span>        }</div>
+<div class="line"><span class="lineno">   67</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(oss.str());</div>
+<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   69</span>    }</div>
 <div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">if</span> (!success) {</div>
-<div class="line"><span class="lineno">   72</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;call to &quot;</span> &lt;&lt; service_name &lt;&lt; <span class="stringliteral">&quot; failed&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   74</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span>}</div>
+<div class="line"><span class="lineno">   71</span>    <a class="code hl_typedef" href="namespacescrimmage.html#a86940d8d370dc71855b6a5c81cb93e53">Service</a>&amp; service = it-&gt;second;</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordtype">bool</span> success = service(req, res);</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (!success) {</div>
+<div class="line"><span class="lineno">   75</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;call to &quot;</span> &lt;&lt; service_name &lt;&lt; <span class="stringliteral">&quot; failed&quot;</span>);</div>
+<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   77</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   78</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   79</span>    }</div>
+<div class="line"><span class="lineno">   80</span>}</div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a86940d8d370dc71855b6a5c81cb93e53"><div class="ttname"><a href="namespacescrimmage.html#a86940d8d370dc71855b6a5c81cb93e53">scrimmage::Service</a></div><div class="ttdeci">std::function&lt; bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr &amp;)&gt; Service</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8h_source.html#l00049">GlobalService.h:49</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GlobalService_8h_source.html#l00093">services_</a>.</p>
+<p class="reference">References <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, and <a class="el" href="GlobalService_8h_source.html#l00093">services_</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GlobalService_8h_source.html#l00062">call_service()</a>, <a class="el" href="GlobalService_8h_source.html#l00069">call_service()</a>, and <a class="el" href="GlobalService_8h_source.html#l00088">call_service()</a>.</p>
 <div class="dynheader">
@@ -326,9 +327,9 @@ Here is the caller graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">   62</span>                                                                          {</div>
 <div class="line"><span class="lineno">   63</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1GlobalService.html#a2f4320c6f4e9799b48c410bec39cbcd3">call_service</a>(std::make_shared&lt;MessageBase&gt;(), res, service_name);</div>
 <div class="line"><span class="lineno">   64</span>    }</div>
-<div class="ttc" id="aclassscrimmage_1_1GlobalService_html_a2f4320c6f4e9799b48c410bec39cbcd3"><div class="ttname"><a href="classscrimmage_1_1GlobalService.html#a2f4320c6f4e9799b48c410bec39cbcd3">scrimmage::GlobalService::call_service</a></div><div class="ttdeci">bool call_service(MessageBasePtr req, MessageBasePtr &amp;res, const std::string &amp;service_name)</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8cpp_source.html#l00052">GlobalService.cpp:52</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1GlobalService_html_a2f4320c6f4e9799b48c410bec39cbcd3"><div class="ttname"><a href="classscrimmage_1_1GlobalService.html#a2f4320c6f4e9799b48c410bec39cbcd3">scrimmage::GlobalService::call_service</a></div><div class="ttdeci">bool call_service(MessageBasePtr req, MessageBasePtr &amp;res, const std::string &amp;service_name)</div><div class="ttdef"><b>Definition</b> <a href="GlobalService_8cpp_source.html#l00055">GlobalService.cpp:55</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00052">call_service()</a>.</p>
+<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00055">call_service()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -400,9 +401,9 @@ template&lt;class T  = MessageBasePtr, class  = typename std::enable_if&lt;!std:
 <div class="line"><span class="lineno">   81</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">   82</span>        }</div>
 <div class="line"><span class="lineno">   83</span>    }</div>
-<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00119">fwd_decl.h:119</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_afa6f460d5c68598a6f142c8684df0671"><div class="ttname"><a href="namespacescrimmage.html#afa6f460d5c68598a6f142c8684df0671">scrimmage::MessageBasePtr</a></div><div class="ttdeci">std::shared_ptr&lt; MessageBase &gt; MessageBasePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00116">fwd_decl.h:116</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00052">call_service()</a>.</p>
+<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00055">call_service()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -457,7 +458,7 @@ template&lt;class T  = MessageBasePtr, class  = typename std::enable_if&lt;!std:
 <div class="line"><span class="lineno">   89</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classscrimmage_1_1GlobalService.html#a2f4320c6f4e9799b48c410bec39cbcd3">call_service</a>(std::make_shared&lt;MessageBase&gt;(), res, service_name);</div>
 <div class="line"><span class="lineno">   90</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00052">call_service()</a>.</p>
+<p class="reference">References <a class="el" href="GlobalService_8cpp_source.html#l00055">call_service()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -494,7 +495,7 @@ Here is the call graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GlobalService_8h_source.html#l00093">93</a> of file <a class="el" href="GlobalService_8h_source.html">GlobalService.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GlobalService_8cpp_source.html#l00052">call_service()</a>, <a class="el" href="GlobalService_8cpp_source.html#l00048">services()</a>, and <a class="el" href="GlobalService_8cpp_source.html#l00043">~GlobalService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GlobalService_8cpp_source.html#l00055">call_service()</a>, <a class="el" href="GlobalService_8cpp_source.html#l00051">services()</a>, and <a class="el" href="GlobalService_8cpp_source.html#l00046">~GlobalService()</a>.</p>
 
 </div>
 </div>
@@ -508,7 +509,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1GlobalService.html">GlobalService</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

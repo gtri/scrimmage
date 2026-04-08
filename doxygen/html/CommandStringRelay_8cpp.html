@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('CommandStringRelay_8cpp.html',''); ini
 <code>#include &lt;boost/algorithm/string/classification.hpp&gt;</code><br />
 <code>#include &lt;boost/algorithm/string/split.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;scrimmage/msgs/Command.pb.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
@@ -113,29 +114,32 @@ Include dependency graph for CommandStringRelay.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="CommandStringRelay_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2CommandStringRelay_2CommandStringRelay_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2CommandStringRelay_2CommandStringRelay_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2CommandStringRelay_2CommandStringRelay_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="833,5,1108,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="884,5,1159,60"/>
 <area shape="rect" href="CommandStringRelay_8h.html" title="Brief file description." alt="" coords="5,108,283,163"/>
-<area shape="poly" title=" " alt="" coords="833,49,588,75,296,111,296,105,587,69,833,44"/>
-<area shape="rect" title=" " alt="" coords="307,123,387,148"/>
-<area shape="poly" title=" " alt="" coords="834,42,736,49,626,62,512,82,399,111,379,119,377,114,398,105,510,77,626,57,736,44,833,36"/>
-<area shape="rect" title=" " alt="" coords="411,123,469,148"/>
-<area shape="poly" title=" " alt="" coords="833,42,752,50,663,64,571,83,482,110,467,118,465,113,480,106,570,78,662,58,751,45,833,37"/>
-<area shape="rect" title=" " alt="" coords="494,115,661,155"/>
-<area shape="poly" title=" " alt="" coords="863,63,673,111,658,114,657,109,671,105,862,57"/>
-<area shape="rect" title=" " alt="" coords="685,115,851,155"/>
-<area shape="poly" title=" " alt="" coords="919,62,820,112,817,107,917,58"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="876,123,1065,148"/>
-<area shape="poly" title=" " alt="" coords="973,60,973,109,968,109,968,60"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1090,123,1273,148"/>
-<area shape="poly" title=" " alt="" coords="1027,58,1146,114,1144,119,1024,62"/>
-<area shape="rect" title=" " alt="" coords="1297,123,1535,148"/>
-<area shape="poly" title=" " alt="" coords="1087,57,1352,117,1351,122,1086,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1559,123,1775,148"/>
-<area shape="poly" title=" " alt="" coords="1109,46,1316,71,1547,105,1606,117,1605,122,1546,111,1315,76,1108,51"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1799,115,2003,155"/>
-<area shape="poly" title=" " alt="" coords="1108,38,1420,61,1604,80,1787,105,1812,110,1811,115,1786,111,1603,86,1419,67,1108,44"/>
-<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="2028,123,2249,148"/>
-<area shape="poly" title=" " alt="" coords="1108,35,1289,42,1516,56,1766,76,2016,105,2079,117,2079,122,2016,111,1766,81,1516,61,1289,48,1108,40"/>
+<area shape="poly" title=" " alt="" coords="884,48,614,74,302,111,297,111,296,106,301,105,614,69,883,43"/>
+<area shape="rect" title=" " alt="" coords="683,211,763,236"/>
+<area shape="poly" title=" " alt="" coords="884,42,726,51,558,65,419,85,372,97,347,110,335,127,330,143,333,156,341,168,355,178,375,187,426,201,487,211,553,217,669,220,669,225,552,222,487,216,425,207,373,192,353,183,337,171,328,158,325,142,330,125,344,106,370,92,417,79,557,60,725,46,884,37"/>
+<area shape="rect" title=" " alt="" coords="357,123,416,148"/>
+<area shape="poly" title=" " alt="" coords="884,37,782,43,666,55,546,77,429,110,414,118,412,113,427,106,545,72,666,50,782,37,884,32"/>
+<area shape="rect" title=" " alt="" coords="441,115,607,155"/>
+<area shape="poly" title=" " alt="" coords="884,59,756,82,621,111,604,115,603,109,619,105,755,77,883,54"/>
+<area shape="rect" title=" " alt="" coords="631,115,798,155"/>
+<area shape="poly" title=" " alt="" coords="942,63,786,114,784,109,941,57"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="823,123,1012,148"/>
+<area shape="poly" title=" " alt="" coords="996,62,941,115,938,111,992,58"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="1036,123,1215,148"/>
+<area shape="poly" title=" " alt="" coords="1051,58,1105,111,1101,115,1047,62"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1239,123,1422,148"/>
+<area shape="poly" title=" " alt="" coords="1103,57,1283,116,1282,121,1101,63"/>
+<area shape="rect" title=" " alt="" coords="1447,123,1684,148"/>
+<area shape="poly" title=" " alt="" coords="1159,55,1435,105,1497,117,1496,123,1434,111,1158,61"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1708,123,1924,148"/>
+<area shape="poly" title=" " alt="" coords="1159,42,1410,67,1696,105,1756,117,1755,122,1696,111,1409,72,1159,48"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1949,115,2153,155"/>
+<area shape="poly" title=" " alt="" coords="1159,36,1512,58,1725,78,1936,105,1962,110,1961,115,1936,111,1724,83,1512,63,1159,42"/>
+<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="2177,123,2399,148"/>
+<area shape="poly" title=" " alt="" coords="1159,34,1356,40,1608,53,1886,74,2166,105,2229,117,2228,122,2165,111,1886,79,1607,58,1356,46,1159,39"/>
+<area shape="poly" title=" " alt="" coords="1084,151,1025,165,777,215,776,210,1023,160,1082,145"/>
 </map>
 </div>
 </div>
@@ -198,61 +202,62 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CommandStringRelay_8cpp_source.html#l00053">53</a> of file <a class="el" href="CommandStringRelay_8cpp_source.html">CommandStringRelay.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>                    {</div>
-<div class="line"><span class="lineno">   59</span><span class="keyword">namespace </span>autonomy {</div>
+<p class="definition">Definition at line <a class="el" href="CommandStringRelay_8cpp_source.html#l00051">51</a> of file <a class="el" href="CommandStringRelay_8cpp_source.html">CommandStringRelay.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>                    {</div>
+<div class="line"><span class="lineno">   57</span><span class="keyword">namespace </span>autonomy {</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>CommandStringRelay::CommandStringRelay() {}</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>CommandStringRelay::CommandStringRelay() {}</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span><span class="keywordtype">void</span> CommandStringRelay::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   64</span>    std::string relays_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;relays&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">   65</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs_of_vecs;</div>
-<div class="line"><span class="lineno">   66</span>    <a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">sc::get_vec_of_vecs</a>(relays_str, vecs_of_vecs, <span class="stringliteral">&quot; &quot;</span>);</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">for</span> (std::vector&lt;std::string&gt; vecs : vecs_of_vecs) {</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">if</span> (vecs.size() &lt; 3) {</div>
-<div class="line"><span class="lineno">   69</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;Invalid relay found.&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   71</span>        }</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>        std::string original_network = vecs[0];</div>
-<div class="line"><span class="lineno">   74</span>        std::string topic = vecs[1];</div>
-<div class="line"><span class="lineno">   75</span>        std::string relay_to_network = vecs[2];</div>
-<div class="line"><span class="lineno">   76</span>        std::string original_topic_str = <span class="stringliteral">&quot;/&quot;</span> + std::to_string(parent_-&gt;id().id()) + <span class="stringliteral">&quot;/&quot;</span> + topic;</div>
-<div class="line"><span class="lineno">   77</span>        pubs_[topic] = advertise(relay_to_network, topic);</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>        <span class="keyword">auto</span> cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;scrimmage_msgs::CommandString&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   80</span>            std::vector&lt;std::string&gt; tokens;</div>
-<div class="line"><span class="lineno">   81</span>            boost::split(tokens, msg-&gt;data.topic(), boost::is_any_of(<span class="stringliteral">&quot;/&quot;</span>));</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>            <span class="keywordflow">if</span> (tokens.size() == 3) {</div>
-<div class="line"><span class="lineno">   84</span>                <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub;</div>
-<div class="line"><span class="lineno">   85</span>                <span class="keyword">auto</span> it = pubs_.find(tokens[2]);</div>
-<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">if</span> (it != pubs_.end()) {</div>
-<div class="line"><span class="lineno">   87</span>                    <span class="keyword">auto</span> relay_msg = std::make_shared&lt;scrimmage::Message&lt;std::string&gt;&gt;();</div>
-<div class="line"><span class="lineno">   88</span>                    relay_msg-&gt;data = msg-&gt;data.value();</div>
-<div class="line"><span class="lineno">   89</span>                    it-&gt;second-&gt;publish(relay_msg);</div>
-<div class="line"><span class="lineno">   90</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   91</span>                    cout &lt;&lt; <span class="stringliteral">&quot;CommandStringRelay: Failed to find publisher&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   92</span>                }</div>
-<div class="line"><span class="lineno">   93</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   94</span>                cout &lt;&lt; <span class="stringliteral">&quot;CommandStrinRelay: Ignoring message&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   95</span>            }</div>
-<div class="line"><span class="lineno">   96</span>        };</div>
-<div class="line"><span class="lineno">   97</span>        subscribe&lt;scrimmage_msgs::CommandString&gt;(original_network, original_topic_str, cb);</div>
-<div class="line"><span class="lineno">   98</span>    }</div>
-<div class="line"><span class="lineno">   99</span>}</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span><span class="keywordtype">bool</span> CommandStringRelay::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  103</span>}</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>}  <span class="comment">// namespace autonomy</span></div>
-<div class="line"><span class="lineno">  106</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00274">ParseUtils.cpp:274</a></div></div>
+<div class="line"><span class="lineno">   61</span><span class="keywordtype">void</span> CommandStringRelay::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   62</span>    std::string relays_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;relays&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   63</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs_of_vecs;</div>
+<div class="line"><span class="lineno">   64</span>    <a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">sc::get_vec_of_vecs</a>(relays_str, vecs_of_vecs, <span class="stringliteral">&quot; &quot;</span>);</div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">for</span> (std::vector&lt;std::string&gt; vecs : vecs_of_vecs) {</div>
+<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">if</span> (vecs.size() &lt; 3) {</div>
+<div class="line"><span class="lineno">   67</span>            <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Invalid relay found.&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   69</span>        }</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>        std::string original_network = vecs[0];</div>
+<div class="line"><span class="lineno">   72</span>        std::string topic = vecs[1];</div>
+<div class="line"><span class="lineno">   73</span>        std::string relay_to_network = vecs[2];</div>
+<div class="line"><span class="lineno">   74</span>        std::string original_topic_str = <span class="stringliteral">&quot;/&quot;</span> + std::to_string(parent_-&gt;id().id()) + <span class="stringliteral">&quot;/&quot;</span> + topic;</div>
+<div class="line"><span class="lineno">   75</span>        pubs_[topic] = advertise(relay_to_network, topic);</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>        <span class="keyword">auto</span> cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;scrimmage_msgs::CommandString&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   78</span>            std::vector&lt;std::string&gt; tokens;</div>
+<div class="line"><span class="lineno">   79</span>            boost::split(tokens, msg-&gt;data.topic(), boost::is_any_of(<span class="stringliteral">&quot;/&quot;</span>));</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (tokens.size() == 3) {</div>
+<div class="line"><span class="lineno">   82</span>                <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub;</div>
+<div class="line"><span class="lineno">   83</span>                <span class="keyword">auto</span> it = pubs_.find(tokens[2]);</div>
+<div class="line"><span class="lineno">   84</span>                <span class="keywordflow">if</span> (it != pubs_.end()) {</div>
+<div class="line"><span class="lineno">   85</span>                    <span class="keyword">auto</span> relay_msg = std::make_shared&lt;scrimmage::Message&lt;std::string&gt;&gt;();</div>
+<div class="line"><span class="lineno">   86</span>                    relay_msg-&gt;data = msg-&gt;data.value();</div>
+<div class="line"><span class="lineno">   87</span>                    it-&gt;second-&gt;publish(relay_msg);</div>
+<div class="line"><span class="lineno">   88</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   89</span>                    <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;CommandStringRelay: Failed to find publisher&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span>                }</div>
+<div class="line"><span class="lineno">   91</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   92</span>                <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;CommandStringRelay: Ignoring message&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>            }</div>
+<div class="line"><span class="lineno">   94</span>        };</div>
+<div class="line"><span class="lineno">   95</span>        subscribe&lt;scrimmage_msgs::CommandString&gt;(original_network, original_topic_str, cb);</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
+<div class="line"><span class="lineno">   97</span>}</div>
+<div class="line"><span class="lineno">   98</span> </div>
+<div class="line"><span class="lineno">   99</span><span class="keywordtype">bool</span> CommandStringRelay::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  100</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  101</span>}</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>}  <span class="comment">// namespace autonomy</span></div>
+<div class="line"><span class="lineno">  104</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00278">ParseUtils.cpp:278</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_aa7b1daee33a174a82f3c27668be7103a"><div class="ttname"><a href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Publisher &gt; PublisherPtr</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00063">EntityPlugin.h:63</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a803805b620185989b24b65852864a440">scrimmage::autonomy::CommandStringRelay::CommandStringRelay()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00274">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="CommandStringRelay_8h_source.html#l00050">scrimmage::autonomy::CommandStringRelay::pubs_</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a8b60b446984a31c43d60020c54670800">scrimmage::autonomy::CommandStringRelay::step_autonomy()</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a803805b620185989b24b65852864a440">scrimmage::autonomy::CommandStringRelay::CommandStringRelay()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00278">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="CommandStringRelay_8h_source.html#l00050">scrimmage::autonomy::CommandStringRelay::pubs_</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1CommandStringRelay.html#a8b60b446984a31c43d60020c54670800">scrimmage::autonomy::CommandStringRelay::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -280,7 +285,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_6d2c1086b4857a3e58733df24e84938d.html">CommandStringRelay</a></li><li class="navelem"><a class="el" href="CommandStringRelay_8cpp.html">CommandStringRelay.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

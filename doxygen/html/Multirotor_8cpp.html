@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('Multirotor_8cpp.html',''); initResizab
 <code>#include &lt;boost/algorithm/clamp.hpp&gt;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MissionParse_8h_source.html">scrimmage/parse/MissionParse.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
@@ -113,29 +114,32 @@ Include dependency graph for Multirotor.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="Multirotor_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2Multirotor_2Multirotor_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2Multirotor_2Multirotor_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2motion_2Multirotor_2Multirotor_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="1003,5,1217,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="1047,5,1261,60"/>
 <area shape="rect" href="Multirotor_8h.html" title="Brief file description." alt="" coords="5,108,201,148"/>
-<area shape="poly" title=" " alt="" coords="1003,43,657,67,439,86,215,111,215,105,438,81,656,61,1002,37"/>
-<area shape="rect" title=" " alt="" coords="226,115,306,141"/>
-<area shape="poly" title=" " alt="" coords="1002,38,865,44,693,56,505,77,319,111,307,114,306,108,317,105,504,72,693,51,864,38,1002,33"/>
-<area shape="rect" title=" " alt="" coords="330,115,527,141"/>
-<area shape="poly" title=" " alt="" coords="1003,49,789,76,540,111,507,116,506,110,539,105,788,71,1002,44"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="552,115,775,141"/>
-<area shape="poly" title=" " alt="" coords="1003,59,732,115,731,110,1002,54"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="799,115,989,141"/>
-<area shape="poly" title=" " alt="" coords="1050,63,934,112,932,108,1048,58"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="1013,115,1207,141"/>
-<area shape="poly" title=" " alt="" coords="1113,60,1113,101,1107,101,1107,60"/>
-<area shape="rect" href="MissionParse_8h.html" title="Brief file description." alt="" coords="1231,115,1467,141"/>
-<area shape="poly" title=" " alt="" coords="1178,58,1308,108,1306,113,1176,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1491,115,1707,141"/>
-<area shape="poly" title=" " alt="" coords="1218,52,1527,110,1526,115,1217,57"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1732,108,1936,148"/>
-<area shape="poly" title=" " alt="" coords="1218,43,1444,69,1719,105,1718,111,1443,75,1217,48"/>
-<area shape="rect" href="ProtoConversions_8h.html" title="Brief file description." alt="" coords="1960,115,2223,141"/>
-<area shape="poly" title=" " alt="" coords="1218,39,1545,66,1949,105,1996,111,1995,116,1948,111,1544,71,1217,45"/>
-<area shape="rect" title=" " alt="" coords="2247,115,2456,141"/>
-<area shape="poly" title=" " alt="" coords="1217,35,1662,57,1948,78,2236,105,2275,111,2274,116,2235,111,1947,83,1662,63,1217,40"/>
+<area shape="poly" title=" " alt="" coords="1047,42,680,67,451,86,221,111,216,111,215,106,220,105,451,81,680,62,1046,37"/>
+<area shape="rect" title=" " alt="" coords="603,196,683,221"/>
+<area shape="poly" title=" " alt="" coords="1047,38,837,42,591,54,476,64,378,76,305,91,281,100,267,110,260,119,258,128,267,146,288,162,320,175,407,192,505,201,589,204,589,210,504,207,407,198,319,180,285,167,263,150,253,128,256,117,263,106,278,96,303,86,377,71,475,58,591,49,837,37,1047,32"/>
+<area shape="rect" title=" " alt="" coords="277,115,474,141"/>
+<area shape="poly" title=" " alt="" coords="1047,47,791,73,488,111,454,116,453,111,487,105,791,68,1046,41"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="499,115,721,141"/>
+<area shape="poly" title=" " alt="" coords="1047,55,690,116,690,110,1046,50"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="746,115,935,141"/>
+<area shape="poly" title=" " alt="" coords="1067,63,893,114,891,109,1065,58"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="959,115,1138,141"/>
+<area shape="poly" title=" " alt="" coords="1126,62,1074,108,1070,104,1122,58"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="1163,115,1356,141"/>
+<area shape="poly" title=" " alt="" coords="1186,58,1238,104,1234,108,1182,62"/>
+<area shape="rect" href="MissionParse_8h.html" title="Brief file description." alt="" coords="1380,115,1616,141"/>
+<area shape="poly" title=" " alt="" coords="1251,57,1443,109,1442,114,1250,63"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1641,115,1857,141"/>
+<area shape="poly" title=" " alt="" coords="1262,48,1663,111,1662,116,1261,53"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1881,108,2085,148"/>
+<area shape="poly" title=" " alt="" coords="1262,41,1532,66,1868,105,1867,111,1532,72,1261,46"/>
+<area shape="rect" href="ProtoConversions_8h.html" title="Brief file description." alt="" coords="2109,115,2372,141"/>
+<area shape="poly" title=" " alt="" coords="1262,38,1632,64,2098,105,2147,111,2146,116,2098,111,1632,69,1261,43"/>
+<area shape="rect" title=" " alt="" coords="2396,115,2605,141"/>
+<area shape="poly" title=" " alt="" coords="1262,34,1749,55,2065,76,2385,105,2424,111,2423,116,2384,111,2065,81,1748,60,1262,40"/>
+<area shape="poly" title=" " alt="" coords="990,143,698,200,697,194,989,138"/>
 </map>
 </div>
 </div>
@@ -173,7 +177,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_5f8427e50c3373d6d1a638fa0a1c8683.html">motion</a></li><li class="navelem"><a class="el" href="dir_d167b312f6d43a8054e5a4fe1ad1d27f.html">Multirotor</a></li><li class="navelem"><a class="el" href="Multirotor_8cpp.html">Multirotor.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

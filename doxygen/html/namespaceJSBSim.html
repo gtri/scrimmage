@@ -133,28 +133,28 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="FGOutputFGMod_8cpp_source.html#l00061">61</a> of file <a class="el" href="FGOutputFGMod_8cpp_source.html">FGOutputFGMod.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                             {</div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a>) {</div>
-<div class="line"><span class="lineno">   63</span>        <span class="keywordtype">int</span>* Double_Overlay;</div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordtype">int</span> Holding_Buffer;</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="comment">// Double_Overlay = (int *) &amp;x;</span></div>
-<div class="line"><span class="lineno">   67</span>        <span class="comment">// cppcheck-suppress invalidPointerCast</span></div>
-<div class="line"><span class="lineno">   68</span>        Double_Overlay = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">int</span>*<span class="keyword">&gt;</span>(&amp;x);</div>
-<div class="line"><span class="lineno">   69</span>        Holding_Buffer = Double_Overlay[0];</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>        Double_Overlay[0] = htonl(Double_Overlay[1]);</div>
-<div class="line"><span class="lineno">   72</span>        Double_Overlay[1] = htonl(Holding_Buffer);</div>
-<div class="line"><span class="lineno">   73</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="line"><span class="lineno">   76</span>}</div>
-<div class="ttc" id="aFGOutputFGMod_8cpp_html_a2190a1a508bf86ed16c674f99a3e48e9"><div class="ttname"><a href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a></div><div class="ttdeci">#define isLittleEndian</div><div class="ttdef"><b>Definition</b> <a href="FGOutputFGMod_8cpp_source.html#l00056">FGOutputFGMod.cpp:56</a></div></div>
+<p class="definition">Definition at line <a class="el" href="FGOutputFGMod_8cpp_source.html#l00062">62</a> of file <a class="el" href="FGOutputFGMod_8cpp_source.html">FGOutputFGMod.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   62</span>                             {</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a>) {</div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordtype">int</span>* Double_Overlay;</div>
+<div class="line"><span class="lineno">   65</span>        <span class="keywordtype">int</span> Holding_Buffer;</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>        <span class="comment">// Double_Overlay = (int *) &amp;x;</span></div>
+<div class="line"><span class="lineno">   68</span>        <span class="comment">// cppcheck-suppress invalidPointerCast</span></div>
+<div class="line"><span class="lineno">   69</span>        Double_Overlay = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">int</span>*<span class="keyword">&gt;</span>(&amp;x);</div>
+<div class="line"><span class="lineno">   70</span>        Holding_Buffer = Double_Overlay[0];</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>        Double_Overlay[0] = htonl(Double_Overlay[1]);</div>
+<div class="line"><span class="lineno">   73</span>        Double_Overlay[1] = htonl(Holding_Buffer);</div>
+<div class="line"><span class="lineno">   74</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   76</span>    }</div>
+<div class="line"><span class="lineno">   77</span>}</div>
+<div class="ttc" id="aFGOutputFGMod_8cpp_html_a2190a1a508bf86ed16c674f99a3e48e9"><div class="ttname"><a href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a></div><div class="ttdeci">#define isLittleEndian</div><div class="ttdef"><b>Definition</b> <a href="FGOutputFGMod_8cpp_source.html#l00057">FGOutputFGMod.cpp:57</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="FGOutputFGMod_8cpp_source.html#l00056">isLittleEndian</a>.</p>
+<p class="reference">References <a class="el" href="FGOutputFGMod_8cpp_source.html#l00057">isLittleEndian</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="FGOutputFGMod_8cpp_source.html#l00154">JSBSim::FGOutputFGMod::SocketDataFillMod()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="FGOutputFGMod_8cpp_source.html#l00152">JSBSim::FGOutputFGMod::SocketDataFillMod()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -192,25 +192,25 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="FGOutputFGMod_8cpp_source.html#l00080">80</a> of file <a class="el" href="FGOutputFGMod_8cpp_source.html">FGOutputFGMod.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   80</span>                            {</div>
-<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a>) {</div>
-<div class="line"><span class="lineno">   82</span>        <span class="keywordtype">int</span>* Float_Overlay;</div>
-<div class="line"><span class="lineno">   83</span>        <span class="keywordtype">int</span> Holding_Buffer;</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>        <span class="comment">// cppcheck-suppress invalidPointerCast</span></div>
-<div class="line"><span class="lineno">   86</span>        Float_Overlay = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">int</span>*<span class="keyword">&gt;</span>(&amp;x);</div>
-<div class="line"><span class="lineno">   87</span>        Holding_Buffer = Float_Overlay[0];</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>        Float_Overlay[0] = htonl(Holding_Buffer);</div>
-<div class="line"><span class="lineno">   90</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span>}</div>
+<p class="definition">Definition at line <a class="el" href="FGOutputFGMod_8cpp_source.html#l00081">81</a> of file <a class="el" href="FGOutputFGMod_8cpp_source.html">FGOutputFGMod.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>                            {</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (<a class="code hl_define" href="FGOutputFGMod_8cpp.html#a2190a1a508bf86ed16c674f99a3e48e9">isLittleEndian</a>) {</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordtype">int</span>* Float_Overlay;</div>
+<div class="line"><span class="lineno">   84</span>        <span class="keywordtype">int</span> Holding_Buffer;</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>        <span class="comment">// cppcheck-suppress invalidPointerCast</span></div>
+<div class="line"><span class="lineno">   87</span>        Float_Overlay = <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">int</span>*<span class="keyword">&gt;</span>(&amp;x);</div>
+<div class="line"><span class="lineno">   88</span>        Holding_Buffer = Float_Overlay[0];</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>        Float_Overlay[0] = htonl(Holding_Buffer);</div>
+<div class="line"><span class="lineno">   91</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   93</span>    }</div>
+<div class="line"><span class="lineno">   94</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="FGOutputFGMod_8cpp_source.html#l00056">isLittleEndian</a>.</p>
+<p class="reference">References <a class="el" href="FGOutputFGMod_8cpp_source.html#l00057">isLittleEndian</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="FGOutputFGMod_8cpp_source.html#l00154">JSBSim::FGOutputFGMod::SocketDataFillMod()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="FGOutputFGMod_8cpp_source.html#l00152">JSBSim::FGOutputFGMod::SocketDataFillMod()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -230,7 +230,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceJSBSim.html">JSBSim</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -100,18 +100,18 @@ $(document).ready(function(){initNavTree('FileSearch_8cpp_source.html',''); init
 <a href="FileSearch_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="FileSearch_8h.html">scrimmage/common/FileSearch.h</a>&quot;</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;boost/algorithm/string/predicate.hpp&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;boost/filesystem.hpp&gt;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;boost/filesystem/path.hpp&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;boost/optional.hpp&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;boost/range/adaptor/uniqued.hpp&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;boost/range/algorithm/find_if.hpp&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;boost/range/algorithm/sort.hpp&gt;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &lt;boost/tokenizer.hpp&gt;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;boost/algorithm/string/predicate.hpp&gt;</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;boost/filesystem.hpp&gt;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;boost/filesystem/path.hpp&gt;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;boost/optional.hpp&gt;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;boost/range/adaptor/uniqued.hpp&gt;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;boost/range/algorithm/find_if.hpp&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;boost/range/algorithm/sort.hpp&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;boost/tokenizer.hpp&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="Logger_8h.html">scrimmage/log/Logger.h</a>&quot;</span></div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span>fs = ::boost::filesystem;</div>
@@ -174,7 +174,7 @@ $(document).ready(function(){initNavTree('FileSearch_8cpp_source.html',''); init
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">auto</span> dbg = [&amp;](std::string msg) {</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (verbose)</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;find_file: &quot;</span> &lt;&lt; msg &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;find_file: &quot;</span> &lt;&lt; msg);</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    };</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    dbg(std::string(<span class="stringliteral">&quot;looking for &quot;</span>) + search_filename);</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
@@ -203,137 +203,139 @@ $(document).ready(function(){initNavTree('FileSearch_8cpp_source.html',''); init
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    result = filenames.back();</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">if</span> (filenames.size() &gt; 1) {</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;===============================================&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;WARNING: Multiple XML files with same name found&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">for</span> (std::string&amp; full_path : filenames) {</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            std::cout &lt;&lt; full_path &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        }</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;Using XML file at: &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;===============================================&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        std::ostringstream paths_ss;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">for</span> (std::string&amp; full_path : filenames) {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            paths_ss &lt;&lt; full_path &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Multiple XML files with same name found: &quot;</span> &lt;&lt; paths_ss.str()</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                 &lt;&lt; <span class="stringliteral">&quot;Using XML file at: &quot;</span> &lt;&lt; result);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    }</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
 </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">// Give an environment variable and a file extension:</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment">// Find the absolute path to all files in environment variable paths</span></div>
-<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">  146</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">FileSearch::find_files</a>(</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    std::string env_var,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keyword">const</span> std::string&amp; ext,</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    std::unordered_map&lt;std::string, std::list&lt;std::string&gt;&gt;&amp; out,</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordtype">bool</span> verbose) {</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">auto</span> dbg = [&amp;](std::string msg) {</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">if</span> (verbose)</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;find_files: &quot;</span> &lt;&lt; msg &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    };</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keyword">auto</span> cache_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>.find(env_var);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keyword">auto</span> ext_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var].find(ext);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">if</span> (cache_it != <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>.end()) {</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">if</span> (ext_it != cache_it-&gt;second.end()) {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            out = ext_it-&gt;second;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            cache_it-&gt;second[ext];</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            ext_it = cache_it-&gt;second.find(ext);</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        }</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var][ext];</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        ext_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var].find(ext);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    }</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    out.clear();</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="comment">// Get the environment variable</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    std::string env_path;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (env_var.find(<span class="stringliteral">&quot;/&quot;</span>) == std::string::npos) {</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keyword">const</span> <span class="keywordtype">char</span>* env_p = std::getenv(env_var.c_str());</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keywordflow">if</span> (env_p == NULL) {</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            std::cout &lt;&lt; env_var &lt;&lt; <span class="stringliteral">&quot; environment variable not set&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        }</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        env_path = std::string(env_p);</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        dbg(env_var + <span class="stringliteral">&quot; = &quot;</span> + env_path);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="comment">// assume is is a path rather than an environment variable</span></div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="comment">// since slashes cannot be in an environment variable</span></div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        env_path = env_var;</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    }</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="comment">// Tokenize the path and loop through each directory</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    boost::char_separator&lt;char&gt; sep(<span class="stringliteral">&quot;:&quot;</span>);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    boost::tokenizer&lt;boost::char_separator&lt;char&gt;&gt; tokens(env_path, sep);</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="comment">// we are checking recursively anyway so remove</span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="comment">// more specific directories</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    std::vector&lt;std::string&gt; tok(tokens.begin(), tokens.end());</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    br::sort(tok);</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keyword">auto</span> it = tok.begin();</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordtype">char</span> native_path_sep = fs::path(<span class="stringliteral">&quot;/&quot;</span>).make_preferred().native().at(0);</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">while</span> (it != tok.end()) {</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keyword">auto</span> starts_with = [&amp;](std::string&amp; s) {</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <span class="keywordflow">return</span> (*it == s)</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                   || (boost::starts_with(s, *it) &amp;&amp; s.size() &gt; it-&gt;size()</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>                       &amp;&amp; s.at(it-&gt;size()) == native_path_sep);</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        };</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        it++;</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    }</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    dbg(std::string(<span class="stringliteral">&quot;not found in cache, looping recursively in &quot;</span>) + env_path);</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> std::string&amp; t : tok) {</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="comment">// Search for all files in the current directory with</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="comment">// the extension</span></div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        fs::path root = t;</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <span class="keywordflow">if</span> (fs::exists(root) &amp;&amp; fs::is_directory(root)) {</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>            dbg(t);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            fs::recursive_directory_iterator it(root);</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            fs::recursive_directory_iterator endit;</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            <span class="keywordflow">while</span> (it != endit) {</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                fs::path path = it-&gt;path();</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                <span class="keywordflow">if</span> (fs::is_regular_file(*it) &amp;&amp; path.extension() == ext) {</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                    std::string fname = path.filename().string();</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    std::string full_path = fs::absolute(path).string();</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    dbg(std::string(<span class="stringliteral">&quot;   &quot;</span>) + fname);</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                    ext_it-&gt;second[fname].push_back(full_path);</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                }</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                ++it;</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            }</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (env_path != env_var) {</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;Search path doesn&#39;t exist: &quot;</span> &lt;&lt; t &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        }</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    }</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    out = ext_it-&gt;second;</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>}</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">// Give an environment variable and a file extension:</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">// Find the absolute path to all files in environment variable paths</span></div>
+<div class="foldopen" id="foldopen00145" data-start="{" data-end="}">
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">  145</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">FileSearch::find_files</a>(</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    std::string env_var,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keyword">const</span> std::string&amp; ext,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    std::unordered_map&lt;std::string, std::list&lt;std::string&gt;&gt;&amp; out,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordtype">bool</span> verbose) {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keyword">auto</span> dbg = [&amp;](std::string msg) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">if</span> (verbose)</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;find_files: &quot;</span> &lt;&lt; msg);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    };</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keyword">auto</span> cache_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>.find(env_var);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keyword">auto</span> ext_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var].find(ext);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">if</span> (cache_it != <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>.end()) {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordflow">if</span> (ext_it != cache_it-&gt;second.end()) {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            out = ext_it-&gt;second;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            cache_it-&gt;second[ext];</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            ext_it = cache_it-&gt;second.find(ext);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var][ext];</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        ext_it = <a class="code hl_variable" href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">cache_</a>[env_var].find(ext);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    out.clear();</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="comment">// Get the environment variable</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    std::string env_path;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">if</span> (env_var.find(<span class="stringliteral">&quot;/&quot;</span>) == std::string::npos) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keyword">const</span> <span class="keywordtype">char</span>* env_p = std::getenv(env_var.c_str());</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">if</span> (env_p == NULL) {</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(env_var &lt;&lt; <span class="stringliteral">&quot; environment variable not set&quot;</span>);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        }</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        env_path = std::string(env_p);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        dbg(env_var + <span class="stringliteral">&quot; = &quot;</span> + env_path);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="comment">// assume is is a path rather than an environment variable</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="comment">// since slashes cannot be in an environment variable</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        env_path = env_var;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="comment">// Tokenize the path and loop through each directory</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    boost::char_separator&lt;char&gt; sep(<span class="stringliteral">&quot;:&quot;</span>);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    boost::tokenizer&lt;boost::char_separator&lt;char&gt;&gt; tokens(env_path, sep);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="comment">// we are checking recursively anyway so remove</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="comment">// more specific directories</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    std::vector&lt;std::string&gt; tok(tokens.begin(), tokens.end());</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    br::sort(tok);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keyword">auto</span> it = tok.begin();</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordtype">char</span> native_path_sep = fs::path(<span class="stringliteral">&quot;/&quot;</span>).make_preferred().native().at(0);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordflow">while</span> (it != tok.end()) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keyword">auto</span> starts_with = [&amp;](std::string&amp; s) {</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">return</span> (*it == s)</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                   || (boost::starts_with(s, *it) &amp;&amp; s.size() &gt; it-&gt;size()</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>                       &amp;&amp; s.at(it-&gt;size()) == native_path_sep);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        };</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        tok.erase(std::remove_if(std::next(it), tok.end(), starts_with), tok.end());</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        it++;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    }</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    dbg(std::string(<span class="stringliteral">&quot;not found in cache, looping recursively in &quot;</span>) + env_path);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> std::string&amp; t : tok) {</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        <span class="comment">// Search for all files in the current directory with</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="comment">// the extension</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        fs::path root = t;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        <span class="keywordflow">if</span> (fs::exists(root) &amp;&amp; fs::is_directory(root)) {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            dbg(t);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            fs::recursive_directory_iterator it(root);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            fs::recursive_directory_iterator endit;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            <span class="keywordflow">while</span> (it != endit) {</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                fs::path path = it-&gt;path();</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                <span class="keywordflow">if</span> (fs::is_regular_file(*it) &amp;&amp; path.extension() == ext) {</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                    std::string fname = path.filename().string();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                    std::string full_path = fs::absolute(path).string();</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    dbg(std::string(<span class="stringliteral">&quot;   &quot;</span>) + fname);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    ext_it-&gt;second[fname].push_back(full_path);</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                }</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                ++it;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            }</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (env_path != env_var) {</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Search path doesn&#39;t exist: &quot;</span> &lt;&lt; t);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        }</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    }</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    out = ext_it-&gt;second;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>}</div>
 </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aFileSearch_8h_html"><div class="ttname"><a href="FileSearch_8h.html">FileSearch.h</a></div><div class="ttdoc">Brief file description.</div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aParseUtils_8h_html"><div class="ttname"><a href="ParseUtils_8h.html">ParseUtils.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aclassboost_1_1optional_html"><div class="ttname"><a href="classboost_1_1optional.html">boost::optional</a></div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8h_source.html#l00044">FileSearch.h:44</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1FileSearch_html_a2c7edacdab85df3d20c3c4bcaf045699"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">scrimmage::FileSearch::find_files</a></div><div class="ttdeci">void find_files(std::string env_var, const std::string &amp;ext, std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; &amp;out, bool verbose=false)</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8cpp_source.html#l00146">FileSearch.cpp:146</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1FileSearch_html_a2c7edacdab85df3d20c3c4bcaf045699"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#a2c7edacdab85df3d20c3c4bcaf045699">scrimmage::FileSearch::find_files</a></div><div class="ttdeci">void find_files(std::string env_var, const std::string &amp;ext, std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; &amp;out, bool verbose=false)</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8cpp_source.html#l00145">FileSearch.cpp:145</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1FileSearch_html_a2f43920f05f0c385988681750cd81508"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#a2f43920f05f0c385988681750cd81508">scrimmage::FileSearch::find_mission</a></div><div class="ttdeci">boost::optional&lt; std::string &gt; find_mission(std::string mission, bool verbose=false)</div><div class="ttdoc">finds a mission file</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8cpp_source.html#l00059">FileSearch.cpp:59</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1FileSearch_html_a4bcbe48fa0efc77d52c3cc326aaa23f7"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#a4bcbe48fa0efc77d52c3cc326aaa23f7">scrimmage::FileSearch::cache_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::list&lt; std::string &gt; &gt; &gt; &gt; cache_</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8h_source.html#l00080">FileSearch.h:80</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1FileSearch_html_abe9179a14dd0deff89f113870aed3a7b"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#abe9179a14dd0deff89f113870aed3a7b">scrimmage::FileSearch::find_file</a></div><div class="ttdeci">bool find_file(const std::string &amp;filename, std::string ext, const std::string &amp;env_var, std::string &amp;result, bool verbose=false)</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8cpp_source.html#l00077">FileSearch.cpp:77</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1FileSearch_html_af1aa2213d279b2008aa4dbf16c1f2d15"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html#af1aa2213d279b2008aa4dbf16c1f2d15">scrimmage::FileSearch::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8cpp_source.html#l00055">FileSearch.cpp:55</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_ad9073339ab817f446c688ce4506df008"><div class="ttname"><a href="namespacescrimmage.html#ad9073339ab817f446c688ce4506df008">scrimmage::expand_user</a></div><div class="ttdeci">std::string expand_user(std::string path)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00187">ParseUtils.cpp:187</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_ad9073339ab817f446c688ce4506df008"><div class="ttname"><a href="namespacescrimmage.html#ad9073339ab817f446c688ce4506df008">scrimmage::expand_user</a></div><div class="ttdeci">std::string expand_user(std::string path)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00191">ParseUtils.cpp:191</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fdedb0aba14d44ce9d99bc100e026e6a.html">common</a></li><li class="navelem"><a class="el" href="FileSearch_8cpp.html">FileSearch.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

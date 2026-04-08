@@ -323,103 +323,106 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1EntityInteraction.html#a27a9db2ba1e221e41252aa8f75383680">scrimmage::EntityInteraction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00065">65</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   67</span>                                                 {</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2b3a83513983e5a334d69e6f5f5a4484">pub_shape_gen_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;ShapeGenerated&quot;</span>);</div>
-<div class="line"><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ade90d646fa8ca95fb36ceb365873f209">pub_map_2d_info_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Map2DInfo&quot;</span>);</div>
+<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00063">63</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>                                                 {</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2b3a83513983e5a334d69e6f5f5a4484">pub_shape_gen_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;ShapeGenerated&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ade90d646fa8ca95fb36ceb365873f209">pub_map_2d_info_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Map2DInfo&quot;</span>);</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ab35cc9877318fd67c384679bbcef6956">show_map_debug_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_map_debug&quot;</span>, plugin_params, <span class="keyword">false</span>);</div>
 <div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ab35cc9877318fd67c384679bbcef6956">show_map_debug_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;show_map_debug&quot;</span>, plugin_params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   75</span>    <span class="comment">// Find the map params</span></div>
-<div class="line"><span class="lineno">   76</span>    <a class="code hl_class" href="classscrimmage_1_1ConfigParse.html">sc::ConfigParse</a> map_parse;</div>
-<div class="line"><span class="lineno">   77</span>    map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3">set_required</a>(<span class="stringliteral">&quot;filename&quot;</span>);</div>
-<div class="line"><span class="lineno">   78</span>    map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3">set_required</a>(<span class="stringliteral">&quot;resolution&quot;</span>);</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>    <a class="code hl_class" href="classscrimmage_1_1FileSearch.html">sc::FileSearch</a> file_search;</div>
-<div class="line"><span class="lineno">   81</span>    std::map&lt;std::string, std::string&gt; overrides;  <span class="comment">// empty, no overrides</span></div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6">parse</a>(overrides, plugin_params[<span class="stringliteral">&quot;map&quot;</span>], <span class="stringliteral">&quot;SCRIMMAGE_DATA_PATH&quot;</span>, file_search)) {</div>
-<div class="line"><span class="lineno">   83</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to find map: &quot;</span> &lt;&lt; plugin_params[<span class="stringliteral">&quot;map&quot;</span>] &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   84</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   85</span>    }</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;resolution&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 1.0);</div>
-<div class="line"><span class="lineno">   88</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a9fb34061beb93720c0a67ece8cbb016c">wall_bottom_z_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;wall_bottom_z&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0.0);</div>
-<div class="line"><span class="lineno">   89</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;wall_height&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 5.0);</div>
-<div class="line"><span class="lineno">   90</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ac0c4891d6459e61ba175d2897defba83">enable_map_boundary_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;enable_map_boundary&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;occupied_thresh&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0.65);</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;x_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
-<div class="line"><span class="lineno">   94</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;y_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
-<div class="line"><span class="lineno">   95</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;z_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>    <span class="comment">// Parse wall_color (default to blue)</span></div>
-<div class="line"><span class="lineno">   98</span>    std::string color_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;wall_color&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), <span class="stringliteral">&quot;0 0 255&quot;</span>);</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>    <span class="comment">// Parse wall color</span></div>
-<div class="line"><span class="lineno">  101</span>    std::vector&lt;int&gt; color;</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordtype">bool</span> color_status = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">sc::str2container</a>(color_str, <span class="stringliteral">&quot; &quot;</span>, color, 3);</div>
-<div class="line"><span class="lineno">  103</span>    <span class="keywordflow">if</span> (!color_status) {</div>
-<div class="line"><span class="lineno">  104</span>        cout &lt;&lt; <span class="stringliteral">&quot;Warning: Failed to parse wall color.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  105</span>        color = {0, 0, 255};</div>
-<div class="line"><span class="lineno">  106</span>    }</div>
+<div class="line"><span class="lineno">   73</span>    <span class="comment">// Find the map params</span></div>
+<div class="line"><span class="lineno">   74</span>    <a class="code hl_class" href="classscrimmage_1_1ConfigParse.html">sc::ConfigParse</a> map_parse;</div>
+<div class="line"><span class="lineno">   75</span>    map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3">set_required</a>(<span class="stringliteral">&quot;filename&quot;</span>);</div>
+<div class="line"><span class="lineno">   76</span>    map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3">set_required</a>(<span class="stringliteral">&quot;resolution&quot;</span>);</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>    <a class="code hl_class" href="classscrimmage_1_1FileSearch.html">sc::FileSearch</a> file_search;</div>
+<div class="line"><span class="lineno">   79</span>    std::map&lt;std::string, std::string&gt; overrides;  <span class="comment">// empty, no overrides</span></div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">if</span> (!map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6">parse</a>(overrides, plugin_params[<span class="stringliteral">&quot;map&quot;</span>], <span class="stringliteral">&quot;SCRIMMAGE_DATA_PATH&quot;</span>, file_search)) {</div>
+<div class="line"><span class="lineno">   81</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to find map: &quot;</span> &lt;&lt; plugin_params[<span class="stringliteral">&quot;map&quot;</span>]);</div>
+<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   83</span>    }</div>
+<div class="line"><span class="lineno">   84</span> </div>
+<div class="line"><span class="lineno">   85</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;resolution&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 1.0);</div>
+<div class="line"><span class="lineno">   86</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a9fb34061beb93720c0a67ece8cbb016c">wall_bottom_z_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;wall_bottom_z&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0.0);</div>
+<div class="line"><span class="lineno">   87</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;wall_height&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 5.0);</div>
+<div class="line"><span class="lineno">   88</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ac0c4891d6459e61ba175d2897defba83">enable_map_boundary_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;enable_map_boundary&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   89</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;occupied_thresh&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0.65);</div>
+<div class="line"><span class="lineno">   90</span> </div>
+<div class="line"><span class="lineno">   91</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;x_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
+<div class="line"><span class="lineno">   92</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;y_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
+<div class="line"><span class="lineno">   93</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a> = sc::get&lt;double&gt;(<span class="stringliteral">&quot;z_origin&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), 0);</div>
+<div class="line"><span class="lineno">   94</span> </div>
+<div class="line"><span class="lineno">   95</span>    <span class="comment">// Parse wall_color (default to blue)</span></div>
+<div class="line"><span class="lineno">   96</span>    std::string color_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;wall_color&quot;</span>, map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>(), <span class="stringliteral">&quot;0 0 255&quot;</span>);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="comment">// Parse wall color</span></div>
+<div class="line"><span class="lineno">   99</span>    std::vector&lt;int&gt; color;</div>
+<div class="line"><span class="lineno">  100</span>    <span class="keywordtype">bool</span> color_status = <a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">sc::str2container</a>(color_str, <span class="stringliteral">&quot; &quot;</span>, color, 3);</div>
+<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (!color_status) {</div>
+<div class="line"><span class="lineno">  102</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Failed to parse wall color.&quot;</span>);</div>
+<div class="line"><span class="lineno">  103</span>        color = {0, 0, 255};</div>
+<div class="line"><span class="lineno">  104</span>    }</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>    std::string filename = map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>()[<span class="stringliteral">&quot;XML_DIR&quot;</span>] + <span class="stringliteral">&quot;/&quot;</span> + map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>()[<span class="stringliteral">&quot;filename&quot;</span>];</div>
 <div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>    std::string filename = map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>()[<span class="stringliteral">&quot;XML_DIR&quot;</span>] + <span class="stringliteral">&quot;/&quot;</span> + map_parse.<a class="code hl_function" href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">params</a>()[<span class="stringliteral">&quot;filename&quot;</span>];</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a> = cv::imread(filename, cv::IMREAD_COLOR);</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>.data) {</div>
-<div class="line"><span class="lineno">  112</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to open file: &quot;</span> &lt;&lt; filename &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  114</span>    }</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;sp::Shapes&gt;&gt;();</div>
-<div class="line"><span class="lineno">  117</span>    std::list&lt;cv::Rect&gt; rects = <a class="code hl_function" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a23cc2f7f2b91aed176af9eb2b968cb24">find_rectangles</a>(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a>);</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">for</span> (cv::Rect rect : rects) {</div>
-<div class="line"><span class="lineno">  120</span>        <span class="keywordtype">double</span> x = rect.x * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
-<div class="line"><span class="lineno">  121</span>        <span class="keywordtype">double</span> y = (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>.rows - rect.y) * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
-<div class="line"><span class="lineno">  122</span>        <span class="keywordtype">double</span> width = rect.width * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordtype">double</span> height = rect.height * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
-<div class="line"><span class="lineno">  124</span> </div>
-<div class="line"><span class="lineno">  125</span>        <span class="comment">// Convert rectangle into cube shape</span></div>
-<div class="line"><span class="lineno">  126</span>        Eigen::Vector3d center(</div>
-<div class="line"><span class="lineno">  127</span>            x + width / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a>,</div>
-<div class="line"><span class="lineno">  128</span>            y - height / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a>,</div>
-<div class="line"><span class="lineno">  129</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a9fb34061beb93720c0a67ece8cbb016c">wall_bottom_z_</a> + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a> / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a>);</div>
+<div class="line"><span class="lineno">  108</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a> = cv::imread(filename, cv::IMREAD_COLOR);</div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>.data) {</div>
+<div class="line"><span class="lineno">  110</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to open file: &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><span class="lineno">  111</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  112</span>    }</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;sp::Shapes&gt;&gt;();</div>
+<div class="line"><span class="lineno">  115</span>    std::list&lt;cv::Rect&gt; rects = <a class="code hl_function" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a23cc2f7f2b91aed176af9eb2b968cb24">find_rectangles</a>(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a>);</div>
+<div class="line"><span class="lineno">  116</span> </div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">for</span> (cv::Rect rect : rects) {</div>
+<div class="line"><span class="lineno">  118</span>        <span class="keywordtype">double</span> x = rect.x * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
+<div class="line"><span class="lineno">  119</span>        <span class="keywordtype">double</span> y = (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>.rows - rect.y) * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
+<div class="line"><span class="lineno">  120</span>        <span class="keywordtype">double</span> width = rect.width * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordtype">double</span> height = rect.height * <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>        <span class="comment">// Convert rectangle into cube shape</span></div>
+<div class="line"><span class="lineno">  124</span>        Eigen::Vector3d center(</div>
+<div class="line"><span class="lineno">  125</span>            x + width / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a>,</div>
+<div class="line"><span class="lineno">  126</span>            y - height / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a>,</div>
+<div class="line"><span class="lineno">  127</span>            <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a9fb34061beb93720c0a67ece8cbb016c">wall_bottom_z_</a> + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a> / 2.0 + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a>);</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> quat(0, 0, 0);</div>
 <div class="line"><span class="lineno">  130</span> </div>
-<div class="line"><span class="lineno">  131</span>        <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">sc::Quaternion</a> quat(0, 0, 0);</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>        std::shared_ptr&lt;sp::Shape&gt; wall(<span class="keyword">new</span> sp::Shape);</div>
-<div class="line"><span class="lineno">  134</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_color(), color[0], color[1], color[2]);</div>
-<div class="line"><span class="lineno">  135</span>        wall-&gt;set_opacity(1.0);</div>
-<div class="line"><span class="lineno">  136</span>        wall-&gt;set_persistent(<span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  137</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_cuboid()-&gt;mutable_center(), center);</div>
-<div class="line"><span class="lineno">  138</span>        wall-&gt;mutable_cuboid()-&gt;set_x_length(width);</div>
-<div class="line"><span class="lineno">  139</span>        wall-&gt;mutable_cuboid()-&gt;set_y_length(height);</div>
-<div class="line"><span class="lineno">  140</span>        wall-&gt;mutable_cuboid()-&gt;set_z_length(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a>);</div>
-<div class="line"><span class="lineno">  141</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_cuboid()-&gt;mutable_quat(), quat);</div>
-<div class="line"><span class="lineno">  142</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(wall);</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>        sp::Shape* shape = msg-&gt;data.add_shape();</div>
-<div class="line"><span class="lineno">  145</span>        *shape = *wall;</div>
-<div class="line"><span class="lineno">  146</span>    }</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>    <span class="comment">// Publish the shapes for visualization and physics</span></div>
-<div class="line"><span class="lineno">  149</span>    cout &lt;&lt; <span class="stringliteral">&quot;Publishing shapes: &quot;</span> &lt;&lt; msg-&gt;data.shape_size() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  150</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2b3a83513983e5a334d69e6f5f5a4484">pub_shape_gen_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  151</span> </div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  153</span>}</div>
+<div class="line"><span class="lineno">  131</span>        std::shared_ptr&lt;sp::Shape&gt; wall(<span class="keyword">new</span> sp::Shape);</div>
+<div class="line"><span class="lineno">  132</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_color(), color[0], color[1], color[2]);</div>
+<div class="line"><span class="lineno">  133</span>        wall-&gt;set_opacity(1.0);</div>
+<div class="line"><span class="lineno">  134</span>        wall-&gt;set_persistent(<span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  135</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_cuboid()-&gt;mutable_center(), center);</div>
+<div class="line"><span class="lineno">  136</span>        wall-&gt;mutable_cuboid()-&gt;set_x_length(width);</div>
+<div class="line"><span class="lineno">  137</span>        wall-&gt;mutable_cuboid()-&gt;set_y_length(height);</div>
+<div class="line"><span class="lineno">  138</span>        wall-&gt;mutable_cuboid()-&gt;set_z_length(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#adebd960dca7cabda47c9629cd26c49bc">wall_height_</a>);</div>
+<div class="line"><span class="lineno">  139</span>        <a class="code hl_function" href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">sc::set</a>(wall-&gt;mutable_cuboid()-&gt;mutable_quat(), quat);</div>
+<div class="line"><span class="lineno">  140</span>        <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">draw_shape</a>(wall);</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>        sp::Shape* shape = msg-&gt;data.add_shape();</div>
+<div class="line"><span class="lineno">  143</span>        *shape = *wall;</div>
+<div class="line"><span class="lineno">  144</span>    }</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>    <span class="comment">// Publish the shapes for visualization and physics</span></div>
+<div class="line"><span class="lineno">  147</span>    <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Publishing shapes: &quot;</span> &lt;&lt; msg-&gt;data.shape_size());</div>
+<div class="line"><span class="lineno">  148</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2b3a83513983e5a334d69e6f5f5a4484">pub_shape_gen_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  151</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1ConfigParse_html"><div class="ttname"><a href="classscrimmage_1_1ConfigParse.html">scrimmage::ConfigParse</a></div><div class="ttdef"><b>Definition</b> <a href="ConfigParse_8h_source.html#l00051">ConfigParse.h:51</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1ConfigParse_html_a63316b2845ccc4bbc0c87eb88b72a3e6"><div class="ttname"><a href="classscrimmage_1_1ConfigParse.html#a63316b2845ccc4bbc0c87eb88b72a3e6">scrimmage::ConfigParse::parse</a></div><div class="ttdeci">bool parse(const std::map&lt; std::string, std::string &gt; &amp;overrides, std::string filename, std::string env_var, FileSearch &amp;file_search, bool verbose=false)</div><div class="ttdef"><b>Definition</b> <a href="ConfigParse_8cpp_source.html#l00105">ConfigParse.cpp:105</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1ConfigParse_html_ad458e0b5366b8b901918030b3c383c0b"><div class="ttname"><a href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">scrimmage::ConfigParse::params</a></div><div class="ttdeci">std::map&lt; std::string, std::string &gt; &amp; params()</div><div class="ttdef"><b>Definition</b> <a href="ConfigParse_8cpp_source.html#l00164">ConfigParse.cpp:164</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1ConfigParse_html_ad458e0b5366b8b901918030b3c383c0b"><div class="ttname"><a href="classscrimmage_1_1ConfigParse.html#ad458e0b5366b8b901918030b3c383c0b">scrimmage::ConfigParse::params</a></div><div class="ttdeci">std::map&lt; std::string, std::string &gt; &amp; params()</div><div class="ttdef"><b>Definition</b> <a href="ConfigParse_8cpp_source.html#l00162">ConfigParse.cpp:162</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1ConfigParse_html_ae3fe85774dd42584d02f36514a45f3e3"><div class="ttname"><a href="classscrimmage_1_1ConfigParse.html#ae3fe85774dd42584d02f36514a45f3e3">scrimmage::ConfigParse::set_required</a></div><div class="ttdeci">void set_required(std::string node_name)</div><div class="ttdef"><b>Definition</b> <a href="ConfigParse_8cpp_source.html#l00059">ConfigParse.cpp:59</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab2476217710e16f4965f9c9432726098"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098">scrimmage::EntityPlugin::draw_shape</a></div><div class="ttdeci">void draw_shape(scrimmage_proto::ShapePtr s)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00107">EntityPlugin.cpp:107</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1FileSearch_html"><div class="ttname"><a href="classscrimmage_1_1FileSearch.html">scrimmage::FileSearch</a></div><div class="ttdef"><b>Definition</b> <a href="FileSearch_8h_source.html#l00050">FileSearch.h:50</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a0ee9754a86bbfc45a45e84de1ac8336d"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">scrimmage::interaction::MapGen2D::map_img_</a></div><div class="ttdeci">cv::Mat map_img_</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8h_source.html#l00085">MapGen2D.h:85</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a23cc2f7f2b91aed176af9eb2b968cb24"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a23cc2f7f2b91aed176af9eb2b968cb24">scrimmage::interaction::MapGen2D::find_rectangles</a></div><div class="ttdeci">std::list&lt; cv::Rect &gt; find_rectangles(cv::Mat &amp;img, int threshold)</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8cpp_source.html#l00172">MapGen2D.cpp:172</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a23cc2f7f2b91aed176af9eb2b968cb24"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a23cc2f7f2b91aed176af9eb2b968cb24">scrimmage::interaction::MapGen2D::find_rectangles</a></div><div class="ttdeci">std::list&lt; cv::Rect &gt; find_rectangles(cv::Mat &amp;img, int threshold)</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8cpp_source.html#l00170">MapGen2D.cpp:170</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a2917673606fef68b2585140be6306618"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">scrimmage::interaction::MapGen2D::z_origin_</a></div><div class="ttdeci">double z_origin_</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8h_source.html#l00078">MapGen2D.h:78</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a2b3a83513983e5a334d69e6f5f5a4484"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2b3a83513983e5a334d69e6f5f5a4484">scrimmage::interaction::MapGen2D::pub_shape_gen_</a></div><div class="ttdeci">scrimmage::PublisherPtr pub_shape_gen_</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8h_source.html#l00080">MapGen2D.h:80</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_a4c87e3a8da297d4bddc944da04ceb19d"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">scrimmage::interaction::MapGen2D::occupied_thresh_</a></div><div class="ttdeci">double occupied_thresh_</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8h_source.html#l00074">MapGen2D.h:74</a></div></div>
@@ -434,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="ttc" id="anamespacescrimmage_html_a33cb0991fa26d446d903cf250661affb"><div class="ttname"><a href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">scrimmage::str2container</a></div><div class="ttdeci">T str2container(const std::string &amp;str, const std::string &amp;delims)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00101">ParseUtils.h:101</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="MapGen2D_8h_source.html#l00069">enable_map_boundary_</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00172">find_rectangles()</a>, <a class="el" href="MapGen2D_8h_source.html#l00085">map_img_</a>, <a class="el" href="MapGen2D_8h_source.html#l00074">occupied_thresh_</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00164">scrimmage::ConfigParse::params()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00105">scrimmage::ConfigParse::parse()</a>, <a class="el" href="MapGen2D_8h_source.html#l00081">pub_map_2d_info_</a>, <a class="el" href="MapGen2D_8h_source.html#l00080">pub_shape_gen_</a>, <a class="el" href="MapGen2D_8h_source.html#l00073">resolution_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00059">scrimmage::ConfigParse::set_required()</a>, <a class="el" href="MapGen2D_8h_source.html#l00068">show_map_debug_</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="MapGen2D_8h_source.html#l00071">wall_bottom_z_</a>, <a class="el" href="MapGen2D_8h_source.html#l00072">wall_height_</a>, <a class="el" href="MapGen2D_8h_source.html#l00076">x_origin_</a>, <a class="el" href="MapGen2D_8h_source.html#l00077">y_origin_</a>, and <a class="el" href="MapGen2D_8h_source.html#l00078">z_origin_</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="MapGen2D_8h_source.html#l00069">enable_map_boundary_</a>, <a class="el" href="MapGen2D_8cpp_source.html#l00170">find_rectangles()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="MapGen2D_8h_source.html#l00085">map_img_</a>, <a class="el" href="MapGen2D_8h_source.html#l00074">occupied_thresh_</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00162">scrimmage::ConfigParse::params()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00105">scrimmage::ConfigParse::parse()</a>, <a class="el" href="MapGen2D_8h_source.html#l00081">pub_map_2d_info_</a>, <a class="el" href="MapGen2D_8h_source.html#l00080">pub_shape_gen_</a>, <a class="el" href="MapGen2D_8h_source.html#l00073">resolution_</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>, <a class="el" href="ConfigParse_8cpp_source.html#l00059">scrimmage::ConfigParse::set_required()</a>, <a class="el" href="MapGen2D_8h_source.html#l00068">show_map_debug_</a>, <a class="el" href="ParseUtils_8h_source.html#l00101">scrimmage::str2container()</a>, <a class="el" href="MapGen2D_8h_source.html#l00071">wall_bottom_z_</a>, <a class="el" href="MapGen2D_8h_source.html#l00072">wall_height_</a>, <a class="el" href="MapGen2D_8h_source.html#l00076">x_origin_</a>, <a class="el" href="MapGen2D_8h_source.html#l00077">y_origin_</a>, and <a class="el" href="MapGen2D_8h_source.html#l00078">z_origin_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -504,23 +507,23 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1EntityInteraction.html#a6408a63713d2de2762b2fda3c84dddd6">scrimmage::EntityInteraction</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00155">155</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#aec181fa3940ee4cbbe77dae79939b9c1">map_info_published_</a>) {</div>
-<div class="line"><span class="lineno">  158</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#aec181fa3940ee4cbbe77dae79939b9c1">map_info_published_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>        <span class="comment">// Populate and publish the map information</span></div>
-<div class="line"><span class="lineno">  161</span>        <span class="keyword">auto</span> msg_map2d = std::make_shared&lt;sc::Message&lt;Map2DInfo&gt;&gt;();</div>
-<div class="line"><span class="lineno">  162</span>        msg_map2d-&gt;data.img = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>;</div>
-<div class="line"><span class="lineno">  163</span>        msg_map2d-&gt;data.occupied_thresh = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a>;</div>
-<div class="line"><span class="lineno">  164</span>        msg_map2d-&gt;data.resolution = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
-<div class="line"><span class="lineno">  165</span>        msg_map2d-&gt;data.origin = Eigen::Vector3d(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a>);</div>
-<div class="line"><span class="lineno">  166</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ade90d646fa8ca95fb36ceb365873f209">pub_map_2d_info_</a>-&gt;publish(msg_map2d);</div>
-<div class="line"><span class="lineno">  167</span>    }</div>
-<div class="line"><span class="lineno">  168</span> </div>
-<div class="line"><span class="lineno">  169</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  170</span>}</div>
+<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00153">153</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  154</span> </div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#aec181fa3940ee4cbbe77dae79939b9c1">map_info_published_</a>) {</div>
+<div class="line"><span class="lineno">  156</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#aec181fa3940ee4cbbe77dae79939b9c1">map_info_published_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  157</span> </div>
+<div class="line"><span class="lineno">  158</span>        <span class="comment">// Populate and publish the map information</span></div>
+<div class="line"><span class="lineno">  159</span>        <span class="keyword">auto</span> msg_map2d = std::make_shared&lt;sc::Message&lt;Map2DInfo&gt;&gt;();</div>
+<div class="line"><span class="lineno">  160</span>        msg_map2d-&gt;data.img = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a0ee9754a86bbfc45a45e84de1ac8336d">map_img_</a>;</div>
+<div class="line"><span class="lineno">  161</span>        msg_map2d-&gt;data.occupied_thresh = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a4c87e3a8da297d4bddc944da04ceb19d">occupied_thresh_</a>;</div>
+<div class="line"><span class="lineno">  162</span>        msg_map2d-&gt;data.resolution = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a832ad4b3771576ad0980fd63a60fd488">resolution_</a>;</div>
+<div class="line"><span class="lineno">  163</span>        msg_map2d-&gt;data.origin = Eigen::Vector3d(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a580bde4eb9b29f5acda6f708a1dd5527">x_origin_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a88854070110bf111f7c4a3f33d0bb28d">y_origin_</a>, <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#a2917673606fef68b2585140be6306618">z_origin_</a>);</div>
+<div class="line"><span class="lineno">  164</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ade90d646fa8ca95fb36ceb365873f209">pub_map_2d_info_</a>-&gt;publish(msg_map2d);</div>
+<div class="line"><span class="lineno">  165</span>    }</div>
+<div class="line"><span class="lineno">  166</span> </div>
+<div class="line"><span class="lineno">  167</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  168</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1MapGen2D_html_aec181fa3940ee4cbbe77dae79939b9c1"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1MapGen2D.html#aec181fa3940ee4cbbe77dae79939b9c1">scrimmage::interaction::MapGen2D::map_info_published_</a></div><div class="ttdeci">bool map_info_published_</div><div class="ttdef"><b>Definition</b> <a href="MapGen2D_8h_source.html#l00083">MapGen2D.h:83</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="MapGen2D_8h_source.html#l00085">map_img_</a>, <a class="el" href="MapGen2D_8h_source.html#l00083">map_info_published_</a>, <a class="el" href="MapGen2D_8h_source.html#l00074">occupied_thresh_</a>, <a class="el" href="MapGen2D_8h_source.html#l00081">pub_map_2d_info_</a>, <a class="el" href="MapGen2D_8h_source.html#l00073">resolution_</a>, <a class="el" href="MapGen2D_8h_source.html#l00076">x_origin_</a>, <a class="el" href="MapGen2D_8h_source.html#l00077">y_origin_</a>, and <a class="el" href="MapGen2D_8h_source.html#l00078">z_origin_</a>.</p>
@@ -597,87 +600,87 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00172">172</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                                   {</div>
-<div class="line"><span class="lineno">  173</span>    <span class="comment">// Make sure image is gray and apply threshold</span></div>
-<div class="line"><span class="lineno">  174</span>    cv::Mat gray;</div>
-<div class="line"><span class="lineno">  175</span>    cv::cvtColor(img, gray, cv::COLOR_BGRA2GRAY);</div>
-<div class="line"><span class="lineno">  176</span> </div>
-<div class="line"><span class="lineno">  177</span>    cv::Mat thresh;</div>
-<div class="line"><span class="lineno">  178</span>    cv::threshold(gray, thresh, std::floor(threshold * 255), 255, cv::THRESH_BINARY_INV);</div>
+<p class="definition">Definition at line <a class="el" href="MapGen2D_8cpp_source.html#l00170">170</a> of file <a class="el" href="MapGen2D_8cpp_source.html">MapGen2D.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>                                                                   {</div>
+<div class="line"><span class="lineno">  171</span>    <span class="comment">// Make sure image is gray and apply threshold</span></div>
+<div class="line"><span class="lineno">  172</span>    cv::Mat gray;</div>
+<div class="line"><span class="lineno">  173</span>    cv::cvtColor(img, gray, cv::COLOR_BGRA2GRAY);</div>
+<div class="line"><span class="lineno">  174</span> </div>
+<div class="line"><span class="lineno">  175</span>    cv::Mat thresh;</div>
+<div class="line"><span class="lineno">  176</span>    cv::threshold(gray, thresh, std::floor(threshold * 255), 255, cv::THRESH_BINARY_INV);</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>    cv::Mat img_rects = img.clone();</div>
 <div class="line"><span class="lineno">  179</span> </div>
-<div class="line"><span class="lineno">  180</span>    cv::Mat img_rects = img.clone();</div>
+<div class="line"><span class="lineno">  180</span>    std::list&lt;cv::Rect&gt; rects;</div>
 <div class="line"><span class="lineno">  181</span> </div>
-<div class="line"><span class="lineno">  182</span>    std::list&lt;cv::Rect&gt; rects;</div>
+<div class="line"><span class="lineno">  182</span>    cv::Mat I = thresh.clone();</div>
 <div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>    cv::Mat I = thresh.clone();</div>
-<div class="line"><span class="lineno">  185</span> </div>
-<div class="line"><span class="lineno">  186</span>    <span class="comment">// Scan image looking for non-zero pixel</span></div>
-<div class="line"><span class="lineno">  187</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; I.rows; i++) {</div>
-<div class="line"><span class="lineno">  188</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; I.cols; j++) {</div>
-<div class="line"><span class="lineno">  189</span>            <span class="keywordflow">if</span> (I.at&lt;uchar&gt;(i, j) &gt; 0) {</div>
-<div class="line"><span class="lineno">  190</span>                <span class="comment">// Non-zero pixel found, search for largest rectangle of</span></div>
-<div class="line"><span class="lineno">  191</span>                <span class="comment">// non-zero pixels</span></div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>                <span class="keywordtype">bool</span> end_c_found = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  194</span>                <span class="keywordtype">int</span> end_c = I.cols;</div>
-<div class="line"><span class="lineno">  195</span>                <span class="keywordtype">int</span> end_r = I.rows;</div>
-<div class="line"><span class="lineno">  196</span> </div>
-<div class="line"><span class="lineno">  197</span>                <span class="comment">// Scan rows and columns looking for a zero-valued pixel</span></div>
-<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = i; r &lt; end_r; r++) {</div>
-<div class="line"><span class="lineno">  199</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> c = j; c &lt; end_c; c++) {</div>
-<div class="line"><span class="lineno">  200</span>                        <span class="keywordflow">if</span> (I.at&lt;uchar&gt;(r, c) == 0) {</div>
-<div class="line"><span class="lineno">  201</span>                            <span class="comment">// Zero pixel found</span></div>
-<div class="line"><span class="lineno">  202</span>                            <span class="keywordflow">if</span> (!end_c_found) {</div>
-<div class="line"><span class="lineno">  203</span>                                <span class="comment">// Use this column number as end column of</span></div>
-<div class="line"><span class="lineno">  204</span>                                <span class="comment">// rectangle</span></div>
-<div class="line"><span class="lineno">  205</span>                                end_c_found = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  206</span>                                end_c = c;</div>
-<div class="line"><span class="lineno">  207</span>                            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  208</span>                                <span class="comment">// Use this row number as end row of rectangle</span></div>
-<div class="line"><span class="lineno">  209</span>                                end_r = r;</div>
-<div class="line"><span class="lineno">  210</span>                            }</div>
-<div class="line"><span class="lineno">  211</span>                        }</div>
-<div class="line"><span class="lineno">  212</span>                    }</div>
-<div class="line"><span class="lineno">  213</span> </div>
-<div class="line"><span class="lineno">  214</span>                    <span class="keywordflow">if</span> (end_c == I.cols) {</div>
-<div class="line"><span class="lineno">  215</span>                        <span class="comment">// If end_c is still the same as I.cols, then the</span></div>
-<div class="line"><span class="lineno">  216</span>                        <span class="comment">// rectangle extended to the end of the image.</span></div>
-<div class="line"><span class="lineno">  217</span>                        end_c_found = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  218</span>                    }</div>
-<div class="line"><span class="lineno">  219</span>                }</div>
-<div class="line"><span class="lineno">  220</span> </div>
-<div class="line"><span class="lineno">  221</span>                cv::Rect rect(j, i, end_c - j, end_r - i);</div>
-<div class="line"><span class="lineno">  222</span>                cv::rectangle(img_rects, rect, cv::Scalar(0, 0, 255), 1, 8, 0);</div>
-<div class="line"><span class="lineno">  223</span>                cv::Mat roi = I(rect);</div>
-<div class="line"><span class="lineno">  224</span>                roi.setTo(0);</div>
-<div class="line"><span class="lineno">  225</span> </div>
-<div class="line"><span class="lineno">  226</span>                rects.push_back(rect);</div>
-<div class="line"><span class="lineno">  227</span>            }</div>
-<div class="line"><span class="lineno">  228</span>        }</div>
-<div class="line"><span class="lineno">  229</span>    }</div>
-<div class="line"><span class="lineno">  230</span> </div>
-<div class="line"><span class="lineno">  231</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ac0c4891d6459e61ba175d2897defba83">enable_map_boundary_</a>) {</div>
-<div class="line"><span class="lineno">  232</span>        rects.push_back(cv::Rect(0, 0, img.cols, 1));         <span class="comment">// top rect</span></div>
-<div class="line"><span class="lineno">  233</span>        rects.push_back(cv::Rect(0, 0, 1, img.rows));         <span class="comment">// left rect</span></div>
-<div class="line"><span class="lineno">  234</span>        rects.push_back(cv::Rect(img.cols, 0, 1, img.rows));  <span class="comment">// right rect</span></div>
-<div class="line"><span class="lineno">  235</span>        rects.push_back(cv::Rect(0, img.rows, img.cols, 1));  <span class="comment">// bottom rect</span></div>
-<div class="line"><span class="lineno">  236</span>    }</div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ab35cc9877318fd67c384679bbcef6956">show_map_debug_</a>) {</div>
-<div class="line"><span class="lineno">  239</span>        cout &lt;&lt; <span class="stringliteral">&quot;Number of rectangles: &quot;</span> &lt;&lt; rects.size() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  240</span>        cv::imshow(<span class="stringliteral">&quot;Original&quot;</span>, img);</div>
-<div class="line"><span class="lineno">  241</span>        cv::imshow(<span class="stringliteral">&quot;Gray&quot;</span>, gray);</div>
-<div class="line"><span class="lineno">  242</span>        cv::imshow(<span class="stringliteral">&quot;Thresh&quot;</span>, thresh);</div>
-<div class="line"><span class="lineno">  243</span>        cv::imshow(<span class="stringliteral">&quot;Rects&quot;</span>, img_rects);</div>
-<div class="line"><span class="lineno">  244</span>        cv::waitKey(0);</div>
-<div class="line"><span class="lineno">  245</span>    }</div>
-<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> rects;</div>
-<div class="line"><span class="lineno">  247</span>}</div>
+<div class="line"><span class="lineno">  184</span>    <span class="comment">// Scan image looking for non-zero pixel</span></div>
+<div class="line"><span class="lineno">  185</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; I.rows; i++) {</div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; I.cols; j++) {</div>
+<div class="line"><span class="lineno">  187</span>            <span class="keywordflow">if</span> (I.at&lt;uchar&gt;(i, j) &gt; 0) {</div>
+<div class="line"><span class="lineno">  188</span>                <span class="comment">// Non-zero pixel found, search for largest rectangle of</span></div>
+<div class="line"><span class="lineno">  189</span>                <span class="comment">// non-zero pixels</span></div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>                <span class="keywordtype">bool</span> end_c_found = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  192</span>                <span class="keywordtype">int</span> end_c = I.cols;</div>
+<div class="line"><span class="lineno">  193</span>                <span class="keywordtype">int</span> end_r = I.rows;</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>                <span class="comment">// Scan rows and columns looking for a zero-valued pixel</span></div>
+<div class="line"><span class="lineno">  196</span>                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = i; r &lt; end_r; r++) {</div>
+<div class="line"><span class="lineno">  197</span>                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> c = j; c &lt; end_c; c++) {</div>
+<div class="line"><span class="lineno">  198</span>                        <span class="keywordflow">if</span> (I.at&lt;uchar&gt;(r, c) == 0) {</div>
+<div class="line"><span class="lineno">  199</span>                            <span class="comment">// Zero pixel found</span></div>
+<div class="line"><span class="lineno">  200</span>                            <span class="keywordflow">if</span> (!end_c_found) {</div>
+<div class="line"><span class="lineno">  201</span>                                <span class="comment">// Use this column number as end column of</span></div>
+<div class="line"><span class="lineno">  202</span>                                <span class="comment">// rectangle</span></div>
+<div class="line"><span class="lineno">  203</span>                                end_c_found = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  204</span>                                end_c = c;</div>
+<div class="line"><span class="lineno">  205</span>                            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  206</span>                                <span class="comment">// Use this row number as end row of rectangle</span></div>
+<div class="line"><span class="lineno">  207</span>                                end_r = r;</div>
+<div class="line"><span class="lineno">  208</span>                            }</div>
+<div class="line"><span class="lineno">  209</span>                        }</div>
+<div class="line"><span class="lineno">  210</span>                    }</div>
+<div class="line"><span class="lineno">  211</span> </div>
+<div class="line"><span class="lineno">  212</span>                    <span class="keywordflow">if</span> (end_c == I.cols) {</div>
+<div class="line"><span class="lineno">  213</span>                        <span class="comment">// If end_c is still the same as I.cols, then the</span></div>
+<div class="line"><span class="lineno">  214</span>                        <span class="comment">// rectangle extended to the end of the image.</span></div>
+<div class="line"><span class="lineno">  215</span>                        end_c_found = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  216</span>                    }</div>
+<div class="line"><span class="lineno">  217</span>                }</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>                cv::Rect rect(j, i, end_c - j, end_r - i);</div>
+<div class="line"><span class="lineno">  220</span>                cv::rectangle(img_rects, rect, cv::Scalar(0, 0, 255), 1, 8, 0);</div>
+<div class="line"><span class="lineno">  221</span>                cv::Mat roi = I(rect);</div>
+<div class="line"><span class="lineno">  222</span>                roi.setTo(0);</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  224</span>                rects.push_back(rect);</div>
+<div class="line"><span class="lineno">  225</span>            }</div>
+<div class="line"><span class="lineno">  226</span>        }</div>
+<div class="line"><span class="lineno">  227</span>    }</div>
+<div class="line"><span class="lineno">  228</span> </div>
+<div class="line"><span class="lineno">  229</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ac0c4891d6459e61ba175d2897defba83">enable_map_boundary_</a>) {</div>
+<div class="line"><span class="lineno">  230</span>        rects.push_back(cv::Rect(0, 0, img.cols, 1));         <span class="comment">// top rect</span></div>
+<div class="line"><span class="lineno">  231</span>        rects.push_back(cv::Rect(0, 0, 1, img.rows));         <span class="comment">// left rect</span></div>
+<div class="line"><span class="lineno">  232</span>        rects.push_back(cv::Rect(img.cols, 0, 1, img.rows));  <span class="comment">// right rect</span></div>
+<div class="line"><span class="lineno">  233</span>        rects.push_back(cv::Rect(0, img.rows, img.cols, 1));  <span class="comment">// bottom rect</span></div>
+<div class="line"><span class="lineno">  234</span>    }</div>
+<div class="line"><span class="lineno">  235</span> </div>
+<div class="line"><span class="lineno">  236</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1MapGen2D.html#ab35cc9877318fd67c384679bbcef6956">show_map_debug_</a>) {</div>
+<div class="line"><span class="lineno">  237</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Number of rectangles: &quot;</span> &lt;&lt; rects.size());</div>
+<div class="line"><span class="lineno">  238</span>        cv::imshow(<span class="stringliteral">&quot;Original&quot;</span>, img);</div>
+<div class="line"><span class="lineno">  239</span>        cv::imshow(<span class="stringliteral">&quot;Gray&quot;</span>, gray);</div>
+<div class="line"><span class="lineno">  240</span>        cv::imshow(<span class="stringliteral">&quot;Thresh&quot;</span>, thresh);</div>
+<div class="line"><span class="lineno">  241</span>        cv::imshow(<span class="stringliteral">&quot;Rects&quot;</span>, img_rects);</div>
+<div class="line"><span class="lineno">  242</span>        cv::waitKey(0);</div>
+<div class="line"><span class="lineno">  243</span>    }</div>
+<div class="line"><span class="lineno">  244</span>    <span class="keywordflow">return</span> rects;</div>
+<div class="line"><span class="lineno">  245</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="MapGen2D_8h_source.html#l00069">enable_map_boundary_</a>, and <a class="el" href="MapGen2D_8h_source.html#l00068">show_map_debug_</a>.</p>
+<p class="reference">References <a class="el" href="MapGen2D_8h_source.html#l00069">enable_map_boundary_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, and <a class="el" href="MapGen2D_8h_source.html#l00068">show_map_debug_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -756,7 +759,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00068">68</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00172">find_rectangles()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00170">find_rectangles()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 
 </div>
 </div>
@@ -782,7 +785,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00069">69</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00172">find_rectangles()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00170">find_rectangles()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 
 </div>
 </div>
@@ -808,7 +811,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00071">71</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 
 </div>
 </div>
@@ -834,7 +837,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00072">72</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 
 </div>
 </div>
@@ -860,7 +863,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00073">73</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -886,7 +889,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00074">74</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -912,7 +915,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00076">76</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -938,7 +941,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00077">77</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -964,7 +967,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00078">78</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -990,7 +993,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00080">80</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>.</p>
 
 </div>
 </div>
@@ -1016,7 +1019,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00081">81</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -1042,7 +1045,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00083">83</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -1068,7 +1071,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MapGen2D_8h_source.html#l00085">85</a> of file <a class="el" href="MapGen2D_8h_source.html">MapGen2D.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00065">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00155">step_entity_interaction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MapGen2D_8cpp_source.html#l00063">init()</a>, and <a class="el" href="MapGen2D_8cpp_source.html#l00153">step_entity_interaction()</a>.</p>
 
 </div>
 </div>
@@ -1082,7 +1085,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1interaction.html">interaction</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1interaction_1_1MapGen2D.html">MapGen2D</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

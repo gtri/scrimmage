@@ -1,48 +1,46 @@
 <map id="/root/scrimmage/scrimmage/include/scrimmage/entity/EntityPlugin.h" name="/root/scrimmage/scrimmage/include/scrimmage/entity/EntityPlugin.h">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="2312,5,2519,60"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="2197,5,2404,60"/>
 <area shape="rect" id="Node000002" href="$Autonomy_8h.html" title="Brief file description." alt="" coords="5,115,225,170"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2298,37,1868,41,1272,52,964,61,675,74,426,90,238,111,202,118,201,113,238,105,426,85,675,68,963,56,1272,47,1868,36,2298,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="2184,37,1773,42,1211,53,921,63,649,75,415,91,238,111,202,118,201,113,238,105,415,86,649,70,920,58,1211,48,1773,37,2183,32"/>
 <area shape="rect" id="Node000075" href="$GPUMotionModel_8h.html" title="Brief file description." alt="" coords="249,115,456,170"/>
-<area shape="poly" id="edge2_Node000001_Node000075" title=" " alt="" coords="2298,38,1910,43,1384,55,859,77,641,92,476,111,439,118,438,113,475,105,640,87,858,72,1383,50,1910,38,2298,32"/>
+<area shape="poly" id="edge2_Node000001_Node000075" title=" " alt="" coords="2183,38,1816,44,1323,57,833,78,630,93,476,111,439,118,438,113,475,105,629,88,833,73,1323,52,1816,39,2183,33"/>
 <area shape="rect" id="Node000076" href="$GPUMotionModelImplementation_8h.html" title="Brief file description." alt="" coords="296,225,551,280"/>
-<area shape="poly" id="edge4_Node000001_Node000076" title=" " alt="" coords="2298,38,1862,46,1288,61,775,82,603,95,550,103,522,110,508,125,487,156,441,227,437,224,482,153,504,122,519,106,548,98,603,90,774,77,1288,55,1861,41,2298,33"/>
+<area shape="poly" id="edge4_Node000001_Node000076" title=" " alt="" coords="2184,39,1772,47,1235,62,757,83,597,96,548,103,522,110,508,125,487,156,441,227,437,224,482,153,504,122,519,106,547,98,597,91,757,78,1235,57,1772,42,2184,33"/>
 <area shape="rect" id="Node000080" href="$Metrics_8h.html" title="Brief file description." alt="" coords="532,115,739,170"/>
-<area shape="poly" id="edge5_Node000001_Node000080" title=" " alt="" coords="2298,38,1960,45,1514,58,1073,79,890,94,752,111,718,118,717,113,751,105,890,88,1073,74,1513,53,1960,40,2298,33"/>
+<area shape="poly" id="edge5_Node000001_Node000080" title=" " alt="" coords="2184,39,1867,46,1454,60,1048,81,879,95,752,111,718,118,717,113,751,105,879,89,1047,76,1454,55,1867,41,2184,33"/>
 <area shape="rect" id="Node000093" href="$Controller_8h.html" title="Brief file description." alt="" coords="763,115,969,170"/>
-<area shape="poly" id="edge6_Node000001_Node000093" title=" " alt="" coords="2298,39,2003,48,1624,62,1253,83,1099,96,982,111,948,118,947,113,982,105,1099,90,1252,77,1624,57,2003,42,2298,34"/>
+<area shape="poly" id="edge6_Node000001_Node000093" title=" " alt="" coords="2183,40,1911,49,1564,64,1227,84,1088,97,982,111,949,118,948,113,982,105,1088,91,1227,79,1564,58,1910,44,2183,35"/>
 <area shape="rect" id="Node000169" href="$MotionModel_8h.html" title="Brief file description." alt="" coords="993,115,1200,170"/>
-<area shape="poly" id="edge7_Node000001_Node000169" title=" " alt="" coords="2298,35,2093,37,1822,47,1518,70,1364,88,1213,111,1180,118,1179,113,1212,105,1363,83,1518,65,1822,42,2092,32,2298,30"/>
+<area shape="poly" id="edge7_Node000001_Node000169" title=" " alt="" coords="2184,37,1997,40,1754,51,1484,73,1347,90,1213,111,1180,118,1179,113,1212,105,1346,85,1483,68,1754,46,1996,35,2184,31"/>
 <area shape="rect" id="Node000187" href="$ScrimmageMsgServiceImpl_8h.html" title="Brief file description." alt="" coords="1224,108,1465,177"/>
-<area shape="poly" id="edge8_Node000001_Node000187" title=" " alt="" coords="2298,40,2136,47,1931,59,1705,80,1478,111,1466,113,1465,108,1478,105,1704,75,1931,54,2136,41,2298,34"/>
+<area shape="poly" id="edge8_Node000001_Node000187" title=" " alt="" coords="2183,41,1864,63,1671,83,1478,111,1466,113,1465,108,1478,105,1670,78,1864,58,2183,36"/>
 <area shape="rect" id="Node000190" href="$Network_8h.html" title="Brief file description." alt="" coords="1489,115,1696,170"/>
-<area shape="poly" id="edge9_Node000001_Node000190" title=" " alt="" coords="2298,43,2028,65,1868,84,1709,111,1678,118,1677,113,1708,105,1867,79,2027,60,2298,37"/>
+<area shape="poly" id="edge9_Node000001_Node000190" title=" " alt="" coords="2184,46,1963,70,1835,88,1709,111,1678,118,1677,113,1708,105,1834,83,1962,64,2183,41"/>
 <area shape="rect" id="Node000202" href="$Sensor_8h.html" title="Brief file description." alt="" coords="1720,115,1927,170"/>
-<area shape="poly" id="edge10_Node000001_Node000202" title=" " alt="" coords="2299,51,2128,75,1940,111,1910,118,1909,113,1939,105,2128,70,2298,45"/>
+<area shape="poly" id="edge10_Node000001_Node000202" title=" " alt="" coords="2184,58,1940,111,1912,118,1911,113,1939,105,2183,53"/>
 <area shape="rect" id="Node000229" href="$EntityInteraction_8h.html" title="Brief file description." alt="" coords="1951,115,2173,170"/>
-<area shape="poly" id="edge11_Node000001_Node000229" title=" " alt="" coords="2317,67,2149,118,2147,113,2316,61"/>
+<area shape="poly" id="edge11_Node000001_Node000229" title=" " alt="" coords="2231,68,2121,118,2119,113,2229,63"/>
 <area shape="rect" id="Node000258" href="$EntityPlugin_8cpp.html" title="Brief file description." alt="" coords="2197,123,2404,163"/>
-<area shape="poly" id="edge12_Node000001_Node000258" title=" " alt="" coords="2379,72,2323,124,2319,121,2375,68"/>
+<area shape="poly" id="edge12_Node000001_Node000258" title=" " alt="" coords="2303,74,2303,122,2298,122,2298,74"/>
 <area shape="rect" id="Node000259" href="$Log_8cpp.html" title="Brief file description." alt="" coords="2428,123,2635,163"/>
-<area shape="poly" id="edge13_Node000001_Node000259" title=" " alt="" coords="2456,68,2513,121,2509,124,2452,72"/>
-<area shape="rect" id="Node000260" href="$Print_8cpp.html" title=" " alt="" coords="2659,123,2865,163"/>
-<area shape="poly" id="edge14_Node000001_Node000260" title=" " alt="" coords="2514,62,2702,120,2700,125,2512,67"/>
-<area shape="rect" id="Node000261" href="$Plugin_8cpp.html" title="Brief file description." alt="" coords="2889,123,3115,163"/>
-<area shape="poly" id="edge15_Node000001_Node000261" title=" " alt="" coords="2533,47,2697,72,2879,105,2938,120,2937,125,2877,111,2696,77,2532,52"/>
-<area shape="rect" id="Node000262" href="$PluginManager_8cpp.html" title="Brief file description." alt="" coords="3139,123,3420,163"/>
-<area shape="poly" id="edge16_Node000001_Node000262" title=" " alt="" coords="2533,39,2805,64,2967,82,3128,105,3202,120,3201,125,3127,111,2966,88,2805,69,2532,45"/>
-<area shape="rect" id="Node000263" href="$Joystick_8cpp.html" title="Brief file description." alt="" coords="3444,115,3667,170"/>
-<area shape="poly" id="edge17_Node000001_Node000263" title=" " alt="" coords="2532,33,2708,38,2933,50,3183,71,3309,87,3433,105,3468,113,3467,118,3432,111,3309,92,3182,77,2933,55,2708,43,2532,38"/>
-<area shape="rect" id="Node000264" href="$GraphUtils_8cpp.html" title="Brief file description." alt="" coords="3690,115,3925,170"/>
-<area shape="poly" id="edge18_Node000001_Node000264" title=" " alt="" coords="2532,31,2747,33,3033,43,3355,66,3519,83,3680,105,3717,113,3716,118,3679,111,3519,88,3355,71,3033,49,2747,38,2532,36"/>
-<area shape="rect" id="Node000265" href="$ProtoConversions_8cpp.html" title="Brief file description." alt="" coords="3949,115,4156,170"/>
-<area shape="poly" id="edge19_Node000001_Node000265" title=" " alt="" coords="2532,34,2844,41,3249,55,3647,76,3812,90,3937,105,3971,113,3970,118,3936,111,3811,95,3647,81,3249,60,2844,46,2532,39"/>
-<area shape="rect" id="Node000266" href="$NetworkDevice_8cpp.html" title="Brief file description." alt="" coords="4181,123,4407,163"/>
-<area shape="poly" id="edge20_Node000001_Node000266" title=" " alt="" coords="2533,33,2887,40,3359,53,3827,74,4022,89,4169,105,4235,120,4233,125,4168,111,4021,94,3827,80,3359,58,2887,45,2533,38"/>
-<area shape="rect" id="Node000267" href="$PubSub_8cpp.html" title="Brief file description." alt="" coords="4432,123,4639,163"/>
-<area shape="poly" id="edge21_Node000001_Node000267" title=" " alt="" coords="2532,32,2932,36,3478,48,3759,57,4022,69,4248,85,4420,105,4481,120,4480,125,4419,111,4248,91,4022,75,3759,62,3477,53,2932,42,2532,37"/>
-<area shape="rect" id="Node000268" href="$Publisher_8cpp.html" title="Brief file description." alt="" coords="4663,123,4869,163"/>
-<area shape="poly" id="edge22_Node000001_Node000268" title=" " alt="" coords="2533,31,2974,34,3587,44,3905,53,4202,66,4458,83,4652,105,4712,120,4711,125,4651,111,4458,89,4202,71,3904,58,3587,49,2974,39,2533,37"/>
-<area shape="rect" id="Node000269" href="$SubscriberBase_8cpp.html" title="Brief file description." alt="" coords="4894,123,5121,163"/>
-<area shape="poly" id="edge23_Node000001_Node000269" title=" " alt="" coords="2532,31,3014,34,3694,43,4048,52,4380,65,4666,83,4882,105,4949,120,4947,125,4882,111,4666,88,4380,71,4048,58,3693,48,3014,39,2532,37"/>
+<area shape="poly" id="edge13_Node000001_Node000259" title=" " alt="" coords="2371,64,2492,120,2490,125,2368,69"/>
+<area shape="rect" id="Node000260" href="$Plugin_8cpp.html" title="Brief file description." alt="" coords="2659,123,2884,163"/>
+<area shape="poly" id="edge14_Node000001_Node000260" title=" " alt="" coords="2418,55,2648,105,2705,120,2703,125,2647,111,2417,60"/>
+<area shape="rect" id="Node000261" href="$PluginManager_8cpp.html" title="Brief file description." alt="" coords="2908,123,3189,163"/>
+<area shape="poly" id="edge15_Node000001_Node000261" title=" " alt="" coords="2418,43,2641,68,2897,105,2971,120,2970,125,2896,111,2640,73,2418,48"/>
+<area shape="rect" id="Node000262" href="$Joystick_8cpp.html" title="Brief file description." alt="" coords="3213,115,3436,170"/>
+<area shape="poly" id="edge16_Node000001_Node000262" title=" " alt="" coords="2418,34,2574,41,2770,54,2987,74,3202,105,3237,113,3236,118,3202,111,2986,80,2770,59,2574,46,2418,39"/>
+<area shape="rect" id="Node000263" href="$GraphUtils_8cpp.html" title="Brief file description." alt="" coords="3459,115,3694,170"/>
+<area shape="poly" id="edge17_Node000001_Node000263" title=" " alt="" coords="2418,32,2614,35,2872,47,3160,69,3306,85,3449,105,3486,113,3485,118,3448,111,3305,90,3159,74,2871,52,2614,41,2418,37"/>
+<area shape="rect" id="Node000264" href="$ProtoConversions_8cpp.html" title="Brief file description." alt="" coords="3719,115,3925,170"/>
+<area shape="poly" id="edge18_Node000001_Node000264" title=" " alt="" coords="2418,34,2707,43,3079,57,3442,78,3592,91,3706,105,3741,113,3740,118,3706,111,3592,96,3441,83,3079,62,2707,48,2418,39"/>
+<area shape="rect" id="Node000265" href="$NetworkDevice_8cpp.html" title="Brief file description." alt="" coords="3950,123,4177,163"/>
+<area shape="poly" id="edge19_Node000001_Node000265" title=" " alt="" coords="2418,33,2751,41,3190,55,3622,76,3802,90,3938,105,4004,120,4003,125,3938,111,3801,95,3622,81,3189,60,2751,46,2418,39"/>
+<area shape="rect" id="Node000266" href="$PubSub_8cpp.html" title="Brief file description." alt="" coords="4201,123,4408,163"/>
+<area shape="poly" id="edge20_Node000001_Node000266" title=" " alt="" coords="2418,32,2797,37,3308,49,3817,71,4029,86,4189,105,4250,120,4249,125,4188,111,4028,92,3817,76,3308,55,2797,43,2418,38"/>
+<area shape="rect" id="Node000267" href="$Publisher_8cpp.html" title="Brief file description." alt="" coords="4432,123,4639,163"/>
+<area shape="poly" id="edge21_Node000001_Node000267" title=" " alt="" coords="2418,32,2839,35,3418,46,3717,55,3997,68,4239,84,4421,105,4482,120,4481,125,4420,111,4238,90,3997,73,3717,60,3417,51,2839,40,2418,37"/>
+<area shape="rect" id="Node000268" href="$SubscriberBase_8cpp.html" title="Brief file description." alt="" coords="4663,123,4890,163"/>
+<area shape="poly" id="edge22_Node000001_Node000268" title=" " alt="" coords="2418,31,2879,34,3525,45,3861,54,4176,67,4447,84,4652,105,4718,120,4717,125,4651,111,4446,89,4175,72,3861,59,3525,50,2879,40,2418,37"/>
 <area shape="poly" id="edge3_Node000075_Node000076" title=" " alt="" coords="380,181,408,224,404,227,375,183"/>
 </map>

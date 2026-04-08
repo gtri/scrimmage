@@ -391,7 +391,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">   76</span>        <span class="keywordflow">if</span> (lla.alt_oneof_case() == sc_msgs::PositionLLA::kAltMsl) {</div>
 <div class="line"><span class="lineno">   77</span>            alt = lla.alt_msl();</div>
 <div class="line"><span class="lineno">   78</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   79</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;Waypoints only support alt_msl()!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><span class="lineno">   79</span>            <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Waypoints only support alt_msl()!&quot;</span>);</div>
 <div class="line"><span class="lineno">   80</span>        }</div>
 <div class="line"><span class="lineno">   81</span>        <span class="keywordflow">return</span> alt;</div>
 <div class="line"><span class="lineno">   82</span>    };</div>
@@ -415,6 +415,7 @@ Here is the call graph for this function:</div>
 <div class="line"><span class="lineno">  100</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1Waypoint.html#a6e8aa8356238b1df53fa2f58eb0db1a1">altitude_</a>);</div>
 <div class="line"><span class="lineno">  101</span>    }</div>
 <div class="line"><span class="lineno">  102</span>}</div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Waypoint_html_a322de7bd04476ecd31a98e4fcd80a6a4"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Waypoint.html#a322de7bd04476ecd31a98e4fcd80a6a4">scrimmage::autonomy::Waypoint::quat_tolerance_</a></div><div class="ttdeci">double quat_tolerance_</div><div class="ttdef"><b>Definition</b> <a href="Waypoint_8h_source.html#l00105">Waypoint.h:105</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Waypoint_html_a45f91b6a6b070afd55075def7b257fb3"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Waypoint.html#a45f91b6a6b070afd55075def7b257fb3">scrimmage::autonomy::Waypoint::tolerance_in_2d_</a></div><div class="ttdeci">bool tolerance_in_2d_</div><div class="ttdef"><b>Definition</b> <a href="Waypoint_8h_source.html#l00107">Waypoint.h:107</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Waypoint_html_a6484840fedad602e857f99440a5c876a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Waypoint.html#a6484840fedad602e857f99440a5c876a">scrimmage::autonomy::Waypoint::id_</a></div><div class="ttdeci">size_t id_</div><div class="ttdef"><b>Definition</b> <a href="Waypoint_8h_source.html#l00097">Waypoint.h:97</a></div></div>
@@ -423,7 +424,7 @@ Here is the call graph for this function:</div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1Waypoint_html_adf9ea8d1f471acd01636032f87f36509"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1Waypoint.html#adf9ea8d1f471acd01636032f87f36509">scrimmage::autonomy::Waypoint::time_</a></div><div class="ttdeci">double time_</div><div class="ttdef"><b>Definition</b> <a href="Waypoint_8h_source.html#l00098">Waypoint.h:98</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ac1591b2fb35ea3f61b2e6dcee5a04846"><div class="ttname"><a href="namespacescrimmage.html#ac1591b2fb35ea3f61b2e6dcee5a04846">scrimmage::set</a></div><div class="ttdeci">void set(scrimmage_proto::Vector3d *dst, Eigen::Vector3d src)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00048">ProtoConversions.cpp:48</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00101">altitude_</a>, <a class="el" href="Waypoint_8h_source.html#l00099">latitude_</a>, <a class="el" href="Waypoint_8h_source.html#l00100">longitude_</a>, <a class="el" href="Waypoint_8h_source.html#l00102">quat_</a>, and <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>.</p>
+<p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00101">altitude_</a>, <a class="el" href="Waypoint_8h_source.html#l00099">latitude_</a>, <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Waypoint_8h_source.html#l00100">longitude_</a>, <a class="el" href="Waypoint_8h_source.html#l00102">quat_</a>, and <a class="el" href="ProtoConversions_8cpp_source.html#l00048">scrimmage::set()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -510,7 +511,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00078">time()</a>, and <a class="el" href="Waypoint_8h_source.html#l00098">time_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -689,7 +690,7 @@ Here is the call graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00082">quat()</a>, and <a class="el" href="Waypoint_8h_source.html#l00102">quat_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -738,7 +739,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00104">position_tolerance_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -777,7 +778,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00105">quat_tolerance_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00063">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="GoToWaypoint_8cpp_source.html#l00061">scrimmage::autonomy::GoToWaypoint::step_autonomy()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -951,7 +952,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00099">latitude_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00068">set_latitude()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00068">set_latitude()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -995,7 +996,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00100">longitude_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00069">set_longitude()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00069">set_longitude()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1039,7 +1040,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Waypoint_8h_source.html#l00101">altitude_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00070">set_altitude()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, and <a class="el" href="Waypoint_8h_source.html#l00070">set_altitude()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1582,7 +1583,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1Waypoint.html">Waypoint</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

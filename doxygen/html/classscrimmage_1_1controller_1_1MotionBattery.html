@@ -306,79 +306,80 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Controller.html#a518884810dcdd498fda898378da406b4">scrimmage::Controller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00059">59</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>                                                             {</div>
-<div class="line"><span class="lineno">   60</span>    <span class="comment">// Discover the output variables that point to the input variables for the</span></div>
-<div class="line"><span class="lineno">   61</span>    <span class="comment">// motion model. Setup input variables that mirror the output variables.</span></div>
-<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.output_variable_index()) {</div>
-<div class="line"><span class="lineno">   63</span>        <span class="keywordtype">int</span> out_idx = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(kv.first, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordtype">int</span> in_idx = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(kv.first, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">VariableIO::Direction::In</a>);</div>
-<div class="line"><span class="lineno">   65</span>        <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>[kv.first] = std::make_unique&lt;VarLimit&gt;(in_idx, out_idx, 0.0, 0.0, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   66</span>    }</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordtype">double</span> charge = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_initial&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   69</span>    <span class="keywordtype">double</span> charge_max = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_max&quot;</span>, params, 1.0);</div>
-<div class="line"><span class="lineno">   70</span>    <span class="keywordtype">double</span> charge_min = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_min&quot;</span>, params, 0.0);</div>
-<div class="line"><span class="lineno">   71</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a> = Battery(charge_min, charge_max, charge);</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs;</div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">get_vec_of_vecs</a>(sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;depletion_map&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>), vecs)) {</div>
-<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; vec : vecs) {</div>
-<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">if</span> (vec.size() != 5) {</div>
-<div class="line"><span class="lineno">   77</span>                cout &lt;&lt; <span class="stringliteral">&quot;Invalid depletion mapping: &quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   78</span>                <span class="keywordflow">for</span> (std::string s : vec) {</div>
-<div class="line"><span class="lineno">   79</span>                    cout &lt;&lt; s &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
-<div class="line"><span class="lineno">   80</span>                }</div>
-<div class="line"><span class="lineno">   81</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   82</span>            }</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>            std::string <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> = vec[0];</div>
-<div class="line"><span class="lineno">   85</span>            <span class="keyword">auto</span> it_name = <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>.find(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>);</div>
-<div class="line"><span class="lineno">   86</span>            <span class="keywordflow">if</span> (it_name == <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>.end()) {</div>
-<div class="line"><span class="lineno">   87</span>                cout &lt;&lt; <span class="stringliteral">&quot;MotionBattery: Invalid variable name: &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   88</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   89</span>                it_name-&gt;second-&gt;depletion_rate = std::stod(vec[1]);</div>
-<div class="line"><span class="lineno">   90</span>                it_name-&gt;second-&gt;limit_when_depleted = <a class="code hl_function" href="namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96">str2bool</a>(vec[3]);</div>
-<div class="line"><span class="lineno">   91</span>                it_name-&gt;second-&gt;value_when_depleted = std::stod(vec[4]);</div>
-<div class="line"><span class="lineno">   92</span>            }</div>
-<div class="line"><span class="lineno">   93</span>        }</div>
-<div class="line"><span class="lineno">   94</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   95</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse depletion_map&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>    <span class="comment">// Charging subscriber</span></div>
-<div class="line"><span class="lineno">   99</span>    <span class="keyword">auto</span> callback_charge_added = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::Charge&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id() == msg-&gt;data.id()) {</div>
-<div class="line"><span class="lineno">  101</span>            <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d">add_charge</a>(msg-&gt;data.charge_amount());</div>
-<div class="line"><span class="lineno">  102</span>        }</div>
-<div class="line"><span class="lineno">  103</span>    };</div>
-<div class="line"><span class="lineno">  104</span>    subscribe&lt;sm::Charge&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;ChargeAdded&quot;</span>, callback_charge_added);</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>    <span class="comment">// Service call to get battery charge</span></div>
-<div class="line"><span class="lineno">  107</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;services()[<span class="stringliteral">&quot;get_battery_charge&quot;</span>] =</div>
-<div class="line"><span class="lineno">  108</span>        std::bind(&amp;<a class="code hl_function" href="classscrimmage_1_1controller_1_1MotionBattery.html#a7ab2555ebeedd55e066141068424655d">MotionBattery::get_battery_charge</a>, <span class="keyword">this</span>, pl::_1, pl::_2);</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;publish_charge&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a>);</div>
-<div class="line"><span class="lineno">  111</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a48fe909ed43ab9fe2a47b8e5509831b9">pub_charge_percentage_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ChargePercentage&quot;</span>);</div>
-<div class="line"><span class="lineno">  112</span>}</div>
+<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00057">57</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>                                                             {</div>
+<div class="line"><span class="lineno">   58</span>    <span class="comment">// Discover the output variables that point to the input variables for the</span></div>
+<div class="line"><span class="lineno">   59</span>    <span class="comment">// motion model. Setup input variables that mirror the output variables.</span></div>
+<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.output_variable_index()) {</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordtype">int</span> out_idx = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(kv.first, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">VariableIO::Direction::Out</a>);</div>
+<div class="line"><span class="lineno">   62</span>        <span class="keywordtype">int</span> in_idx = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">declare</a>(kv.first, <a class="code hl_enumvalue" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">VariableIO::Direction::In</a>);</div>
+<div class="line"><span class="lineno">   63</span>        <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>[kv.first] = std::make_unique&lt;VarLimit&gt;(in_idx, out_idx, 0.0, 0.0, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   64</span>    }</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>    <span class="keywordtype">double</span> charge = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_initial&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   67</span>    <span class="keywordtype">double</span> charge_max = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_max&quot;</span>, params, 1.0);</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordtype">double</span> charge_min = sc::get&lt;double&gt;(<span class="stringliteral">&quot;charge_min&quot;</span>, params, 0.0);</div>
+<div class="line"><span class="lineno">   69</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a> = Battery(charge_min, charge_max, charge);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; vecs;</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">get_vec_of_vecs</a>(sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;depletion_map&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>), vecs)) {</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; vec : vecs) {</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">if</span> (vec.size() != 5) {</div>
+<div class="line"><span class="lineno">   75</span>                <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Invalid depletion mapping&quot;</span>);</div>
+<div class="line"><span class="lineno">   76</span>                <span class="keywordflow">for</span> (<span class="keyword">const</span> std::string&amp; s : vec) {</div>
+<div class="line"><span class="lineno">   77</span>                    <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;  &quot;</span> &lt;&lt; s);</div>
+<div class="line"><span class="lineno">   78</span>                }</div>
+<div class="line"><span class="lineno">   79</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   80</span>            }</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>            std::string <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> = vec[0];</div>
+<div class="line"><span class="lineno">   83</span>            <span class="keyword">auto</span> it_name = <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>.find(<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>);</div>
+<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (it_name == <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>.end()) {</div>
+<div class="line"><span class="lineno">   85</span>                <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;MotionBattery: Invalid variable name: &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>);</div>
+<div class="line"><span class="lineno">   86</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   87</span>                it_name-&gt;second-&gt;depletion_rate = std::stod(vec[1]);</div>
+<div class="line"><span class="lineno">   88</span>                it_name-&gt;second-&gt;limit_when_depleted = <a class="code hl_function" href="namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96">str2bool</a>(vec[3]);</div>
+<div class="line"><span class="lineno">   89</span>                it_name-&gt;second-&gt;value_when_depleted = std::stod(vec[4]);</div>
+<div class="line"><span class="lineno">   90</span>            }</div>
+<div class="line"><span class="lineno">   91</span>        }</div>
+<div class="line"><span class="lineno">   92</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   93</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to parse depletion_map&quot;</span>);</div>
+<div class="line"><span class="lineno">   94</span>    }</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>    <span class="comment">// Charging subscriber</span></div>
+<div class="line"><span class="lineno">   97</span>    <span class="keyword">auto</span> callback_charge_added = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::Charge&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id() == msg-&gt;data.id()) {</div>
+<div class="line"><span class="lineno">   99</span>            <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d">add_charge</a>(msg-&gt;data.charge_amount());</div>
+<div class="line"><span class="lineno">  100</span>        }</div>
+<div class="line"><span class="lineno">  101</span>    };</div>
+<div class="line"><span class="lineno">  102</span>    subscribe&lt;sm::Charge&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;ChargeAdded&quot;</span>, callback_charge_added);</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>    <span class="comment">// Service call to get battery charge</span></div>
+<div class="line"><span class="lineno">  105</span>    <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;services()[<span class="stringliteral">&quot;get_battery_charge&quot;</span>] =</div>
+<div class="line"><span class="lineno">  106</span>        std::bind(&amp;<a class="code hl_function" href="classscrimmage_1_1controller_1_1MotionBattery.html#a7ab2555ebeedd55e066141068424655d">MotionBattery::get_battery_charge</a>, <span class="keyword">this</span>, pl::_1, pl::_2);</div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;publish_charge&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a>);</div>
+<div class="line"><span class="lineno">  109</span>    <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a48fe909ed43ab9fe2a47b8e5509831b9">pub_charge_percentage_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;ChargePercentage&quot;</span>);</div>
+<div class="line"><span class="lineno">  110</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Battery_html_a955a109172fd6359dace19e2240ffb6d"><div class="ttname"><a href="classscrimmage_1_1Battery.html#a955a109172fd6359dace19e2240ffb6d">scrimmage::Battery::add_charge</a></div><div class="ttdeci">void add_charge(const double &amp;amount)</div><div class="ttdef"><b>Definition</b> <a href="Battery_8cpp_source.html#l00048">Battery.cpp:48</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab275477e919de4ee2c7d031717cb5de6"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">scrimmage::EntityPlugin::vars_</a></div><div class="ttdeci">VariableIO vars_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00195">EntityPlugin.h:195</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00042">Plugin.cpp:42</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00043">Plugin.cpp:43</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Direction::Out</a></div><div class="ttdeci">@ Out</div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::Direction::In</a></div><div class="ttdeci">@ In</div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00124">VariableIO.cpp:124</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a17480737fb5915e676286816fee2412e"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a17480737fb5915e676286816fee2412e">scrimmage::VariableIO::declare</a></div><div class="ttdeci">int declare(std::string var, Direction dir)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00125">VariableIO.cpp:125</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_a48fe909ed43ab9fe2a47b8e5509831b9"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#a48fe909ed43ab9fe2a47b8e5509831b9">scrimmage::controller::MotionBattery::pub_charge_percentage_</a></div><div class="ttdeci">PublisherPtr pub_charge_percentage_</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8h_source.html#l00087">MotionBattery.h:87</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_a5257e5e011923cdbc910ce6243791009"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">scrimmage::controller::MotionBattery::publish_charge_</a></div><div class="ttdeci">bool publish_charge_</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8h_source.html#l00086">MotionBattery.h:86</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_a7ab2555ebeedd55e066141068424655d"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#a7ab2555ebeedd55e066141068424655d">scrimmage::controller::MotionBattery::get_battery_charge</a></div><div class="ttdeci">bool get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &amp;response)</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8cpp_source.html#l00138">MotionBattery.cpp:138</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_a7ab2555ebeedd55e066141068424655d"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#a7ab2555ebeedd55e066141068424655d">scrimmage::controller::MotionBattery::get_battery_charge</a></div><div class="ttdeci">bool get_battery_charge(scrimmage::MessageBasePtr request, scrimmage::MessageBasePtr &amp;response)</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8cpp_source.html#l00136">MotionBattery.cpp:136</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_a81926d5e64dda24d34b903e2ff3ff9cd"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">scrimmage::controller::MotionBattery::io_map_</a></div><div class="ttdeci">std::map&lt; std::string, std::unique_ptr&lt; VarLimit &gt; &gt; io_map_</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8h_source.html#l00084">MotionBattery.h:84</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1controller_1_1MotionBattery_html_aedd1f59ed0ec229fd68d7c352983db59"><div class="ttname"><a href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">scrimmage::controller::MotionBattery::battery_</a></div><div class="ttdeci">Battery battery_</div><div class="ttdef"><b>Definition</b> <a href="MotionBattery_8h_source.html#l00057">MotionBattery.h:57</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00274">ParseUtils.cpp:274</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_abffb4b71da39ec24ad042a27d968da96"><div class="ttname"><a href="namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96">scrimmage::str2bool</a></div><div class="ttdeci">bool str2bool(std::string str)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00203">ParseUtils.cpp:203</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a61fa914805bfcc0d3d8e06dbdeb86c9d"><div class="ttname"><a href="namespacescrimmage.html#a61fa914805bfcc0d3d8e06dbdeb86c9d">scrimmage::get_vec_of_vecs</a></div><div class="ttdeci">bool get_vec_of_vecs(const std::string &amp;str, std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;out, const std::string &amp;delims=&quot; ,&quot;)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00278">ParseUtils.cpp:278</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_abffb4b71da39ec24ad042a27d968da96"><div class="ttname"><a href="namespacescrimmage.html#abffb4b71da39ec24ad042a27d968da96">scrimmage::str2bool</a></div><div class="ttdeci">bool str2bool(std::string str)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00207">ParseUtils.cpp:207</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Battery_8cpp_source.html#l00048">scrimmage::Battery::add_charge()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="MotionBattery_8h_source.html#l00057">battery_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00138">get_battery_charge()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00274">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="MotionBattery_8h_source.html#l00084">io_map_</a>, <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00081">scrimmage::VariableIO::output_variable_index()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="MotionBattery_8h_source.html#l00087">pub_charge_percentage_</a>, <a class="el" href="MotionBattery_8h_source.html#l00086">publish_charge_</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00203">scrimmage::str2bool()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="Battery_8cpp_source.html#l00048">scrimmage::Battery::add_charge()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="MotionBattery_8h_source.html#l00057">battery_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00136">get_battery_charge()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00278">scrimmage::get_vec_of_vecs()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="MotionBattery_8h_source.html#l00084">io_map_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Plugin_8cpp_source.html#l00043">scrimmage::Plugin::name()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00082">scrimmage::VariableIO::output_variable_index()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="MotionBattery_8h_source.html#l00087">pub_charge_percentage_</a>, <a class="el" href="MotionBattery_8h_source.html#l00086">publish_charge_</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00207">scrimmage::str2bool()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -442,38 +443,38 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Controller.html#aa826365ab2a10ae1f5563538357d8bbe">scrimmage::Controller</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00114">114</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  114</span>                                            {</div>
-<div class="line"><span class="lineno">  115</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a>) {</div>
-<div class="line"><span class="lineno">  116</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;double&gt;&gt;(<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75">charge_percentage</a>());</div>
-<div class="line"><span class="lineno">  117</span>        <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a48fe909ed43ab9fe2a47b8e5509831b9">pub_charge_percentage_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  118</span>    }</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>    <span class="comment">// Loop over all variables in the io_map_, apply charge calculation, and</span></div>
-<div class="line"><span class="lineno">  121</span>    <span class="comment">// limit output if required</span></div>
-<div class="line"><span class="lineno">  122</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>) {</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordtype">double</span> value = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c">input</a>(kv.second-&gt;input_idx);</div>
-<div class="line"><span class="lineno">  124</span>        <span class="keywordtype">double</span> depletion = kv.second-&gt;calc_depletion(value, <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;dt());</div>
-<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd">deplete</a>(depletion)) {</div>
-<div class="line"><span class="lineno">  126</span>            <span class="comment">// If deplete() returns false, the battery is depleted.</span></div>
-<div class="line"><span class="lineno">  127</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">parent</a>()-&gt;collision();</div>
-<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">if</span> (kv.second-&gt;limit_when_depleted) {</div>
-<div class="line"><span class="lineno">  129</span>                <span class="comment">// Limit the output value if specified</span></div>
-<div class="line"><span class="lineno">  130</span>                value = kv.second-&gt;value_when_depleted;</div>
-<div class="line"><span class="lineno">  131</span>            }</div>
-<div class="line"><span class="lineno">  132</span>        }</div>
-<div class="line"><span class="lineno">  133</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(kv.second-&gt;output_idx, value);</div>
-<div class="line"><span class="lineno">  134</span>    }</div>
-<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  136</span>}</div>
+<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00112">112</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  112</span>                                            {</div>
+<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a5257e5e011923cdbc910ce6243791009">publish_charge_</a>) {</div>
+<div class="line"><span class="lineno">  114</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;double&gt;&gt;(<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75">charge_percentage</a>());</div>
+<div class="line"><span class="lineno">  115</span>        <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a48fe909ed43ab9fe2a47b8e5509831b9">pub_charge_percentage_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  116</span>    }</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>    <span class="comment">// Loop over all variables in the io_map_, apply charge calculation, and</span></div>
+<div class="line"><span class="lineno">  119</span>    <span class="comment">// limit output if required</span></div>
+<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#a81926d5e64dda24d34b903e2ff3ff9cd">io_map_</a>) {</div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordtype">double</span> value = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c">input</a>(kv.second-&gt;input_idx);</div>
+<div class="line"><span class="lineno">  122</span>        <span class="keywordtype">double</span> depletion = kv.second-&gt;calc_depletion(value, <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">time_</a>-&gt;dt());</div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd">deplete</a>(depletion)) {</div>
+<div class="line"><span class="lineno">  124</span>            <span class="comment">// If deplete() returns false, the battery is depleted.</span></div>
+<div class="line"><span class="lineno">  125</span>            <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">parent</a>()-&gt;collision();</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">if</span> (kv.second-&gt;limit_when_depleted) {</div>
+<div class="line"><span class="lineno">  127</span>                <span class="comment">// Limit the output value if specified</span></div>
+<div class="line"><span class="lineno">  128</span>                value = kv.second-&gt;value_when_depleted;</div>
+<div class="line"><span class="lineno">  129</span>            }</div>
+<div class="line"><span class="lineno">  130</span>        }</div>
+<div class="line"><span class="lineno">  131</span>        <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#ab275477e919de4ee2c7d031717cb5de6">vars_</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">output</a>(kv.second-&gt;output_idx, value);</div>
+<div class="line"><span class="lineno">  132</span>    }</div>
+<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  134</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Battery_html_a7bd2f9b3aa843039a14ac9700ea3eacd"><div class="ttname"><a href="classscrimmage_1_1Battery.html#a7bd2f9b3aa843039a14ac9700ea3eacd">scrimmage::Battery::deplete</a></div><div class="ttdeci">bool deplete(const double &amp;amount)</div><div class="ttdef"><b>Definition</b> <a href="Battery_8cpp_source.html#l00055">Battery.cpp:55</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Battery_html_a99ec5890238122bd3bf946b3210e4d75"><div class="ttname"><a href="classscrimmage_1_1Battery.html#a99ec5890238122bd3bf946b3210e4d75">scrimmage::Battery::charge_percentage</a></div><div class="ttdeci">double charge_percentage()</div><div class="ttdef"><b>Definition</b> <a href="Battery_8cpp_source.html#l00077">Battery.cpp:77</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a1167685c3943fed7c98fa4f436fcc8ce"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a1167685c3943fed7c98fa4f436fcc8ce">scrimmage::EntityPlugin::time_</a></div><div class="ttdeci">std::shared_ptr&lt; const Time &gt; time_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00199">EntityPlugin.h:199</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_ab717f6cf97af58cc398a9ecd742814a8"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#ab717f6cf97af58cc398a9ecd742814a8">scrimmage::EntityPlugin::parent</a></div><div class="ttdeci">virtual EntityPtr parent()</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00067">EntityPlugin.cpp:67</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00147">VariableIO.cpp:147</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a33f3e84630b1ba1839f8c9e0f4ecf46c"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c">scrimmage::VariableIO::input</a></div><div class="ttdeci">double input(int i)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00143">VariableIO.cpp:143</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a06635f8f0f60b68ea70bae0f687480b7"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a06635f8f0f60b68ea70bae0f687480b7">scrimmage::VariableIO::output</a></div><div class="ttdeci">void output(int i, double x)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00148">VariableIO.cpp:148</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a33f3e84630b1ba1839f8c9e0f4ecf46c"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c">scrimmage::VariableIO::input</a></div><div class="ttdeci">double input(int i)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00144">VariableIO.cpp:144</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="MotionBattery_8h_source.html#l00057">battery_</a>, <a class="el" href="Battery_8cpp_source.html#l00077">scrimmage::Battery::charge_percentage()</a>, <a class="el" href="Battery_8cpp_source.html#l00055">scrimmage::Battery::deplete()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="MotionBattery_8h_source.html#l00084">io_map_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="MotionBattery_8h_source.html#l00087">pub_charge_percentage_</a>, <a class="el" href="MotionBattery_8h_source.html#l00086">publish_charge_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="MotionBattery_8h_source.html#l00057">battery_</a>, <a class="el" href="Battery_8cpp_source.html#l00077">scrimmage::Battery::charge_percentage()</a>, <a class="el" href="Battery_8cpp_source.html#l00055">scrimmage::Battery::deplete()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00144">scrimmage::VariableIO::input()</a>, <a class="el" href="MotionBattery_8h_source.html#l00084">io_map_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="MotionBattery_8h_source.html#l00087">pub_charge_percentage_</a>, <a class="el" href="MotionBattery_8h_source.html#l00086">publish_charge_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -529,16 +530,16 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00138">138</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  140</span>                                       {</div>
-<div class="line"><span class="lineno">  141</span>    response = std::make_shared&lt;sc::Message&lt;double&gt;&gt;(<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a0c05d7c8f07376831bcc4d76a0819755">current_charge</a>());</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  143</span>}</div>
+<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00136">136</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  138</span>                                       {</div>
+<div class="line"><span class="lineno">  139</span>    response = std::make_shared&lt;sc::Message&lt;double&gt;&gt;(<a class="code hl_variable" href="classscrimmage_1_1controller_1_1MotionBattery.html#aedd1f59ed0ec229fd68d7c352983db59">battery_</a>.<a class="code hl_function" href="classscrimmage_1_1Battery.html#a0c05d7c8f07376831bcc4d76a0819755">current_charge</a>());</div>
+<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  141</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Battery_html_a0c05d7c8f07376831bcc4d76a0819755"><div class="ttname"><a href="classscrimmage_1_1Battery.html#a0c05d7c8f07376831bcc4d76a0819755">scrimmage::Battery::current_charge</a></div><div class="ttdeci">const double &amp; current_charge()</div><div class="ttdef"><b>Definition</b> <a href="Battery_8cpp_source.html#l00073">Battery.cpp:73</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="MotionBattery_8h_source.html#l00057">battery_</a>, and <a class="el" href="Battery_8cpp_source.html#l00073">scrimmage::Battery::current_charge()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00059">init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00057">init()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -596,10 +597,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00145">145</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>                                                                                     {</div>
-<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">return</span> 0.0;</div>
-<div class="line"><span class="lineno">  147</span>}</div>
+<p class="definition">Definition at line <a class="el" href="MotionBattery_8cpp_source.html#l00143">143</a> of file <a class="el" href="MotionBattery_8cpp_source.html">MotionBattery.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  143</span>                                                                                     {</div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><span class="lineno">  145</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -626,7 +627,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotionBattery_8h_source.html#l00057">57</a> of file <a class="el" href="MotionBattery_8h_source.html">MotionBattery.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00138">get_battery_charge()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00059">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00114">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00136">get_battery_charge()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00057">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00112">step()</a>.</p>
 
 </div>
 </div>
@@ -652,7 +653,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotionBattery_8h_source.html#l00084">84</a> of file <a class="el" href="MotionBattery_8h_source.html">MotionBattery.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00059">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00114">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00057">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00112">step()</a>.</p>
 
 </div>
 </div>
@@ -678,7 +679,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotionBattery_8h_source.html#l00086">86</a> of file <a class="el" href="MotionBattery_8h_source.html">MotionBattery.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00059">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00114">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00057">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00112">step()</a>.</p>
 
 </div>
 </div>
@@ -704,7 +705,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="MotionBattery_8h_source.html#l00087">87</a> of file <a class="el" href="MotionBattery_8h_source.html">MotionBattery.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00059">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00114">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MotionBattery_8cpp_source.html#l00057">init()</a>, and <a class="el" href="MotionBattery_8cpp_source.html#l00112">step()</a>.</p>
 
 </div>
 </div>
@@ -718,7 +719,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1controller.html">controller</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1controller_1_1MotionBattery.html">MotionBattery</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

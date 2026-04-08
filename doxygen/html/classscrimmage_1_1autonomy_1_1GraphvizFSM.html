@@ -402,8 +402,8 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">56</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   56</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00054">54</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -434,102 +434,103 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a65757ab0da91dda990d6d2fa1bce1ec5">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">58</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                           {</div>
-<div class="line"><span class="lineno">   59</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;print_current_state&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a>);</div>
-<div class="line"><span class="lineno">   60</span>    std::string graph_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;graphviz_fsm&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>    <span class="comment">// Replace any &#39; with &quot; characters. This allows the graphviz_fsm string to</span></div>
-<div class="line"><span class="lineno">   63</span>    <span class="comment">// include single quotes instead of having to use &amp;quot;</span></div>
-<div class="line"><span class="lineno">   64</span>    boost::replace_all(graph_str, <span class="stringliteral">&quot;&#39;&quot;</span>, <span class="stringliteral">&quot;\&quot;&quot;</span>);</div>
+<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">56</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>                                                           {</div>
+<div class="line"><span class="lineno">   57</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a> = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;print_current_state&quot;</span>, params, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a>);</div>
+<div class="line"><span class="lineno">   58</span>    std::string graph_str = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;graphviz_fsm&quot;</span>, params, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    <span class="comment">// Replace any &#39; with &quot; characters. This allows the graphviz_fsm string to</span></div>
+<div class="line"><span class="lineno">   61</span>    <span class="comment">// include single quotes instead of having to use &amp;quot;</span></div>
+<div class="line"><span class="lineno">   62</span>    boost::replace_all(graph_str, <span class="stringliteral">&quot;&#39;&quot;</span>, <span class="stringliteral">&quot;\&quot;&quot;</span>);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>    boost::dynamic_properties dp(boost::ignore_other_properties);</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>    boost::dynamic_properties dp(boost::ignore_other_properties);</div>
+<div class="line"><span class="lineno">   66</span>    dp.property(<span class="stringliteral">&quot;node_id&quot;</span>, boost::get(&amp;<a class="code hl_variable" href="structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1DotVertex.html#a304a4e50af1ae138dc162ea89e9d69a1">DotVertex::name</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
 <div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>    dp.property(<span class="stringliteral">&quot;node_id&quot;</span>, boost::get(&amp;<a class="code hl_variable" href="structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1DotVertex.html#a304a4e50af1ae138dc162ea89e9d69a1">DotVertex::name</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
-<div class="line"><span class="lineno">   69</span> </div>
-<div class="line"><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(label_t(), <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>);</div>
-<div class="line"><span class="lineno">   71</span>    dp.property(<span class="stringliteral">&quot;label&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>);</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">if</span> (!boost::read_graphviz(graph_str, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>, dp)) {</div>
-<div class="line"><span class="lineno">   74</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to parse graphviz fms&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   75</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordtype">bool</span> create_fsm_pdf = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;generate_fsm_pdf&quot;</span>, params, <span class="keyword">false</span>);</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">if</span> (create_fsm_pdf) {</div>
-<div class="line"><span class="lineno">   80</span>        std::ofstream gv_file(<span class="stringliteral">&quot;./fsm.gv&quot;</span>);</div>
-<div class="line"><span class="lineno">   81</span>        gv_file &lt;&lt; graph_str;</div>
-<div class="line"><span class="lineno">   82</span>        gv_file.close();</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>        <span class="keywordtype">int</span> result = system(<span class="stringliteral">&quot;dot -Tpdf fsm.gv -o fsm.pdf&quot;</span>);</div>
-<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">if</span> (result != 0) {</div>
-<div class="line"><span class="lineno">   86</span>            cout &lt;&lt; <span class="stringliteral">&quot;Error during FSM pdf creation. Make sure the dot program &quot;</span></div>
-<div class="line"><span class="lineno">   87</span>                 &lt;&lt; <span class="stringliteral">&quot;is installed.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
-<div class="line"><span class="lineno">   89</span>    }</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>    std::string qi_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;initial_node_name&quot;</span>, params, <span class="stringliteral">&quot;qi&quot;</span>);</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>    <span class="comment">// Find the initial state</span></div>
-<div class="line"><span class="lineno">   94</span>    <span class="keyword">typedef</span> boost::graph_traits&lt;graph_t&gt;::vertex_iterator vertex_iter;</div>
-<div class="line"><span class="lineno">   95</span>    std::pair&lt;vertex_iter, vertex_iter&gt; vp;</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">for</span> (vp = boost::vertices(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); vp.first != vp.second; ++vp.first) {</div>
-<div class="line"><span class="lineno">   97</span>        boost::graph_traits&lt;graph_t&gt;::vertex_descriptor v = *vp.first;</div>
-<div class="line"><span class="lineno">   98</span>        <span class="keywordflow">if</span> (qi_name == <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[v].<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>) {</div>
-<div class="line"><span class="lineno">   99</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a> = v;</div>
-<div class="line"><span class="lineno">  100</span>        }</div>
-<div class="line"><span class="lineno">  101</span>    }</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span>    std::string state_topic = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;state_topic_name&quot;</span>, params, <span class="stringliteral">&quot;State&quot;</span>);</div>
-<div class="line"><span class="lineno">  104</span>    std::string event_topic = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;event_topic_name&quot;</span>, params, <span class="stringliteral">&quot;Event&quot;</span>);</div>
-<div class="line"><span class="lineno">  105</span>    std::string network_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;network_name&quot;</span>, params, <span class="stringliteral">&quot;LocalNetwork&quot;</span>);</div>
+<div class="line"><span class="lineno">   68</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(label_t(), <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>);</div>
+<div class="line"><span class="lineno">   69</span>    dp.property(<span class="stringliteral">&quot;label&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>);</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">if</span> (!boost::read_graphviz(graph_str, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>, dp)) {</div>
+<div class="line"><span class="lineno">   72</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to parse graphviz fms&quot;</span>);</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   74</span>    }</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordtype">bool</span> create_fsm_pdf = sc::get&lt;bool&gt;(<span class="stringliteral">&quot;generate_fsm_pdf&quot;</span>, params, <span class="keyword">false</span>);</div>
+<div class="line"><span class="lineno">   77</span>    <span class="keywordflow">if</span> (create_fsm_pdf) {</div>
+<div class="line"><span class="lineno">   78</span>        std::ofstream gv_file(<span class="stringliteral">&quot;./fsm.gv&quot;</span>);</div>
+<div class="line"><span class="lineno">   79</span>        gv_file &lt;&lt; graph_str;</div>
+<div class="line"><span class="lineno">   80</span>        gv_file.close();</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>        <span class="keywordtype">int</span> result = system(<span class="stringliteral">&quot;dot -Tpdf fsm.gv -o fsm.pdf&quot;</span>);</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">if</span> (result != 0) {</div>
+<div class="line"><span class="lineno">   84</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Error during FSM pdf creation. Make sure the dot program is installed.&quot;</span>);</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
+<div class="line"><span class="lineno">   86</span>    }</div>
+<div class="line"><span class="lineno">   87</span> </div>
+<div class="line"><span class="lineno">   88</span>    std::string qi_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;initial_node_name&quot;</span>, params, <span class="stringliteral">&quot;qi&quot;</span>);</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>    <span class="comment">// Find the initial state</span></div>
+<div class="line"><span class="lineno">   91</span>    <span class="keyword">typedef</span> boost::graph_traits&lt;graph_t&gt;::vertex_iterator vertex_iter;</div>
+<div class="line"><span class="lineno">   92</span>    std::pair&lt;vertex_iter, vertex_iter&gt; vp;</div>
+<div class="line"><span class="lineno">   93</span>    <span class="keywordflow">for</span> (vp = boost::vertices(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); vp.first != vp.second; ++vp.first) {</div>
+<div class="line"><span class="lineno">   94</span>        boost::graph_traits&lt;graph_t&gt;::vertex_descriptor v = *vp.first;</div>
+<div class="line"><span class="lineno">   95</span>        <span class="keywordflow">if</span> (qi_name == <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[v].<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>) {</div>
+<div class="line"><span class="lineno">   96</span>            <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a> = v;</div>
+<div class="line"><span class="lineno">   97</span>        }</div>
+<div class="line"><span class="lineno">   98</span>    }</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>    std::string state_topic = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;state_topic_name&quot;</span>, params, <span class="stringliteral">&quot;State&quot;</span>);</div>
+<div class="line"><span class="lineno">  101</span>    std::string event_topic = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;event_topic_name&quot;</span>, params, <span class="stringliteral">&quot;Event&quot;</span>);</div>
+<div class="line"><span class="lineno">  102</span>    std::string network_name = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;network_name&quot;</span>, params, <span class="stringliteral">&quot;LocalNetwork&quot;</span>);</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>    <span class="comment">// Setup publisher on the state topic</span></div>
+<div class="line"><span class="lineno">  105</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a49cd76202e849019d86afb5a3e315efa">state_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(network_name, state_topic);</div>
 <div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span>    <span class="comment">// Setup publisher on the state topic</span></div>
-<div class="line"><span class="lineno">  108</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a49cd76202e849019d86afb5a3e315efa">state_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(network_name, state_topic);</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>    <span class="comment">// Subscribe to event topic</span></div>
-<div class="line"><span class="lineno">  111</span>    <span class="keyword">auto</span> event_callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;std::string&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">  112</span>        <span class="comment">// If the event received is a trigger for the current state, transition</span></div>
-<div class="line"><span class="lineno">  113</span>        <span class="comment">// to the next state.</span></div>
-<div class="line"><span class="lineno">  114</span>        <span class="keyword">typename</span> boost::graph_traits&lt;graph_t&gt;::out_edge_iterator ei, ei_end;</div>
-<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">for</span> (boost::tie(ei, ei_end) = boost::out_edges(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); ei != ei_end;</div>
-<div class="line"><span class="lineno">  116</span>             ++ei) {</div>
-<div class="line"><span class="lineno">  117</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>(*ei) == msg-&gt;data) {</div>
-<div class="line"><span class="lineno">  118</span>                this-&gt;<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">update_state_info</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, boost::target(*ei, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
-<div class="line"><span class="lineno">  119</span>            }</div>
-<div class="line"><span class="lineno">  120</span>        }</div>
-<div class="line"><span class="lineno">  121</span>    };</div>
-<div class="line"><span class="lineno">  122</span>    subscribe&lt;std::string&gt;(network_name, event_topic, event_callback);</div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  125</span>}</div>
+<div class="line"><span class="lineno">  107</span>    <span class="comment">// Subscribe to event topic</span></div>
+<div class="line"><span class="lineno">  108</span>    <span class="keyword">auto</span> event_callback = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;std::string&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">  109</span>        <span class="comment">// If the event received is a trigger for the current state, transition</span></div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// to the next state.</span></div>
+<div class="line"><span class="lineno">  111</span>        <span class="keyword">typename</span> boost::graph_traits&lt;graph_t&gt;::out_edge_iterator ei, ei_end;</div>
+<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">for</span> (boost::tie(ei, ei_end) = boost::out_edges(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); ei != ei_end;</div>
+<div class="line"><span class="lineno">  113</span>             ++ei) {</div>
+<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>(*ei) == msg-&gt;data) {</div>
+<div class="line"><span class="lineno">  115</span>                this-&gt;<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">update_state_info</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, boost::target(*ei, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
+<div class="line"><span class="lineno">  116</span>            }</div>
+<div class="line"><span class="lineno">  117</span>        }</div>
+<div class="line"><span class="lineno">  118</span>    };</div>
+<div class="line"><span class="lineno">  119</span>    subscribe&lt;std::string&gt;(network_name, event_topic, event_callback);</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  122</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa4237f084247e93ca942aa70708aad03"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">scrimmage::EntityPlugin::advertise</a></div><div class="ttdeci">PublisherPtr advertise(std::string network_name, std::string topic)</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8cpp_source.html#l00098">EntityPlugin.cpp:98</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00042">Plugin.cpp:42</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00043">Plugin.cpp:43</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_a36aa7e50149c5112e818ee3cccd63f6d"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">scrimmage::autonomy::GraphvizFSM::fsm_graph_</a></div><div class="ttdeci">graph_t fsm_graph_</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00080">GraphvizFSM.h:80</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_a3f55a78d8672ee0f23b4ace825aee96a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">scrimmage::autonomy::GraphvizFSM::update_state_info</a></div><div class="ttdeci">void update_state_info(boost::graph_traits&lt; graph_t &gt;::vertex_descriptor current_state, boost::graph_traits&lt; graph_t &gt;::vertex_descriptor next_state)</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8cpp_source.html#l00143">GraphvizFSM.cpp:143</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_a3f55a78d8672ee0f23b4ace825aee96a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">scrimmage::autonomy::GraphvizFSM::update_state_info</a></div><div class="ttdeci">void update_state_info(boost::graph_traits&lt; graph_t &gt;::vertex_descriptor current_state, boost::graph_traits&lt; graph_t &gt;::vertex_descriptor next_state)</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8cpp_source.html#l00140">GraphvizFSM.cpp:140</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_a49cd76202e849019d86afb5a3e315efa"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a49cd76202e849019d86afb5a3e315efa">scrimmage::autonomy::GraphvizFSM::state_pub_</a></div><div class="ttdeci">scrimmage::PublisherPtr state_pub_</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00082">GraphvizFSM.h:82</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_a68a7bd75076d8d4b85f5a29fb9b24c2a"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">scrimmage::autonomy::GraphvizFSM::print_current_state_</a></div><div class="ttdeci">bool print_current_state_</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00090">GraphvizFSM.h:90</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_ad4713ff2cf23aa2ca7911cb2823466a7"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">scrimmage::autonomy::GraphvizFSM::label_</a></div><div class="ttdeci">boost::property_map&lt; graph_t, label_t &gt;::type label_</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00084">GraphvizFSM.h:84</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_html_afedda07782e1b72f0247b952a817e38e"><div class="ttname"><a href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">scrimmage::autonomy::GraphvizFSM::current_state_</a></div><div class="ttdeci">boost::graph_traits&lt; graph_t &gt;::vertex_descriptor current_state_</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00081">GraphvizFSM.h:81</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 <div class="ttc" id="astructscrimmage_1_1autonomy_1_1GraphvizFSM_1_1DotVertex_html_a304a4e50af1ae138dc162ea89e9d69a1"><div class="ttname"><a href="structscrimmage_1_1autonomy_1_1GraphvizFSM_1_1DotVertex.html#a304a4e50af1ae138dc162ea89e9d69a1">scrimmage::autonomy::GraphvizFSM::DotVertex::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> <a href="GraphvizFSM_8h_source.html#l00055">GraphvizFSM.h:55</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00084">label_</a>, <a class="el" href="Plugin_8cpp_source.html#l00042">scrimmage::Plugin::name()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00055">scrimmage::autonomy::GraphvizFSM::DotVertex::name</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00090">print_current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00082">state_pub_</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="ParseUtils_8h_source.html#l00088">scrimmage::get()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00084">label_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="Plugin_8cpp_source.html#l00043">scrimmage::Plugin::name()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00055">scrimmage::autonomy::GraphvizFSM::DotVertex::name</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00090">print_current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00082">state_pub_</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classscrimmage_1_1autonomy_1_1GraphvizFSM_a3a9719b5273760f68fd8b92425e6d98c_cgraph.png" border="0" usemap="#aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3a9719b5273760f68fd8b92425e6d98c_cgraph" alt=""/></div>
 <map name="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3a9719b5273760f68fd8b92425e6d98c_cgraph" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3a9719b5273760f68fd8b92425e6d98c_cgraph">
 <area shape="rect" title=" " alt="" coords="5,88,175,128"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="226,5,407,45"/>
-<area shape="poly" title=" " alt="" coords="141,85,222,55,242,48,244,53,224,60,143,90"/>
-<area shape="rect" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="255,70,379,95"/>
-<area shape="poly" title=" " alt="" coords="174,96,241,88,241,94,175,101"/>
-<area shape="rect" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="223,119,411,145"/>
-<area shape="poly" title=" " alt="" coords="175,114,209,118,209,123,174,120"/>
-<area shape="rect" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a" title=" " alt="" coords="232,169,401,223"/>
-<area shape="poly" title=" " alt="" coords="144,126,234,161,232,166,142,131"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03" title=" " alt="" coords="223,5,404,45"/>
+<area shape="poly" title=" " alt="" coords="141,85,222,55,241,48,243,53,224,60,143,90"/>
+<area shape="rect" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456" title=" " alt="" coords="251,70,375,95"/>
+<area shape="poly" title=" " alt="" coords="174,96,237,89,238,94,175,101"/>
+<area shape="rect" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="452,154,640,179"/>
+<area shape="poly" title=" " alt="" coords="175,116,438,150,438,156,175,121"/>
+<area shape="rect" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a" title=" " alt="" coords="229,171,398,226"/>
+<area shape="poly" title=" " alt="" coords="141,126,234,164,232,169,139,131"/>
+<area shape="poly" title=" " alt="" coords="398,184,440,179,440,184,399,190"/>
 </map>
 </div>
 
@@ -571,24 +572,24 @@ Here is the call graph for this function:</div>
 
 <p>Reimplemented from <a class="el" href="classscrimmage_1_1Autonomy.html#a690f70096e5488894b42057f497330f2">scrimmage::Autonomy</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00127">127</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  127</span>                                                   {</div>
-<div class="line"><span class="lineno">  128</span>    <span class="comment">// If the current state only has one out edge (degree == 1) and doesn&#39;t</span></div>
-<div class="line"><span class="lineno">  129</span>    <span class="comment">// have a trigger label to its next state, immediately move to that next</span></div>
-<div class="line"><span class="lineno">  130</span>    <span class="comment">// state since this is just a designator for the &quot;initial&quot; state.</span></div>
-<div class="line"><span class="lineno">  131</span>    <span class="keywordflow">if</span> (boost::out_degree(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>) == 1) {</div>
-<div class="line"><span class="lineno">  132</span>        <span class="keyword">typename</span> boost::graph_traits&lt;graph_t&gt;::out_edge_iterator ei, ei_end;</div>
-<div class="line"><span class="lineno">  133</span>        <span class="keywordflow">for</span> (boost::tie(ei, ei_end) = boost::out_edges(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); ei != ei_end;</div>
-<div class="line"><span class="lineno">  134</span>             ++ei) {</div>
-<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>(*ei) == std::string(<span class="stringliteral">&quot;&quot;</span>)) {</div>
-<div class="line"><span class="lineno">  136</span>                this-&gt;<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">update_state_info</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, boost::target(*ei, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
-<div class="line"><span class="lineno">  137</span>            }</div>
-<div class="line"><span class="lineno">  138</span>        }</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
-<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  141</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00124">124</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                   {</div>
+<div class="line"><span class="lineno">  125</span>    <span class="comment">// If the current state only has one out edge (degree == 1) and doesn&#39;t</span></div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// have a trigger label to its next state, immediately move to that next</span></div>
+<div class="line"><span class="lineno">  127</span>    <span class="comment">// state since this is just a designator for the &quot;initial&quot; state.</span></div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">if</span> (boost::out_degree(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>) == 1) {</div>
+<div class="line"><span class="lineno">  129</span>        <span class="keyword">typename</span> boost::graph_traits&lt;graph_t&gt;::out_edge_iterator ei, ei_end;</div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">for</span> (boost::tie(ei, ei_end) = boost::out_edges(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>); ei != ei_end;</div>
+<div class="line"><span class="lineno">  131</span>             ++ei) {</div>
+<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#ad4713ff2cf23aa2ca7911cb2823466a7">label_</a>(*ei) == std::string(<span class="stringliteral">&quot;&quot;</span>)) {</div>
+<div class="line"><span class="lineno">  133</span>                this-&gt;<a class="code hl_function" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a">update_state_info</a>(<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>, boost::target(*ei, <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>));</div>
+<div class="line"><span class="lineno">  134</span>            }</div>
+<div class="line"><span class="lineno">  135</span>        }</div>
+<div class="line"><span class="lineno">  136</span>    }</div>
+<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  138</span>}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00084">label_</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">References <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00084">label_</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -636,23 +637,34 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">143</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>                                                            {</div>
-<div class="line"><span class="lineno">  146</span> </div>
-<div class="line"><span class="lineno">  147</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a> = next_state;</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a>) {</div>
-<div class="line"><span class="lineno">  150</span>        cout &lt;&lt; <span class="stringliteral">&quot;Current State: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>].name &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  151</span>    }</div>
-<div class="line"><span class="lineno">  152</span>    <span class="comment">// Publish the state message</span></div>
-<div class="line"><span class="lineno">  153</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;std::string&gt;&gt;();</div>
-<div class="line"><span class="lineno">  154</span>    msg-&gt;data = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>].name;</div>
-<div class="line"><span class="lineno">  155</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a49cd76202e849019d86afb5a3e315efa">state_pub_</a>-&gt;publish(msg);</div>
-<div class="line"><span class="lineno">  156</span>}</div>
+<p class="definition">Definition at line <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">140</a> of file <a class="el" href="GraphvizFSM_8cpp_source.html">GraphvizFSM.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                            {</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a> = next_state;</div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a68a7bd75076d8d4b85f5a29fb9b24c2a">print_current_state_</a>) {</div>
+<div class="line"><span class="lineno">  147</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Current State: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>].<a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>);</div>
+<div class="line"><span class="lineno">  148</span>    }</div>
+<div class="line"><span class="lineno">  149</span>    <span class="comment">// Publish the state message</span></div>
+<div class="line"><span class="lineno">  150</span>    <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;std::string&gt;&gt;();</div>
+<div class="line"><span class="lineno">  151</span>    msg-&gt;data = <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a36aa7e50149c5112e818ee3cccd63f6d">fsm_graph_</a>[<a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#afedda07782e1b72f0247b952a817e38e">current_state_</a>].name;</div>
+<div class="line"><span class="lineno">  152</span>    <a class="code hl_variable" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a49cd76202e849019d86afb5a3e315efa">state_pub_</a>-&gt;publish(msg);</div>
+<div class="line"><span class="lineno">  153</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00090">print_current_state_</a>, and <a class="el" href="GraphvizFSM_8h_source.html#l00082">state_pub_</a>.</p>
+<p class="reference">References <a class="el" href="GraphvizFSM_8h_source.html#l00081">current_state_</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00080">fsm_graph_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="Plugin_8cpp_source.html#l00043">scrimmage::Plugin::name()</a>, <a class="el" href="GraphvizFSM_8h_source.html#l00090">print_current_state_</a>, and <a class="el" href="GraphvizFSM_8h_source.html#l00082">state_pub_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00127">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00124">step_autonomy()</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classscrimmage_1_1autonomy_1_1GraphvizFSM_a3f55a78d8672ee0f23b4ace825aee96a_cgraph.png" border="0" usemap="#aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3f55a78d8672ee0f23b4ace825aee96a_cgraph" alt=""/></div>
+<map name="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3f55a78d8672ee0f23b4ace825aee96a_cgraph" id="aclassscrimmage_1_1autonomy_1_1GraphvizFSM_a3f55a78d8672ee0f23b4ace825aee96a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,175,60"/>
+<area shape="rect" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b" title=" " alt="" coords="223,20,411,45"/>
+<area shape="poly" title=" " alt="" coords="175,30,209,30,209,35,175,35"/>
+</map>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -691,7 +703,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GraphvizFSM_8h_source.html#l00080">80</a> of file <a class="el" href="GraphvizFSM_8h_source.html">GraphvizFSM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00127">step_autonomy()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00124">step_autonomy()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 
 </div>
 </div>
@@ -717,7 +729,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GraphvizFSM_8h_source.html#l00081">81</a> of file <a class="el" href="GraphvizFSM_8h_source.html">GraphvizFSM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00127">step_autonomy()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00124">step_autonomy()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 
 </div>
 </div>
@@ -743,7 +755,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GraphvizFSM_8h_source.html#l00082">82</a> of file <a class="el" href="GraphvizFSM_8h_source.html">GraphvizFSM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 
 </div>
 </div>
@@ -769,7 +781,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GraphvizFSM_8h_source.html#l00084">84</a> of file <a class="el" href="GraphvizFSM_8h_source.html">GraphvizFSM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00127">step_autonomy()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00124">step_autonomy()</a>.</p>
 
 </div>
 </div>
@@ -795,7 +807,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="GraphvizFSM_8h_source.html#l00090">90</a> of file <a class="el" href="GraphvizFSM_8h_source.html">GraphvizFSM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00143">update_state_info()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">init()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">update_state_info()</a>.</p>
 
 </div>
 </div>
@@ -809,7 +821,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1autonomy.html">autonomy</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html">GraphvizFSM</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

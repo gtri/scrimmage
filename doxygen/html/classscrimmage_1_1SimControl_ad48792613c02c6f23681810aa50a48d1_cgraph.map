@@ -1,21 +1,25 @@
 <map id="scrimmage::SimControl::finalize" name="scrimmage::SimControl::finalize">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,184,180,224"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1SimControl.html#a8cd3b0a233bd4f47c0e064d21240c707" title=" " alt="" coords="228,5,403,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,182,154,120,188,86,226,55,236,49,239,54,230,60,192,90,158,124,110,185"/>
-<area shape="rect" id="Node000005" href="$classscrimmage_1_1SimControl.html#a406b73879359433ed3a28c30f08a83e4" title=" " alt="" coords="228,69,403,109"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="126,181,227,126,254,113,256,117,229,130,129,186"/>
-<area shape="rect" id="Node000007" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="451,227,639,253"/>
-<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="163,181,216,170,276,163,340,161,403,169,463,191,514,218,511,222,461,196,402,175,340,167,277,168,216,176,164,187"/>
-<area shape="rect" id="Node000008" href="$classscrimmage_1_1SimControl.html#a4b87dcb28c359d60a71c213a9790b0a1" title=" " alt="" coords="228,184,403,224"/>
-<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="180,201,214,201,214,207,180,207"/>
-<area shape="rect" id="Node000011" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title=" " alt="" coords="228,248,403,288"/>
-<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="164,222,233,242,231,247,162,227"/>
-<area shape="rect" id="Node000015" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title=" " alt="" coords="228,312,403,352"/>
-<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="120,222,169,260,229,298,243,304,240,309,227,302,166,264,116,226"/>
-<area shape="rect" id="Node000019" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time." alt="" coords="228,376,403,416"/>
-<area shape="poly" id="edge9_Node000001_Node000019" title=" " alt="" coords="108,223,156,290,190,328,230,362,238,367,235,372,226,366,187,332,152,294,104,226"/>
-<area shape="poly" id="edge3_Node000005_Node000007" title=" " alt="" coords="368,107,404,126,469,172,522,216,518,220,466,176,401,130,366,112"/>
-<area shape="poly" id="edge4_Node000007_Node000007" title=" " alt="" coords="507,229,499,219,503,209,519,203,545,201,577,205,589,214,586,218,575,209,545,206,520,208,507,213,504,218,511,225"/>
-<area shape="poly" id="edge8_Node000015_Node000007" title=" " alt="" coords="371,309,402,298,501,256,503,261,404,302,373,314"/>
-<area shape="poly" id="edge10_Node000019_Node000007" title=" " alt="" coords="378,374,401,362,436,338,469,311,521,261,524,265,473,315,439,342,404,366,380,378"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,255,180,295"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Logger.html#aa4846454b9981c66dd13377ae060d5ea" title="Close the log file." alt="" coords="238,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,253,116,212,143,159,180,104,226,55,233,50,236,55,230,59,184,107,148,162,121,214,104,255"/>
+<area shape="rect" id="Node000003" href="$classscrimmage_1_1Logger.html#ab348aee0fb2f8a09d06d62d7d0843396" title="Get the singleton instance." alt="" coords="238,69,393,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,253,153,188,188,151,226,119,236,113,238,118,230,123,191,155,157,191,109,256"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1SimControl.html#a8cd3b0a233bd4f47c0e064d21240c707" title=" " alt="" coords="228,133,403,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="119,252,168,218,227,183,241,176,243,181,229,188,170,222,122,257"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1SimControl.html#a406b73879359433ed3a28c30f08a83e4" title=" " alt="" coords="228,197,403,237"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="170,252,223,238,225,243,172,257"/>
+<area shape="rect" id="Node000009" href="$classscrimmage_1_1SimControl.html#ad7ae322051c629849af68538bf8a45f2" title="Get the current simulation time." alt="" coords="451,355,639,381"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="181,271,288,277,346,285,403,297,462,320,512,346,510,351,460,325,402,303,345,290,287,282,180,276"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1SimControl.html#a4b87dcb28c359d60a71c213a9790b0a1" title=" " alt="" coords="228,312,403,352"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="172,292,225,306,223,311,170,297"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1SimControl.html#ae7ddd20cc9e43fffe74198721697671c" title=" " alt="" coords="228,376,403,416"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="122,293,170,327,229,362,243,368,241,373,227,366,168,331,119,297"/>
+<area shape="rect" id="Node000017" href="$classscrimmage_1_1SimControl.html#aa862cddc564c4c3ac807bf22d6160f7e" title=" " alt="" coords="228,440,403,480"/>
+<area shape="poly" id="edge9_Node000001_Node000017" title=" " alt="" coords="109,293,157,358,191,394,230,426,238,431,236,436,226,430,188,398,153,361,105,297"/>
+<area shape="rect" id="Node000021" href="$classscrimmage_1_1SimControl.html#a29fb2484002e927bf03523f8c3b124ad" title="Set the simulation time." alt="" coords="228,504,403,544"/>
+<area shape="poly" id="edge11_Node000001_Node000021" title=" " alt="" coords="104,294,121,335,148,387,184,442,230,490,236,495,233,499,226,494,180,446,143,390,116,337,99,296"/>
+<area shape="poly" id="edge5_Node000007_Node000009" title=" " alt="" coords="368,235,404,254,469,300,522,344,518,348,466,304,401,258,366,240"/>
+<area shape="poly" id="edge6_Node000009_Node000009" title=" " alt="" coords="507,357,499,347,503,337,519,331,545,329,577,333,589,342,586,346,575,337,545,334,520,336,507,341,504,346,511,353"/>
+<area shape="poly" id="edge10_Node000017_Node000009" title=" " alt="" coords="371,437,402,426,501,384,503,389,404,430,373,442"/>
+<area shape="poly" id="edge12_Node000021_Node000009" title=" " alt="" coords="378,502,401,490,436,466,469,439,521,389,524,393,473,443,439,470,404,494,380,506"/>
 </map>

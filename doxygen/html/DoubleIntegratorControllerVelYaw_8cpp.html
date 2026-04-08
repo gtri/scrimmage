@@ -100,6 +100,7 @@ $(document).ready(function(){initNavTree('DoubleIntegratorControllerVelYaw_8cpp.
 <div class="textblock"><code>#include &quot;<a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html">scrimmage/plugins/controller/DoubleIntegratorControllerVelYaw/DoubleIntegratorControllerVelYaw.h</a>&quot;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
@@ -108,19 +109,22 @@ Include dependency graph for DoubleIntegratorControllerVelYaw.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="DoubleIntegratorControllerVelYaw_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerVelYaw_2DoubleIntegratorControllerVelYaw_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerVelYaw_2DoubleIntegratorControllerVelYaw_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2controller_2DoubleIntegratorControllerVelYaw_2DoubleIntegratorControllerVelYaw_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="482,5,753,75"/>
+<area shape="rect" title="Brief file description." alt="" coords="537,5,807,75"/>
 <area shape="rect" href="DoubleIntegratorControllerVelYaw_8h.html" title="Brief file description." alt="" coords="5,123,261,177"/>
-<area shape="poly" title=" " alt="" coords="482,74,265,122,263,117,481,69"/>
-<area shape="rect" title=" " alt="" coords="285,137,365,163"/>
-<area shape="poly" title=" " alt="" coords="510,77,378,125,360,134,358,129,376,120,508,72"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="390,137,613,163"/>
-<area shape="poly" title=" " alt="" coords="583,77,526,129,523,125,579,73"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="637,137,830,163"/>
-<area shape="poly" title=" " alt="" coords="655,73,712,125,709,129,652,77"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="855,137,1071,163"/>
-<area shape="poly" title=" " alt="" coords="725,72,914,131,912,136,724,77"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1095,130,1299,170"/>
-<area shape="poly" title=" " alt="" coords="754,61,1083,120,1105,125,1104,130,1082,125,753,66"/>
+<area shape="poly" title=" " alt="" coords="537,71,275,123,274,118,536,66"/>
+<area shape="rect" title=" " alt="" coords="445,225,525,251"/>
+<area shape="poly" title=" " alt="" coords="537,58,471,69,409,84,357,102,339,113,326,124,318,137,316,150,319,162,326,176,347,198,374,213,403,224,432,230,431,235,402,229,372,218,344,202,322,179,314,164,310,150,313,135,322,121,336,108,355,97,407,79,470,64,536,53"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="335,137,558,163"/>
+<area shape="poly" title=" " alt="" coords="603,77,484,134,482,129,601,72"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="583,137,761,163"/>
+<area shape="poly" title=" " alt="" coords="675,75,675,123,669,123,669,75"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="786,137,979,163"/>
+<area shape="poly" title=" " alt="" coords="739,72,849,129,847,133,736,77"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1004,137,1220,163"/>
+<area shape="poly" title=" " alt="" coords="808,72,1053,131,1052,137,807,77"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1245,130,1449,170"/>
+<area shape="poly" title=" " alt="" coords="808,55,1009,83,1232,120,1255,124,1254,130,1232,125,1008,88,807,61"/>
+<area shape="poly" title=" " alt="" coords="648,165,524,222,522,217,646,160"/>
 </map>
 </div>
 </div>
@@ -183,63 +187,64 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00046">46</a> of file <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html">DoubleIntegratorControllerVelYaw.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>                    {</div>
-<div class="line"><span class="lineno">   52</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span><span class="keywordtype">void</span> DoubleIntegratorControllerVelYaw::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   55</span>    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   56</span>    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   57</span>    desired_heading_idx_ =</div>
-<div class="line"><span class="lineno">   58</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   61</span>    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   62</span>    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   63</span>    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(yaw_pid_, params[<span class="stringliteral">&quot;yaw_pid&quot;</span>], <span class="keyword">true</span>)) {</div>
-<div class="line"><span class="lineno">   66</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw yaw gains&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   67</span>    }</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(speed_pid_, params[<span class="stringliteral">&quot;speed_pid&quot;</span>])) {</div>
-<div class="line"><span class="lineno">   70</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw speed pid&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   71</span>    }</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>])) {</div>
-<div class="line"><span class="lineno">   74</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw alt pid&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">   75</span>    }</div>
-<div class="line"><span class="lineno">   76</span>}</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span><span class="keywordtype">bool</span> DoubleIntegratorControllerVelYaw::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   79</span>    alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));</div>
-<div class="line"><span class="lineno">   80</span>    <span class="keywordtype">double</span> alt_u = alt_pid_.step(dt, parent()-&gt;state_belief()-&gt;pos_const()(2));</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>    <span class="keywordtype">double</span> heading = vars_.input(desired_heading_idx_);</div>
-<div class="line"><span class="lineno">   83</span>    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));</div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordtype">double</span> acc_u = speed_pid_.step(dt, parent()-&gt;state_belief()-&gt;vel().norm());</div>
-<div class="line"><span class="lineno">   85</span>    Eigen::Vector2d dir;</div>
-<div class="line"><span class="lineno">   86</span>    dir &lt;&lt; cos(heading), sin(heading);</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>    <span class="comment">// Rotate acceleration into forward direction of double integrator</span></div>
-<div class="line"><span class="lineno">   89</span>    Eigen::Vector2d acc_vec = dir * acc_u;</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>    vars_.output(acc_x_idx_, acc_vec(0));</div>
-<div class="line"><span class="lineno">   92</span>    vars_.output(acc_y_idx_, acc_vec(1));</div>
-<div class="line"><span class="lineno">   93</span>    vars_.output(acc_z_idx_, alt_u);</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>    yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));</div>
-<div class="line"><span class="lineno">   96</span>    <span class="keywordtype">double</span> yaw_rate = yaw_pid_.step(dt, parent()-&gt;state_belief()-&gt;quat().yaw());</div>
-<div class="line"><span class="lineno">   97</span>    vars_.output(turn_rate_idx_, yaw_rate);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  100</span>}</div>
-<div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">  103</span>}  <span class="comment">// namespace scrimmage</span></div>
-<div class="ttc" id="anamespacescrimmage_html_a2fa35a2c7a8826d63f0af21074149b6a"><div class="ttname"><a href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">scrimmage::set_pid_gains</a></div><div class="ttdeci">bool set_pid_gains(PID &amp;pid, std::string str, bool is_angle=false)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00365">ParseUtils.cpp:365</a></div></div>
+<p class="definition">Definition at line <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00045">45</a> of file <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html">DoubleIntegratorControllerVelYaw.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>                    {</div>
+<div class="line"><span class="lineno">   51</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span><span class="keywordtype">void</span> DoubleIntegratorControllerVelYaw::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   54</span>    desired_alt_idx_ = vars_.declare(VariableIO::Type::desired_altitude, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   55</span>    desired_speed_idx_ = vars_.declare(VariableIO::Type::desired_speed, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   56</span>    desired_heading_idx_ =</div>
+<div class="line"><span class="lineno">   57</span>        vars_.declare(VariableIO::Type::desired_heading, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>    acc_x_idx_ = vars_.declare(VariableIO::Type::acceleration_x, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   60</span>    acc_y_idx_ = vars_.declare(VariableIO::Type::acceleration_y, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   61</span>    acc_z_idx_ = vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   62</span>    turn_rate_idx_ = vars_.declare(VariableIO::Type::turn_rate, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(yaw_pid_, params[<span class="stringliteral">&quot;yaw_pid&quot;</span>], <span class="keyword">true</span>)) {</div>
+<div class="line"><span class="lineno">   65</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw yaw gains&quot;</span>);</div>
+<div class="line"><span class="lineno">   66</span>    }</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(speed_pid_, params[<span class="stringliteral">&quot;speed_pid&quot;</span>])) {</div>
+<div class="line"><span class="lineno">   69</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw speed pid&quot;</span>);</div>
+<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">sc::set_pid_gains</a>(alt_pid_, params[<span class="stringliteral">&quot;alt_pid&quot;</span>])) {</div>
+<div class="line"><span class="lineno">   73</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to set DoubleIntegratorControllerVewYaw alt pid&quot;</span>);</div>
+<div class="line"><span class="lineno">   74</span>    }</div>
+<div class="line"><span class="lineno">   75</span>}</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span><span class="keywordtype">bool</span> DoubleIntegratorControllerVelYaw::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   78</span>    alt_pid_.set_setpoint(vars_.input(desired_alt_idx_));</div>
+<div class="line"><span class="lineno">   79</span>    <span class="keywordtype">double</span> alt_u = alt_pid_.step(dt, parent()-&gt;state_belief()-&gt;pos_const()(2));</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordtype">double</span> heading = vars_.input(desired_heading_idx_);</div>
+<div class="line"><span class="lineno">   82</span>    speed_pid_.set_setpoint(vars_.input(desired_speed_idx_));</div>
+<div class="line"><span class="lineno">   83</span>    <span class="keywordtype">double</span> acc_u = speed_pid_.step(dt, parent()-&gt;state_belief()-&gt;vel().norm());</div>
+<div class="line"><span class="lineno">   84</span>    Eigen::Vector2d dir;</div>
+<div class="line"><span class="lineno">   85</span>    dir &lt;&lt; cos(heading), sin(heading);</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>    <span class="comment">// Rotate acceleration into forward direction of double integrator</span></div>
+<div class="line"><span class="lineno">   88</span>    Eigen::Vector2d acc_vec = dir * acc_u;</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>    vars_.output(acc_x_idx_, acc_vec(0));</div>
+<div class="line"><span class="lineno">   91</span>    vars_.output(acc_y_idx_, acc_vec(1));</div>
+<div class="line"><span class="lineno">   92</span>    vars_.output(acc_z_idx_, alt_u);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    yaw_pid_.set_setpoint(vars_.input(desired_heading_idx_));</div>
+<div class="line"><span class="lineno">   95</span>    <span class="keywordtype">double</span> yaw_rate = yaw_pid_.step(dt, parent()-&gt;state_belief()-&gt;quat().yaw());</div>
+<div class="line"><span class="lineno">   96</span>    vars_.output(turn_rate_idx_, yaw_rate);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   99</span>}</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">  102</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a2fa35a2c7a8826d63f0af21074149b6a"><div class="ttname"><a href="namespacescrimmage.html#a2fa35a2c7a8826d63f0af21074149b6a">scrimmage::set_pid_gains</a></div><div class="ttdeci">bool set_pid_gains(PID &amp;pid, std::string str, bool is_angle=false)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8cpp_source.html#l00369">ParseUtils.cpp:369</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00061">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_x_idx_</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00062">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_y_idx_</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00063">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1b44ae3151b577c88fa8e2bf411c5a1a">scrimmage::VariableIO::acceleration_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a7d50d4e843a7df1e4fc299bbdf1ea3ce">scrimmage::VariableIO::acceleration_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00053">scrimmage::controller::DoubleIntegratorControllerVelYaw::alt_pid_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00057">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00059">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00058">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_speed_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#af7b6c3d6dcb8a70014a22a31c001d9ae">scrimmage::controller::DoubleIntegratorControllerVelYaw::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00365">scrimmage::set_pid_gains()</a>, <a class="el" href="PID_8cpp_source.html#l00099">scrimmage::PID::set_setpoint()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00052">scrimmage::controller::DoubleIntegratorControllerVelYaw::speed_pid_</a>, <a class="el" href="PID_8cpp_source.html#l00145">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#aeb6623951861d31a2877b3d90fedb043">scrimmage::controller::DoubleIntegratorControllerVelYaw::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00064">scrimmage::controller::DoubleIntegratorControllerVelYaw::turn_rate_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00055">scrimmage::controller::DoubleIntegratorControllerVelYaw::yaw_pid_</a>.</p>
+<p class="reference">References <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00061">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_x_idx_</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00062">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_y_idx_</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00063">scrimmage::controller::DoubleIntegratorControllerVelYaw::acc_z_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1b44ae3151b577c88fa8e2bf411c5a1a">scrimmage::VariableIO::acceleration_x</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a7d50d4e843a7df1e4fc299bbdf1ea3ce">scrimmage::VariableIO::acceleration_y</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00053">scrimmage::controller::DoubleIntegratorControllerVelYaw::alt_pid_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00057">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_alt_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a2eb4d29af29558f77281a8941bce0adb">scrimmage::VariableIO::desired_altitude</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a671b82cc79699bd43512e66539fa0af1">scrimmage::VariableIO::desired_heading</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00059">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_heading_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ad6db40bf8a0c3c06e6cbd2645397bf1d">scrimmage::VariableIO::desired_speed</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00058">scrimmage::controller::DoubleIntegratorControllerVelYaw::desired_speed_idx_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#af7b6c3d6dcb8a70014a22a31c001d9ae">scrimmage::controller::DoubleIntegratorControllerVelYaw::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00144">scrimmage::VariableIO::input()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00067">scrimmage::EntityPlugin::parent()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00369">scrimmage::set_pid_gains()</a>, <a class="el" href="PID_8cpp_source.html#l00107">scrimmage::PID::set_setpoint()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00052">scrimmage::controller::DoubleIntegratorControllerVelYaw::speed_pid_</a>, <a class="el" href="PID_8cpp_source.html#l00153">scrimmage::PID::step()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DoubleIntegratorControllerVelYaw.html#aeb6623951861d31a2877b3d90fedb043">scrimmage::controller::DoubleIntegratorControllerVelYaw::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1d3bb1fa459b5807fa4c58948c67e399">scrimmage::VariableIO::turn_rate</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00064">scrimmage::controller::DoubleIntegratorControllerVelYaw::turn_rate_idx_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>, and <a class="el" href="DoubleIntegratorControllerVelYaw_8h_source.html#l00055">scrimmage::controller::DoubleIntegratorControllerVelYaw::yaw_pid_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -275,7 +280,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_74ecf2eb32d8fd25517f82fc2db49dfb.html">DoubleIntegratorControllerVelYaw</a></li><li class="navelem"><a class="el" href="DoubleIntegratorControllerVelYaw_8cpp.html">DoubleIntegratorControllerVelYaw.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

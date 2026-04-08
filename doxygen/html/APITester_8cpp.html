@@ -101,6 +101,7 @@ $(document).ready(function(){initNavTree('APITester_8cpp.html',''); initResizabl
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MissionParse_8h_source.html">scrimmage/parse/MissionParse.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
@@ -110,23 +111,26 @@ Include dependency graph for APITester.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="APITester_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2APITester_2APITester_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2APITester_2APITester_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2autonomy_2APITester_2APITester_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="517,5,747,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="566,5,797,60"/>
 <area shape="rect" href="APITester_8h.html" title="Brief file description." alt="" coords="5,108,221,148"/>
-<area shape="poly" title=" " alt="" coords="517,57,232,108,231,103,516,52"/>
-<area shape="rect" title=" " alt="" coords="245,115,325,141"/>
-<area shape="poly" title=" " alt="" coords="518,63,338,111,329,113,327,108,337,105,517,57"/>
-<area shape="rect" title=" " alt="" coords="349,115,408,141"/>
-<area shape="poly" title=" " alt="" coords="553,63,421,110,416,112,414,107,419,106,551,58"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="432,115,621,141"/>
-<area shape="poly" title=" " alt="" coords="604,62,552,108,548,104,600,58"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="646,115,829,141"/>
-<area shape="poly" title=" " alt="" coords="664,58,716,104,712,108,660,62"/>
-<area shape="rect" href="MissionParse_8h.html" title="Brief file description." alt="" coords="853,115,1089,141"/>
-<area shape="poly" title=" " alt="" coords="728,57,917,109,916,114,727,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1113,115,1329,141"/>
-<area shape="poly" title=" " alt="" coords="748,50,1136,111,1135,116,747,55"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1354,108,1558,148"/>
-<area shape="poly" title=" " alt="" coords="748,41,1014,67,1340,105,1340,111,1014,72,747,47"/>
+<area shape="poly" title=" " alt="" coords="566,55,236,109,235,104,565,50"/>
+<area shape="rect" title=" " alt="" coords="429,196,509,221"/>
+<area shape="poly" title=" " alt="" coords="566,42,483,50,400,63,329,83,303,95,286,110,278,126,280,140,291,153,310,165,361,184,416,196,415,202,360,189,308,170,288,157,275,143,272,125,282,106,301,91,327,78,398,58,482,45,566,37"/>
+<area shape="rect" title=" " alt="" coords="296,115,355,141"/>
+<area shape="poly" title=" " alt="" coords="566,58,469,81,367,111,362,113,360,108,366,105,467,76,565,53"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="379,115,568,141"/>
+<area shape="poly" title=" " alt="" coords="624,62,512,112,510,107,622,58"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="592,115,771,141"/>
+<area shape="poly" title=" " alt="" coords="684,60,684,101,679,101,679,60"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="795,115,978,141"/>
+<area shape="poly" title=" " alt="" coords="740,58,850,107,848,112,738,62"/>
+<area shape="rect" href="MissionParse_8h.html" title="Brief file description." alt="" coords="1002,115,1238,141"/>
+<area shape="poly" title=" " alt="" coords="798,56,1053,110,1052,115,797,61"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1263,115,1479,141"/>
+<area shape="poly" title=" " alt="" coords="797,46,1251,105,1287,111,1286,116,1250,111,797,51"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1503,108,1707,148"/>
+<area shape="poly" title=" " alt="" coords="797,39,1106,65,1490,105,1489,111,1105,70,797,45"/>
+<area shape="poly" title=" " alt="" coords="651,143,514,194,512,189,650,138"/>
 </map>
 </div>
 </div>
@@ -164,7 +168,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_3fc285d7c69eccb1a0bc9c76bc8b029f.html">APITester</a></li><li class="navelem"><a class="el" href="APITester_8cpp.html">APITester.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

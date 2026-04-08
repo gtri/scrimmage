@@ -1,31 +1,34 @@
 <map id="/root/scrimmage/scrimmage/src/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.cpp" name="/root/scrimmage/scrimmage/src/plugins/interaction/EnforceBoundaryInteraction/EnforceBoundaryInteraction.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="499,5,734,75"/>
-<area shape="rect" id="Node000002" href="$EnforceBoundaryInteraction_8h.html" title="Brief file description." alt="" coords="37,123,257,177"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="499,71,272,123,270,118,498,66"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="373,313,450,339"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="499,52,361,64,213,80,90,101,49,112,28,125,14,145,9,164,11,182,19,198,34,214,55,228,108,254,172,276,240,293,360,315,359,320,239,298,170,281,106,259,52,233,31,218,15,201,6,183,3,164,9,143,24,121,47,107,89,96,212,75,360,58,499,47"/>
-<area shape="rect" id="Node000008" href="$Entity_8h.html" title="Brief file description." alt="" coords="185,233,374,258"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="499,51,453,60,407,75,363,96,324,125,307,146,295,171,284,220,279,218,290,169,302,143,320,121,360,91,405,70,452,55,498,46"/>
-<area shape="rect" id="Node000032" title=" " alt="" coords="730,137,810,163"/>
-<area shape="poly" id="edge5_Node000001_Node000032" title=" " alt="" coords="666,73,744,127,741,132,663,77"/>
-<area shape="rect" id="Node000043" title=" " alt="" coords="834,137,893,163"/>
-<area shape="poly" id="edge6_Node000001_Node000043" title=" " alt="" coords="713,72,823,120,836,128,834,132,821,125,711,77"/>
-<area shape="rect" id="Node000044" href="$Utilities_8h.html" title="Brief file description." alt="" coords="916,137,1139,163"/>
-<area shape="poly" id="edge8_Node000001_Node000044" title=" " alt="" coords="735,70,971,131,970,136,734,75"/>
-<area shape="rect" id="Node000045" href="$State_8h.html" title="Brief file description." alt="" coords="449,233,632,258"/>
-<area shape="poly" id="edge10_Node000001_Node000045" title=" " alt="" coords="607,76,568,178,552,220,547,219,563,176,602,74"/>
-<area shape="rect" id="Node000049" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="657,233,873,258"/>
-<area shape="poly" id="edge12_Node000001_Node000049" title=" " alt="" coords="628,74,646,124,660,151,676,176,703,202,733,223,730,228,700,207,672,179,655,154,641,127,623,76"/>
-<area shape="rect" id="Node000050" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="897,225,1101,265"/>
-<area shape="poly" id="edge14_Node000001_Node000050" title=" " alt="" coords="643,73,720,175,747,188,788,201,884,222,883,227,786,206,745,193,716,179,639,76"/>
-<area shape="rect" id="Node000051" href="$Boundary_8h.html" title="Brief file description." alt="" coords="333,130,553,170"/>
-<area shape="poly" id="edge16_Node000001_Node000051" title=" " alt="" coords="564,77,487,125,484,120,561,72"/>
-<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="148,177,153,222,161,244,174,263,205,281,253,296,359,315,358,321,251,301,203,286,171,267,156,247,148,223,143,178"/>
-<area shape="poly" id="edge3_Node000002_Node000008" title=" " alt="" coords="186,175,254,223,250,227,183,180"/>
-<area shape="poly" id="edge4_Node000008_Node000005" title=" " alt="" coords="300,256,382,304,379,309,297,260"/>
-<area shape="poly" id="edge11_Node000045_Node000005" title=" " alt="" coords="523,260,443,308,441,304,520,256"/>
-<area shape="poly" id="edge13_Node000049_Node000005" title=" " alt="" coords="714,261,464,316,463,311,713,255"/>
-<area shape="poly" id="edge15_Node000050_Node000005" title=" " alt="" coords="897,266,885,268,464,321,463,316,884,263,896,261"/>
-<area shape="poly" id="edge17_Node000051_Node000005" title=" " alt="" coords="442,171,419,300,413,299,437,170"/>
-<area shape="poly" id="edge18_Node000051_Node000008" title=" " alt="" coords="411,172,313,228,310,224,409,168"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="446,5,681,75"/>
+<area shape="rect" id="Node000002" href="$EnforceBoundaryInteraction_8h.html" title="Brief file description." alt="" coords="699,123,919,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="641,72,738,115,736,120,639,77"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="338,313,415,339"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="446,49,336,57,220,72,118,94,78,108,50,125,31,146,22,168,14,226,9,247,9,255,13,264,34,279,65,291,149,309,242,318,324,321,324,327,242,323,148,314,63,296,31,283,9,267,4,257,3,247,9,225,17,167,26,144,47,121,76,103,116,89,219,67,336,52,446,44"/>
+<area shape="rect" id="Node000008" href="$Entity_8h.html" title="Brief file description." alt="" coords="282,233,471,258"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="447,64,398,88,377,104,360,124,352,147,352,172,358,197,367,219,362,221,353,199,346,173,346,146,356,121,374,100,395,83,445,59"/>
+<area shape="rect" id="Node000032" title=" " alt="" coords="873,233,953,258"/>
+<area shape="poly" id="edge5_Node000001_Node000032" title=" " alt="" coords="681,49,756,59,831,74,894,94,917,107,934,121,944,145,945,172,938,199,928,222,923,220,933,197,939,172,939,147,929,124,914,111,892,99,830,79,755,64,680,54"/>
+<area shape="rect" id="Node000043" title=" " alt="" coords="370,137,429,163"/>
+<area shape="poly" id="edge6_Node000001_Node000043" title=" " alt="" coords="514,77,430,132,427,127,511,72"/>
+<area shape="rect" id="Node000044" href="$Utilities_8h.html" title="Brief file description." alt="" coords="452,137,675,163"/>
+<area shape="poly" id="edge8_Node000001_Node000044" title=" " alt="" coords="566,75,566,123,561,123,561,75"/>
+<area shape="rect" id="Node000045" href="$Logger_8h.html" title=" " alt="" coords="994,137,1173,163"/>
+<area shape="poly" id="edge10_Node000001_Node000045" title=" " alt="" coords="681,61,976,120,1025,131,1024,137,975,125,680,66"/>
+<area shape="rect" id="Node000049" href="$State_8h.html" title="Brief file description." alt="" coords="24,233,207,258"/>
+<area shape="poly" id="edge12_Node000001_Node000049" title=" " alt="" coords="446,46,337,53,223,66,170,77,125,90,88,105,64,124,58,135,55,147,62,173,77,199,95,221,91,225,72,202,57,175,50,147,53,134,60,121,86,101,123,85,169,71,222,61,337,47,446,41"/>
+<area shape="rect" id="Node000053" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="977,233,1193,258"/>
+<area shape="poly" id="edge14_Node000001_Node000053" title=" " alt="" coords="681,46,827,57,985,73,1117,94,1162,107,1187,121,1196,135,1198,149,1187,179,1176,195,1162,209,1130,229,1127,225,1158,204,1172,191,1182,176,1192,149,1191,137,1183,125,1160,112,1116,100,984,79,827,62,681,51"/>
+<area shape="rect" id="Node000054" href="$RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1217,225,1421,265"/>
+<area shape="poly" id="edge16_Node000001_Node000054" title=" " alt="" coords="681,44,818,53,971,68,1111,90,1167,104,1209,120,1238,140,1264,163,1303,212,1298,215,1260,167,1235,144,1206,125,1165,109,1109,95,970,73,818,58,681,49"/>
+<area shape="rect" id="Node000055" href="$Boundary_8h.html" title="Brief file description." alt="" coords="75,130,295,170"/>
+<area shape="poly" id="edge18_Node000001_Node000055" title=" " alt="" coords="446,77,265,129,263,124,445,72"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="745,180,419,311,417,306,743,175"/>
+<area shape="poly" id="edge3_Node000002_Node000008" title=" " alt="" coords="699,178,443,232,442,227,698,172"/>
+<area shape="poly" id="edge4_Node000008_Node000005" title=" " alt="" coords="379,258,379,299,374,299,374,258"/>
+<area shape="poly" id="edge11_Node000045_Node000032" title=" " alt="" coords="1064,165,947,228,944,224,1061,160"/>
+<area shape="poly" id="edge13_Node000049_Node000005" title=" " alt="" coords="154,255,327,307,325,312,153,261"/>
+<area shape="poly" id="edge15_Node000053_Node000005" title=" " alt="" coords="1016,261,965,268,662,302,430,323,429,318,661,296,964,263,1015,255"/>
+<area shape="poly" id="edge17_Node000054_Node000005" title=" " alt="" coords="1217,266,1205,268,979,291,757,307,429,325,429,320,756,302,979,285,1204,263,1217,261"/>
+<area shape="poly" id="edge19_Node000055_Node000005" title=" " alt="" coords="198,169,228,215,272,263,304,287,338,305,336,310,302,291,268,267,224,218,193,172"/>
+<area shape="poly" id="edge20_Node000055_Node000008" title=" " alt="" coords="225,168,342,224,340,229,222,172"/>
 </map>

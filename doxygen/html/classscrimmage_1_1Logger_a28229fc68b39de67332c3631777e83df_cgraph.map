@@ -1,0 +1,5 @@
+<map id="scrimmage::Logger::error" name="scrimmage::Logger::error">
+<area shape="rect" id="Node000001" title="Log an ERROR message with exception details." alt="" coords="5,5,160,45"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Logger.html#adb2a6c2a51a3c7f84140938694929763" title="Log an ERROR message." alt="" coords="208,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,23,194,23,194,28,160,28"/>
+</map>

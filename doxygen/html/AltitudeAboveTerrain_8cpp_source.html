@@ -107,85 +107,85 @@ $(document).ready(function(){initNavTree('AltitudeAboveTerrain_8cpp_source.html'
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &quot;<a class="code" href="Random_8h.html">scrimmage/common/Random.h</a>&quot;</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="Quaternion_8h.html">scrimmage/math/Quaternion.h</a>&quot;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;scrimmage/proto/Shape.pb.h&quot;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;scrimmage/proto/State.pb.h&quot;</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&quot;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="Subscriber_8h.html">scrimmage/pubsub/Subscriber.h</a>&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">using </span>std::cout;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">using </span>std::endl;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage__proto.html">sp</a> = <a class="code hl_namespace" href="namespacescrimmage__proto.html">scrimmage_proto</a>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="AltitudeAboveTerrain_8cpp.html#abb9204b4b962869cad32a6fe77247c7f">   57</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_class" href="classscrimmage_1_1Sensor.html">scrimmage::Sensor</a>,</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_class" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html">scrimmage::sensor::AltitudeAboveTerrain</a>,</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    AltitudeAboveTerrain_plugin)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">namespace </span>sensor {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="Logger_8h.html">scrimmage/log/Logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="Quaternion_8h.html">scrimmage/math/Quaternion.h</a>&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;scrimmage/proto/Shape.pb.h&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;scrimmage/proto/State.pb.h&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="Subscriber_8h.html">scrimmage/pubsub/Subscriber.h</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage__proto.html">sp</a> = <a class="code hl_namespace" href="namespacescrimmage__proto.html">scrimmage_proto</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="AltitudeAboveTerrain_8cpp.html#abb9204b4b962869cad32a6fe77247c7f">   55</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_class" href="classscrimmage_1_1Sensor.html">scrimmage::Sensor</a>,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_class" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html">scrimmage::sensor::AltitudeAboveTerrain</a>,</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    AltitudeAboveTerrain_plugin)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">namespace </span>sensor {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3c0b19ff99b674cb2130e9c3d695acd3">AltitudeAboveTerrain::AltitudeAboveTerrain</a>() {}</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3c0b19ff99b674cb2130e9c3d695acd3">AltitudeAboveTerrain::AltitudeAboveTerrain</a>() {}</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a59f7c1245cdc09f583a9bcfeb8e9d1b5">AltitudeAboveTerrain::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">// Use the same generator as the parent so that the simulation is</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="comment">// completely deterministic with respect to the simulation seed.</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa904e2b5e5b38d0cce20bb1b20d883a4">gener_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    std::vector&lt;double&gt; vec;</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;altitude_noise&quot;</span>, params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>), <span class="stringliteral">&quot;, &quot;</span>, vec, 2)) {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272">noise_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272">noise_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0.0, 1.0);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2">pub_true_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="stringliteral">&quot;GlobalNetwork&quot;</span>,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="stringliteral">&quot;/&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) + <span class="stringliteral">&quot;/TrueAltitudeAboveTerrain&quot;</span>);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a61149370d2a4aa14dd072c8a6abd504a">pub_noise_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;AltitudeAboveTerrain&quot;</span>);</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keyword">auto</span> terrain_map_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a> = std::make_shared&lt;scrimmage::interaction::TerrainMap&gt;(msg-&gt;data);</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    };</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    subscribe&lt;scrimmage_msgs::Terrain&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Terrain&quot;</span>, terrain_map_cb);</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>}</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3236eda651fb20bd8e3e795ccec31b1a">AltitudeAboveTerrain::step</a>() {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// Wait until we have received a valid terrain map</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a> == <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <a class="code hl_class" href="classboost_1_1optional.html">boost::optional&lt;double&gt;</a> height =</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a>-&gt;height_at(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(0), <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(1));</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (height) {</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">double</span> alt = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(2) - *height;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// Create and send the true altitude</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keyword">auto</span> msg_true = std::make_shared&lt;sc::Message&lt;double&gt;&gt;();</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        msg_true-&gt;data = alt;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2">pub_true_</a>-&gt;publish(msg_true);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="comment">// Generate a noisy version of the altitude</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keyword">auto</span> msg_noise = std::make_shared&lt;sc::Message&lt;double&gt;&gt;();</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        msg_noise-&gt;data = alt + (*noise_)(*gener_);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a61149370d2a4aa14dd072c8a6abd504a">pub_noise_</a>-&gt;publish(msg_noise);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;AltitudeAboveTerrain: vehicle out of terrain map bounds&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}  <span class="comment">// namespace sensor</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a59f7c1245cdc09f583a9bcfeb8e9d1b5">AltitudeAboveTerrain::init</a>(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// Use the same generator as the parent so that the simulation is</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="comment">// completely deterministic with respect to the simulation seed.</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa904e2b5e5b38d0cce20bb1b20d883a4">gener_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;gener();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    std::vector&lt;double&gt; vec;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacescrimmage.html#a33cb0991fa26d446d903cf250661affb">str2container</a>(sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;altitude_noise&quot;</span>, params, <span class="stringliteral">&quot;0.0, 1.0&quot;</span>), <span class="stringliteral">&quot;, &quot;</span>, vec, 2)) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272">noise_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(vec[0], vec[1]);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a5972981899d803a3b6e6fc9fc435f272">noise_</a> = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;random()-&gt;make_rng_normal(0.0, 1.0);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2">pub_true_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="stringliteral">&quot;GlobalNetwork&quot;</span>,</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="stringliteral">&quot;/&quot;</span> + std::to_string(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;id().id()) + <span class="stringliteral">&quot;/TrueAltitudeAboveTerrain&quot;</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a61149370d2a4aa14dd072c8a6abd504a">pub_noise_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;LocalNetwork&quot;</span>, <span class="stringliteral">&quot;AltitudeAboveTerrain&quot;</span>);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">auto</span> terrain_map_cb = [&amp;](<span class="keyword">auto</span>&amp; msg) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a> = std::make_shared&lt;scrimmage::interaction::TerrainMap&gt;(msg-&gt;data);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    };</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    subscribe&lt;scrimmage_msgs::Terrain&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;Terrain&quot;</span>, terrain_map_cb);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a3236eda651fb20bd8e3e795ccec31b1a">AltitudeAboveTerrain::step</a>() {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="comment">// Wait until we have received a valid terrain map</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_class" href="classboost_1_1optional.html">boost::optional&lt;double&gt;</a> height =</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#aa40a70b2df976405a25df0540fee86f2">map_</a>-&gt;height_at(<a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(0), <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(1));</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">if</span> (height) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordtype">double</span> alt = <a class="code hl_variable" href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">parent_</a>-&gt;state_truth()-&gt;pos()(2) - *height;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="comment">// Create and send the true altitude</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keyword">auto</span> msg_true = std::make_shared&lt;sc::Message&lt;double&gt;&gt;();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        msg_true-&gt;data = alt;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a120cc27d9b9e73766413b0f34ff187c2">pub_true_</a>-&gt;publish(msg_true);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="comment">// Generate a noisy version of the altitude</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keyword">auto</span> msg_noise = std::make_shared&lt;sc::Message&lt;double&gt;&gt;();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        msg_noise-&gt;data = alt + (*noise_)(*gener_);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <a class="code hl_variable" href="classscrimmage_1_1sensor_1_1AltitudeAboveTerrain.html#a61149370d2a4aa14dd072c8a6abd504a">pub_noise_</a>-&gt;publish(msg_noise);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;AltitudeAboveTerrain: vehicle out of terrain map bounds&quot;</span>);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}  <span class="comment">// namespace sensor</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div>
 <div class="ttc" id="aAltitudeAboveTerrain_8h_html"><div class="ttname"><a href="AltitudeAboveTerrain_8h.html">AltitudeAboveTerrain.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aEntity_8h_html"><div class="ttname"><a href="Entity_8h.html">Entity.h</a></div><div class="ttdoc">Brief file description.</div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aMessage_8h_html"><div class="ttname"><a href="Message_8h.html">Message.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aParseUtils_8h_html"><div class="ttname"><a href="ParseUtils_8h.html">ParseUtils.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aQuaternion_8h_html"><div class="ttname"><a href="Quaternion_8h.html">Quaternion.h</a></div><div class="ttdoc">Brief file description.</div></div>
@@ -216,7 +216,7 @@ $(document).ready(function(){initNavTree('AltitudeAboveTerrain_8cpp_source.html'
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_2483af7b304531f76a0533eb422d3df1.html">sensor</a></li><li class="navelem"><a class="el" href="dir_674bcf68485409cb04d5d30c1a5bd3a0.html">AltitudeAboveTerrain</a></li><li class="navelem"><a class="el" href="AltitudeAboveTerrain_8cpp.html">AltitudeAboveTerrain.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

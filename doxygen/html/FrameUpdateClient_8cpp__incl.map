@@ -1,23 +1,24 @@
 <map id="/root/scrimmage/scrimmage/src/log/FrameUpdateClient.cpp" name="/root/scrimmage/scrimmage/src/log/FrameUpdateClient.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="368,5,595,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,101,85,126"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="368,45,241,67,105,96,92,99,91,94,103,91,240,62,367,40"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="156,181,233,207"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="368,37,302,45,237,57,183,74,163,84,150,95,143,113,148,132,159,152,174,170,170,173,155,155,143,134,138,112,146,92,160,79,181,69,236,52,301,40,367,32"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="379,181,437,207"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="467,47,450,69,436,94,422,133,414,169,409,167,417,131,431,92,446,66,462,44"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="741,101,984,126"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="566,43,799,95,798,100,564,48"/>
-<area shape="rect" id="Node000006" href="$Utilities_8h.html" title="Brief file description." alt="" coords="445,101,667,126"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="500,44,539,88,535,92,496,47"/>
-<area shape="rect" id="Node000010" href="$FrameUpdateClient_8h.html" title="Brief file description." alt="" coords="160,93,371,133"/>
-<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="435,48,326,91,324,86,433,43"/>
-<area shape="rect" id="Node000013" href="$Angles_8h.html" title="Brief file description." alt="" coords="534,181,727,207"/>
-<area shape="poly" id="edge11_Node000001_Node000013" title=" " alt="" coords="596,37,643,57,665,72,682,92,689,113,684,135,671,156,656,173,652,170,667,152,679,133,684,113,678,95,661,76,641,62,594,42"/>
-<area shape="rect" id="Node000015" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="1008,101,1229,126"/>
-<area shape="poly" id="edge12_Node000001_Node000015" title=" " alt="" coords="595,38,996,91,1032,96,1032,101,996,96,595,43"/>
-<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="535,129,443,177,441,172,533,124"/>
-<area shape="poly" id="edge9_Node000010_Node000003" title=" " alt="" coords="250,135,216,173,212,169,246,132"/>
-<area shape="poly" id="edge10_Node000010_Node000004" title=" " alt="" coords="301,131,376,172,374,177,298,136"/>
-<area shape="poly" id="edge8_Node000010_Node000013" title=" " alt="" coords="353,131,564,176,563,181,352,136"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="387,5,613,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="87,181,164,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="387,28,281,32,170,42,119,51,74,63,39,77,15,95,10,104,8,112,16,132,27,147,41,159,75,176,72,181,38,163,23,150,11,135,3,113,5,102,11,92,36,73,73,58,118,46,169,37,281,27,386,23"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="241,181,300,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="386,29,284,33,177,44,128,52,85,64,51,78,29,95,23,104,21,113,29,131,55,144,108,158,228,183,227,188,106,163,53,149,25,135,15,113,18,102,25,92,49,73,84,58,127,47,176,38,284,28,386,24"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="773,101,1016,126"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="587,43,830,95,828,100,586,48"/>
+<area shape="rect" id="Node000005" href="$Utilities_8h.html" title="Brief file description." alt="" coords="39,101,262,126"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="424,48,211,100,210,95,423,43"/>
+<area shape="rect" id="Node000009" href="$FrameUpdateClient_8h.html" title="Brief file description." alt="" coords="285,93,496,133"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="477,48,427,87,424,83,474,44"/>
+<area shape="rect" id="Node000012" href="$Angles_8h.html" title="Brief file description." alt="" coords="466,181,659,207"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="614,34,642,42,669,54,693,71,713,92,721,113,713,135,685,162,650,179,648,175,682,158,708,132,716,113,708,95,689,75,666,59,640,47,613,39"/>
+<area shape="rect" id="Node000014" href="$Logger_8h.html" title=" " alt="" coords="520,101,699,126"/>
+<area shape="poly" id="edge10_Node000001_Node000014" title=" " alt="" coords="526,44,585,90,582,94,523,48"/>
+<area shape="rect" id="Node000020" href="$Quaternion_8h.html" title="Brief file description." alt="" coords="1040,101,1261,126"/>
+<area shape="poly" id="edge13_Node000001_Node000020" title=" " alt="" coords="614,37,1028,91,1065,96,1064,101,1028,96,613,43"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="170,124,243,171,240,176,167,128"/>
+<area shape="poly" id="edge8_Node000009_Node000002" title=" " alt="" coords="328,136,178,180,177,175,326,131"/>
+<area shape="poly" id="edge9_Node000009_Node000003" title=" " alt="" coords="363,136,301,176,298,172,360,131"/>
+<area shape="poly" id="edge7_Node000009_Node000012" title=" " alt="" coords="433,131,526,173,524,178,431,136"/>
+<area shape="poly" id="edge11_Node000014_Node000003" title=" " alt="" coords="561,129,314,185,313,180,559,123"/>
 </map>

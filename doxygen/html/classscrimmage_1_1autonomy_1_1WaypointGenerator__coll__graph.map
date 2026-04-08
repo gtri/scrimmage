@@ -2,10 +2,10 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="336,593,501,793"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="5,5,211,531"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,524,225,529,278,587,337,635,334,639,275,591,221,532,217,527"/>
-<area shape="rect" id="Node000098" href="$classscrimmage_1_1autonomy_1_1WaypointList.html" title=" " alt="" coords="235,158,397,378"/>
-<area shape="poly" id="edge2_Node000001_Node000098" title=" " alt="" coords="345,378,393,577,388,578,340,379"/>
-<area shape="rect" id="Node000101" title=" " alt="" coords="421,235,622,301"/>
-<area shape="poly" id="edge3_Node000001_Node000101" title=" " alt="" coords="520,301,500,420,467,570,464,578,459,577,461,569,495,419,514,300"/>
-<area shape="rect" id="Node000107" title=" " alt="" coords="647,235,777,301"/>
-<area shape="poly" id="edge4_Node000001_Node000107" title=" " alt="" coords="713,301,706,358,689,430,677,468,660,505,639,540,614,571,567,612,517,645,514,641,564,607,610,567,635,537,655,503,672,466,684,428,700,357,708,301"/>
+<area shape="rect" id="Node000091" href="$classscrimmage_1_1autonomy_1_1WaypointList.html" title=" " alt="" coords="235,158,397,378"/>
+<area shape="poly" id="edge2_Node000001_Node000091" title=" " alt="" coords="345,378,393,577,388,578,340,379"/>
+<area shape="rect" id="Node000094" title=" " alt="" coords="421,235,622,301"/>
+<area shape="poly" id="edge3_Node000001_Node000094" title=" " alt="" coords="520,301,500,420,467,570,464,578,459,577,461,569,495,419,514,300"/>
+<area shape="rect" id="Node000100" title=" " alt="" coords="647,235,777,301"/>
+<area shape="poly" id="edge4_Node000001_Node000100" title=" " alt="" coords="713,301,706,358,689,430,677,468,660,505,639,540,614,571,567,612,517,645,514,641,564,607,610,567,635,537,655,503,672,466,684,428,700,357,708,301"/>
 </map>

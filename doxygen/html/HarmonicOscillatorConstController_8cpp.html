@@ -190,25 +190,25 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html#l00049">49</a> of file <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html">HarmonicOscillatorConstController.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   54</span>                    {</div>
-<div class="line"><span class="lineno">   55</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span><span class="keywordtype">void</span> HarmonicOscillatorConstController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   58</span>    acceleration_z_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;acceleration_z&quot;</span>, params, 0);</div>
-<div class="line"><span class="lineno">   59</span>    acceleration_z_idx_ =</div>
-<div class="line"><span class="lineno">   60</span>        vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   61</span>}</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span><span class="keywordtype">bool</span> HarmonicOscillatorConstController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   64</span>    vars_.output(acceleration_z_idx_, acceleration_z_);</div>
-<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   66</span>}</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   69</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html#l00047">47</a> of file <a class="el" href="HarmonicOscillatorConstController_8cpp_source.html">HarmonicOscillatorConstController.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                    {</div>
+<div class="line"><span class="lineno">   53</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span><span class="keywordtype">void</span> HarmonicOscillatorConstController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   56</span>    acceleration_z_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;acceleration_z&quot;</span>, params, 0);</div>
+<div class="line"><span class="lineno">   57</span>    acceleration_z_idx_ =</div>
+<div class="line"><span class="lineno">   58</span>        vars_.declare(VariableIO::Type::acceleration_z, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   59</span>}</div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span><span class="keywordtype">bool</span> HarmonicOscillatorConstController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   62</span>    vars_.output(acceleration_z_idx_, acceleration_z_);</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   64</span>}</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   67</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="HarmonicOscillatorConstController_8h_source.html#l00052">scrimmage::controller::HarmonicOscillatorConstController::acceleration_z_</a>, <a class="el" href="HarmonicOscillatorConstController_8h_source.html#l00049">scrimmage::controller::HarmonicOscillatorConstController::acceleration_z_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1controller_1_1HarmonicOscillatorConstController.html#a2368924d10142d3453966a7839d94bce">scrimmage::controller::HarmonicOscillatorConstController::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1controller_1_1HarmonicOscillatorConstController.html#a2dd469c6796d10887d9ec626d910f44b">scrimmage::controller::HarmonicOscillatorConstController::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4abd58d3d1630679ef5086a8a4f48efb0a">scrimmage::VariableIO::acceleration_z</a>, <a class="el" href="HarmonicOscillatorConstController_8h_source.html#l00052">scrimmage::controller::HarmonicOscillatorConstController::acceleration_z_</a>, <a class="el" href="HarmonicOscillatorConstController_8h_source.html#l00049">scrimmage::controller::HarmonicOscillatorConstController::acceleration_z_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1controller_1_1HarmonicOscillatorConstController.html#a2368924d10142d3453966a7839d94bce">scrimmage::controller::HarmonicOscillatorConstController::init()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1controller_1_1HarmonicOscillatorConstController.html#a2dd469c6796d10887d9ec626d910f44b">scrimmage::controller::HarmonicOscillatorConstController::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -234,7 +234,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_f47e3711f054f3b92fb77e57da84e5dc.html">HarmonicOscillatorConstController</a></li><li class="navelem"><a class="el" href="HarmonicOscillatorConstController_8cpp.html">HarmonicOscillatorConstController.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

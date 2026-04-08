@@ -108,102 +108,103 @@ $(document).ready(function(){initNavTree('RandomAttrit_8cpp_source.html',''); in
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &quot;<a class="code" href="Random_8h.html">scrimmage/common/Random.h</a>&quot;</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &quot;<a class="code" href="Utilities_8h.html">scrimmage/common/Utilities.h</a>&quot;</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &quot;<a class="code" href="Entity_8h.html">scrimmage/entity/Entity.h</a>&quot;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">using </span>std::cout;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">using </span>std::endl;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &quot;<a class="code" href="Logger_8h.html">scrimmage/log/Logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &quot;<a class="code" href="ParseUtils_8h.html">scrimmage/parse/ParseUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="RegisterPlugin_8h.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">sc</a> = <a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="RandomAttrit_8cpp.html#a9081dab1642ad9d1a90688ec44aba6d0">   51</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1RandomAttrit.html">scrimmage::interaction::RandomAttrit</a>,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    RandomAttrit_plugin)</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">namespace </span>interaction {</div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="RandomAttrit_8cpp.html#a9081dab1642ad9d1a90688ec44aba6d0">   49</a></span><a class="code hl_define" href="RegisterPlugin_8h.html#a0fbc8d118bd42b7ce975f052ad77178b">REGISTER_PLUGIN</a>(</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_class" href="classscrimmage_1_1EntityInteraction.html">scrimmage::EntityInteraction</a>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_class" href="classscrimmage_1_1interaction_1_1RandomAttrit.html">scrimmage::interaction::RandomAttrit</a>,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    RandomAttrit_plugin)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage.html">scrimmage</a> {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975">RandomAttrit::RandomAttrit</a>() {}</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a8f402640c6bfba1921d702ac177b5975">RandomAttrit::RandomAttrit</a>() {}</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a3567708c88b50957a87fd12bfff86714">RandomAttrit::init</a>(</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af44f3b126a7bc00dfb3c35cbd9610e00">team_id_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;team&quot;</span>, plugin_params, -1);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;decay_method&quot;</span>, plugin_params, <span class="stringliteral">&quot;linear&quot;</span>);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;start_after&quot;</span>, plugin_params, 0.0);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a0b7166485bc8d912c49b2f250dbe94d3">duration_s_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;duration&quot;</span>, plugin_params, 10.0);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    std::vector&lt;std::string&gt; stay_alive_ids_str;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;leave_alive&quot;</span>, plugin_params, <span class="stringliteral">&quot; &quot;</span>, stay_alive_ids_str);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    std::transform(</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        stay_alive_ids_str.begin(),</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        stay_alive_ids_str.end(),</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        std::back_inserter(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ae5ed7360036b6268e52ad6899d7db2f5">stay_alive_ids_</a>),</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        [](<span class="keyword">const</span> std::string&amp; str) { return std::stoi(str); });</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ab0b7cc0f813f3924f528f12cb2847174">attrit_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;AttritAnnounce&quot;</span>);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ad0ea202ddcf0f1f203f8540f177f0c87">RandomAttrit::step_entity_interaction</a>(std::list&lt;sc::EntityPtr&gt;&amp; ents, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">if</span> (ents.empty() || <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> &lt; 0.0) {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac8f63a014bf10a6da51b3d66fe41f93b">total_num_entities_</a> = 0;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    std::vector&lt;sc::EntityPtr&gt; cur_ents;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::copy_if(</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        ents.begin(),</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        ents.end(),</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        std::back_inserter(cur_ents),</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        [&amp;](<span class="keyword">const</span> <a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a>&amp; ent) {</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            bool is_stay_alive =</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent-&gt;id().id())</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                != stay_alive_ids_.end();</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            bool team_match = ent-&gt;id().team_id() == team_id_;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            if (team_match)</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                total_num_entities_++;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            return !is_stay_alive &amp;&amp; team_match;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        });</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">if</span> (t &lt; <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a>) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a5233100f6965bf380cf8ec05efad4ad6">started_</a>) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="comment">// one time initialization</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a> = cur_ents.size();</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a>;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a5233100f6965bf380cf8ec05efad4ad6">started_</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> == <span class="stringliteral">&quot;linear&quot;</span>) {</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordtype">double</span> slope = -<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a> / <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a0b7166485bc8d912c49b2f250dbe94d3">duration_s_</a>;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> = slope * (t - <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a>) + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a>;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;RandomAttrit: Decay method, &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> &lt;&lt; <span class="stringliteral">&quot;, is not implemented.&quot;</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                  &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="comment">// else if (decay_method_ == &quot;exponential&quot;) {</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">if</span> (std::ceil(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a>) &lt; cur_ents.size()) {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="comment">// pick one to attrit</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordtype">int</span> drop_id = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a375da34bbfed1e43da588e093e55498b">random_</a>.<a class="code hl_function" href="classscrimmage_1_1Random.html#a51f2762e054db5ecd985e875ed9f22e0">rng_uniform_int</a>(0, cur_ents.size() - 1);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        cur_ents[drop_id]-&gt;set_health_points(-1);  <span class="comment">// kill entity</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;EntityPtr&gt;&gt;();</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        msg-&gt;data = cur_ents[drop_id];</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ab0b7cc0f813f3924f528f12cb2847174">attrit_pub_</a>-&gt;publish(msg);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a3567708c88b50957a87fd12bfff86714">RandomAttrit::init</a>(</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af44f3b126a7bc00dfb3c35cbd9610e00">team_id_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;team&quot;</span>, plugin_params, -1);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;decay_method&quot;</span>, plugin_params, <span class="stringliteral">&quot;linear&quot;</span>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;start_after&quot;</span>, plugin_params, 0.0);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a0b7166485bc8d912c49b2f250dbe94d3">duration_s_</a> = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">sc::get</a>(<span class="stringliteral">&quot;duration&quot;</span>, plugin_params, 10.0);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    std::vector&lt;std::string&gt; stay_alive_ids_str;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_function" href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">sc::get_vec</a>(<span class="stringliteral">&quot;leave_alive&quot;</span>, plugin_params, <span class="stringliteral">&quot; &quot;</span>, stay_alive_ids_str);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    std::transform(</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        stay_alive_ids_str.begin(),</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        stay_alive_ids_str.end(),</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        std::back_inserter(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ae5ed7360036b6268e52ad6899d7db2f5">stay_alive_ids_</a>),</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        [](<span class="keyword">const</span> std::string&amp; str) { return std::stoi(str); });</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ab0b7cc0f813f3924f528f12cb2847174">attrit_pub_</a> = <a class="code hl_function" href="classscrimmage_1_1EntityPlugin.html#aa4237f084247e93ca942aa70708aad03">advertise</a>(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;AttritAnnounce&quot;</span>);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ad0ea202ddcf0f1f203f8540f177f0c87">RandomAttrit::step_entity_interaction</a>(std::list&lt;sc::EntityPtr&gt;&amp; ents, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">if</span> (ents.empty() || <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> &lt; 0.0) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac8f63a014bf10a6da51b3d66fe41f93b">total_num_entities_</a> = 0;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    std::vector&lt;sc::EntityPtr&gt; cur_ents;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::copy_if(</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        ents.begin(),</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        ents.end(),</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        std::back_inserter(cur_ents),</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        [&amp;](<span class="keyword">const</span> <a class="code hl_typedef" href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">sc::EntityPtr</a>&amp; ent) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            bool is_stay_alive =</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                std::find(stay_alive_ids_.begin(), stay_alive_ids_.end(), ent-&gt;id().id())</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                != stay_alive_ids_.end();</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            bool team_match = ent-&gt;id().team_id() == team_id_;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            if (team_match)</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                total_num_entities_++;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            return !is_stay_alive &amp;&amp; team_match;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        });</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (t &lt; <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a>) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a5233100f6965bf380cf8ec05efad4ad6">started_</a>) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="comment">// one time initialization</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a> = cur_ents.size();</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a5233100f6965bf380cf8ec05efad4ad6">started_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> == <span class="stringliteral">&quot;linear&quot;</span>) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordtype">double</span> slope = -<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a> / <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a0b7166485bc8d912c49b2f250dbe94d3">duration_s_</a>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a> = slope * (t - <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a7d6e9e5ade8c27b256697e34517c0fa6">start_wait_time_s_</a>) + <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a49f4d2d312281f1f9e8c0c093b41b4c9">start_num_ent_</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        std::stringstream ss;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        ss &lt;&lt; <span class="stringliteral">&quot;RandomAttrit: Decay method, &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">decay_method_</a> &lt;&lt; <span class="stringliteral">&quot;, is not implemented.&quot;</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(ss.str());</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="comment">// else if (decay_method_ == &quot;exponential&quot;) {</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">if</span> (std::ceil(<a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ac0dfb797d44b1ea9a3b1c91b3931dd1c">num_ent_</a>) &lt; cur_ents.size()) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="comment">// pick one to attrit</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordtype">int</span> drop_id = <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#a375da34bbfed1e43da588e093e55498b">random_</a>.<a class="code hl_function" href="classscrimmage_1_1Random.html#a51f2762e054db5ecd985e875ed9f22e0">rng_uniform_int</a>(0, cur_ents.size() - 1);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        cur_ents[drop_id]-&gt;set_health_points(-1);  <span class="comment">// kill entity</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">auto</span> msg = std::make_shared&lt;sc::Message&lt;EntityPtr&gt;&gt;();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        msg-&gt;data = cur_ents[drop_id];</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <a class="code hl_variable" href="classscrimmage_1_1interaction_1_1RandomAttrit.html#ab0b7cc0f813f3924f528f12cb2847174">attrit_pub_</a>-&gt;publish(msg);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div>
 <div class="ttc" id="aEntity_8h_html"><div class="ttname"><a href="Entity_8h.html">Entity.h</a></div><div class="ttdoc">Brief file description.</div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aParseUtils_8h_html"><div class="ttname"><a href="ParseUtils_8h.html">ParseUtils.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aRandomAttrit_8h_html"><div class="ttname"><a href="RandomAttrit_8h.html">RandomAttrit.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aRandom_8h_html"><div class="ttname"><a href="Random_8h.html">Random.h</a></div><div class="ttdoc">Brief file description.</div></div>
@@ -230,7 +231,7 @@ $(document).ready(function(){initNavTree('RandomAttrit_8cpp_source.html',''); in
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1RandomAttrit_html_af44f3b126a7bc00dfb3c35cbd9610e00"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af44f3b126a7bc00dfb3c35cbd9610e00">scrimmage::interaction::RandomAttrit::team_id_</a></div><div class="ttdeci">int team_id_</div><div class="ttdef"><b>Definition</b> <a href="RandomAttrit_8h_source.html#l00060">RandomAttrit.h:60</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1interaction_1_1RandomAttrit_html_af61f39a81a59e3ece71ee0312815ad2b"><div class="ttname"><a href="classscrimmage_1_1interaction_1_1RandomAttrit.html#af61f39a81a59e3ece71ee0312815ad2b">scrimmage::interaction::RandomAttrit::decay_method_</a></div><div class="ttdeci">std::string decay_method_</div><div class="ttdef"><b>Definition</b> <a href="RandomAttrit_8h_source.html#l00061">RandomAttrit.h:61</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html"><div class="ttname"><a href="namespacescrimmage.html">scrimmage</a></div><div class="ttdef"><b>Definition</b> <a href="Autonomy_8h_source.html#l00044">Autonomy.h:44</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00255">Entity.h:255</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_a17ade668c6d5b5e127ec503e42eb22fa"><div class="ttname"><a href="namespacescrimmage.html#a17ade668c6d5b5e127ec503e42eb22fa">scrimmage::EntityPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Entity &gt; EntityPtr</div><div class="ttdef"><b>Definition</b> <a href="Entity_8h_source.html#l00251">Entity.h:251</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a6417e38f5b224b467550f4fc42a2a1b3"><div class="ttname"><a href="namespacescrimmage.html#a6417e38f5b224b467550f4fc42a2a1b3">scrimmage::get_vec</a></div><div class="ttdeci">bool get_vec(const std::string &amp;str, const std::map&lt; std::string, std::string &gt; &amp;params, const std::string &amp;delims, std::vector&lt; T &gt; &amp;vec, int size=-1)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00168">ParseUtils.h:168</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -239,7 +240,7 @@ $(document).ready(function(){initNavTree('RandomAttrit_8cpp_source.html',''); in
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_859d2a45fcb4be9170509f12f1e95f92.html">RandomAttrit</a></li><li class="navelem"><a class="el" href="RandomAttrit_8cpp.html">RandomAttrit.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

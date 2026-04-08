@@ -105,6 +105,7 @@ $(document).ready(function(){initNavTree('PluginManager_8cpp.html',''); initResi
 <code>#include &quot;<a class="el" href="FileSearch_8h_source.html">scrimmage/common/FileSearch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityPlugin_8h_source.html">scrimmage/entity/EntityPlugin.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ConfigParse_8h_source.html">scrimmage/parse/ConfigParse.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -112,33 +113,36 @@ Include dependency graph for PluginManager.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="PluginManager_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugin__manager_2PluginManager_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugin__manager_2PluginManager_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugin__manager_2PluginManager_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="405,5,686,45"/>
-<area shape="rect" href="PluginManager_8h.html" title="Brief file description." alt="" coords="278,93,482,133"/>
-<area shape="poly" title=" " alt="" coords="511,48,430,89,427,85,508,43"/>
-<area shape="rect" title=" " alt="" coords="24,181,104,207"/>
-<area shape="poly" title=" " alt="" coords="419,48,330,68,240,96,158,135,93,176,90,172,156,131,238,91,328,63,418,43"/>
-<area shape="rect" title=" " alt="" coords="215,255,258,280"/>
-<area shape="poly" title=" " alt="" coords="405,40,282,60,218,76,156,96,72,125,42,146,15,182,9,205,17,223,37,237,65,248,136,260,201,263,201,269,135,265,64,253,34,242,13,226,3,206,10,180,38,142,70,120,154,91,216,71,281,55,404,35"/>
-<area shape="rect" href="FileSearch_8h.html" title="Brief file description." alt="" coords="420,181,658,207"/>
-<area shape="poly" title=" " alt="" coords="548,46,543,168,537,168,542,46"/>
-<area shape="rect" href="ConfigParse_8h.html" title="Brief file description." alt="" coords="683,181,910,207"/>
-<area shape="poly" title=" " alt="" coords="552,44,568,88,582,112,599,131,643,158,691,176,689,181,640,163,596,135,577,115,563,91,547,46"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="128,181,344,207"/>
-<area shape="poly" title=" " alt="" coords="413,48,325,68,290,81,267,95,255,111,247,130,240,168,234,167,242,128,251,108,264,91,288,76,324,63,412,43"/>
-<area shape="rect" title=" " alt="" coords="609,101,768,126"/>
-<area shape="poly" title=" " alt="" coords="578,43,659,91,656,96,576,48"/>
-<area shape="rect" title=" " alt="" coords="792,101,859,126"/>
-<area shape="poly" title=" " alt="" coords="621,43,781,91,788,93,786,98,779,96,619,48"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="882,101,1105,126"/>
-<area shape="poly" title=" " alt="" coords="644,43,921,95,920,101,643,48"/>
-<area shape="rect" href="EntityPlugin_8h.html" title="Brief file description." alt="" coords="1129,101,1360,126"/>
-<area shape="poly" title=" " alt="" coords="687,39,1118,91,1157,96,1156,101,1117,96,687,45"/>
-<area shape="poly" title=" " alt="" coords="305,136,118,182,117,177,304,131"/>
-<area shape="poly" title=" " alt="" coords="382,134,377,171,369,190,358,208,339,227,317,241,272,260,270,255,315,236,336,223,354,205,365,188,371,169,377,133"/>
-<area shape="poly" title=" " alt="" coords="419,131,505,173,502,178,417,136"/>
-<area shape="poly" title=" " alt="" coords="480,131,723,176,722,181,479,136"/>
-<area shape="poly" title=" " alt="" coords="347,136,271,177,268,172,345,131"/>
-<area shape="poly" title=" " alt="" coords="239,207,239,241,234,241,234,207"/>
+<area shape="rect" title="Brief file description." alt="" coords="437,5,718,45"/>
+<area shape="rect" href="PluginManager_8h.html" title="Brief file description." alt="" coords="285,93,489,133"/>
+<area shape="poly" title=" " alt="" coords="537,48,442,90,440,85,534,43"/>
+<area shape="rect" title=" " alt="" coords="5,181,85,207"/>
+<area shape="poly" title=" " alt="" coords="437,37,309,45,180,58,74,75,39,85,21,95,13,112,14,131,21,150,31,168,26,171,16,153,9,132,8,111,17,92,37,80,73,70,179,53,309,40,436,31"/>
+<area shape="rect" title=" " alt="" coords="761,255,804,280"/>
+<area shape="poly" title=" " alt="" coords="718,26,908,31,1114,42,1208,50,1288,61,1347,75,1368,82,1381,91,1388,102,1390,113,1381,135,1364,151,1340,167,1278,193,1201,214,1116,231,945,255,818,266,817,261,944,250,1115,226,1200,209,1276,188,1338,162,1360,147,1376,132,1385,113,1383,104,1377,95,1365,87,1346,80,1287,66,1208,56,1114,47,907,36,718,31"/>
+<area shape="rect" href="FileSearch_8h.html" title="Brief file description." alt="" coords="110,181,349,207"/>
+<area shape="poly" title=" " alt="" coords="437,48,340,68,301,81,275,95,260,111,249,130,236,169,231,167,245,128,256,108,272,91,299,76,339,63,436,42"/>
+<area shape="rect" href="ConfigParse_8h.html" title="Brief file description." alt="" coords="424,181,651,207"/>
+<area shape="poly" title=" " alt="" coords="574,47,561,94,545,168,540,167,556,93,569,45"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="675,181,891,207"/>
+<area shape="poly" title=" " alt="" coords="579,45,585,89,593,112,606,132,641,158,682,175,679,180,638,163,602,135,588,114,580,90,574,46"/>
+<area shape="rect" title=" " alt="" coords="615,101,774,126"/>
+<area shape="poly" title=" " alt="" coords="605,43,669,90,666,95,602,48"/>
+<area shape="rect" title=" " alt="" coords="799,101,865,126"/>
+<area shape="poly" title=" " alt="" coords="642,43,788,91,793,93,792,98,786,96,640,48"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="889,101,1111,126"/>
+<area shape="poly" title=" " alt="" coords="671,43,931,95,930,101,670,48"/>
+<area shape="rect" href="EntityPlugin_8h.html" title="Brief file description." alt="" coords="1135,101,1366,126"/>
+<area shape="poly" title=" " alt="" coords="719,40,1124,91,1163,96,1162,101,1124,96,718,46"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="31,101,209,126"/>
+<area shape="poly" title=" " alt="" coords="477,48,195,101,194,96,476,43"/>
+<area shape="poly" title=" " alt="" coords="306,136,100,183,98,178,304,131"/>
+<area shape="poly" title=" " alt="" coords="389,133,394,170,402,189,414,205,438,219,474,231,568,249,668,258,748,262,748,268,667,264,567,254,473,237,436,224,410,209,397,192,389,172,384,134"/>
+<area shape="poly" title=" " alt="" coords="350,136,266,177,264,173,348,131"/>
+<area shape="poly" title=" " alt="" coords="424,131,504,172,501,177,422,136"/>
+<area shape="poly" title=" " alt="" coords="482,131,712,176,711,181,481,136"/>
+<area shape="poly" title=" " alt="" coords="785,207,785,241,780,241,780,207"/>
+<area shape="poly" title=" " alt="" coords="111,128,68,173,64,170,107,124"/>
 </map>
 </div>
 </div>
@@ -174,7 +178,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ad48cbef4074e03d059db50e9662610d.html">plugin_manager</a></li><li class="navelem"><a class="el" href="PluginManager_8cpp.html">PluginManager.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -194,20 +194,20 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00048">48</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>    : <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a>(0),</div>
-<div class="line"><span class="lineno">   50</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a>(0),</div>
-<div class="line"><span class="lineno">   51</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a>(0),</div>
-<div class="line"><span class="lineno">   52</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>(0),</div>
-<div class="line"><span class="lineno">   53</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a>(0),</div>
-<div class="line"><span class="lineno">   54</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a>(0),</div>
-<div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>(0),</div>
-<div class="line"><span class="lineno">   56</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a>(<span class="keyword">false</span>),</div>
-<div class="line"><span class="lineno">   57</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>(0),</div>
-<div class="line"><span class="lineno">   58</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>(0),</div>
-<div class="line"><span class="lineno">   59</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a>(0),</div>
-<div class="line"><span class="lineno">   60</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a>(0),</div>
-<div class="line"><span class="lineno">   61</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a>(<span class="keyword">false</span>) {}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00050">50</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   51</span>    : <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a>(0),</div>
+<div class="line"><span class="lineno">   52</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a>(0),</div>
+<div class="line"><span class="lineno">   53</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a>(0),</div>
+<div class="line"><span class="lineno">   54</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>(0),</div>
+<div class="line"><span class="lineno">   55</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a>(0),</div>
+<div class="line"><span class="lineno">   56</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a>(0),</div>
+<div class="line"><span class="lineno">   57</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>(0),</div>
+<div class="line"><span class="lineno">   58</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a>(<span class="keyword">false</span>),</div>
+<div class="line"><span class="lineno">   59</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>(0),</div>
+<div class="line"><span class="lineno">   60</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>(0),</div>
+<div class="line"><span class="lineno">   61</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a>(0),</div>
+<div class="line"><span class="lineno">   62</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a>(0),</div>
+<div class="line"><span class="lineno">   63</span>      <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a>(<span class="keyword">false</span>) {}</div>
 <div class="ttc" id="aclassscrimmage_1_1PID_html_a2348ec89bac315e7bf4cb14d865eb503"><div class="ttname"><a href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">scrimmage::PID::setpoint_</a></div><div class="ttdeci">double setpoint_</div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00071">PID.h:71</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PID_html_a29633cc38a89b1d10adb5fe50f4a97a3"><div class="ttname"><a href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">scrimmage::PID::ki_</a></div><div class="ttdeci">double ki_</div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00065">PID.h:65</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1PID_html_a3d30c1adf4e72b4415d2f97808f29042"><div class="ttname"><a href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">scrimmage::PID::prev_error_</a></div><div class="ttdeci">double prev_error_</div><div class="ttdef"><b>Definition</b> <a href="PID_8h_source.html#l00068">PID.h:68</a></div></div>
@@ -257,19 +257,19 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00093">93</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   93</span>                                                                             {</div>
-<div class="line"><span class="lineno">   94</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a">kp</a>;</div>
-<div class="line"><span class="lineno">   95</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783">ki</a>;</div>
-<div class="line"><span class="lineno">   96</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb">kd</a>;</div>
-<div class="line"><span class="lineno">   97</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a6908f189b9b9700c5dc2f0883dbae7cb"><div class="ttname"><a href="classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb">scrimmage::PID::kd</a></div><div class="ttdeci">const double &amp; kd()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00126">PID.cpp:126</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a923861947281b1567af1499a71649783"><div class="ttname"><a href="classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783">scrimmage::PID::ki</a></div><div class="ttdeci">const double &amp; ki()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00123">PID.cpp:123</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a9a82bccd821ede21ffc8d7ce98bab19a"><div class="ttname"><a href="classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a">scrimmage::PID::kp</a></div><div class="ttdeci">const double &amp; kp()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00120">PID.cpp:120</a></div></div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00101">101</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>                                                                             {</div>
+<div class="line"><span class="lineno">  102</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a">kp</a>;</div>
+<div class="line"><span class="lineno">  103</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783">ki</a>;</div>
+<div class="line"><span class="lineno">  104</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb">kd</a>;</div>
+<div class="line"><span class="lineno">  105</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a6908f189b9b9700c5dc2f0883dbae7cb"><div class="ttname"><a href="classscrimmage_1_1PID.html#a6908f189b9b9700c5dc2f0883dbae7cb">scrimmage::PID::kd</a></div><div class="ttdeci">const double &amp; kd()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00134">PID.cpp:134</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a923861947281b1567af1499a71649783"><div class="ttname"><a href="classscrimmage_1_1PID.html#a923861947281b1567af1499a71649783">scrimmage::PID::ki</a></div><div class="ttdeci">const double &amp; ki()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00131">PID.cpp:131</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a9a82bccd821ede21ffc8d7ce98bab19a"><div class="ttname"><a href="classscrimmage_1_1PID.html#a9a82bccd821ede21ffc8d7ce98bab19a">scrimmage::PID::kp</a></div><div class="ttdeci">const double &amp; kp()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00128">PID.cpp:128</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00126">kd()</a>, <a class="el" href="PID_8h_source.html#l00066">kd_</a>, <a class="el" href="PID_8cpp_source.html#l00123">ki()</a>, <a class="el" href="PID_8h_source.html#l00065">ki_</a>, <a class="el" href="PID_8cpp_source.html#l00120">kp()</a>, and <a class="el" href="PID_8h_source.html#l00064">kp_</a>.</p>
+<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00134">kd()</a>, <a class="el" href="PID_8h_source.html#l00066">kd_</a>, <a class="el" href="PID_8cpp_source.html#l00131">ki()</a>, <a class="el" href="PID_8h_source.html#l00065">ki_</a>, <a class="el" href="PID_8cpp_source.html#l00128">kp()</a>, and <a class="el" href="PID_8h_source.html#l00064">kp_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00063">init()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00365">scrimmage::set_pid_gains()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00065">init()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00369">scrimmage::set_pid_gains()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -325,15 +325,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00099">99</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>                                             {</div>
-<div class="line"><span class="lineno">  100</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a5db1670b5dd156c19840fb70e07f0472">setpoint</a>;</div>
-<div class="line"><span class="lineno">  101</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a5db1670b5dd156c19840fb70e07f0472"><div class="ttname"><a href="classscrimmage_1_1PID.html#a5db1670b5dd156c19840fb70e07f0472">scrimmage::PID::setpoint</a></div><div class="ttdeci">const double &amp; setpoint()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00117">PID.cpp:117</a></div></div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00107">107</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                             {</div>
+<div class="line"><span class="lineno">  108</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a5db1670b5dd156c19840fb70e07f0472">setpoint</a>;</div>
+<div class="line"><span class="lineno">  109</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a5db1670b5dd156c19840fb70e07f0472"><div class="ttname"><a href="classscrimmage_1_1PID.html#a5db1670b5dd156c19840fb70e07f0472">scrimmage::PID::setpoint</a></div><div class="ttdeci">const double &amp; setpoint()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00125">PID.cpp:125</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00117">setpoint()</a>, and <a class="el" href="PID_8h_source.html#l00071">setpoint_</a>.</p>
+<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00125">setpoint()</a>, and <a class="el" href="PID_8h_source.html#l00071">setpoint_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00093">scrimmage::controller::UnicyclePID::step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -393,15 +393,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00103">103</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span>                                                       {</div>
-<div class="line"><span class="lineno">  104</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a77118eb1e400b79d6fd5fb2f53de9934">integral_band</a>;</div>
-<div class="line"><span class="lineno">  105</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a77118eb1e400b79d6fd5fb2f53de9934"><div class="ttname"><a href="classscrimmage_1_1PID.html#a77118eb1e400b79d6fd5fb2f53de9934">scrimmage::PID::integral_band</a></div><div class="ttdeci">const double &amp; integral_band()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00129">PID.cpp:129</a></div></div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00111">111</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                       {</div>
+<div class="line"><span class="lineno">  112</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a> = <a class="code hl_function" href="classscrimmage_1_1PID.html#a77118eb1e400b79d6fd5fb2f53de9934">integral_band</a>;</div>
+<div class="line"><span class="lineno">  113</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a77118eb1e400b79d6fd5fb2f53de9934"><div class="ttname"><a href="classscrimmage_1_1PID.html#a77118eb1e400b79d6fd5fb2f53de9934">scrimmage::PID::integral_band</a></div><div class="ttdeci">const double &amp; integral_band()</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00137">PID.cpp:137</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00129">integral_band()</a>, and <a class="el" href="PID_8h_source.html#l00073">integral_band_</a>.</p>
+<p class="reference">References <a class="el" href="PID_8cpp_source.html#l00137">integral_band()</a>, and <a class="el" href="PID_8h_source.html#l00073">integral_band_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00063">init()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00365">scrimmage::set_pid_gains()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00065">init()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00369">scrimmage::set_pid_gains()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -453,14 +453,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00113">113</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  113</span>                                           {</div>
-<div class="line"><span class="lineno">  114</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a> = is_angle;</div>
-<div class="line"><span class="lineno">  115</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00121">121</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  121</span>                                           {</div>
+<div class="line"><span class="lineno">  122</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a> = is_angle;</div>
+<div class="line"><span class="lineno">  123</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00074">is_angle_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00063">init()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00365">scrimmage::set_pid_gains()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00065">init()</a>, <a class="el" href="FixedWing6DOFControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, and <a class="el" href="ParseUtils_8cpp_source.html#l00369">scrimmage::set_pid_gains()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -514,12 +514,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00087">87</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                                                      {</div>
-<div class="line"><span class="lineno">   88</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a> = min;</div>
-<div class="line"><span class="lineno">   89</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a> = max;</div>
-<div class="line"><span class="lineno">   90</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a> = enable;</div>
-<div class="line"><span class="lineno">   91</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00095">95</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   95</span>                                                                                      {</div>
+<div class="line"><span class="lineno">   96</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a> = min;</div>
+<div class="line"><span class="lineno">   97</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a> = max;</div>
+<div class="line"><span class="lineno">   98</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a> = enable;</div>
+<div class="line"><span class="lineno">   99</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00080">enable_output_limits_</a>, <a class="el" href="PID_8h_source.html#l00079">output_max_</a>, and <a class="el" href="PID_8h_source.html#l00078">output_min_</a>.</p>
 
@@ -540,12 +540,12 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00107">107</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  107</span>                {</div>
-<div class="line"><span class="lineno">  108</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> = 0.0;</div>
-<div class="line"><span class="lineno">  109</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a> = 0.0;</div>
-<div class="line"><span class="lineno">  110</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a> = 0.0;</div>
-<div class="line"><span class="lineno">  111</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00115">115</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  115</span>                {</div>
+<div class="line"><span class="lineno">  116</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> = 0.0;</div>
+<div class="line"><span class="lineno">  117</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a> = 0.0;</div>
+<div class="line"><span class="lineno">  118</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a> = 0.0;</div>
+<div class="line"><span class="lineno">  119</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00075">derivative_</a>, <a class="el" href="PID_8h_source.html#l00069">integral_</a>, and <a class="el" href="PID_8h_source.html#l00068">prev_error_</a>.</p>
 
@@ -566,14 +566,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00117">117</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>                            {</div>
-<div class="line"><span class="lineno">  118</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a>;</div>
-<div class="line"><span class="lineno">  119</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00125">125</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  125</span>                            {</div>
+<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a>;</div>
+<div class="line"><span class="lineno">  127</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00071">setpoint_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00099">set_setpoint()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00107">set_setpoint()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -602,14 +602,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00120">120</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  120</span>                      {</div>
-<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a>;</div>
-<div class="line"><span class="lineno">  122</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00128">128</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  128</span>                      {</div>
+<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a>;</div>
+<div class="line"><span class="lineno">  130</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00064">kp_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -638,14 +638,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00123">123</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  123</span>                      {</div>
-<div class="line"><span class="lineno">  124</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a>;</div>
-<div class="line"><span class="lineno">  125</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00131">131</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  131</span>                      {</div>
+<div class="line"><span class="lineno">  132</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a>;</div>
+<div class="line"><span class="lineno">  133</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00065">ki_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -674,14 +674,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00126">126</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  126</span>                      {</div>
-<div class="line"><span class="lineno">  127</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a>;</div>
-<div class="line"><span class="lineno">  128</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00134">134</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  134</span>                      {</div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a>;</div>
+<div class="line"><span class="lineno">  136</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00066">kd_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -710,14 +710,14 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00129">129</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  129</span>                                 {</div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>;</div>
-<div class="line"><span class="lineno">  131</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00137">137</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  137</span>                                 {</div>
+<div class="line"><span class="lineno">  138</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>;</div>
+<div class="line"><span class="lineno">  139</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00073">integral_band_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00103">set_integral_band()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00111">set_integral_band()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -746,10 +746,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00132">132</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  132</span>                            {</div>
-<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a>;</div>
-<div class="line"><span class="lineno">  134</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00140">140</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  140</span>                            {</div>
+<div class="line"><span class="lineno">  141</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a>;</div>
+<div class="line"><span class="lineno">  142</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00069">integral_</a>.</p>
 
@@ -770,10 +770,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00135">135</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  135</span>                         {</div>
-<div class="line"><span class="lineno">  136</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>;</div>
-<div class="line"><span class="lineno">  137</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00143">143</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  143</span>                         {</div>
+<div class="line"><span class="lineno">  144</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>;</div>
+<div class="line"><span class="lineno">  145</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00076">error_</a>.</p>
 
@@ -794,10 +794,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00138">138</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  138</span>                                  {</div>
-<div class="line"><span class="lineno">  139</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>;</div>
-<div class="line"><span class="lineno">  140</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00146">146</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  146</span>                                  {</div>
+<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>;</div>
+<div class="line"><span class="lineno">  148</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00068">prev_error_</a>.</p>
 
@@ -818,10 +818,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00141">141</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>                              {</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>;</div>
-<div class="line"><span class="lineno">  143</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00149">149</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  149</span>                              {</div>
+<div class="line"><span class="lineno">  150</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>;</div>
+<div class="line"><span class="lineno">  151</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="PID_8h_source.html#l00075">derivative_</a>.</p>
 
@@ -853,38 +853,45 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00063">63</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                         {</div>
-<div class="line"><span class="lineno">   64</span>    std::vector&lt;std::string&gt; str_vals;</div>
-<div class="line"><span class="lineno">   65</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   69</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   70</span>        <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
-<div class="line"><span class="lineno">   72</span>        <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
-<div class="line"><span class="lineno">   73</span>        <a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>        <a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(is_angle);</div>
-<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">if</span> (is_angle) {</div>
-<div class="line"><span class="lineno">   77</span>            <span class="keywordtype">double</span> i_lim = <a class="code hl_function" href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">Angles::deg2rad</a>(std::stod(str_vals[3]));</div>
-<div class="line"><span class="lineno">   78</span>            <a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   79</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   80</span>            <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
-<div class="line"><span class="lineno">   81</span>            <a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
-<div class="line"><span class="lineno">   82</span>        }</div>
-<div class="line"><span class="lineno">   83</span>    }</div>
-<div class="line"><span class="lineno">   84</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   85</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00065">65</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   65</span>                                                         {</div>
+<div class="line"><span class="lineno">   66</span>    std::vector&lt;std::string&gt; str_vals;</div>
+<div class="line"><span class="lineno">   67</span>    boost::split(str_vals, str, boost::is_any_of(<span class="stringliteral">&quot;,&quot;</span>));</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">if</span> (str_vals.size() != 4) {</div>
+<div class="line"><span class="lineno">   70</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;PID::init failed: expected 4 comma-separated values (p,i,d,i_lim), got &quot;</span> &lt;&lt; str_vals.size() &lt;&lt; <span class="stringliteral">&quot; in &#39;&quot;</span> &lt;&lt; str &lt;&lt; <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   72</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordtype">double</span> p = std::stod(str_vals[0]);</div>
+<div class="line"><span class="lineno">   75</span>            <span class="keywordtype">double</span> i = std::stod(str_vals[1]);</div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordtype">double</span> d = std::stod(str_vals[2]);</div>
+<div class="line"><span class="lineno">   77</span>            <a class="code hl_function" href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">set_parameters</a>(p, i, d);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>            <a class="code hl_function" href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">set_is_angle</a>(is_angle);</div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">if</span> (is_angle) {</div>
+<div class="line"><span class="lineno">   81</span>                <span class="keywordtype">double</span> i_lim = <a class="code hl_function" href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">Angles::deg2rad</a>(std::stod(str_vals[3]));</div>
+<div class="line"><span class="lineno">   82</span>                <a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   83</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   84</span>                <span class="keywordtype">double</span> i_lim = std::stod(str_vals[3]);</div>
+<div class="line"><span class="lineno">   85</span>                <a class="code hl_function" href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">set_integral_band</a>(i_lim);</div>
+<div class="line"><span class="lineno">   86</span>            }</div>
+<div class="line"><span class="lineno">   87</span>        } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><span class="lineno">   88</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;PID::init failed to parse values from &#39;&quot;</span> &lt;&lt; str &lt;&lt; <span class="stringliteral">&quot;&#39;: &quot;</span> &lt;&lt; e.what());</div>
+<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   91</span>    }</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   93</span>}</div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Angles_html_a49e7f100f2e0784033a7910673e6dadb"><div class="ttname"><a href="classscrimmage_1_1Angles.html#a49e7f100f2e0784033a7910673e6dadb">scrimmage::Angles::deg2rad</a></div><div class="ttdeci">static double deg2rad(double deg)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00064">Angles.cpp:64</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00103">PID.cpp:103</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00113">PID.cpp:113</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00093">PID.cpp:93</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_a82dc968f6c52f5b6c76d31ee3f3389bd"><div class="ttname"><a href="classscrimmage_1_1PID.html#a82dc968f6c52f5b6c76d31ee3f3389bd">scrimmage::PID::set_integral_band</a></div><div class="ttdeci">void set_integral_band(const double &amp;integral_band)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00111">PID.cpp:111</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aab26ae4717d16f93218e67e041ea04da"><div class="ttname"><a href="classscrimmage_1_1PID.html#aab26ae4717d16f93218e67e041ea04da">scrimmage::PID::set_is_angle</a></div><div class="ttdeci">void set_is_angle(const bool &amp;is_angle)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00121">PID.cpp:121</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1PID_html_aaf1bfcbe69be6792c2d1a1a7abbe1f57"><div class="ttname"><a href="classscrimmage_1_1PID.html#aaf1bfcbe69be6792c2d1a1a7abbe1f57">scrimmage::PID::set_parameters</a></div><div class="ttdeci">void set_parameters(const double &amp;kp, const double &amp;ki, const double &amp;kd)</div><div class="ttdef"><b>Definition</b> <a href="PID_8cpp_source.html#l00101">PID.cpp:101</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Angles_8cpp_source.html#l00064">scrimmage::Angles::deg2rad()</a>, <a class="el" href="PID_8cpp_source.html#l00103">set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00113">set_is_angle()</a>, and <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>.</p>
+<p class="reference">References <a class="el" href="Angles_8cpp_source.html#l00064">scrimmage::Angles::deg2rad()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="PID_8cpp_source.html#l00111">set_integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00121">set_is_angle()</a>, and <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="UnicyclePID_8cpp_source.html#l00059">scrimmage::controller::UnicyclePID::init()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, and <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="UnicyclePID_8cpp_source.html#l00057">scrimmage::controller::UnicyclePID::init()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, and <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -950,30 +957,30 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00145">145</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  145</span>                                                            {</div>
-<div class="line"><span class="lineno">  146</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> = <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a> - measurement;</div>
-<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a>) {</div>
-<div class="line"><span class="lineno">  148</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> = <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>);</div>
-<div class="line"><span class="lineno">  149</span>    }</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">if</span> (std::abs(<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>) &gt; <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>) {</div>
-<div class="line"><span class="lineno">  152</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> = 0;</div>
-<div class="line"><span class="lineno">  153</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  154</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> += <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> * dt;</div>
-<div class="line"><span class="lineno">  155</span>    }</div>
-<div class="line"><span class="lineno">  156</span> </div>
-<div class="line"><span class="lineno">  157</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a> = (<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> - <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>) / std::max(1.0e-9, dt);</div>
-<div class="line"><span class="lineno">  158</span>    <span class="keywordtype">double</span> u = <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> + <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> + <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>;</div>
-<div class="line"><span class="lineno">  159</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a> = <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>;</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a> ? clamp(u, <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a>, <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a>) : u;</div>
-<div class="line"><span class="lineno">  162</span>}</div>
+<p class="definition">Definition at line <a class="el" href="PID_8cpp_source.html#l00153">153</a> of file <a class="el" href="PID_8cpp_source.html">PID.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                            {</div>
+<div class="line"><span class="lineno">  154</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> = <a class="code hl_variable" href="classscrimmage_1_1PID.html#a2348ec89bac315e7bf4cb14d865eb503">setpoint_</a> - measurement;</div>
+<div class="line"><span class="lineno">  155</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1PID.html#a6d80d83c71f7e411614231bb174cc53a">is_angle_</a>) {</div>
+<div class="line"><span class="lineno">  156</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> = <a class="code hl_function" href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">Angles::angle_pi</a>(<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>);</div>
+<div class="line"><span class="lineno">  157</span>    }</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>    <span class="keywordflow">if</span> (std::abs(<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>) &gt; <a class="code hl_variable" href="classscrimmage_1_1PID.html#af902f83c852818a1bb736233bd890222">integral_band_</a>) {</div>
+<div class="line"><span class="lineno">  160</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> = 0;</div>
+<div class="line"><span class="lineno">  161</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  162</span>        <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> += <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> * dt;</div>
+<div class="line"><span class="lineno">  163</span>    }</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a> = (<a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> - <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a>) / std::max(1.0e-9, dt);</div>
+<div class="line"><span class="lineno">  166</span>    <span class="keywordtype">double</span> u = <a class="code hl_variable" href="classscrimmage_1_1PID.html#abf3d07bc779eac5bdac6760e6e3af2da">kp_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a> + <a class="code hl_variable" href="classscrimmage_1_1PID.html#a29633cc38a89b1d10adb5fe50f4a97a3">ki_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#ad28837115d016db7a061791c0f91a6c7">integral_</a> + <a class="code hl_variable" href="classscrimmage_1_1PID.html#ab293cc76165ec0fcebe01938c584526f">kd_</a> * <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7f8abeaf80ece89cdc5385032ea46d3b">derivative_</a>;</div>
+<div class="line"><span class="lineno">  167</span>    <a class="code hl_variable" href="classscrimmage_1_1PID.html#a3d30c1adf4e72b4415d2f97808f29042">prev_error_</a> = <a class="code hl_variable" href="classscrimmage_1_1PID.html#a44371ff0b39f2d0ec6388e613fca74d0">error_</a>;</div>
+<div class="line"><span class="lineno">  168</span> </div>
+<div class="line"><span class="lineno">  169</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1PID.html#a72b683069ba3301e50ab21de18687451">enable_output_limits_</a> ? clamp(u, <a class="code hl_variable" href="classscrimmage_1_1PID.html#a71e35c234df9474ce09f534479815d2e">output_min_</a>, <a class="code hl_variable" href="classscrimmage_1_1PID.html#a7e7689881b72d6c6ba79e8263abb8c7f">output_max_</a>) : u;</div>
+<div class="line"><span class="lineno">  170</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Angles_html_aa3719f4510bb0b853fc17274c32f7f5b"><div class="ttname"><a href="classscrimmage_1_1Angles.html#aa3719f4510bb0b853fc17274c32f7f5b">scrimmage::Angles::angle_pi</a></div><div class="ttdeci">static double angle_pi(double angle)</div><div class="ttdef"><b>Definition</b> <a href="Angles_8cpp_source.html#l00128">Angles.cpp:128</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Angles_8cpp_source.html#l00128">scrimmage::Angles::angle_pi()</a>, <a class="el" href="PID_8h_source.html#l00075">derivative_</a>, <a class="el" href="PID_8h_source.html#l00080">enable_output_limits_</a>, <a class="el" href="PID_8h_source.html#l00076">error_</a>, <a class="el" href="PID_8h_source.html#l00069">integral_</a>, <a class="el" href="PID_8h_source.html#l00073">integral_band_</a>, <a class="el" href="PID_8h_source.html#l00074">is_angle_</a>, <a class="el" href="PID_8h_source.html#l00066">kd_</a>, <a class="el" href="PID_8h_source.html#l00065">ki_</a>, <a class="el" href="PID_8h_source.html#l00064">kp_</a>, <a class="el" href="PID_8h_source.html#l00079">output_max_</a>, <a class="el" href="PID_8h_source.html#l00078">output_min_</a>, <a class="el" href="PID_8h_source.html#l00068">prev_error_</a>, and <a class="el" href="PID_8h_source.html#l00071">setpoint_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00056">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00046">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00095">scrimmage::controller::UnicyclePID::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="AircraftPIDController_8cpp_source.html#l00053">REGISTER_PLUGIN()</a>, <a class="el" href="DoubleIntegratorControllerVelYaw_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimControlControllerHeadingPID_8cpp_source.html#l00045">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerPID_8cpp_source.html#l00043">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleAircraftControllerPID_8cpp_source.html#l00044">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCarControllerHeading_8cpp_source.html#l00040">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="UUV6DOFPIDController_8cpp_source.html#l00048">REGISTER_PLUGIN()</a>, and <a class="el" href="UnicyclePID_8cpp_source.html#l00093">scrimmage::controller::UnicyclePID::step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1040,7 +1047,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00064">64</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00120">kp()</a>, <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00128">kp()</a>, <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1066,7 +1073,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00065">65</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00123">ki()</a>, <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00131">ki()</a>, <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1092,7 +1099,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00066">66</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00126">kd()</a>, <a class="el" href="PID_8cpp_source.html#l00093">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00134">kd()</a>, <a class="el" href="PID_8cpp_source.html#l00101">set_parameters()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1118,7 +1125,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00068">68</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00138">previous_error()</a>, <a class="el" href="PID_8cpp_source.html#l00107">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00146">previous_error()</a>, <a class="el" href="PID_8cpp_source.html#l00115">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1144,7 +1151,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00069">69</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00132">integral()</a>, <a class="el" href="PID_8cpp_source.html#l00107">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00140">integral()</a>, <a class="el" href="PID_8cpp_source.html#l00115">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1170,7 +1177,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00071">71</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00099">set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00117">setpoint()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00107">set_setpoint()</a>, <a class="el" href="PID_8cpp_source.html#l00125">setpoint()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1196,7 +1203,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00073">73</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00129">integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00103">set_integral_band()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00137">integral_band()</a>, <a class="el" href="PID_8cpp_source.html#l00111">set_integral_band()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1229,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00074">74</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00113">set_is_angle()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00121">set_is_angle()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1248,7 +1255,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00075">75</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00141">derivative()</a>, <a class="el" href="PID_8cpp_source.html#l00107">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00149">derivative()</a>, <a class="el" href="PID_8cpp_source.html#l00115">reset()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1274,7 +1281,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00076">76</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00135">error()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00143">error()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1300,7 +1307,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00078">78</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00087">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00095">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1326,7 +1333,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00079">79</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00087">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00095">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1352,7 +1359,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="PID_8h_source.html#l00080">80</a> of file <a class="el" href="PID_8h_source.html">PID.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00087">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00145">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="PID_8cpp_source.html#l00095">set_output_limits()</a>, and <a class="el" href="PID_8cpp_source.html#l00153">step()</a>.</p>
 
 </div>
 </div>
@@ -1366,7 +1373,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1PID.html">PID</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

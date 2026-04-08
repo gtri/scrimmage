@@ -1,21 +1,26 @@
 <map id="/root/scrimmage/scrimmage/src/viewer/Viewer.cpp" name="/root/scrimmage/scrimmage/src/viewer/Viewer.cpp">
-<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="429,5,636,45"/>
+<area shape="rect" id="Node000001" title="Brief file description." alt="" coords="480,5,687,45"/>
 <area shape="rect" id="Node000002" href="$Viewer_8h.html" title="Brief file description." alt="" coords="21,93,223,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="435,48,196,93,195,88,434,43"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="480,47,203,94,202,88,479,42"/>
 <area shape="rect" id="Node000011" href="$CameraInterface_8h.html" title="Brief file description." alt="" coords="5,167,273,192"/>
-<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="447,48,372,69,294,96,226,129,170,162,167,157,224,124,292,91,370,63,446,43"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="480,46,388,66,294,96,225,128,169,161,166,157,223,123,292,91,387,61,479,41"/>
 <area shape="rect" id="Node000022" href="$Updater_8h.html" title="Brief file description." alt="" coords="119,240,330,265"/>
-<area shape="poly" id="edge10_Node000001_Node000022" title=" " alt="" coords="432,48,383,67,338,95,319,118,310,141,302,165,287,194,251,233,247,229,283,190,297,163,305,139,315,115,335,91,381,62,430,43"/>
-<area shape="rect" id="Node000042" title=" " alt="" coords="349,93,543,119"/>
-<area shape="poly" id="edge4_Node000001_Node000042" title=" " alt="" coords="513,48,471,86,467,82,510,44"/>
-<area shape="rect" id="Node000043" title=" " alt="" coords="567,93,674,119"/>
-<area shape="poly" id="edge5_Node000001_Node000043" title=" " alt="" coords="556,44,599,82,595,86,552,48"/>
-<area shape="rect" id="Node000044" href="$Interface_8h.html" title="Brief file description." alt="" coords="698,93,925,119"/>
-<area shape="poly" id="edge6_Node000001_Node000044" title=" " alt="" coords="600,43,758,87,757,92,599,48"/>
-<area shape="rect" id="Node000048" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="949,93,1185,119"/>
-<area shape="poly" id="edge7_Node000001_Node000048" title=" " alt="" coords="637,39,976,89,976,94,636,44"/>
-<area shape="rect" id="Node000051" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1210,93,1426,119"/>
-<area shape="poly" id="edge8_Node000001_Node000051" title=" " alt="" coords="636,34,1197,90,1196,95,636,40"/>
+<area shape="poly" id="edge13_Node000001_Node000022" title=" " alt="" coords="490,48,431,67,375,96,347,118,328,140,311,165,287,194,248,232,245,228,283,190,307,161,324,137,343,114,373,91,429,62,488,43"/>
+<area shape="rect" id="Node000042" title=" " alt="" coords="574,167,649,192"/>
+<area shape="poly" id="edge4_Node000001_Node000042" title=" " alt="" coords="481,43,435,55,399,71,388,81,382,91,382,103,389,117,400,126,416,135,460,150,561,169,560,174,459,155,414,140,397,131,385,120,377,104,377,90,384,77,397,66,434,50,479,38"/>
+<area shape="rect" id="Node000043" title=" " alt="" coords="399,93,594,119"/>
+<area shape="poly" id="edge5_Node000001_Node000043" title=" " alt="" coords="564,48,522,86,518,82,561,44"/>
+<area shape="rect" id="Node000044" title=" " alt="" coords="618,93,725,119"/>
+<area shape="poly" id="edge6_Node000001_Node000044" title=" " alt="" coords="606,44,650,82,646,86,603,48"/>
+<area shape="rect" id="Node000045" href="$Logger_8h.html" title=" " alt="" coords="749,93,927,119"/>
+<area shape="poly" id="edge7_Node000001_Node000045" title=" " alt="" coords="645,43,788,87,787,92,644,48"/>
+<area shape="rect" id="Node000051" href="$Interface_8h.html" title="Brief file description." alt="" coords="951,93,1178,119"/>
+<area shape="poly" id="edge9_Node000001_Node000051" title=" " alt="" coords="688,41,982,89,981,94,687,46"/>
+<area shape="rect" id="Node000054" href="$MissionParse_8h.html" title="Brief file description." alt="" coords="1203,93,1439,119"/>
+<area shape="poly" id="edge10_Node000001_Node000054" title=" " alt="" coords="687,35,1200,89,1200,95,687,40"/>
+<area shape="rect" id="Node000056" href="$ParseUtils_8h.html" title="Brief file description." alt="" coords="1463,93,1679,119"/>
+<area shape="poly" id="edge11_Node000001_Node000056" title=" " alt="" coords="687,31,1449,91,1449,96,687,37"/>
 <area shape="poly" id="edge2_Node000002_Node000011" title=" " alt="" coords="127,118,136,153,131,154,122,120"/>
 <area shape="poly" id="edge3_Node000011_Node000022" title=" " alt="" coords="155,190,202,229,199,233,151,194"/>
+<area shape="poly" id="edge8_Node000045_Node000042" title=" " alt="" coords="802,121,662,165,660,160,801,116"/>
 </map>

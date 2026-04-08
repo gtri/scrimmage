@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('GRPCCommandString_8cpp.html',''); init
 <code>#include &lt;grpc++/grpc++.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="Utilities_8h_source.html">scrimmage/common/Utilities.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Entity_8h_source.html">scrimmage/entity/Entity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="State_8h_source.html">scrimmage/math/State.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RegisterPlugin_8h_source.html">scrimmage/plugin_manager/RegisterPlugin.h</a>&quot;</code><br />
@@ -114,38 +115,41 @@ Include dependency graph for GRPCCommandString.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="GRPCCommandString_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2GRPCCommandString_2GRPCCommandString_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2GRPCCommandString_2GRPCCommandString_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2interaction_2GRPCCommandString_2GRPCCommandString_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="738,5,1077,60"/>
-<area shape="rect" href="GRPCCommandString_8h.html" title="Brief file description." alt="" coords="21,211,345,251"/>
-<area shape="poly" title=" " alt="" coords="738,39,529,45,304,57,202,66,116,78,52,93,31,101,19,110,10,122,8,134,11,147,19,161,42,185,72,203,69,208,39,190,15,164,6,149,3,135,5,120,15,106,29,96,51,88,115,73,201,61,303,52,528,39,738,33"/>
-<area shape="rect" title=" " alt="" coords="29,123,109,148"/>
-<area shape="poly" title=" " alt="" coords="738,45,398,70,237,88,122,111,101,119,99,114,120,105,236,83,398,65,738,40"/>
-<area shape="rect" title=" " alt="" coords="133,123,191,148"/>
-<area shape="poly" title=" " alt="" coords="738,46,441,70,303,88,247,99,204,111,189,118,187,113,203,105,246,94,302,83,440,65,738,40"/>
-<area shape="rect" title=" " alt="" coords="1286,218,1363,243"/>
-<area shape="poly" title=" " alt="" coords="927,59,969,118,991,144,1009,160,1041,178,1075,192,1147,212,1215,222,1273,226,1272,232,1214,228,1146,217,1074,197,1039,183,1006,165,987,148,965,121,923,62"/>
-<area shape="rect" title=" " alt="" coords="559,123,698,148"/>
-<area shape="poly" title=" " alt="" coords="836,63,674,120,673,115,834,58"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="723,123,945,148"/>
-<area shape="poly" title=" " alt="" coords="890,62,853,113,849,110,886,59"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1019,123,1209,148"/>
-<area shape="poly" title=" " alt="" coords="962,58,1079,114,1077,119,960,62"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1233,123,1416,148"/>
-<area shape="poly" title=" " alt="" coords="1020,57,1221,105,1267,117,1266,122,1220,111,1019,63"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1441,123,1657,148"/>
-<area shape="poly" title=" " alt="" coords="1077,52,1248,76,1429,105,1487,117,1486,122,1428,111,1247,81,1077,58"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1681,115,1885,155"/>
-<area shape="poly" title=" " alt="" coords="1077,42,1355,65,1513,83,1669,105,1694,110,1693,115,1668,111,1512,88,1355,71,1077,47"/>
-<area shape="rect" href="ScrimmageMsgServiceImpl_8h.html" title="Brief file description." alt="" coords="215,108,535,163"/>
-<area shape="poly" title=" " alt="" coords="770,63,528,108,527,103,769,57"/>
-<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="1910,123,2131,148"/>
-<area shape="poly" title=" " alt="" coords="1077,37,1454,59,1677,79,1899,105,1962,117,1961,122,1898,111,1676,84,1454,64,1077,42"/>
-<area shape="poly" title=" " alt="" coords="1141,146,1287,210,1285,215,1139,150"/>
-<area shape="poly" title=" " alt="" coords="1327,148,1327,204,1322,204,1322,148"/>
-<area shape="poly" title=" " alt="" coords="1522,150,1366,215,1364,210,1520,146"/>
-<area shape="poly" title=" " alt="" coords="1703,158,1669,165,1377,222,1376,217,1668,160,1702,153"/>
-<area shape="poly" title=" " alt="" coords="323,165,236,207,234,202,320,160"/>
-<area shape="poly" title=" " alt="" coords="536,159,548,160,758,182,965,201,1272,223,1272,229,965,206,758,188,547,165,535,164"/>
-<area shape="poly" title=" " alt="" coords="1973,151,1899,165,1751,187,1604,205,1377,228,1377,222,1603,200,1750,182,1898,160,1972,145"/>
+<area shape="rect" title="Brief file description." alt="" coords="792,5,1131,60"/>
+<area shape="rect" href="GRPCCommandString_8h.html" title="Brief file description." alt="" coords="247,211,571,251"/>
+<area shape="poly" title=" " alt="" coords="792,47,663,57,536,72,434,89,400,99,382,110,372,130,373,152,380,176,391,198,386,200,375,178,368,153,367,128,378,106,398,94,432,84,535,66,663,52,792,42"/>
+<area shape="rect" title=" " alt="" coords="127,218,207,243"/>
+<area shape="poly" title=" " alt="" coords="792,38,642,43,484,56,410,65,344,77,289,92,248,110,224,130,204,156,178,206,173,204,199,153,220,127,245,106,287,87,343,72,410,60,484,50,642,38,792,32"/>
+<area shape="rect" title=" " alt="" coords="259,123,317,148"/>
+<area shape="poly" title=" " alt="" coords="792,39,688,47,572,60,453,80,337,111,319,118,317,113,335,105,452,75,572,54,687,41,792,34"/>
+<area shape="rect" title=" " alt="" coords="1636,218,1713,243"/>
+<area shape="poly" title=" " alt="" coords="1131,35,1449,43,1815,58,2124,78,2224,91,2255,98,2271,106,2281,120,2284,135,2281,150,2271,165,2242,179,2189,192,2037,211,1865,223,1727,230,1727,225,1865,218,2036,205,2188,186,2240,174,2268,161,2276,148,2279,135,2276,123,2268,110,2253,103,2223,96,2123,84,1815,63,1449,49,1131,40"/>
+<area shape="rect" title=" " alt="" coords="392,123,531,148"/>
+<area shape="poly" title=" " alt="" coords="792,62,670,83,545,111,508,121,506,116,543,105,669,78,791,56"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="555,123,778,148"/>
+<area shape="poly" title=" " alt="" coords="886,63,714,121,712,116,884,57"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1145,123,1335,148"/>
+<area shape="poly" title=" " alt="" coords="1035,58,1196,115,1194,120,1033,63"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="5,123,184,148"/>
+<area shape="poly" title=" " alt="" coords="792,46,515,70,358,88,203,111,150,122,149,117,202,105,357,83,514,64,791,41"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1359,123,1542,148"/>
+<area shape="poly" title=" " alt="" coords="1108,57,1347,105,1395,117,1394,122,1346,111,1107,63"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="1567,123,1783,148"/>
+<area shape="poly" title=" " alt="" coords="1131,48,1334,73,1555,105,1614,117,1613,122,1554,111,1334,78,1130,54"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="1807,115,2011,155"/>
+<area shape="poly" title=" " alt="" coords="1131,40,1441,63,1619,81,1795,105,1820,110,1819,115,1794,111,1618,87,1440,68,1131,45"/>
+<area shape="rect" href="ScrimmageMsgServiceImpl_8h.html" title="Brief file description." alt="" coords="801,108,1121,163"/>
+<area shape="poly" title=" " alt="" coords="964,60,964,94,959,94,959,60"/>
+<area shape="rect" href="Publisher_8h.html" title="Brief file description." alt="" coords="2036,123,2257,148"/>
+<area shape="poly" title=" " alt="" coords="1131,36,1315,44,1539,57,1782,77,2024,105,2087,117,2087,122,2024,111,1782,82,1539,62,1315,49,1131,41"/>
+<area shape="poly" title=" " alt="" coords="1286,145,1349,160,1623,217,1622,222,1347,165,1285,151"/>
+<area shape="poly" title=" " alt="" coords="106,146,151,205,147,208,101,150"/>
+<area shape="poly" title=" " alt="" coords="1479,146,1635,210,1633,215,1477,150"/>
+<area shape="poly" title=" " alt="" coords="1677,148,1677,204,1672,204,1672,148"/>
+<area shape="poly" title=" " alt="" coords="1863,158,1717,215,1715,211,1861,153"/>
+<area shape="poly" title=" " alt="" coords="807,165,534,211,533,206,806,160"/>
+<area shape="poly" title=" " alt="" coords="1122,158,1134,160,1623,221,1622,226,1133,165,1121,164"/>
+<area shape="poly" title=" " alt="" coords="2095,151,2025,165,1727,222,1726,217,2023,160,2094,145"/>
 </map>
 </div>
 </div>
@@ -208,78 +212,79 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GRPCCommandString_8cpp_source.html#l00053">53</a> of file <a class="el" href="GRPCCommandString_8cpp_source.html">GRPCCommandString.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span>                    {</div>
-<div class="line"><span class="lineno">   59</span><span class="keyword">namespace </span>interaction {</div>
+<p class="definition">Definition at line <a class="el" href="GRPCCommandString_8cpp_source.html#l00051">51</a> of file <a class="el" href="GRPCCommandString_8cpp_source.html">GRPCCommandString.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   56</span>                    {</div>
+<div class="line"><span class="lineno">   57</span><span class="keyword">namespace </span>interaction {</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>GRPCCommandString::GRPCCommandString() {}</div>
 <div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>GRPCCommandString::GRPCCommandString() {}</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span><span class="keywordtype">bool</span> GRPCCommandString::init(</div>
-<div class="line"><span class="lineno">   64</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
-<div class="line"><span class="lineno">   65</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
-<div class="line"><span class="lineno">   66</span>    ip_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ip&quot;</span>, plugin_params, ip_);</div>
-<div class="line"><span class="lineno">   67</span>    port_ = sc::get&lt;int&gt;(<span class="stringliteral">&quot;port&quot;</span>, plugin_params, port_);</div>
+<div class="line"><span class="lineno">   61</span><span class="keywordtype">bool</span> GRPCCommandString::init(</div>
+<div class="line"><span class="lineno">   62</span>    std::map&lt;std::string, std::string&gt;&amp; mission_params,</div>
+<div class="line"><span class="lineno">   63</span>    std::map&lt;std::string, std::string&gt;&amp; plugin_params) {</div>
+<div class="line"><span class="lineno">   64</span>    ip_ = sc::get&lt;std::string&gt;(<span class="stringliteral">&quot;ip&quot;</span>, plugin_params, ip_);</div>
+<div class="line"><span class="lineno">   65</span>    port_ = sc::get&lt;int&gt;(<span class="stringliteral">&quot;port&quot;</span>, plugin_params, port_);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>    network_thread_ = std::thread(&amp;GRPCCommandString::run_server, <span class="keyword">this</span>);</div>
 <div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    network_thread_ = std::thread(&amp;GRPCCommandString::run_server, <span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   72</span>}</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span><span class="keywordtype">bool</span> GRPCCommandString::step_entity_interaction(</div>
-<div class="line"><span class="lineno">   75</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
-<div class="line"><span class="lineno">   76</span>    <span class="keywordtype">double</span> t,</div>
-<div class="line"><span class="lineno">   77</span>    <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   78</span>    <span class="comment">// Check for new messages:</span></div>
-<div class="line"><span class="lineno">   79</span>    msgs_mutex_.lock();</div>
-<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">while</span> (msgs_.size() &gt; 0) {</div>
-<div class="line"><span class="lineno">   81</span>        scrimmage_msgs::CommandString msg = msgs_.front();</div>
-<div class="line"><span class="lineno">   82</span>        msgs_.pop();</div>
-<div class="line"><span class="lineno">   83</span> </div>
-<div class="line"><span class="lineno">   84</span>        <span class="comment">// Does this publisher exist already?</span></div>
-<div class="line"><span class="lineno">   85</span>        <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">   86</span>        <span class="keyword">auto</span> it_network = pubs_.find(msg.network());</div>
-<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">if</span> (it_network != pubs_.end()) {</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keyword">auto</span> it_topic = it_network-&gt;second.find(msg.topic());</div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">if</span> (it_topic != it_network-&gt;second.end()) {</div>
-<div class="line"><span class="lineno">   90</span>                pub = it_topic-&gt;second;</div>
-<div class="line"><span class="lineno">   91</span>            }</div>
-<div class="line"><span class="lineno">   92</span>        }</div>
-<div class="line"><span class="lineno">   93</span>        <span class="comment">// If the publisher doesn&#39;t exist yet, create it.</span></div>
-<div class="line"><span class="lineno">   94</span>        <span class="keywordflow">if</span> (pub == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">   95</span>            pub = advertise(msg.network(), msg.topic());</div>
-<div class="line"><span class="lineno">   96</span>            pubs_[msg.network()][msg.topic()] = pub;</div>
-<div class="line"><span class="lineno">   97</span>        }</div>
-<div class="line"><span class="lineno">   98</span>        <span class="keyword">auto</span> sc_msg = std::make_shared&lt;scrimmage::Message&lt;scrimmage_msgs::CommandString&gt;&gt;();</div>
-<div class="line"><span class="lineno">   99</span>        sc_msg-&gt;data = msg;</div>
-<div class="line"><span class="lineno">  100</span>        pub-&gt;publish(sc_msg);</div>
-<div class="line"><span class="lineno">  101</span>    }</div>
-<div class="line"><span class="lineno">  102</span>    msgs_mutex_.unlock();</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  105</span>}</div>
-<div class="line"><span class="lineno">  106</span> </div>
-<div class="line"><span class="lineno">  107</span><span class="keywordtype">void</span> GRPCCommandString::run_server() {</div>
-<div class="line"><span class="lineno">  108</span>    std::string result = ip_ + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(port_);</div>
-<div class="line"><span class="lineno">  109</span>    ScrimmageMsgServiceImpl service(shared_from_this());</div>
-<div class="line"><span class="lineno">  110</span>    grpc::ServerBuilder builder;</div>
-<div class="line"><span class="lineno">  111</span>    builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
-<div class="line"><span class="lineno">  112</span>    builder.RegisterService(&amp;service);</div>
-<div class="line"><span class="lineno">  113</span>    std::unique_ptr&lt;grpc::Server&gt; server(builder.BuildAndStart());</div>
-<div class="line"><span class="lineno">  114</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;GRPCCommandString listening on &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">  115</span>    server-&gt;Wait();  <span class="comment">// this function blocks (should be in thread now)</span></div>
-<div class="line"><span class="lineno">  116</span>}</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span><span class="keywordtype">void</span> GRPCCommandString::push_msg(<span class="keyword">const</span> scrimmage_msgs::CommandString&amp; msg) {</div>
-<div class="line"><span class="lineno">  119</span>    msgs_mutex_.lock();</div>
-<div class="line"><span class="lineno">  120</span>    msgs_.push(msg);</div>
-<div class="line"><span class="lineno">  121</span>    msgs_mutex_.unlock();</div>
-<div class="line"><span class="lineno">  122</span>}</div>
-<div class="line"><span class="lineno">  123</span> </div>
-<div class="line"><span class="lineno">  124</span>}  <span class="comment">// namespace interaction</span></div>
-<div class="line"><span class="lineno">  125</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   70</span>}</div>
+<div class="line"><span class="lineno">   71</span> </div>
+<div class="line"><span class="lineno">   72</span><span class="keywordtype">bool</span> GRPCCommandString::step_entity_interaction(</div>
+<div class="line"><span class="lineno">   73</span>    std::list&lt;sc::EntityPtr&gt;&amp; ents,</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordtype">double</span> t,</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   76</span>    <span class="comment">// Check for new messages:</span></div>
+<div class="line"><span class="lineno">   77</span>    msgs_mutex_.lock();</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">while</span> (msgs_.size() &gt; 0) {</div>
+<div class="line"><span class="lineno">   79</span>        scrimmage_msgs::CommandString msg = msgs_.front();</div>
+<div class="line"><span class="lineno">   80</span>        msgs_.pop();</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>        <span class="comment">// Does this publisher exist already?</span></div>
+<div class="line"><span class="lineno">   83</span>        <a class="code hl_typedef" href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">sc::PublisherPtr</a> pub = <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   84</span>        <span class="keyword">auto</span> it_network = pubs_.find(msg.network());</div>
+<div class="line"><span class="lineno">   85</span>        <span class="keywordflow">if</span> (it_network != pubs_.end()) {</div>
+<div class="line"><span class="lineno">   86</span>            <span class="keyword">auto</span> it_topic = it_network-&gt;second.find(msg.topic());</div>
+<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">if</span> (it_topic != it_network-&gt;second.end()) {</div>
+<div class="line"><span class="lineno">   88</span>                pub = it_topic-&gt;second;</div>
+<div class="line"><span class="lineno">   89</span>            }</div>
+<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   91</span>        <span class="comment">// If the publisher doesn&#39;t exist yet, create it.</span></div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">if</span> (pub == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><span class="lineno">   93</span>            pub = advertise(msg.network(), msg.topic());</div>
+<div class="line"><span class="lineno">   94</span>            pubs_[msg.network()][msg.topic()] = pub;</div>
+<div class="line"><span class="lineno">   95</span>        }</div>
+<div class="line"><span class="lineno">   96</span>        <span class="keyword">auto</span> sc_msg = std::make_shared&lt;scrimmage::Message&lt;scrimmage_msgs::CommandString&gt;&gt;();</div>
+<div class="line"><span class="lineno">   97</span>        sc_msg-&gt;data = msg;</div>
+<div class="line"><span class="lineno">   98</span>        pub-&gt;publish(sc_msg);</div>
+<div class="line"><span class="lineno">   99</span>    }</div>
+<div class="line"><span class="lineno">  100</span>    msgs_mutex_.unlock();</div>
+<div class="line"><span class="lineno">  101</span> </div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  103</span>}</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span><span class="keywordtype">void</span> GRPCCommandString::run_server() {</div>
+<div class="line"><span class="lineno">  106</span>    std::string result = ip_ + <span class="stringliteral">&quot;:&quot;</span> + std::to_string(port_);</div>
+<div class="line"><span class="lineno">  107</span>    ScrimmageMsgServiceImpl service(shared_from_this());</div>
+<div class="line"><span class="lineno">  108</span>    grpc::ServerBuilder builder;</div>
+<div class="line"><span class="lineno">  109</span>    builder.AddListeningPort(result, grpc::InsecureServerCredentials());</div>
+<div class="line"><span class="lineno">  110</span>    builder.RegisterService(&amp;service);</div>
+<div class="line"><span class="lineno">  111</span>    std::unique_ptr&lt;grpc::Server&gt; server(builder.BuildAndStart());</div>
+<div class="line"><span class="lineno">  112</span>    <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;GRPCCommandString listening on &quot;</span> &lt;&lt; result);</div>
+<div class="line"><span class="lineno">  113</span>    server-&gt;Wait();  <span class="comment">// this function blocks (should be in thread now)</span></div>
+<div class="line"><span class="lineno">  114</span>}</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span><span class="keywordtype">void</span> GRPCCommandString::push_msg(<span class="keyword">const</span> scrimmage_msgs::CommandString&amp; msg) {</div>
+<div class="line"><span class="lineno">  117</span>    msgs_mutex_.lock();</div>
+<div class="line"><span class="lineno">  118</span>    msgs_.push(msg);</div>
+<div class="line"><span class="lineno">  119</span>    msgs_mutex_.unlock();</div>
+<div class="line"><span class="lineno">  120</span>}</div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>}  <span class="comment">// namespace interaction</span></div>
+<div class="line"><span class="lineno">  123</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_aa7b1daee33a174a82f3c27668be7103a"><div class="ttname"><a href="namespacescrimmage.html#aa7b1daee33a174a82f3c27668be7103a">scrimmage::PublisherPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Publisher &gt; PublisherPtr</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00063">EntityPlugin.h:63</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a6b6ecb2e23bef3bd355f099a9e9cd1f3">scrimmage::interaction::GRPCCommandString::GRPCCommandString()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a570a4949499f74f4ecef9aff594ddfcb">scrimmage::interaction::GRPCCommandString::init()</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00063">scrimmage::interaction::GRPCCommandString::ip_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00068">scrimmage::interaction::GRPCCommandString::msgs_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00067">scrimmage::interaction::GRPCCommandString::msgs_mutex_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00065">scrimmage::interaction::GRPCCommandString::network_thread_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00064">scrimmage::interaction::GRPCCommandString::port_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00070">scrimmage::interaction::GRPCCommandString::pubs_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d21fd8833e41d0b1a32051c769627c6">scrimmage::interaction::GRPCCommandString::push_msg()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">scrimmage::interaction::GRPCCommandString::run_server()</a>, and <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a98d5b87f39d1240ef475e3a00df0610e">scrimmage::interaction::GRPCCommandString::step_entity_interaction()</a>.</p>
+<p class="reference">References <a class="el" href="EntityPlugin_8cpp_source.html#l00098">scrimmage::EntityPlugin::advertise()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a6b6ecb2e23bef3bd355f099a9e9cd1f3">scrimmage::interaction::GRPCCommandString::GRPCCommandString()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a570a4949499f74f4ecef9aff594ddfcb">scrimmage::interaction::GRPCCommandString::init()</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00063">scrimmage::interaction::GRPCCommandString::ip_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00068">scrimmage::interaction::GRPCCommandString::msgs_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00067">scrimmage::interaction::GRPCCommandString::msgs_mutex_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00065">scrimmage::interaction::GRPCCommandString::network_thread_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00064">scrimmage::interaction::GRPCCommandString::port_</a>, <a class="el" href="GRPCCommandString_8h_source.html#l00070">scrimmage::interaction::GRPCCommandString::pubs_</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a9d21fd8833e41d0b1a32051c769627c6">scrimmage::interaction::GRPCCommandString::push_msg()</a>, <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a583161bcc0fc9fd899f799b14170db68">scrimmage::interaction::GRPCCommandString::run_server()</a>, and <a class="el" href="classscrimmage_1_1interaction_1_1GRPCCommandString.html#a98d5b87f39d1240ef475e3a00df0610e">scrimmage::interaction::GRPCCommandString::step_entity_interaction()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -309,7 +314,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_00cc353c998af5f011e8667e057a10ee.html">interaction</a></li><li class="navelem"><a class="el" href="dir_f5941608f0d3d417e3bbbe056116b6fd.html">GRPCCommandString</a></li><li class="navelem"><a class="el" href="GRPCCommandString_8cpp.html">GRPCCommandString.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

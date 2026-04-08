@@ -101,11 +101,11 @@ $(document).ready(function(){initNavTree('ParseUtils_8cpp.html',''); initResizab
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="FileSearch_8h_source.html">scrimmage/common/FileSearch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PID_8h_source.html">scrimmage/common/PID.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Angles_8h_source.html">scrimmage/math/Angles.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ConfigParse_8h_source.html">scrimmage/parse/ConfigParse.h</a>&quot;</code><br />
 <code>#include &quot;scrimmage/proto/Visual.pb.h&quot;</code><br />
@@ -119,39 +119,42 @@ Include dependency graph for ParseUtils.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="ParseUtils_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2parse_2ParseUtils_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2parse_2ParseUtils_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2parse_2ParseUtils_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="1074,5,1281,45"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="5,101,221,126"/>
-<area shape="poly" title=" " alt="" coords="1074,34,705,56,474,74,240,96,198,101,197,96,240,91,473,68,705,51,1074,29"/>
-<area shape="rect" title=" " alt="" coords="227,181,290,207"/>
-<area shape="poly" title=" " alt="" coords="1074,30,865,35,619,46,503,54,403,65,328,79,303,87,287,95,274,111,266,129,260,168,255,167,261,128,270,108,284,91,301,82,327,74,402,60,502,49,618,41,865,30,1074,25"/>
-<area shape="rect" title=" " alt="" coords="297,101,370,126"/>
-<area shape="poly" title=" " alt="" coords="1074,29,936,32,762,42,572,62,476,77,383,96,373,99,372,94,382,91,475,72,571,57,762,37,935,27,1074,24"/>
-<area shape="rect" title=" " alt="" coords="395,101,475,126"/>
-<area shape="poly" title=" " alt="" coords="1074,31,953,37,806,48,646,67,487,96,476,99,474,94,486,91,645,62,806,43,953,32,1074,26"/>
-<area shape="rect" title=" " alt="" coords="499,101,573,126"/>
-<area shape="poly" title=" " alt="" coords="1074,33,971,40,849,52,717,70,587,96,577,99,576,94,586,91,716,65,848,47,971,35,1073,28"/>
-<area shape="rect" href="FileSearch_8h.html" title="Brief file description." alt="" coords="598,101,837,126"/>
-<area shape="poly" title=" " alt="" coords="1077,48,792,101,791,96,1076,43"/>
-<area shape="rect" href="PID_8h.html" title="Brief file description." alt="" coords="861,101,1056,126"/>
-<area shape="poly" title=" " alt="" coords="1130,48,1001,98,1000,93,1128,43"/>
-<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="1081,101,1274,126"/>
-<area shape="poly" title=" " alt="" coords="1180,46,1180,87,1175,87,1175,46"/>
-<area shape="rect" href="ConfigParse_8h.html" title="Brief file description." alt="" coords="1299,101,1525,126"/>
-<area shape="poly" title=" " alt="" coords="1230,43,1369,94,1367,99,1228,48"/>
-<area shape="rect" title=" " alt="" coords="1550,101,1759,126"/>
-<area shape="poly" title=" " alt="" coords="1281,43,1578,96,1577,101,1280,48"/>
-<area shape="rect" title=" " alt="" coords="1783,101,1942,126"/>
-<area shape="poly" title=" " alt="" coords="1281,33,1507,56,1772,91,1798,95,1798,101,1772,96,1506,61,1281,38"/>
-<area shape="rect" title=" " alt="" coords="1966,101,2157,126"/>
-<area shape="poly" title=" " alt="" coords="1281,30,1584,52,1769,69,1955,91,1989,96,1988,101,1954,96,1769,75,1583,57,1281,35"/>
-<area shape="rect" title=" " alt="" coords="2181,93,2347,133"/>
-<area shape="poly" title=" " alt="" coords="1281,27,1667,45,1914,63,2167,90,2166,96,1914,69,1667,50,1281,32"/>
-<area shape="rect" title=" " alt="" coords="2371,93,2538,133"/>
-<area shape="poly" title=" " alt="" coords="1281,25,1478,30,1744,40,2047,60,2358,91,2357,96,2047,65,1744,45,1478,35,1281,30"/>
-<area shape="rect" title=" " alt="" coords="2562,93,2729,133"/>
-<area shape="poly" title=" " alt="" coords="1281,24,1507,27,1820,36,2180,56,2366,71,2549,91,2548,96,2365,76,2180,61,1820,41,1507,32,1281,29"/>
-<area shape="poly" title=" " alt="" coords="136,124,226,172,224,177,134,129"/>
-<area shape="poly" title=" " alt="" coords="1344,129,1287,136,994,161,707,178,304,194,304,189,707,173,993,156,1286,131,1343,123"/>
+<area shape="rect" title="Brief file description." alt="" coords="1083,5,1290,45"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="30,101,246,126"/>
+<area shape="poly" title=" " alt="" coords="1083,34,718,55,489,73,259,96,218,101,218,96,258,91,489,68,718,50,1083,29"/>
+<area shape="rect" title=" " alt="" coords="230,181,292,207"/>
+<area shape="poly" title=" " alt="" coords="1083,31,804,39,460,52,161,71,64,82,34,89,20,95,12,106,8,116,9,125,13,133,33,148,63,160,141,178,216,187,216,192,140,183,61,165,30,152,9,136,4,126,3,115,7,104,17,91,32,84,63,77,161,65,459,46,804,33,1083,26"/>
+<area shape="rect" title=" " alt="" coords="511,181,584,207"/>
+<area shape="poly" title=" " alt="" coords="1083,33,935,41,772,54,634,72,587,83,561,95,551,111,546,130,546,168,540,168,540,129,546,109,558,91,585,78,633,67,772,49,935,36,1083,28"/>
+<area shape="rect" title=" " alt="" coords="686,181,761,207"/>
+<area shape="poly" title=" " alt="" coords="1083,30,1020,36,951,48,881,67,816,96,792,112,772,131,740,171,736,168,768,128,789,108,813,91,879,62,950,42,1019,31,1083,25"/>
+<area shape="rect" href="FileSearch_8h.html" title="Brief file description." alt="" coords="826,101,1064,126"/>
+<area shape="poly" title=" " alt="" coords="1134,48,991,99,989,94,1132,43"/>
+<area shape="rect" href="PID_8h.html" title="Brief file description." alt="" coords="1089,101,1284,126"/>
+<area shape="poly" title=" " alt="" coords="1189,46,1189,87,1184,87,1184,46"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="572,101,750,126"/>
+<area shape="poly" title=" " alt="" coords="1083,45,769,96,740,101,739,96,769,91,1083,40"/>
+<area shape="rect" href="Angles_8h.html" title="Brief file description." alt="" coords="1308,101,1502,126"/>
+<area shape="poly" title=" " alt="" coords="1235,43,1364,93,1362,98,1233,48"/>
+<area shape="rect" href="ConfigParse_8h.html" title="Brief file description." alt="" coords="270,101,497,126"/>
+<area shape="poly" title=" " alt="" coords="1083,38,825,62,516,96,474,101,473,96,515,91,825,57,1083,33"/>
+<area shape="rect" title=" " alt="" coords="1526,101,1735,126"/>
+<area shape="poly" title=" " alt="" coords="1284,43,1558,95,1557,101,1283,48"/>
+<area shape="rect" title=" " alt="" coords="1759,101,1918,126"/>
+<area shape="poly" title=" " alt="" coords="1290,34,1502,57,1748,91,1774,95,1773,101,1747,96,1501,62,1290,39"/>
+<area shape="rect" title=" " alt="" coords="1942,101,2132,126"/>
+<area shape="poly" title=" " alt="" coords="1290,31,1579,53,1755,70,1931,91,1964,96,1963,101,1930,96,1754,75,1579,58,1290,36"/>
+<area shape="rect" title=" " alt="" coords="2156,93,2323,133"/>
+<area shape="poly" title=" " alt="" coords="1290,27,1663,45,1900,64,2143,90,2142,96,1900,69,1662,51,1290,32"/>
+<area shape="rect" title=" " alt="" coords="2347,93,2514,133"/>
+<area shape="poly" title=" " alt="" coords="1290,25,1482,30,1740,41,2033,60,2334,91,2333,96,2033,66,1739,46,1482,35,1290,31"/>
+<area shape="rect" title=" " alt="" coords="2538,93,2704,133"/>
+<area shape="poly" title=" " alt="" coords="1290,24,1511,27,1816,37,2166,57,2346,72,2524,91,2524,96,2346,77,2165,62,1815,42,1511,32,1290,29"/>
+<area shape="poly" title=" " alt="" coords="158,124,233,172,230,176,155,128"/>
+<area shape="poly" title=" " alt="" coords="603,129,306,187,305,181,602,123"/>
+<area shape="poly" title=" " alt="" coords="646,128,577,176,574,171,643,124"/>
+<area shape="poly" title=" " alt="" coords="672,125,708,169,704,172,668,128"/>
+<area shape="poly" title=" " alt="" coords="367,128,292,176,289,172,364,124"/>
 </map>
 </div>
 </div>
@@ -242,7 +245,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4759d2f9f627d6afcfc41fd50fd37848.html">parse</a></li><li class="navelem"><a class="el" href="ParseUtils_8cpp.html">ParseUtils.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

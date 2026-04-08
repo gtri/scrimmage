@@ -192,32 +192,32 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="DirectController_8cpp_source.html#l00050">50</a> of file <a class="el" href="DirectController_8cpp_source.html">DirectController.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                    {</div>
-<div class="line"><span class="lineno">   56</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span><span class="keywordtype">void</span> DirectController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   59</span>    <span class="comment">// Discover the output variables that point to the input variables for the</span></div>
-<div class="line"><span class="lineno">   60</span>    <span class="comment">// motion model. Setup input variables that mirror the output variables.</span></div>
-<div class="line"><span class="lineno">   61</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : vars_.output_variable_index()) {</div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordtype">int</span> out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   63</span>        <span class="keywordtype">int</span> in_idx = vars_.declare(kv.first, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   64</span>        io_map_[out_idx] = in_idx;</div>
-<div class="line"><span class="lineno">   65</span>    }</div>
-<div class="line"><span class="lineno">   66</span>}</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span><span class="keywordtype">bool</span> DirectController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   69</span>    <span class="comment">// Copy over variableIO data</span></div>
-<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : io_map_) {</div>
-<div class="line"><span class="lineno">   71</span>        vars_.output(kv.first, vars_.input(kv.second));</div>
-<div class="line"><span class="lineno">   72</span>    }</div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   74</span>}</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   77</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="DirectController_8cpp_source.html#l00048">48</a> of file <a class="el" href="DirectController_8cpp_source.html">DirectController.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>                    {</div>
+<div class="line"><span class="lineno">   54</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span><span class="keywordtype">void</span> DirectController::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   57</span>    <span class="comment">// Discover the output variables that point to the input variables for the</span></div>
+<div class="line"><span class="lineno">   58</span>    <span class="comment">// motion model. Setup input variables that mirror the output variables.</span></div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : vars_.output_variable_index()) {</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordtype">int</span> out_idx = vars_.declare(kv.first, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordtype">int</span> in_idx = vars_.declare(kv.first, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   62</span>        io_map_[out_idx] = in_idx;</div>
+<div class="line"><span class="lineno">   63</span>    }</div>
+<div class="line"><span class="lineno">   64</span>}</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span><span class="keywordtype">bool</span> DirectController::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   67</span>    <span class="comment">// Copy over variableIO data</span></div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : io_map_) {</div>
+<div class="line"><span class="lineno">   69</span>        vars_.output(kv.first, vars_.input(kv.second));</div>
+<div class="line"><span class="lineno">   70</span>    }</div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   72</span>}</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   75</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DirectController.html#a1ec65bc8035ce75dca2aba1b408a3feb">scrimmage::controller::DirectController::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="DirectController_8h_source.html#l00053">scrimmage::controller::DirectController::io_map_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00081">scrimmage::VariableIO::output_variable_index()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DirectController.html#a85d126e848279c9ea63ea356d36793fb">scrimmage::controller::DirectController::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="classscrimmage_1_1controller_1_1DirectController.html#a1ec65bc8035ce75dca2aba1b408a3feb">scrimmage::controller::DirectController::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00144">scrimmage::VariableIO::input()</a>, <a class="el" href="DirectController_8h_source.html#l00053">scrimmage::controller::DirectController::io_map_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00082">scrimmage::VariableIO::output_variable_index()</a>, <a class="el" href="classscrimmage_1_1controller_1_1DirectController.html#a85d126e848279c9ea63ea356d36793fb">scrimmage::controller::DirectController::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -247,7 +247,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_cc43df678bd1d92f043d026f5e150eb1.html">DirectController</a></li><li class="navelem"><a class="el" href="DirectController_8cpp.html">DirectController.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

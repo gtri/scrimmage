@@ -162,8 +162,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00040">40</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>: <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a>(<span class="stringliteral">&quot;Plugin&quot;</span>) {}</div>
+<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00041">41</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   41</span>: <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a>(<span class="stringliteral">&quot;Plugin&quot;</span>) {}</div>
 <div class="ttc" id="aclassscrimmage_1_1Plugin_html_afebd2b04c9c8e762f99ce9bcc720a926"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">scrimmage::Plugin::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8h_source.html#l00050">Plugin.h:50</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -191,8 +191,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00041">41</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span>{}</div>
+<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00042">42</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>{}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -213,19 +213,20 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00049">49</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   49</span>                                    {</div>
-<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Plugin.html#a841120b1a73f7116847e3a77917ec6ca">name_set_</a> == <span class="keyword">true</span>) {</div>
-<div class="line"><span class="lineno">   51</span>        std::cout &lt;&lt; <span class="stringliteral">&quot;WARNING: Plugin name, &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> &lt;&lt; <span class="stringliteral">&quot;, being reset. &quot;</span></div>
-<div class="line"><span class="lineno">   52</span>                  &lt;&lt; <span class="stringliteral">&quot;Should only be set once.&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
-<div class="line"><span class="lineno">   54</span>    <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a> = <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>;</div>
-<div class="line"><span class="lineno">   55</span>    <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#a841120b1a73f7116847e3a77917ec6ca">name_set_</a> = <span class="keyword">true</span>;  <span class="comment">// Set only once before warning.</span></div>
-<div class="line"><span class="lineno">   56</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00050">50</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   50</span>                                    {</div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Plugin.html#a841120b1a73f7116847e3a77917ec6ca">name_set_</a> == <span class="keyword">true</span>) {</div>
+<div class="line"><span class="lineno">   52</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Plugin name, &quot;</span> &lt;&lt; <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a> &lt;&lt; <span class="stringliteral">&quot;, being reset. &quot;</span></div>
+<div class="line"><span class="lineno">   53</span>                  &lt;&lt; <span class="stringliteral">&quot;Should only be set once.&quot;</span>);</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+<div class="line"><span class="lineno">   55</span>    <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a> = <a class="code hl_function" href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">name</a>;</div>
+<div class="line"><span class="lineno">   56</span>    <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#a841120b1a73f7116847e3a77917ec6ca">name_set_</a> = <span class="keyword">true</span>;  <span class="comment">// Set only once before warning.</span></div>
+<div class="line"><span class="lineno">   57</span>}</div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Plugin_html_a841120b1a73f7116847e3a77917ec6ca"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#a841120b1a73f7116847e3a77917ec6ca">scrimmage::Plugin::name_set_</a></div><div class="ttdeci">bool name_set_</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8h_source.html#l00051">Plugin.h:51</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00042">Plugin.cpp:42</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Plugin_html_ac6cd9106f668c89f6c39c4135517357b"><div class="ttname"><a href="classscrimmage_1_1Plugin.html#ac6cd9106f668c89f6c39c4135517357b">scrimmage::Plugin::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdef"><b>Definition</b> <a href="Plugin_8cpp_source.html#l00043">Plugin.cpp:43</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="Plugin_8cpp_source.html#l00042">name()</a>, <a class="el" href="Plugin_8h_source.html#l00050">name_</a>, and <a class="el" href="Plugin_8h_source.html#l00051">name_set_</a>.</p>
+<p class="reference">References <a class="el" href="Logger_8h_source.html#l00154">LOG_WARN</a>, <a class="el" href="Plugin_8cpp_source.html#l00043">name()</a>, <a class="el" href="Plugin_8h_source.html#l00050">name_</a>, and <a class="el" href="Plugin_8h_source.html#l00051">name_set_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -254,51 +255,51 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00042">42</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                       {</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a>;</div>
-<div class="line"><span class="lineno">   44</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00043">43</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>                       {</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Plugin.html#afebd2b04c9c8e762f99ce9bcc720a926">name_</a>;</div>
+<div class="line"><span class="lineno">   45</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="Plugin_8h_source.html#l00050">name_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00077">scrimmage::EntityPlugin::get_scoped_property_helper()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00073">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00092">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00062">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00058">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00059">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="Print_8cpp_source.html#l00197">scrimmage::Print::print()</a>, <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerROS_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="Plugin_8cpp_source.html#l00049">set_name()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00169">scrimmage::EntityPlugin::set_param()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00071">scrimmage::EntityPlugin::set_scoped_property()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00098">scrimmage::sensor::LOSSensor::step()</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00174">scrimmage::EntityPlugin::unregister_param()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="EntityPlugin_8cpp_source.html#l00107">scrimmage::EntityPlugin::draw_shape()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00077">scrimmage::EntityPlugin::get_scoped_property_helper()</a>, <a class="el" href="JSBSimModel_8cpp_source.html#l00073">scrimmage::motion::JSBSimModel::init()</a>, <a class="el" href="JSBSimControl_8cpp_source.html#l00089">scrimmage::motion::JSBSimControl::init()</a>, <a class="el" href="Multirotor_8cpp_source.html#l00060">scrimmage::motion::Multirotor::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="MotionBattery_8cpp_source.html#l00057">scrimmage::controller::MotionBattery::init()</a>, <a class="el" href="FixedWing6DOFControllerROS_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="RigidBody6DOFControllerROS_8cpp_source.html#l00039">REGISTER_PLUGIN()</a>, <a class="el" href="Plugin_8cpp_source.html#l00050">set_name()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00169">scrimmage::EntityPlugin::set_param()</a>, <a class="el" href="EntityPlugin_8cpp_source.html#l00071">scrimmage::EntityPlugin::set_scoped_property()</a>, <a class="el" href="LOSSensor_8cpp_source.html#l00098">scrimmage::sensor::LOSSensor::step()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00174">scrimmage::EntityPlugin::unregister_param()</a>, and <a class="el" href="GraphvizFSM_8cpp_source.html#l00140">scrimmage::autonomy::GraphvizFSM::update_state_info()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classscrimmage_1_1Plugin_ac6cd9106f668c89f6c39c4135517357b_icgraph.png" border="0" usemap="#aclassscrimmage_1_1Plugin_ac6cd9106f668c89f6c39c4135517357b_icgraph" alt=""/></div>
 <map name="aclassscrimmage_1_1Plugin_ac6cd9106f668c89f6c39c4135517357b_icgraph" id="aclassscrimmage_1_1Plugin_ac6cd9106f668c89f6c39c4135517357b_icgraph">
-<area shape="rect" title=" " alt="" coords="235,494,423,519"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="5,5,187,45"/>
-<area shape="poly" title=" " alt="" coords="324,481,318,400,298,287,280,226,256,166,224,109,185,59,170,47,173,43,189,55,229,106,261,164,285,225,303,286,323,399,330,480"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#ac93564294b680be752b48dfb9547f7b0" title=" " alt="" coords="5,70,187,125"/>
-<area shape="poly" title=" " alt="" coords="322,481,310,414,286,323,268,274,245,226,218,180,185,139,170,127,173,123,189,135,222,177,250,223,273,272,291,321,315,413,327,480"/>
-<area shape="rect" href="classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289" title=" " alt="" coords="17,149,175,189"/>
-<area shape="poly" title=" " alt="" coords="320,481,305,424,280,349,262,310,240,271,215,235,185,203,168,192,172,187,188,199,219,232,245,268,266,308,285,347,311,422,325,480"/>
-<area shape="rect" href="classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title=" " alt="" coords="17,213,175,253"/>
-<area shape="poly" title=" " alt="" coords="317,482,299,436,271,378,233,319,210,292,185,267,167,256,170,251,188,263,214,288,237,316,276,376,304,434,322,480"/>
-<area shape="rect" href="classscrimmage_1_1motion_1_1Multirotor.html#a35db0017725fe49afb4e47d1dabbf88a" title=" " alt="" coords="17,277,175,317"/>
-<area shape="poly" title=" " alt="" coords="312,484,262,409,226,367,185,332,165,320,167,315,188,327,230,364,266,406,316,481"/>
-<area shape="rect" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="11,341,181,381"/>
-<area shape="poly" title=" " alt="" coords="303,486,251,441,185,396,160,384,163,379,188,391,255,437,306,482"/>
-<area shape="rect" href="classscrimmage_1_1controller_1_1MotionBattery.html#a3622c154a2ef5397245f5285dbc81fbd" title=" " alt="" coords="13,405,179,445"/>
-<area shape="poly" title=" " alt="" coords="278,492,153,448,155,443,280,487"/>
-<area shape="rect" href="classscrimmage_1_1Print.html#a52c91a561088ff8fe8a5d24e716eb23f" title=" " alt="" coords="11,494,181,519"/>
-<area shape="poly" title=" " alt="" coords="221,509,182,509,182,504,221,504"/>
-<area shape="rect" href="FixedWing6DOFControllerROS_8cpp.html#a808c9886cf8c7d2a5e6e4149fec95040" title=" " alt="" coords="25,543,167,569"/>
-<area shape="poly" title=" " alt="" coords="255,525,157,546,156,541,254,520"/>
-<area shape="rect" href="RigidBody6DOFControllerROS_8cpp.html#a6afb343083638f37adaf16437dd42ea4" title=" " alt="" coords="25,593,167,618"/>
-<area shape="poly" title=" " alt="" coords="295,529,245,556,188,582,150,595,148,590,186,578,243,551,293,524"/>
-<area shape="rect" href="classscrimmage_1_1Plugin.html#a6f4056f3d481ba0805724c4724552d3b" title=" " alt="" coords="21,643,171,683"/>
-<area shape="poly" title=" " alt="" coords="308,531,256,581,223,608,188,632,161,645,159,640,185,627,220,604,253,577,304,528"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a7a51a93ab6200645c3953d80f6e124f3" title=" " alt="" coords="5,707,187,747"/>
-<area shape="poly" title=" " alt="" coords="317,533,297,569,268,613,231,658,188,697,168,709,165,704,185,693,227,654,263,610,292,566,313,530"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a9355d0616a6ecde6d744651cc3175e5c" title=" " alt="" coords="5,771,187,811"/>
-<area shape="poly" title=" " alt="" coords="322,534,305,582,277,643,239,706,215,735,188,761,170,773,167,768,185,757,211,731,234,703,272,640,300,580,317,532"/>
-<area shape="rect" href="classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title=" " alt="" coords="19,835,173,875"/>
-<area shape="poly" title=" " alt="" coords="325,533,312,593,286,670,268,712,246,753,220,791,188,825,172,837,168,832,185,821,215,787,241,750,263,709,281,668,307,591,320,532"/>
-<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a43b38347a19f8159e6dc46675cff615c" title=" " alt="" coords="5,899,187,939"/>
-<area shape="poly" title=" " alt="" coords="328,533,318,603,294,698,276,749,253,799,224,847,189,889,172,901,169,897,185,885,220,843,248,797,271,747,289,696,312,602,322,533"/>
-<area shape="poly" title=" " alt="" coords="138,485,127,476,96,473,71,475,58,480,55,485,62,492,58,496,50,486,54,476,70,470,96,467,129,471,141,481"/>
+<area shape="rect" title=" " alt="" coords="452,457,640,482"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#ab2476217710e16f4965f9c9432726098" title=" " alt="" coords="223,5,404,45"/>
+<area shape="poly" title=" " alt="" coords="541,443,532,368,510,266,493,210,469,156,439,105,402,59,387,48,390,43,406,55,444,102,474,153,498,209,516,264,538,368,546,443"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#ac93564294b680be752b48dfb9547f7b0" title=" " alt="" coords="223,70,404,125"/>
+<area shape="poly" title=" " alt="" coords="538,443,524,382,498,302,480,258,459,216,433,175,402,139,387,127,391,123,406,135,437,172,463,213,485,256,503,300,529,381,543,442"/>
+<area shape="rect" href="classscrimmage_1_1motion_1_1JSBSimModel.html#a7e5161fbcd93817ede1633003172e289" title=" " alt="" coords="235,149,392,189"/>
+<area shape="poly" title=" " alt="" coords="535,444,519,394,492,329,454,262,430,231,402,203,385,192,388,187,406,199,434,227,458,259,497,327,524,392,541,443"/>
+<area shape="rect" href="classscrimmage_1_1motion_1_1JSBSimControl.html#a9681dcfcbad8347e1b0f6a1a13b5c91a" title=" " alt="" coords="235,213,392,253"/>
+<area shape="poly" title=" " alt="" coords="531,445,512,406,483,359,446,310,402,267,383,256,386,251,406,263,450,306,488,356,516,404,536,443"/>
+<area shape="rect" href="classscrimmage_1_1motion_1_1Multirotor.html#a35db0017725fe49afb4e47d1dabbf88a" title=" " alt="" coords="235,277,392,317"/>
+<area shape="poly" title=" " alt="" coords="523,448,471,394,438,365,403,338,368,320,371,315,405,334,441,361,475,390,527,444"/>
+<area shape="rect" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3a9719b5273760f68fd8b92425e6d98c" title=" " alt="" coords="5,609,175,649"/>
+<area shape="poly" title=" " alt="" coords="519,450,468,413,437,396,403,383,352,367,310,359,270,362,224,382,195,405,170,432,150,463,133,496,109,560,97,610,92,608,104,559,128,494,145,461,166,429,191,401,221,378,269,357,310,353,353,362,405,377,439,391,471,408,522,446"/>
+<area shape="rect" href="classscrimmage_1_1controller_1_1MotionBattery.html#a3622c154a2ef5397245f5285dbc81fbd" title=" " alt="" coords="231,392,396,432"/>
+<area shape="poly" title=" " alt="" coords="480,456,394,435,396,429,481,451"/>
+<area shape="rect" href="FixedWing6DOFControllerROS_8cpp.html#a808c9886cf8c7d2a5e6e4149fec95040" title=" " alt="" coords="242,457,385,482"/>
+<area shape="poly" title=" " alt="" coords="438,472,385,472,385,467,438,467"/>
+<area shape="rect" href="RigidBody6DOFControllerROS_8cpp.html#a6afb343083638f37adaf16437dd42ea4" title=" " alt="" coords="242,506,385,531"/>
+<area shape="poly" title=" " alt="" coords="473,487,375,509,374,503,472,482"/>
+<area shape="rect" href="classscrimmage_1_1Plugin.html#a6f4056f3d481ba0805724c4724552d3b" title=" " alt="" coords="238,556,389,596"/>
+<area shape="poly" title=" " alt="" coords="511,491,405,545,373,558,371,553,403,540,509,486"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a7a51a93ab6200645c3953d80f6e124f3" title=" " alt="" coords="223,620,404,660"/>
+<area shape="poly" title=" " alt="" coords="528,495,477,552,443,583,405,610,382,622,380,618,403,606,439,579,473,548,524,491"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a9355d0616a6ecde6d744651cc3175e5c" title=" " alt="" coords="223,684,404,724"/>
+<area shape="poly" title=" " alt="" coords="536,496,516,535,487,582,450,631,406,674,386,686,383,682,402,670,446,628,483,579,512,532,531,493"/>
+<area shape="rect" href="classscrimmage_1_1sensor_1_1LOSSensor.html#a12372b16f9b88ec4402c68d5a83b14f4" title=" " alt="" coords="236,748,391,788"/>
+<area shape="poly" title=" " alt="" coords="540,496,524,547,497,612,458,679,433,710,406,738,388,750,385,746,402,734,429,707,453,676,492,609,519,545,535,495"/>
+<area shape="rect" href="classscrimmage_1_1EntityPlugin.html#a43b38347a19f8159e6dc46675cff615c" title=" " alt="" coords="223,812,404,852"/>
+<area shape="poly" title=" " alt="" coords="543,496,531,558,505,639,487,683,465,726,438,766,406,802,389,814,386,810,402,798,434,763,460,723,482,681,500,637,525,556,538,495"/>
+<area shape="rect" href="classscrimmage_1_1autonomy_1_1GraphvizFSM.html#a3f55a78d8672ee0f23b4ace825aee96a" title=" " alt="" coords="229,877,398,931"/>
+<area shape="poly" title=" " alt="" coords="545,496,535,567,511,665,493,718,470,771,441,821,406,866,391,878,388,874,402,862,437,818,465,768,488,716,506,664,529,566,540,495"/>
+<area shape="poly" title=" " alt="" coords="226,871,221,866,196,840,174,812,138,751,111,694,95,650,100,648,116,692,142,749,178,809,200,837,224,862,230,867"/>
 </map>
 </div>
 
@@ -329,12 +330,12 @@ Here is the caller graph for this function:</div>
 
 <p>Reimplemented in <a class="el" href="classscrimmage_1_1Autonomy.html#a1ebe599b3793549f2022ef33922dddd8">scrimmage::Autonomy</a>, <a class="el" href="classscrimmage_1_1MotionModel.html#aed08887055da65dca2bd1c0e9c6c65b9">scrimmage::MotionModel</a>, <a class="el" href="classscrimmage_1_1network_1_1GPUSphereNetwork.html#a418986ac64b25f7f536a68bef160569f">scrimmage::network::GPUSphereNetwork</a>, <a class="el" href="classscrimmage_1_1sensor_1_1RayTrace.html#a83d799b4e8c7b5d90b78729748d6496b">scrimmage::sensor::RayTrace</a>, <a class="el" href="classscrimmage_1_1Network.html#a36b06560b4c6daa899c0cafa9886109e">scrimmage::Network</a>, and <a class="el" href="classscrimmage_1_1Sensor.html#ac932d46e7643152eed5b60694f2abbee">scrimmage::Sensor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00045">45</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                       {</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keywordflow">return</span> std::string(<span class="stringliteral">&quot;Plugin&quot;</span>);</div>
-<div class="line"><span class="lineno">   47</span>}</div>
+<p class="definition">Definition at line <a class="el" href="Plugin_8cpp_source.html#l00046">46</a> of file <a class="el" href="Plugin_8cpp_source.html">Plugin.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                       {</div>
+<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> std::string(<span class="stringliteral">&quot;Plugin&quot;</span>);</div>
+<div class="line"><span class="lineno">   48</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="Boundary_8cpp_source.html#l00065">scrimmage::interaction::Boundary::init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Boundary_8cpp_source.html#l00063">scrimmage::interaction::Boundary::init()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -371,7 +372,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Plugin_8h_source.html#l00050">50</a> of file <a class="el" href="Plugin_8h_source.html">Plugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Plugin_8cpp_source.html#l00042">name()</a>, and <a class="el" href="Plugin_8cpp_source.html#l00049">set_name()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Plugin_8cpp_source.html#l00043">name()</a>, and <a class="el" href="Plugin_8cpp_source.html#l00050">set_name()</a>.</p>
 
 </div>
 </div>
@@ -397,7 +398,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="Plugin_8h_source.html#l00051">51</a> of file <a class="el" href="Plugin_8h_source.html">Plugin.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Plugin_8cpp_source.html#l00049">set_name()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Plugin_8cpp_source.html#l00050">set_name()</a>.</p>
 
 </div>
 </div>
@@ -411,7 +412,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1Plugin.html">Plugin</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

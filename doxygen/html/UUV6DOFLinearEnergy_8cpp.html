@@ -189,43 +189,43 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html#l00049">49</a> of file <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html">UUV6DOFLinearEnergy.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   54</span>                    {</div>
-<div class="line"><span class="lineno">   55</span><span class="keyword">namespace </span>controller {</div>
-<div class="line"><span class="lineno">   56</span> </div>
-<div class="line"><span class="lineno">   57</span><span class="keywordtype">void</span> UUV6DOFLinearEnergy::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   58</span>    energy_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_initial&quot;</span>, params, energy_);</div>
-<div class="line"><span class="lineno">   59</span>    energy_max_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_max&quot;</span>, params, energy_max_);</div>
-<div class="line"><span class="lineno">   60</span>    energy_min_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_min&quot;</span>, params, energy_min_);</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>    in_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   63</span>    in_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   64</span>    in_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>    out_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   67</span>    out_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   68</span>    out_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);</div>
-<div class="line"><span class="lineno">   69</span>}</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span><span class="keywordtype">bool</span> UUV6DOFLinearEnergy::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">   72</span>    <span class="keywordtype">double</span> throttle = vars_.input(in_throttle_idx_);</div>
-<div class="line"><span class="lineno">   73</span>    energy_ -= throttle * dt;</div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">if</span> (energy_ &lt;= energy_min_) {</div>
-<div class="line"><span class="lineno">   75</span>        energy_ = energy_min_;</div>
-<div class="line"><span class="lineno">   76</span>        throttle = 0;</div>
-<div class="line"><span class="lineno">   77</span>    }</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>    vars_.output(out_throttle_idx_, throttle);</div>
-<div class="line"><span class="lineno">   80</span>    vars_.output(out_elevator_idx_, vars_.input(in_elevator_idx_));</div>
-<div class="line"><span class="lineno">   81</span>    vars_.output(out_rudder_idx_, vars_.input(in_rudder_idx_));</div>
-<div class="line"><span class="lineno">   82</span> </div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   84</span>}</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>}  <span class="comment">// namespace controller</span></div>
-<div class="line"><span class="lineno">   87</span>}  <span class="comment">// namespace scrimmage</span></div>
+<p class="definition">Definition at line <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html#l00047">47</a> of file <a class="el" href="UUV6DOFLinearEnergy_8cpp_source.html">UUV6DOFLinearEnergy.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                    {</div>
+<div class="line"><span class="lineno">   53</span><span class="keyword">namespace </span>controller {</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span><span class="keywordtype">void</span> UUV6DOFLinearEnergy::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   56</span>    energy_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_initial&quot;</span>, params, energy_);</div>
+<div class="line"><span class="lineno">   57</span>    energy_max_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_max&quot;</span>, params, energy_max_);</div>
+<div class="line"><span class="lineno">   58</span>    energy_min_ = sc::get&lt;double&gt;(<span class="stringliteral">&quot;energy_min&quot;</span>, params, energy_min_);</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>    in_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   61</span>    in_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   62</span>    in_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::In);</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>    out_throttle_idx_ = vars_.declare(VariableIO::Type::throttle, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   65</span>    out_elevator_idx_ = vars_.declare(VariableIO::Type::elevator, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   66</span>    out_rudder_idx_ = vars_.declare(VariableIO::Type::rudder, VariableIO::Direction::Out);</div>
+<div class="line"><span class="lineno">   67</span>}</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span><span class="keywordtype">bool</span> UUV6DOFLinearEnergy::step(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordtype">double</span> throttle = vars_.input(in_throttle_idx_);</div>
+<div class="line"><span class="lineno">   71</span>    energy_ -= throttle * dt;</div>
+<div class="line"><span class="lineno">   72</span>    <span class="keywordflow">if</span> (energy_ &lt;= energy_min_) {</div>
+<div class="line"><span class="lineno">   73</span>        energy_ = energy_min_;</div>
+<div class="line"><span class="lineno">   74</span>        throttle = 0;</div>
+<div class="line"><span class="lineno">   75</span>    }</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>    vars_.output(out_throttle_idx_, throttle);</div>
+<div class="line"><span class="lineno">   78</span>    vars_.output(out_elevator_idx_, vars_.input(in_elevator_idx_));</div>
+<div class="line"><span class="lineno">   79</span>    vars_.output(out_rudder_idx_, vars_.input(in_rudder_idx_));</div>
+<div class="line"><span class="lineno">   80</span> </div>
+<div class="line"><span class="lineno">   81</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   82</span>}</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>}  <span class="comment">// namespace controller</span></div>
+<div class="line"><span class="lineno">   85</span>}  <span class="comment">// namespace scrimmage</span></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00124">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00060">scrimmage::controller::UUV6DOFLinearEnergy::energy_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00061">scrimmage::controller::UUV6DOFLinearEnergy::energy_max_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00062">scrimmage::controller::UUV6DOFLinearEnergy::energy_min_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00052">scrimmage::controller::UUV6DOFLinearEnergy::in_elevator_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00053">scrimmage::controller::UUV6DOFLinearEnergy::in_rudder_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00051">scrimmage::controller::UUV6DOFLinearEnergy::in_throttle_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UUV6DOFLinearEnergy.html#ab15b34c4c5fb0788f27b7f9c947c45eb">scrimmage::controller::UUV6DOFLinearEnergy::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00143">scrimmage::VariableIO::input()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00057">scrimmage::controller::UUV6DOFLinearEnergy::out_elevator_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00058">scrimmage::controller::UUV6DOFLinearEnergy::out_rudder_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00056">scrimmage::controller::UUV6DOFLinearEnergy::out_throttle_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00147">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="classscrimmage_1_1controller_1_1UUV6DOFLinearEnergy.html#a453371a2f1bf317999e7c05a1c1d9333">scrimmage::controller::UUV6DOFLinearEnergy::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00125">scrimmage::VariableIO::declare()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a59249c4410f9f8b9ddb61000a38d13c6">scrimmage::VariableIO::elevator</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00060">scrimmage::controller::UUV6DOFLinearEnergy::energy_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00061">scrimmage::controller::UUV6DOFLinearEnergy::energy_max_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00062">scrimmage::controller::UUV6DOFLinearEnergy::energy_min_</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2aefeb369cccbd560588a756610865664c">scrimmage::VariableIO::In</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00052">scrimmage::controller::UUV6DOFLinearEnergy::in_elevator_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00053">scrimmage::controller::UUV6DOFLinearEnergy::in_rudder_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00051">scrimmage::controller::UUV6DOFLinearEnergy::in_throttle_idx_</a>, <a class="el" href="classscrimmage_1_1controller_1_1UUV6DOFLinearEnergy.html#ab15b34c4c5fb0788f27b7f9c947c45eb">scrimmage::controller::UUV6DOFLinearEnergy::init()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00144">scrimmage::VariableIO::input()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a0b618f292df15a86c1d013254e7e56c2a7c147cda9e49590f6abe83d118b7353b">scrimmage::VariableIO::Out</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00057">scrimmage::controller::UUV6DOFLinearEnergy::out_elevator_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00058">scrimmage::controller::UUV6DOFLinearEnergy::out_rudder_idx_</a>, <a class="el" href="UUV6DOFLinearEnergy_8h_source.html#l00056">scrimmage::controller::UUV6DOFLinearEnergy::out_throttle_idx_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00148">scrimmage::VariableIO::output()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4ac6403c1905c6eb6bceaa066b334a998b">scrimmage::VariableIO::rudder</a>, <a class="el" href="classscrimmage_1_1controller_1_1UUV6DOFLinearEnergy.html#a453371a2f1bf317999e7c05a1c1d9333">scrimmage::controller::UUV6DOFLinearEnergy::step()</a>, <a class="el" href="classscrimmage_1_1VariableIO.html#a239dc9a9c15ec4a0799e66ee5cbc6de4a1cb60fd54ebe03bbb2d9029f6192641b">scrimmage::VariableIO::throttle</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00195">scrimmage::EntityPlugin::vars_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -253,7 +253,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_c915aa27e6120cf8f6d19a96e78171a2.html">controller</a></li><li class="navelem"><a class="el" href="dir_345a946d15cfb18163a1be0eeb4ea76a.html">UUV6DOFLinearEnergy</a></li><li class="navelem"><a class="el" href="UUV6DOFLinearEnergy_8cpp.html">UUV6DOFLinearEnergy.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

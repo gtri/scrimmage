@@ -99,28 +99,28 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="contents">
 <a href="Log_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#include &quot;<a class="code" href="Log_8h.html">scrimmage/log/Log.h</a>&quot;</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;boost/filesystem.hpp&gt;</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;google/protobuf/io/coded_stream.h&gt;</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;google/protobuf/io/zero_copy_stream_impl.h&gt;</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;google/protobuf/io/zero_copy_stream_impl_lite.h&gt;</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;google/protobuf/message_lite.h&gt;</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#include &quot;<a class="code" href="EntityPlugin_8h.html">scrimmage/entity/EntityPlugin.h</a>&quot;</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;scrimmage/msgs/Collision.pb.h&quot;</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;scrimmage/proto/Frame.pb.h&quot;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;<a class="code" href="ProtoConversions_8h.html">scrimmage/proto/ProtoConversions.h</a>&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;scrimmage/proto/Shape.pb.h&quot;</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;scrimmage/proto/Visual.pb.h&quot;</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&quot;</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">namespace </span>fs = boost::filesystem;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">using </span>std::cout;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#include &quot;<a class="code" href="Logger_8h.html">scrimmage/log/Logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;boost/filesystem.hpp&gt;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#include &lt;fcntl.h&gt;</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#include &lt;google/protobuf/io/coded_stream.h&gt;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#include &lt;google/protobuf/io/zero_copy_stream_impl.h&gt;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#include &lt;google/protobuf/io/zero_copy_stream_impl_lite.h&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#include &lt;google/protobuf/message_lite.h&gt;</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#include &quot;<a class="code" href="EntityPlugin_8h.html">scrimmage/entity/EntityPlugin.h</a>&quot;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;<a class="code" href="State_8h.html">scrimmage/math/State.h</a>&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#include &quot;scrimmage/msgs/Collision.pb.h&quot;</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;scrimmage/proto/Frame.pb.h&quot;</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#include &quot;<a class="code" href="ProtoConversions_8h.html">scrimmage/proto/ProtoConversions.h</a>&quot;</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#include &quot;scrimmage/proto/Shape.pb.h&quot;</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#include &quot;scrimmage/proto/Visual.pb.h&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#include &quot;<a class="code" href="Message_8h.html">scrimmage/pubsub/Message.h</a>&quot;</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">namespace </span>fs = boost::filesystem;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">using </span>std::endl;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacescrimmage__proto.html">sp</a> = <a class="code hl_namespace" href="namespacescrimmage__proto.html">scrimmage_proto</a>;</div>
@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#afeec1f6ac065866ac39b40ed0b00493d">   74</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#afeec1f6ac065866ac39b40ed0b00493d">Log::open_file</a>(std::string filename, <span class="keywordtype">int</span>&amp; fd) {</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    fd = open(filename.c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">if</span> (fd == -1) {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to open file for writing: &quot;</span> &lt;&lt; filename &lt;&lt; endl;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to open file for writing: &quot;</span> &lt;&lt; filename);</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -198,7 +198,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    }</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1Log.html#a51b7eb3e2afb7eecef6b1807a486fc9a">ascii_output_</a>.is_open()) {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to open file for writing: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a6896b916e6bb02d937767c6c5332d4b9">ascii_filename_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to open file for writing: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a6896b916e6bb02d937767c6c5332d4b9">ascii_filename_</a>);</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
@@ -277,32 +277,32 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="foldopen" id="foldopen00179" data-start="{" data-end="}">
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">  179</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">Log::parse</a>(std::string dir) {</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keywordflow">if</span> (!fs::is_directory(dir)) {</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        cout &lt;&lt; <span class="stringliteral">&quot;Log directory doesn&#39;t exist: &quot;</span> &lt;&lt; dir &lt;&lt; endl;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Log directory doesn&#39;t exist: &quot;</span> &lt;&lt; dir);</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    }</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    fs::path frame_path(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">frames_name_</a>);</div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">if</span> (!fs::exists(frame_path) &amp;&amp; !fs::exists(frame_path.parent_path() / <span class="stringliteral">&quot;frame_0.bin&quot;</span>)) {</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        cout &lt;&lt; <span class="stringliteral">&quot;Frames file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">frames_name_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Frames file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">frames_name_</a>);</div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <a class="code hl_function" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">parse</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">frames_name_</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a7ce916b1784fb3372296d2b1e1bf37ce">FRAMES</a>);</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    fs::path shapes_path(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">frames_name_</a>);</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordflow">if</span> (!fs::exists(shapes_path) &amp;&amp; !fs::exists(shapes_path.parent_path() / <span class="stringliteral">&quot;shapes_0.bin&quot;</span>)) {</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        cout &lt;&lt; <span class="stringliteral">&quot;Shapes file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a440a503b9147b9898a607b1ccf317229">shapes_name_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Shapes file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#a440a503b9147b9898a607b1ccf317229">shapes_name_</a>);</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <a class="code hl_function" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">parse</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a440a503b9147b9898a607b1ccf317229">shapes_name_</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7af01c897fcf7248696ffc1fb9152b1fd9">SHAPES</a>);</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    }</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordflow">if</span> (!fs::exists(fs::path(<a class="code hl_variable" href="classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51">utm_terrain_name_</a>))) {</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        cout &lt;&lt; <span class="stringliteral">&quot;UTM Terrain file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51">utm_terrain_name_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;UTM Terrain file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51">utm_terrain_name_</a>);</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <a class="code hl_function" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">parse</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51">utm_terrain_name_</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a33076b4d8740fbb6177a8057cd91c3d2">UTMTERRAIN</a>);</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    }</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">if</span> (!fs::exists(fs::path(<a class="code hl_variable" href="classscrimmage_1_1Log.html#aecbce4dbe73076dcb749ed5cc7190361">contact_visual_name_</a>))) {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        cout &lt;&lt; <span class="stringliteral">&quot;Contact Visual file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#aecbce4dbe73076dcb749ed5cc7190361">contact_visual_name_</a> &lt;&lt; endl;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Contact Visual file doesn&#39;t exist: &quot;</span> &lt;&lt; <a class="code hl_variable" href="classscrimmage_1_1Log.html#aecbce4dbe73076dcb749ed5cc7190361">contact_visual_name_</a>);</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <a class="code hl_function" href="classscrimmage_1_1Log.html#ab08d79ef0e06305d266c75a73bbd715b">parse</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#aecbce4dbe73076dcb749ed5cc7190361">contact_visual_name_</a>, <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a265d68f6e5c4e716597714714cdc6a7e">CONTACTVISUAL</a>);</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    }</div>
@@ -337,7 +337,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">int</span> input_fd = open(filename.c_str(), O_RDONLY);</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keywordflow">if</span> (input_fd == -1) {</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to open file: &quot;</span> &lt;&lt; filename.c_str() &lt;&lt; endl;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to open file: &quot;</span> &lt;&lt; filename.c_str());</div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    }</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
@@ -345,7 +345,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        std::make_shared&lt;google::protobuf::io::FileInputStream&gt;(input_fd);</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">if</span> (!input) {</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        cout &lt;&lt; <span class="stringliteral">&quot;Failed to open FileInputStream. Filename: &quot;</span> &lt;&lt; filename.c_str() &lt;&lt; endl;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Failed to open FileInputStream. Filename: &quot;</span> &lt;&lt; filename.c_str());</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    }</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordflow">if</span> (type == <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a7ce916b1784fb3372296d2b1e1bf37ce">FRAMES</a>) {</div>
@@ -358,9 +358,9 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        <a class="code hl_function" href="classscrimmage_1_1Log.html#a56d5dd45d78ce923b55279cb90472fc5">parse_contact_visual</a>(filename, input);</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (type == <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7a00b50c86b73275b0d63366aef8f2d4df">MSG</a>) {</div>
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        <span class="comment">// parse_contact_visual(filename, input);</span></div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        cout &lt;&lt; <span class="stringliteral">&quot;No parser for messages yet. &quot;</span> &lt;&lt; type &lt;&lt; endl;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;No parser for messages yet. &quot;</span> &lt;&lt; type);</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        cout &lt;&lt; <span class="stringliteral">&quot;Log parse(): Invalid parse type: &quot;</span> &lt;&lt; type &lt;&lt; endl;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Log parse(): Invalid parse type: &quot;</span> &lt;&lt; type);</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    }</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    close(input_fd);</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
@@ -383,7 +383,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    } <span class="keywordflow">while</span> (success);</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keywordflow">if</span> (!clean_eof) {</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        cout &lt;&lt; <span class="stringliteral">&quot;Frames - WARNING: Clean end-of-file not detected.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Frames - WARNING: Clean end-of-file not detected.&quot;</span>);</div>
 <div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    }</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>}</div>
@@ -403,7 +403,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    } <span class="keywordflow">while</span> (success);</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    <span class="keywordflow">if</span> (!clean_eof) {</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        cout &lt;&lt; <span class="stringliteral">&quot;Shapes - WARNING: Clean end-of-file not detected.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;Shapes - WARNING: Clean end-of-file not detected.&quot;</span>);</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    }</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>}</div>
@@ -423,7 +423,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    } <span class="keywordflow">while</span> (success);</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keywordflow">if</span> (!clean_eof) {</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        cout &lt;&lt; <span class="stringliteral">&quot;UTMTerrain - WARNING: Clean end-of-file not detected.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;UTMTerrain - WARNING: Clean end-of-file not detected.&quot;</span>);</div>
 <div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    }</div>
 <div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>}</div>
@@ -443,7 +443,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    } <span class="keywordflow">while</span> (success);</div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span> </div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <span class="keywordflow">if</span> (!clean_eof) {</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        cout &lt;&lt; <span class="stringliteral">&quot;ContactVisual - WARNING: Clean end-of-file not detected.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        <a class="code hl_define" href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a>(<span class="stringliteral">&quot;ContactVisual - WARNING: Clean end-of-file not detected.&quot;</span>);</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    }</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>}</div>
@@ -463,161 +463,163 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <span class="comment">// Write the size.</span></div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> raw_size = message.ByteSizeLong();</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    <span class="keywordflow">if</span> (raw_size &gt; std::numeric_limits&lt;int&gt;::max()) {</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        std::cerr &lt;&lt; __FILE__ &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; __LINE__ &lt;&lt; <span class="stringliteral">&quot;): Message size larger than max integer value&quot;</span></div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                  &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    }</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> size = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(raw_size);</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    output.WriteVarint32(size);</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    <span class="comment">// cout &lt;&lt; &quot;Writing message of size: &quot; &lt;&lt; size &lt;&lt; endl;</span></div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    uint8_t* buffer = output.GetDirectBufferForNBytesAndAdvance(size);</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <span class="keywordflow">if</span> (buffer != NULL) {</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        <span class="comment">// Optimization:  The message fits in one buffer, so use the faster</span></div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        <span class="comment">// direct-to-array serialization path.</span></div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        message.SerializeWithCachedSizesToArray(buffer);</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        <span class="comment">// Slightly-slower path when the message is multiple buffers.</span></div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        message.SerializeWithCachedSizes(&amp;output);</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>        <span class="keywordflow">if</span> (output.HadError()) {</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        }</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    }</div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>}</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Message size larger than max integer value&quot;</span>);</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    }</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> size = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(raw_size);</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    output.WriteVarint32(size);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    <span class="comment">// cout &lt;&lt; &quot;Writing message of size: &quot; &lt;&lt; size &lt;&lt; endl;</span></div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    uint8_t* buffer = output.GetDirectBufferForNBytesAndAdvance(size);</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <span class="keywordflow">if</span> (buffer != NULL) {</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        <span class="comment">// Optimization:  The message fits in one buffer, so use the faster</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        <span class="comment">// direct-to-array serialization path.</span></div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        message.SerializeWithCachedSizesToArray(buffer);</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        <span class="comment">// Slightly-slower path when the message is multiple buffers.</span></div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        message.SerializeWithCachedSizes(&amp;output);</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <span class="keywordflow">if</span> (output.HadError()) {</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        }</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    }</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>}</div>
 </div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
-<div class="foldopen" id="foldopen00380" data-start="{" data-end="}">
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">  380</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">Log::readDelimitedFrom</a>(</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <span class="keyword">const</span> std::string&amp; filename,</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    <a class="code hl_typedef" href="classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385">ZeroCopyInputStreamPtr</a> rawInput,</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    <a class="code hl_typedef" href="classscrimmage_1_1Log.html#a2709efa0e9f76bf5f2d4ef1738c556aa">MessageLitePtr</a> message,</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="keywordtype">bool</span>&amp; clean_eof) {</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    <span class="comment">// see here for the implementation: http://stackoverflow.com/a/22927149</span></div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>    <span class="comment">// We create a new coded stream for each message.  Don&#39;t worry, this is fast,</span></div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <span class="comment">// and it makes sure the 64MB total size limit is imposed per-message rather</span></div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    <span class="comment">// than on the whole stream.  (See the CodedInputStream interface for more</span></div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    <span class="comment">// info on this limit.)</span></div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    google::protobuf::io::CodedInputStream input(rawInput.get());</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> start = input.CurrentPosition();</div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>    clean_eof = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span> </div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    <span class="comment">// Read the size.</span></div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    uint32_t size;</div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <span class="keywordflow">if</span> (!input.ReadVarint32(&amp;size)) {</div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        clean_eof = (input.CurrentPosition() == start);</div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    }</div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    <span class="comment">// Tell the stream not to read beyond that size.</span></div>
-<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    google::protobuf::io::CodedInputStream::Limit limit = input.PushLimit(size);</div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    <span class="comment">// Parse the message.</span></div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>    <span class="keywordflow">if</span> (!message-&gt;MergeFromCodedStream(&amp;input)) {</div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        cout &lt;&lt; <span class="stringliteral">&quot;Error: MergeFromCodedStream failed: &quot;</span> &lt;&lt; filename &lt;&lt; endl;</div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    }</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span> </div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    <span class="keywordflow">if</span> (!input.ConsumedEntireMessage()) {</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        cout &lt;&lt; <span class="stringliteral">&quot;Error: ConsumedEntireMessage() failed: &quot;</span> &lt;&lt; filename &lt;&lt; endl;</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    }</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span> </div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    <span class="comment">// Release the limit.</span></div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    input.PopLimit(limit);</div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span> </div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>}</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span> </div>
+<div class="foldopen" id="foldopen00379" data-start="{" data-end="}">
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">  379</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">Log::readDelimitedFrom</a>(</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="keyword">const</span> std::string&amp; filename,</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <a class="code hl_typedef" href="classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385">ZeroCopyInputStreamPtr</a> rawInput,</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    <a class="code hl_typedef" href="classscrimmage_1_1Log.html#a2709efa0e9f76bf5f2d4ef1738c556aa">MessageLitePtr</a> message,</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    <span class="keywordtype">bool</span>&amp; clean_eof) {</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="comment">// see here for the implementation: http://stackoverflow.com/a/22927149</span></div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span> </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>    <span class="comment">// We create a new coded stream for each message.  Don&#39;t worry, this is fast,</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>    <span class="comment">// and it makes sure the 64MB total size limit is imposed per-message rather</span></div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <span class="comment">// than on the whole stream.  (See the CodedInputStream interface for more</span></div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    <span class="comment">// info on this limit.)</span></div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    google::protobuf::io::CodedInputStream input(rawInput.get());</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> start = input.CurrentPosition();</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    clean_eof = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="comment">// Read the size.</span></div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    uint32_t size;</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <span class="keywordflow">if</span> (!input.ReadVarint32(&amp;size)) {</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        clean_eof = (input.CurrentPosition() == start);</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    }</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <span class="comment">// Tell the stream not to read beyond that size.</span></div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    google::protobuf::io::CodedInputStream::Limit limit = input.PushLimit(size);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span> </div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>    <span class="comment">// Parse the message.</span></div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    <span class="keywordflow">if</span> (!message-&gt;MergeFromCodedStream(&amp;input)) {</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Error: MergeFromCodedStream failed: &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    }</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    <span class="keywordflow">if</span> (!input.ConsumedEntireMessage()) {</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Error: ConsumedEntireMessage() failed: &quot;</span> &lt;&lt; filename);</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>    }</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>    <span class="comment">// Release the limit.</span></div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    input.PopLimit(limit);</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span> </div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>}</div>
 </div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span> </div>
-<div class="foldopen" id="foldopen00421" data-start="{" data-end="}">
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">  421</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">Log::close_fileoutputstream</a>(<a class="code hl_typedef" href="classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423">ZeroCopyOutputStreamPtr</a> stream) {</div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    <span class="comment">// Close() flushes the stream as well</span></div>
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    <span class="keywordtype">bool</span> status = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="keywordflow">if</span> (stream) {</div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>        status = <span class="keyword">dynamic_cast&lt;</span>google::protobuf::io::FileOutputStream&amp;<span class="keyword">&gt;</span>(*stream).Close();</div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    }</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    <span class="keywordflow">return</span> status;</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>}</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="foldopen" id="foldopen00420" data-start="{" data-end="}">
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">  420</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">Log::close_fileoutputstream</a>(<a class="code hl_typedef" href="classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423">ZeroCopyOutputStreamPtr</a> stream) {</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>    <span class="comment">// Close() flushes the stream as well</span></div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    <span class="keywordtype">bool</span> status = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    <span class="keywordflow">if</span> (stream) {</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>        status = <span class="keyword">dynamic_cast&lt;</span>google::protobuf::io::FileOutputStream&amp;<span class="keyword">&gt;</span>(*stream).Close();</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    }</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    <span class="keywordflow">return</span> status;</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>}</div>
 </div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span> </div>
-<div class="foldopen" id="foldopen00430" data-start="{" data-end="}">
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">  430</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">Log::close_log</a>() {</div>
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Log.html#a51b7eb3e2afb7eecef6b1807a486fc9a">ascii_output_</a>.is_open()) {</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        <a class="code hl_variable" href="classscrimmage_1_1Log.html#a51b7eb3e2afb7eecef6b1807a486fc9a">ascii_output_</a>.close();</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>    }</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span> </div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    google::protobuf::ShutdownProtobufLibrary();</div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a0f8037fce7ba106c4ac9441471e6507a">frames_output_</a>);</div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a7f33106bf62bdbe5bde261b6704253d6">shapes_output_</a>);</div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#ab2792c446543c81ade28757875af58b0">utm_terrain_output_</a>);</div>
-<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a5e2993031280962f1d18e7f4274e0f55">contact_visual_output_</a>);</div>
-<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span> </div>
-<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#abdc20debd371726758d1166a34f77cd6">frames_fd_</a>);</div>
-<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#aa14c710d538148f3fd752a0303007a72">shapes_fd_</a>);</div>
-<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#af62ed9e9b69e919347e63c65abe8307d">utm_terrain_fd_</a>);</div>
-<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a2fd6e5e63d9ac72e0d66215577bc629b">contact_visual_fd_</a>);</div>
-<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a17ab3c6d1a97d1b5ab1c0ace8ace1c8c">msgs_fd_</a>);</div>
-<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span> </div>
-<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>}</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span> </div>
+<div class="foldopen" id="foldopen00429" data-start="{" data-end="}">
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">  429</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">Log::close_log</a>() {</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1Log.html#a51b7eb3e2afb7eecef6b1807a486fc9a">ascii_output_</a>.is_open()) {</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        <a class="code hl_variable" href="classscrimmage_1_1Log.html#a51b7eb3e2afb7eecef6b1807a486fc9a">ascii_output_</a>.close();</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>    }</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>    google::protobuf::ShutdownProtobufLibrary();</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span> </div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a0f8037fce7ba106c4ac9441471e6507a">frames_output_</a>);</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a7f33106bf62bdbe5bde261b6704253d6">shapes_output_</a>);</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#ab2792c446543c81ade28757875af58b0">utm_terrain_output_</a>);</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <a class="code hl_function" href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">close_fileoutputstream</a>(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a5e2993031280962f1d18e7f4274e0f55">contact_visual_output_</a>);</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span> </div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#abdc20debd371726758d1166a34f77cd6">frames_fd_</a>);</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#aa14c710d538148f3fd752a0303007a72">shapes_fd_</a>);</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#af62ed9e9b69e919347e63c65abe8307d">utm_terrain_fd_</a>);</div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a2fd6e5e63d9ac72e0d66215577bc629b">contact_visual_fd_</a>);</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    close(<a class="code hl_variable" href="classscrimmage_1_1Log.html#a17ab3c6d1a97d1b5ab1c0ace8ace1c8c">msgs_fd_</a>);</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span> </div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>}</div>
 </div>
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span> </div>
-<div class="foldopen" id="foldopen00451" data-start="{" data-end="}">
-<div class="line"><a id="l00451" name="l00451"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">  451</a></span>std::list&lt;Frame&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">Log::scrimmage_frames</a>() {</div>
-<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#aafa01bb89dd8c11882675483bcba9c16">scrimmage_frames_</a>;</div>
-<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>}</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span> </div>
+<div class="foldopen" id="foldopen00450" data-start="{" data-end="}">
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">  450</a></span>std::list&lt;Frame&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">Log::scrimmage_frames</a>() {</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#aafa01bb89dd8c11882675483bcba9c16">scrimmage_frames_</a>;</div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>}</div>
 </div>
-<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span> </div>
-<div class="foldopen" id="foldopen00455" data-start="{" data-end="}">
-<div class="line"><a id="l00455" name="l00455"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">  455</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::Frame&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">Log::frames</a>() {</div>
-<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a69d07f922b01fb4addf0d82d1d744476">frames_</a>;</div>
-<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>}</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span> </div>
+<div class="foldopen" id="foldopen00454" data-start="{" data-end="}">
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">  454</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::Frame&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">Log::frames</a>() {</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a69d07f922b01fb4addf0d82d1d744476">frames_</a>;</div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>}</div>
 </div>
-<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span> </div>
-<div class="foldopen" id="foldopen00459" data-start="{" data-end="}">
-<div class="line"><a id="l00459" name="l00459"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">  459</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::Shapes&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">Log::shapes</a>() {</div>
-<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a94dcdbc00e20ada8b6cb695aae3cb291">shapes_</a>;</div>
-<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>}</div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span> </div>
+<div class="foldopen" id="foldopen00458" data-start="{" data-end="}">
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">  458</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::Shapes&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">Log::shapes</a>() {</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a94dcdbc00e20ada8b6cb695aae3cb291">shapes_</a>;</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>}</div>
 </div>
-<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span> </div>
-<div class="foldopen" id="foldopen00463" data-start="{" data-end="}">
-<div class="line"><a id="l00463" name="l00463"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">  463</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::UTMTerrain&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">Log::utm_terrain</a>() {</div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#ab131ff290ae95ab4b142ca1692ddb5d9">utm_terrain_</a>;</div>
-<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>}</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span> </div>
+<div class="foldopen" id="foldopen00462" data-start="{" data-end="}">
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">  462</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::UTMTerrain&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">Log::utm_terrain</a>() {</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#ab131ff290ae95ab4b142ca1692ddb5d9">utm_terrain_</a>;</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>}</div>
 </div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span> </div>
-<div class="foldopen" id="foldopen00467" data-start="{" data-end="}">
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">  467</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::ContactVisual&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">Log::contact_visual</a>() {</div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a885067f09368a038c31971cb3da98468">contact_visual_</a>;</div>
-<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>}</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="foldopen" id="foldopen00466" data-start="{" data-end="}">
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">  466</a></span>std::list&lt;std::shared_ptr&lt;scrimmage_proto::ContactVisual&gt;&gt;&amp; <a class="code hl_function" href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">Log::contact_visual</a>() {</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a885067f09368a038c31971cb3da98468">contact_visual_</a>;</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>}</div>
 </div>
-<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
-<div class="foldopen" id="foldopen00471" data-start="{" data-end="}">
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">  471</a></span>std::string <a class="code hl_function" href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">Log::log_dir</a>() {</div>
-<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a2914c92d8af33faec28d5c48a3a4a744">log_dir_</a>;</div>
-<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>}</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span> </div>
+<div class="foldopen" id="foldopen00470" data-start="{" data-end="}">
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno"><a class="line" href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">  470</a></span>std::string <a class="code hl_function" href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">Log::log_dir</a>() {</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1Log.html#a2914c92d8af33faec28d5c48a3a4a744">log_dir_</a>;</div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>}</div>
 </div>
-<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span> </div>
-<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span> </div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aEntityPlugin_8h_html"><div class="ttname"><a href="EntityPlugin_8h.html">EntityPlugin.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aLog_8h_html"><div class="ttname"><a href="Log_8h.html">Log.h</a></div><div class="ttdoc">Brief file description.</div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
+<div class="ttc" id="aLogger_8h_html_add82efa459e0af380b68522c29b9fd44"><div class="ttname"><a href="Logger_8h.html#add82efa459e0af380b68522c29b9fd44">LOG_WARN</a></div><div class="ttdeci">#define LOG_WARN(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00154">Logger.h:154</a></div></div>
 <div class="ttc" id="aMessage_8h_html"><div class="ttname"><a href="Message_8h.html">Message.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aProtoConversions_8h_html"><div class="ttname"><a href="ProtoConversions_8h.html">ProtoConversions.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aState_8h_html"><div class="ttname"><a href="State_8h.html">State.h</a></div><div class="ttdoc">Brief file description.</div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a082f32217cec4e9c3f424aa088bde8cc"><div class="ttname"><a href="classscrimmage_1_1Log.html#a082f32217cec4e9c3f424aa088bde8cc">scrimmage::Log::shapes_filename</a></div><div class="ttdeci">std::string shapes_filename()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00155">Log.cpp:155</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a0f8037fce7ba106c4ac9441471e6507a"><div class="ttname"><a href="classscrimmage_1_1Log.html#a0f8037fce7ba106c4ac9441471e6507a">scrimmage::Log::frames_output_</a></div><div class="ttdeci">ZeroCopyOutputStreamPtr frames_output_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00165">Log.h:165</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a113f43c35c6d6d554abeb4c2892e57eb"><div class="ttname"><a href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">scrimmage::Log::log_dir</a></div><div class="ttdeci">std::string log_dir()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00471">Log.cpp:471</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a113f43c35c6d6d554abeb4c2892e57eb"><div class="ttname"><a href="classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb">scrimmage::Log::log_dir</a></div><div class="ttdeci">std::string log_dir()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00470">Log.cpp:470</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a12107a3cf65315dae1f0e9f2c2cb4f2a"><div class="ttname"><a href="classscrimmage_1_1Log.html#a12107a3cf65315dae1f0e9f2c2cb4f2a">scrimmage::Log::Log</a></div><div class="ttdeci">Log()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00062">Log.cpp:62</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a17ab3c6d1a97d1b5ab1c0ace8ace1c8c"><div class="ttname"><a href="classscrimmage_1_1Log.html#a17ab3c6d1a97d1b5ab1c0ace8ace1c8c">scrimmage::Log::msgs_fd_</a></div><div class="ttdeci">int msgs_fd_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00158">Log.h:158</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a2709efa0e9f76bf5f2d4ef1738c556aa"><div class="ttname"><a href="classscrimmage_1_1Log.html#a2709efa0e9f76bf5f2d4ef1738c556aa">scrimmage::Log::MessageLitePtr</a></div><div class="ttdeci">std::shared_ptr&lt; google::protobuf::MessageLite &gt; MessageLitePtr</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00140">Log.h:140</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a2826b7ca9c40c19166fe967936d9ddf6"><div class="ttname"><a href="classscrimmage_1_1Log.html#a2826b7ca9c40c19166fe967936d9ddf6">scrimmage::Log::save_shapes</a></div><div class="ttdeci">bool save_shapes(const scrimmage_proto::Shapes &amp;shapes)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00138">Log.cpp:138</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a2914c92d8af33faec28d5c48a3a4a744"><div class="ttname"><a href="classscrimmage_1_1Log.html#a2914c92d8af33faec28d5c48a3a4a744">scrimmage::Log::log_dir_</a></div><div class="ttdeci">std::string log_dir_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00160">Log.h:160</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a2fd6e5e63d9ac72e0d66215577bc629b"><div class="ttname"><a href="classscrimmage_1_1Log.html#a2fd6e5e63d9ac72e0d66215577bc629b">scrimmage::Log::contact_visual_fd_</a></div><div class="ttdeci">int contact_visual_fd_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00157">Log.h:157</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a325034c021b270569f3c29db7ae2bf54"><div class="ttname"><a href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">scrimmage::Log::contact_visual</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &gt; &amp; contact_visual()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00467">Log.cpp:467</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a325034c021b270569f3c29db7ae2bf54"><div class="ttname"><a href="classscrimmage_1_1Log.html#a325034c021b270569f3c29db7ae2bf54">scrimmage::Log::contact_visual</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &gt; &amp; contact_visual()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00466">Log.cpp:466</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a3537465625ee936c6b407f4f83b580b1"><div class="ttname"><a href="classscrimmage_1_1Log.html#a3537465625ee936c6b407f4f83b580b1">scrimmage::Log::msgs_name_</a></div><div class="ttdeci">std::string msgs_name_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00152">Log.h:152</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a36d3389cd561a9635fa1ba7ee96d7b14"><div class="ttname"><a href="classscrimmage_1_1Log.html#a36d3389cd561a9635fa1ba7ee96d7b14">scrimmage::Log::save_contact_visual</a></div><div class="ttdeci">bool save_contact_visual(const std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &amp;contact_visual)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00146">Log.cpp:146</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a39e5fcf33939b3444bcb5840916760e1"><div class="ttname"><a href="classscrimmage_1_1Log.html#a39e5fcf33939b3444bcb5840916760e1">scrimmage::Log::parse_shapes</a></div><div class="ttdeci">bool parse_shapes(std::string filename, ZeroCopyInputStreamPtr input)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00288">Log.cpp:288</a></div></div>
@@ -631,7 +633,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a3cf467daea95ff196a8edba248bf42a7af01c897fcf7248696ffc1fb9152b1fd9"><div class="ttname"><a href="classscrimmage_1_1Log.html#a3cf467daea95ff196a8edba248bf42a7af01c897fcf7248696ffc1fb9152b1fd9">scrimmage::Log::SHAPES</a></div><div class="ttdeci">@ SHAPES</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00082">Log.h:82</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a3de7f82eaadbd0721fc05d4ad0b300f4"><div class="ttname"><a href="classscrimmage_1_1Log.html#a3de7f82eaadbd0721fc05d4ad0b300f4">scrimmage::Log::frames_name_</a></div><div class="ttdeci">std::string frames_name_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00148">Log.h:148</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a440a503b9147b9898a607b1ccf317229"><div class="ttname"><a href="classscrimmage_1_1Log.html#a440a503b9147b9898a607b1ccf317229">scrimmage::Log::shapes_name_</a></div><div class="ttdeci">std::string shapes_name_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00149">Log.h:149</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a4413dbd614c71a2d8e409bcf25a641d2"><div class="ttname"><a href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">scrimmage::Log::readDelimitedFrom</a></div><div class="ttdeci">bool readDelimitedFrom(const std::string &amp;filename, ZeroCopyInputStreamPtr rawInput, MessageLitePtr message, bool &amp;clean_eof)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00380">Log.cpp:380</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a4413dbd614c71a2d8e409bcf25a641d2"><div class="ttname"><a href="classscrimmage_1_1Log.html#a4413dbd614c71a2d8e409bcf25a641d2">scrimmage::Log::readDelimitedFrom</a></div><div class="ttdeci">bool readDelimitedFrom(const std::string &amp;filename, ZeroCopyInputStreamPtr rawInput, MessageLitePtr message, bool &amp;clean_eof)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00379">Log.cpp:379</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a49103efd34399e17477c624e3ca3c054"><div class="ttname"><a href="classscrimmage_1_1Log.html#a49103efd34399e17477c624e3ca3c054">scrimmage::Log::drop_bin_logging_</a></div><div class="ttdeci">bool drop_bin_logging_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00143">Log.h:143</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a4f0c3357fe97354a01eee96cd23a509a"><div class="ttname"><a href="classscrimmage_1_1Log.html#a4f0c3357fe97354a01eee96cd23a509a">scrimmage::Log::parse_utm_terrain</a></div><div class="ttdeci">bool parse_utm_terrain(std::string filename, ZeroCopyInputStreamPtr input)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00306">Log.cpp:306</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a506e9c00340c3bbd66d367d8f0594bbb"><div class="ttname"><a href="classscrimmage_1_1Log.html#a506e9c00340c3bbd66d367d8f0594bbb">scrimmage::Log::utm_terrain_filename</a></div><div class="ttdeci">std::string utm_terrain_filename()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00159">Log.cpp:159</a></div></div>
@@ -640,15 +642,15 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a569bf845a5de2ceae915b966b9532109"><div class="ttname"><a href="classscrimmage_1_1Log.html#a569bf845a5de2ceae915b966b9532109">scrimmage::Log::save_frame</a></div><div class="ttdeci">bool save_frame(const std::shared_ptr&lt; scrimmage_proto::Frame &gt; &amp;frame)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00134">Log.cpp:134</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a56d5dd45d78ce923b55279cb90472fc5"><div class="ttname"><a href="classscrimmage_1_1Log.html#a56d5dd45d78ce923b55279cb90472fc5">scrimmage::Log::parse_contact_visual</a></div><div class="ttdeci">bool parse_contact_visual(std::string filename, ZeroCopyInputStreamPtr input)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00324">Log.cpp:324</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a5e2993031280962f1d18e7f4274e0f55"><div class="ttname"><a href="classscrimmage_1_1Log.html#a5e2993031280962f1d18e7f4274e0f55">scrimmage::Log::contact_visual_output_</a></div><div class="ttdeci">ZeroCopyOutputStreamPtr contact_visual_output_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00168">Log.h:168</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a64d156dc4eca79a4da15116fe3e34710"><div class="ttname"><a href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">scrimmage::Log::close_fileoutputstream</a></div><div class="ttdeci">bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00421">Log.cpp:421</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a64d156dc4eca79a4da15116fe3e34710"><div class="ttname"><a href="classscrimmage_1_1Log.html#a64d156dc4eca79a4da15116fe3e34710">scrimmage::Log::close_fileoutputstream</a></div><div class="ttdeci">bool close_fileoutputstream(ZeroCopyOutputStreamPtr stream)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00420">Log.cpp:420</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a6896b916e6bb02d937767c6c5332d4b9"><div class="ttname"><a href="classscrimmage_1_1Log.html#a6896b916e6bb02d937767c6c5332d4b9">scrimmage::Log::ascii_filename_</a></div><div class="ttdeci">std::string ascii_filename_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00162">Log.h:162</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a68a681735e3fb050818258ec26130fd2"><div class="ttname"><a href="classscrimmage_1_1Log.html#a68a681735e3fb050818258ec26130fd2">scrimmage::Log::write_ascii</a></div><div class="ttdeci">bool write_ascii(const std::string &amp;str)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00117">Log.cpp:117</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a69d07f922b01fb4addf0d82d1d744476"><div class="ttname"><a href="classscrimmage_1_1Log.html#a69d07f922b01fb4addf0d82d1d744476">scrimmage::Log::frames_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Frame &gt; &gt; frames_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00172">Log.h:172</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a7f33106bf62bdbe5bde261b6704253d6"><div class="ttname"><a href="classscrimmage_1_1Log.html#a7f33106bf62bdbe5bde261b6704253d6">scrimmage::Log::shapes_output_</a></div><div class="ttdeci">ZeroCopyOutputStreamPtr shapes_output_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00166">Log.h:166</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a830a9e5f21f0533da2d3dc072dc1cb7e"><div class="ttname"><a href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">scrimmage::Log::utm_terrain</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &gt; &amp; utm_terrain()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00463">Log.cpp:463</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a830a9e5f21f0533da2d3dc072dc1cb7e"><div class="ttname"><a href="classscrimmage_1_1Log.html#a830a9e5f21f0533da2d3dc072dc1cb7e">scrimmage::Log::utm_terrain</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::UTMTerrain &gt; &gt; &amp; utm_terrain()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00462">Log.cpp:462</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a885067f09368a038c31971cb3da98468"><div class="ttname"><a href="classscrimmage_1_1Log.html#a885067f09368a038c31971cb3da98468">scrimmage::Log::contact_visual_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::ContactVisual &gt; &gt; contact_visual_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00175">Log.h:175</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a933b47923ea0b3799b02ab289a5f5385"><div class="ttname"><a href="classscrimmage_1_1Log.html#a933b47923ea0b3799b02ab289a5f5385">scrimmage::Log::ZeroCopyInputStreamPtr</a></div><div class="ttdeci">std::shared_ptr&lt; google::protobuf::io::ZeroCopyInputStream &gt; ZeroCopyInputStreamPtr</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00074">Log.h:74</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_a93a548a0c271ee14f79b18833f36f14e"><div class="ttname"><a href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">scrimmage::Log::frames</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Frame &gt; &gt; &amp; frames()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00455">Log.cpp:455</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_a93a548a0c271ee14f79b18833f36f14e"><div class="ttname"><a href="classscrimmage_1_1Log.html#a93a548a0c271ee14f79b18833f36f14e">scrimmage::Log::frames</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Frame &gt; &gt; &amp; frames()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00454">Log.cpp:454</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_a94dcdbc00e20ada8b6cb695aae3cb291"><div class="ttname"><a href="classscrimmage_1_1Log.html#a94dcdbc00e20ada8b6cb695aae3cb291">scrimmage::Log::shapes_</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Shapes &gt; &gt; shapes_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00173">Log.h:173</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_aa14c710d538148f3fd752a0303007a72"><div class="ttname"><a href="classscrimmage_1_1Log.html#aa14c710d538148f3fd752a0303007a72">scrimmage::Log::shapes_fd_</a></div><div class="ttdeci">int shapes_fd_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00155">Log.h:155</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_aa2de7df9ae5e25c00519af0dfd6faa0a"><div class="ttname"><a href="classscrimmage_1_1Log.html#aa2de7df9ae5e25c00519af0dfd6faa0a">scrimmage::Log::writeDelimitedTo</a></div><div class="ttdeci">bool writeDelimitedTo(const google::protobuf::MessageLite &amp;message, ZeroCopyOutputStreamPtr rawOutput)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00342">Log.cpp:342</a></div></div>
@@ -660,12 +662,12 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div class="ttc" id="aclassscrimmage_1_1Log_html_ab62b752d057a8b8208018d67b3ebef51"><div class="ttname"><a href="classscrimmage_1_1Log.html#ab62b752d057a8b8208018d67b3ebef51">scrimmage::Log::utm_terrain_name_</a></div><div class="ttdeci">std::string utm_terrain_name_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00150">Log.h:150</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_abdc20debd371726758d1166a34f77cd6"><div class="ttname"><a href="classscrimmage_1_1Log.html#abdc20debd371726758d1166a34f77cd6">scrimmage::Log::frames_fd_</a></div><div class="ttdeci">int frames_fd_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00154">Log.h:154</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_ac397f91db4d121d1c118aa87bcbe53e4"><div class="ttname"><a href="classscrimmage_1_1Log.html#ac397f91db4d121d1c118aa87bcbe53e4">scrimmage::Log::init</a></div><div class="ttdeci">bool init(const std::string &amp;dir, Mode mode)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00083">Log.cpp:83</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_ac3adadb723e8ec1ace61dbc8361bef8c"><div class="ttname"><a href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">scrimmage::Log::shapes</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Shapes &gt; &gt; &amp; shapes()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00459">Log.cpp:459</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_ac3adadb723e8ec1ace61dbc8361bef8c"><div class="ttname"><a href="classscrimmage_1_1Log.html#ac3adadb723e8ec1ace61dbc8361bef8c">scrimmage::Log::shapes</a></div><div class="ttdeci">std::list&lt; std::shared_ptr&lt; scrimmage_proto::Shapes &gt; &gt; &amp; shapes()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00458">Log.cpp:458</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_ac4f0b9b1e47d9d50d1a10ef1fe17d423"><div class="ttname"><a href="classscrimmage_1_1Log.html#ac4f0b9b1e47d9d50d1a10ef1fe17d423">scrimmage::Log::ZeroCopyOutputStreamPtr</a></div><div class="ttdeci">std::shared_ptr&lt; google::protobuf::io::ZeroCopyOutputStream &gt; ZeroCopyOutputStreamPtr</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00075">Log.h:75</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_ac6df01ce6b4754839c2afc28bb7133b9"><div class="ttname"><a href="classscrimmage_1_1Log.html#ac6df01ce6b4754839c2afc28bb7133b9">scrimmage::Log::enable_log_</a></div><div class="ttdeci">bool enable_log_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00142">Log.h:142</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_aca6b36bfda728c0b263126470fd0e67c"><div class="ttname"><a href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">scrimmage::Log::scrimmage_frames</a></div><div class="ttdeci">std::list&lt; Frame &gt; &amp; scrimmage_frames()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00451">Log.cpp:451</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_aca6b36bfda728c0b263126470fd0e67c"><div class="ttname"><a href="classscrimmage_1_1Log.html#aca6b36bfda728c0b263126470fd0e67c">scrimmage::Log::scrimmage_frames</a></div><div class="ttdeci">std::list&lt; Frame &gt; &amp; scrimmage_frames()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00450">Log.cpp:450</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_acec77fd4092c7811666baf9cbae6b525"><div class="ttname"><a href="classscrimmage_1_1Log.html#acec77fd4092c7811666baf9cbae6b525">scrimmage::Log::frames_filename</a></div><div class="ttdeci">std::string frames_filename()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00151">Log.cpp:151</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1Log_html_ad041424781116aae2486a963ad891b55"><div class="ttname"><a href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">scrimmage::Log::close_log</a></div><div class="ttdeci">bool close_log()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00430">Log.cpp:430</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1Log_html_ad041424781116aae2486a963ad891b55"><div class="ttname"><a href="classscrimmage_1_1Log.html#ad041424781116aae2486a963ad891b55">scrimmage::Log::close_log</a></div><div class="ttdeci">bool close_log()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00429">Log.cpp:429</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_ad264d6db268bd399b2584b57c7c77ed3"><div class="ttname"><a href="classscrimmage_1_1Log.html#ad264d6db268bd399b2584b57c7c77ed3">scrimmage::Log::contact_visual_filename</a></div><div class="ttdeci">std::string contact_visual_filename()</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00163">Log.cpp:163</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_adeef13196bc62fc2fd6fd37a29efceb1"><div class="ttname"><a href="classscrimmage_1_1Log.html#adeef13196bc62fc2fd6fd37a29efceb1">scrimmage::Log::set_enable_log</a></div><div class="ttdeci">void set_enable_log(bool enable)</div><div class="ttdef"><b>Definition</b> <a href="Log_8cpp_source.html#l00171">Log.cpp:171</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_aea083bd67bcf3eff786be5288a444881"><div class="ttname"><a href="classscrimmage_1_1Log.html#aea083bd67bcf3eff786be5288a444881">scrimmage::Log::mode_</a></div><div class="ttdeci">Mode mode_</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00144">Log.h:144</a></div></div>
@@ -685,7 +687,7 @@ $(document).ready(function(){initNavTree('Log_8cpp_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_2241064965c8d9ca993f08b926076f7d.html">log</a></li><li class="navelem"><a class="el" href="Log_8cpp.html">Log.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:27 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

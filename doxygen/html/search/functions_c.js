@@ -16,12 +16,13 @@ var searchData=
   ['localnetwork_13',['LocalNetwork',['../classscrimmage_1_1network_1_1LocalNetwork.html#ada372922b8e921ea30747a00c47d235f',1,'scrimmage::network::LocalNetwork']]],
   ['log_14',['Log',['../classscrimmage_1_1Log.html#a12107a3cf65315dae1f0e9f2c2cb4f2a',1,'scrimmage::Log']]],
   ['log_5fdir_15',['log_dir',['../classscrimmage_1_1Log.html#a113f43c35c6d6d554abeb4c2892e57eb',1,'scrimmage::Log::log_dir()'],['../classscrimmage_1_1MissionParse.html#a1f4ebdf797c745cc54fda20ff6ca5076',1,'scrimmage::MissionParse::log_dir()']]],
-  ['logging_5flogic_16',['logging_logic',['../classscrimmage_1_1SimControl.html#a3053b3a3add0ec47bf74a2cd403363d4',1,'scrimmage::SimControl']]],
-  ['logging_5fmsg_17',['logging_msg',['../classscrimmage_1_1Autonomy.html#a18e217f56f11c75c3a7834c366329b1d',1,'scrimmage::Autonomy']]],
-  ['longitude_18',['longitude',['../classscrimmage_1_1autonomy_1_1Waypoint.html#aca963ce84665767bbbf2af99c31e06bf',1,'scrimmage::autonomy::Waypoint']]],
-  ['longitude_5forigin_19',['longitude_origin',['../classscrimmage_1_1MissionParse.html#a7eb40f338af182d3d949e75517645dee',1,'scrimmage::MissionParse']]],
-  ['loop_5frate_20',['loop_rate',['../classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74',1,'scrimmage::EntityPlugin']]],
-  ['loop_5ftimer_21',['loop_timer',['../classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9',1,'scrimmage::EntityPlugin']]],
-  ['loop_5fwait_22',['loop_wait',['../classscrimmage_1_1Timer.html#a60f3954ff0536e7474c9a4d777a2b8e4',1,'scrimmage::Timer::loop_wait()'],['../classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660',1,'scrimmage::SimControl::loop_wait()']]],
-  ['lossensor_23',['LOSSensor',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a2077ca72179bd1f614b4e9a723a8c832',1,'scrimmage::sensor::LOSSensor']]]
+  ['logger_16',['logger',['../classscrimmage_1_1Logger.html#ae14638d0639fa4b29edc0653a974d734',1,'scrimmage::Logger::Logger()=default'],['../classscrimmage_1_1Logger.html#a789d95c636e30824bf91efe8c6eb96a4',1,'scrimmage::Logger::Logger(const Logger &amp;)=delete']]],
+  ['logging_5flogic_17',['logging_logic',['../classscrimmage_1_1SimControl.html#a3053b3a3add0ec47bf74a2cd403363d4',1,'scrimmage::SimControl']]],
+  ['logging_5fmsg_18',['logging_msg',['../classscrimmage_1_1Autonomy.html#a18e217f56f11c75c3a7834c366329b1d',1,'scrimmage::Autonomy']]],
+  ['longitude_19',['longitude',['../classscrimmage_1_1autonomy_1_1Waypoint.html#aca963ce84665767bbbf2af99c31e06bf',1,'scrimmage::autonomy::Waypoint']]],
+  ['longitude_5forigin_20',['longitude_origin',['../classscrimmage_1_1MissionParse.html#a7eb40f338af182d3d949e75517645dee',1,'scrimmage::MissionParse']]],
+  ['loop_5frate_21',['loop_rate',['../classscrimmage_1_1EntityPlugin.html#ac5f8154d869894c22b90ddc6a78a4d74',1,'scrimmage::EntityPlugin']]],
+  ['loop_5ftimer_22',['loop_timer',['../classscrimmage_1_1EntityPlugin.html#a08c2d6268501b9894a13f456dc6737a9',1,'scrimmage::EntityPlugin']]],
+  ['loop_5fwait_23',['loop_wait',['../classscrimmage_1_1Timer.html#a60f3954ff0536e7474c9a4d777a2b8e4',1,'scrimmage::Timer::loop_wait()'],['../classscrimmage_1_1SimControl.html#a14cf69721e32a58ce9cde976716df660',1,'scrimmage::SimControl::loop_wait()']]],
+  ['lossensor_24',['LOSSensor',['../classscrimmage_1_1sensor_1_1LOSSensor.html#a2077ca72179bd1f614b4e9a723a8c832',1,'scrimmage::sensor::LOSSensor']]]
 ];

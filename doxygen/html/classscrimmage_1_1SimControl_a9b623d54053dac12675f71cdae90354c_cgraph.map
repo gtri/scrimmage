@@ -1,0 +1,7 @@
+<map id="scrimmage::SimControl::setup_logging" name="scrimmage::SimControl::setup_logging">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,180,77"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1Logger.html#ae834caf614ad90d2734c3e276e66a755" title="Initialize logging to scrimmage.log in the given directory." alt="" coords="228,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,42,214,36,215,42,180,47"/>
+<area shape="rect" id="Node000004" href="$classscrimmage_1_1Logger.html#ab348aee0fb2f8a09d06d62d7d0843396" title="Get the singleton instance." alt="" coords="228,69,383,109"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="180,68,215,73,214,78,180,73"/>
+</map>

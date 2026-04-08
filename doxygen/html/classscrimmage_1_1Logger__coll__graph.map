@@ -1,0 +1,9 @@
+<map id="scrimmage::Logger" name="scrimmage::Logger">
+<area shape="rect" id="Node000001" title="Thread&#45;safe singleton logger with file and console output." alt="" coords="104,148,243,473"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,107,78"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,77,100,138,95,140,68,79"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="131,13,215,78"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="176,78,176,131,171,131,171,78"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="239,5,438,85"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="317,87,254,186,249,184,312,84"/>
+</map>

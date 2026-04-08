@@ -98,6 +98,7 @@ $(document).ready(function(){initNavTree('SimpleCollisionMetrics_8cpp.html','');
 <p>Brief file description.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="SimpleCollisionMetrics_8h_source.html">scrimmage/plugins/metrics/SimpleCollisionMetrics/SimpleCollisionMetrics.h</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="Logger_8h_source.html">scrimmage/log/Logger.h</a>&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &quot;<a class="el" href="RTree_8h_source.html">scrimmage/common/RTree.h</a>&quot;</code><br />
@@ -117,40 +118,44 @@ Include dependency graph for SimpleCollisionMetrics.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="SimpleCollisionMetrics_8cpp__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2src_2plugins_2metrics_2SimpleCollisionMetrics_2SimpleCollisionMetrics_8cpp" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2src_2plugins_2metrics_2SimpleCollisionMetrics_2SimpleCollisionMetrics_8cpp" id="a_2root_2scrimmage_2scrimmage_2src_2plugins_2metrics_2SimpleCollisionMetrics_2SimpleCollisionMetrics_8cpp">
-<area shape="rect" title="Brief file description." alt="" coords="1157,5,1412,60"/>
+<area shape="rect" title="Brief file description." alt="" coords="1143,5,1397,60"/>
 <area shape="rect" href="SimpleCollisionMetrics_8h.html" title="Brief file description." alt="" coords="5,108,204,163"/>
-<area shape="poly" title=" " alt="" coords="1157,39,974,46,741,59,482,80,222,111,218,111,217,106,222,105,481,75,740,54,974,41,1157,34"/>
-<area shape="rect" href="Metrics_8h.html" title="Brief file description." alt="" coords="67,211,279,236"/>
-<area shape="poly" title=" " alt="" coords="1157,40,921,49,645,63,402,84,317,96,267,110,235,146,192,201,187,198,231,142,265,106,315,91,402,79,644,58,921,44,1157,35"/>
-<area shape="rect" title=" " alt="" coords="279,123,352,148"/>
-<area shape="poly" title=" " alt="" coords="1157,41,962,49,734,63,520,83,432,96,365,111,346,118,344,113,364,105,431,91,519,78,734,57,962,44,1157,35"/>
-<area shape="rect" title=" " alt="" coords="377,123,457,148"/>
-<area shape="poly" title=" " alt="" coords="1157,42,787,67,602,86,527,98,469,111,448,119,447,114,468,105,526,93,601,81,786,62,1157,37"/>
-<area shape="rect" href="RTree_8h.html" title="Brief file description." alt="" coords="481,123,688,148"/>
-<area shape="poly" title=" " alt="" coords="1157,49,943,74,701,111,645,122,644,117,700,105,943,69,1157,44"/>
-<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="713,123,918,148"/>
-<area shape="poly" title=" " alt="" coords="1158,63,931,111,879,122,878,117,929,105,1157,57"/>
-<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="943,123,1165,148"/>
-<area shape="poly" title=" " alt="" coords="1226,62,1094,120,1092,115,1224,58"/>
-<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1190,123,1379,148"/>
-<area shape="poly" title=" " alt="" coords="1287,60,1287,109,1282,109,1282,60"/>
-<area shape="rect" href="Message_8h.html" title="Brief file description." alt="" coords="1307,211,1527,236"/>
-<area shape="poly" title=" " alt="" coords="1339,58,1369,79,1394,106,1405,129,1413,153,1419,196,1414,197,1407,154,1400,131,1389,110,1365,83,1336,62"/>
-<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1455,123,1637,148"/>
-<area shape="poly" title=" " alt="" coords="1354,58,1504,115,1502,120,1352,63"/>
-<area shape="rect" title=" " alt="" coords="1662,123,1889,148"/>
-<area shape="poly" title=" " alt="" coords="1413,57,1651,105,1708,117,1707,122,1649,111,1412,62"/>
-<area shape="rect" title=" " alt="" coords="1913,123,2120,148"/>
-<area shape="poly" title=" " alt="" coords="1412,43,1641,68,1901,105,1958,117,1957,122,1900,111,1640,73,1412,48"/>
-<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="2145,123,2361,148"/>
-<area shape="poly" title=" " alt="" coords="1412,37,1740,60,1937,80,2133,105,2194,117,2193,122,2132,111,1936,85,1739,66,1412,43"/>
-<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="2385,115,2589,155"/>
-<area shape="poly" title=" " alt="" coords="1412,34,1600,40,1840,52,2106,74,2373,105,2400,110,2399,115,2372,111,2106,79,1839,58,1600,45,1412,39"/>
-<area shape="rect" href="Subscriber_8h.html" title="Brief file description." alt="" coords="2614,123,2843,148"/>
-<area shape="poly" title=" " alt="" coords="1412,32,1637,37,1933,49,2266,71,2436,86,2602,105,2669,117,2668,122,2602,111,2436,91,2266,76,1933,54,1637,42,1412,38"/>
-<area shape="poly" title=" " alt="" coords="128,161,157,198,153,201,123,164"/>
-<area shape="poly" title=" " alt="" coords="1304,146,1389,201,1386,205,1301,150"/>
-<area shape="poly" title=" " alt="" coords="2683,151,2602,165,2305,195,2008,213,1744,222,1541,225,1541,219,1744,216,2008,207,2304,190,2602,160,2682,145"/>
+<area shape="poly" title=" " alt="" coords="1142,40,961,46,732,59,477,80,222,111,218,111,217,106,222,105,477,75,731,54,961,41,1142,34"/>
+<area shape="rect" href="Metrics_8h.html" title="Brief file description." alt="" coords="21,211,233,236"/>
+<area shape="poly" title=" " alt="" coords="1142,38,935,43,689,55,568,64,457,76,363,92,292,111,269,121,253,134,217,165,158,205,155,200,214,161,250,130,266,117,290,105,362,86,456,71,567,59,688,49,934,37,1142,32"/>
+<area shape="rect" href="Logger_8h.html" title=" " alt="" coords="329,123,507,148"/>
+<area shape="poly" title=" " alt="" coords="1142,44,859,67,692,86,526,111,473,122,472,117,526,105,692,81,859,62,1142,39"/>
+<area shape="rect" title=" " alt="" coords="267,211,340,236"/>
+<area shape="poly" title=" " alt="" coords="1142,38,918,43,659,54,539,64,436,76,359,91,334,100,319,110,306,129,300,152,301,197,296,198,294,151,301,127,315,106,332,96,358,86,435,71,538,59,659,49,918,37,1142,32"/>
+<area shape="rect" title=" " alt="" coords="441,211,521,236"/>
+<area shape="poly" title=" " alt="" coords="1143,38,993,44,827,56,676,78,616,92,571,110,555,124,535,148,498,201,493,198,531,145,551,121,569,106,614,87,675,72,826,51,993,39,1143,33"/>
+<area shape="rect" href="RTree_8h.html" title="Brief file description." alt="" coords="583,123,789,148"/>
+<area shape="poly" title=" " alt="" coords="1143,55,980,80,803,111,748,122,746,117,801,105,979,74,1142,49"/>
+<area shape="rect" href="Time_8h.html" title="Brief file description." alt="" coords="814,123,1019,148"/>
+<area shape="poly" title=" " alt="" coords="1179,63,971,121,969,116,1177,57"/>
+<area shape="rect" href="Utilities_8h.html" title="Brief file description." alt="" coords="1044,123,1267,148"/>
+<area shape="poly" title=" " alt="" coords="1242,62,1181,115,1177,111,1238,58"/>
+<area shape="rect" href="Entity_8h.html" title="Brief file description." alt="" coords="1291,123,1481,148"/>
+<area shape="poly" title=" " alt="" coords="1302,58,1364,112,1361,116,1299,62"/>
+<area shape="rect" href="Message_8h.html" title="Brief file description." alt="" coords="1408,211,1628,236"/>
+<area shape="poly" title=" " alt="" coords="1399,50,1450,72,1474,87,1495,106,1508,127,1517,152,1522,197,1517,197,1512,153,1504,130,1491,110,1471,91,1448,76,1397,55"/>
+<area shape="rect" href="State_8h.html" title="Brief file description." alt="" coords="1556,123,1739,148"/>
+<area shape="poly" title=" " alt="" coords="1369,57,1592,117,1590,122,1367,63"/>
+<area shape="rect" title=" " alt="" coords="1763,123,1990,148"/>
+<area shape="poly" title=" " alt="" coords="1398,49,1752,105,1812,117,1811,123,1751,111,1397,54"/>
+<area shape="rect" title=" " alt="" coords="2015,123,2221,148"/>
+<area shape="poly" title=" " alt="" coords="1398,40,1676,64,1840,82,2002,105,2061,117,2060,122,2002,111,1839,87,1675,69,1397,45"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="2246,123,2462,148"/>
+<area shape="poly" title=" " alt="" coords="1398,36,1774,57,2004,77,2234,105,2296,117,2295,122,2234,111,2003,82,1773,62,1398,41"/>
+<area shape="rect" href="RegisterPlugin_8h.html" title="Brief file description." alt="" coords="2487,115,2691,155"/>
+<area shape="poly" title=" " alt="" coords="1398,32,1604,37,1873,49,2173,71,2325,86,2474,105,2502,110,2501,115,2474,111,2325,92,2172,76,1872,55,1604,43,1398,38"/>
+<area shape="rect" href="Subscriber_8h.html" title="Brief file description." alt="" coords="2715,123,2945,148"/>
+<area shape="poly" title=" " alt="" coords="1398,31,1640,35,1965,46,2333,68,2520,85,2704,105,2770,117,2769,122,2703,111,2520,90,2332,74,1965,51,1640,40,1398,37"/>
+<area shape="poly" title=" " alt="" coords="114,162,123,196,118,198,109,163"/>
+<area shape="poly" title=" " alt="" coords="404,150,331,204,328,200,401,146"/>
+<area shape="poly" title=" " alt="" coords="429,147,466,198,462,201,424,150"/>
+<area shape="poly" title=" " alt="" coords="1405,146,1490,201,1487,205,1402,150"/>
+<area shape="poly" title=" " alt="" coords="2784,151,2704,165,2406,195,2110,213,1845,222,1642,225,1642,219,1845,216,2110,207,2405,190,2703,160,2783,145"/>
 </map>
 </div>
 </div>
@@ -213,165 +218,162 @@ DESCRIPTION</h1>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00056">56</a> of file <a class="el" href="SimpleCollisionMetrics_8cpp_source.html">SimpleCollisionMetrics.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                    {</div>
-<div class="line"><span class="lineno">   62</span><span class="keyword">namespace </span>metrics {</div>
+<p class="definition">Definition at line <a class="el" href="SimpleCollisionMetrics_8cpp_source.html#l00054">54</a> of file <a class="el" href="SimpleCollisionMetrics_8cpp_source.html">SimpleCollisionMetrics.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                    {</div>
+<div class="line"><span class="lineno">   60</span><span class="keyword">namespace </span>metrics {</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>SimpleCollisionMetrics::SimpleCollisionMetrics() {}</div>
 <div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>SimpleCollisionMetrics::SimpleCollisionMetrics() {}</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span><span class="keywordtype">void</span> SimpleCollisionMetrics::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
-<div class="line"><span class="lineno">   67</span>    params_ = params;</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>    <span class="keyword">auto</span> teamcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::TeamCollision&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   70</span>        scores_[msg-&gt;data.entity_id_1()].increment_team_collisions();</div>
-<div class="line"><span class="lineno">   71</span>        scores_[msg-&gt;data.entity_id_2()].increment_team_collisions();</div>
-<div class="line"><span class="lineno">   72</span>    };</div>
-<div class="line"><span class="lineno">   73</span>    subscribe&lt;sm::TeamCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;TeamCollision&quot;</span>, teamcoll_cb);</div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>    <span class="keyword">auto</span> nonteamcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::NonTeamCollision&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   76</span>        scores_[msg-&gt;data.entity_id_1()].increment_non_team_collisions();</div>
-<div class="line"><span class="lineno">   77</span>        scores_[msg-&gt;data.entity_id_2()].increment_non_team_collisions();</div>
-<div class="line"><span class="lineno">   78</span>    };</div>
-<div class="line"><span class="lineno">   79</span>    subscribe&lt;sm::NonTeamCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;NonTeamCollision&quot;</span>, nonteamcoll_cb);</div>
-<div class="line"><span class="lineno">   80</span> </div>
-<div class="line"><span class="lineno">   81</span>    <span class="keyword">auto</span> groundcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::GroundCollision&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   82</span>        scores_[msg-&gt;data.entity_id()].increment_ground_collisions();</div>
-<div class="line"><span class="lineno">   83</span>    };</div>
-<div class="line"><span class="lineno">   84</span>    subscribe&lt;sm::GroundCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GroundCollision&quot;</span>, groundcoll_cb);</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>    <span class="keyword">auto</span> entitygen_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityGenerated&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   87</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_start(msg-&gt;time);</div>
-<div class="line"><span class="lineno">   88</span>    };</div>
-<div class="line"><span class="lineno">   89</span>    subscribe&lt;sm::EntityGenerated&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityGenerated&quot;</span>, entitygen_cb);</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>    <span class="keyword">auto</span> entityrem_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityRemoved&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   92</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_end(msg-&gt;time);</div>
-<div class="line"><span class="lineno">   93</span>    };</div>
-<div class="line"><span class="lineno">   94</span>    subscribe&lt;sm::EntityRemoved&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityRemoved&quot;</span>, entityrem_cb);</div>
-<div class="line"><span class="lineno">   95</span> </div>
-<div class="line"><span class="lineno">   96</span>    <span class="keyword">auto</span> entity_pre_end_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityPresentAtEnd&gt;</a> msg) {</div>
-<div class="line"><span class="lineno">   97</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_end(time_-&gt;t());</div>
-<div class="line"><span class="lineno">   98</span>        surviving_teams_[(*id_to_team_map_)[msg-&gt;data.entity_id()]] = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   99</span>    };</div>
-<div class="line"><span class="lineno">  100</span>    subscribe&lt;sm::EntityPresentAtEnd&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityPresentAtEnd&quot;</span>, entity_pre_end_cb);</div>
-<div class="line"><span class="lineno">  101</span>}</div>
-<div class="line"><span class="lineno">  102</span> </div>
-<div class="line"><span class="lineno">  103</span><span class="keywordtype">bool</span> SimpleCollisionMetrics::step_metrics(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">if</span> (!initialized_) {</div>
-<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; teamnum : *id_to_team_map_) {</div>
-<div class="line"><span class="lineno">  106</span>            <span class="comment">// get all the teams so we can initialize their scores</span></div>
-<div class="line"><span class="lineno">  107</span>            teams_.emplace(teamnum.second);</div>
-<div class="line"><span class="lineno">  108</span>        }</div>
-<div class="line"><span class="lineno">  109</span>        initialized_ = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  112</span>}</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span><span class="keywordtype">void</span> SimpleCollisionMetrics::calc_team_scores() {</div>
-<div class="line"><span class="lineno">  115</span>    <span class="keywordtype">double</span> end_time = -std::numeric_limits&lt;double&gt;::infinity();</div>
-<div class="line"><span class="lineno">  116</span>    <span class="keywordtype">double</span> beg_time = std::numeric_limits&lt;double&gt;::infinity();</div>
-<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : scores_) {</div>
-<div class="line"><span class="lineno">  118</span>        <span class="keywordtype">double</span> temp_beg_time = kv.second.flight_time_start();</div>
-<div class="line"><span class="lineno">  119</span>        <span class="keywordtype">double</span> temp_end_time = kv.second.flight_time_end();</div>
-<div class="line"><span class="lineno">  120</span>        <span class="keywordflow">if</span> (temp_beg_time &lt; beg_time) {</div>
-<div class="line"><span class="lineno">  121</span>            beg_time = temp_beg_time;</div>
-<div class="line"><span class="lineno">  122</span>        }</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (temp_end_time &gt; end_time) {</div>
-<div class="line"><span class="lineno">  124</span>            end_time = temp_end_time;</div>
-<div class="line"><span class="lineno">  125</span>        }</div>
-<div class="line"><span class="lineno">  126</span>    }</div>
-<div class="line"><span class="lineno">  127</span> </div>
-<div class="line"><span class="lineno">  128</span>    <span class="comment">// If the end_time is &lt;= beginning time, all entities survived, need</span></div>
-<div class="line"><span class="lineno">  129</span>    <span class="comment">// to use the ending simulation time.</span></div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">if</span> (end_time &lt;= beg_time) {</div>
-<div class="line"><span class="lineno">  131</span>        end_time = time_-&gt;t();</div>
-<div class="line"><span class="lineno">  132</span>    }</div>
+<div class="line"><span class="lineno">   64</span><span class="keywordtype">void</span> SimpleCollisionMetrics::init(std::map&lt;std::string, std::string&gt;&amp; params) {</div>
+<div class="line"><span class="lineno">   65</span>    params_ = params;</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>    <span class="keyword">auto</span> teamcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::TeamCollision&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   68</span>        scores_[msg-&gt;data.entity_id_1()].increment_team_collisions();</div>
+<div class="line"><span class="lineno">   69</span>        scores_[msg-&gt;data.entity_id_2()].increment_team_collisions();</div>
+<div class="line"><span class="lineno">   70</span>    };</div>
+<div class="line"><span class="lineno">   71</span>    subscribe&lt;sm::TeamCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;TeamCollision&quot;</span>, teamcoll_cb);</div>
+<div class="line"><span class="lineno">   72</span> </div>
+<div class="line"><span class="lineno">   73</span>    <span class="keyword">auto</span> nonteamcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::NonTeamCollision&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   74</span>        scores_[msg-&gt;data.entity_id_1()].increment_non_team_collisions();</div>
+<div class="line"><span class="lineno">   75</span>        scores_[msg-&gt;data.entity_id_2()].increment_non_team_collisions();</div>
+<div class="line"><span class="lineno">   76</span>    };</div>
+<div class="line"><span class="lineno">   77</span>    subscribe&lt;sm::NonTeamCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;NonTeamCollision&quot;</span>, nonteamcoll_cb);</div>
+<div class="line"><span class="lineno">   78</span> </div>
+<div class="line"><span class="lineno">   79</span>    <span class="keyword">auto</span> groundcoll_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::GroundCollision&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   80</span>        scores_[msg-&gt;data.entity_id()].increment_ground_collisions();</div>
+<div class="line"><span class="lineno">   81</span>    };</div>
+<div class="line"><span class="lineno">   82</span>    subscribe&lt;sm::GroundCollision&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;GroundCollision&quot;</span>, groundcoll_cb);</div>
+<div class="line"><span class="lineno">   83</span> </div>
+<div class="line"><span class="lineno">   84</span>    <span class="keyword">auto</span> entitygen_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityGenerated&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   85</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_start(msg-&gt;time);</div>
+<div class="line"><span class="lineno">   86</span>    };</div>
+<div class="line"><span class="lineno">   87</span>    subscribe&lt;sm::EntityGenerated&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityGenerated&quot;</span>, entitygen_cb);</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>    <span class="keyword">auto</span> entityrem_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityRemoved&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   90</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_end(msg-&gt;time);</div>
+<div class="line"><span class="lineno">   91</span>    };</div>
+<div class="line"><span class="lineno">   92</span>    subscribe&lt;sm::EntityRemoved&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityRemoved&quot;</span>, entityrem_cb);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>    <span class="keyword">auto</span> entity_pre_end_cb = [&amp;](<a class="code hl_typedef" href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr&lt;sm::EntityPresentAtEnd&gt;</a> msg) {</div>
+<div class="line"><span class="lineno">   95</span>        scores_[msg-&gt;data.entity_id()].set_flight_time_end(time_-&gt;t());</div>
+<div class="line"><span class="lineno">   96</span>        surviving_teams_[(*id_to_team_map_)[msg-&gt;data.entity_id()]] = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   97</span>    };</div>
+<div class="line"><span class="lineno">   98</span>    subscribe&lt;sm::EntityPresentAtEnd&gt;(<span class="stringliteral">&quot;GlobalNetwork&quot;</span>, <span class="stringliteral">&quot;EntityPresentAtEnd&quot;</span>, entity_pre_end_cb);</div>
+<div class="line"><span class="lineno">   99</span>}</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span><span class="keywordtype">bool</span> SimpleCollisionMetrics::step_metrics(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">if</span> (!initialized_) {</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; teamnum : *id_to_team_map_) {</div>
+<div class="line"><span class="lineno">  104</span>            <span class="comment">// get all the teams so we can initialize their scores</span></div>
+<div class="line"><span class="lineno">  105</span>            teams_.emplace(teamnum.second);</div>
+<div class="line"><span class="lineno">  106</span>        }</div>
+<div class="line"><span class="lineno">  107</span>        initialized_ = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  108</span>    }</div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  110</span>}</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span><span class="keywordtype">void</span> SimpleCollisionMetrics::calc_team_scores() {</div>
+<div class="line"><span class="lineno">  113</span>    <span class="keywordtype">double</span> end_time = -std::numeric_limits&lt;double&gt;::infinity();</div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordtype">double</span> beg_time = std::numeric_limits&lt;double&gt;::infinity();</div>
+<div class="line"><span class="lineno">  115</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : scores_) {</div>
+<div class="line"><span class="lineno">  116</span>        <span class="keywordtype">double</span> temp_beg_time = kv.second.flight_time_start();</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordtype">double</span> temp_end_time = kv.second.flight_time_end();</div>
+<div class="line"><span class="lineno">  118</span>        <span class="keywordflow">if</span> (temp_beg_time &lt; beg_time) {</div>
+<div class="line"><span class="lineno">  119</span>            beg_time = temp_beg_time;</div>
+<div class="line"><span class="lineno">  120</span>        }</div>
+<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">if</span> (temp_end_time &gt; end_time) {</div>
+<div class="line"><span class="lineno">  122</span>            end_time = temp_end_time;</div>
+<div class="line"><span class="lineno">  123</span>        }</div>
+<div class="line"><span class="lineno">  124</span>    }</div>
+<div class="line"><span class="lineno">  125</span> </div>
+<div class="line"><span class="lineno">  126</span>    <span class="comment">// If the end_time is &lt;= beginning time, all entities survived, need</span></div>
+<div class="line"><span class="lineno">  127</span>    <span class="comment">// to use the ending simulation time.</span></div>
+<div class="line"><span class="lineno">  128</span>    <span class="keywordflow">if</span> (end_time &lt;= beg_time) {</div>
+<div class="line"><span class="lineno">  129</span>        end_time = time_-&gt;t();</div>
+<div class="line"><span class="lineno">  130</span>    }</div>
+<div class="line"><span class="lineno">  131</span> </div>
+<div class="line"><span class="lineno">  132</span>    <span class="keywordtype">double</span> max_flight_time = end_time - beg_time;</div>
 <div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>    <span class="keywordtype">double</span> max_flight_time = end_time - beg_time;</div>
-<div class="line"><span class="lineno">  135</span> </div>
-<div class="line"><span class="lineno">  136</span>    <span class="comment">// Create the score, if necessary</span></div>
-<div class="line"><span class="lineno">  137</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; team_id : teams_) {</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">if</span> (team_coll_scores_.count(team_id) == 0) {</div>
-<div class="line"><span class="lineno">  139</span>            SimpleCollisionScore score;</div>
-<div class="line"><span class="lineno">  140</span>            score.set_weights(params_);</div>
-<div class="line"><span class="lineno">  141</span>            <span class="comment">// Set the max flight time for each score:</span></div>
-<div class="line"><span class="lineno">  142</span>            score.set_max_flight_time(max_flight_time);</div>
-<div class="line"><span class="lineno">  143</span>            team_coll_scores_[team_id] = score;</div>
-<div class="line"><span class="lineno">  144</span>        }</div>
-<div class="line"><span class="lineno">  145</span>    }</div>
-<div class="line"><span class="lineno">  146</span> </div>
-<div class="line"><span class="lineno">  147</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : scores_) {</div>
-<div class="line"><span class="lineno">  148</span>        SimpleCollisionScore&amp; score = kv.second;</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>        <span class="comment">// If the end time is less than start time, the flight time was never</span></div>
-<div class="line"><span class="lineno">  151</span>        <span class="comment">// set. Use the ending simulation time.</span></div>
-<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">if</span> (score.flight_time_end() &lt;= score.flight_time_start()) {</div>
-<div class="line"><span class="lineno">  153</span>            score.set_flight_time_end(end_time);</div>
-<div class="line"><span class="lineno">  154</span>        }</div>
+<div class="line"><span class="lineno">  134</span>    <span class="comment">// Create the score, if necessary</span></div>
+<div class="line"><span class="lineno">  135</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; team_id : teams_) {</div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">if</span> (team_coll_scores_.count(team_id) == 0) {</div>
+<div class="line"><span class="lineno">  137</span>            SimpleCollisionScore score;</div>
+<div class="line"><span class="lineno">  138</span>            score.set_weights(params_);</div>
+<div class="line"><span class="lineno">  139</span>            <span class="comment">// Set the max flight time for each score:</span></div>
+<div class="line"><span class="lineno">  140</span>            score.set_max_flight_time(max_flight_time);</div>
+<div class="line"><span class="lineno">  141</span>            team_coll_scores_[team_id] = score;</div>
+<div class="line"><span class="lineno">  142</span>        }</div>
+<div class="line"><span class="lineno">  143</span>    }</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : scores_) {</div>
+<div class="line"><span class="lineno">  146</span>        SimpleCollisionScore&amp; score = kv.second;</div>
+<div class="line"><span class="lineno">  147</span> </div>
+<div class="line"><span class="lineno">  148</span>        <span class="comment">// If the end time is less than start time, the flight time was never</span></div>
+<div class="line"><span class="lineno">  149</span>        <span class="comment">// set. Use the ending simulation time.</span></div>
+<div class="line"><span class="lineno">  150</span>        <span class="keywordflow">if</span> (score.flight_time_end() &lt;= score.flight_time_start()) {</div>
+<div class="line"><span class="lineno">  151</span>            score.set_flight_time_end(end_time);</div>
+<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="line"><span class="lineno">  153</span> </div>
+<div class="line"><span class="lineno">  154</span>        <span class="keywordtype">int</span> team_id = (*id_to_team_map_)[kv.first];</div>
 <div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>        <span class="keywordtype">int</span> team_id = (*id_to_team_map_)[kv.first];</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>        team_coll_scores_[team_id].add_non_team_collisions(score.non_team_collisions());</div>
-<div class="line"><span class="lineno">  159</span>        team_coll_scores_[team_id].add_team_collisions(score.team_collisions());</div>
-<div class="line"><span class="lineno">  160</span>        team_coll_scores_[team_id].add_ground_collisions(score.ground_collisions());</div>
-<div class="line"><span class="lineno">  161</span>        team_coll_scores_[team_id].add_flight_time(score.flight_time());</div>
-<div class="line"><span class="lineno">  162</span>        team_coll_scores_[team_id].increment_entity_count();</div>
-<div class="line"><span class="lineno">  163</span>    }</div>
-<div class="line"><span class="lineno">  164</span> </div>
-<div class="line"><span class="lineno">  165</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : team_coll_scores_) {</div>
-<div class="line"><span class="lineno">  166</span>        <span class="keywordtype">int</span> team_id = kv.first;</div>
-<div class="line"><span class="lineno">  167</span>        SimpleCollisionScore&amp; score = kv.second;</div>
-<div class="line"><span class="lineno">  168</span>        team_metrics_[team_id][<span class="stringliteral">&quot;entity_count&quot;</span>] = score.entity_count();</div>
-<div class="line"><span class="lineno">  169</span>        team_metrics_[team_id][<span class="stringliteral">&quot;flight_time&quot;</span>] = score.flight_time();</div>
-<div class="line"><span class="lineno">  170</span>        team_metrics_[team_id][<span class="stringliteral">&quot;flight_time_norm&quot;</span>] = score.flight_time_norm();</div>
-<div class="line"><span class="lineno">  171</span>        team_metrics_[team_id][<span class="stringliteral">&quot;non_team_coll&quot;</span>] = score.non_team_collisions();</div>
-<div class="line"><span class="lineno">  172</span>        team_metrics_[team_id][<span class="stringliteral">&quot;team_coll&quot;</span>] = score.team_collisions();</div>
-<div class="line"><span class="lineno">  173</span>        team_metrics_[team_id][<span class="stringliteral">&quot;ground_coll&quot;</span>] = score.ground_collisions();</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>        team_scores_[team_id] = score.score();</div>
-<div class="line"><span class="lineno">  176</span>    }</div>
-<div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>    <span class="comment">// list the headers we want put in the csv file</span></div>
-<div class="line"><span class="lineno">  179</span>    headers_.push_back(<span class="stringliteral">&quot;entity_count&quot;</span>);</div>
-<div class="line"><span class="lineno">  180</span>    headers_.push_back(<span class="stringliteral">&quot;flight_time&quot;</span>);</div>
-<div class="line"><span class="lineno">  181</span>    headers_.push_back(<span class="stringliteral">&quot;flight_time_norm&quot;</span>);</div>
-<div class="line"><span class="lineno">  182</span>    headers_.push_back(<span class="stringliteral">&quot;non_team_coll&quot;</span>);</div>
-<div class="line"><span class="lineno">  183</span>    headers_.push_back(<span class="stringliteral">&quot;team_coll&quot;</span>);</div>
-<div class="line"><span class="lineno">  184</span>    headers_.push_back(<span class="stringliteral">&quot;ground_coll&quot;</span>);</div>
-<div class="line"><span class="lineno">  185</span>}</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span><span class="keywordtype">void</span> SimpleCollisionMetrics::print_team_summaries() {</div>
-<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">for</span> (std::map&lt;int, SimpleCollisionScore&gt;::iterator it = team_coll_scores_.begin();</div>
-<div class="line"><span class="lineno">  189</span>         it != team_coll_scores_.end();</div>
-<div class="line"><span class="lineno">  190</span>         ++it) {</div>
-<div class="line"><span class="lineno">  191</span>        <span class="keywordtype">bool</span> survived = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  192</span>        <span class="keyword">auto</span> it_survive = surviving_teams_.find(it-&gt;first);</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> (it_survive != surviving_teams_.end())</div>
-<div class="line"><span class="lineno">  194</span>            survived = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  195</span> </div>
-<div class="line"><span class="lineno">  196</span>        cout &lt;&lt; <span class="stringliteral">&quot;Team ID: &quot;</span> &lt;&lt; it-&gt;first;</div>
-<div class="line"><span class="lineno">  197</span>        <span class="keywordflow">if</span> (survived) {</div>
-<div class="line"><span class="lineno">  198</span>            cout &lt;&lt; <span class="stringliteral">&quot;\t(Survived round)&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  199</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  200</span>            cout &lt;&lt; <span class="stringliteral">&quot;\t(Didn&#39;t survive round)&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  201</span>        }</div>
-<div class="line"><span class="lineno">  202</span>        cout &lt;&lt; <span class="stringliteral">&quot;Score: &quot;</span> &lt;&lt; it-&gt;second.score() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  203</span>        cout &lt;&lt; <span class="stringliteral">&quot;Entity Count: &quot;</span> &lt;&lt; it-&gt;second.entity_count() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  204</span>        cout &lt;&lt; <span class="stringliteral">&quot;Total Flight Time: &quot;</span> &lt;&lt; it-&gt;second.flight_time() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  205</span>        cout &lt;&lt; <span class="stringliteral">&quot;Total Normalized Flight Time: &quot;</span> &lt;&lt; it-&gt;second.flight_time_norm() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  206</span>        cout &lt;&lt; <span class="stringliteral">&quot;Non-Team Collisions: &quot;</span> &lt;&lt; it-&gt;second.non_team_collisions() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  207</span>        cout &lt;&lt; <span class="stringliteral">&quot;Team Collisions: &quot;</span> &lt;&lt; it-&gt;second.team_collisions() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  208</span>        cout &lt;&lt; <span class="stringliteral">&quot;Ground Collisions: &quot;</span> &lt;&lt; it-&gt;second.ground_collisions() &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  209</span>        cout &lt;&lt; <a class="code hl_function" href="namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a">sc::generate_chars</a>(<span class="stringliteral">&quot;-&quot;</span>, 70) &lt;&lt; endl;</div>
-<div class="line"><span class="lineno">  210</span>    }</div>
-<div class="line"><span class="lineno">  211</span>}</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>}  <span class="comment">// namespace metrics</span></div>
-<div class="line"><span class="lineno">  214</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">  156</span>        team_coll_scores_[team_id].add_non_team_collisions(score.non_team_collisions());</div>
+<div class="line"><span class="lineno">  157</span>        team_coll_scores_[team_id].add_team_collisions(score.team_collisions());</div>
+<div class="line"><span class="lineno">  158</span>        team_coll_scores_[team_id].add_ground_collisions(score.ground_collisions());</div>
+<div class="line"><span class="lineno">  159</span>        team_coll_scores_[team_id].add_flight_time(score.flight_time());</div>
+<div class="line"><span class="lineno">  160</span>        team_coll_scores_[team_id].increment_entity_count();</div>
+<div class="line"><span class="lineno">  161</span>    }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : team_coll_scores_) {</div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordtype">int</span> team_id = kv.first;</div>
+<div class="line"><span class="lineno">  165</span>        SimpleCollisionScore&amp; score = kv.second;</div>
+<div class="line"><span class="lineno">  166</span>        team_metrics_[team_id][<span class="stringliteral">&quot;entity_count&quot;</span>] = score.entity_count();</div>
+<div class="line"><span class="lineno">  167</span>        team_metrics_[team_id][<span class="stringliteral">&quot;flight_time&quot;</span>] = score.flight_time();</div>
+<div class="line"><span class="lineno">  168</span>        team_metrics_[team_id][<span class="stringliteral">&quot;flight_time_norm&quot;</span>] = score.flight_time_norm();</div>
+<div class="line"><span class="lineno">  169</span>        team_metrics_[team_id][<span class="stringliteral">&quot;non_team_coll&quot;</span>] = score.non_team_collisions();</div>
+<div class="line"><span class="lineno">  170</span>        team_metrics_[team_id][<span class="stringliteral">&quot;team_coll&quot;</span>] = score.team_collisions();</div>
+<div class="line"><span class="lineno">  171</span>        team_metrics_[team_id][<span class="stringliteral">&quot;ground_coll&quot;</span>] = score.ground_collisions();</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>        team_scores_[team_id] = score.score();</div>
+<div class="line"><span class="lineno">  174</span>    }</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>    <span class="comment">// list the headers we want put in the csv file</span></div>
+<div class="line"><span class="lineno">  177</span>    headers_.push_back(<span class="stringliteral">&quot;entity_count&quot;</span>);</div>
+<div class="line"><span class="lineno">  178</span>    headers_.push_back(<span class="stringliteral">&quot;flight_time&quot;</span>);</div>
+<div class="line"><span class="lineno">  179</span>    headers_.push_back(<span class="stringliteral">&quot;flight_time_norm&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>    headers_.push_back(<span class="stringliteral">&quot;non_team_coll&quot;</span>);</div>
+<div class="line"><span class="lineno">  181</span>    headers_.push_back(<span class="stringliteral">&quot;team_coll&quot;</span>);</div>
+<div class="line"><span class="lineno">  182</span>    headers_.push_back(<span class="stringliteral">&quot;ground_coll&quot;</span>);</div>
+<div class="line"><span class="lineno">  183</span>}</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span><span class="keywordtype">void</span> SimpleCollisionMetrics::print_team_summaries() {</div>
+<div class="line"><span class="lineno">  186</span>    <span class="keywordflow">for</span> (std::map&lt;int, SimpleCollisionScore&gt;::iterator it = team_coll_scores_.begin();</div>
+<div class="line"><span class="lineno">  187</span>         it != team_coll_scores_.end();</div>
+<div class="line"><span class="lineno">  188</span>         ++it) {</div>
+<div class="line"><span class="lineno">  189</span>        <span class="keywordtype">bool</span> survived = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  190</span>        <span class="keyword">auto</span> it_survive = surviving_teams_.find(it-&gt;first);</div>
+<div class="line"><span class="lineno">  191</span>        <span class="keywordflow">if</span> (it_survive != surviving_teams_.end())</div>
+<div class="line"><span class="lineno">  192</span>            survived = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>        std::string survive_status = survived ? <span class="stringliteral">&quot;\t(Survived round)&quot;</span> : <span class="stringliteral">&quot;\t(Didn&#39;t survive round)&quot;</span>;</div>
+<div class="line"><span class="lineno">  195</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Team ID: &quot;</span> &lt;&lt; it-&gt;first &lt;&lt; survive_status);</div>
+<div class="line"><span class="lineno">  196</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Score: &quot;</span> &lt;&lt; it-&gt;second.score());</div>
+<div class="line"><span class="lineno">  197</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Entity Count: &quot;</span> &lt;&lt; it-&gt;second.entity_count());</div>
+<div class="line"><span class="lineno">  198</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Total Flight Time: &quot;</span> &lt;&lt; it-&gt;second.flight_time());</div>
+<div class="line"><span class="lineno">  199</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Total Normalized Flight Time: &quot;</span> &lt;&lt; it-&gt;second.flight_time_norm());</div>
+<div class="line"><span class="lineno">  200</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Non-Team Collisions: &quot;</span> &lt;&lt; it-&gt;second.non_team_collisions());</div>
+<div class="line"><span class="lineno">  201</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Team Collisions: &quot;</span> &lt;&lt; it-&gt;second.team_collisions());</div>
+<div class="line"><span class="lineno">  202</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<span class="stringliteral">&quot;Ground Collisions: &quot;</span> &lt;&lt; it-&gt;second.ground_collisions());</div>
+<div class="line"><span class="lineno">  203</span>        <a class="code hl_define" href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a>(<a class="code hl_function" href="namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a">sc::generate_chars</a>(<span class="stringliteral">&quot;-&quot;</span>, 70));</div>
+<div class="line"><span class="lineno">  204</span>    }</div>
+<div class="line"><span class="lineno">  205</span>}</div>
+<div class="line"><span class="lineno">  206</span> </div>
+<div class="line"><span class="lineno">  207</span>}  <span class="comment">// namespace metrics</span></div>
+<div class="line"><span class="lineno">  208</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="ttc" id="aLogger_8h_html_ab76a71a4b729426b37e912ab990a9522"><div class="ttname"><a href="Logger_8h.html#ab76a71a4b729426b37e912ab990a9522">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(expr)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00117">Logger.h:117</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a57df2ae1aec29a03cc5a26db820ee65a"><div class="ttname"><a href="namespacescrimmage.html#a57df2ae1aec29a03cc5a26db820ee65a">scrimmage::generate_chars</a></div><div class="ttdeci">std::string generate_chars(const std::string &amp;symbol, int num)</div><div class="ttdef"><b>Definition</b> <a href="Utilities_8cpp_source.html#l00158">Utilities.cpp:158</a></div></div>
-<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00125">fwd_decl.h:125</a></div></div>
+<div class="ttc" id="anamespacescrimmage_html_aac049b1d9c91ea33a95d0ed685f92c6e"><div class="ttname"><a href="namespacescrimmage.html#aac049b1d9c91ea33a95d0ed685f92c6e">scrimmage::MessagePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Message&lt; T &gt; &gt; MessagePtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00122">fwd_decl.h:122</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a10578b3dd3a81a976dd39ca3f68cfff7">scrimmage::metrics::SimpleCollisionMetrics::calc_team_scores()</a>, <a class="el" href="Utilities_8cpp_source.html#l00158">scrimmage::generate_chars()</a>, <a class="el" href="Metrics_8h_source.html#l00072">scrimmage::Metrics::headers_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00192">scrimmage::EntityPlugin::id_to_team_map_</a>, <a class="el" href="Metrics_8cpp_source.html#l00045">scrimmage::Metrics::init()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00060">scrimmage::metrics::SimpleCollisionMetrics::initialized_</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00059">scrimmage::metrics::SimpleCollisionMetrics::params_</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#af72187ec76a748b8fd69019656a4830c">scrimmage::metrics::SimpleCollisionMetrics::print_team_summaries()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00055">scrimmage::metrics::SimpleCollisionMetrics::scores_</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a73b2387fbc3bc1286ed7930dcd8bd254">scrimmage::metrics::SimpleCollisionMetrics::SimpleCollisionMetrics()</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a26d91ce5a23e1fc763cf43a04f96c090">scrimmage::metrics::SimpleCollisionMetrics::step_metrics()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00057">scrimmage::metrics::SimpleCollisionMetrics::surviving_teams_</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00056">scrimmage::metrics::SimpleCollisionMetrics::team_coll_scores_</a>, <a class="el" href="Metrics_8h_source.html#l00070">scrimmage::Metrics::team_metrics_</a>, <a class="el" href="Metrics_8h_source.html#l00071">scrimmage::Metrics::team_scores_</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00061">scrimmage::metrics::SimpleCollisionMetrics::teams_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>.</p>
+<p class="reference">References <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a10578b3dd3a81a976dd39ca3f68cfff7">scrimmage::metrics::SimpleCollisionMetrics::calc_team_scores()</a>, <a class="el" href="Utilities_8cpp_source.html#l00158">scrimmage::generate_chars()</a>, <a class="el" href="Metrics_8h_source.html#l00072">scrimmage::Metrics::headers_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00192">scrimmage::EntityPlugin::id_to_team_map_</a>, <a class="el" href="Metrics_8cpp_source.html#l00045">scrimmage::Metrics::init()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00060">scrimmage::metrics::SimpleCollisionMetrics::initialized_</a>, <a class="el" href="Logger_8h_source.html#l00117">LOG_INFO</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00059">scrimmage::metrics::SimpleCollisionMetrics::params_</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#af72187ec76a748b8fd69019656a4830c">scrimmage::metrics::SimpleCollisionMetrics::print_team_summaries()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00055">scrimmage::metrics::SimpleCollisionMetrics::scores_</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a73b2387fbc3bc1286ed7930dcd8bd254">scrimmage::metrics::SimpleCollisionMetrics::SimpleCollisionMetrics()</a>, <a class="el" href="classscrimmage_1_1metrics_1_1SimpleCollisionMetrics.html#a26d91ce5a23e1fc763cf43a04f96c090">scrimmage::metrics::SimpleCollisionMetrics::step_metrics()</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00057">scrimmage::metrics::SimpleCollisionMetrics::surviving_teams_</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00056">scrimmage::metrics::SimpleCollisionMetrics::team_coll_scores_</a>, <a class="el" href="Metrics_8h_source.html#l00070">scrimmage::Metrics::team_metrics_</a>, <a class="el" href="Metrics_8h_source.html#l00071">scrimmage::Metrics::team_scores_</a>, <a class="el" href="SimpleCollisionMetrics_8h_source.html#l00061">scrimmage::metrics::SimpleCollisionMetrics::teams_</a>, and <a class="el" href="EntityPlugin_8h_source.html#l00199">scrimmage::EntityPlugin::time_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -401,7 +403,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_f2e40b7b4cbae9d118ae79235f4fdef8.html">metrics</a></li><li class="navelem"><a class="el" href="dir_43b1cfa05d7ceadeba33c0da5087737d.html">SimpleCollisionMetrics</a></li><li class="navelem"><a class="el" href="SimpleCollisionMetrics_8cpp.html">SimpleCollisionMetrics.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:44:28 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
