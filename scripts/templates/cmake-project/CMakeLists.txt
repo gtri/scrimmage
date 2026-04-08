@@ -78,6 +78,10 @@ set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 ###############################################################################
 find_package(scrimmage REQUIRED)
 
+# External projects are downstream plugin/packages that link against an
+# existing scrimmage install. Keep this ON so core-only assets are not
+# installed again from the external project.
+option(EXTERNAL "Build as a downstream project against an existing scrimmage install; skip scrimmage-core-only assets/install steps" ON)
 option(SETUP_LOCAL_CONFIG_DIR "Setup ~/.scrimmage" ON)
 include(GenerateSetEnv)
 GenerateSetEnv(
@@ -222,14 +226,14 @@ install(
 
 # Install all plugin XML files under etc
 install(
-  DIRECTORY plugins
+  DIRECTORY include/${PROJECT_NAME}/plugins
   DESTINATION etc/${PROJECT_NAME}
   FILES_MATCHING PATTERN "*.xml"
 )
 
 # Install all plugin header files under include/PROJECT_NAME
 install(
-  DIRECTORY plugins
+  DIRECTORY include/${PROJECT_NAME}/plugins
   DESTINATION include/${PROJECT_NAME}
   FILES_MATCHING PATTERN "*.h"
 )
@@ -278,6 +282,17 @@ if(NOT APPLE)
       )
   endif()
 endif()
+
+# Install the project-setenv file
+install(
+  FILES ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-setenv
+  DESTINATION etc/${PROJECT_NAME}/env
+)
+
+# Optional: If you refactor plugins into git submodules, add their paths here.
+# GenerateSetEnv only includes paths passed to it; submodule paths must be added manually.
+# file(APPEND ${PROJECT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/${PROJECT_NAME}-setenv
+#   "export SCRIMMAGE_PLUGIN_PATH=\${SCRIMMAGE_PLUGIN_PATH}:${PROJECT_SOURCE_DIR}/submodules/YOUR_SUBMODULE/plugins\n")
 
 ###############################################################################
 # Binary installation generation
