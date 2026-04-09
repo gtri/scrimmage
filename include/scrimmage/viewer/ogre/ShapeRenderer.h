@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Shape renderer for debug shapes using Ogre3D ManualObject.
+ *
  */
 
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_OGRE_SHAPERENDERER_H_
@@ -42,8 +41,8 @@
 namespace scrimmage {
 namespace viewer {
 
-/**
- * @brief Tracks a rendered shape's objects.
+/*
+ *
  */
 struct RenderedShape {
     Ogre::ManualObject* manualObject = nullptr;
@@ -53,8 +52,8 @@ struct RenderedShape {
     double ttl = 0.0;  // Time to live (for non-persistent shapes)
 };
 
-/**
- * @brief Renders debug shapes using Ogre3D ManualObject.
+/*
+ *
  *
  * This class replaces VTK's procedural shape sources (vtkSphereSource,
  * vtkCubeSource, etc.) with Ogre3D ManualObject or prefab equivalents.
@@ -64,29 +63,29 @@ class ShapeRenderer {
     ShapeRenderer(Ogre::SceneManager* sceneMgr, MaterialPool* materialPool);
     ~ShapeRenderer();
 
-    /**
-     * @brief Initialize the shape renderer.
+    /*
+     *
      */
     void init();
 
-    /**
-     * @brief Process a batch of shapes (add/update/remove).
+    /*
+     *
      */
     void processShapes(const scrimmage_proto::Shapes& shapes);
 
-    /**
-     * @brief Update shapes (tick TTL, remove expired).
+    /*
+     *
      * @param dt Delta time since last update.
      */
     void update(double dt);
 
-    /**
-     * @brief Remove all shapes.
+    /*
+     *
      */
     void clear();
 
-    /**
-     * @brief Get the shapes parent node.
+    /*
+     *
      */
     Ogre::SceneNode* getShapesNode() const { return shapes_node_; }
 

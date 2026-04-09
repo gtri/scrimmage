@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Dynamic material pool for Ogre3D implementation.
+ *
  */
 
 #include "scrimmage/viewer/ogre/MaterialPool.h"

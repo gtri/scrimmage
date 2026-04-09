@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Ogre3D-based viewer for SCRIMMAGE.
+ *
  */
 
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_OGRE_OGREVIEWER_H_
@@ -52,8 +51,8 @@ using InterfacePtr = std::shared_ptr<Interface>;
 
 namespace viewer {
 
-/**
- * @brief Ogre3D-based viewer for SCRIMMAGE simulation.
+/*
+ *
  *
  * This class replaces the VTK-based Viewer. It uses OgreBites::ApplicationContext
  * for window management and input handling.
@@ -64,34 +63,34 @@ class OgreViewer : public OgreBites::ApplicationContext,
     OgreViewer();
     ~OgreViewer();
 
-    /**
-     * @brief Set the incoming interface (GUI -> Simulation).
+    /*
+     *
      */
     void set_incoming_interface(InterfacePtr& incoming_interface);
 
-    /**
-     * @brief Set the outgoing interface (Simulation -> GUI).
+    /*
+     *
      */
     void set_outgoing_interface(InterfacePtr& outgoing_interface);
 
-    /**
-     * @brief Enable network mode.
+    /*
+     *
      */
     void set_enable_network(bool enable);
 
-    /**
-     * @brief Initialize the viewer.
+    /*
+     *
      */
     bool init(const std::shared_ptr<MissionParse>& mp,
               const std::map<std::string, std::string>& camera_params);
 
-    /**
-     * @brief Run the viewer (blocking).
+    /*
+     *
      */
     bool run();
 
-    /**
-     * @brief Request shutdown.
+    /*
+     *
      */
     void shutdown();
 
@@ -107,33 +106,33 @@ class OgreViewer : public OgreBites::ApplicationContext,
     bool mouseWheelRolled(const OgreBites::MouseWheelEvent& evt) override;
 
  protected:
-    /**
-     * @brief Process pending interface updates.
+    /*
+     *
      */
     void processInterfaceUpdates();
 
-    /**
-     * @brief Update the display (called each frame).
+    /*
+     *
      */
     void update(double dt);
 
-    /**
-     * @brief Create the scene (lights, grid, etc.).
+    /*
+     *
      */
     void createScene();
 
-    /**
-     * @brief Create the grid.
+    /*
+     *
      */
     void createGrid();
 
-    /**
-     * @brief Create origin axes.
+    /*
+     *
      */
     void createOriginAxes();
 
-    /**
-     * @brief Send GUI message (pause, step, etc.).
+    /*
+     *
      */
     void sendGuiMsg(const std::string& type, int value = 0);
 

@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Camera controller for Ogre3D viewer.
+ *
  */
 
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_OGRE_CAMERACONTROLLER_H_
@@ -39,8 +38,8 @@
 namespace scrimmage {
 namespace viewer {
 
-/**
- * @brief Camera view modes.
+/*
+ *
  */
 enum class ViewMode {
     FOLLOW = 0,  // Track entity position
@@ -49,8 +48,8 @@ enum class ViewMode {
     FPV          // First-person view
 };
 
-/**
- * @brief Camera reset parameters.
+/*
+ *
  */
 struct CameraResetParams {
     double pos_x = 0;
@@ -61,8 +60,8 @@ struct CameraResetParams {
     double focal_z = 0;
 };
 
-/**
- * @brief Camera controller for SCRIMMAGE viewer.
+/*
+ *
  *
  * Provides multiple view modes: Follow, Free, Offset, FPV.
  * Uses Ogre3D FrameListener for per-frame updates.
@@ -73,63 +72,63 @@ class CameraController : public Ogre::FrameListener {
                      ContactRenderer* contactRenderer);
     ~CameraController();
 
-    /**
-     * @brief Initialize the camera controller.
+    /*
+     *
      */
     void init();
 
-    /**
-     * @brief Set camera reset parameters.
+    /*
+     *
      */
     void setResetParams(const CameraResetParams& params);
 
-    /**
-     * @brief Reset camera to initial position.
+    /*
+     *
      */
     void resetCamera();
 
-    /**
-     * @brief Get current view mode.
+    /*
+     *
      */
     ViewMode getViewMode() const { return view_mode_; }
 
-    /**
-     * @brief Set view mode.
+    /*
+     *
      */
     void setViewMode(ViewMode mode);
 
-    /**
-     * @brief Cycle to next view mode.
+    /*
+     *
      */
     void nextMode();
 
-    /**
-     * @brief Get follow offset distance.
+    /*
+     *
      */
     double getFollowOffset() const { return follow_offset_; }
 
-    /**
-     * @brief Increase follow offset.
+    /*
+     *
      */
     void incFollowOffset();
 
-    /**
-     * @brief Decrease follow offset.
+    /*
+     *
      */
     void decFollowOffset();
 
-    /**
-     * @brief Store current camera position for undo.
+    /*
+     *
      */
     void trackCameraPos();
 
-    /**
-     * @brief Undo last camera movement.
+    /*
+     *
      */
     void undoCamera();
 
-    /**
-     * @brief Process mouse movement.
+    /*
+     *
      * Behavior depends on which mouse button is pressed:
      * - Left button: Orbit around target/pivot
      * - Middle button: Pan camera
@@ -137,34 +136,34 @@ class CameraController : public Ogre::FrameListener {
      */
     void mouseMoved(float relX, float relY);
 
-    /**
-     * @brief Process mouse button press.
+    /*
+     *
      */
     void mousePressed(int button);
 
-    /**
-     * @brief Process mouse button release.
+    /*
+     *
      */
     void mouseReleased(int button);
 
-    /**
-     * @brief Process mouse wheel (zoom).
+    /*
+     *
      */
     void mouseWheel(float delta);
 
-    /**
-     * @brief Check if user is actively dragging the camera.
+    /*
+     *
      */
     bool isDragging() const { return left_button_down_ || middle_button_down_ || right_button_down_; }
 
-    /**
-     * @brief Process keyboard movement input.
+    /*
+     *
      */
     void injectKeyDown(int key);
     void injectKeyUp(int key);
 
-    /**
-     * @brief FrameListener callback - called each frame.
+    /*
+     *
      */
     bool frameRenderingQueued(const Ogre::FrameEvent& evt) override;
 

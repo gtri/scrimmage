@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Coordinate conversion utilities for ENU to Ogre3D transforms.
+ *
  * @section DESCRIPTION
  * SCRIMMAGE uses ENU (East/North/Up) with Z-up.
  * Ogre3D uses Y-up by default.
@@ -43,8 +42,8 @@
 namespace scrimmage {
 namespace viewer {
 
-/**
- * @brief Convert ENU (Z-up) coordinates to Ogre3D (Y-up) coordinates.
+/*
+ *
  *
  * SCRIMMAGE ENU: X=East, Y=North, Z=Up
  * Ogre3D default: X=Right, Y=Up, Z=Back (into screen)
@@ -53,8 +52,8 @@ namespace viewer {
  */
 class CoordinateConverter {
  public:
-    /**
-     * @brief Convert Eigen::Vector3d (ENU) to Ogre::Vector3 (Y-up).
+    /*
+     *
      */
     static Ogre::Vector3 toOgre(const Eigen::Vector3d& enu) {
         // ENU: (East, North, Up) -> Ogre: (X, Y, Z) where Y is up
@@ -66,8 +65,8 @@ class CoordinateConverter {
         );
     }
 
-    /**
-     * @brief Convert protobuf Vector3d to Ogre::Vector3.
+    /*
+     *
      */
     static Ogre::Vector3 toOgre(const scrimmage_proto::Vector3d& v) {
         return Ogre::Vector3(
@@ -77,8 +76,8 @@ class CoordinateConverter {
         );
     }
 
-    /**
-     * @brief Convert x, y, z components (ENU) to Ogre::Vector3.
+    /*
+     *
      */
     static Ogre::Vector3 toOgre(double x, double y, double z) {
         return Ogre::Vector3(
@@ -88,8 +87,8 @@ class CoordinateConverter {
         );
     }
 
-    /**
-     * @brief Convert SCRIMMAGE Quaternion to Ogre::Quaternion.
+    /*
+     *
      *
      * The quaternion represents rotation in the ENU frame.
      * We need to conjugate and reorder to match Ogre's Y-up convention.
@@ -107,8 +106,8 @@ class CoordinateConverter {
         return coordRotation;
     }
 
-    /**
-     * @brief Convert protobuf Quaternion to Ogre::Quaternion.
+    /*
+     *
      */
     static Ogre::Quaternion toOgre(const scrimmage_proto::Quaternion& q) {
         return Ogre::Quaternion(
@@ -119,15 +118,15 @@ class CoordinateConverter {
         );
     }
 
-    /**
-     * @brief Convert Ogre::Vector3 back to Eigen::Vector3d (ENU).
+    /*
+     *
      */
     static Eigen::Vector3d toENU(const Ogre::Vector3& v) {
         return Eigen::Vector3d(v.x, -v.z, v.y);
     }
 
-    /**
-     * @brief Apply scale to a vector (uniform scaling is coordinate-independent).
+    /*
+     *
      */
     static Ogre::Vector3 toOgreScale(double scale) {
         return Ogre::Vector3(
@@ -137,8 +136,8 @@ class CoordinateConverter {
         );
     }
 
-    /**
-     * @brief Apply non-uniform scale (x, y, z in ENU order).
+    /*
+     *
      */
     static Ogre::Vector3 toOgreScale(double sx, double sy, double sz) {
         // ENU scale (sx, sy, sz) maps to Ogre (sx, sz, sy)

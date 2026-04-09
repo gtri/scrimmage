@@ -20,11 +20,10 @@
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
+ * @author Ethan M Boos <ethan.boos@gtri.gatech.edu>
+ * @date 9 April 2026
  * @version 0.1.0
- * @brief Contact (entity) renderer for Ogre3D.
+ *
  */
 
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_OGRE_CONTACTRENDERER_H_
@@ -46,8 +45,8 @@
 namespace scrimmage {
 namespace viewer {
 
-/**
- * @brief Tracks a rendered contact (entity).
+/*
+ *
  */
 struct RenderedContact {
     Ogre::SceneNode* sceneNode = nullptr;
@@ -67,8 +66,8 @@ struct RenderedContact {
     bool hasTarget = false;
 };
 
-/**
- * @brief Renders simulation entities using Ogre3D.
+/*
+ *
  *
  * Handles entity creation, updates, trails, and labels.
  */
@@ -77,69 +76,69 @@ class ContactRenderer {
     ContactRenderer(Ogre::SceneManager* sceneMgr, MaterialPool* materialPool);
     ~ContactRenderer();
 
-    /**
-     * @brief Initialize the contact renderer.
+    /*
+     *
      */
     void init();
 
-    /**
-     * @brief Update contacts from a frame.
+    /*
+     *
      */
     void updateContacts(const scrimmage_proto::Frame& frame);
 
-    /**
-     * @brief Update a contact's visual properties.
+    /*
+     *
      */
     void updateContactVisual(const scrimmage_proto::ContactVisual& cv);
 
-    /**
-     * @brief Get the contact being followed (for camera).
+    /*
+     *
      */
     RenderedContact* getFollowedContact();
 
-    /**
-     * @brief Set the contact to follow.
+    /*
+     *
      */
     void setFollowId(int id);
 
-    /**
-     * @brief Cycle to next contact for following.
+    /*
+     *
      */
     void nextFollow();
 
-    /**
-     * @brief Cycle to previous contact for following.
+    /*
+     *
      */
     void prevFollow();
 
-    /**
-     * @brief Toggle trail visibility.
+    /*
+     *
      */
     void toggleTrails();
 
-    /**
-     * @brief Set scale for all contacts.
+    /*
+     *
      */
     void setScale(double scale);
 
-    /**
-     * @brief Get all contact IDs.
+    /*
+     *
      */
     std::vector<int> getContactIds() const;
 
-    /**
-     * @brief Clear all contacts.
+    /*
+     *
      */
     void clear();
 
-    /**
-     * @brief Interpolate contact positions for smooth rendering.
+    /*
+     *
      * @param dt Delta time since last frame.
      */
     void interpolateContacts(float dt);
 
-    /**
-     * @brief Get the contacts parent node.
+    /*
+     *
      */
     Ogre::SceneNode* getContactsNode() const { return contacts_node_; }
 
