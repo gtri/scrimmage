@@ -220,11 +220,38 @@ if (${VTK_FOUND})
       include(${VTK_USE_FILE})
   endif()
   add_definitions(-DENABLE_VTK=1)
+  set(BUILD_VTK_VIEWER ON)
 else()
   add_definitions(-DENABLE_VTK=0)
+  set(BUILD_VTK_VIEWER OFF)
   message(--------------------------)
-	message("VTK_NOT_FOUND, Scrimmage will not have a GUI")
+	message("VTK_NOT_FOUND, Scrimmage will not have a VTK-based GUI")
   message(--------------------------)
+endif()
+
+########################################################
+# Find Ogre3D
+########################################################
+find_package(OGRE 1.12 QUIET COMPONENTS Bites RTShaderSystem)
+if(OGRE_FOUND)
+  message(STATUS "Found Ogre3D Version: ${OGRE_VERSION}")
+  include_directories(SYSTEM ${OGRE_INCLUDE_DIRS})
+  add_definitions(-DENABLE_OGRE=1)
+  set(BUILD_OGRE_VIEWER ON)
+else()
+  add_definitions(-DENABLE_OGRE=0)
+  set(BUILD_OGRE_VIEWER OFF)
+endif()
+
+# Report which viewers will be built
+if(BUILD_VTK_VIEWER AND BUILD_OGRE_VIEWER)
+  message(STATUS "Building both VTK and Ogre3D viewers (use -ogre flag at runtime to select Ogre)")
+elseif(BUILD_VTK_VIEWER)
+  message(STATUS "Building VTK viewer only")
+elseif(BUILD_OGRE_VIEWER)
+  message(STATUS "Building Ogre3D viewer only")
+else()
+  message(STATUS "No viewer will be built (neither VTK nor Ogre3D found)")
 endif()
 
 ########################################################

@@ -7,17 +7,40 @@ SET (LIB_MINOR 0)
 SET (LIB_RELEASE 1)
 SET (_soversion ${LIB_MAJOR}.${LIB_MINOR}.${LIB_RELEASE})
 
-# Build either Ogre or VTK viewer based on configuration
+# Collect sources from all available viewer backends
+SET(SRCS)
+SET(VIEWER_LIBS)
+
+# Add Ogre3D viewer sources if available
 if(BUILD_OGRE_VIEWER)
-  # Ogre3D-based viewer
-  SET(SRCS
+  list(APPEND SRCS
     ogre/CameraController.cpp
     ogre/ContactRenderer.cpp
     ogre/MaterialPool.cpp
     ogre/OgreViewer.cpp
     ogre/ShapeRenderer.cpp
   )
+  list(APPEND VIEWER_LIBS ${OGRE_LIBRARIES})
+endif()
 
+# Add VTK viewer sources if available
+if(BUILD_VTK_VIEWER)
+  list(APPEND SRCS
+    CameraInterface.cpp
+    Grid.cpp
+    OriginAxes.cpp
+    Updater.cpp
+    Viewer.cpp
+  )
+  if(VTK_LIBRARIES)
+    list(APPEND VIEWER_LIBS ${VTK_LIBRARIES})
+  else()
+    list(APPEND VIEWER_LIBS vtkHybrid vtkWidgets)
+  endif()
+endif()
+
+# Create the library
+if(SRCS)
   ADD_LIBRARY(${LIBRARY_NAME} SHARED ${SRCS})
 
   add_dependencies(${LIBRARY_NAME}
@@ -28,43 +51,20 @@ if(BUILD_OGRE_VIEWER)
     scrimmage-core
     scrimmage-protos
     scrimmage-boost
-    ${OGRE_LIBRARIES}
+    ${VIEWER_LIBS}
   )
 
-  target_include_directories(${LIBRARY_NAME} SYSTEM PUBLIC ${OGRE_INCLUDE_DIRS})
+  if(BUILD_OGRE_VIEWER)
+    target_include_directories(${LIBRARY_NAME} SYSTEM PUBLIC ${OGRE_INCLUDE_DIRS})
+  endif()
 
-elseif(BUILD_VTK_VIEWER)
-  # VTK-based viewer (original)
-  SET(SRCS CameraInterface.cpp Grid.cpp OriginAxes.cpp Updater.cpp Viewer.cpp)
-
-  ADD_LIBRARY(${LIBRARY_NAME} SHARED ${SRCS})
-
-  add_dependencies(${LIBRARY_NAME}
-    scrimmage-core
-    scrimmage-protos)
-
-  if(VTK_LIBRARIES)
-    target_link_libraries(${LIBRARY_NAME}
-      scrimmage-core
-      scrimmage-protos
-      scrimmage-boost
-      ${VTK_LIBRARIES})
-    if(${VTK_MAJOR_VERSION} EQUAL 9)
-      vtk_module_autoinit(
-        TARGETS ${LIBRARY_NAME}
-        MODULES ${VTK_LIBRARIES})
-    endif()
-  else()
-    target_link_libraries(${LIBRARY_NAME}
-      scrimmage-core
-      scrimmage-protos
-      scrimmage-boost
-      vtkHybrid
-      vtkWidgets)
+  if(BUILD_VTK_VIEWER AND VTK_LIBRARIES AND ${VTK_MAJOR_VERSION} EQUAL 9)
+    vtk_module_autoinit(
+      TARGETS ${LIBRARY_NAME}
+      MODULES ${VTK_LIBRARIES})
   endif()
 else()
   # No viewer - create empty library for compatibility
-  SET(SRCS)
   ADD_LIBRARY(${LIBRARY_NAME} SHARED ${SRCS})
   message(WARNING "No viewer backend available - scrimmage-viewer will be empty")
 endif()

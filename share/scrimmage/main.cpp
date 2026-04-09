@@ -60,6 +60,7 @@
 #endif
 
 #include <boost/optional.hpp>
+#include <getopt.h>
 
 #include "scrimmage/log/Log.h"
 
@@ -101,9 +102,18 @@ int main(int argc, char* argv[]) {
     std::string seed = "";
     std::ostringstream overrides;
     bool first_override = true;
+    bool use_ogre = false;
+
+    // Long options for getopt
+    static struct option long_options[] = {
+        {"ogre", no_argument, 0, 'o'},
+        {"help", no_argument, 0, 'h'},
+        {0, 0, 0, 0}
+    };
 
     int opt;
-    while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
+    int option_index = 0;
+    while ((opt = getopt_long(argc, argv, "t:j:s:oh", long_options, &option_index)) != -1) {
         switch (opt) {
             case 't':
                 task_id = std::stoi(std::string(optarg));
@@ -115,9 +125,21 @@ int main(int argc, char* argv[]) {
                 seed = std::string(optarg);
                 seed_set = true;
                 break;
+            case 'o':
+                use_ogre = true;
+                break;
+            case 'h':
+                cout << "usage: " << argv[0] << " [options] [var:=value ...] scenario.xml [var:=value ...]" << endl;
+                cout << "Options:" << endl;
+                cout << "  -t <task_id>    Set task ID" << endl;
+                cout << "  -j <job_id>     Set job ID" << endl;
+                cout << "  -s <seed>       Set random seed" << endl;
+                cout << "  --ogre, -o      Use Ogre3D viewer instead of VTK" << endl;
+                cout << "  --help, -h      Show this help message" << endl;
+                return 0;
             case '?':
-                if (optopt == 't') {
-                    fprintf(stderr, "Option -%d requires an integer argument.\n", optopt);
+                if (optopt == 't' || optopt == 'j' || optopt == 's') {
+                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
                 } else {
                     fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
                 }
@@ -179,73 +201,68 @@ int main(int argc, char* argv[]) {
 
 #if ENABLE_VTK == 0 && ENABLE_OGRE == 0
     // If no GUI was built, un-pause by default.
+    (void)use_ogre;  // Unused when no viewer available
     simcontrol.pause(false);
+#else
+    // Runtime viewer selection
+    std::shared_ptr<scrimmage::Viewer> vtk_viewer = nullptr;
+    std::shared_ptr<scrimmage::viewer::OgreViewer> ogre_viewer = nullptr;
+
+    if (simcontrol.enable_gui()) {
+        auto outgoing = simcontrol.outgoing_interface();
+        auto incoming = simcontrol.incoming_interface();
+
+        // Get the camera params from mission file, if they exist
+        std::map<std::string, std::string> camera_params;
+        auto it_camera = simcontrol.mp()->attributes().find("camera");
+        if (it_camera != simcontrol.mp()->attributes().end()) {
+            camera_params = it_camera->second;
+        }
+
+#if ENABLE_OGRE == 1 && ENABLE_VTK == 1
+        // Both viewers available - select based on flag
+        if (use_ogre) {
+            ogre_viewer = std::make_shared<scrimmage::viewer::OgreViewer>();
+            ogre_viewer->set_incoming_interface(outgoing);
+            ogre_viewer->set_outgoing_interface(incoming);
+            ogre_viewer->set_enable_network(false);
+            if (!ogre_viewer->init(simcontrol.mp(), camera_params)) {
+                return -1;
+            }
+            viewer_thread = std::make_shared<std::thread>([&]() { ogre_viewer->run(); });
+        } else {
+            vtk_viewer = std::make_shared<scrimmage::Viewer>();
+            vtk_viewer->set_incoming_interface(outgoing);
+            vtk_viewer->set_outgoing_interface(incoming);
+            vtk_viewer->set_enable_network(false);
+            if (!vtk_viewer->init(simcontrol.mp(), camera_params)) {
+                return -1;
+            }
+            viewer_thread = std::make_shared<std::thread>([&]() { vtk_viewer->run(); });
+        }
 #elif ENABLE_OGRE == 1
-    // Ogre3D-based viewer
-    std::shared_ptr<scrimmage::viewer::OgreViewer> viewer = nullptr;
-
-    if (simcontrol.enable_gui()) {
-        viewer = std::make_shared<scrimmage::viewer::OgreViewer>();
-
-        auto outgoing = simcontrol.outgoing_interface();
-        auto incoming = simcontrol.incoming_interface();
-
-        viewer->set_incoming_interface(outgoing);
-        viewer->set_outgoing_interface(incoming);
-        viewer->set_enable_network(false);
-
-        // Get the camera params from mission file, if they exist
-        std::map<std::string, std::string> camera_params;
-        auto it_camera = simcontrol.mp()->attributes().find("camera");
-        if (it_camera != simcontrol.mp()->attributes().end()) {
-            camera_params = it_camera->second;
-        }
-
-        // Initialize the Ogre3D GUI viewer
-        if (!viewer->init(simcontrol.mp(), camera_params)) {
+        // Only Ogre available
+        (void)use_ogre;
+        ogre_viewer = std::make_shared<scrimmage::viewer::OgreViewer>();
+        ogre_viewer->set_incoming_interface(outgoing);
+        ogre_viewer->set_outgoing_interface(incoming);
+        ogre_viewer->set_enable_network(false);
+        if (!ogre_viewer->init(simcontrol.mp(), camera_params)) {
             return -1;
         }
-
-        // Run the viewer in its own thread
-        auto viewer_thread_func = [&]() { viewer->run(); };
-        viewer_thread = std::make_shared<std::thread>(viewer_thread_func);
-
-    } else {
-        // If the GUI isn't enabled, un-pause by default.
-        simcontrol.pause(false);
-    }
+        viewer_thread = std::make_shared<std::thread>([&]() { ogre_viewer->run(); });
 #elif ENABLE_VTK == 1
-    // VTK-based viewer (original)
-    // If the GUI is enabled, the viewer will be run in a separate thread. Use
-    // a shared_ptr to keep it "in scope", if it is created.
-    std::shared_ptr<scrimmage::Viewer> viewer = nullptr;
-
-    if (simcontrol.enable_gui()) {
-        viewer = std::make_shared<scrimmage::Viewer>();
-
-        auto outgoing = simcontrol.outgoing_interface();
-        auto incoming = simcontrol.incoming_interface();
-
-        viewer->set_incoming_interface(outgoing);
-        viewer->set_outgoing_interface(incoming);
-        viewer->set_enable_network(false);
-
-        // Get the camera params from mission file, if they exist
-        std::map<std::string, std::string> camera_params;
-        auto it_camera = simcontrol.mp()->attributes().find("camera");
-        if (it_camera != simcontrol.mp()->attributes().end()) {
-            camera_params = it_camera->second;
-        }
-
-        // Initialize the VTK GUI viewer
-        if (!viewer->init(simcontrol.mp(), camera_params)) {
+        // Only VTK available
+        (void)use_ogre;
+        vtk_viewer = std::make_shared<scrimmage::Viewer>();
+        vtk_viewer->set_incoming_interface(outgoing);
+        vtk_viewer->set_outgoing_interface(incoming);
+        vtk_viewer->set_enable_network(false);
+        if (!vtk_viewer->init(simcontrol.mp(), camera_params)) {
             return -1;
         }
-
-        // Run the viewer in its own thread
-        auto viewer_thread_func = [&]() { viewer->run(); };
-        viewer_thread = std::make_shared<std::thread>(viewer_thread_func);
-
+        viewer_thread = std::make_shared<std::thread>([&]() { vtk_viewer->run(); });
+#endif
     } else {
         // If the GUI isn't enabled, un-pause by default.
         simcontrol.pause(false);
