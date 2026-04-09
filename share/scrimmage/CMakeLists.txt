@@ -27,7 +27,8 @@ target_link_libraries(${APP_NAME}
   dl
   )
 
-if (NOT EXTERNAL AND ${VTK_FOUND})
+# Link against scrimmage-viewer if either VTK or Ogre viewer is built
+if (NOT EXTERNAL AND (BUILD_VTK_VIEWER OR BUILD_OGRE_VIEWER))
   target_link_libraries(${APP_NAME}
     scrimmage-viewer
     )

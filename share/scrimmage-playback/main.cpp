@@ -36,6 +36,8 @@
 #include "scrimmage/parse/ParseUtils.h"
 #if ENABLE_VTK == 1
 #include "scrimmage/viewer/Viewer.h"
+#elif ENABLE_OGRE == 1
+#include "scrimmage/viewer/ogre/OgreViewer.h"
 #endif
 
 #include <chrono>  // NOLINT
@@ -245,6 +247,7 @@ int main(int argc, char* argv[]) {
     }
     mp->set_log_dir(output_dir);
 
+#if ENABLE_VTK == 1
     sc::Viewer viewer;
     viewer.set_enable_network(false);
     viewer.set_incoming_interface(to_gui_interface);
@@ -262,6 +265,20 @@ int main(int argc, char* argv[]) {
 
     viewer.init(mp, {});
     viewer.run();
+#elif ENABLE_OGRE == 1
+    sc::viewer::OgreViewer viewer;
+    viewer.set_enable_network(false);
+    viewer.set_incoming_interface(to_gui_interface);
+    viewer.set_outgoing_interface(from_gui_interface);
+    viewer.init(mp, {});
+    viewer.run();
+#else
+    cout << "No viewer available. Playback running without visualization." << endl;
+    // Sleep to let playback thread complete
+    while (!quit) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+#endif
 
     cout << "Playback Complete" << endl;
     return 0;
