@@ -61,6 +61,7 @@
 
 #include <boost/optional.hpp>
 #include <getopt.h>
+#include <sys/prctl.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -82,24 +83,36 @@ namespace {
     void cleanup_vnc() {
         if (!vnc_started_global) return;
         vnc_started_global = false;  // Prevent double cleanup
-        if (xvfb_pid > 0) kill(xvfb_pid, SIGKILL);
-        if (x11vnc_pid > 0) kill(x11vnc_pid, SIGKILL);
-        if (websockify_pid > 0) kill(websockify_pid, SIGKILL);
-        // Also kill by name in case PIDs were lost
-        system("pkill -9 -f 'Xvfb :99' 2>/dev/null");
-        system("pkill -9 -f 'x11vnc.*:99' 2>/dev/null");
-        system("pkill -9 -f 'websockify.*6080' 2>/dev/null");
+        // Kill entire process groups (negative PID)
+        if (xvfb_pid > 0) {
+            kill(-xvfb_pid, SIGKILL);
+            kill(xvfb_pid, SIGKILL);
+        }
+        if (x11vnc_pid > 0) {
+            kill(-x11vnc_pid, SIGKILL);
+            kill(x11vnc_pid, SIGKILL);
+        }
+        if (websockify_pid > 0) {
+            kill(-websockify_pid, SIGKILL);
+            kill(websockify_pid, SIGKILL);
+        }
     }
     
     pid_t start_process(const char* cmd) {
         pid_t pid = fork();
         if (pid == 0) {
-            // Child - redirect output to /dev/null and exec
+            // Child - die when parent dies
+            prctl(PR_SET_PDEATHSIG, SIGKILL);
+            // Become a new process group leader
+            setpgid(0, 0);
+            // Redirect output to /dev/null and exec
             freopen("/dev/null", "w", stdout);
             freopen("/dev/null", "w", stderr);
             execl("/bin/sh", "sh", "-c", cmd, nullptr);
             _exit(1);
         }
+        // Parent - also set process group (handles race condition)
+        if (pid > 0) setpgid(pid, pid);
         return pid;
     }
     
@@ -109,20 +122,34 @@ namespace {
         usleep(500000);  // 0.5s
         
         // Start Xvfb
-        xvfb_pid = start_process("Xvfb :99 -screen 0 1280x800x24 +extension GLX +render -noreset");
-        usleep(500000);
-        if (kill(xvfb_pid, 0) != 0) {
-            cerr << "Failed to start Xvfb" << endl;
+        xvfb_pid = start_process("exec Xvfb :99 -screen 0 1280x800x24 +extension GLX +render -noreset");
+        
+        // Wait for Xvfb to be ready (up to 5 seconds)
+        bool xvfb_ready = false;
+        for (int i = 0; i < 50; i++) {
+            usleep(100000);  // 100ms
+            if (kill(xvfb_pid, 0) != 0) {
+                cerr << "Xvfb process died" << endl;
+                break;
+            }
+            // Check if display :99 is available
+            if (system("xdpyinfo -display :99 >/dev/null 2>&1") == 0) {
+                xvfb_ready = true;
+                break;
+            }
+        }
+        if (!xvfb_ready) {
+            cerr << "Failed to start Xvfb - display :99 not available" << endl;
             return false;
         }
         
         // Start x11vnc
-        x11vnc_pid = start_process("x11vnc -display :99 -forever -nopw -shared -rfbport 5900");
-        usleep(300000);
+        x11vnc_pid = start_process("exec x11vnc -display :99 -forever -nopw -shared -rfbport 5900");
+        usleep(500000);
         
         // Start websockify for noVNC
-        websockify_pid = start_process("websockify --web=/usr/share/novnc 6080 localhost:5900");
-        usleep(300000);
+        websockify_pid = start_process("exec websockify --web=/usr/share/novnc 6080 localhost:5900");
+        usleep(500000);
         
         cout << "\n=============================================" << endl;
         cout << "View in browser: http://localhost:6080/vnc.html" << endl;
@@ -163,6 +190,7 @@ int main(int argc, char* argv[]) {
     memset(&sa, 0, sizeof(sa));
     shutdown_handler = [&](int /*s*/) {
         cout << endl << "Exiting gracefully" << endl;
+        cleanup_vnc();  // Clean up VNC on signal
         simcontrol.force_exit();
     };
     sa.sa_handler = signal_handler;
