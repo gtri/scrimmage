@@ -477,10 +477,12 @@ bool OgreViewer::mouseMoved(const OgreBites::MouseMotionEvent& evt) {
 }
 
 bool OgreViewer::mousePressed(const OgreBites::MouseButtonEvent& evt) {
+    camera_controller_->mousePressed(evt.button);
     return true;
 }
 
 bool OgreViewer::mouseReleased(const OgreBites::MouseButtonEvent& evt) {
+    camera_controller_->mouseReleased(evt.button);
     return true;
 }
 

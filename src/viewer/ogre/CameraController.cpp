@@ -43,6 +43,10 @@ CameraController::~CameraController() {
 }
 
 void CameraController::init() {
+    // Set fixed yaw axis to prevent camera flipping
+    // Ogre's Y is up (which corresponds to SCRIMMAGE's Z/Up)
+    cam_node_->setFixedYawAxis(true, Ogre::Vector3::UNIT_Y);
+    
     // Set default camera position
     resetCamera();
 }
@@ -65,6 +69,9 @@ void CameraController::resetCamera() {
 
 void CameraController::setViewMode(ViewMode mode) {
     view_mode_ = mode;
+    // Reset user offsets when mode changes
+    user_yaw_ = 0.0f;
+    user_pitch_ = 0.0f;
 }
 
 void CameraController::nextMode() {
@@ -82,6 +89,9 @@ void CameraController::nextMode() {
             view_mode_ = ViewMode::FOLLOW;
             break;
     }
+    // Reset user offsets when cycling modes
+    user_yaw_ = 0.0f;
+    user_pitch_ = 0.0f;
 }
 
 void CameraController::incFollowOffset() {
@@ -113,31 +123,129 @@ void CameraController::undoCamera() {
     orientation_history_.pop_back();
 }
 
+void CameraController::mousePressed(int button) {
+    // Button: 1 = left, 2 = middle, 3 = right
+    switch (button) {
+        case 1:
+            left_button_down_ = true;
+            if (view_mode_ == ViewMode::FREE) {
+                // Set up orbit pivot - point in front of camera
+                orbit_pivot_ = cam_node_->getPosition() + 
+                              cam_node_->getOrientation() * Ogre::Vector3(0, 0, -100);
+                orbit_distance_ = (cam_node_->getPosition() - orbit_pivot_).length();
+            }
+            break;
+        case 2:
+            middle_button_down_ = true;
+            break;
+        case 3:
+            right_button_down_ = true;
+            break;
+    }
+}
+
+void CameraController::mouseReleased(int button) {
+    switch (button) {
+        case 1: left_button_down_ = false; break;
+        case 2: middle_button_down_ = false; break;
+        case 3: right_button_down_ = false; break;
+    }
+}
+
 void CameraController::mouseMoved(float relX, float relY) {
-    if (view_mode_ != ViewMode::FREE) return;
+    // In FOLLOW/OFFSET/FPV modes, adjust user view offsets
+    if (view_mode_ != ViewMode::FREE) {
+        if (left_button_down_ || right_button_down_) {
+            // Orbit/look: adjust yaw and pitch
+            user_yaw_ -= relX * rotate_speed_;
+            user_pitch_ -= relY * rotate_speed_;
+            // Clamp pitch
+            user_pitch_ = std::clamp(user_pitch_, -60.0f, 60.0f);
+        }
+        if (middle_button_down_) {
+            // Pan: adjust follow offset (height and distance)
+            follow_height_ += relY * 0.5;
+            follow_offset_ += relX * 0.5;
+            follow_height_ = std::max(5.0, follow_height_);
+            follow_offset_ = std::max(10.0, follow_offset_);
+        }
+        return;
+    }
     
-    yaw_ -= relX * rotate_speed_;
-    pitch_ -= relY * rotate_speed_;
+    // FREE mode: full camera control
+    // Left button: Orbit around pivot
+    if (left_button_down_) {
+        // Orbit the camera around the pivot point
+        Ogre::Vector3 camPos = cam_node_->getPosition();
+        Ogre::Vector3 offset = camPos - orbit_pivot_;
+        
+        // Apply yaw (horizontal rotation around Y axis)
+        Ogre::Quaternion yawRot(Ogre::Degree(-relX * rotate_speed_), Ogre::Vector3::UNIT_Y);
+        offset = yawRot * offset;
+        
+        // Apply pitch (vertical rotation) but keep camera above ground
+        Ogre::Vector3 right = cam_node_->getOrientation() * Ogre::Vector3::UNIT_X;
+        Ogre::Quaternion pitchRot(Ogre::Degree(-relY * rotate_speed_), right);
+        Ogre::Vector3 newOffset = pitchRot * offset;
+        
+        // Only apply pitch if it doesn't flip camera
+        if (newOffset.y > 5.0f || relY < 0) {
+            offset = newOffset;
+        }
+        
+        cam_node_->setPosition(orbit_pivot_ + offset);
+        cam_node_->lookAt(orbit_pivot_, Ogre::Node::TS_WORLD);
+        return;
+    }
     
-    // Clamp pitch to avoid gimbal lock
-    pitch_ = std::clamp(pitch_, -89.0f, 89.0f);
+    // Middle button: Pan (translate camera)
+    if (middle_button_down_) {
+        Ogre::Vector3 right = cam_node_->getOrientation() * Ogre::Vector3::UNIT_X;
+        Ogre::Vector3 up = cam_node_->getOrientation() * Ogre::Vector3::UNIT_Y;
+        
+        float panSpeed = move_speed_ * 0.01f;
+        cam_node_->translate(-right * relX * panSpeed + up * relY * panSpeed, Ogre::Node::TS_WORLD);
+        
+        // Also move orbit pivot so subsequent orbits work correctly
+        orbit_pivot_ += (-right * relX * panSpeed + up * relY * panSpeed);
+        return;
+    }
     
-    Ogre::Quaternion yawRot(Ogre::Degree(yaw_), Ogre::Vector3::UNIT_Y);
-    Ogre::Quaternion pitchRot(Ogre::Degree(pitch_), Ogre::Vector3::UNIT_X);
-    
-    cam_node_->setOrientation(yawRot * pitchRot);
+    // Right button: Free look (rotate in place)
+    if (right_button_down_) {
+        yaw_ -= relX * rotate_speed_;
+        pitch_ -= relY * rotate_speed_;
+        
+        // Clamp pitch to avoid gimbal lock
+        pitch_ = std::clamp(pitch_, -89.0f, 89.0f);
+        
+        Ogre::Quaternion yawRot(Ogre::Degree(yaw_), Ogre::Vector3::UNIT_Y);
+        Ogre::Quaternion pitchRot(Ogre::Degree(pitch_), Ogre::Vector3::UNIT_X);
+        
+        cam_node_->setOrientation(yawRot * pitchRot);
+        return;
+    }
 }
 
 void CameraController::mouseWheel(float delta) {
+    // Zoom: move camera closer/farther from orbit pivot
+    Ogre::Vector3 direction = cam_node_->getOrientation() * Ogre::Vector3::NEGATIVE_UNIT_Z;
+    
+    // Zoom amount scales with distance
+    float zoomAmount = delta * move_speed_ * 0.5f;
+    
     if (view_mode_ == ViewMode::FREE) {
-        move_speed_ += delta * 10.0f;
-        move_speed_ = std::max(10.0f, move_speed_);
+        // In free mode, just move forward/back
+        cam_node_->translate(direction * zoomAmount, Ogre::Node::TS_WORLD);
     } else {
+        // In follow modes, adjust the offset distance
         if (delta > 0) {
             decFollowOffset();
         } else {
             incFollowOffset();
         }
+        // Also update orbit distance
+        orbit_distance_ = std::max(10.0, orbit_distance_ - delta * 10.0);
     }
 }
 
@@ -192,13 +300,22 @@ void CameraController::updateFollowCamera(float dt) {
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     
     // Calculate desired camera position (behind and above target)
+    // Use world-space offset: behind (-Z in Ogre) and above (+Y)
     Ogre::Vector3 offset(0, static_cast<Ogre::Real>(follow_height_),
-                         static_cast<Ogre::Real>(-follow_offset_));
+                         static_cast<Ogre::Real>(follow_offset_));
     
-    // Get target's forward direction (in Ogre space)
+    // Extract only yaw from target orientation to avoid camera flipping
+    // when target pitches or rolls
     Ogre::Quaternion targetOrient = target->sceneNode->getOrientation();
+    Ogre::Radian yaw = targetOrient.getYaw();
+    Ogre::Quaternion yawOnly(yaw, Ogre::Vector3::UNIT_Y);
     
-    Ogre::Vector3 desiredPos = targetPos + targetOrient * offset;
+    // Apply user's orbit adjustment on top of entity heading
+    Ogre::Quaternion userYaw(Ogre::Degree(user_yaw_), Ogre::Vector3::UNIT_Y);
+    Ogre::Quaternion userPitch(Ogre::Degree(user_pitch_), Ogre::Vector3::UNIT_X);
+    
+    // Apply yaw-only rotation + user adjustments to offset
+    Ogre::Vector3 desiredPos = targetPos + yawOnly * userYaw * userPitch * offset;
     
     // Smooth interpolation
     Ogre::Vector3 currentPos = cam_node_->getPosition();
@@ -234,11 +351,15 @@ void CameraController::updateOffsetCamera(float dt) {
     
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     
-    // Fixed offset from target (world-aligned)
+    // World-aligned fixed offset from target (doesn't follow target heading)
     Ogre::Vector3 offset(0, static_cast<Ogre::Real>(follow_height_),
-                         static_cast<Ogre::Real>(-follow_offset_));
+                         static_cast<Ogre::Real>(follow_offset_));
     
-    cam_node_->setPosition(targetPos + offset);
+    // Apply user's orbit adjustment
+    Ogre::Quaternion userYaw(Ogre::Degree(user_yaw_), Ogre::Vector3::UNIT_Y);
+    Ogre::Quaternion userPitch(Ogre::Degree(user_pitch_), Ogre::Vector3::UNIT_X);
+    
+    cam_node_->setPosition(targetPos + userYaw * userPitch * offset);
     cam_node_->lookAt(targetPos, Ogre::Node::TS_WORLD);
 }
 
@@ -246,15 +367,30 @@ void CameraController::updateFPVCamera(float dt) {
     RenderedContact* target = contact_renderer_->getFollowedContact();
     if (!target || !target->sceneNode) return;
     
-    // Place camera at entity position
+    // Place camera at entity position looking forward
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     Ogre::Quaternion targetOrient = target->sceneNode->getOrientation();
     
-    // Slight offset forward and up for FPV
-    Ogre::Vector3 fpvOffset = targetOrient * Ogre::Vector3(0, 2, 5);
+    // After coordinate conversion, entity's forward direction is UNIT_X
+    // (SCRIMMAGE North/+Y becomes rotated in Ogre space)
+    Ogre::Vector3 entityForward = targetOrient * Ogre::Vector3::UNIT_X;
+    Ogre::Vector3 entityUp = Ogre::Vector3::UNIT_Y;  // World up
+    
+    // FPV: slightly behind and above the entity, looking forward
+    Ogre::Vector3 fpvOffset = -entityForward * 15 + entityUp * 5;
     
     cam_node_->setPosition(targetPos + fpvOffset);
-    cam_node_->setOrientation(targetOrient);
+    
+    // Apply user look adjustment to where we're looking
+    Ogre::Vector3 lookTarget = targetPos + entityForward * 100;
+    
+    // User yaw/pitch adjusts look direction from center
+    Ogre::Quaternion userYaw(Ogre::Degree(user_yaw_), Ogre::Vector3::UNIT_Y);
+    Ogre::Quaternion userPitch(Ogre::Degree(user_pitch_), Ogre::Vector3::UNIT_X);
+    Ogre::Vector3 lookDir = lookTarget - cam_node_->getPosition();
+    lookDir = userYaw * userPitch * lookDir;
+    
+    cam_node_->lookAt(cam_node_->getPosition() + lookDir, Ogre::Node::TS_WORLD);
 }
 
 }  // namespace viewer

@@ -129,14 +129,33 @@ class CameraController : public Ogre::FrameListener {
     void undoCamera();
 
     /**
-     * @brief Process mouse movement (for free camera).
+     * @brief Process mouse movement.
+     * Behavior depends on which mouse button is pressed:
+     * - Left button: Orbit around target/pivot
+     * - Middle button: Pan camera
+     * - Right button: Free look (rotate in place)
      */
     void mouseMoved(float relX, float relY);
+
+    /**
+     * @brief Process mouse button press.
+     */
+    void mousePressed(int button);
+
+    /**
+     * @brief Process mouse button release.
+     */
+    void mouseReleased(int button);
 
     /**
      * @brief Process mouse wheel (zoom).
      */
     void mouseWheel(float delta);
+
+    /**
+     * @brief Check if user is actively dragging the camera.
+     */
+    bool isDragging() const { return left_button_down_ || middle_button_down_ || right_button_down_; }
 
     /**
      * @brief Process keyboard movement input.
@@ -167,6 +186,10 @@ class CameraController : public Ogre::FrameListener {
     double follow_height_ = 50.0;
     double follow_smooth_ = 5.0;
 
+    // User-adjustable view offsets (preserved within each mode)
+    float user_yaw_ = 0.0f;    // Horizontal orbit angle around target
+    float user_pitch_ = 0.0f;  // Vertical angle adjustment
+
     // Free camera state
     float move_speed_ = 100.0f;
     float rotate_speed_ = 0.3f;
@@ -183,6 +206,15 @@ class CameraController : public Ogre::FrameListener {
     std::vector<Ogre::Vector3> position_history_;
     std::vector<Ogre::Quaternion> orientation_history_;
     static const size_t MAX_HISTORY = 10;
+
+    // Mouse button state
+    bool left_button_down_ = false;
+    bool middle_button_down_ = false;
+    bool right_button_down_ = false;
+
+    // Orbit pivot point
+    Ogre::Vector3 orbit_pivot_ = Ogre::Vector3::ZERO;
+    double orbit_distance_ = 200.0;
 };
 
 }  // namespace viewer
