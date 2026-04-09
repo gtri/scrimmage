@@ -290,12 +290,26 @@ void OgreViewer::shutdown() {
 }
 
 void OgreViewer::processInterfaceUpdates() {
-    if (!outgoing_interface_) return;
+    if (!incoming_interface_) return;
+    
+    // Check for shutdown signal from SimControl via SimInfo
+    {
+        std::lock_guard<std::mutex> lock(incoming_interface_->sim_info_mutex);
+        auto& info_list = incoming_interface_->sim_info();
+        for (const auto& info : info_list) {
+            if (info.shutting_down()) {
+                shutting_down_ = true;
+                info_list.clear();
+                return;
+            }
+        }
+        info_list.clear();
+    }
     
     // Process frames
     {
-        std::lock_guard<std::mutex> lock(outgoing_interface_->frames_mutex);
-        auto& frames = outgoing_interface_->frames();
+        std::lock_guard<std::mutex> lock(incoming_interface_->frames_mutex);
+        auto& frames = incoming_interface_->frames();
         while (!frames.empty()) {
             auto frame = frames.front();
             frames.pop_front();
@@ -309,8 +323,8 @@ void OgreViewer::processInterfaceUpdates() {
     
     // Process shapes
     {
-        std::lock_guard<std::mutex> lock(outgoing_interface_->shapes_mutex);
-        auto& shapes_list = outgoing_interface_->shapes();
+        std::lock_guard<std::mutex> lock(incoming_interface_->shapes_mutex);
+        auto& shapes_list = incoming_interface_->shapes();
         while (!shapes_list.empty()) {
             auto shapes = shapes_list.front();
             shapes_list.pop_front();
@@ -320,8 +334,8 @@ void OgreViewer::processInterfaceUpdates() {
     
     // Process contact visuals
     {
-        std::lock_guard<std::mutex> lock(outgoing_interface_->contact_visual_mutex);
-        auto& cv_list = outgoing_interface_->contact_visual();
+        std::lock_guard<std::mutex> lock(incoming_interface_->contact_visual_mutex);
+        auto& cv_list = incoming_interface_->contact_visual();
         while (!cv_list.empty()) {
             auto cv = cv_list.front();
             cv_list.pop_front();

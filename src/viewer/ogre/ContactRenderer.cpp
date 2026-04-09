@@ -151,9 +151,9 @@ void ContactRenderer::updateContact(RenderedContact& rc, const scrimmage_proto::
 }
 
 void ContactRenderer::updateTrail(RenderedContact& rc, const Ogre::Vector3& position) {
-    // Create trail point
+    // Create trail point with globally unique name
     std::string trailName = "Trail_" + std::to_string(rc.id) + "_" + 
-                            std::to_string(rc.trail.size());
+                            std::to_string(trail_counter_++);
     
     Ogre::ManualObject* trailPoint = scene_mgr_->createManualObject(trailName);
     Ogre::ColourValue color = MaterialPool::toOgreColor(rc.color);

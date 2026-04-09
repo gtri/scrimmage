@@ -153,6 +153,7 @@ class ContactRenderer {
     double scale_ = 1.0;
     bool show_trails_ = true;
     size_t max_trail_length_ = 100;
+    size_t trail_counter_ = 0;  // Global counter for unique trail names
 };
 
 }  // namespace viewer
