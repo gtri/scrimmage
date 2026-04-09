@@ -338,7 +338,7 @@ void OgreViewer::update(double dt) {
 }
 
 void OgreViewer::sendGuiMsg(const std::string& type, int value) {
-    if (!incoming_interface_) return;
+    if (!outgoing_interface_) return;
     
     scrimmage_proto::GUIMsg msg;
     
@@ -355,7 +355,7 @@ void OgreViewer::sendGuiMsg(const std::string& type, int value) {
         msg.set_shutting_down(true);
     }
     
-    incoming_interface_->push_gui_msg(msg);
+    outgoing_interface_->push_gui_msg(msg);
 }
 
 bool OgreViewer::keyPressed(const OgreBites::KeyboardEvent& evt) {
