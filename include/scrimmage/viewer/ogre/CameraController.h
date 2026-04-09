@@ -184,7 +184,7 @@ class CameraController : public Ogre::FrameListener {
     // Follow mode parameters
     double follow_offset_ = 100.0;
     double follow_height_ = 50.0;
-    double follow_smooth_ = 5.0;
+    double follow_smooth_ = 8.0;  // Match entity interpolation rate
 
     // User-adjustable view offsets (preserved within each mode)
     float user_yaw_ = 0.0f;    // Horizontal orbit angle around target
@@ -215,6 +215,10 @@ class CameraController : public Ogre::FrameListener {
     // Orbit pivot point
     Ogre::Vector3 orbit_pivot_ = Ogre::Vector3::ZERO;
     double orbit_distance_ = 200.0;
+
+    // Smoothed look target to reduce jitter
+    Ogre::Vector3 smoothed_look_target_ = Ogre::Vector3::ZERO;
+    bool look_target_initialized_ = false;
 };
 
 }  // namespace viewer

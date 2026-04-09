@@ -60,6 +60,11 @@ struct RenderedContact {
     int id = 0;
     int team_id = 0;
     bool exists = true;
+    
+    // For smooth interpolation
+    Ogre::Vector3 targetPosition = Ogre::Vector3::ZERO;
+    Ogre::Quaternion targetOrientation = Ogre::Quaternion::IDENTITY;
+    bool hasTarget = false;
 };
 
 /**
@@ -126,6 +131,12 @@ class ContactRenderer {
      * @brief Clear all contacts.
      */
     void clear();
+
+    /**
+     * @brief Interpolate contact positions for smooth rendering.
+     * @param dt Delta time since last frame.
+     */
+    void interpolateContacts(float dt);
 
     /**
      * @brief Get the contacts parent node.

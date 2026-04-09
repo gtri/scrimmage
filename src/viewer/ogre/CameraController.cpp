@@ -30,6 +30,7 @@
 #include "scrimmage/viewer/ogre/CameraController.h"
 #include "scrimmage/viewer/ogre/CoordinateConverter.h"
 #include <algorithm>
+#include <cmath>
 
 namespace scrimmage {
 namespace viewer {
@@ -69,9 +70,10 @@ void CameraController::resetCamera() {
 
 void CameraController::setViewMode(ViewMode mode) {
     view_mode_ = mode;
-    // Reset user offsets when mode changes
+    // Reset user offsets and look target when mode changes
     user_yaw_ = 0.0f;
     user_pitch_ = 0.0f;
+    look_target_initialized_ = false;
 }
 
 void CameraController::nextMode() {
@@ -89,9 +91,10 @@ void CameraController::nextMode() {
             view_mode_ = ViewMode::FOLLOW;
             break;
     }
-    // Reset user offsets when cycling modes
+    // Reset user offsets and look target when cycling modes
     user_yaw_ = 0.0f;
     user_pitch_ = 0.0f;
+    look_target_initialized_ = false;
 }
 
 void CameraController::incFollowOffset() {
@@ -297,6 +300,7 @@ void CameraController::updateFollowCamera(float dt) {
     RenderedContact* target = contact_renderer_->getFollowedContact();
     if (!target || !target->sceneNode) return;
     
+    // Entity position is already interpolated smoothly by ContactRenderer
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     
     // Calculate desired camera position (behind and above target)
@@ -317,12 +321,15 @@ void CameraController::updateFollowCamera(float dt) {
     // Apply yaw-only rotation + user adjustments to offset
     Ogre::Vector3 desiredPos = targetPos + yawOnly * userYaw * userPitch * offset;
     
-    // Smooth interpolation
+    // Smooth camera position
+    float smoothFactor = 1.0f - std::exp(-static_cast<float>(follow_smooth_) * dt);
+    smoothFactor = std::clamp(smoothFactor, 0.0f, 1.0f);
+    
     Ogre::Vector3 currentPos = cam_node_->getPosition();
-    Ogre::Vector3 newPos = currentPos + (desiredPos - currentPos) * 
-                           static_cast<Ogre::Real>(follow_smooth_ * dt);
+    Ogre::Vector3 newPos = currentPos + (desiredPos - currentPos) * smoothFactor;
     
     cam_node_->setPosition(newPos);
+    // Look directly at interpolated entity position (already smooth)
     cam_node_->lookAt(targetPos, Ogre::Node::TS_WORLD);
 }
 
@@ -349,6 +356,7 @@ void CameraController::updateOffsetCamera(float dt) {
     RenderedContact* target = contact_renderer_->getFollowedContact();
     if (!target || !target->sceneNode) return;
     
+    // Entity position is already interpolated smoothly
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     
     // World-aligned fixed offset from target (doesn't follow target heading)
@@ -359,7 +367,16 @@ void CameraController::updateOffsetCamera(float dt) {
     Ogre::Quaternion userYaw(Ogre::Degree(user_yaw_), Ogre::Vector3::UNIT_Y);
     Ogre::Quaternion userPitch(Ogre::Degree(user_pitch_), Ogre::Vector3::UNIT_X);
     
-    cam_node_->setPosition(targetPos + userYaw * userPitch * offset);
+    Ogre::Vector3 desiredPos = targetPos + userYaw * userPitch * offset;
+    
+    // Smooth camera position
+    float smoothFactor = 1.0f - std::exp(-static_cast<float>(follow_smooth_) * dt);
+    smoothFactor = std::clamp(smoothFactor, 0.0f, 1.0f);
+    
+    Ogre::Vector3 currentPos = cam_node_->getPosition();
+    Ogre::Vector3 newPos = currentPos + (desiredPos - currentPos) * smoothFactor;
+    
+    cam_node_->setPosition(newPos);
     cam_node_->lookAt(targetPos, Ogre::Node::TS_WORLD);
 }
 
@@ -367,24 +384,31 @@ void CameraController::updateFPVCamera(float dt) {
     RenderedContact* target = contact_renderer_->getFollowedContact();
     if (!target || !target->sceneNode) return;
     
-    // Place camera at entity position looking forward
+    // Entity position/orientation are already interpolated smoothly
     Ogre::Vector3 targetPos = target->sceneNode->getPosition();
     Ogre::Quaternion targetOrient = target->sceneNode->getOrientation();
     
     // After coordinate conversion, entity's forward direction is UNIT_X
-    // (SCRIMMAGE North/+Y becomes rotated in Ogre space)
     Ogre::Vector3 entityForward = targetOrient * Ogre::Vector3::UNIT_X;
     Ogre::Vector3 entityUp = Ogre::Vector3::UNIT_Y;  // World up
     
     // FPV: slightly behind and above the entity, looking forward
     Ogre::Vector3 fpvOffset = -entityForward * 15 + entityUp * 5;
+    Ogre::Vector3 desiredPos = targetPos + fpvOffset;
     
-    cam_node_->setPosition(targetPos + fpvOffset);
+    // Smooth camera position
+    float smoothFactor = 1.0f - std::exp(-static_cast<float>(follow_smooth_) * dt);
+    smoothFactor = std::clamp(smoothFactor, 0.0f, 1.0f);
     
-    // Apply user look adjustment to where we're looking
+    Ogre::Vector3 currentPos = cam_node_->getPosition();
+    Ogre::Vector3 newPos = currentPos + (desiredPos - currentPos) * smoothFactor;
+    
+    cam_node_->setPosition(newPos);
+    
+    // Look in the direction the entity is heading
     Ogre::Vector3 lookTarget = targetPos + entityForward * 100;
     
-    // User yaw/pitch adjusts look direction from center
+    // User yaw/pitch adjusts look direction
     Ogre::Quaternion userYaw(Ogre::Degree(user_yaw_), Ogre::Vector3::UNIT_Y);
     Ogre::Quaternion userPitch(Ogre::Degree(user_pitch_), Ogre::Vector3::UNIT_X);
     Ogre::Vector3 lookDir = lookTarget - cam_node_->getPosition();

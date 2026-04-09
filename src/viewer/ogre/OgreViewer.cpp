@@ -347,6 +347,9 @@ void OgreViewer::processInterfaceUpdates() {
 }
 
 void OgreViewer::update(double dt) {
+    // Interpolate entity positions for smooth rendering
+    contact_renderer_->interpolateContacts(static_cast<float>(dt));
+    
     // Update shape renderer (handles TTL)
     shape_renderer_->update(dt);
 }
