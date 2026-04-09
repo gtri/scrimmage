@@ -61,13 +61,85 @@
 
 #include <boost/optional.hpp>
 #include <getopt.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include "scrimmage/log/Log.h"
 
 using std::cout;
+using std::cerr;
 using std::endl;
 
 namespace sc = scrimmage;
+
+// VNC process management
+namespace {
+    pid_t xvfb_pid = 0;
+    pid_t x11vnc_pid = 0;
+    pid_t websockify_pid = 0;
+    bool vnc_started_global = false;
+    
+    void cleanup_vnc() {
+        if (!vnc_started_global) return;
+        vnc_started_global = false;  // Prevent double cleanup
+        if (xvfb_pid > 0) kill(xvfb_pid, SIGKILL);
+        if (x11vnc_pid > 0) kill(x11vnc_pid, SIGKILL);
+        if (websockify_pid > 0) kill(websockify_pid, SIGKILL);
+        // Also kill by name in case PIDs were lost
+        system("pkill -9 -f 'Xvfb :99' 2>/dev/null");
+        system("pkill -9 -f 'x11vnc.*:99' 2>/dev/null");
+        system("pkill -9 -f 'websockify.*6080' 2>/dev/null");
+    }
+    
+    pid_t start_process(const char* cmd) {
+        pid_t pid = fork();
+        if (pid == 0) {
+            // Child - redirect output to /dev/null and exec
+            freopen("/dev/null", "w", stdout);
+            freopen("/dev/null", "w", stderr);
+            execl("/bin/sh", "sh", "-c", cmd, nullptr);
+            _exit(1);
+        }
+        return pid;
+    }
+    
+    bool start_vnc_display() {
+        // Kill any existing VNC processes
+        cleanup_vnc();
+        usleep(500000);  // 0.5s
+        
+        // Start Xvfb
+        xvfb_pid = start_process("Xvfb :99 -screen 0 1280x800x24 +extension GLX +render -noreset");
+        usleep(500000);
+        if (kill(xvfb_pid, 0) != 0) {
+            cerr << "Failed to start Xvfb" << endl;
+            return false;
+        }
+        
+        // Start x11vnc
+        x11vnc_pid = start_process("x11vnc -display :99 -forever -nopw -shared -rfbport 5900");
+        usleep(300000);
+        
+        // Start websockify for noVNC
+        websockify_pid = start_process("websockify --web=/usr/share/novnc 6080 localhost:5900");
+        usleep(300000);
+        
+        cout << "\n=============================================" << endl;
+        cout << "View in browser: http://localhost:6080/vnc.html" << endl;
+        cout << "=============================================\n" << endl;
+        
+        setenv("DISPLAY", ":99", 1);
+        vnc_started_global = true;
+        return true;
+    }
+    
+    bool display_available() {
+        const char* display = getenv("DISPLAY");
+        if (!display || strlen(display) == 0) return false;
+        // Try to verify the display works (optional - could use XOpenDisplay if X11 headers available)
+        return true;
+    }
+}
 
 // Callback function for shutdown
 namespace {
@@ -81,6 +153,9 @@ void signal_handler(int signal) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
+    // Register VNC cleanup to run on any exit
+    std::atexit(cleanup_vnc);
+    
     sc::SimControl simcontrol;
 
     // Handle kill signals
@@ -209,6 +284,15 @@ int main(int argc, char* argv[]) {
     std::shared_ptr<scrimmage::viewer::OgreViewer> ogre_viewer = nullptr;
 
     if (simcontrol.enable_gui()) {
+        // Start VNC if no display is available
+        if (!display_available()) {
+            if (!start_vnc_display()) {
+                cout << "Warning: Could not start VNC display, running without GUI" << endl;
+                simcontrol.pause(false);
+                goto skip_viewer;
+            }
+        }
+
         auto outgoing = simcontrol.outgoing_interface();
         auto incoming = simcontrol.incoming_interface();
 
@@ -267,17 +351,18 @@ int main(int argc, char* argv[]) {
         // If the GUI isn't enabled, un-pause by default.
         simcontrol.pause(false);
     }
+skip_viewer:
 #endif
 
     // Run SimControl::run() blocking function, which steps through simulation
     if (not simcontrol.run()) {
         cout << "SimControl::run() failed." << endl;
-        return -1;
+        return -1;  // cleanup_vnc() called via atexit
     }
 
     if (not simcontrol.shutdown()) {
         cout << "Failed to shutdown properly." << endl;
-        return -1;
+        return -1;  // cleanup_vnc() called via atexit
     }
 
     // Join the viewer thread, if it was created
@@ -285,5 +370,6 @@ int main(int argc, char* argv[]) {
         viewer_thread->join();
     }
 
+    // cleanup_vnc() called automatically via atexit
     return 0;
 }
