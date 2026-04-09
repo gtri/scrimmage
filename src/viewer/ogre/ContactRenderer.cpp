@@ -130,21 +130,33 @@ void ContactRenderer::createContact(int id, const scrimmage_proto::Contact& cont
 }
 
 void ContactRenderer::updateContact(RenderedContact& rc, const scrimmage_proto::Contact& contact) {
-    // Update position
+    // Set target position for interpolation
     Ogre::Vector3 pos = CoordinateConverter::toOgre(
         contact.state().position().x(),
         contact.state().position().y(),
         contact.state().position().z());
-    rc.sceneNode->setPosition(pos);
+    
+    // Initialize position on first update
+    if (!rc.hasTarget) {
+        rc.sceneNode->setPosition(pos);
+        rc.hasTarget = true;
+    }
+    rc.targetPosition = pos;
 
-    // Update orientation
+    // Set target orientation for interpolation
     if (contact.state().has_orientation()) {
         const auto& q = contact.state().orientation();
-        rc.sceneNode->setOrientation(CoordinateConverter::toOgre(
-            scrimmage::Quaternion(q.w(), q.x(), q.y(), q.z())));
+        Ogre::Quaternion orient = CoordinateConverter::toOgre(
+            scrimmage::Quaternion(q.w(), q.x(), q.y(), q.z()));
+        
+        // Initialize orientation on first update
+        if (!rc.hasTarget) {
+            rc.sceneNode->setOrientation(orient);
+        }
+        rc.targetOrientation = orient;
     }
 
-    // Update trail
+    // Update trail at target position (not interpolated position)
     if (show_trails_) {
         updateTrail(rc, pos);
     }
@@ -430,6 +442,33 @@ void ContactRenderer::clear() {
         removeContact(id);
     }
     contacts_.clear();
+}
+
+void ContactRenderer::interpolateContacts(float dt) {
+    // Smooth factor using exponential smoothing
+    // Lower value = smoother but more lag, higher = snappier but more jitter
+    const float smoothSpeed = 8.0f;
+    float t = 1.0f - std::exp(-smoothSpeed * dt);
+    t = std::min(1.0f, std::max(0.0f, t));  // Clamp to [0, 1]
+    
+    for (auto& [id, rc] : contacts_) {
+        if (!rc.sceneNode || !rc.hasTarget) continue;
+        
+        // Interpolate position
+        Ogre::Vector3 currentPos = rc.sceneNode->getPosition();
+        Ogre::Vector3 diff = rc.targetPosition - currentPos;
+        
+        // Only interpolate if not already very close (reduces micro-jitter)
+        if (diff.squaredLength() > 0.0001f) {
+            Ogre::Vector3 newPos = currentPos + diff * t;
+            rc.sceneNode->setPosition(newPos);
+        }
+        
+        // Interpolate orientation using Slerp
+        Ogre::Quaternion currentOrient = rc.sceneNode->getOrientation();
+        Ogre::Quaternion newOrient = Ogre::Quaternion::Slerp(t, currentOrient, rc.targetOrientation, true);
+        rc.sceneNode->setOrientation(newOrient);
+    }
 }
 
 }  // namespace viewer
