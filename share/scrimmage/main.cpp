@@ -117,8 +117,10 @@ namespace {
     }
     
     bool start_vnc_display() {
-        // Kill any existing VNC processes
-        cleanup_vnc();
+        // Kill any existing VNC processes (including orphans from previous runs)
+        system("pkill -9 -f 'Xvfb :99' 2>/dev/null");
+        system("pkill -9 -f 'x11vnc.*:99' 2>/dev/null");  
+        system("pkill -9 -f 'websockify.*6080' 2>/dev/null");
         usleep(500000);  // 0.5s
         
         // Start Xvfb
@@ -163,7 +165,8 @@ namespace {
     bool display_available() {
         const char* display = getenv("DISPLAY");
         if (!display || strlen(display) == 0) return false;
-        // Try to verify the display works (optional - could use XOpenDisplay if X11 headers available)
+        // Verify the display actually works
+        if (system("xdpyinfo >/dev/null 2>&1") != 0) return false;
         return true;
     }
 }

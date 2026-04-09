@@ -79,41 +79,27 @@ bool OgreViewer::init(const std::shared_ptr<MissionParse>& mp,
     log_dir_ = mp->log_dir();
     dt_ = mp->dt();
     
-    // Parse camera parameters
+    // Parse camera parameters (store for later use in run())
     auto it = camera_params.find("pos_x");
-    double pos_x = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
+    init_pos_x_ = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
     
     it = camera_params.find("pos_y");
-    double pos_y = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
+    init_pos_y_ = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
     
     it = camera_params.find("pos_z");
-    double pos_z = (it != camera_params.end()) ? std::stod(it->second) : 200.0;
+    init_pos_z_ = (it != camera_params.end()) ? std::stod(it->second) : 200.0;
     
     it = camera_params.find("focal_x");
-    double focal_x = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
+    init_focal_x_ = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
     
     it = camera_params.find("focal_y");
-    double focal_y = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
+    init_focal_y_ = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
     
     it = camera_params.find("focal_z");
-    double focal_z = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
+    init_focal_z_ = (it != camera_params.end()) ? std::stod(it->second) : 0.0;
 
-    // Initialize Ogre
-    initApp();
-    
-    // Set camera reset parameters
-    if (camera_controller_) {
-        CameraResetParams params;
-        params.pos_x = pos_x;
-        params.pos_y = pos_y;
-        params.pos_z = pos_z;
-        params.focal_x = focal_x;
-        params.focal_y = focal_y;
-        params.focal_z = focal_z;
-        camera_controller_->setResetParams(params);
-        camera_controller_->resetCamera();
-    }
-
+    // Note: Ogre initialization is deferred to run() to ensure GL context is
+    // created and used from the same thread.
     return true;
 }
 
@@ -270,6 +256,25 @@ void OgreViewer::createOriginAxes() {
 }
 
 bool OgreViewer::run() {
+    // Initialize Ogre in the viewer thread (GL context must be created in same thread that uses it)
+    if (!initialized_) {
+        initApp();
+        initialized_ = true;
+        
+        // Set camera reset parameters (now that camera_controller_ is created)
+        if (camera_controller_) {
+            CameraResetParams params;
+            params.pos_x = init_pos_x_;
+            params.pos_y = init_pos_y_;
+            params.pos_z = init_pos_z_;
+            params.focal_x = init_focal_x_;
+            params.focal_y = init_focal_y_;
+            params.focal_z = init_focal_z_;
+            camera_controller_->setResetParams(params);
+            camera_controller_->resetCamera();
+        }
+    }
+    
     if (!getRoot()) {
         return false;
     }

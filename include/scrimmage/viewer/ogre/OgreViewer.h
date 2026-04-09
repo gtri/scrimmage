@@ -165,6 +165,11 @@ class OgreViewer : public OgreBites::ApplicationContext,
     bool show_grid_ = true;
     bool show_origin_ = true;
     bool full_screen_ = false;
+    bool initialized_ = false;
+
+    // Initial camera position (parsed during init, applied in run)
+    double init_pos_x_ = 0.0, init_pos_y_ = 0.0, init_pos_z_ = 200.0;
+    double init_focal_x_ = 0.0, init_focal_y_ = 0.0, init_focal_z_ = 0.0;
 
     // Frame listener class to process updates
     class UpdateListener : public Ogre::FrameListener {
