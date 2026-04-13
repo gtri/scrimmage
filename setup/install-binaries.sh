@@ -151,6 +151,15 @@ if [ "24.04" == ${UBUNTU_VERSION} ]; then
     protobuf-compiler-grpc
     libprotobuf-dev
     libgeographiclib-dev
+    libogre-1.12-dev
+    libgl1-mesa-dri
+    libgl1-mesa-glx
+    mesa-utils
+    xvfb
+    x11vnc
+    x11-utils
+    websockify
+    novnc
     ) #GRPC Libraries for Jammy
 
 fi

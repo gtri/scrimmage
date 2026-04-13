@@ -311,8 +311,12 @@ int main(int argc, char* argv[]) {
     simcontrol.pause(false);
 #else
     // Runtime viewer selection
+#if ENABLE_VTK == 1
     std::shared_ptr<scrimmage::Viewer> vtk_viewer = nullptr;
+#endif
+#if ENABLE_OGRE == 1
     std::shared_ptr<scrimmage::viewer::OgreViewer> ogre_viewer = nullptr;
+#endif
 
     if (simcontrol.enable_gui()) {
         // Start VNC if no display is available

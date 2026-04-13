@@ -9,10 +9,12 @@ RUN apt-get update && apt-get install -y \
     protobuf-compiler libprotobuf-dev libprotoc-dev libgeographiclib-dev \
     libboost-all-dev librapidxml-dev libeigen3-dev \
     libvtk9-dev vtk9 \
+    libogre-1.12-dev libgl1-mesa-dri libgl1 mesa-utils \
     qtbase5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev \
     vim \
     clangd \
     lldb \
+    xvfb x11vnc x11-utils websockify novnc \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory to /root/scrimmage on container start

@@ -60,6 +60,52 @@ OgreViewer::~OgreViewer() {
     }
 }
 
+bool OgreViewer::oneTimeConfig() {
+    // Skip the config dialog - automatically select OpenGL render system
+    Ogre::Root* root = getRoot();
+    const auto& renderers = root->getAvailableRenderers();
+    
+    Ogre::RenderSystem* selected = nullptr;
+    
+    // Try to find OpenGL 3+ render system first, then fall back to any OpenGL
+    for (auto* rs : renderers) {
+        std::string name = rs->getName();
+        if (name.find("OpenGL 3+") != std::string::npos) {
+            selected = rs;
+            break;
+        }
+    }
+    
+    if (!selected) {
+        for (auto* rs : renderers) {
+            std::string name = rs->getName();
+            if (name.find("OpenGL") != std::string::npos) {
+                selected = rs;
+                break;
+            }
+        }
+    }
+    
+    // Fall back to first available renderer
+    if (!selected && !renderers.empty()) {
+        selected = renderers.front();
+    }
+    
+    if (!selected) {
+        std::cerr << "No render system available" << std::endl;
+        return false;
+    }
+    
+    std::cout << "Using render system: " << selected->getName() << std::endl;
+    root->setRenderSystem(selected);
+    
+    // Configure basic render system options
+    selected->setConfigOption("Full Screen", "No");
+    selected->setConfigOption("Video Mode", "1280 x 800 @ 32-bit colour");
+    
+    return true;
+}
+
 void OgreViewer::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
 }

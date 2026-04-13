@@ -96,6 +96,7 @@ class OgreViewer : public OgreBites::ApplicationContext,
 
     // OgreBites::ApplicationContext overrides
     void setup() override;
+    bool oneTimeConfig() override;
 
     // OgreBites::InputListener overrides
     bool keyPressed(const OgreBites::KeyboardEvent& evt) override;
