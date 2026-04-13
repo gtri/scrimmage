@@ -24,6 +24,10 @@ jobs:
           cp -r ./doc_output/sphinx ./website
           cp -r ./doc_output/doxygen ./website
           touch ./website/.nojekyll # Disable Jekyll
+          rm ./website/index.html
+          # just redirect the to sphinx in the top level index.html
+          # Could potentially add a page that directs to doxygen here as well
+          echo -e "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<meta http-equiv=\"refresh\" content=\"0; url=./sphinx/html/index.html\">\n\t</head>\n</html>" >> ./website/index.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
