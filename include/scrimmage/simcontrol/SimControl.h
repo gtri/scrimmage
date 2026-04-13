@@ -50,6 +50,7 @@
 #include "scrimmage/common/DelayedTask.h"
 #include "scrimmage/common/FileSearch.h"
 #include "scrimmage/common/Timer.h"
+#include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/fwd_decl.h"
 #include "scrimmage/proto/Shape.pb.h"
 #include "scrimmage/proto/Visual.pb.h"
@@ -216,6 +217,19 @@ class SimControl {
     bool generate_entity(
         const int& ent_desc_id,
         std::map<std::string, std::string>& params);
+
+    /**
+     * @brief Generate an entity with entity and plugin parameter overrides.
+     *
+     * SimControl receives GenerateEntity protobuf messages via pubsub and uses
+     * this method to spawn entities with runtime parameter overrides parsed from
+     * those messages. Validates overrides against mission/plugin configs before
+     * passing them to Entity::init().
+     */
+    bool generate_entity(
+        const int& ent_desc_id,
+        std::map<std::string, std::string>& params,
+        const RuntimePluginOverrides& runtime_plugin_overrides);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();

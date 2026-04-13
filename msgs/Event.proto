@@ -40,9 +40,17 @@ message KeyValuePair {
         string value = 2;
 }
 
+message PluginParamOverride {
+        string plugin_type = 1;
+        uint32 plugin_index = 2;
+        repeated KeyValuePair params = 3;
+        optional string plugin_name = 4; // name will resolve to a plugin_index
+}
+
 message GenerateEntity {
         string entity_tag = 1;
         scrimmage_proto.State state = 2;
         repeated KeyValuePair entity_param = 3;
         int32 entity_id = 4;
+        repeated PluginParamOverride plugin_override = 5;
 }

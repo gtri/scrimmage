@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="http://gtri.gatech.edu"?>
+<params>
+  <library>RuntimeOverrideSpawner_plugin</library>
+
+  <!-- Entity template to spawn (must have count=0 in mission XML) -->
+  <entity_tag>runtime_override_agent</entity_tag>
+  <name_prefix>runtime_override_agent</name_prefix>
+
+  <!-- Layout configuration -->
+  <spawn_count>120</spawn_count>
+  <columns>12</columns>
+  <x_spacing>20</x_spacing>
+  <y_spacing>20</y_spacing>
+  <z_spacing>0</z_spacing>
+  <x_offset>0</x_offset>
+  <y_offset>0</y_offset>
+  <z_offset>0</z_offset>
+  <spawn_time>0.1</spawn_time>
+</params>

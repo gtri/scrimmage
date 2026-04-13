@@ -89,6 +89,7 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     int ent_desc_id = init_params.ent_desc_id;
     std::map<std::string, std::string>& info = init_params.info;
     std::set<std::string>& plugin_tags = init_params.plugin_tags;
+    const RuntimePluginOverrides& runtime_plugin_overrides = init_params.runtime_plugin_overrides;
     std::function<void(std::map<std::string, std::string>&)> param_override_func =
         init_params.param_override_func;
     int debug_level = init_params.debug_level;
@@ -163,8 +164,8 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
         ConfigParse config_parse;
         std::string sensor_name = plugin_info.name;
 
-        // Build overrides map from plugin params
-        std::map<std::string, std::string> sensor_overrides = plugin_info.params;
+        std::map<std::string, std::string> sensor_overrides =
+            resolve_plugin_params(plugin_info, runtime_plugin_overrides);
 
         PluginStatus<Sensor> status = plugin_manager_->make_plugin<Sensor>(
             "scrimmage::Sensor",
@@ -249,12 +250,14 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
         // resolved winner after entity-local overrides have replaced any inherited one.
         const auto& motion_info = motion_plugins.front();
         ConfigParse config_parse;
+        std::map<std::string, std::string> motion_overrides =
+            resolve_plugin_params(motion_info, runtime_plugin_overrides);
         PluginStatus<MotionModel> status = plugin_manager_->make_plugin<MotionModel>(
             "scrimmage::MotionModel",
             motion_info.name,
             *file_search_,
             config_parse,
-            motion_info.params,
+            motion_overrides,
             plugin_tags);
         if (status.status == PluginStatus<MotionModel>::cast_failed) {
             LOG_ERROR("Failed to open motion model plugin: " << motion_info.name);
@@ -319,12 +322,14 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
         const auto& controller_info = *rit;
 
         ConfigParse config_parse;
+        std::map<std::string, std::string> controller_overrides =
+            resolve_plugin_params(controller_info, runtime_plugin_overrides);
         PluginStatus<Controller> status = plugin_manager_->make_plugin<Controller>(
             "scrimmage::Controller",
             controller_info.name,
             *file_search_,
             config_parse,
-            controller_info.params,
+            controller_overrides,
             plugin_tags);
         if (status.status == PluginStatus<Controller>::cast_failed) {
             LOG_ERROR("Failed to open controller plugin: " << controller_info.name);
@@ -442,7 +447,7 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
         auto autonomy = make_autonomy<Autonomy>(
             autonomy_info.name,
             plugin_manager_,
-            autonomy_info.params,
+            resolve_plugin_params(autonomy_info, runtime_plugin_overrides),
             parent,
             state_belief_,
             id_to_team_map,

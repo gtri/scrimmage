@@ -43,6 +43,7 @@
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Contact.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/log/Log.h"
 #include "scrimmage/log/Logger.h"
 #include "scrimmage/metrics/Metrics.h"
@@ -351,9 +352,22 @@ bool SimControl::generate_entity(const int& ent_desc_id) {
 bool SimControl::generate_entity(
     const int& ent_desc_id,
     std::map<std::string, std::string>& params) {
+    const RuntimePluginOverrides runtime_plugin_overrides;
+    return generate_entity(ent_desc_id, params, runtime_plugin_overrides);
+}
+
+bool SimControl::generate_entity(
+    const int& ent_desc_id,
+    std::map<std::string, std::string>& params,
+    const RuntimePluginOverrides& runtime_plugin_overrides) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
+
+    if (!validate_runtime_plugin_overrides(mp_, file_search_, ent_desc_id, runtime_plugin_overrides)) {
+        return false;
+    }
+
     params["dt"] = std::to_string(dt_);
     params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
 
@@ -437,6 +451,7 @@ bool SimControl::generate_entity(
 
     EntityInitParams init_params;
     init_params.info = params;
+    init_params.runtime_plugin_overrides = runtime_plugin_overrides;
     init_params.id = id;
     init_params.ent_desc_id = ent_desc_id;
     init_params.param_override_func = [](std::map<std::string, std::string>&) {};
@@ -956,6 +971,7 @@ bool SimControl::start() {
 
     // Set subscriber / callback that allows plugins to generate entities
     auto gen_ent_cb = [&](auto& msg) {
+        RuntimePluginOverrides runtime_plugin_overrides;
         auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
         if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
             LOG_ERROR("Failed to find entity_tag, " << msg->data.entity_tag()
@@ -988,13 +1004,17 @@ bool SimControl::start() {
         // Assign the ID based on the protobuf message
         params["id"] = std::to_string(msg->data.entity_id());
 
+        const int ent_desc_id = it_ent_desc_id->second;
+        if (!parse_runtime_plugin_overrides(msg->data, mp_, ent_desc_id, runtime_plugin_overrides)) {
+            return;
+        }
+
         // Override any manually specified entity_params
         // NOTE: Plugin names (autonomy, controller, motion_model, sensor) cannot be
         // overridden at runtime. These are set in the mission XML and cannot be changed at spawn time.
         for (int i = 0; i < msg->data.entity_param().size(); i++) {
             const std::string& key = msg->data.entity_param(i).key();
-            if (kEntityPluginTypes.count(key) > 0 ||
-                (key.size() > 0 && kEntityPluginTypes.count(key.substr(0, key.find_last_not_of("0123456789") + 1)) > 0)) {
+            if (is_plugin_name_override_key(key)) {
                 LOG_WARN("GenerateEntity: Ignoring plugin override '" << key << "=" 
                          << msg->data.entity_param(i).value() << "'. "
                          << "Plugin names cannot be changed at runtime. "
@@ -1007,7 +1027,7 @@ bool SimControl::start() {
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params)) {
+        if (not this->generate_entity(it_ent_desc_id->second, params, runtime_plugin_overrides)) {
             LOG_ERROR("Failed to generate entity with tag: " << msg->data.entity_tag());
             return;
         }

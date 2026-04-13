@@ -46,6 +46,7 @@
 
 #include "scrimmage/common/ID.h"
 #include "scrimmage/entity/Contact.h"
+#include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/fwd_decl.h"
 #include "scrimmage/proto/Visual.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -66,6 +67,7 @@ struct EntityInitParams {
     GPUControllerPtr gpu_controller;
     GPUMotionModelPtr gpu_motion_model;
     std::map<std::string, std::string> info;
+    RuntimePluginOverrides runtime_plugin_overrides;
     int id;
     int ent_desc_id;
     std::set<std::string> plugin_tags;
