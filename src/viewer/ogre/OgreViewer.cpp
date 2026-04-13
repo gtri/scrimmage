@@ -33,6 +33,7 @@
 #include "scrimmage/proto/GUIControl.pb.h"
 
 #include <OGRE/OgreLight.h>
+#include <OGRE/OgreLogManager.h>
 #include <OGRE/OgreManualObject.h>
 #include <iostream>
 
@@ -52,6 +53,10 @@ bool OgreViewer::UpdateListener::frameRenderingQueued(const Ogre::FrameEvent& ev
 
 OgreViewer::OgreViewer()
     : OgreBites::ApplicationContext("SCRIMMAGE") {
+    // Suppress verbose Ogre logging - only show warnings and errors
+    Ogre::LogManager* logMgr = new Ogre::LogManager();
+    Ogre::Log* log = logMgr->createLog("Ogre.log", true, false, true);  // default, no console, suppressed
+    log->setLogDetail(Ogre::LL_LOW);  // Only log low-priority (important) messages
 }
 
 OgreViewer::~OgreViewer() {
