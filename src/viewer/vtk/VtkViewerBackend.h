@@ -19,43 +19,38 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#ifndef SRC_VIEWER_VTK_VTKVIEWERBACKEND_H_
+#define SRC_VIEWER_VTK_VTKVIEWERBACKEND_H_
 
-#include <list>
+#include "scrimmage/viewer/ViewerBackend.h"
 
-#include <vtkActor.h>
-#include <vtkLineSource.h>
-#include <vtkPlaneSource.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkProperty.h>
-#include <vtkRenderer.h>
-#include <vtkSmartPointer.h>
+#include "VtkViewer.h"
 
 namespace scrimmage {
 
-class Grid {
+class VtkViewerBackend : public ViewerBackend {
  public:
-    void create(int size, double spacing, vtkSmartPointer<vtkRenderer>& renderer);
+    VtkViewerBackend() = default;
+    ~VtkViewerBackend() override = default;
 
-    void remove();
+    void set_incoming_interface(InterfacePtr& incoming_interface) override;
+    void set_outgoing_interface(InterfacePtr& outgoing_interface) override;
+    void set_enable_network(bool enable) override;
+
+    bool init(
+        const MissionParsePtr& mp,
+        const std::map<std::string, std::string>& camera_params) override;
+    bool run() override;
 
  protected:
-    vtkSmartPointer<vtkRenderer> renderer_;
-    std::list<vtkSmartPointer<vtkActor> > actors_;
+    VtkViewer viewer_;
+    InterfacePtr incoming_interface_;
+    InterfacePtr outgoing_interface_;
+    bool enable_network_ = false;
 };
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#endif  // SRC_VIEWER_VTK_VTKVIEWERBACKEND_H_

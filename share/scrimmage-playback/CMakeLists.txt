@@ -19,7 +19,7 @@ target_link_libraries(${APP_NAME}
   pthread
   )
 
-if (${VTK_FOUND})
+if (SCRIMMAGE_HAVE_VTK_VIEWER)
   target_link_libraries(${APP_NAME}
     scrimmage-viewer
     )

@@ -27,7 +27,7 @@ target_link_libraries(${APP_NAME}
   dl
   )
 
-if (NOT EXTERNAL AND ${VTK_FOUND})
+if (NOT EXTERNAL)
   target_link_libraries(${APP_NAME}
     scrimmage-viewer
     )

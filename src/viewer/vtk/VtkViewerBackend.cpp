@@ -19,25 +19,36 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#include "VtkViewerBackend.h"
 
 namespace scrimmage {
 
-// Deprecated. Remove when removing VTK.
-class CameraInterface;
+void VtkViewerBackend::set_incoming_interface(InterfacePtr& incoming_interface) {
+    incoming_interface_ = incoming_interface;
+    viewer_.set_incoming_interface(incoming_interface_);
+}
+
+void VtkViewerBackend::set_outgoing_interface(InterfacePtr& outgoing_interface) {
+    outgoing_interface_ = outgoing_interface;
+    viewer_.set_outgoing_interface(outgoing_interface_);
+}
+
+void VtkViewerBackend::set_enable_network(bool enable) {
+    enable_network_ = enable;
+    viewer_.set_enable_network(enable_network_);
+}
+
+bool VtkViewerBackend::init(
+    const MissionParsePtr& mp,
+    const std::map<std::string, std::string>& camera_params) {
+    viewer_.set_enable_network(enable_network_);
+    return viewer_.init(mp, camera_params);
+}
+
+bool VtkViewerBackend::run() {
+    return viewer_.run();
+}
 
 }  // namespace scrimmage
-
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_

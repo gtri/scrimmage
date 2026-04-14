@@ -17,6 +17,16 @@ project (scrimmage)
 
 set(PROJECT_VERSION "0.2.0-dev")
 
+option(SCRIMMAGE_BUILD_VTK_VIEWER
+  "Build the VTK viewer backend when dependencies are available"
+  ON)
+option(SCRIMMAGE_BUILD_OGRE_NEXT_VIEWER
+  "Build the Ogre-Next viewer backend when dependencies are available"
+  ON)
+
+set(SCRIMMAGE_HAVE_VTK_VIEWER OFF)
+set(SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER OFF)
+
 # give SCRIMMAGE 1 series a few more soversions
 set(SCRIMMAGE_SOVERSION "00")
 
@@ -165,51 +175,54 @@ endif()
 ########################################################
 # Find VTK
 ########################################################
+if (SCRIMMAGE_BUILD_VTK_VIEWER)
+  find_package(VTK NO_MODULE)
+  if (${VTK_FOUND})
+	  if (${VTK_MAJOR_VERSION} EQUAL 9)
+        set(OPENGL_MODULE RenderingOpenGL2)
+        # Current binaries of VTK9 do not compile IOGeoJSON
+        #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
+        set(EXTRUSION_MODULES FiltersModeling)
+			  set(VTK_MODULES
+					  FiltersSources
+					  FiltersTexture
+					  InteractionStyle
+					  IOGeometry
+					  IOImage
+					  IOLegacy
+					  RenderingAnnotation
+					  RenderingCore
+					  ${OPENGL_MODULE}
+					  ${EXTRUSION_MODULES})
+			  find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+	  else()
+      if (${VTK_MAJOR_VERSION} LESS 7)
+          set(OPENGL_MODULE vtkRenderingOpenGL)
+      elseif(${VTK_MAJOR_VERSION} LESS 9)
+          set(OPENGL_MODULE vtkRenderingOpenGL2)
+          set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
+      else()
+          # in libvtk9-dev, the vtkIOGeoJSON module is not provided
+          set(OPENGL_MODULE vtkRenderingOpenGL2)
+      endif()
 
-find_package(VTK NO_MODULE)
-if (${VTK_FOUND})
-	if (${VTK_MAJOR_VERSION} EQUAL 9)
-      set(OPENGL_MODULE RenderingOpenGL2)
-      # Current binaries of VTK9 do not compile IOGeoJSON
-      #set(EXTRUSION_MODULES FiltersModeling IOGeoJSON)
-      set(EXTRUSION_MODULES FiltersModeling)
-			set(VTK_MODULES
-					FiltersSources
-					FiltersTexture
-					InteractionStyle
-					IOGeometry
-					IOImage
-					IOLegacy
-					RenderingAnnotation
-					RenderingCore
-					${OPENGL_MODULE}
-					${EXTRUSION_MODULES})
-			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
-	else()
-    if (${VTK_MAJOR_VERSION} LESS 7)
-        set(OPENGL_MODULE vtkRenderingOpenGL)
-    elseif(${VTK_MAJOR_VERSION} LESS 9)
-        set(OPENGL_MODULE vtkRenderingOpenGL2)
-        set(EXTRUSION_MODULES vtkFiltersModeling vtkIOGeoJSON)
-    else()
-        # in libvtk9-dev, the vtkIOGeoJSON module is not provided
-        set(OPENGL_MODULE vtkRenderingOpenGL2)
-    endif()
+      set(VTK_MODULES
+          vtkFiltersSources
+          vtkFiltersTexture
+          vtkInteractionStyle
+          vtkIOGeometry
+          vtkIOImage
+          vtkIOLegacy
+          vtkRenderingAnnotation
+          vtkRenderingCore
+          ${OPENGL_MODULE}
+          ${EXTRUSION_MODULES})
 
-    set(VTK_MODULES
-        vtkFiltersSources
-        vtkFiltersTexture
-        vtkInteractionStyle
-        vtkIOGeometry
-        vtkIOImage
-        vtkIOLegacy
-        vtkRenderingAnnotation
-        vtkRenderingCore
-        ${OPENGL_MODULE}
-        ${EXTRUSION_MODULES})
-
-			find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
-		endif()
+			  find_package(VTK NO_MODULE COMPONENTS ${VTK_MODULES})
+		  endif()
+  endif()
+else()
+  set(VTK_FOUND FALSE)
 endif()
 
 if (${VTK_FOUND})
@@ -220,11 +233,60 @@ if (${VTK_FOUND})
       include(${VTK_USE_FILE})
   endif()
   add_definitions(-DENABLE_VTK=1)
+  set(SCRIMMAGE_HAVE_VTK_VIEWER ON)
 else()
   add_definitions(-DENABLE_VTK=0)
-  message(--------------------------)
-	message("VTK_NOT_FOUND, Scrimmage will not have a GUI")
-  message(--------------------------)
+  if (SCRIMMAGE_BUILD_VTK_VIEWER)
+    message(--------------------------)
+	  message("VTK_NOT_FOUND, the VTK viewer backend will not be built")
+    message(--------------------------)
+  else()
+    message(STATUS "VTK viewer backend disabled by SCRIMMAGE_BUILD_VTK_VIEWER=OFF")
+  endif()
+endif()
+
+########################################################
+# Find Ogre-Next
+########################################################
+
+if (SCRIMMAGE_BUILD_OGRE_NEXT_VIEWER)
+  set(_SCRIMMAGE_OGRE_NEXT_HINTS
+    /usr/lib/x86_64-linux-gnu/OGRE-Next/cmake
+    /usr/local/lib/x86_64-linux-gnu/OGRE-Next/cmake)
+  if (CMAKE_LIBRARY_ARCHITECTURE)
+    list(APPEND _SCRIMMAGE_OGRE_NEXT_HINTS
+      /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/OGRE-Next/cmake
+      /usr/local/lib/${CMAKE_LIBRARY_ARCHITECTURE}/OGRE-Next/cmake)
+  endif()
+  list(REMOVE_DUPLICATES _SCRIMMAGE_OGRE_NEXT_HINTS)
+
+  find_package(OGRE-Next CONFIG QUIET PATHS ${_SCRIMMAGE_OGRE_NEXT_HINTS})
+
+  if (NOT OGRE_LIBRARIES OR NOT OGRE_INCLUDE_DIRS)
+    find_package(PkgConfig QUIET)
+    if (PkgConfig_FOUND)
+      pkg_check_modules(OGRE_NEXT QUIET OGRE-Next)
+      if (OGRE_NEXT_FOUND)
+        set(OGRE_INCLUDE_DIRS ${OGRE_NEXT_INCLUDE_DIRS})
+        set(OGRE_LIBRARY_DIRS ${OGRE_NEXT_LIBRARY_DIRS})
+        set(OGRE_LIBRARIES ${OGRE_NEXT_LINK_LIBRARIES})
+      endif()
+    endif()
+  endif()
+endif()
+
+if (OGRE_LIBRARIES AND OGRE_INCLUDE_DIRS)
+  set(SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER ON)
+  include_directories(SYSTEM ${OGRE_INCLUDE_DIRS})
+  add_definitions(-DENABLE_OGRE_NEXT=1)
+  message(STATUS "Found Ogre-Next libraries: ${OGRE_LIBRARIES}")
+else()
+  add_definitions(-DENABLE_OGRE_NEXT=0)
+  if (SCRIMMAGE_BUILD_OGRE_NEXT_VIEWER)
+    message(STATUS "OGRE-Next not found, the Ogre-Next viewer backend will not be built")
+  else()
+    message(STATUS "Ogre-Next viewer backend disabled by SCRIMMAGE_BUILD_OGRE_NEXT_VIEWER=OFF")
+  endif()
 endif()
 
 ########################################################

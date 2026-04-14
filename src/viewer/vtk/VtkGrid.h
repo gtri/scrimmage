@@ -30,14 +30,32 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#ifndef SRC_VIEWER_VTK_VTKGRID_H_
+#define SRC_VIEWER_VTK_VTKGRID_H_
+
+#include <list>
+
+#include <vtkActor.h>
+#include <vtkLineSource.h>
+#include <vtkPlaneSource.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
 
 namespace scrimmage {
 
-// Deprecated. Remove when removing VTK.
-class CameraInterface;
+class Grid {
+ public:
+    void create(int size, double spacing, vtkSmartPointer<vtkRenderer>& renderer);
+
+    void remove();
+
+ protected:
+    vtkSmartPointer<vtkRenderer> renderer_;
+    std::list<vtkSmartPointer<vtkActor> > actors_;
+};
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // SRC_VIEWER_VTK_VTKGRID_H_

@@ -29,21 +29,22 @@
  * A Long description goes here.
  *
  */
-#include "scrimmage/viewer/CameraInterface.h"
+#include "VtkCameraInterface.h"
 
 #include <vtkRendererCollection.h>
+#include <vtkRenderWindow.h>
 #include <vtkWorldPointPicker.h>
 
 namespace scrimmage {
 
-CameraInterface::CameraInterface() {}
+VtkCameraInterface::VtkCameraInterface() {}
 
-CameraInterface* CameraInterface::New() {
-    CameraInterface* cb = new CameraInterface;
+VtkCameraInterface* VtkCameraInterface::New() {
+    VtkCameraInterface* cb = new VtkCameraInterface;
     return cb;
 }
 
-void CameraInterface::OnKeyPress() {
+void VtkCameraInterface::OnKeyPress() {
     // Get the keypress
     vtkRenderWindowInteractor* rwi = this->Interactor;
     std::string key = rwi->GetKeySym();
@@ -103,17 +104,17 @@ void CameraInterface::OnKeyPress() {
     vtkInteractorStyleTrackballCamera::OnKeyPress();
 }
 
-void CameraInterface::Rotate() {
+void VtkCameraInterface::Rotate() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Rotate();
 }
 
-void CameraInterface::OnLeftButtonDown() {
+void VtkCameraInterface::OnLeftButtonDown() {
     if (enable_object_draw_) {
         this->Interactor->GetPicker()->Pick(
             this->Interactor->GetEventPosition()[0],
             this->Interactor->GetEventPosition()[1],
-            0,  // always zero.
+            0,
             this->Interactor->GetRenderWindow()->GetRenderers()->GetFirstRenderer());
         double picked[3];
         this->Interactor->GetPicker()->GetPickPosition(picked);
@@ -123,22 +124,22 @@ void CameraInterface::OnLeftButtonDown() {
     vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
 }
 
-void CameraInterface::OnLeftButtonUp() {
+void VtkCameraInterface::OnLeftButtonUp() {
     updater_->track_camera_pos();
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
 }
 
-void CameraInterface::OnMiddleButtonUp() {
+void VtkCameraInterface::OnMiddleButtonUp() {
     updater_->track_camera_pos();
     vtkInteractorStyleTrackballCamera::OnMiddleButtonUp();
 }
 
-void CameraInterface::Pan() {
+void VtkCameraInterface::Pan() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Pan();
 }
 
-void CameraInterface::Dolly() {
+void VtkCameraInterface::Dolly() {
     updater_->update();
     vtkInteractorStyleTrackballCamera::Dolly();
 }

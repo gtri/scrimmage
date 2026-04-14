@@ -1,6 +1,6 @@
 add_subdirectory(aggregate-runs)
 add_subdirectory(scrimmage-plugin)
-if (${VTK_FOUND})
+if (SCRIMMAGE_HAVE_VTK_VIEWER)
   add_subdirectory(filter-runs)
 endif()
 if (${OpenCL_FOUND} AND ENABLE_GPU_ACCELERATION)

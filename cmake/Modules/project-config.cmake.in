@@ -23,6 +23,10 @@ endif()
 
 set(SCRIMMAGE_LIBRARIES "@PROJECT_LIBS@")
 set(SCRIMMAGE_VIEWER_LIB "scrimmage-viewer")
+set(SCRIMMAGE_VIEWER_VTK_LIB "scrimmage-viewer-vtk")
+set(SCRIMMAGE_VIEWER_OGRE_NEXT_LIB "scrimmage-viewer-ogre-next")
+set(SCRIMMAGE_HAVE_VTK_VIEWER "@SCRIMMAGE_HAVE_VTK_VIEWER@")
+set(SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER "@SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER@")
 set(SCRIMMAGE_PLUGINS "@PROJECT_PLUGINS@")
 
 ###############################################################################

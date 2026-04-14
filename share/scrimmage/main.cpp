@@ -31,34 +31,21 @@
  */
 
 #include <cstdlib>
-#include <ctime>
+#include <cstring>
+#include <functional>
+#include <getopt.h>
 #include <iostream>
+#include <map>
 #include <memory>
-#include <ostream>
 #include <sstream>
 #include <string>
-#include <unordered_set>
+#include <thread>
 
 #include <signal.h>
 
-#include "scrimmage/autonomy/Autonomy.h"
-#include "scrimmage/common/Utilities.h"
-#include "scrimmage/entity/Contact.h"
-#include "scrimmage/entity/Entity.h"
-#include "scrimmage/metrics/Metrics.h"
-#include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
-#include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/simcontrol/SimControl.h"
-#include "scrimmage/simcontrol/SimUtils.h"
-#if ENABLE_VTK == 1
-#include "scrimmage/viewer/Viewer.h"
-#endif
-
-#include <boost/optional.hpp>
-
-#include "scrimmage/log/Log.h"
+#include "scrimmage/viewer/VisualizationSession.h"
 
 using std::cout;
 using std::endl;
@@ -99,8 +86,15 @@ int main(int argc, char* argv[]) {
     std::ostringstream overrides;
     bool first_override = true;
 
+    bool use_ogre = false;
+
+    static struct option long_options[] = {
+        {"ogre", no_argument, 0, 1000},
+        {0, 0, 0, 0},
+    };
+
     int opt;
-    while ((opt = getopt(argc, argv, "t:j:s:")) != -1) {
+    while ((opt = getopt_long(argc, argv, "t:j:s:", long_options, nullptr)) != -1) {
         switch (opt) {
             case 't':
                 task_id = std::stoi(std::string(optarg));
@@ -111,6 +105,9 @@ int main(int argc, char* argv[]) {
             case 's':
                 seed = std::string(optarg);
                 seed_set = true;
+                break;
+            case 1000:
+                use_ogre = true;
                 break;
             case '?':
                 if (optopt == 't') {
@@ -125,7 +122,8 @@ int main(int argc, char* argv[]) {
     }
 
     if (optind >= argc || argc < 2) {
-        cout << "usage: " << argv[0] << " [var:=value ...] scenario.xml [var:=value ...]" << endl;
+           cout << "usage: " << argv[0]
+               << " [--ogre] [var:=value ...] scenario.xml [var:=value ...]" << endl;
         return -1;
     }
 
@@ -152,7 +150,8 @@ int main(int argc, char* argv[]) {
 
     if (mission_file.empty()) {
         std::cerr << "Error: No mission file specified" << endl;
-        std::cerr << "usage: " << argv[0] << " [var:=value ...] scenario.xml [var:=value ...]" << endl;
+        std::cerr << "usage: " << argv[0]
+                  << " [--ogre] [var:=value ...] scenario.xml [var:=value ...]" << endl;
         return -1;
     }
 
@@ -174,16 +173,20 @@ int main(int argc, char* argv[]) {
 
     std::shared_ptr<std::thread> viewer_thread = nullptr;
 
-#if ENABLE_VTK == 0
-    // If the GUI wasn't built, un-pause by default.
-    simcontrol.pause(false);
-#else
-    // If the GUI is enabled, the viewer will be run in a separate thread. Use
-    // a shared_ptr to keep it "in scope", if it is created.
-    std::shared_ptr<scrimmage::Viewer> viewer = nullptr;
+    std::unique_ptr<scrimmage::VisualizationSession> viewer = nullptr;
 
     if (simcontrol.enable_gui()) {
-        viewer = std::make_shared<scrimmage::Viewer>();
+        auto backend = use_ogre ? scrimmage::ViewerBackendType::OGRE_NEXT
+                                : scrimmage::ViewerBackendType::VTK;
+
+        if (!scrimmage::VisualizationSession::backend_available(backend)) {
+            std::cerr << "Error: requested GUI backend '"
+                      << scrimmage::VisualizationSession::backend_name(backend)
+                      << "' is not available in this build." << std::endl;
+            return -1;
+        }
+
+        viewer = std::make_unique<scrimmage::VisualizationSession>(backend);
 
         auto outgoing = simcontrol.outgoing_interface();
         auto incoming = simcontrol.incoming_interface();
@@ -199,12 +202,10 @@ int main(int argc, char* argv[]) {
             camera_params = it_camera->second;
         }
 
-        // Initialize the VTK GUI viewer
         if (!viewer->init(simcontrol.mp(), camera_params)) {
             return -1;
         }
 
-        // Run the viewer in its own thread
         auto viewer_thread_func = [&]() { viewer->run(); };
         viewer_thread = std::make_shared<std::thread>(viewer_thread_func);
 
@@ -212,7 +213,6 @@ int main(int argc, char* argv[]) {
         // If the GUI isn't enabled, un-pause by default.
         simcontrol.pause(false);
     }
-#endif
 
     // Run SimControl::run() blocking function, which steps through simulation
     if (not simcontrol.run()) {

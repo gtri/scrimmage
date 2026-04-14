@@ -34,13 +34,10 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#if ENABLE_VTK == 1
-#include "scrimmage/viewer/Viewer.h"
-#endif
+#include "scrimmage/viewer/VisualizationSession.h"
 
 #include <chrono>  // NOLINT
 #include <ctime>
-#include <iomanip>
 #include <iostream>
 #include <thread>  // NOLINT
 
@@ -245,7 +242,7 @@ int main(int argc, char* argv[]) {
     }
     mp->set_log_dir(output_dir);
 
-    sc::Viewer viewer;
+    sc::VisualizationSession viewer(sc::ViewerBackendType::VTK);
     viewer.set_enable_network(false);
     viewer.set_incoming_interface(to_gui_interface);
     viewer.set_outgoing_interface(from_gui_interface);

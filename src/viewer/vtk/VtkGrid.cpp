@@ -30,7 +30,7 @@
  *
  */
 
-#include "scrimmage/viewer/Grid.h"
+#include "VtkGrid.h"
 
 namespace scrimmage {
 

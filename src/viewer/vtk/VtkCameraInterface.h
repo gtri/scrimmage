@@ -19,25 +19,43 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#ifndef SRC_VIEWER_VTK_VTKCAMERAINTERFACE_H_
+#define SRC_VIEWER_VTK_VTKCAMERAINTERFACE_H_
+
+#include <string>
+
+#include <vtkInteractorStyleTrackballCamera.h>
+#include <vtkSmartPointer.h>
+
+#include "VtkUpdater.h"
 
 namespace scrimmage {
 
-// Deprecated. Remove when removing VTK.
-class CameraInterface;
+class VtkCameraInterface : public vtkInteractorStyleTrackballCamera {
+ public:
+    VtkCameraInterface();
+
+    static VtkCameraInterface* New();
+
+    void OnKeyPress() override;
+    void OnLeftButtonDown() override;
+    void OnLeftButtonUp() override;
+    void Rotate() override;
+
+    void OnMiddleButtonUp() override;
+    void Pan() override;
+    void Dolly() override;
+
+    void set_updater(vtkSmartPointer<Updater>& updater) { updater_ = updater; }
+
+ protected:
+    vtkSmartPointer<Updater> updater_;
+    bool enable_object_draw_ = false;
+    std::string last_key_;
+};
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // SRC_VIEWER_VTK_VTKCAMERAINTERFACE_H_

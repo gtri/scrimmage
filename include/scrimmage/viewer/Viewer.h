@@ -33,65 +33,14 @@
 #ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
 #define INCLUDE_SCRIMMAGE_VIEWER_VIEWER_H_
 
-#include <map>
-#include <memory>
-#include <string>
-#include <thread>  // NOLINT
-
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
-#include <vtkRenderer.h>
-#include <vtkSmartPointer.h>
-
-#include "scrimmage/viewer/CameraInterface.h"
+#include "scrimmage/viewer/VisualizationSession.h"
 
 namespace scrimmage {
 
-class MissionParse;
-class Interface;
-using InterfacePtr = std::shared_ptr<Interface>;
-
-class Viewer {
+// Deprecated. Remove when removing VTK.
+class Viewer : public VisualizationSession {
  public:
-    Viewer();
-
-    void set_incoming_interface(InterfacePtr& incoming_interface);
-
-    void set_outgoing_interface(InterfacePtr& outgoing_interface);
-
-    void set_enable_network(bool enable);
-
-    bool init(
-        const std::shared_ptr<MissionParse>& mp,
-        const std::map<std::string, std::string>& camera_params);
-    bool run();
-
- protected:
-    // Create a renderer, render window, and interactor
-    vtkSmartPointer<vtkRenderer> renderer_;
-    vtkSmartPointer<vtkRenderWindow> renderWindow_;
-    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor_;
-
-    vtkSmartPointer<CameraInterface> cam_int_;
-    InterfacePtr incoming_interface_;
-    InterfacePtr outgoing_interface_;
-
-    bool enable_network_;
-
-    std::thread network_thread_;
-
-    std::map<std::string, std::string> camera_params_;
-    std::string log_dir_;
-    double dt_ = 0.1;
-
-    std::string local_ip_ = "localhost";
-    int local_port_ = 50051;
-    std::string remote_ip_ = "localhost";
-    int remote_port_ = 50052;
-
-    double init_scale_ = 1.0;
-
-    bool full_screen_;
+    Viewer() : VisualizationSession(ViewerBackendType::VTK) {}
 };
 
 }  // namespace scrimmage

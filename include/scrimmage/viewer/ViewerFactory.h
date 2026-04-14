@@ -19,25 +19,21 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_
+
+#include <memory>
+
+#include "scrimmage/viewer/ViewerBackend.h"
 
 namespace scrimmage {
 
-// Deprecated. Remove when removing VTK.
-class CameraInterface;
+std::unique_ptr<ViewerBackend> create_viewer_backend(ViewerBackendType backend);
+bool viewer_backend_available(ViewerBackendType backend);
+const char* viewer_backend_name(ViewerBackendType backend);
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_

@@ -30,18 +30,16 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
+#ifndef SRC_VIEWER_VTK_VTKUPDATER_H_
+#define SRC_VIEWER_VTK_VTKUPDATER_H_
 
 #include <Eigen/Eigen>
-#include <limits>
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <unordered_map>
-#include <utility>
 
 #include <time.h>
 #include <vtkActor.h>
@@ -108,7 +106,7 @@ class Updater : public vtkCommand {
     void Execute(
         vtkObject* caller,
         unsigned long vtkNotUsed(eventId),  // NOLINT
-        void* vtkNotUsed(callData));
+        void* vtkNotUsed(callData)) override;
 
     void enable_fps();
 
@@ -398,4 +396,4 @@ class Updater : public vtkCommand {
 };
 
 }  // namespace scrimmage
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
+#endif  // SRC_VIEWER_VTK_VTKUPDATER_H_

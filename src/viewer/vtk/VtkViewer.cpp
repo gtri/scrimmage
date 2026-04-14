@@ -19,20 +19,14 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#include "scrimmage/viewer/Viewer.h"
+#include "VtkViewer.h"
 
+#include <cstdlib>
+#include <iostream>
 #include <sstream>
+#include <vector>
 
 #include <boost/algorithm/string.hpp>
 #include <vtkCamera.h>
@@ -41,34 +35,33 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/viewer/CameraInterface.h"
-#include "scrimmage/viewer/Updater.h"
+#include "VtkCameraInterface.h"
+#include "VtkUpdater.h"
 
 namespace scrimmage {
 
-Viewer::Viewer() : enable_network_(false) {}
+VtkViewer::VtkViewer() : enable_network_(false) {}
 
-void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) {
+void VtkViewer::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
 }
 
-void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
+void VtkViewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
     outgoing_interface_ = outgoing_interface;
 }
 
-void Viewer::set_enable_network(bool enable) {
+void VtkViewer::set_enable_network(bool enable) {
     enable_network_ = enable;
 }
 
-bool Viewer::init(
-    const std::shared_ptr<MissionParse>& mp,
+bool VtkViewer::init(
+    const MissionParsePtr& mp,
     const std::map<std::string, std::string>& camera_params) {
-
-    // Check for display availability (X11 on Linux)
     const char* display = std::getenv("DISPLAY");
     if (display == nullptr || display[0] == '\0') {
         std::cerr << "Error: GUI enabled but no DISPLAY environment variable set.\n"
-                  << "Run with enable_gui:=false or set DISPLAY for X11 forwarding." << std::endl;
+                  << "Run with enable_gui:=false or set DISPLAY for X11 forwarding."
+                  << std::endl;
         return false;
     }
 
@@ -82,21 +75,18 @@ bool Viewer::init(
 
     renderer_->SetBackground(0, 0, 0);
 
-    // Setup camera
     vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();
     camera->SetViewUp(0, 0, 1);
     camera->SetPosition(40, 40, 1000);
     camera->SetFocalPoint(0, 0, 0);
 
-    // Setup camera interface
-    cam_int_ = vtkSmartPointer<CameraInterface>::New();
+    cam_int_ = vtkSmartPointer<VtkCameraInterface>::New();
     renderWindowInteractor_->SetInteractorStyle(cam_int_);
     cam_int_->SetCurrentRenderer(renderer_);
 
     camera_params_ = camera_params;
     renderer_->SetActiveCamera(camera);
 
-    // Render and interact
     renderWindow_->SetWindowName("SCRIMMAGE");
     renderWindow_->SetFullScreen(false);
 
@@ -106,7 +96,6 @@ bool Viewer::init(
     log_dir_ = mp->log_dir();
     dt_ = mp->dt();
 
-    // Get network parameters
     local_ip_ = get<std::string>("local_ip", camera_params_, local_ip_);
     local_port_ = get<int>("local_port", camera_params_, local_port_);
     remote_ip_ = get<std::string>("remote_ip", camera_params_, remote_ip_);
@@ -117,8 +106,8 @@ bool Viewer::init(
     return true;
 }
 
-bool Viewer::run() {
-    double update_rate = 50;  // Hz
+bool VtkViewer::run() {
+    double update_rate = 50;
 
     if (enable_network_) {
         outgoing_interface_->init_network(Interface::client, remote_ip_, remote_port_);
@@ -134,20 +123,13 @@ bool Viewer::run() {
         outgoing_interface_->set_mode(Interface::shared);
     }
 
-    // Render and interact
     renderWindow_->Render();
-
-    // Initialize must be called prior to creating timer events.
     renderWindowInteractor_->Initialize();
 
     if (full_screen_) {
-        // Don't use "FullScreenOn" or SetFullScreen().
-        // This uses the entire screen, prevents displaying the window name
-        // and makes it difficult to resize the window later.
         renderWindow_->SetSize(renderWindow_->GetScreenSize());
     }
 
-    // Sign up to receive TimerEvent
     vtkSmartPointer<scrimmage::Updater> updater = vtkSmartPointer<scrimmage::Updater>::New();
     renderWindowInteractor_->AddObserver(vtkCommand::TimerEvent, updater);
     updater->set_renderer(renderer_);
@@ -206,12 +188,8 @@ bool Viewer::run() {
 
     cam_int_->set_updater(updater);
 
-    renderWindowInteractor_->CreateRepeatingTimer(1.0 / update_rate * 1e3);  // ms
-
-    // Start the interaction and timer
+    renderWindowInteractor_->CreateRepeatingTimer(1.0 / update_rate * 1e3);
     renderWindowInteractor_->Start();
-
-    // Shutdown the updater
     updater->shutting_down();
 
     return true;

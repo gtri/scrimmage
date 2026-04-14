@@ -254,6 +254,15 @@ manually before running a mission.
     source ~/.scrimmage/setup.bash
     scrimmage ./missions/straight-no-gui.xml
 
+When SCRIMMAGE is built with both GUI backends, VTK remains the default GUI
+path. Use `--ogre` to opt into the Ogre-Next backend explicitly:
+
+    scrimmage ./missions/straight.xml
+    scrimmage --ogre ./missions/straight.xml
+
+If `enable_gui:=false` is set in the mission or on the command line, backend
+selection is ignored and headless behavior is unchanged.
+
 If you want to see the scrimmage mission on your host, you can do the following:
 
 1. Allow docker to connect to your local display

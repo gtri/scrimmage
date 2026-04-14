@@ -167,6 +167,7 @@ using MetricsPtr = std::shared_ptr<Metrics>;
 using AttributeMap = std::map<std::string, std::map<std::string, std::string>>;
 
 class CameraInterface;
+class VisualizationSession;
 
 }  // namespace scrimmage
 

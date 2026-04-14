@@ -19,25 +19,34 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWERBACKEND_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VIEWERBACKEND_H_
+
+#include <map>
+#include <string>
+
+#include "scrimmage/fwd_decl.h"
 
 namespace scrimmage {
 
-// Deprecated. Remove when removing VTK.
-class CameraInterface;
+enum class ViewerBackendType { VTK = 0, OGRE_NEXT = 1 };
+
+class ViewerBackend {
+ public:
+    virtual ~ViewerBackend() = default;
+
+    virtual void set_incoming_interface(InterfacePtr& incoming_interface) = 0;
+    virtual void set_outgoing_interface(InterfacePtr& outgoing_interface) = 0;
+    virtual void set_enable_network(bool enable) = 0;
+
+    virtual bool init(
+        const MissionParsePtr& mp,
+        const std::map<std::string, std::string>& camera_params) = 0;
+    virtual bool run() = 0;
+};
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VIEWERBACKEND_H_

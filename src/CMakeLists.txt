@@ -137,8 +137,8 @@ foreach(plugin ${PROJECT_PLUGINS})
   add_dependencies(${plugin} scrimmage-core scrimmage-msgs scrimmage-proto-gen)
 endforeach()
 
-# Build visualizer is VTK is found
-if(NOT EXTERNAL AND ${VTK_FOUND})
+# Build viewer abstraction/backends when building the main SCRIMMAGE tree
+if(NOT EXTERNAL)
   add_subdirectory(viewer)
 endif()
 
