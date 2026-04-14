@@ -4,6 +4,14 @@
 //   /code/scrimmage
 //   /code/(>>>PROJECT_NAME<<<)
 //
+// SSH agent forwarding:
+//   To persist keys across reboots:
+//     macOS: ssh-add --apple-use-keychain ~/.ssh/id_rsa
+//     Linux: Add `AddKeysToAgent yes` to ~/.ssh/config
+//     Windows (PowerShell as Admin):
+//       Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
+//       ssh-add $HOME\.ssh\id_rsa
+//
 // QUICK START:
 //   1. Open this project in VS Code -> "Reopen in Container"
 //   2. Build base SCRIMMAGE inside the container:
@@ -32,6 +40,11 @@
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}"
   },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  },
+  "initializeCommand": "ssh-add -l || true",
   "customizations": {
     "vscode": {
       "extensions": [
