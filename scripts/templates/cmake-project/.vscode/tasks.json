@@ -1,0 +1,163 @@
+{
+  // Build and test tasks for an external SCRIMMAGE project.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "scrimmage-configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_BUILD_TYPE=${input:buildType}",
+        ".."
+      ],
+      "options": {
+        "cwd": "/root/scrimmage/build"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "scrimmage-configure-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        ".."
+      ],
+      "options": {
+        "cwd": "/root/scrimmage/build"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "scrimmage-build",
+      "type": "shell",
+      "command": "make",
+      "args": ["-j${input:jobs}"],
+      "options": {
+        "cwd": "/root/scrimmage/build"
+      },
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "cmake-configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_BUILD_TYPE=${input:buildType}",
+        "-Dscrimmage_DIR=/root/scrimmage/build",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "cmake-configure-debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-Dscrimmage_DIR=/root/scrimmage/build",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "make",
+      "args": ["-j${input:jobs}"],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "build-tests",
+      "type": "shell",
+      "command": "make",
+      "args": ["-j${input:jobs}"],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "make",
+      "args": ["clean"],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "rebuild",
+      "dependsOn": ["clean", "build"],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "ctest",
+      "args": ["--output-on-failure"],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "test-verbose",
+      "type": "shell",
+      "command": "ctest",
+      "args": ["--output-on-failure", "-V"],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": "test",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "buildType",
+      "type": "pickString",
+      "description": "Select build type",
+      "options": ["Debug", "Release", "RelWithDebInfo"],
+      "default": "Debug"
+    },
+    {
+      "id": "jobs",
+      "type": "pickString",
+      "description": "Number of parallel jobs",
+      "options": ["4", "8", "12", "16"],
+      "default": "8"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  // Debug configurations for an external SCRIMMAGE project.
+  // Requires: /root/scrimmage/build/bin/scrimmage and this project built with debug symbols.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug: scrimmage with example mission",
+      "type": "lldb",
+      "request": "launch",
+      "program": "/root/scrimmage/build/bin/scrimmage",
+      "args": ["${workspaceFolder}/missions/example.xml"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs",
+        "JSBSIM_ROOT": "/root/scrimmage/data"
+      },
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: scrimmage (prompt mission)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "/root/scrimmage/build/bin/scrimmage",
+      "args": ["${input:missionFile}"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs",
+        "JSBSIM_ROOT": "/root/scrimmage/data"
+      },
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: Current Test File",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/test/${fileBasenameNoExtension}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs"
+      },
+      "preLaunchTask": "build-tests",
+      "stopOnEntry": false
+    },
+    {
+      "name": "Debug: Attach to Process",
+      "type": "lldb",
+      "request": "attach",
+      "pid": "${command:pickProcess}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "missionFile",
+      "type": "promptString",
+      "description": "Mission XML path inside the container",
+      "default": "/root/(>>>PROJECT_NAME<<<)/missions/example.xml"
+    }
+  ]
+}

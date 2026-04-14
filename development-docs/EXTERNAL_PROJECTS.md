@@ -28,6 +28,8 @@ This creates a standalone project:
 ```
 MyProject/
 ├── CMakeLists.txt              # Uses find_package(scrimmage)
+├── .devcontainer/              # VS Code devcontainer for sibling SCRIMMAGE repo
+├── .vscode/                    # Build/debug tasks and LLDB launch configs
 ├── cmake/Modules/              # CMake helpers
 ├── include/MyProject/plugins/  # Plugin headers + XML configs
 │   └── autonomy/
@@ -45,6 +47,49 @@ MyProject/
 ├── setup/
 └── test/
 ```
+
+## VS Code Dev Container Workflow
+
+The generated template now includes a `.devcontainer/devcontainer.json` and `.vscode/{tasks,launch}.json` so an external project gets the same clangd, CMake Tools, and LLDB workflow as the main SCRIMMAGE repository.
+
+It assumes the repositories are siblings on the host:
+
+```text
+/code/scrimmage
+/code/MyProject
+```
+
+Inside the container those mounts become:
+
+```text
+/root/scrimmage
+/root/MyProject
+```
+
+The generated setup does three important things:
+
+1. Mounts the sibling SCRIMMAGE checkout into the container at `/root/scrimmage`
+2. Points clangd at the overlay project's `build/compile_commands.json`
+3. Configures CMake Tools and the default build tasks with `-Dscrimmage_DIR=/root/scrimmage/build`
+
+That means the recommended devcontainer workflow is:
+
+```bash
+# Inside the container, build SCRIMMAGE first
+cd /root/scrimmage
+mkdir -p build && cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug ..
+make -j$(nproc)
+
+# Then build the external project
+cd /root/MyProject
+mkdir -p build && cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
+  -Dscrimmage_DIR=/root/scrimmage/build ..
+make -j$(nproc)
+```
+
+The LLDB launch configuration runs `/root/scrimmage/build/bin/scrimmage` and injects both the base SCRIMMAGE paths and the overlay project's mission/plugin paths, so breakpoints in external plugins work without manually sourcing a setup script.
 
 ## How It Works
 

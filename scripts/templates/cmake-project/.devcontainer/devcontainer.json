@@ -1,0 +1,59 @@
+// External SCRIMMAGE project dev container
+//
+// Assumes sibling repositories on the host:
+//   /code/scrimmage
+//   /code/(>>>PROJECT_NAME<<<)
+//
+// QUICK START:
+//   1. Open this project in VS Code -> "Reopen in Container"
+//   2. Build base SCRIMMAGE inside the container:
+//        cd /root/scrimmage && mkdir -p build && cd build
+//        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug ..
+//        make -j$(nproc)
+//   3. Build this external project:
+//        cd /root/(>>>PROJECT_NAME<<<) && mkdir -p build && cd build
+//        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
+//              -Dscrimmage_DIR=/root/scrimmage/build ..
+//        make -j$(nproc)
+//   4. Press F5 and choose an LLDB configuration.
+//
+{
+  "name": "(>>>PROJECT_NAME<<<) Dev Container",
+  "build": {
+    "dockerfile": "../../scrimmage/ci/dockerfiles/ubuntu-24.04-slim-dependency-only",
+    "context": "../../scrimmage"
+  },
+  "workspaceFolder": "/root/(>>>PROJECT_NAME<<<)",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/root/(>>>PROJECT_NAME<<<),type=bind,consistency=cached",
+  "mounts": [
+    "source=${localWorkspaceFolder}/../scrimmage,target=/root/scrimmage,type=bind,consistency=cached",
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
+  ],
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "clangd.path": "/usr/bin/clangd",
+        "clangd.arguments": [
+          "--background-index",
+          "--compile-commands-dir=${workspaceFolder}/build"
+        ],
+        "cmake.buildDirectory": "${workspaceFolder}/build",
+        "cmake.configureArgs": [
+          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+          "-Dscrimmage_DIR=/root/scrimmage/build"
+        ],
+        "C_Cpp.intelliSenseEngine": "disabled"
+      }
+    }
+  },
+  "postCreateCommand": "mkdir -p /root/scrimmage/build /root/(>>>PROJECT_NAME<<<)/build"
+}

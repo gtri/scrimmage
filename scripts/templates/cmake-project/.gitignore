@@ -5,6 +5,9 @@ bin
 lib
 plugin_libs
 msg_libs
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 .gdbinit
 Makefile
 gdb.txt
