@@ -98,7 +98,50 @@ endif()
 # Ogre-Next backend
 ###################################################
 if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
+  set(OGRE_NEXT_GL3PLUS_PLUGIN_HINTS
+    ${OGRE_LIBRARY_DIRS}
+    /usr/lib/OGRE-Next
+    /usr/local/lib/OGRE-Next)
+
+  if (CMAKE_LIBRARY_ARCHITECTURE)
+    list(APPEND OGRE_NEXT_GL3PLUS_PLUGIN_HINTS
+      /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/OGRE-Next
+      /usr/local/lib/${CMAKE_LIBRARY_ARCHITECTURE}/OGRE-Next)
+  endif()
+
+  set(OGRE_NEXT_LIBRARY_HINTS
+    ${OGRE_LIBRARY_DIRS}
+    /usr/lib
+    /usr/local/lib)
+
+  if (CMAKE_LIBRARY_ARCHITECTURE)
+    list(APPEND OGRE_NEXT_LIBRARY_HINTS
+      /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
+      /usr/local/lib/${CMAKE_LIBRARY_ARCHITECTURE})
+  endif()
+
+  find_file(OGRE_NEXT_GL3PLUS_PLUGIN_PATH
+    NAMES RenderSystem_GL3Plus.so
+    HINTS ${OGRE_NEXT_GL3PLUS_PLUGIN_HINTS})
+
+  find_library(OGRE_NEXT_HLMS_PBS_LIBRARY
+    NAMES OgreNextHlmsPbs
+    HINTS ${OGRE_NEXT_LIBRARY_HINTS})
+
+  find_library(OGRE_NEXT_HLMS_UNLIT_LIBRARY
+    NAMES OgreNextHlmsUnlit
+    HINTS ${OGRE_NEXT_LIBRARY_HINTS})
+
+  if (NOT OGRE_NEXT_GL3PLUS_PLUGIN_PATH)
+    message(FATAL_ERROR "SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER is ON but RenderSystem_GL3Plus was not found")
+  endif()
+
+  if (NOT OGRE_NEXT_HLMS_PBS_LIBRARY OR NOT OGRE_NEXT_HLMS_UNLIT_LIBRARY)
+    message(FATAL_ERROR "SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER is ON but the Ogre-Next HLMS libraries were not found")
+  endif()
+
   add_library(scrimmage-viewer-ogre-next SHARED
+    ogre_next/OgreNextBootstrap.cpp
     ogre_next/OgreNextViewerBackend.cpp)
 
   add_dependencies(scrimmage-viewer-ogre-next
@@ -106,7 +149,18 @@ if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
     scrimmage-protos)
 
   target_include_directories(scrimmage-viewer-ogre-next
-    PUBLIC ${VIEWER_PUBLIC_INCLUDE_DIRS})
+    PUBLIC ${VIEWER_PUBLIC_INCLUDE_DIRS}
+    PRIVATE
+      ${OGRE_INCLUDE_DIRS}/Hlms/Common
+      ${OGRE_INCLUDE_DIRS}/Hlms/Pbs
+      ${OGRE_INCLUDE_DIRS}/Hlms/Unlit)
+
+  target_compile_definitions(scrimmage-viewer-ogre-next
+    PRIVATE
+      OGRE_DEBUG_MODE=0
+      SCRIMMAGE_OGRE_NEXT_PLUGIN_PATH="${OGRE_NEXT_GL3PLUS_PLUGIN_PATH}"
+      SCRIMMAGE_OGRE_NEXT_HLMS_SOURCE_PATH="${PROJECT_SOURCE_DIR}/data/ogre-next/Hlms"
+      SCRIMMAGE_OGRE_NEXT_HLMS_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/scrimmage/ogre-next/Hlms")
 
   if (OGRE_LIBRARY_DIRS)
     target_link_directories(scrimmage-viewer-ogre-next PRIVATE ${OGRE_LIBRARY_DIRS})
@@ -116,7 +170,9 @@ if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
     scrimmage-core
     scrimmage-protos
     scrimmage-boost
-    ${OGRE_LIBRARIES})
+    ${OGRE_LIBRARIES}
+    ${OGRE_NEXT_HLMS_PBS_LIBRARY}
+    ${OGRE_NEXT_HLMS_UNLIT_LIBRARY})
 
   target_link_libraries(${VIEWER_FACADE_LIB} PRIVATE scrimmage-viewer-ogre-next)
 

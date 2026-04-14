@@ -24,14 +24,19 @@
 #ifndef SRC_VIEWER_OGRE_NEXT_OGRENEXTVIEWERBACKEND_H_
 #define SRC_VIEWER_OGRE_NEXT_OGRENEXTVIEWERBACKEND_H_
 
+#include <memory>
+#include <thread>
+
 #include "scrimmage/viewer/ViewerBackend.h"
 
 namespace scrimmage {
 
+class OgreNextBootstrap;
+
 class OgreNextViewerBackend : public ViewerBackend {
  public:
-    OgreNextViewerBackend() = default;
-    ~OgreNextViewerBackend() override = default;
+    OgreNextViewerBackend();
+    ~OgreNextViewerBackend() override;
 
     void set_incoming_interface(InterfacePtr& incoming_interface) override;
     void set_outgoing_interface(InterfacePtr& outgoing_interface) override;
@@ -43,9 +48,17 @@ class OgreNextViewerBackend : public ViewerBackend {
     bool run() override;
 
  protected:
+    std::unique_ptr<OgreNextBootstrap> bootstrap_;
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
     bool enable_network_ = false;
+    std::thread network_thread_;
+
+    std::map<std::string, std::string> camera_params_;
+    std::string local_ip_ = "localhost";
+    int local_port_ = 50051;
+    std::string remote_ip_ = "localhost";
+    int remote_port_ = 50052;
 };
 
 }  // namespace scrimmage

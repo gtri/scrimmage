@@ -23,27 +23,15 @@
 
 #include "OgreNextViewerBackend.h"
 
-#include <iostream>
-
-#if __has_include(<OgrePrerequisites.h>)
-#include <OgrePrerequisites.h>
-#elif __has_include(<OGRE-Next/OgrePrerequisites.h>)
-#include <OGRE-Next/OgrePrerequisites.h>
-#endif
-
-#ifndef OGRE_VERSION_MAJOR
-#define OGRE_VERSION_MAJOR 0
-#endif
-
-#ifndef OGRE_VERSION_MINOR
-#define OGRE_VERSION_MINOR 0
-#endif
-
-#ifndef OGRE_VERSION_PATCH
-#define OGRE_VERSION_PATCH 0
-#endif
+#include "scrimmage/network/Interface.h"
+#include "scrimmage/parse/ParseUtils.h"
+#include "OgreNextBootstrap.h"
 
 namespace scrimmage {
+
+OgreNextViewerBackend::OgreNextViewerBackend() = default;
+
+OgreNextViewerBackend::~OgreNextViewerBackend() = default;
 
 void OgreNextViewerBackend::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
@@ -58,21 +46,42 @@ void OgreNextViewerBackend::set_enable_network(bool enable) {
 }
 
 bool OgreNextViewerBackend::init(
-    const MissionParsePtr& /*mp*/,
-    const std::map<std::string, std::string>& /*camera_params*/) {
-    std::cerr << "Ogre-Next backend selected ("
-              << OGRE_VERSION_MAJOR << "."
-              << OGRE_VERSION_MINOR << "."
-              << OGRE_VERSION_PATCH
-              << "), but only the build/runtime scaffolding is implemented in this phase."
-              << std::endl;
-    std::cerr << "Use the default VTK backend for GUI execution until the Ogre bootstrap lands."
-              << std::endl;
-    return false;
+    const MissionParsePtr& mp,
+    const std::map<std::string, std::string>& camera_params) {
+    camera_params_ = camera_params;
+    local_ip_ = get<std::string>("local_ip", camera_params_, local_ip_);
+    local_port_ = get<int>("local_port", camera_params_, local_port_);
+    remote_ip_ = get<std::string>("remote_ip", camera_params_, remote_ip_);
+    remote_port_ = get<int>("remote_port", camera_params_, remote_port_);
+
+    bootstrap_.reset(new OgreNextBootstrap());
+    return bootstrap_->init(mp, camera_params_);
 }
 
 bool OgreNextViewerBackend::run() {
-    return false;
+    if (!bootstrap_) {
+        return false;
+    }
+
+    if (enable_network_) {
+        outgoing_interface_->init_network(Interface::client, remote_ip_, remote_port_);
+        network_thread_ = std::thread(
+            &Interface::init_network,
+            &(*incoming_interface_),
+            Interface::server,
+            local_ip_,
+            local_port_);
+        network_thread_.detach();
+    } else {
+        if (incoming_interface_) {
+            incoming_interface_->set_mode(Interface::shared);
+        }
+        if (outgoing_interface_) {
+            outgoing_interface_->set_mode(Interface::shared);
+        }
+    }
+
+    return bootstrap_->run();
 }
 
 }  // namespace scrimmage

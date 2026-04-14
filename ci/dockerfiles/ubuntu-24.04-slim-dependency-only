@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libboost-all-dev librapidxml-dev libeigen3-dev \
     libvtk9-dev vtk9 \
     libogre-next-dev ogre-next-tools libsdl2-dev \
+    xvfb openbox x11vnc novnc websockify \
     qtbase5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev \
     vim \
     clangd \
