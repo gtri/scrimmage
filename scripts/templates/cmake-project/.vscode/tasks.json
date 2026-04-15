@@ -1,5 +1,6 @@
 {
   // High-signal install-tree tasks for an external SCRIMMAGE project.
+  // Visible install tasks finish by opening a sourced runtime shell.
   // Helper tasks are hidden so the task picker stays small.
   "version": "2.0.0",
   "tasks": [
@@ -160,7 +161,8 @@
       "problemMatcher": []
     },
     {
-      "label": "install-release (scrimmage + project)",
+      "label": "_install-release-all",
+      "hide": true,
       "dependsOn": [
         "_scrimmage-configure-release",
         "_scrimmage-install",
@@ -168,11 +170,11 @@
         "_project-install"
       ],
       "dependsOrder": "sequence",
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "install-debug (scrimmage + project)",
+      "label": "_install-debug-all",
+      "hide": true,
       "dependsOn": [
         "_scrimmage-configure-debug",
         "_scrimmage-install",
@@ -180,6 +182,51 @@
         "_project-install"
       ],
       "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "_install-release-project-only",
+      "hide": true,
+      "dependsOn": [
+        "_project-configure-release",
+        "_project-install"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "install-release (scrimmage + project)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -e; cd \"${workspaceFolder}\"; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+      ],
+      "dependsOn": ["_install-release-all"],
+      "dependsOrder": "sequence",
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "focus": true
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "install-debug (scrimmage + project)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -e; cd \"${workspaceFolder}\"; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+      ],
+      "dependsOn": ["_install-debug-all"],
+      "dependsOrder": "sequence",
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "focus": true
+      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -188,11 +235,21 @@
     },
     {
       "label": "install-release (project only)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -e; cd \"${workspaceFolder}\"; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+      ],
       "dependsOn": [
-        "_project-configure-release",
-        "_project-install"
+        "_install-release-project-only"
       ],
       "dependsOrder": "sequence",
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "focus": true
+      },
       "group": "build",
       "problemMatcher": []
     },

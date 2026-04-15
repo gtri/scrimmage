@@ -19,7 +19,7 @@
         "LD_LIBRARY_PATH": "${workspaceFolder}/build/install/lib:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
         "JSBSIM_ROOT": "/root/scrimmage/data"
       },
-      "preLaunchTask": "install-debug (scrimmage + project)",
+      "preLaunchTask": "_install-debug-all",
       "stopOnEntry": false
     },
     {
@@ -38,7 +38,7 @@
         "LD_LIBRARY_PATH": "${workspaceFolder}/build/install/lib:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
         "JSBSIM_ROOT": "/root/scrimmage/data"
       },
-      "preLaunchTask": "install-debug (scrimmage + project)",
+      "preLaunchTask": "_install-debug-all",
       "stopOnEntry": false
     },
     {
