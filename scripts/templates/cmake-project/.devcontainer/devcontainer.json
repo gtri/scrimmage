@@ -50,6 +50,7 @@
     "ghcr.io/devcontainers/features/sshd:1": {}
   },
   "initializeCommand": "ssh-add -l || true",
+  "postStartCommand": "bash -lc 'git config --global --get-all safe.directory | grep -Fxq /root/scrimmage || git config --global --add safe.directory /root/scrimmage; git config --global --get-all safe.directory | grep -Fxq \"${workspaceFolder}\" || git config --global --add safe.directory \"${workspaceFolder}\"'",
   "customizations": {
     "vscode": {
       "extensions": [

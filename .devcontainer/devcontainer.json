@@ -19,6 +19,7 @@
   "workspaceFolder": "/root/scrimmage",
   "workspaceMount": "source=${localWorkspaceFolder},target=/root/scrimmage,type=bind,consistency=cached",
   "runArgs": ["-v", "/tmp/.X11-unix:/tmp/.X11-unix"],
+  "postStartCommand": "bash -lc 'git config --global --get-all safe.directory | grep -Fxq /root/scrimmage || git config --global --add safe.directory /root/scrimmage'",
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}"
   },
