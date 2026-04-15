@@ -51,4 +51,8 @@ bool VtkViewerBackend::run() {
     return viewer_.run();
 }
 
+void VtkViewerBackend::stop() {
+    viewer_.stop();
+}
+
 }  // namespace scrimmage
