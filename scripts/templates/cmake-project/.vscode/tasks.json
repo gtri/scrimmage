@@ -199,8 +199,8 @@
       "type": "shell",
       "command": "bash",
       "args": [
-        "-ic",
-        "set -e; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; cd \"${workspaceFolder}\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+        "-lc",
+        "exec bash --rcfile <(cat <<'EOFRC'\nsource /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv\nsource \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"\ncd \"${workspaceFolder}\"\nprintf \"\\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\\n\"\nEOFRC\n) -i"
       ],
       "dependsOn": ["_install-release-all"],
       "dependsOrder": "sequence",
@@ -217,8 +217,8 @@
       "type": "shell",
       "command": "bash",
       "args": [
-        "-ic",
-        "set -e; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; cd \"${workspaceFolder}\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+        "-lc",
+        "exec bash --rcfile <(cat <<'EOFRC'\nsource /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv\nsource \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"\ncd \"${workspaceFolder}\"\nprintf \"\\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\\n\"\nEOFRC\n) -i"
       ],
       "dependsOn": ["_install-debug-all"],
       "dependsOrder": "sequence",
@@ -238,8 +238,8 @@
       "type": "shell",
       "command": "bash",
       "args": [
-        "-ic",
-        "set -e; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; cd \"${workspaceFolder}\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+        "-lc",
+        "exec bash --rcfile <(cat <<'EOFRC'\nsource /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv\nsource \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"\ncd \"${workspaceFolder}\"\nprintf \"\\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\\n\"\nEOFRC\n) -i"
       ],
       "dependsOn": [
         "_install-release-project-only"
@@ -258,8 +258,8 @@
       "type": "shell",
       "command": "bash",
       "args": [
-        "-ic",
-        "set -e; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; cd \"${workspaceFolder}\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+        "-lc",
+        "exec bash --rcfile <(cat <<'EOFRC'\nsource /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv\nsource \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"\ncd \"${workspaceFolder}\"\nprintf \"\\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\\n\"\nEOFRC\n) -i"
       ],
       "presentation": {
         "panel": "new",
