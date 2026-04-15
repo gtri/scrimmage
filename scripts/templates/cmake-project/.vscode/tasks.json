@@ -1,14 +1,16 @@
 {
-  // Install-tree build and test tasks for an external SCRIMMAGE project.
+  // High-signal install-tree tasks for an external SCRIMMAGE project.
+  // Helper tasks are hidden so the task picker stays small.
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "scrimmage-configure",
+      "label": "_scrimmage-configure-release",
+      "hide": true,
       "type": "shell",
       "command": "cmake",
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-        "-DCMAKE_BUILD_TYPE=${input:buildType}",
+        "-DCMAKE_BUILD_TYPE=Release",
         "-DSETUP_HOME_CONFIG=OFF",
         "-DCMAKE_INSTALL_PREFIX=/root/scrimmage/build/install",
         ".."
@@ -16,11 +18,11 @@
       "options": {
         "cwd": "/root/scrimmage/build"
       },
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "scrimmage-configure-debug",
+      "label": "_scrimmage-configure-debug",
+      "hide": true,
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -33,27 +35,27 @@
       "options": {
         "cwd": "/root/scrimmage/build"
       },
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "scrimmage-install",
+      "label": "_scrimmage-install",
+      "hide": true,
       "type": "shell",
       "command": "make",
       "args": ["-j${input:jobs}", "install"],
       "options": {
         "cwd": "/root/scrimmage/build"
       },
-      "group": "build",
-      "problemMatcher": "$gcc"
+      "problemMatcher": []
     },
     {
-      "label": "cmake-configure",
+      "label": "_project-configure-release",
+      "hide": true,
       "type": "shell",
       "command": "cmake",
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-        "-DCMAKE_BUILD_TYPE=${input:buildType}",
+        "-DCMAKE_BUILD_TYPE=Release",
         "-DSETUP_LOCAL_CONFIG_DIR=OFF",
         "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/build/install",
         "-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage",
@@ -62,11 +64,11 @@
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "cmake-configure-debug",
+      "label": "_project-configure-debug",
+      "hide": true,
       "type": "shell",
       "command": "cmake",
       "args": [
@@ -80,62 +82,108 @@
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "build",
+      "label": "_project-configure-debug-tests",
+      "hide": true,
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DBUILD_TESTS=ON",
+        "-DSETUP_LOCAL_CONFIG_DIR=OFF",
+        "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/build/install",
+        "-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "_project-install",
+      "hide": true,
       "type": "shell",
       "command": "make",
       "args": ["-j${input:jobs}", "install"],
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": "$gcc"
+      "problemMatcher": []
     },
     {
-      "label": "build-tests",
+      "label": "_project-build-tests",
+      "hide": true,
       "type": "shell",
       "command": "make",
       "args": ["-j${input:jobs}"],
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
-      "group": "build",
-      "problemMatcher": "$gcc"
-    },
-    {
-      "label": "install-debug",
-      "dependsOn": [
-        "scrimmage-configure-debug",
-        "scrimmage-install",
-        "cmake-configure-debug",
-        "build"
-      ],
-      "dependsOrder": "sequence",
-      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "clean",
+      "label": "_prepare-tests-debug",
+      "hide": true,
+      "dependsOn": [
+        "_scrimmage-configure-debug",
+        "_scrimmage-install",
+        "_project-configure-debug-tests",
+        "_project-build-tests"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "_scrimmage-clean",
+      "hide": true,
+      "type": "shell",
+      "command": "make",
+      "args": ["clean"],
+      "options": {
+        "cwd": "/root/scrimmage/build"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "_project-clean",
+      "hide": true,
       "type": "shell",
       "command": "make",
       "args": ["clean"],
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
+      "problemMatcher": []
+    },
+    {
+      "label": "install-release",
+      "dependsOn": [
+        "_scrimmage-configure-release",
+        "_scrimmage-install",
+        "_project-configure-release",
+        "_project-install"
+      ],
+      "dependsOrder": "sequence",
       "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "rebuild",
-      "dependsOn": ["clean", "build"],
+      "label": "install-debug",
+      "dependsOn": [
+        "_scrimmage-configure-debug",
+        "_scrimmage-install",
+        "_project-configure-debug",
+        "_project-install"
+      ],
       "dependsOrder": "sequence",
-      "group": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": []
     },
     {
@@ -146,6 +194,8 @@
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
+      "dependsOn": ["_prepare-tests-debug"],
+      "dependsOrder": "sequence",
       "group": {
         "kind": "test",
         "isDefault": true
@@ -160,18 +210,20 @@
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
+      "dependsOn": ["_prepare-tests-debug"],
+      "dependsOrder": "sequence",
       "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "clean",
+      "dependsOn": ["_project-clean", "_scrimmage-clean"],
+      "dependsOrder": "sequence",
+      "group": "build",
       "problemMatcher": []
     }
   ],
   "inputs": [
-    {
-      "id": "buildType",
-      "type": "pickString",
-      "description": "Select build type",
-      "options": ["Debug", "Release", "RelWithDebInfo"],
-      "default": "Debug"
-    },
     {
       "id": "jobs",
       "type": "pickString",

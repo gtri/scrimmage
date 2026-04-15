@@ -57,7 +57,7 @@
         "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
         "JSBSIM_ROOT": "/root/scrimmage/data"
       },
-      "preLaunchTask": "build-tests",
+      "preLaunchTask": "_prepare-tests-debug",
       "stopOnEntry": false
     },
     {
