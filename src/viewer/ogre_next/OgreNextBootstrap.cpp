@@ -27,6 +27,7 @@
 #include <csignal>
 #include <cstring>
 #include <cerrno>
+#include <atomic>
 #include <chrono>
 #include <filesystem>
 #include <iostream>
@@ -56,11 +57,18 @@
 #include <OGRE-Next/OgreSceneManager.h>
 #include <OGRE-Next/OgreSceneNode.h>
 #include <OGRE-Next/OgreVector3.h>
+#include <OGRE-Next/OgreWireAabb.h>
 #include <OGRE-Next/OgreWindow.h>
 #include <OGRE-Next/OgreWindowEventUtilities.h>
 #include <OGRE-Next/Compositor/OgreCompositorManager2.h>
+#include <OGRE-Next/Compositor/OgreCompositorNodeDef.h>
+#include <OGRE-Next/Compositor/OgreCompositorWorkspaceDef.h>
+#include <OGRE-Next/Compositor/Pass/OgreCompositorPassDef.h>
+#include <OGRE-Next/Compositor/Pass/PassScene/OgreCompositorPassSceneDef.h>
 #include <OGRE-Next/Hlms/Pbs/OgreHlmsPbs.h>
 #include <OGRE-Next/Hlms/Unlit/OgreHlmsUnlit.h>
+#include <OGRE-Next/Hlms/Unlit/OgreHlmsUnlitDatablock.h>
+#include <OGRE-Next/Math/Simple/C/OgreAabb.h>
 
 #include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/MissionParse.h"
@@ -92,7 +100,15 @@ class VirtualDesktopSession {
 
     bool ensure_display() {
         if (has_display()) {
-            return true;
+            const std::string current_display = get_env_or_default("DISPLAY", "");
+            if (display_responding(current_display)) {
+                return true;
+            }
+
+            std::cout << "DISPLAY is set to '" << current_display
+                      << "' but is not reachable from the container. "
+                      << "Starting the container-local virtual desktop fallback."
+                      << std::endl;
         }
 
         stop();
@@ -151,7 +167,7 @@ class VirtualDesktopSession {
         }
 
         if (!spawn({"x11vnc", "-display", display, "-rfbport", vnc_port, "-forever", "-shared",
-                    "-nopw", "-localhost"})) {
+                "-nopw", "-localhost", "-noxdamage"})) {
             stop();
             return false;
         }
@@ -453,11 +469,6 @@ Ogre::Vector3 to_ogre_vector(const std::vector<double>& values, const Ogre::Vect
     return Ogre::Vector3(values[0], values[1], values[2]);
 }
 
-bool display_available() {
-    const char* display = std::getenv("DISPLAY");
-    return display != nullptr && display[0] != '\0';
-}
-
 std::vector<std::string> split_paths(const std::string& value, char delimiter) {
     std::vector<std::string> paths;
     std::stringstream ss(value);
@@ -562,20 +573,204 @@ void unload_hlms_archive_set(HlmsArchiveSet& archive_set) {
 struct OgreNextBootstrap::Impl : public Ogre::WindowEventListener {
     std::unique_ptr<Ogre::Root> root;
     VirtualDesktopSession virtual_desktop;
+    MissionParsePtr mission_parse;
+    std::map<std::string, std::string> camera_params;
 
     Ogre::SceneManager* scene_manager = nullptr;
     Ogre::Camera* camera = nullptr;
     Ogre::Window* window = nullptr;
     Ogre::CompositorWorkspace* workspace = nullptr;
+    Ogre::WireAabb* test_primitive_wire_aabb = nullptr;
     HlmsArchiveSet hlms_unlit_archives;
     HlmsArchiveSet hlms_pbs_archives;
 
-    bool running = false;
+    std::atomic<bool> running{false};
     bool listener_registered = false;
     bool render_system_plugin_loaded = false;
 
     const Ogre::String workspace_name = "ScrimmageOgreNextWorkspace";
+    const Ogre::String test_primitive_datablock_name = "ScrimmageOgreNextTestPrimitiveMaterial";
     const Ogre::String render_system_plugin_path = SCRIMMAGE_OGRE_NEXT_PLUGIN_PATH;
+
+    bool initialize_on_current_thread() {
+        if (mission_parse == nullptr) {
+            std::cerr << "Error: Ogre-Next bootstrap was not configured with a mission." << std::endl;
+            return false;
+        }
+
+        root.reset(new Ogre::Root("", "", "scrimmage-ogre-next.log", "SCRIMMAGE"));
+        root->loadPlugin(render_system_plugin_path, false, nullptr);
+        render_system_plugin_loaded = true;
+
+        Ogre::RenderSystem* render_system = select_render_system();
+        if (render_system == nullptr) {
+            std::cerr << "Error: no Ogre-Next render system is available." << std::endl;
+            return false;
+        }
+
+        root->setRenderSystem(render_system);
+        root->initialise(false);
+
+        std::cout << "Ogre bootstrap: creating render window." << std::endl;
+
+        window = root->createRenderWindow(
+            "SCRIMMAGE Ogre-Next",
+            mission_parse->window_width(),
+            mission_parse->window_height(),
+            mission_parse->full_screen());
+
+        if (window == nullptr) {
+            std::cerr << "Error: failed to create the Ogre-Next render window." << std::endl;
+            return false;
+        }
+
+        Ogre::WindowEventUtilities::addWindowEventListener(window, this);
+        listener_registered = true;
+
+        std::cout << "Ogre bootstrap: registering HLMS." << std::endl;
+
+        if (!register_hlms()) {
+            return false;
+        }
+
+        std::cout << "Ogre bootstrap: HLMS registered." << std::endl;
+
+        std::cout << "Ogre bootstrap: render window created." << std::endl;
+
+        std::cout << "Ogre bootstrap: creating scene manager." << std::endl;
+
+        scene_manager = root->createSceneManager(
+            Ogre::ST_GENERIC,
+            1u,
+            Ogre::String());
+        std::cout << "Ogre bootstrap: scene manager created." << std::endl;
+
+        scene_manager->setAmbientLight(
+            Ogre::ColourValue(0.35f, 0.35f, 0.40f),
+            Ogre::ColourValue(0.10f, 0.10f, 0.12f),
+            Ogre::Vector3(0.0f, 0.0f, 1.0f),
+            1.0f);
+        std::cout << "Ogre bootstrap: ambient light configured." << std::endl;
+
+        camera = scene_manager->createCamera("ScrimmageOgreNextCamera");
+        std::cout << "Ogre bootstrap: camera created." << std::endl;
+        camera->setNearClipDistance(0.5f);
+        camera->setAutoAspectRatio(true);
+
+        const Ogre::Vector3 default_camera_position(0.0f, 1.0f, 200.0f);
+        const Ogre::Vector3 default_camera_focal_point(0.0f, 0.0f, 0.0f);
+        const Ogre::Vector3 camera_position = to_ogre_vector(
+            parse_camera_vector(camera_params, "pos", "0, 1, 200"),
+            default_camera_position);
+        const Ogre::Vector3 camera_focal_point = to_ogre_vector(
+            parse_camera_vector(camera_params, "focal_point", "0, 0, 0"),
+            default_camera_focal_point);
+
+        camera->setPosition(camera_position);
+        camera->lookAt(camera_focal_point);
+        std::cout << "Ogre bootstrap: camera configured." << std::endl;
+
+        if (!create_test_primitive()) {
+            return false;
+        }
+
+        if (!create_basic_workspace()) {
+            return false;
+        }
+
+        std::cout << "Initialized Ogre-Next Unlit compositor bootstrap viewer." << std::endl;
+        return true;
+    }
+
+    bool create_test_primitive() {
+        if (scene_manager == nullptr) {
+            return false;
+        }
+
+        Ogre::HlmsManager* hlms_manager = root != nullptr ? root->getHlmsManager() : nullptr;
+        Ogre::Hlms* unlit_hlms = hlms_manager != nullptr ? hlms_manager->getHlms(Ogre::HLMS_UNLIT) : nullptr;
+        if (unlit_hlms == nullptr) {
+            std::cerr << "Error: Ogre-Next Unlit HLMS is unavailable for the test primitive."
+                      << std::endl;
+            return false;
+        }
+
+        Ogre::HlmsDatablock* datablock = unlit_hlms->getDatablock(test_primitive_datablock_name);
+        if (datablock == nullptr) {
+            datablock = unlit_hlms->createDatablock(
+                test_primitive_datablock_name,
+                test_primitive_datablock_name,
+                Ogre::HlmsMacroblock(),
+                Ogre::HlmsBlendblock(),
+                Ogre::HlmsParamVec());
+        }
+
+        Ogre::HlmsUnlitDatablock* unlit_datablock =
+            dynamic_cast<Ogre::HlmsUnlitDatablock*>(datablock);
+        if (unlit_datablock == nullptr) {
+            std::cerr << "Error: failed to create an Ogre-Next Unlit datablock for the test primitive."
+                      << std::endl;
+            return false;
+        }
+
+        unlit_datablock->setUseColour(true);
+        unlit_datablock->setColour(Ogre::ColourValue(0.95f, 0.35f, 0.15f, 1.0f));
+
+        test_primitive_wire_aabb = scene_manager->createWireAabb();
+        test_primitive_wire_aabb->setDatablock(unlit_datablock);
+        test_primitive_wire_aabb->setToAabb(
+            Ogre::Aabb(Ogre::Vector3::ZERO, Ogre::Vector3(20.0f, 20.0f, 20.0f)));
+
+        std::cout << "Ogre bootstrap: created visible test primitive." << std::endl;
+        return true;
+    }
+
+    bool create_basic_workspace() {
+        if (root == nullptr || scene_manager == nullptr || camera == nullptr || window == nullptr) {
+            return false;
+        }
+
+        Ogre::CompositorManager2* compositor_manager = root->getCompositorManager2();
+        if (compositor_manager == nullptr) {
+            std::cerr << "Error: Ogre-Next compositor manager is unavailable." << std::endl;
+            return false;
+        }
+
+        Ogre::TextureGpu* final_render_target = window->getTexture();
+        if (final_render_target == nullptr) {
+            std::cerr << "Error: Ogre-Next window did not provide a render texture." << std::endl;
+            return false;
+        }
+
+        if (workspace != nullptr) {
+            compositor_manager->removeWorkspace(workspace);
+            workspace = nullptr;
+        }
+
+        const Ogre::IdString workspace_def_name(workspace_name);
+        const Ogre::IdString empty_shadow_node_name;
+        if (!compositor_manager->hasWorkspaceDefinition(workspace_def_name)) {
+            compositor_manager->createBasicWorkspaceDef(
+                workspace_name,
+                Ogre::ColourValue(0.10f, 0.10f, 0.12f, 1.0f),
+                empty_shadow_node_name);
+        }
+
+        workspace = compositor_manager->addWorkspace(
+            scene_manager,
+            final_render_target,
+            camera,
+            workspace_def_name,
+            true);
+
+        if (workspace == nullptr) {
+            std::cerr << "Error: failed to create the Ogre-Next compositor workspace." << std::endl;
+            return false;
+        }
+
+        std::cout << "Ogre bootstrap: compositor workspace created." << std::endl;
+        return true;
+    }
 
     ~Impl() override {
         destroy();
@@ -668,6 +863,11 @@ struct OgreNextBootstrap::Impl : public Ogre::WindowEventListener {
             }
 
             if (scene_manager != nullptr) {
+                if (test_primitive_wire_aabb != nullptr) {
+                    scene_manager->destroyWireAabb(test_primitive_wire_aabb);
+                    test_primitive_wire_aabb = nullptr;
+                }
+
                 if (camera != nullptr) {
                     scene_manager->destroyCamera(camera);
                     camera = nullptr;
@@ -676,22 +876,14 @@ struct OgreNextBootstrap::Impl : public Ogre::WindowEventListener {
                 root->destroySceneManager(scene_manager);
                 scene_manager = nullptr;
             }
-
-            if (root->isInitialised()) {
-                root->shutdown();
-            }
-
-            if (render_system_plugin_loaded) {
-                root->unloadPlugin(render_system_plugin_path);
-                render_system_plugin_loaded = false;
-            }
         }
-
-        unload_hlms_archive_set(hlms_pbs_archives);
-        unload_hlms_archive_set(hlms_unlit_archives);
 
         window = nullptr;
         root.reset();
+        render_system_plugin_loaded = false;
+
+        unload_hlms_archive_set(hlms_pbs_archives);
+        unload_hlms_archive_set(hlms_unlit_archives);
     }
 
     bool windowClosing(Ogre::Window* closing_window) override {
@@ -715,102 +907,31 @@ OgreNextBootstrap::~OgreNextBootstrap() = default;
 bool OgreNextBootstrap::init(
     const MissionParsePtr& mp,
     const std::map<std::string, std::string>& camera_params) {
-    if (!display_available() && !impl_->virtual_desktop.ensure_display()) {
+    if (!impl_->virtual_desktop.ensure_display()) {
         return false;
     }
-
-    try {
-        impl_->destroy();
-
-        impl_->root.reset(new Ogre::Root("", "", "scrimmage-ogre-next.log", "SCRIMMAGE"));
-        impl_->root->loadPlugin(impl_->render_system_plugin_path, false, nullptr);
-        impl_->render_system_plugin_loaded = true;
-
-        Ogre::RenderSystem* render_system = impl_->select_render_system();
-        if (render_system == nullptr) {
-            std::cerr << "Error: no Ogre-Next render system is available." << std::endl;
-            impl_->destroy();
-            return false;
-        }
-
-        impl_->root->setRenderSystem(render_system);
-        impl_->root->initialise(false);
-
-        std::cout << "Ogre bootstrap: creating render window." << std::endl;
-
-        impl_->window = impl_->root->createRenderWindow(
-            "SCRIMMAGE Ogre-Next",
-            mp->window_width(),
-            mp->window_height(),
-            mp->full_screen());
-
-        if (impl_->window == nullptr) {
-            std::cerr << "Error: failed to create the Ogre-Next render window." << std::endl;
-            impl_->destroy();
-            return false;
-        }
-
-        Ogre::WindowEventUtilities::addWindowEventListener(impl_->window, impl_.get());
-        impl_->listener_registered = true;
-
-        std::cout << "Ogre bootstrap: registering HLMS." << std::endl;
-
-        if (!impl_->register_hlms()) {
-            impl_->destroy();
-            return false;
-        }
-
-        std::cout << "Ogre bootstrap: HLMS registered." << std::endl;
-
-        std::cout << "Ogre bootstrap: render window created." << std::endl;
-
-        std::cout << "Ogre bootstrap: creating scene manager." << std::endl;
-
-        impl_->scene_manager = impl_->root->createSceneManager(
-            Ogre::ST_GENERIC,
-            1u,
-            Ogre::String());
-        std::cout << "Ogre bootstrap: scene manager created." << std::endl;
-        impl_->scene_manager->setAmbientLight(
-            Ogre::ColourValue(0.35f, 0.35f, 0.40f),
-            Ogre::ColourValue(0.10f, 0.10f, 0.12f),
-            Ogre::Vector3(0.0f, 0.0f, 1.0f),
-            1.0f);
-        std::cout << "Ogre bootstrap: ambient light configured." << std::endl;
-
-        impl_->camera = impl_->scene_manager->createCamera("ScrimmageOgreNextCamera");
-        std::cout << "Ogre bootstrap: camera created." << std::endl;
-        impl_->camera->setNearClipDistance(0.5f);
-        impl_->camera->setAutoAspectRatio(true);
-
-        const Ogre::Vector3 default_camera_position(0.0f, 1.0f, 200.0f);
-        const Ogre::Vector3 default_camera_focal_point(0.0f, 0.0f, 0.0f);
-        const Ogre::Vector3 camera_position = to_ogre_vector(
-            parse_camera_vector(camera_params, "pos", "0, 1, 200"),
-            default_camera_position);
-        const Ogre::Vector3 camera_focal_point = to_ogre_vector(
-            parse_camera_vector(camera_params, "focal_point", "0, 0, 0"),
-            default_camera_focal_point);
-
-        impl_->camera->setPosition(camera_position);
-        impl_->camera->lookAt(camera_focal_point);
-        std::cout << "Ogre bootstrap: camera configured." << std::endl;
-
-        std::cout << "Initialized Ogre-Next window-only bootstrap viewer." << std::endl;
-        return true;
-    } catch (const Ogre::Exception& exception) {
-        LOG_ERROR(exception.getFullDescription());
-    } catch (const std::exception& exception) {
-        LOG_ERROR(exception.what());
-    }
-
     impl_->destroy();
-    return false;
+    impl_->mission_parse = mp;
+    impl_->camera_params = camera_params;
+    return true;
 }
 
 bool OgreNextBootstrap::run() {
     if (impl_->root == nullptr || impl_->window == nullptr) {
-        return false;
+        try {
+            if (!impl_->initialize_on_current_thread()) {
+                impl_->destroy();
+                return false;
+            }
+        } catch (const Ogre::Exception& exception) {
+            LOG_ERROR(exception.getFullDescription());
+            impl_->destroy();
+            return false;
+        } catch (const std::exception& exception) {
+            LOG_ERROR(exception.what());
+            impl_->destroy();
+            return false;
+        }
     }
 
     impl_->running = true;
@@ -839,6 +960,12 @@ bool OgreNextBootstrap::run() {
 
     impl_->running = false;
     return true;
+}
+
+void OgreNextBootstrap::stop() {
+    if (impl_) {
+        impl_->running = false;
+    }
 }
 
 }  // namespace scrimmage

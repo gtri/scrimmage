@@ -84,4 +84,10 @@ bool OgreNextViewerBackend::run() {
     return bootstrap_->run();
 }
 
+void OgreNextViewerBackend::stop() {
+    if (bootstrap_) {
+        bootstrap_->stop();
+    }
+}
+
 }  // namespace scrimmage

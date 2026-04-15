@@ -41,6 +41,35 @@ Builds the dependency image from the Dockerfile in this repo.
 
 This automatically configures clangd intellisense and X11 forwarding (Linux).
 
+### Viewer Validation In A Devcontainer Or Headless Host
+
+The direct Ogre command is now the preferred flow:
+
+```bash
+cd /root/scrimmage
+scrimmage --ogre missions/straight.xml
+```
+
+Behavior:
+- On bare-metal Ubuntu 24.04 with a working X11 desktop session, it uses the existing `DISPLAY` and launches the Ogre viewer directly.
+- In a devcontainer or headless environment with no `DISPLAY`, the Ogre bootstrap now starts `Xvfb`, `openbox`, `x11vnc`, and `websockify` automatically, then exposes the window through noVNC.
+
+Default noVNC URL:
+```text
+http://127.0.0.1:6080/vnc.html?autoconnect=1&resize=scale
+```
+
+Useful environment overrides:
+```bash
+SCRIMMAGE_VIEWER_HTTP_PORT=6081 scrimmage --ogre missions/straight.xml
+SCRIMMAGE_VIEWER_VNC_PORT=5901 scrimmage --ogre missions/straight.xml
+SCRIMMAGE_VIEWER_DISPLAY=:100 scrimmage --ogre missions/straight.xml
+SCRIMMAGE_VIEWER_SCREEN=2560x1440x24 scrimmage --ogre missions/straight.xml
+SCRIMMAGE_VIEWER_SOFTWARE_GL=1 scrimmage --ogre missions/straight.xml
+```
+
+This is the recommended visual-validation path for containers because it avoids fragile host XQuartz or direct X11 passthrough issues while still working on bare metal when a native desktop is available.
+
 ---
 
 ## Option B: Run Pre-built Image (No Development)

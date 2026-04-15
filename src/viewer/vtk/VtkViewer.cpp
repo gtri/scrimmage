@@ -195,4 +195,10 @@ bool VtkViewer::run() {
     return true;
 }
 
+void VtkViewer::stop() {
+    if (renderWindowInteractor_ != nullptr) {
+        renderWindowInteractor_->TerminateApp();
+    }
+}
+
 }  // namespace scrimmage

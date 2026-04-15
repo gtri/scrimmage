@@ -157,7 +157,7 @@ if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
 
   target_compile_definitions(scrimmage-viewer-ogre-next
     PRIVATE
-      OGRE_DEBUG_MODE=0
+      _DEBUG=1
       SCRIMMAGE_OGRE_NEXT_PLUGIN_PATH="${OGRE_NEXT_GL3PLUS_PLUGIN_PATH}"
       SCRIMMAGE_OGRE_NEXT_HLMS_SOURCE_PATH="${PROJECT_SOURCE_DIR}/data/ogre-next/Hlms"
       SCRIMMAGE_OGRE_NEXT_HLMS_INSTALL_PATH="${CMAKE_INSTALL_PREFIX}/share/scrimmage/ogre-next/Hlms")

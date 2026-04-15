@@ -44,6 +44,7 @@ class OgreNextBootstrap {
         const MissionParsePtr& mp,
         const std::map<std::string, std::string>& camera_params);
     bool run();
+        void stop();
 
  protected:
     struct Impl;

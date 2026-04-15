@@ -45,6 +45,7 @@ class ViewerBackend {
         const MissionParsePtr& mp,
         const std::map<std::string, std::string>& camera_params) = 0;
     virtual bool run() = 0;
+    virtual void stop() {}
 };
 
 }  // namespace scrimmage

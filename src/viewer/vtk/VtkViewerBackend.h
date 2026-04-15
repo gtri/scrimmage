@@ -43,6 +43,7 @@ class VtkViewerBackend : public ViewerBackend {
         const MissionParsePtr& mp,
         const std::map<std::string, std::string>& camera_params) override;
     bool run() override;
+    void stop() override;
 
  protected:
     VtkViewer viewer_;

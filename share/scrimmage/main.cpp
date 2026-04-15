@@ -215,19 +215,26 @@ int main(int argc, char* argv[]) {
     }
 
     // Run SimControl::run() blocking function, which steps through simulation
+    auto stop_and_join_viewer = [&]() {
+        if (viewer != nullptr) {
+            viewer->stop();
+        }
+        if (viewer_thread != nullptr && viewer_thread->joinable()) {
+            viewer_thread->join();
+        }
+    };
+
     if (not simcontrol.run()) {
+        stop_and_join_viewer();
         cout << "SimControl::run() failed." << endl;
         return -1;
     }
 
+    stop_and_join_viewer();
+
     if (not simcontrol.shutdown()) {
         cout << "Failed to shutdown properly." << endl;
         return -1;
-    }
-
-    // Join the viewer thread, if it was created
-    if (viewer_thread != nullptr) {
-        viewer_thread->join();
     }
 
     return 0;

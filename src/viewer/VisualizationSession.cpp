@@ -76,4 +76,10 @@ bool VisualizationSession::run() {
     return backend_ ? backend_->run() : false;
 }
 
+void VisualizationSession::stop() {
+    if (backend_) {
+        backend_->stop();
+    }
+}
+
 }  // namespace scrimmage
