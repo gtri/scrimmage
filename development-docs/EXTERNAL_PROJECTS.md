@@ -66,30 +66,38 @@ Inside the container those mounts become:
 /root/MyProject
 ```
 
-The generated setup does three important things:
+The generated setup does four important things:
 
 1. Mounts the sibling SCRIMMAGE checkout into the container at `/root/scrimmage`
 2. Points clangd at the overlay project's `build/compile_commands.json`
-3. Configures CMake Tools and the default build tasks with `-Dscrimmage_DIR=/root/scrimmage/build`
+3. Configures CMake Tools and the default build tasks for install-tree builds with `SETUP_*_CONFIG=OFF`
+4. Points the overlay project at the installed SCRIMMAGE package with `-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage`
 
 That means the recommended devcontainer workflow is:
 
 ```bash
-# Inside the container, build SCRIMMAGE first
+# Inside the container, build and install SCRIMMAGE first
 cd /root/scrimmage
 mkdir -p build && cd build
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug ..
-make -j$(nproc)
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
+  -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=$PWD/install ..
+make -j$(nproc) install
 
-# Then build the external project
+# Then build and install the external project
 cd /root/MyProject
 mkdir -p build && cd build
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
-  -Dscrimmage_DIR=/root/scrimmage/build ..
-make -j$(nproc)
+  -DSETUP_LOCAL_CONFIG_DIR=OFF \
+  -DCMAKE_INSTALL_PREFIX=$PWD/install \
+  -Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage ..
+make -j$(nproc) install
+
+# Source both install trees when running from a terminal
+source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+source /root/MyProject/build/install/etc/MyProject/env/MyProject-setenv
 ```
 
-The LLDB launch configuration runs `/root/scrimmage/build/bin/scrimmage` and injects both the base SCRIMMAGE paths and the overlay project's mission/plugin paths, so breakpoints in external plugins work without manually sourcing a setup script.
+The LLDB launch configuration runs `/root/scrimmage/build/install/bin/scrimmage` and uses the installed overlay plugin and library paths, so `F5` matches the install-tree workflow instead of the bare metal build-tree path layout.
 
 ## How It Works
 

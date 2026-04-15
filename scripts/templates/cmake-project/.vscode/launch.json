@@ -1,42 +1,44 @@
 {
   // Debug configurations for an external SCRIMMAGE project.
-  // Requires: /root/scrimmage/build/bin/scrimmage and this project built with debug symbols.
+  // Requires install-tree debug builds for SCRIMMAGE and this project.
   "version": "0.2.0",
   "configurations": [
     {
       "name": "Debug: scrimmage with example mission",
       "type": "lldb",
       "request": "launch",
-      "program": "/root/scrimmage/build/bin/scrimmage",
+      "program": "/root/scrimmage/build/install/bin/scrimmage",
       "args": ["${workspaceFolder}/missions/example.xml"],
       "cwd": "${workspaceFolder}",
       "env": {
-        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
-        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
-        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
-        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data:/root/scrimmage/build/install/share/scrimmage/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:${workspaceFolder}/build/install/share/(>>>PROJECT_NAME<<<)/missions:/root/scrimmage/missions:/root/scrimmage/build/install/share/scrimmage/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/plugins:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/etc/scrimmage/plugins:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config:/root/scrimmage/build/install/etc/scrimmage/config",
         "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
-        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/install/lib:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
         "JSBSIM_ROOT": "/root/scrimmage/data"
       },
+      "preLaunchTask": "install-debug",
       "stopOnEntry": false
     },
     {
       "name": "Debug: scrimmage (prompt mission)",
       "type": "lldb",
       "request": "launch",
-      "program": "/root/scrimmage/build/bin/scrimmage",
+      "program": "/root/scrimmage/build/install/bin/scrimmage",
       "args": ["${input:missionFile}"],
       "cwd": "${workspaceFolder}",
       "env": {
-        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
-        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
-        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
-        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data:/root/scrimmage/build/install/share/scrimmage/data",
+        "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:${workspaceFolder}/build/install/share/(>>>PROJECT_NAME<<<)/missions:/root/scrimmage/missions:/root/scrimmage/build/install/share/scrimmage/missions",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/plugins:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/etc/scrimmage/plugins:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config:/root/scrimmage/build/install/etc/scrimmage/config",
         "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
-        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs",
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/install/lib:${workspaceFolder}/build/install/lib/(>>>PROJECT_NAME<<<)/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
         "JSBSIM_ROOT": "/root/scrimmage/data"
       },
+      "preLaunchTask": "install-debug",
       "stopOnEntry": false
     },
     {
@@ -47,12 +49,13 @@
       "args": [],
       "cwd": "${workspaceFolder}",
       "env": {
-        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data",
+        "SCRIMMAGE_DATA_PATH": "/root/scrimmage/data:/root/scrimmage/build/install/share/scrimmage/data",
         "SCRIMMAGE_MISSION_PATH": "${workspaceFolder}/missions:/root/scrimmage/missions",
-        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/plugin_libs:/root/scrimmage/include/scrimmage/plugins",
-        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config",
+        "SCRIMMAGE_PLUGIN_PATH": "${workspaceFolder}/build/plugin_libs:${workspaceFolder}/include/(>>>PROJECT_NAME<<<)/plugins:/root/scrimmage/build/install/etc/scrimmage/plugins:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
+        "SCRIMMAGE_CONFIG_PATH": "/root/scrimmage/config:/root/scrimmage/build/install/etc/scrimmage/config",
         "SCRIMMAGE_KERNEL_PATH": "/root/scrimmage/src/gpu/kernels",
-        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/lib:/root/scrimmage/build/plugin_libs"
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/lib:${workspaceFolder}/build/plugin_libs:/root/scrimmage/build/install/lib:/root/scrimmage/build/install/lib/scrimmage/plugin_libs",
+        "JSBSIM_ROOT": "/root/scrimmage/data"
       },
       "preLaunchTask": "build-tests",
       "stopOnEntry": false

@@ -16,14 +16,19 @@
 //   1. Open this project in VS Code -> "Reopen in Container"
 //   2. Build base SCRIMMAGE inside the container:
 //        cd /root/scrimmage && mkdir -p build && cd build
-//        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug ..
-//        make -j$(nproc)
+//        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
+//              -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=$PWD/install ..
+//        make -j$(nproc) install
 //   3. Build this external project:
 //        cd /root/(>>>PROJECT_NAME<<<) && mkdir -p build && cd build
 //        cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
-//              -Dscrimmage_DIR=/root/scrimmage/build ..
-//        make -j$(nproc)
-//   4. Press F5 and choose an LLDB configuration.
+//              -DSETUP_LOCAL_CONFIG_DIR=OFF \
+//              -DCMAKE_INSTALL_PREFIX=$PWD/install \
+//              -Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage ..
+//        make -j$(nproc) install
+//   4. source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+//   5. source /root/(>>>PROJECT_NAME<<<)/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv
+//   6. Press F5 or run scrimmage /root/(>>>PROJECT_NAME<<<)/missions/example.xml
 //
 {
   "name": "(>>>PROJECT_NAME<<<) Dev Container",
@@ -62,11 +67,13 @@
         "cmake.buildDirectory": "${workspaceFolder}/build",
         "cmake.configureArgs": [
           "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-          "-Dscrimmage_DIR=/root/scrimmage/build"
+          "-DSETUP_LOCAL_CONFIG_DIR=OFF",
+          "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/build/install",
+          "-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage"
         ],
         "C_Cpp.intelliSenseEngine": "disabled"
       }
     }
   },
-  "postCreateCommand": "mkdir -p /root/scrimmage/build /root/(>>>PROJECT_NAME<<<)/build"
+  "postCreateCommand": "mkdir -p /root/scrimmage/build/install /root/(>>>PROJECT_NAME<<<)/build/install"
 }

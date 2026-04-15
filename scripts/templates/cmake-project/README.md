@@ -12,31 +12,42 @@ This template is intended to sit next to a SCRIMMAGE checkout.
 The generated project includes:
 
 - `.devcontainer/devcontainer.json` with clangd, CMake Tools, and CodeLLDB
-- `.vscode/tasks.json` for configuring and building SCRIMMAGE plus this overlay project
-- `.vscode/launch.json` for debugging `scrimmage` against this project's missions and plugins
+- `.vscode/tasks.json` for configuring and installing SCRIMMAGE plus this overlay project
+- `.vscode/launch.json` for debugging the installed `scrimmage` binary against this project's missions and plugins
 
-The devcontainer mounts the sibling SCRIMMAGE repository at `/root/scrimmage` and configures this project against the SCRIMMAGE build tree with `-Dscrimmage_DIR=/root/scrimmage/build`.
+The devcontainer mounts the sibling SCRIMMAGE repository at `/root/scrimmage` and configures this project against the SCRIMMAGE install tree with `-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage`.
 
 ## Build
 
-Build SCRIMMAGE first:
+Build and install SCRIMMAGE first:
 
 ```bash
 cd /code/scrimmage
 mkdir -p build && cd build
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug ..
-make -j$(nproc)
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
+    -DSETUP_HOME_CONFIG=OFF -DCMAKE_INSTALL_PREFIX=$PWD/install ..
+make -j$(nproc) install
 ```
 
-Then build this project:
+Then build and install this project:
 
 ```bash
 cd /code/(>>>PROJECT_NAME<<<)
 mkdir -p build && cd build
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug \
-    -Dscrimmage_DIR=/code/scrimmage/build ..
-make -j$(nproc)
+    -DSETUP_LOCAL_CONFIG_DIR=OFF \
+    -DCMAKE_INSTALL_PREFIX=$PWD/install \
+    -Dscrimmage_DIR=/code/scrimmage/build/install/share/cmake/scrimmage ..
+make -j$(nproc) install
 ```
 
-If you prefer to use an install tree instead of the SCRIMMAGE build tree, point `scrimmage_DIR` at the installed `share/cmake/scrimmage` directory and update the devcontainer/task settings to match.
+Source both setenv files before running from a terminal:
+
+```bash
+source /code/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv
+source /code/(>>>PROJECT_NAME<<<)/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv
+scrimmage /code/(>>>PROJECT_NAME<<<)/missions/example.xml
+```
+
+The launch configurations use the installed binary and installed plugin libraries, so `F5` matches the install-tree workflow.
     

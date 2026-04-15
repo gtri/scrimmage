@@ -1,5 +1,5 @@
 {
-  // Build and test tasks for an external SCRIMMAGE project.
+  // Install-tree build and test tasks for an external SCRIMMAGE project.
   "version": "2.0.0",
   "tasks": [
     {
@@ -9,6 +9,8 @@
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_BUILD_TYPE=${input:buildType}",
+        "-DSETUP_HOME_CONFIG=OFF",
+        "-DCMAKE_INSTALL_PREFIX=/root/scrimmage/build/install",
         ".."
       ],
       "options": {
@@ -24,6 +26,8 @@
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_BUILD_TYPE=Debug",
+        "-DSETUP_HOME_CONFIG=OFF",
+        "-DCMAKE_INSTALL_PREFIX=/root/scrimmage/build/install",
         ".."
       ],
       "options": {
@@ -33,10 +37,10 @@
       "problemMatcher": []
     },
     {
-      "label": "scrimmage-build",
+      "label": "scrimmage-install",
       "type": "shell",
       "command": "make",
-      "args": ["-j${input:jobs}"],
+      "args": ["-j${input:jobs}", "install"],
       "options": {
         "cwd": "/root/scrimmage/build"
       },
@@ -50,7 +54,9 @@
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_BUILD_TYPE=${input:buildType}",
-        "-Dscrimmage_DIR=/root/scrimmage/build",
+        "-DSETUP_LOCAL_CONFIG_DIR=OFF",
+        "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/build/install",
+        "-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage",
         ".."
       ],
       "options": {
@@ -66,7 +72,9 @@
       "args": [
         "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
         "-DCMAKE_BUILD_TYPE=Debug",
-        "-Dscrimmage_DIR=/root/scrimmage/build",
+        "-DSETUP_LOCAL_CONFIG_DIR=OFF",
+        "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/build/install",
+        "-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage",
         ".."
       ],
       "options": {
@@ -79,7 +87,7 @@
       "label": "build",
       "type": "shell",
       "command": "make",
-      "args": ["-j${input:jobs}"],
+      "args": ["-j${input:jobs}", "install"],
       "options": {
         "cwd": "${workspaceFolder}/build"
       },
@@ -99,6 +107,18 @@
       },
       "group": "build",
       "problemMatcher": "$gcc"
+    },
+    {
+      "label": "install-debug",
+      "dependsOn": [
+        "scrimmage-configure-debug",
+        "scrimmage-install",
+        "cmake-configure-debug",
+        "build"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "problemMatcher": []
     },
     {
       "label": "clean",
