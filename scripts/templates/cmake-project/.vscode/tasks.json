@@ -160,7 +160,7 @@
       "problemMatcher": []
     },
     {
-      "label": "install-release",
+      "label": "install-release (scrimmage + project)",
       "dependsOn": [
         "_scrimmage-configure-release",
         "_scrimmage-install",
@@ -172,7 +172,7 @@
       "problemMatcher": []
     },
     {
-      "label": "install-debug",
+      "label": "install-debug (scrimmage + project)",
       "dependsOn": [
         "_scrimmage-configure-debug",
         "_scrimmage-install",
@@ -184,6 +184,16 @@
         "kind": "build",
         "isDefault": true
       },
+      "problemMatcher": []
+    },
+    {
+      "label": "install-release (project only)",
+      "dependsOn": [
+        "_project-configure-release",
+        "_project-install"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
       "problemMatcher": []
     },
     {
