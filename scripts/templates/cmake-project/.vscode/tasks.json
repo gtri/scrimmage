@@ -254,6 +254,22 @@
       "problemMatcher": []
     },
     {
+      "label": "open sourced shell",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "set -e; cd \"${workspaceFolder}\"; source /root/scrimmage/build/install/etc/scrimmage/env/scrimmage-setenv; source \"${workspaceFolder}/build/install/etc/(>>>PROJECT_NAME<<<)/env/(>>>PROJECT_NAME<<<)-setenv\"; printf '\nSCRIMMAGE and (>>>PROJECT_NAME<<<) runtime environment loaded.\n'; exec bash -i"
+      ],
+      "presentation": {
+        "panel": "new",
+        "reveal": "always",
+        "focus": true
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
       "label": "test",
       "type": "shell",
       "command": "ctest",

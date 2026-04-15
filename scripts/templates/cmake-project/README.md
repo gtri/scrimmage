@@ -17,7 +17,7 @@ The generated project includes:
 
 The devcontainer mounts the sibling SCRIMMAGE repository at `/root/scrimmage` and configures this project against the SCRIMMAGE install tree with `-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage`.
 
-The visible install tasks in VS Code open a fresh terminal after the install finishes and source both install-tree env files automatically, so you can run `scrimmage` immediately in that shell.
+The visible install tasks in VS Code open a fresh terminal after the install finishes and source both install-tree env files automatically, so you can run `scrimmage` immediately in that shell. There is also an `open sourced shell` task when you want that environment without rebuilding first.
 
 ## Build
 

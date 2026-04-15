@@ -73,7 +73,7 @@ The generated setup does four important things:
 3. Configures CMake Tools and the default build tasks for install-tree builds with `SETUP_*_CONFIG=OFF`
 4. Points the overlay project at the installed SCRIMMAGE package with `-Dscrimmage_DIR=/root/scrimmage/build/install/share/cmake/scrimmage`
 
-The visible install tasks also open a fresh terminal after the install completes and source both install-tree setenv files automatically, so you can run `scrimmage` immediately without manually sourcing in a separate shell.
+The visible install tasks also open a fresh terminal after the install completes and source both install-tree setenv files automatically, so you can run `scrimmage` immediately without manually sourcing in a separate shell. The generated task list also includes an `open sourced shell` task for opening that environment on demand without rebuilding first.
 
 That means the recommended devcontainer workflow is:
 
