@@ -41,6 +41,25 @@ Builds the dependency image from the Dockerfile in this repo.
 
 This automatically configures clangd intellisense and X11 forwarding (Linux).
 
+### GUI Support (Linux)
+
+To run SCRIMMAGE with the VTK/OGRE GUI from inside the devcontainer, you need to allow the container to access your host's X server.
+
+**One-time setup** - Add this to your **host machine's** `~/.bashrc`:
+```bash
+xhost +local:docker > /dev/null 2>&1
+```
+
+Then either open a new terminal or run `source ~/.bashrc`.
+
+**Run with GUI:**
+```bash
+source ~/.scrimmage/setup.bash
+scrimmage missions/straight.xml
+```
+
+If you see "Authorization required, but no authorization protocol specified" or a segfault, the `xhost` command hasn't been run on your host.
+
 ---
 
 ## Option B: Run Pre-built Image (No Development)
