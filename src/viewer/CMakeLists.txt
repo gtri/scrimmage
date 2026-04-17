@@ -99,24 +99,29 @@ endif()
 ###################################################
 if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
   add_library(scrimmage-viewer-ogre-next SHARED
-    ogre_next/OgreNextViewerBackend.cpp)
+    ogre_next/OgreNextViewerBackend.cpp
+    ogre_next/OgreNextViewer.cpp)
 
   add_dependencies(scrimmage-viewer-ogre-next
     scrimmage-core
     scrimmage-protos)
 
   target_include_directories(scrimmage-viewer-ogre-next
-    PUBLIC ${VIEWER_PUBLIC_INCLUDE_DIRS})
+    PUBLIC ${VIEWER_PUBLIC_INCLUDE_DIRS}
+    PRIVATE ${OGRE_INCLUDE_DIRS})
 
   if (OGRE_LIBRARY_DIRS)
     target_link_directories(scrimmage-viewer-ogre-next PRIVATE ${OGRE_LIBRARY_DIRS})
   endif()
 
+  # Link OGRE libraries - pkg-config may not include HLMS libs, so add explicitly
   target_link_libraries(scrimmage-viewer-ogre-next
     scrimmage-core
     scrimmage-protos
     scrimmage-boost
-    ${OGRE_LIBRARIES})
+    ${OGRE_LIBRARIES}
+    OgreNextHlmsPbs
+    OgreNextHlmsUnlit)
 
   target_link_libraries(${VIEWER_FACADE_LIB} PRIVATE scrimmage-viewer-ogre-next)
 

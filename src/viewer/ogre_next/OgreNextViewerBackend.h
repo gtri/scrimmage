@@ -26,6 +26,8 @@
 
 #include "scrimmage/viewer/ViewerBackend.h"
 
+#include "OgreNextViewer.h"
+
 namespace scrimmage {
 
 class OgreNextViewerBackend : public ViewerBackend {
@@ -43,6 +45,7 @@ class OgreNextViewerBackend : public ViewerBackend {
     bool run() override;
 
  protected:
+    OgreNextViewer viewer_;
     InterfacePtr incoming_interface_;
     InterfacePtr outgoing_interface_;
     bool enable_network_ = false;

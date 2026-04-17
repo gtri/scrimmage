@@ -23,56 +23,32 @@
 
 #include "OgreNextViewerBackend.h"
 
-#include <iostream>
-
-#if __has_include(<OgrePrerequisites.h>)
-#include <OgrePrerequisites.h>
-#elif __has_include(<OGRE-Next/OgrePrerequisites.h>)
-#include <OGRE-Next/OgrePrerequisites.h>
-#endif
-
-#ifndef OGRE_VERSION_MAJOR
-#define OGRE_VERSION_MAJOR 0
-#endif
-
-#ifndef OGRE_VERSION_MINOR
-#define OGRE_VERSION_MINOR 0
-#endif
-
-#ifndef OGRE_VERSION_PATCH
-#define OGRE_VERSION_PATCH 0
-#endif
-
 namespace scrimmage {
 
 void OgreNextViewerBackend::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
+    viewer_.set_incoming_interface(incoming_interface_);
 }
 
 void OgreNextViewerBackend::set_outgoing_interface(InterfacePtr& outgoing_interface) {
     outgoing_interface_ = outgoing_interface;
+    viewer_.set_outgoing_interface(outgoing_interface_);
 }
 
 void OgreNextViewerBackend::set_enable_network(bool enable) {
     enable_network_ = enable;
+    viewer_.set_enable_network(enable_network_);
 }
 
 bool OgreNextViewerBackend::init(
-    const MissionParsePtr& /*mp*/,
-    const std::map<std::string, std::string>& /*camera_params*/) {
-    std::cerr << "Ogre-Next backend selected ("
-              << OGRE_VERSION_MAJOR << "."
-              << OGRE_VERSION_MINOR << "."
-              << OGRE_VERSION_PATCH
-              << "), but only the build/runtime scaffolding is implemented in this phase."
-              << std::endl;
-    std::cerr << "Use the default VTK backend for GUI execution until the Ogre bootstrap lands."
-              << std::endl;
-    return false;
+    const MissionParsePtr& mp,
+    const std::map<std::string, std::string>& camera_params) {
+    viewer_.set_enable_network(enable_network_);
+    return viewer_.init(mp, camera_params);
 }
 
 bool OgreNextViewerBackend::run() {
-    return false;
+    return viewer_.run();
 }
 
 }  // namespace scrimmage

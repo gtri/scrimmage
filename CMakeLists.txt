@@ -85,6 +85,23 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall") # -fprofile-arcs -ftest-coverage")
 
+# OGRE-Next ABI workaround (Ubuntu 24.04 libogre-next-dev 2.3.3+dfsg-0ubuntu2)
+# ============================================================================
+# The Ubuntu OGRE-Next package exhibits memory corruption when client code is
+# compiled without _DEBUG defined. Specifically, calling createBasicWorkspaceDef()
+# followed by Window::getTexture() causes a crash due to corrupted internal state.
+#
+# Root cause: OGRE headers contain conditional code based on _DEBUG that affects
+# template instantiations and inline function behavior. When the client code
+# doesn't match the expected debug state, ABI mismatches occur.
+#
+# Solution: Always define _DEBUG=1 when using the Ubuntu OGRE-Next package,
+# regardless of CMAKE_BUILD_TYPE. This ensures compatible code generation.
+#
+# See: development-docs/OGRE-Next-Implementation-Plan.md for full details.
+# ============================================================================
+add_compile_definitions(_DEBUG=1 OGRE_IGNORE_DEBUG_FLAG_CONTRADICTION=1)
+
 option(SETUP_HOME_CONFIG "Setup ~/.scrimmage" ON)
 set(LOCAL_CONFIG_DIR "$ENV{HOME}/.scrimmage" CACHE PATH "Local ~/.scrimmage config directory")
 include(GenerateSetEnv)
@@ -262,6 +279,16 @@ if (SCRIMMAGE_BUILD_OGRE_NEXT_VIEWER)
 
   find_package(OGRE-Next CONFIG QUIET PATHS ${_SCRIMMAGE_OGRE_NEXT_HINTS})
 
+  # If CONFIG find succeeded, extract variables from OGRE-Next_* to OGRE_*
+  if (OGRE-Next_FOUND)
+    set(OGRE_INCLUDE_DIRS ${OGRE-Next_INCLUDE_DIR})
+    set(OGRE_LIBRARIES ${OGRE-Next_LIBRARY_REL})
+    # Also include HLMS subdirectories (Common is needed for internal HLMS headers)
+    list(APPEND OGRE_INCLUDE_DIRS ${OGRE-Next_INCLUDE_DIR}/Hlms/Common)
+    list(APPEND OGRE_INCLUDE_DIRS ${OGRE-Next_HlmsPbs_INCLUDE_DIR})
+    list(APPEND OGRE_INCLUDE_DIRS ${OGRE-Next_HlmsUnlit_INCLUDE_DIR})
+  endif()
+
   if (NOT OGRE_LIBRARIES OR NOT OGRE_INCLUDE_DIRS)
     find_package(PkgConfig QUIET)
     if (PkgConfig_FOUND)
@@ -279,6 +306,7 @@ if (OGRE_LIBRARIES AND OGRE_INCLUDE_DIRS)
   set(SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER ON)
   include_directories(SYSTEM ${OGRE_INCLUDE_DIRS})
   add_definitions(-DENABLE_OGRE_NEXT=1)
+  message(STATUS "Found Ogre-Next include dirs: ${OGRE_INCLUDE_DIRS}")
   message(STATUS "Found Ogre-Next libraries: ${OGRE_LIBRARIES}")
 else()
   add_definitions(-DENABLE_OGRE_NEXT=0)

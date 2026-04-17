@@ -734,6 +734,32 @@ void mainLoop() {
 
 OGRE-Next uses a **synchronous threading model**. When multithreading is enabled, all worker threads are woken and complete their work before the main thread continues. This provides determinism and simplifies reasoning about thread safety.
 
+### OpenGL Context Thread Affinity (CRITICAL)
+
+OpenGL contexts are **thread-bound**. The GL context must be created and used on the same thread. If your application architecture calls initialization from one thread and rendering from another (common pattern), you must defer ALL OGRE object creation to the render thread.
+
+**Problem scenario:**
+```cpp
+// WRONG: Creates GL context on thread A
+main_thread: init() { mRoot = ...; mWindow = createRenderWindow(); }
+// Tries to render on thread B - BLACK WINDOW
+render_thread: run() { mRoot->renderOneFrame(); }
+```
+
+**Correct pattern:**
+```cpp
+// Only store config, no OGRE objects
+main_thread: init() { mResourcePath = ...; mWindowWidth = ...; return true; }
+// Create everything on render thread
+render_thread: run() { 
+    mRoot = ...; 
+    mWindow = createRenderWindow();  // GL context created here
+    while (!quit) mRoot->renderOneFrame();  // Renders on same thread
+}
+```
+
+This pattern is used by VTK and is the recommended approach when your architecture requires init/run separation across threads.
+
 ### Thread Count Recommendations
 
 ```cpp
