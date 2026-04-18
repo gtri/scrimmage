@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     protobuf-compiler libprotobuf-dev libprotoc-dev libgeographiclib-dev \
     libboost-all-dev librapidxml-dev libeigen3-dev \
     libvtk9-dev vtk9 \
-    libogre-next-dev ogre-next-tools libsdl2-dev \
+    libogre-next-dev ogre-next-tools \
     libx11-dev libxrandr-dev libxaw7-dev libgl1-mesa-dev libglu1-mesa-dev \
     qtbase5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev \
     vim \

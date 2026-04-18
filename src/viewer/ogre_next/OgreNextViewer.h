@@ -29,6 +29,7 @@
 #include <thread>
 
 #include "scrimmage/fwd_decl.h"
+#include "scrimmage/proto/GUIControl.pb.h"
 
 // Forward declarations for OGRE-Next types
 namespace Ogre {
@@ -106,6 +107,22 @@ class OgreNextViewer {
     
     // Perform actual OGRE initialization. Called from run() on render thread.
     bool initOgre();
+    
+    // Initialize X11 input handling (get display and window from OGRE)
+    bool initX11Input();
+    
+    // Process X11 events (keyboard, window close, etc.)
+    // Returns false if quit was requested
+    bool processX11Events();
+    
+    // Handle a key press event (mirrors VtkCameraInterface::OnKeyPress)
+    void handleKeyPress(const std::string& key);
+    
+    // GUI message helpers (mirror VtkUpdater pattern)
+    void togglePause();
+    void singleStep();
+    void incWarp();
+    void decWarp();
 
     // OGRE core objects (created in initOgre, destroyed in destructor)
     Ogre::Root* mRoot = nullptr;
@@ -138,6 +155,13 @@ class OgreNextViewer {
     bool full_screen_ = false;
     bool mQuit = false;
     bool mInitialized = false;  // Track if initOgre() succeeded
+    
+    // GUI message for sending commands back to simulation
+    scrimmage_proto::GUIMsg gui_msg_;
+    
+    // X11 state for input handling (pointers to OGRE's X11 resources)
+    void* x11_display_ = nullptr;  // Display* but avoid X11 header in .h
+    unsigned long x11_window_ = 0;  // Window (X11 type)
 };
 
 }  // namespace scrimmage

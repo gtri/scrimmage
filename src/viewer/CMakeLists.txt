@@ -98,6 +98,9 @@ endif()
 # Ogre-Next backend
 ###################################################
 if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
+  # Find X11 for input handling (OGRE creates X11 window, we handle events)
+  find_package(X11 REQUIRED)
+
   add_library(scrimmage-viewer-ogre-next SHARED
     ogre_next/OgreNextViewerBackend.cpp
     ogre_next/OgreNextViewer.cpp)
@@ -108,7 +111,8 @@ if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
 
   target_include_directories(scrimmage-viewer-ogre-next
     PUBLIC ${VIEWER_PUBLIC_INCLUDE_DIRS}
-    PRIVATE ${OGRE_INCLUDE_DIRS})
+    PRIVATE ${OGRE_INCLUDE_DIRS}
+    PRIVATE ${X11_INCLUDE_DIR})
 
   if (OGRE_LIBRARY_DIRS)
     target_link_directories(scrimmage-viewer-ogre-next PRIVATE ${OGRE_LIBRARY_DIRS})
@@ -120,6 +124,7 @@ if (SCRIMMAGE_HAVE_OGRE_NEXT_VIEWER)
     scrimmage-protos
     scrimmage-boost
     ${OGRE_LIBRARIES}
+    ${X11_LIBRARIES}
     OgreNextHlmsPbs
     OgreNextHlmsUnlit)
 

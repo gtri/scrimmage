@@ -28,6 +28,8 @@
 #include <iostream>
 
 // OGRE-Next 2.3 headers
+// NOTE: OGRE headers include X11/Xlib.h internally on Linux, which defines
+// macros (Success, Status, etc.) that break Eigen and other libraries.
 #include <OgreRoot.h>
 #include <OgreRenderSystem.h>
 #include <OgreWindow.h>
@@ -46,23 +48,61 @@
 #include <Compositor/OgreCompositorManager2.h>
 #include <Compositor/OgreCompositorWorkspace.h>
 
+// X11 for input handling - included after OGRE (which already includes Xlib)
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+
+// Undefine X11 macros that conflict with Eigen and other libraries.
+// X11/X.h defines these as macros but Eigen uses them as enum values.
+#ifdef Success
+#undef Success
+#endif
+#ifdef Status
+#undef Status  
+#endif
+#ifdef None
+#undef None
+#endif
+#ifdef Bool
+#undef Bool
+#endif
+#ifdef True
+#undef True
+#endif
+#ifdef False
+#undef False
+#endif
+
+// Now safe to include scrimmage headers that use Eigen
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
+#include "scrimmage/network/Interface.h"
 
 namespace scrimmage {
 
 OgreNextViewer::OgreNextViewer() : enable_network_(false) {}
 
 OgreNextViewer::~OgreNextViewer() {
-    // Only clean up if we actually initialized OGRE
-    if (mRoot) {
-        if (mSceneManager) {
-            mRoot->destroySceneManager(mSceneManager);
-            mSceneManager = nullptr;
-        }
-        OGRE_DELETE mRoot;
-        mRoot = nullptr;
-    }
+    // OGRE-Next cleanup is complex and can cause crashes due to:
+    // - HLMS objects being deleted by HlmsManager
+    // - GL context issues when destroying from wrong thread
+    // - Order-dependent destruction of internal OGRE objects
+    //
+    // For now, we let the OS clean up on process exit which is safe.
+    // The process is ending anyway, so no memory is actually leaked.
+    // This mirrors how many graphics applications handle cleanup.
+    //
+    // TODO: Implement proper shutdown sequence if needed for cases where
+    // the viewer is destroyed but the process continues.
+    
+    // Clear our borrowed pointers (we don't own these)
+    x11_display_ = nullptr;
+    x11_window_ = 0;
+    mWorkspace = nullptr;
+    mSceneManager = nullptr;
+    mWindow = nullptr;
+    mCamera = nullptr;
+    mRoot = nullptr;  // Don't delete - let OS cleanup
 }
 
 void OgreNextViewer::set_incoming_interface(InterfacePtr& incoming_interface) {
@@ -87,7 +127,10 @@ std::string OgreNextViewer::resolveResourcePath() {
     }
 
     // Priority 2: Check for data/ogre_next/ relative to current dir (development)
-    // This handles the case where we're running from the build directory
+    // User may run from source root or build directory
+    if (std::filesystem::exists("./data/ogre_next/plugins.cfg")) {
+        return "./data/ogre_next/";
+    }
     if (std::filesystem::exists("../data/ogre_next/plugins.cfg")) {
         return "../data/ogre_next/";
     }
@@ -445,14 +488,32 @@ bool OgreNextViewer::run() {
         std::cerr << "Error: Failed to initialize OGRE on render thread." << std::endl;
         return false;
     }
+    
+    // Initialize X11 input handling (get display/window from OGRE)
+    if (!initX11Input()) {
+        std::cerr << "Error: Failed to initialize X11 input handling." << std::endl;
+        return false;
+    }
 
     std::cout << "OGRE: Starting render loop..." << std::endl;
     std::cout << "OGRE: Window visible: " << (mWindow->isVisible() ? "yes" : "no") << std::endl;
     std::cout << "OGRE: Workspace enabled: " << (mWorkspace && mWorkspace->getEnabled() ? "yes" : "no") << std::endl;
+    std::cout << "OGRE: Press 'b' to start simulation, 'q' or ESC to quit" << std::endl;
 
-    // Simple render loop - will be enhanced with OgreNextUpdater in Phase 3
+    // Render loop with X11 event handling
     int frameCount = 0;
     while (!mWindow->isClosed() && !mQuit) {
+        // Note: We intentionally do NOT check for shutting_down messages here.
+        // The simulation will continue running until completion. When it's done,
+        // SimControl::shutdown() will wait for us via viewer_thread->join().
+        // We exit when the user closes the window or presses quit.
+        
+        // Process X11 events (keyboard, window close)
+        if (!processX11Events()) {
+            std::cout << "OGRE: processX11Events returned false, exiting loop" << std::endl;
+            break;  // Quit requested
+        }
+        
         Ogre::WindowEventUtilities::messagePump();
 
         // Render frame
@@ -463,9 +524,236 @@ bool OgreNextViewer::run() {
             frameCount++;
         }
     }
+    
+    // Debug: Why did we exit?
+    std::cout << "OGRE: Loop exit - window closed: " << mWindow->isClosed() 
+              << ", mQuit: " << mQuit << std::endl;
 
     std::cout << "OGRE-Next render loop ended." << std::endl;
+    
+    // Signal the simulation that we're shutting down (mirror VTK behavior)
+    // This tells SimControl to stop the simulation loop
+    if (outgoing_interface_) {
+        gui_msg_.set_shutting_down(true);
+        outgoing_interface_->send_gui_msg(gui_msg_);
+        std::cout << "OGRE: Sent shutting_down message to simulation" << std::endl;
+    }
+    
+    // Destroy the window to close it properly
+    if (mWindow) {
+        mWindow->setHidden(true);
+        mWindow->destroy();
+        mWindow = nullptr;
+        std::cout << "OGRE: Window destroyed" << std::endl;
+    }
+    
     return true;
+}
+
+// ============================================================================
+// X11 Input Handling
+// ============================================================================
+
+bool OgreNextViewer::initX11Input() {
+    // Get X11 display and window handles from OGRE
+    // OGRE stores these as custom attributes on the window
+    
+    mWindow->getCustomAttribute("DISPLAY", &x11_display_);
+    mWindow->getCustomAttribute("WINDOW", &x11_window_);
+    
+    if (!x11_display_) {
+        std::cerr << "X11 Error: Could not get DISPLAY from OGRE window" << std::endl;
+        return false;
+    }
+    
+    if (!x11_window_) {
+        std::cerr << "X11 Error: Could not get WINDOW from OGRE window" << std::endl;
+        return false;
+    }
+    
+    Display* display = static_cast<Display*>(x11_display_);
+    ::Window window = static_cast< ::Window>(x11_window_);
+    
+    // Select the events we want to receive
+    XSelectInput(display, window, 
+                 KeyPressMask | KeyReleaseMask | 
+                 StructureNotifyMask |  // For window close (DestroyNotify)
+                 FocusChangeMask);
+    
+    std::cout << "X11: Input handling initialized for window " << x11_window_ << std::endl;
+    return true;
+}
+
+bool OgreNextViewer::processX11Events() {
+    if (!x11_display_) {
+        return true;  // No X11, just continue
+    }
+    
+    Display* display = static_cast<Display*>(x11_display_);
+    
+    while (XPending(display) > 0) {
+        XEvent event;
+        XNextEvent(display, &event);
+        
+        switch (event.type) {
+            case KeyPress: {
+                KeySym keysym = XLookupKeysym(&event.xkey, 0);
+                
+                // Handle Escape key
+                if (keysym == XK_Escape) {
+                    mQuit = true;
+                    return false;
+                }
+                
+                // Convert keysym to string for handleKeyPress
+                std::string key;
+                
+                switch (keysym) {
+                    case XK_Left:       key = "Left"; break;
+                    case XK_Right:      key = "Right"; break;
+                    case XK_Up:         key = "Up"; break;
+                    case XK_Down:       key = "Down"; break;
+                    case XK_space:      key = "space"; break;
+                    case XK_bracketleft:  key = "bracketleft"; break;
+                    case XK_bracketright: key = "bracketright"; break;
+                    case XK_equal:      key = "equal"; break;
+                    case XK_plus:       key = "plus"; break;
+                    case XK_minus:      key = "minus"; break;
+                    default: {
+                        // For regular characters, convert keysym to character
+                        // Keysyms for ASCII characters match their ASCII values
+                        if (keysym >= XK_a && keysym <= XK_z) {
+                            key = std::string(1, static_cast<char>(keysym - XK_a + 'a'));
+                        } else if (keysym >= XK_A && keysym <= XK_Z) {
+                            key = std::string(1, static_cast<char>(keysym - XK_A + 'a')); // lowercase
+                        } else if (keysym >= XK_0 && keysym <= XK_9) {
+                            key = std::string(1, static_cast<char>(keysym - XK_0 + '0'));
+                        }
+                        break;
+                    }
+                }
+                
+                if (!key.empty()) {
+                    handleKeyPress(key);
+                }
+                break;
+            }
+            
+            case DestroyNotify:
+                // Window was closed
+                mQuit = true;
+                return false;
+                
+            case ClientMessage:
+                // Check for window manager close (WM_DELETE_WINDOW)
+                // This is typically how the X button works
+                mQuit = true;
+                return false;
+                
+            default:
+                break;
+        }
+    }
+    return true;
+}
+
+void OgreNextViewer::handleKeyPress(const std::string& key) {
+    // Mirror VtkCameraInterface::OnKeyPress() behavior
+    // See src/viewer/vtk/VtkCameraInterface.cpp
+    
+    if (key == "q") {
+        mQuit = true;
+    } else if (key == "b") {
+        togglePause();
+    } else if (key == "space") {
+        singleStep();
+    } else if (key == "bracketleft") {
+        decWarp();
+    } else if (key == "bracketright") {
+        incWarp();
+    } else if (key == "Left" || key == "left") {
+        // TODO: dec_follow() when OgreNextUpdater is implemented
+        std::cout << "OGRE: Left arrow (dec_follow) - not yet implemented" << std::endl;
+    } else if (key == "Right" || key == "right") {
+        // TODO: inc_follow() when OgreNextUpdater is implemented
+        std::cout << "OGRE: Right arrow (inc_follow) - not yet implemented" << std::endl;
+    } else if (key == "a") {
+        // TODO: next_mode() when OgreNextUpdater is implemented
+        std::cout << "OGRE: 'a' (next camera mode) - not yet implemented" << std::endl;
+    } else if (key == "r") {
+        // TODO: reset_view() when OgreNextUpdater is implemented
+        std::cout << "OGRE: 'r' (reset view) - not yet implemented" << std::endl;
+    } else if (key == "h") {
+        // TODO: toggle_helpmenu() when OgreNextUpdater is implemented
+        std::cout << "OGRE: 'h' (help menu) - not yet implemented" << std::endl;
+    } else if (key == "t") {
+        // TODO: toggle_trails() when OgreNextUpdater is implemented
+        std::cout << "OGRE: 't' (toggle trails) - not yet implemented" << std::endl;
+    } else if (key == "plus" || key == "equal") {
+        // TODO: inc_scale() when OgreNextUpdater is implemented
+        std::cout << "OGRE: '+' (inc scale) - not yet implemented" << std::endl;
+    } else if (key == "minus") {
+        // TODO: dec_scale() when OgreNextUpdater is implemented
+        std::cout << "OGRE: '-' (dec scale) - not yet implemented" << std::endl;
+    } else if (key == "0") {
+        // TODO: reset_scale() when OgreNextUpdater is implemented
+        std::cout << "OGRE: '0' (reset scale) - not yet implemented" << std::endl;
+    } else {
+        // Uncomment for debugging unknown keys
+        // std::cout << "OGRE: Unhandled key: " << key << std::endl;
+    }
+}
+
+// ============================================================================
+// GUI Message Helpers (mirror VtkUpdater pattern)
+// ============================================================================
+
+void OgreNextViewer::togglePause() {
+    if (!outgoing_interface_) {
+        std::cout << "OGRE: Toggle pause (no outgoing interface)" << std::endl;
+        return;
+    }
+    
+    gui_msg_.set_toggle_pause(true);
+    outgoing_interface_->send_gui_msg(gui_msg_);
+    gui_msg_.set_toggle_pause(false);
+    std::cout << "OGRE: Toggle pause sent" << std::endl;
+}
+
+void OgreNextViewer::singleStep() {
+    if (!outgoing_interface_) {
+        std::cout << "OGRE: Single step (no outgoing interface)" << std::endl;
+        return;
+    }
+    
+    gui_msg_.set_single_step(true);
+    outgoing_interface_->send_gui_msg(gui_msg_);
+    gui_msg_.set_single_step(false);
+    std::cout << "OGRE: Single step sent" << std::endl;
+}
+
+void OgreNextViewer::incWarp() {
+    if (!outgoing_interface_) {
+        std::cout << "OGRE: Inc warp (no outgoing interface)" << std::endl;
+        return;
+    }
+    
+    gui_msg_.set_inc_warp(true);
+    outgoing_interface_->send_gui_msg(gui_msg_);
+    gui_msg_.set_inc_warp(false);
+    std::cout << "OGRE: Inc warp sent" << std::endl;
+}
+
+void OgreNextViewer::decWarp() {
+    if (!outgoing_interface_) {
+        std::cout << "OGRE: Dec warp (no outgoing interface)" << std::endl;
+        return;
+    }
+    
+    gui_msg_.set_dec_warp(true);
+    outgoing_interface_->send_gui_msg(gui_msg_);
+    gui_msg_.set_dec_warp(false);
+    std::cout << "OGRE: Dec warp sent" << std::endl;
 }
 
 }  // namespace scrimmage
