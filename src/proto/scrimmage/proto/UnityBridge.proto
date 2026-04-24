@@ -1,0 +1,192 @@
+// SCRIMMAGE–Unity Bridge Protocol Definitions
+//
+// Revision: 0.3 (Simplified / Initial Testing)
+//
+// This file defines the schema for the five message types exchanged between
+// SCRIMMAGE and the Unity visualization client. The wire format is JSON
+// (not binary protobuf) to ease Unity-side integration with Newtonsoft.Json.
+// This file is the authoritative schema reference.
+//
+// See: docs/unity_bridge/ICD.md for the full protocol specification.
+
+syntax = "proto3";
+
+package scrimmage_unity;
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage.unity";
+
+// ---------------------------------------------------------------------------
+// Prefab catalog
+//
+// PrefabId identifies which Unity prefab to spawn for an entity.
+// The string value is transmitted on the wire (not the integer tag), so new
+// prefabs can be added to the Unity asset bundle without a protocol change.
+// Use PREFAB_UNKNOWN for any unrecognized or custom prefab_id string.
+// ---------------------------------------------------------------------------
+
+enum PrefabId {
+    // Fixed-wing aircraft
+    PREFAB_FW_GENERIC  = 0;   // "fw_generic"  — generic fixed-wing silhouette
+    PREFAB_FW_ZEPHYR   = 1;   // "fw_zephyr"   — Zephyr-style MALE UAV
+    PREFAB_FW_CESSNA   = 2;   // "fw_cessna"   — Cessna 172 general aviation
+    PREFAB_FW_FIGHTER  = 3;   // "fw_fighter"  — generic jet fighter
+
+    // Rotary-wing
+    PREFAB_RW_QUADROTOR = 4;  // "rw_quadrotor" — small quadrotor UAV
+    PREFAB_RW_HEXROTOR  = 5;  // "rw_hexrotor"  — hexrotor UAV
+
+    // Ground / other
+    PREFAB_GND_VEHICLE = 6;   // "gnd_vehicle"  — generic wheeled vehicle
+    PREFAB_SPHERE      = 7;   // "sphere"        — colored sphere primitive
+    PREFAB_UNKNOWN     = 8;   // "unknown"       — fallback colored cube
+}
+
+// ---------------------------------------------------------------------------
+// Handshake  (SCRIMMAGE → Unity)
+//
+// Sent once at simulation start. Unity must not accept entity_create or
+// state_update messages until a valid handshake has been received.
+// ---------------------------------------------------------------------------
+
+message Handshake {
+    string protocol_version = 1;  // "major.minor", e.g. "1.0"
+    double sim_time         = 2;  // Always 0.0 at handshake
+    double sim_dt           = 3;  // Simulation time step (seconds)
+    double origin_lat       = 4;  // Geographic origin — latitude (degrees)
+    double origin_lon       = 5;  // Geographic origin — longitude (degrees)
+    double origin_alt       = 6;  // Geographic origin — altitude MSL (meters)
+}
+
+// ---------------------------------------------------------------------------
+// HandshakeAck  (Unity → SCRIMMAGE)
+//
+// Sent immediately after Unity receives and validates a Handshake.
+// SCRIMMAGE waits for this before sending entity_create or state_update.
+// ---------------------------------------------------------------------------
+
+enum HandshakeStatus {
+    HANDSHAKE_OK              = 0;
+    HANDSHAKE_VERSION_MISMATCH = 1;
+    HANDSHAKE_ERROR            = 2;
+}
+
+message HandshakeAck {
+    double          sim_time         = 1;  // Echo of Handshake.sim_time
+    string          protocol_version = 2;  // Unity's supported version
+    HandshakeStatus status           = 3;
+    string          message          = 4;  // Human-readable; empty on OK
+}
+
+// ---------------------------------------------------------------------------
+// EntityCreate  (SCRIMMAGE → Unity)
+//
+// Sent once per entity when it enters the simulation. Extends SCRIMMAGE's
+// existing ContactVisual message with prefab_id and team/swarm IDs.
+//
+// Field mapping from existing SCRIMMAGE types:
+//   id, name          ← ContactVisual.id / ContactVisual.name
+//   team_id           ← ID.team_id
+//   sub_swarm_id      ← ID.sub_swarm_id
+//   scale             ← ContactVisual.scale
+//   base_rotation     ← ContactVisual.rotate
+//   color_r/g/b       ← ContactVisual.color (Color.r/g/b)
+//   opacity           ← ContactVisual.opacity
+//   contact_type      ← Contact.type (ContactType enum, as string)
+//   prefab_id         ← NEW: Unity prefab selector
+// ---------------------------------------------------------------------------
+
+message EntityCreate {
+    double sim_time    = 1;
+
+    // Identity
+    int32  id          = 2;  // SCRIMMAGE entity ID (Contact.id.id)
+    int32  sub_swarm_id = 3; // Contact.id.sub_swarm_id
+    int32  team_id     = 4;  // Contact.id.team_id
+    string name        = 5;  // Human-readable entity name
+
+    // Visual configuration
+    // prefab_id is a string from the prefab catalog (see PrefabId enum above).
+    // Any string is valid on the wire; unknown strings fall back to contact_type.
+    string prefab_id   = 6;
+
+    // contact_type is the SCRIMMAGE ContactType enum value as a lowercase string:
+    // "aircraft" | "quadrotor" | "sphere" | "mesh" | "unknown"
+    // Used as a fallback if prefab_id is unrecognized by Unity.
+    string contact_type = 7;
+
+    double scale        = 8;
+
+    // RPY Euler correction (degrees) applied to the prefab mesh at rest,
+    // matching ContactVisual.rotate. Corrects model-frame / SCRIMMAGE-frame
+    // orientation mismatches baked into the source mesh.
+    double base_roll_deg  = 9;
+    double base_pitch_deg = 10;
+    double base_yaw_deg   = 11;
+
+    // Team / entity color (0–255 per channel), matching ContactVisual.color
+    int32  color_r = 12;
+    int32  color_g = 13;
+    int32  color_b = 14;
+    double opacity = 15;  // 0.0 (transparent) – 1.0 (opaque)
+}
+
+// ---------------------------------------------------------------------------
+// EntityDestroy  (SCRIMMAGE → Unity)
+//
+// Sent when an entity is permanently removed from the simulation.
+// Unity despawns the corresponding GameObject.
+// Temporary inactivity is signalled by EntityState.active = false
+// inside a StateUpdate, not by EntityDestroy.
+// ---------------------------------------------------------------------------
+
+message EntityDestroy {
+    double sim_time = 1;
+    int32  id       = 2;
+}
+
+// ---------------------------------------------------------------------------
+// StateUpdate  (SCRIMMAGE → Unity)
+//
+// Sent every simulation step. Contains the current pose and velocity of all
+// entities that changed state since the last update.
+//
+// All values use the SCRIMMAGE ENU frame (right-handed, x=East, y=North,
+// z=Up). Unity applies the ENU→Y-up conversion defined in ICD Section 4.
+//
+// Orientation quaternion component order: [qw, qx, qy, qz].
+// This matches SCRIMMAGE's Quaternion proto (Quaternion.w, .x, .y, .z).
+// ---------------------------------------------------------------------------
+
+message EntityState {
+    int32  id     = 1;
+    bool   active = 2;   // false = temporarily inactive; hide but do not destroy
+
+    // Position in ENU local frame (meters)
+    double pos_x  = 3;
+    double pos_y  = 4;
+    double pos_z  = 5;
+
+    // Orientation: unit quaternion [qw, qx, qy, qz]
+    // Rotation from ENU world frame to entity body frame
+    double qw = 6;
+    double qx = 7;
+    double qy = 8;
+    double qz = 9;
+
+    // Linear velocity in ENU frame (m/s)
+    double vel_x = 10;
+    double vel_y = 11;
+    double vel_z = 12;
+
+    // Angular velocity in body frame (rad/s)
+    double ang_vel_x = 13;
+    double ang_vel_y = 14;
+    double ang_vel_z = 15;
+}
+
+message StateUpdate {
+    double sim_time = 1;   // Simulation clock (seconds from sim start)
+    uint64 frame_id = 2;   // Monotonically increasing step counter (starts at 1)
+    repeated EntityState entities = 3;
+}

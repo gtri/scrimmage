@@ -227,6 +227,17 @@ else()
   message(--------------------------)
 endif()
 
+###############################################################################
+# Unity Bridge (optional)
+###############################################################################
+option(BUILD_UNITY_BRIDGE "Build the SCRIMMAGE-Unity ZeroMQ bridge" OFF)
+
+if (BUILD_UNITY_BRIDGE)
+    message(STATUS "Building SCRIMMAGE Unity Bridge (ICD rev 0.3)")
+    add_subdirectory(src/unity_bridge)
+    add_compile_definitions(ENABLE_UNITY_BRIDGE=1)
+endif()
+
 ########################################################
 # Find Eigen
 ########################################################

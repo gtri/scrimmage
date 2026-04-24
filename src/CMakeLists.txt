@@ -82,6 +82,10 @@ target_link_libraries(${LIBRARY_NAME}
   ${BOOST_LIBS}
 )
 
+if (BUILD_UNITY_BRIDGE)
+  target_link_libraries(${LIBRARY_NAME} PUBLIC scrimmage_unity_bridge)
+endif()
+
 target_compile_definitions(${LIBRARY_NAME} PUBLIC ${DEFINITIONS})
 
 #message("-- ENABLE_GPU_ACCELERATION: ${ENABLE_GPU_ACCELERATION}")

@@ -33,6 +33,16 @@
 #ifndef INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 #define INCLUDE_SCRIMMAGE_SIMCONTROL_SIMCONTROL_H_
 
+#if ENABLE_UNITY_BRIDGE == 1
+#include <memory>
+namespace scrimmage {
+namespace unity_bridge {
+class UnityBridge;
+using UnityBridgePtr = std::shared_ptr<UnityBridge>;
+}  // namespace unity_bridge
+}  // namespace scrimmage
+#endif  // ENABLE_UNITY_BRIDGE
+
 #include <Eigen/Dense>
 #include <condition_variable>  // NOLINT
 #include <deque>
@@ -353,6 +363,12 @@ class SimControl {
     /// @brief Searches for Hardware Acceleration Devices
     void init_gpu();
 
+#if ENABLE_UNITY_BRIDGE == 1
+    void set_unity_bridge(scrimmage::unity_bridge::UnityBridgePtr ptr) {
+        unity_bridge_ = ptr;
+    }
+#endif
+
  protected:
     // Key: Entity ID
     // Value: Team ID
@@ -448,6 +464,10 @@ class SimControl {
     std::set<int> ids_used_ = {0};
     FileSearchPtr file_search_;
     RTreePtr rtree_;
+
+#if ENABLE_UNITY_BRIDGE == 1
+    scrimmage::unity_bridge::UnityBridgePtr unity_bridge_;
+#endif
 
     void request_screenshot();
     void create_rtree(const unsigned int& additional_size);

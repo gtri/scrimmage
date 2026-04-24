@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<runscript name="Unity Bridge Test">
+
+  <run start="0.0" end="60" dt="0.05"
+       time_warp="1"
+       enable_gui="true"/>
+
+  <unity_bridge
+    enabled="true"
+    pub_port="10250"
+    sub_port="10251"
+    connection_timeout_s="10"
+  />
+
+  <latitude_origin>35.721025</latitude_origin>
+  <longitude_origin>-120.767925</longitude_origin>
+  <altitude_origin>300</altitude_origin>
+
+  <entity>
+    <name>blue_1</name>
+    <team_id>1</team_id>
+    <color>77 77 255</color>
+    <count>3</count>
+    
+    <count>${count=1}</count>
+    <health>1</health>
+    <radius>1</radius>
+
+    <variance_x>20</variance_x>
+    <variance_y>20</variance_y>
+    <variance_z>10</variance_z>
+
+    <x>-900</x>
+    <y>0</y>
+    <z>195</z>
+
+    <!-- The vehicle's initial heading, roll, and pitch can be specified -->
+    <heading>0</heading>
+    <!--<roll>45</roll>-->
+    <!--<pitch>45</pitch>-->
+    <controller>SimpleAircraftControllerPID</controller>
+    
+    <motion_model>SimpleAircraft</motion_model>
+    
+    <autonomy show_text_label="true"
+      generate_entities="false"
+      enable_boundary_control="true">Straight</autonomy>
+
+    <!-- VTK model (used when unity_bridge is disabled) -->
+    <visual_model>zephyr-blue</visual_model>
+
+    <!-- Unity prefab selection -->
+    <unity_visual prefab_id="fw_zephyr" scale="1.0" base_rotation="0 0 0"/>
+  </entity>
+
+  <!-- <entity> -->
+  <!--   <name>red_1</name> -->
+  <!--   <team_id>2</team_id> -->
+  <!--   <color>255 77 77</color> -->
+  <!--   <count>2</count> -->
+  <!--   <motion_model>SimpleAircraft</motion_model> -->
+  <!--   <autonomy>Straight</autonomy> -->
+  <!--   <visual_model>zephyr-red</visual_model> -->
+  <!--   <unity_visual prefab_id="fw_fighter"/> -->
+  <!-- </entity> -->
+
+</runscript>

@@ -62,6 +62,10 @@
 #include "scrimmage/gpu/GPUMotionModel.h"
 #endif
 
+#if ENABLE_UNITY_BRIDGE == 1
+#include "scrimmage/unity_bridge/UnityBridge.h"
+#endif
+
 #include <chrono>  // NOLINT
 #include <future>  // NOLINT
 #include <iostream>
@@ -637,6 +641,11 @@ void SimControl::run_remove_inactive() {
         if (!(*it)->active()) {
             int id = (*it)->id().id();
             (*it)->close(t());
+#if ENABLE_UNITY_BRIDGE == 1
+            if (unity_bridge_) {
+                unity_bridge_->send_entity_destroy(t_, id);
+            }
+#endif
             it = ents_.erase(it);
             contacts_mutex_.lock();
             contacts_->erase(id);
@@ -766,6 +775,30 @@ bool SimControl::run_single_step(const int& loop_number) {
     run_remove_inactive();
     run_send_shapes();
     run_send_contact_visuals();  // send updated visuals
+
+#if ENABLE_UNITY_BRIDGE == 1
+    if (unity_bridge_) {
+        std::vector<scrimmage::unity_bridge::EntityState> states;
+        contacts_mutex_.lock();
+        states.reserve(contacts_->size());
+        for (auto& [id, contact] : *contacts_) {
+            scrimmage::unity_bridge::EntityState es;
+            es.id     = id;
+            es.active = contact.active();
+            const auto& pos = contact.state()->pos();
+            es.pos_x = pos(0); es.pos_y = pos(1); es.pos_z = pos(2);
+            const auto& q = contact.state()->quat();
+            es.qw = q.w(); es.qx = q.x(); es.qy = q.y(); es.qz = q.z();
+            const auto& vel = contact.state()->vel();
+            es.vel_x = vel(0); es.vel_y = vel(1); es.vel_z = vel(2);
+            const auto& av = contact.state()->ang_vel();
+            es.ang_vel_x = av(0); es.ang_vel_y = av(1); es.ang_vel_z = av(2);
+            states.push_back(es);
+        }
+        contacts_mutex_.unlock();
+        unity_bridge_->send_state_update(t_, static_cast<uint64_t>(loop_number), states);
+    }
+#endif
 
     if (display_progress_) {
         if (loop_number % 100 == 0) {
