@@ -11,6 +11,7 @@ import type { MissionStartResponse, Origin } from './types';
 export function AppShell() {
   const viewerRef = useRef<ViewerHandle | null>(null);
   const [origin, setOrigin] = useState<Origin | null>(null);
+  const [selectedEntityId, setSelectedEntityId] = useState<number | null>(null);
 
   const { connected, latestFrame } = useFrameStream(frame => {
     viewerRef.current?.applyFrame(frame);
@@ -19,12 +20,20 @@ export function AppShell() {
   function handleStarted(resp: MissionStartResponse) {
     viewerRef.current?.setOrigin(resp.origin);
     setOrigin(resp.origin);
+    setSelectedEntityId(null); // fresh mission → drop any prior selection
   }
   function handleStopped() {
     // Leave the last frame on screen until the next start; nothing to do here.
   }
   function handleRecenter() {
     viewerRef.current?.recenter();
+  }
+  function handleSelectFromList(id: number | null) {
+    setSelectedEntityId(id);
+    viewerRef.current?.selectEntity(id);
+  }
+  function handleSelectionFromViewport(id: number | null) {
+    setSelectedEntityId(id);
   }
 
   return (
@@ -42,11 +51,18 @@ export function AppShell() {
       <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr 280px', minHeight: 0 }}>
         <aside style={{ background: '#1a1a1a', overflowY: 'auto', borderRight: '1px solid #333' }}>
           <div style={{ padding: 8, color: '#888', fontSize: 11, textTransform: 'uppercase' }}>Entities</div>
-          <EntityList frame={latestFrame} />
+          <EntityList
+            frame={latestFrame}
+            selectedId={selectedEntityId}
+            onSelect={handleSelectFromList}
+          />
         </aside>
 
         <main style={{ position: 'relative' }}>
-          <CesiumViewer onReady={h => { viewerRef.current = h; }} />
+          <CesiumViewer
+            onReady={h => { viewerRef.current = h; }}
+            onSelectionChanged={handleSelectionFromViewport}
+          />
           <RecenterButton onClick={handleRecenter} disabled={!latestFrame || latestFrame.entities.length === 0} />
           <HelpOverlay />
         </main>

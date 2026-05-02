@@ -10,10 +10,14 @@ export interface ViewerHandle {
   setOrigin: (origin: Origin | null) => void;
   /** Operator-triggered: fit all current entities in view. No-op if no entities. */
   recenter: () => void;
+  /** Programmatically select an entity (or clear with null). Mirrors Cesium's selectionIndicator + infoBox. */
+  selectEntity: (id: number | null) => void;
 }
 
 export interface ViewerProps {
   onReady?: (handle: ViewerHandle) => void;
+  /** Fired when Cesium's selected entity changes — from a viewport click OR a programmatic selectEntity call. */
+  onSelectionChanged?: (id: number | null) => void;
 }
 
 const TEAM_COLORS: Record<number, Cesium.Color> = {
@@ -21,11 +25,13 @@ const TEAM_COLORS: Record<number, Cesium.Color> = {
   2: Cesium.Color.CRIMSON,
 };
 
-export function CesiumViewer({ onReady }: ViewerProps) {
+export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const entitiesRef = useRef<Map<number, Cesium.Entity>>(new Map());
   const originRef = useRef<Origin | null>(null);
+  const selectionHandlerRef = useRef(onSelectionChanged);
+  selectionHandlerRef.current = onSelectionChanged;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -62,6 +68,16 @@ export function CesiumViewer({ onReady }: ViewerProps) {
     const ro = new ResizeObserver(() => { viewer.resize(); viewer.scene.requestRender(); });
     ro.observe(ref.current);
 
+    // Forward Cesium's selection event (fires on viewport click AND programmatic
+    // viewer.selectedEntity assignment) up to the parent. The entity's id field
+    // is set to the stringified numeric SCRIMMAGE entity id when we add it.
+    const onCesiumSelection = (entity?: Cesium.Entity) => {
+      const idStr = entity?.id;
+      const id = idStr != null ? Number(idStr) : null;
+      selectionHandlerRef.current?.(Number.isFinite(id as number) ? (id as number) : null);
+    };
+    viewer.selectedEntityChanged.addEventListener(onCesiumSelection);
+
     const handle: ViewerHandle = {
       applyFrame: (frame) => {
         applyFrame(frame, viewer, entitiesRef.current, originRef.current);
@@ -84,10 +100,18 @@ export function CesiumViewer({ onReady }: ViewerProps) {
           offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-30), 0),
         }).catch(() => { /* operator can cancel by panning during the flight; not an error */ });
       },
+      selectEntity: (id) => {
+        const target = id == null ? undefined : entitiesRef.current.get(id);
+        if (viewer.selectedEntity !== target) {
+          viewer.selectedEntity = target;
+          viewer.scene.requestRender();
+        }
+      },
     };
     onReady?.(handle);
 
     return () => {
+      viewer.selectedEntityChanged.removeEventListener(onCesiumSelection);
       ro.disconnect();
       viewer.destroy();
       viewerRef.current = null;
@@ -144,6 +168,10 @@ function applyFrame(
     let ent = entities.get(e.id);
     if (!ent) {
       ent = viewer.entities.add({
+        // Stringified SCRIMMAGE entity id — lets the selection event handler
+        // recover the numeric id, and lets us look up by id from a sidebar click.
+        id: String(e.id),
+        name: `Entity #${e.id} · team ${e.teamId}`,
         position: pos,
         point: { pixelSize: 12, color, outlineColor: Cesium.Color.WHITE, outlineWidth: 2 },
         label: {
