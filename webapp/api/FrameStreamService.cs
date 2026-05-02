@@ -21,10 +21,22 @@ public class FrameStreamService : ScrimmageService.ScrimmageServiceBase
         _hub = hub;
     }
 
-    // SendFrame is *unary* in this proto (Frame -> BlankReply), not client-streaming.
-    // SCRIMMAGE invokes it once per simulation tick.
+    // SCRIMMAGE invokes SendFrame at gui_update_period (~100 Hz). Throttle the SignalR
+    // fan-out to ~30 Hz so the browser isn't drowned in JSON serialization + Cesium
+    // entity updates. Static field is fine: one scrimmage process = one connection.
+    private static long _lastBroadcastTicks;
+    private const long ThrottleTicks = TimeSpan.TicksPerMillisecond * 33; // ~30 Hz cap
+
     public override async Task<BlankReply> SendFrame(Frame request, ServerCallContext context)
     {
+        var nowTicks = DateTime.UtcNow.Ticks;
+        var lastTicks = Interlocked.Read(ref _lastBroadcastTicks);
+        if (nowTicks - lastTicks < ThrottleTicks)
+        {
+            return new BlankReply { Success = 1 }; // ACK scrimmage but skip the broadcast
+        }
+        Interlocked.Exchange(ref _lastBroadcastTicks, nowTicks);
+
         var dto = MapFrame(request);
         await _hub.Clients.All.SendAsync("OnFrame", dto, context.CancellationToken);
         return new BlankReply { Success = 1 };
