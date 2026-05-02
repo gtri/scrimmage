@@ -8,7 +8,9 @@
  */
 export async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
   try {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=10`;
+    // zoom=16 prioritizes specific named places (military bases, parks, neighborhoods)
+    // over broader admin regions. Lower zoom = broader region, higher = more specific.
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=16`;
     const r = await fetch(url, { headers: { Accept: 'application/json' } });
     if (!r.ok) return null;
     const data = await r.json();
