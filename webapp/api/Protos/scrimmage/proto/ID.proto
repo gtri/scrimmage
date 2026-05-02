@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+message ID {
+        int32 id = 1;
+        int32 sub_swarm_id = 2;
+        int32 team_id = 3;
+}

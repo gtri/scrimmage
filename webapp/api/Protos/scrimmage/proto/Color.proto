@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+message Color {
+        int32 r = 1;
+        int32 g = 2;
+        int32 b = 3;
+}

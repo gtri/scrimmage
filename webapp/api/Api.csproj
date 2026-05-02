@@ -20,4 +20,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Protobuf Include="Protos\scrimmage\proto\*.proto" GrpcServices="Client" ProtoRoot="Protos" />
+  </ItemGroup>
+
 </Project>

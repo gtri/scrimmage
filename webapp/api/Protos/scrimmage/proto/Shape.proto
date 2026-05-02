@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/Vector3d.proto";
+import "scrimmage/proto/Quaternion.proto";
+import "scrimmage/proto/Color.proto";
+import "scrimmage/proto/ID.proto";
+
+message Arc {
+        Circle circle = 1;
+        double angle = 2;
+}
+
+message Arrow {
+        Vector3d tail = 1;
+        Vector3d head = 2;
+}
+
+message Circle {
+        Vector3d center = 1;
+        double radius = 2;
+        Quaternion quat = 3;
+        bool solid = 4;
+}
+
+message Cone {
+        Vector3d direction = 1;
+        Vector3d apex = 2;
+        double height = 3;
+        double base_radius = 4;
+}
+
+message Cuboid {
+        double x_length = 1;
+        double y_length = 2;
+        double z_length = 3;
+        Vector3d center = 4;
+        Quaternion quat = 5;
+}
+
+message Ellipse {
+        Vector3d center = 1;
+        double x_radius = 2;
+        double y_radius = 3;
+        Quaternion quat = 4;
+}
+
+message Line {
+        Vector3d start = 1;
+        Vector3d end = 2;
+        double width = 3;
+}
+
+message Mesh {
+        string name = 1;
+        Vector3d center = 2;
+        Quaternion quat = 3;
+        double scale = 4;
+}
+
+message Plane {
+        Vector3d center = 1;
+        Quaternion quat = 2;
+        double x_length = 3;
+        double y_length = 4;
+        string texture = 5;
+        bool diffuse_lighting = 6;
+}
+
+message PointCloud {
+        repeated Vector3d point = 1;
+        repeated Color color = 2;
+        double size = 3;
+}
+
+message Polydata {
+        repeated Vector3d point = 1;
+}
+
+message Polygon {
+        repeated Vector3d point = 1;
+}
+
+message Polyhedron {
+        repeated Vector3d point = 1;
+}
+
+message Polyline {
+        repeated Vector3d point = 1;
+}
+
+message Sphere {
+        Vector3d center = 1;
+        double radius = 2;
+}
+
+message Spline {
+        repeated Vector3d point = 1;
+}
+
+message Text {
+        string text = 1;
+        Vector3d center = 2;
+        double scale = 3;
+}
+
+message Triangle {
+        Vector3d point0 = 1;
+        Vector3d point1 = 2;
+        Vector3d point2 = 3;
+}
+
+message Shape {
+        uint64 hash = 1;
+        bool hash_set = 2;
+        ID id = 3;
+        string name = 4;
+        Color color = 5;
+        double opacity = 6;
+        oneof oneof_ttl {
+              int32 ttl = 7;
+              double persist_duration = 8;
+              double persist_until = 9;
+        }
+        bool persistent = 10;
+        oneof oneof_type {
+              Arc arc               = 11;
+          	  Arrow arrow           = 12;
+          	  Circle circle         = 13;
+          	  Cone cone             = 14;
+          	  Cuboid cuboid         = 15;
+              Ellipse ellipse       = 16;
+          	  Line line             = 17;
+          	  Mesh mesh             = 18;
+          	  Plane plane           = 19;
+          	  PointCloud pointcloud = 20;
+          	  Polydata polydata     = 21;
+          	  Polygon polygon       = 22;
+          	  Polyhedron polyhedron = 23;
+          	  Sphere sphere         = 24;
+          	  Spline spline         = 25;
+          	  Text text             = 26;
+          	  Triangle triangle     = 27;
+          	  Polyline polyline     = 28;
+        }
+}
+
+message Shapes {
+        double time = 1;
+        repeated Shape shape = 2;
+}

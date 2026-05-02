@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+import "scrimmage/proto/Vector3d.proto";
+
+package scrimmage_proto;
+
+message GUIMsg {
+        double time = 1;
+        double inc_warp = 2;
+        double dec_warp = 3;
+        bool toggle_pause = 4;
+        bool single_step = 5;
+        bool shutting_down = 6;
+        bool request_cached = 7;
+        string custom_key = 8;
+}
+
+message WorldPointClicked {
+        double time = 1;
+        Vector3d point = 2;
+        string name = 3;
+}

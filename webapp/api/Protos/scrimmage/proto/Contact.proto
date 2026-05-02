@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.syllo.scrimmage";
+
+package scrimmage_proto;
+
+import "scrimmage/proto/State.proto";
+import "scrimmage/proto/ID.proto";
+
+enum ContactType {
+AIRCRAFT = 0;
+QUADROTOR = 1;
+SPHERE = 2;
+MESH = 3;
+UNKNOWN = 4;
+}
+
+message Contact {
+ID id = 1;
+State state = 2;
+ContactType type = 3;
+bool active = 4;
+}
