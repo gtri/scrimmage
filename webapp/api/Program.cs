@@ -3,6 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Quiet ASP.NET Core's per-request info logging — at ~100 Hz frame rate the gRPC SendFrame
+// calls would otherwise produce hundreds of log lines per second and drown out signal.
+// Our own C2.Api.* loggers stay at Information.
+builder.Logging.AddFilter("Microsoft.AspNetCore", LogLevel.Warning);
+builder.Logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Information);
+
 builder.Services.AddGrpc();
 builder.Services.AddSignalR();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
