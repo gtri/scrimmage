@@ -21,6 +21,8 @@ RUN chmod +x /opt/entrypoint.sh
 # Make sure scrimmage's env is sourced for child processes
 ENV MISSIONS_DIR=/root/scrimmage/scrimmage/missions
 
+WORKDIR /opt
+
 EXPOSE 50051 5050
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
