@@ -8,11 +8,28 @@ import os
 import re
 import signal
 import subprocess
+import sys
+import threading
 import time
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
 from flask import Flask, jsonify, request
+
+# Patterns to suppress in scrimmage's stdout/stderr — these fire dozens of times per
+# second from a plugin internal-state mismatch we don't care about for the demo.
+NOISE_PATTERNS = (
+    "VariableIO::output index",
+)
+
+
+def _forward_filtered(stream):
+    """Forward a child process's output line-by-line, dropping known noise lines."""
+    for line in iter(stream.readline, ''):
+        if any(p in line for p in NOISE_PATTERNS):
+            continue
+        sys.stdout.write(line)
+        sys.stdout.flush()
 
 MISSIONS_DIR = Path(os.environ.get("MISSIONS_DIR", "/root/scrimmage/scrimmage/missions"))
 ACTIVE_MISSION_PATH = Path("/tmp/active_mission.xml")
@@ -95,13 +112,16 @@ def start_mission():
     if not all(origin.values()):
         return jsonify({"error": "mission has no geographic origin (lat/lon/alt) — incompatible with Cesium viewer"}), 400
 
-    # Launch scrimmage. Inherit stdout/stderr so its logs land in `docker compose logs`.
-    # PIPE without a reader silently swallows output and can deadlock on full buffers.
+    # Launch scrimmage. Capture stdout/stderr through a filter thread so we can
+    # suppress known plugin-noise lines while still surfacing real errors.
     proc = subprocess.Popen(
         ["scrimmage", str(ACTIVE_MISSION_PATH)],
-        stdout=None,
-        stderr=None,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        bufsize=1,
+        text=True,
     )
+    threading.Thread(target=_forward_filtered, args=(proc.stdout,), daemon=True).start()
     _state.update({
         "proc": proc,
         "mission": name,
