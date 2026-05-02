@@ -8,9 +8,10 @@ export interface MissionPickerProps {
 }
 
 // SCRIMMAGE's time_warp = simulation seconds per real second.
-// 1 = real time, 20 = capture-the-flag's default (fast), <1 = slow motion.
+// 1 = real time, 10 = predator_prey_boids' built-in default, <1 = slow motion.
 const SPEED_PRESETS = [0.5, 1, 5, 10, 20, 50];
-const DEFAULT_SPEED = 20;
+const DEFAULT_SPEED = 10;
+const DEFAULT_MISSION = 'predator_prey_boids.xml';
 
 export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
   const [missions, setMissions] = useState<string[]>([]);
@@ -25,7 +26,7 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
     listMissions()
       .then(list => {
         setMissions(list);
-        const preferred = list.find(m => m === 'capture-the-flag.xml') ?? list[0] ?? '';
+        const preferred = list.find(m => m === DEFAULT_MISSION) ?? list[0] ?? '';
         setSelected(preferred);
       })
       .catch(e => setError(String(e)));
