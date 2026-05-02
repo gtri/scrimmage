@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CesiumViewer, type ViewerHandle } from './components/CesiumViewer';
 import { MissionPicker } from './components/MissionPicker';
 import { EntityList } from './components/EntityList';
 import { Placeholder } from './components/panels/Placeholder';
 import { HelpOverlay } from './components/HelpOverlay';
 import { useFrameStream } from './hooks/useFrameStream';
+import { reverseGeocode } from './lib/geocode';
 import type { MissionStartResponse, Origin } from './types';
 
 export function AppShell() {
@@ -61,6 +62,17 @@ export function AppShell() {
 }
 
 function OriginBadge({ origin }: { origin: Origin }) {
+  const [locationName, setLocationName] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLocationName(null);
+    reverseGeocode(origin.lat, origin.lon).then(name => {
+      if (!cancelled) setLocationName(name);
+    });
+    return () => { cancelled = true; };
+  }, [origin.lat, origin.lon]);
+
   return (
     <span
       title="Mission geographic origin (latitude, longitude, altitude)"
@@ -69,7 +81,8 @@ function OriginBadge({ origin }: { origin: Origin }) {
         color: '#bbb', padding: '2px 8px', border: '1px solid #444', borderRadius: 4,
       }}
     >
-      📍 {origin.lat.toFixed(4)}, {origin.lon.toFixed(4)} · {origin.alt}m
+      📍 {locationName && <span style={{ color: '#eee' }}>{locationName} · </span>}
+      {origin.lat.toFixed(4)}, {origin.lon.toFixed(4)} · {origin.alt}m
     </span>
   );
 }
