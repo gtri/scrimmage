@@ -16,6 +16,9 @@ export function AppShell() {
   const [selectedEntityId, setSelectedEntityId] = useState<number | null>(null);
   const [lastReport, setLastReport] = useState<string[] | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
+  // Dedup guard: handleStopped can fire twice in rapid succession when the operator
+  // clicks Stop AND the status poller sees idle inside the same ~500ms window.
+  const stopHandledRef = useRef(false);
 
   const { connected, latestFrame } = useFrameStream(frame => {
     viewerRef.current?.applyFrame(frame);
@@ -26,9 +29,13 @@ export function AppShell() {
     setOrigin(resp.origin);
     setSelectedEntityId(null); // fresh mission → drop any prior selection
     setLastReport(null);       // fresh mission → previous report is now stale
+    stopHandledRef.current = false;
   }
   async function handleStopped() {
-    // Mission stopped — fetch the report scrimmage emitted on shutdown and surface it.
+    if (stopHandledRef.current) return;
+    stopHandledRef.current = true;
+    // Mission stopped (operator-initiated OR auto-completed via end_condition) —
+    // fetch the report scrimmage emitted on shutdown and surface it.
     try {
       const lines = await fetchReport();
       if (lines.length > 0) {

@@ -42,3 +42,16 @@ export async function fetchReport(): Promise<string[]> {
   const data: { lines: string[] } = await r.json();
   return data.lines ?? [];
 }
+
+export interface StatusInfo {
+  status: 'idle' | 'running' | 'paused';
+  mission?: string;
+  paused?: boolean;
+  uptime_s?: number;
+}
+
+export async function getStatus(): Promise<StatusInfo> {
+  const r = await fetch(`${BASE}/api/status`);
+  if (!r.ok) throw new Error(`getStatus: ${r.status}`);
+  return r.json();
+}

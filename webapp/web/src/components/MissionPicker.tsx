@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { MissionStartResponse } from '../types';
-import { listMissions, startMission, stopMission, pauseMission, resumeMission } from '../lib/api';
+import { listMissions, startMission, stopMission, pauseMission, resumeMission, getStatus } from '../lib/api';
 
 export interface MissionPickerProps {
   onStarted: (resp: MissionStartResponse) => void;
@@ -30,6 +30,32 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
       })
       .catch(e => setError(String(e)));
   }, []);
+
+  // Detect mission auto-completion: scrimmage exits naturally when its end_condition
+  // triggers. Poll /api/status every 2s while we think a mission is running, and
+  // run the same handleStopped flow if the launcher reports idle.
+  useEffect(() => {
+    if (running === null) return; // only poll while a mission is supposedly active
+    let alive = true;
+    const tick = async () => {
+      try {
+        const s = await getStatus();
+        if (!alive) return;
+        if (s.status === 'idle') {
+          setRunning(null);
+          setPaused(false);
+          onStopped();
+        } else if (typeof s.paused === 'boolean' && s.paused !== paused) {
+          // Sync paused state in case it changed externally (e.g. via curl).
+          setPaused(s.paused);
+        }
+      } catch {
+        // Network blip; try again next tick.
+      }
+    };
+    const interval = setInterval(tick, 2000);
+    return () => { alive = false; clearInterval(interval); };
+  }, [running, paused, onStopped]);
 
   async function handleStart() {
     if (!selected) return;
