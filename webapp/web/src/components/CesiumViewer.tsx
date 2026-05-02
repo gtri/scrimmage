@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type MutableRefObject } from 'react';
 import * as Cesium from 'cesium';
 import type { FrameDto, Origin } from '../types';
 import { enuToCartesian } from '../lib/enuToCartesian';
@@ -24,6 +24,9 @@ export function CesiumViewer({ onReady }: ViewerProps) {
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const entitiesRef = useRef<Map<number, Cesium.Entity>>(new Map());
   const originRef = useRef<Origin | null>(null);
+  // Tracks whether we've auto-framed the camera on the entities for the current mission.
+  // Reset on setOrigin so each Start triggers a fresh fit-to-entities flight.
+  const framedRef = useRef(false);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -47,21 +50,16 @@ export function CesiumViewer({ onReady }: ViewerProps) {
         .catch(err => console.warn('Cesium terrain load failed:', err));
     }
 
-    // Default view (overwritten when origin is set)
+    // Default view (overwritten once first frame arrives via flyTo(entities))
     viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 3000),
+      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 5000),
     });
 
     const handle: ViewerHandle = {
-      applyFrame: (frame) => applyFrame(frame, viewer, entitiesRef.current, originRef.current),
+      applyFrame: (frame) => applyFrame(frame, viewer, entitiesRef.current, originRef.current, framedRef),
       setOrigin: (origin) => {
         originRef.current = origin;
-        if (origin) {
-          viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(origin.lon, origin.lat, origin.alt + 2500),
-            duration: 1.5,
-          });
-        }
+        framedRef.current = false; // re-frame on next frame
       },
     };
     onReady?.(handle);
@@ -77,7 +75,8 @@ function applyFrame(
   frame: FrameDto,
   viewer: Cesium.Viewer,
   entities: Map<number, Cesium.Entity>,
-  origin: Origin | null
+  origin: Origin | null,
+  framedRef: MutableRefObject<boolean>
 ) {
   if (!origin) return; // can't render without origin
 
@@ -114,5 +113,16 @@ function applyFrame(
   // Remove entities that disappeared from the frame entirely
   for (const [id, ent] of entities) {
     if (!seen.has(id)) { viewer.entities.remove(ent); entities.delete(id); }
+  }
+
+  // First frame for this mission with at least one entity → fit them all in view, once.
+  // Cesium computes the bounding sphere of all viewer.entities and flies to fit it.
+  // Subsequent frames are silent — user can pan/zoom freely and the camera stays put.
+  if (!framedRef.current && entities.size > 0) {
+    framedRef.current = true;
+    viewer.flyTo(viewer.entities, {
+      duration: 1.5,
+      offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-55), 0),
+    }).catch(() => { /* user-initiated camera move can cancel the flight; not an error */ });
   }
 }
