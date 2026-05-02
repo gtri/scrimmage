@@ -20,6 +20,7 @@ ENV SCRIMMAGE_PLUGIN_PATH="${SCRIMMAGE_ROOT}/lib/scrimmage/plugin_libs:${SCRIMMA
 ENV SCRIMMAGE_MISSION_PATH="${SCRIMMAGE_ROOT}/share/scrimmage/missions"
 ENV SCRIMMAGE_DATA_PATH="${SCRIMMAGE_ROOT}/share/scrimmage/data"
 ENV SCRIMMAGE_CONFIG_PATH="${SCRIMMAGE_ROOT}/etc/scrimmage"
+ENV JSBSIM_ROOT="/root/scrimmage/data"
 
 # The launcher's mission listing/templating reads from this dir
 ENV MISSIONS_DIR=/root/scrimmage/missions
