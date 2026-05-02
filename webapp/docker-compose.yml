@@ -1,0 +1,55 @@
+services:
+
+  scrimmage:
+    build:
+      context: ./scrimmage-runner
+    container_name: c2-scrimmage
+    ports:
+      - "50051:50051"   # gRPC frame stream (debug)
+      - "5050:5050"     # launcher HTTP (debug)
+    networks: [c2net]
+
+  api:
+    build:
+      context: ./api
+    container_name: c2-api
+    depends_on: [scrimmage, postgres]
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - SCRIMMAGE_GRPC_ADDR=http://scrimmage:50051
+      - SCRIMMAGE_LAUNCHER_URL=http://scrimmage:5050
+      - ConnectionStrings__Default=Host=postgres;Database=c2;Username=c2;Password=c2pass
+    ports:
+      - "8080:8080"
+    networks: [c2net]
+
+  web:
+    build:
+      context: ./web
+    container_name: c2-web
+    depends_on: [api]
+    environment:
+      - VITE_API_URL=http://localhost:8080
+      - VITE_CESIUM_ION_TOKEN=${CESIUM_ION_TOKEN}
+    ports:
+      - "5173:5173"
+    networks: [c2net]
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: c2-postgres
+    environment:
+      - POSTGRES_DB=c2
+      - POSTGRES_USER=c2
+      - POSTGRES_PASSWORD=c2pass
+    ports:
+      - "5432:5432"
+    networks: [c2net]
+    volumes:
+      - c2pgdata:/var/lib/postgresql/data
+
+networks:
+  c2net:
+
+volumes:
+  c2pgdata:

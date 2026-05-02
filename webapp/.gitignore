@@ -1,0 +1,13 @@
+# Build outputs
+**/bin/
+**/obj/
+**/dist/
+**/node_modules/
+**/__pycache__/
+
+# Local env (never commit Cesium token)
+.env
+*.local
+
+# Logs
+*.log
