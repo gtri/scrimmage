@@ -19,7 +19,7 @@ COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
 # Make sure scrimmage's env is sourced for child processes
-ENV MISSIONS_DIR=/root/scrimmage/scrimmage/missions
+ENV MISSIONS_DIR=/root/scrimmage/missions
 
 WORKDIR /opt
 
