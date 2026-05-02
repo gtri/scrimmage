@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { MissionStartResponse } from '../types';
-import { listMissions, startMission, stopMission } from '../lib/api';
+import { listMissions, startMission, stopMission, pauseMission, resumeMission } from '../lib/api';
 
 export interface MissionPickerProps {
   onStarted: (resp: MissionStartResponse) => void;
@@ -17,6 +17,7 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
   const [selected, setSelected] = useState<string>('');
   const [timeWarp, setTimeWarp] = useState<number>(DEFAULT_SPEED);
   const [running, setRunning] = useState<string | null>(null);
+  const [paused, setPaused] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -36,6 +37,7 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
     try {
       const resp = await startMission(selected, timeWarp);
       setRunning(selected);
+      setPaused(false);
       onStarted(resp);
     } catch (e) {
       setError(String(e));
@@ -47,7 +49,18 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
     try {
       await stopMission();
       setRunning(null);
+      setPaused(false);
       onStopped();
+    } catch (e) {
+      setError(String(e));
+    } finally { setBusy(false); }
+  }
+
+  async function handlePauseResume() {
+    setBusy(true); setError(null);
+    try {
+      if (paused) { await resumeMission(); setPaused(false); }
+      else        { await pauseMission();  setPaused(true);  }
     } catch (e) {
       setError(String(e));
     } finally { setBusy(false); }
@@ -77,9 +90,12 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
         ))}
       </select>
       <button onClick={handleStart} disabled={busy || running !== null || !selected}>Start</button>
+      <button onClick={handlePauseResume} disabled={busy || running === null}>
+        {paused ? 'Resume' : 'Pause'}
+      </button>
       <button onClick={handleStop} disabled={busy || running === null}>Stop</button>
-      <span style={{ marginLeft: 16, color: running ? '#7f7' : '#999' }}>
-        {running ? `Running: ${running} @ ${timeWarp}x` : 'Idle'}
+      <span style={{ marginLeft: 16, color: paused ? '#fc7' : running ? '#7f7' : '#999' }}>
+        {running ? `${paused ? 'Paused' : 'Running'}: ${running} @ ${timeWarp}x` : 'Idle'}
       </span>
       {error && <span style={{ marginLeft: 16, color: '#f77' }}>{error}</span>}
     </div>

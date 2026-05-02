@@ -47,13 +47,20 @@ def _running() -> bool:
 def _stop():
     p = _state["proc"]
     if p and p.poll() is None:
+        # If the process is currently SIGSTOPped (paused), it can't receive SIGTERM.
+        # Resume it first so termination actually takes effect.
+        if _state.get("paused"):
+            try:
+                p.send_signal(signal.SIGCONT)
+            except Exception:
+                pass
         p.terminate()
         try:
             p.wait(timeout=5)
         except subprocess.TimeoutExpired:
             p.kill()
             p.wait()
-    _state.update({"proc": None, "mission": None, "started_at": None, "origin": None})
+    _state.update({"proc": None, "mission": None, "started_at": None, "origin": None, "paused": False})
 
 
 def _template_mission(src: Path, time_warp=None) -> dict:
@@ -154,15 +161,48 @@ def stop_mission():
     return jsonify({"status": "stopped"})
 
 
+@app.post("/missions/pause")
+def pause_mission():
+    """SIGSTOP the scrimmage process — freezes it OS-level. State preserved exactly."""
+    p = _state["proc"]
+    if not p or p.poll() is not None:
+        return jsonify({"error": "no mission running"}), 400
+    if _state.get("paused"):
+        return jsonify({"status": "paused"})  # idempotent
+    try:
+        p.send_signal(signal.SIGSTOP)
+    except Exception as e:
+        return jsonify({"error": f"failed to pause: {e}"}), 500
+    _state["paused"] = True
+    return jsonify({"status": "paused"})
+
+
+@app.post("/missions/resume")
+def resume_mission():
+    """SIGCONT the scrimmage process — resumes it from where it was frozen."""
+    p = _state["proc"]
+    if not p or p.poll() is not None:
+        return jsonify({"error": "no mission running"}), 400
+    if not _state.get("paused"):
+        return jsonify({"status": "running"})  # idempotent
+    try:
+        p.send_signal(signal.SIGCONT)
+    except Exception as e:
+        return jsonify({"error": f"failed to resume: {e}"}), 500
+    _state["paused"] = False
+    return jsonify({"status": "running"})
+
+
 @app.get("/status")
 def status():
     if not _running():
         return jsonify({"status": "idle"})
     return jsonify({
-        "status": "running",
+        "status": "paused" if _state.get("paused") else "running",
         "mission": _state["mission"],
         "uptime_s": time.time() - _state["started_at"],
         "origin": _state["origin"],
+        "paused": bool(_state.get("paused")),
     })
 
 

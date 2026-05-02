@@ -25,3 +25,13 @@ export async function stopMission(): Promise<void> {
   const r = await fetch(`${BASE}/api/missions/stop`, { method: 'POST' });
   if (!r.ok) throw new Error(`stopMission: ${r.status}`);
 }
+
+export async function pauseMission(): Promise<void> {
+  const r = await fetch(`${BASE}/api/missions/pause`, { method: 'POST' });
+  if (!r.ok) throw new Error(`pauseMission: ${r.status} ${await r.text()}`);
+}
+
+export async function resumeMission(): Promise<void> {
+  const r = await fetch(`${BASE}/api/missions/resume`, { method: 'POST' });
+  if (!r.ok) throw new Error(`resumeMission: ${r.status} ${await r.text()}`);
+}
