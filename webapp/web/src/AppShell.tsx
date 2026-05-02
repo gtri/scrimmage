@@ -4,14 +4,18 @@ import { MissionPicker } from './components/MissionPicker';
 import { EntityList } from './components/EntityList';
 import { Placeholder } from './components/panels/Placeholder';
 import { HelpOverlay } from './components/HelpOverlay';
+import { ReportModal } from './components/ReportModal';
 import { useFrameStream } from './hooks/useFrameStream';
 import { reverseGeocode } from './lib/geocode';
+import { fetchReport } from './lib/api';
 import type { MissionStartResponse, Origin } from './types';
 
 export function AppShell() {
   const viewerRef = useRef<ViewerHandle | null>(null);
   const [origin, setOrigin] = useState<Origin | null>(null);
   const [selectedEntityId, setSelectedEntityId] = useState<number | null>(null);
+  const [lastReport, setLastReport] = useState<string[] | null>(null);
+  const [reportOpen, setReportOpen] = useState(false);
 
   const { connected, latestFrame } = useFrameStream(frame => {
     viewerRef.current?.applyFrame(frame);
@@ -21,9 +25,19 @@ export function AppShell() {
     viewerRef.current?.setOrigin(resp.origin);
     setOrigin(resp.origin);
     setSelectedEntityId(null); // fresh mission → drop any prior selection
+    setLastReport(null);       // fresh mission → previous report is now stale
   }
-  function handleStopped() {
-    // Leave the last frame on screen until the next start; nothing to do here.
+  async function handleStopped() {
+    // Mission stopped — fetch the report scrimmage emitted on shutdown and surface it.
+    try {
+      const lines = await fetchReport();
+      if (lines.length > 0) {
+        setLastReport(lines);
+        setReportOpen(true);
+      }
+    } catch {
+      // Network failure — don't block; operator can re-run if they want.
+    }
   }
   function handleRecenter() {
     viewerRef.current?.recenter();
@@ -42,6 +56,17 @@ export function AppShell() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
         <MissionPicker onStarted={handleStarted} onStopped={handleStopped} />
         {origin && <OriginBadge origin={origin} />}
+        {lastReport && (
+          <button
+            onClick={() => setReportOpen(true)}
+            title="Re-open the most recent mission report"
+            style={{
+              padding: '4px 10px', fontSize: 12, color: '#ddd',
+              background: 'transparent', border: '1px solid #555', borderRadius: 4,
+              cursor: 'pointer',
+            }}
+          >📊 Last report</button>
+        )}
         <span style={{ color: connected ? '#7f7' : '#f77', marginRight: 16 }}>
           ● Stream {connected ? 'connected' : 'disconnected'}
         </span>
@@ -73,6 +98,10 @@ export function AppShell() {
           <Placeholder title="Tags" description="Annotate entities with operator-defined labels — v2." />
         </aside>
       </div>
+
+      {reportOpen && lastReport && (
+        <ReportModal lines={lastReport} onClose={() => setReportOpen(false)} />
+      )}
     </div>
   );
 }

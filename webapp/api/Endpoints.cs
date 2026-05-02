@@ -50,6 +50,14 @@ public static class Endpoints
             return Results.Content(body, "application/json", statusCode: (int)resp.StatusCode);
         });
 
+        app.MapGet("/api/missions/report", async (IHttpClientFactory http) =>
+        {
+            var client = http.CreateClient();
+            var resp = await client.GetAsync($"{launcher}/missions/report");
+            var body = await resp.Content.ReadAsStringAsync();
+            return Results.Content(body, "application/json", statusCode: (int)resp.StatusCode);
+        });
+
         app.MapGet("/api/status", async (IHttpClientFactory http) =>
         {
             var client = http.CreateClient();

@@ -11,6 +11,7 @@ import subprocess
 import sys
 import threading
 import time
+from collections import deque
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -22,12 +23,21 @@ NOISE_PATTERNS = (
     "VariableIO::output index",
 )
 
+# Rolling buffer of scrimmage's most recent (filtered) output lines. The post-mission
+# report (SimpleCollisionMetrics, SimpleCaptureMetrics, etc.) lands at the end of this
+# buffer when scrimmage exits, and is exposed via GET /missions/report.
+_OUTPUT_BUFFER_LINES = 500
+_output_buffer: deque[str] = deque(maxlen=_OUTPUT_BUFFER_LINES)
+_buffer_lock = threading.Lock()
+
 
 def _forward_filtered(stream):
     """Forward a child process's output line-by-line, dropping known noise lines."""
     for line in iter(stream.readline, ''):
         if any(p in line for p in NOISE_PATTERNS):
             continue
+        with _buffer_lock:
+            _output_buffer.append(line)
         sys.stdout.write(line)
         sys.stdout.flush()
 
@@ -120,6 +130,10 @@ def start_mission():
     # Stop anything currently running
     _stop()
 
+    # Fresh mission → fresh output buffer (any prior report is now stale)
+    with _buffer_lock:
+        _output_buffer.clear()
+
     # Template + parse origin
     try:
         origin = _template_mission(src, time_warp=time_warp)
@@ -158,7 +172,22 @@ def start_mission():
 @app.post("/missions/stop")
 def stop_mission():
     _stop()
+    # Give the forwarder thread a moment to drain any final lines (the report)
+    # that scrimmage emitted on its way out before we respond.
+    time.sleep(0.3)
     return jsonify({"status": "stopped"})
+
+
+@app.get("/missions/report")
+def get_report():
+    """Return the most recent ~500 lines of scrimmage output.
+
+    The post-mission report (Metrics summaries) is at the tail; any lines before
+    it are recent run-time chatter that didn't fit in the rolling buffer.
+    """
+    with _buffer_lock:
+        lines = list(_output_buffer)
+    return jsonify({"lines": lines})
 
 
 @app.post("/missions/pause")

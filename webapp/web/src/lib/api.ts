@@ -35,3 +35,10 @@ export async function resumeMission(): Promise<void> {
   const r = await fetch(`${BASE}/api/missions/resume`, { method: 'POST' });
   if (!r.ok) throw new Error(`resumeMission: ${r.status} ${await r.text()}`);
 }
+
+export async function fetchReport(): Promise<string[]> {
+  const r = await fetch(`${BASE}/api/missions/report`);
+  if (!r.ok) throw new Error(`fetchReport: ${r.status}`);
+  const data: { lines: string[] } = await r.json();
+  return data.lines ?? [];
+}
