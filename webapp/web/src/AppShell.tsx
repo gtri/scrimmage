@@ -3,30 +3,35 @@ import { CesiumViewer, type ViewerHandle } from './components/CesiumViewer';
 import { MissionPicker } from './components/MissionPicker';
 import { EntityList } from './components/EntityList';
 import { Placeholder } from './components/panels/Placeholder';
+import { HelpOverlay } from './components/HelpOverlay';
 import { useFrameStream } from './hooks/useFrameStream';
-import type { MissionStartResponse } from './types';
+import type { MissionStartResponse, Origin } from './types';
 
 export function AppShell() {
   const viewerRef = useRef<ViewerHandle | null>(null);
-  const [streamConnected, setStreamConnectedDisplay] = useState(false);
+  const [origin, setOrigin] = useState<Origin | null>(null);
 
   const { connected, latestFrame } = useFrameStream(frame => {
     viewerRef.current?.applyFrame(frame);
   });
-  if (connected !== streamConnected) setStreamConnectedDisplay(connected);
 
   function handleStarted(resp: MissionStartResponse) {
     viewerRef.current?.setOrigin(resp.origin);
+    setOrigin(resp.origin);
   }
   function handleStopped() {
     // Leave the last frame on screen until the next start; nothing to do here.
   }
+  function handleRecenter() {
+    viewerRef.current?.recenter();
+  }
 
   return (
-    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100vh', background: '#111' }}>
+    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100vh', background: '#111', color: '#eee' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
         <MissionPicker onStarted={handleStarted} onStopped={handleStopped} />
+        {origin && <OriginBadge origin={origin} />}
         <span style={{ color: connected ? '#7f7' : '#f77', marginRight: 16 }}>
           ● Stream {connected ? 'connected' : 'disconnected'}
         </span>
@@ -41,6 +46,8 @@ export function AppShell() {
 
         <main style={{ position: 'relative' }}>
           <CesiumViewer onReady={h => { viewerRef.current = h; }} />
+          <RecenterButton onClick={handleRecenter} disabled={!latestFrame || latestFrame.entities.length === 0} />
+          <HelpOverlay />
         </main>
 
         <aside style={{ background: '#1a1a1a', overflowY: 'auto', borderLeft: '1px solid #333' }}>
@@ -50,5 +57,38 @@ export function AppShell() {
         </aside>
       </div>
     </div>
+  );
+}
+
+function OriginBadge({ origin }: { origin: Origin }) {
+  return (
+    <span
+      title="Mission geographic origin (latitude, longitude, altitude)"
+      style={{
+        fontFamily: 'ui-monospace, Menlo, Consolas, monospace', fontSize: 12,
+        color: '#bbb', padding: '2px 8px', border: '1px solid #444', borderRadius: 4,
+      }}
+    >
+      📍 {origin.lat.toFixed(4)}, {origin.lon.toFixed(4)} · {origin.alt}m
+    </span>
+  );
+}
+
+function RecenterButton({ onClick, disabled }: { onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      title="Recenter camera on current entities"
+      style={{
+        position: 'absolute', top: 8, left: 8, zIndex: 10,
+        padding: '4px 10px',
+        background: 'rgba(20,20,20,0.85)', color: disabled ? '#666' : '#ddd',
+        border: '1px solid #555', borderRadius: 4,
+        fontSize: 12, cursor: disabled ? 'not-allowed' : 'pointer',
+      }}
+    >
+      ⊕ Recenter
+    </button>
   );
 }

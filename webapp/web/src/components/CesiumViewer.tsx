@@ -8,6 +8,8 @@ const ION_TOKEN = (import.meta as any).env.VITE_CESIUM_ION_TOKEN as string | und
 export interface ViewerHandle {
   applyFrame: (frame: FrameDto) => void;
   setOrigin: (origin: Origin | null) => void;
+  /** Operator-triggered: fit all current entities in view. No-op if no entities. */
+  recenter: () => void;
 }
 
 export interface ViewerProps {
@@ -75,6 +77,13 @@ export function CesiumViewer({ onReady }: ViewerProps) {
       setOrigin: (origin) => {
         // Just store the origin so applyFrame can convert ENU positions. Do NOT touch the camera.
         originRef.current = origin;
+      },
+      recenter: () => {
+        if (entitiesRef.current.size === 0) return;
+        viewer.flyTo(viewer.entities, {
+          duration: 1.0,
+          offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-55), 0),
+        }).catch(() => { /* operator can cancel by panning during the flight; not an error */ });
       },
     };
     onReady?.(handle);
