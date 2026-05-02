@@ -8,11 +8,11 @@ export async function listMissions(): Promise<string[]> {
   return r.json();
 }
 
-export async function startMission(name: string): Promise<MissionStartResponse> {
+export async function startMission(name: string, timeWarp?: number): Promise<MissionStartResponse> {
   const r = await fetch(`${BASE}/api/missions/start`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, timeWarp }),
   });
   if (!r.ok) {
     const err = await r.text();

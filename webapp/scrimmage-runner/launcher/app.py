@@ -56,8 +56,12 @@ def _stop():
     _state.update({"proc": None, "mission": None, "started_at": None, "origin": None})
 
 
-def _template_mission(src: Path) -> dict:
-    """Copy mission XML to /tmp with network_gui flipped on. Return parsed origin."""
+def _template_mission(src: Path, time_warp=None) -> dict:
+    """Copy mission XML to /tmp with network_gui flipped on. Return parsed origin.
+
+    Optional time_warp overrides the mission's built-in time_warp attribute (e.g.,
+    capture-the-flag defaults to 20; pass 5 to slow it down ~4x).
+    """
     text = src.read_text()
     # Flip network_gui="false" to "true" (regex tolerates whitespace around =)
     text = re.sub(r'network_gui\s*=\s*"false"', 'network_gui="true"', text)
@@ -69,6 +73,9 @@ def _template_mission(src: Path) -> dict:
     # The API listens on :8080 (HTTP/1 for REST + SignalR) and :50051 (HTTP/2 cleartext for gRPC).
     text = re.sub(r'<stream_ip>[^<]*</stream_ip>', '<stream_ip>api</stream_ip>', text)
     text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>50051</stream_port>', text)
+    # Override time_warp if requested (operator-controlled simulation speed)
+    if time_warp is not None:
+        text = re.sub(r'time_warp\s*=\s*"[^"]*"', f'time_warp="{time_warp}"', text)
     ACTIVE_MISSION_PATH.write_text(text)
 
     # Parse origin from the templated file
@@ -97,6 +104,8 @@ def start_mission():
     name = body.get("name")
     if not name:
         return jsonify({"error": "missing 'name'"}), 400
+    # Operator-controlled simulation speed; defaults to whatever the mission XML has
+    time_warp = body.get("timeWarp")
     src = MISSIONS_DIR / name
     if not src.exists():
         return jsonify({"error": f"mission not found: {name}"}), 404
@@ -106,7 +115,7 @@ def start_mission():
 
     # Template + parse origin
     try:
-        origin = _template_mission(src)
+        origin = _template_mission(src, time_warp=time_warp)
     except Exception as e:
         return jsonify({"error": f"failed to template mission: {e}"}), 500
     if not all(origin.values()):
@@ -127,6 +136,7 @@ def start_mission():
         "mission": name,
         "started_at": time.time(),
         "origin": origin,
+        "time_warp": time_warp,
     })
 
     return jsonify({
@@ -134,6 +144,7 @@ def start_mission():
         "pid": proc.pid,
         "mission": name,
         "origin": origin,
+        "timeWarp": time_warp,
     })
 
 

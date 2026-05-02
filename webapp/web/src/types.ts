@@ -24,4 +24,5 @@ export interface MissionStartResponse {
   pid: number;
   mission: string;
   origin: Origin;
+  timeWarp?: number | null;
 }

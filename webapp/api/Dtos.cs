@@ -18,8 +18,8 @@ public record FrameDto(double Time, IReadOnlyList<EntityDto> Entities);
 
 public record OriginDto(double Lat, double Lon, double Alt);
 
-public record StartMissionRequest(string Name);
+public record StartMissionRequest(string Name, double? TimeWarp);
 
-public record MissionStartResponse(string Status, int Pid, string Mission, OriginDto Origin);
+public record MissionStartResponse(string Status, int Pid, string Mission, OriginDto Origin, double? TimeWarp);
 
 public record StatusResponse(string Status, string? Mission, double? UptimeS, OriginDto? Origin);

@@ -7,9 +7,15 @@ export interface MissionPickerProps {
   onStopped: () => void;
 }
 
+// SCRIMMAGE's time_warp = simulation seconds per real second.
+// 1 = real time, 20 = capture-the-flag's default (fast), <1 = slow motion.
+const SPEED_PRESETS = [0.5, 1, 5, 10, 20, 50];
+const DEFAULT_SPEED = 20;
+
 export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
   const [missions, setMissions] = useState<string[]>([]);
   const [selected, setSelected] = useState<string>('');
+  const [timeWarp, setTimeWarp] = useState<number>(DEFAULT_SPEED);
   const [running, setRunning] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -28,7 +34,7 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
     if (!selected) return;
     setBusy(true); setError(null);
     try {
-      const resp = await startMission(selected);
+      const resp = await startMission(selected, timeWarp);
       setRunning(selected);
       onStarted(resp);
     } catch (e) {
@@ -58,10 +64,22 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
       >
         {missions.map(m => <option key={m} value={m}>{m}</option>)}
       </select>
+      <label style={{ marginLeft: 8 }}>Speed:</label>
+      <select
+        value={timeWarp}
+        onChange={e => setTimeWarp(Number(e.target.value))}
+        disabled={busy}
+        title="Simulation speed (time warp). Takes effect on next Start."
+        style={{ padding: 4 }}
+      >
+        {SPEED_PRESETS.map(s => (
+          <option key={s} value={s}>{s}x{s === 1 ? ' (real time)' : ''}</option>
+        ))}
+      </select>
       <button onClick={handleStart} disabled={busy || running !== null || !selected}>Start</button>
       <button onClick={handleStop} disabled={busy || running === null}>Stop</button>
       <span style={{ marginLeft: 16, color: running ? '#7f7' : '#999' }}>
-        {running ? `Running: ${running}` : 'Idle'}
+        {running ? `Running: ${running} @ ${timeWarp}x` : 'Idle'}
       </span>
       {error && <span style={{ marginLeft: 16, color: '#f77' }}>{error}</span>}
     </div>
