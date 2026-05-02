@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <title>SCRIMMAGE C2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Lock the operator console to the browser viewport — no page scrollbars ever.
+         The AppShell is a height:100vh grid; sidebars overflow:auto internally if needed. */
+      html, body, #root { height: 100%; width: 100%; margin: 0; overflow: hidden; }
+      body { font-family: system-ui, sans-serif; }
+    </style>
   </head>
-  <body style="margin:0">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
