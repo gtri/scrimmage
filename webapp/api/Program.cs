@@ -1,4 +1,5 @@
 using C2.Api;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,9 @@ builder.Services.AddGrpc();
 builder.Services.AddSignalR();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
     p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+builder.Services.AddHttpClient();
+builder.Services.AddDbContext<AppDbContext>(opts =>
+    opts.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 // Kestrel serves both gRPC (HTTP/2 cleartext) and HTTP/1.1 (REST + SignalR) on one port
 builder.WebHost.ConfigureKestrel(opts =>
@@ -19,5 +23,6 @@ app.UseCors();
 app.MapGrpcService<FrameStreamService>();
 app.MapHub<FrameHub>("/hubs/frames");
 app.MapGet("/health", () => "ok");
+app.MapMissionEndpoints();
 
 app.Run();
