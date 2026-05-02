@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MutableRefObject } from 'react';
+import { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
 import type { FrameDto, Origin } from '../types';
 import { enuToCartesian } from '../lib/enuToCartesian';
@@ -24,9 +24,6 @@ export function CesiumViewer({ onReady }: ViewerProps) {
   const viewerRef = useRef<Cesium.Viewer | null>(null);
   const entitiesRef = useRef<Map<number, Cesium.Entity>>(new Map());
   const originRef = useRef<Origin | null>(null);
-  // Tracks whether we've auto-framed the camera on the entities for the current mission.
-  // Reset on setOrigin so each Start triggers a fresh fit-to-entities flight.
-  const framedRef = useRef(false);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -41,42 +38,66 @@ export function CesiumViewer({ onReady }: ViewerProps) {
       sceneModePicker: false,
       navigationHelpButton: false,
       fullscreenButton: false,
+      // Render only when something changes (camera, entities, time) — this is the
+      // operator console, not a flight sim. Saves a lot of GPU when the camera is idle.
+      requestRenderMode: true,
     });
     viewerRef.current = viewer;
 
     if (ION_TOKEN) {
       Cesium.createWorldTerrainAsync()
-        .then(t => { viewer.terrainProvider = t; })
+        .then(t => { viewer.terrainProvider = t; viewer.scene.requestRender(); })
         .catch(err => console.warn('Cesium terrain load failed:', err));
     }
 
-    // Default view (overwritten once first frame arrives via flyTo(entities))
+    // Initial camera view — looking down at Camp Roberts area from 3.5 km, slightly tilted
+    // so terrain has perspective. This is the ONLY programmatic camera move; after this,
+    // the operator owns the camera entirely (pan/zoom/tilt). No flyTo, no setView elsewhere.
     viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 5000),
+      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 3500),
+      orientation: {
+        heading: 0,
+        pitch: Cesium.Math.toRadians(-65),
+        roll: 0,
+      },
     });
 
+    // Cesium widget needs to recompute its canvas size after the parent grid settles.
+    // Without this, the credit bar and scene canvas can get clipped on first paint.
+    const ro = new ResizeObserver(() => { viewer.resize(); viewer.scene.requestRender(); });
+    ro.observe(ref.current);
+
     const handle: ViewerHandle = {
-      applyFrame: (frame) => applyFrame(frame, viewer, entitiesRef.current, originRef.current, framedRef),
+      applyFrame: (frame) => {
+        applyFrame(frame, viewer, entitiesRef.current, originRef.current);
+        viewer.scene.requestRender(); // requestRenderMode requires explicit re-render after entity updates
+      },
       setOrigin: (origin) => {
+        // Just store the origin so applyFrame can convert ENU positions. Do NOT touch the camera.
         originRef.current = origin;
-        framedRef.current = false; // re-frame on next frame
       },
     };
     onReady?.(handle);
 
-    return () => { viewer.destroy(); viewerRef.current = null; entitiesRef.current.clear(); };
+    return () => {
+      ro.disconnect();
+      viewer.destroy();
+      viewerRef.current = null;
+      entitiesRef.current.clear();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div ref={ref} style={{ width: '100%', height: '100%' }} />;
+  // Absolute positioning inside a position:relative parent guarantees the Cesium widget
+  // exactly fills the cell regardless of grid sizing quirks.
+  return <div ref={ref} style={{ position: 'absolute', inset: 0 }} />;
 }
 
 function applyFrame(
   frame: FrameDto,
   viewer: Cesium.Viewer,
   entities: Map<number, Cesium.Entity>,
-  origin: Origin | null,
-  framedRef: MutableRefObject<boolean>
+  origin: Origin | null
 ) {
   if (!origin) return; // can't render without origin
 
@@ -113,16 +134,5 @@ function applyFrame(
   // Remove entities that disappeared from the frame entirely
   for (const [id, ent] of entities) {
     if (!seen.has(id)) { viewer.entities.remove(ent); entities.delete(id); }
-  }
-
-  // First frame for this mission with at least one entity → fit them all in view, once.
-  // Cesium computes the bounding sphere of all viewer.entities and flies to fit it.
-  // Subsequent frames are silent — user can pan/zoom freely and the camera stays put.
-  if (!framedRef.current && entities.size > 0) {
-    framedRef.current = true;
-    viewer.flyTo(viewer.entities, {
-      duration: 1.5,
-      offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-55), 0),
-    }).catch(() => { /* user-initiated camera move can cancel the flight; not an error */ });
   }
 }
