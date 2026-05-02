@@ -11,10 +11,14 @@ builder.Services.AddHttpClient();
 builder.Services.AddDbContext<AppDbContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
-// Kestrel serves both gRPC (HTTP/2 cleartext) and HTTP/1.1 (REST + SignalR) on one port
+// Two listeners on separate ports because HTTP/2 cleartext requires either TLS (for ALPN)
+// or a port dedicated to HTTP/2 — Kestrel falls back to HTTP/1.1 on a multiplexed cleartext port.
+//   :8080  — HTTP/1.1 for REST + SignalR (web client → API)
+//   :50051 — HTTP/2 cleartext for gRPC (scrimmage process → API)
 builder.WebHost.ConfigureKestrel(opts =>
 {
-    opts.ListenAnyIP(8080, l => l.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2);
+    opts.ListenAnyIP(8080, l => l.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1);
+    opts.ListenAnyIP(50051, l => l.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2);
 });
 
 var app = builder.Build();

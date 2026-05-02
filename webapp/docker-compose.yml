@@ -15,12 +15,13 @@ services:
     container_name: c2-api
     depends_on: [scrimmage, postgres]
     environment:
-      - ASPNETCORE_URLS=http://+:8080
-      - SCRIMMAGE_GRPC_ADDR=http://scrimmage:50051
+      # ASPNETCORE_URLS is intentionally NOT set — Program.cs configures Kestrel directly
+      # to bind :8080 (HTTP/1) and :50051 (HTTP/2 cleartext for gRPC).
       - SCRIMMAGE_LAUNCHER_URL=http://scrimmage:5050
       - ConnectionStrings__Default=Host=postgres;Database=c2;Username=c2;Password=c2pass
     ports:
       - "8080:8080"
+      - "50052:50051"   # internal gRPC port also exposed for debug (host 50052 to avoid conflict with scrimmage's 50051 mapping)
     networks: [c2net]
 
   web:

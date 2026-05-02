@@ -16,7 +16,7 @@ RUN python3 -m venv /opt/launcher-venv
 ENV SCRIMMAGE_ROOT=/root/scrimmage/build/install
 ENV PATH="${SCRIMMAGE_ROOT}/bin:/opt/launcher-venv/bin:${PATH}"
 ENV LD_LIBRARY_PATH="${SCRIMMAGE_ROOT}/lib"
-ENV SCRIMMAGE_PLUGIN_PATH="${SCRIMMAGE_ROOT}/lib/scrimmage/plugin_libs"
+ENV SCRIMMAGE_PLUGIN_PATH="${SCRIMMAGE_ROOT}/lib/scrimmage/plugin_libs:${SCRIMMAGE_ROOT}/etc/scrimmage/plugins"
 ENV SCRIMMAGE_MISSION_PATH="${SCRIMMAGE_ROOT}/share/scrimmage/missions"
 ENV SCRIMMAGE_DATA_PATH="${SCRIMMAGE_ROOT}/share/scrimmage/data"
 ENV SCRIMMAGE_CONFIG_PATH="${SCRIMMAGE_ROOT}/etc/scrimmage"

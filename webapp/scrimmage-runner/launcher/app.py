@@ -48,9 +48,10 @@ def _template_mission(src: Path) -> dict:
     text = re.sub(r'enable_gui\s*=\s*"\$\{enable_gui=true\}"',
                   'enable_gui="false"', text)
     text = re.sub(r'enable_gui\s*=\s*"true"', 'enable_gui="false"', text)
-    # Route the scrimmage gRPC stream to the API container instead of localhost
+    # Route the scrimmage gRPC stream to the API container's HTTP/2 cleartext port.
+    # The API listens on :8080 (HTTP/1 for REST + SignalR) and :50051 (HTTP/2 cleartext for gRPC).
     text = re.sub(r'<stream_ip>[^<]*</stream_ip>', '<stream_ip>api</stream_ip>', text)
-    text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>8080</stream_port>', text)
+    text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>50051</stream_port>', text)
     ACTIVE_MISSION_PATH.write_text(text)
 
     # Parse origin from the templated file
