@@ -48,6 +48,9 @@ def _template_mission(src: Path) -> dict:
     text = re.sub(r'enable_gui\s*=\s*"\$\{enable_gui=true\}"',
                   'enable_gui="false"', text)
     text = re.sub(r'enable_gui\s*=\s*"true"', 'enable_gui="false"', text)
+    # Route the scrimmage gRPC stream to the API container instead of localhost
+    text = re.sub(r'<stream_ip>[^<]*</stream_ip>', '<stream_ip>api</stream_ip>', text)
+    text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>8080</stream_port>', text)
     ACTIVE_MISSION_PATH.write_text(text)
 
     # Parse origin from the templated file
