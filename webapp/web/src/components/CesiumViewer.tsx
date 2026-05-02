@@ -1,15 +1,29 @@
 import { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
+import type { FrameDto, Origin } from '../types';
+import { enuToCartesian } from '../lib/enuToCartesian';
 
 const ION_TOKEN = (import.meta as any).env.VITE_CESIUM_ION_TOKEN as string | undefined;
 
-export interface ViewerProps {
-  origin?: { lat: number; lon: number; alt: number };
+export interface ViewerHandle {
+  applyFrame: (frame: FrameDto) => void;
+  setOrigin: (origin: Origin | null) => void;
 }
 
-export function CesiumViewer({ origin }: ViewerProps) {
+export interface ViewerProps {
+  onReady?: (handle: ViewerHandle) => void;
+}
+
+const TEAM_COLORS: Record<number, Cesium.Color> = {
+  1: Cesium.Color.DODGERBLUE,
+  2: Cesium.Color.CRIMSON,
+};
+
+export function CesiumViewer({ onReady }: ViewerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Cesium.Viewer | null>(null);
+  const entitiesRef = useRef<Map<number, Cesium.Entity>>(new Map());
+  const originRef = useRef<Origin | null>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -24,27 +38,81 @@ export function CesiumViewer({ origin }: ViewerProps) {
       sceneModePicker: false,
       navigationHelpButton: false,
       fullscreenButton: false,
-      terrainProvider: undefined, // set after token loads, below
     });
     viewerRef.current = viewer;
 
-    // Try to load Ion world terrain; fall back silently if no token
     if (ION_TOKEN) {
       Cesium.createWorldTerrainAsync()
         .then(t => { viewer.terrainProvider = t; })
         .catch(err => console.warn('Cesium terrain load failed:', err));
     }
 
-    // Default camera position: Camp Roberts area (until origin arrives)
-    const defaultLat = origin?.lat ?? 35.721025;
-    const defaultLon = origin?.lon ?? -120.767925;
-    const defaultAlt = (origin?.alt ?? 300) + 2000;
+    // Default view (overwritten when origin is set)
     viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(defaultLon, defaultLat, defaultAlt),
+      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 3000),
     });
 
-    return () => { viewer.destroy(); viewerRef.current = null; };
-  }, [origin?.lat, origin?.lon, origin?.alt]);
+    const handle: ViewerHandle = {
+      applyFrame: (frame) => applyFrame(frame, viewer, entitiesRef.current, originRef.current),
+      setOrigin: (origin) => {
+        originRef.current = origin;
+        if (origin) {
+          viewer.camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(origin.lon, origin.lat, origin.alt + 2500),
+            duration: 1.5,
+          });
+        }
+      },
+    };
+    onReady?.(handle);
+
+    return () => { viewer.destroy(); viewerRef.current = null; entitiesRef.current.clear(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <div ref={ref} style={{ width: '100%', height: '100%' }} />;
+}
+
+function applyFrame(
+  frame: FrameDto,
+  viewer: Cesium.Viewer,
+  entities: Map<number, Cesium.Entity>,
+  origin: Origin | null
+) {
+  if (!origin) return; // can't render without origin
+
+  const seen = new Set<number>();
+  for (const e of frame.entities) {
+    seen.add(e.id);
+    if (!e.active) {
+      const existing = entities.get(e.id);
+      if (existing) { viewer.entities.remove(existing); entities.delete(e.id); }
+      continue;
+    }
+    const pos = enuToCartesian(origin, e.position.x, e.position.y, e.position.z);
+    const color = TEAM_COLORS[e.teamId] ?? Cesium.Color.GRAY;
+    let ent = entities.get(e.id);
+    if (!ent) {
+      ent = viewer.entities.add({
+        position: pos,
+        point: { pixelSize: 12, color, outlineColor: Cesium.Color.WHITE, outlineWidth: 2 },
+        label: {
+          text: `#${e.id}`,
+          font: '12px sans-serif',
+          pixelOffset: new Cesium.Cartesian2(0, -20),
+          fillColor: Cesium.Color.WHITE,
+          showBackground: true,
+          backgroundColor: Cesium.Color.BLACK.withAlpha(0.6),
+        },
+      });
+      entities.set(e.id, ent);
+    } else {
+      ent.position = new Cesium.ConstantPositionProperty(pos);
+    }
+  }
+
+  // Remove entities that disappeared from the frame entirely
+  for (const [id, ent] of entities) {
+    if (!seen.has(id)) { viewer.entities.remove(ent); entities.delete(id); }
+  }
 }
