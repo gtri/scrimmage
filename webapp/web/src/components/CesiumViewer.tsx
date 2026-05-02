@@ -52,17 +52,10 @@ export function CesiumViewer({ onReady }: ViewerProps) {
         .catch(err => console.warn('Cesium terrain load failed:', err));
     }
 
-    // Initial camera view — looking down at Camp Roberts area from 3.5 km, slightly tilted
-    // so terrain has perspective. This is the ONLY programmatic camera move; after this,
-    // the operator owns the camera entirely (pan/zoom/tilt). No flyTo, no setView elsewhere.
-    viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(-120.767925, 35.721025, 3500),
-      orientation: {
-        heading: 0,
-        pitch: Cesium.Math.toRadians(-65),
-        roll: 0,
-      },
-    });
+    // Initial camera — oblique view of the Camp Roberts area as a sensible default
+    // before any mission is selected. setOrigin reframes for the actual mission origin
+    // when the operator clicks Start. After mission start, the operator owns the camera.
+    cameraLookAtOrigin(viewer, { lat: 35.721025, lon: -120.767925, alt: 300 });
 
     // Cesium widget needs to recompute its canvas size after the parent grid settles.
     // Without this, the credit bar and scene canvas can get clipped on first paint.
@@ -75,14 +68,20 @@ export function CesiumViewer({ onReady }: ViewerProps) {
         viewer.scene.requestRender(); // requestRenderMode requires explicit re-render after entity updates
       },
       setOrigin: (origin) => {
-        // Just store the origin so applyFrame can convert ENU positions. Do NOT touch the camera.
         originRef.current = origin;
+        // Operator clicked Start — reframe the camera obliquely on the new mission's origin
+        // so altitude differences between drones are visible immediately. This is operator-
+        // implied, not automatic motion during a running sim.
+        if (origin) {
+          cameraLookAtOrigin(viewer, origin);
+          viewer.scene.requestRender();
+        }
       },
       recenter: () => {
         if (entitiesRef.current.size === 0) return;
         viewer.flyTo(viewer.entities, {
           duration: 1.0,
-          offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-55), 0),
+          offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-30), 0),
         }).catch(() => { /* operator can cancel by panning during the flight; not an error */ });
       },
     };
@@ -100,6 +99,28 @@ export function CesiumViewer({ onReady }: ViewerProps) {
   // Absolute positioning inside a position:relative parent guarantees the Cesium widget
   // exactly fills the cell regardless of grid sizing quirks.
   return <div ref={ref} style={{ position: 'absolute', inset: 0 }} />;
+}
+
+/**
+ * Position the camera in an oblique 3D view of the given origin point.
+ * heading=0 puts the camera due north of the origin looking south; pitch=-30°
+ * gives a perspective view where vertical separation between drones is visible.
+ * range=2500m fits a typical mission's spawn spread (~500-1000m radius).
+ *
+ * Cesium's lookAt sets a reference frame transform; we reset it to identity
+ * immediately so subsequent operator pan/zoom/tilt behave normally (otherwise
+ * the camera would orbit the target instead of moving freely).
+ */
+function cameraLookAtOrigin(viewer: Cesium.Viewer, origin: Origin) {
+  viewer.camera.lookAt(
+    Cesium.Cartesian3.fromDegrees(origin.lon, origin.lat, origin.alt),
+    new Cesium.HeadingPitchRange(
+      0,
+      Cesium.Math.toRadians(-30),
+      2500
+    )
+  );
+  viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 }
 
 function applyFrame(
