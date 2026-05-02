@@ -27,28 +27,22 @@ export function AppShell() {
   function handleStarted(resp: MissionStartResponse) {
     viewerRef.current?.setOrigin(resp.origin);
     setOrigin(resp.origin);
-    setSelectedEntityId(null); // fresh mission → drop any prior selection
-    setLastReport(null);       // fresh mission → previous report is now stale
+    setSelectedEntityId(null);
+    setLastReport(null);
     stopHandledRef.current = false;
   }
   async function handleStopped() {
     if (stopHandledRef.current) return;
     stopHandledRef.current = true;
-    // Mission stopped (operator-initiated OR auto-completed via end_condition) —
-    // fetch the report scrimmage emitted on shutdown and surface it.
     try {
       const lines = await fetchReport();
       if (lines.length > 0) {
         setLastReport(lines);
         setReportOpen(true);
       }
-    } catch {
-      // Network failure — don't block; operator can re-run if they want.
-    }
+    } catch { /* ignore */ }
   }
-  function handleRecenter() {
-    viewerRef.current?.recenter();
-  }
+  function handleRecenter() { viewerRef.current?.recenter(); }
   function handleSelectFromList(id: number | null) {
     setSelectedEntityId(id);
     viewerRef.current?.selectEntity(id);
@@ -58,31 +52,36 @@ export function AppShell() {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100vh', background: '#111', color: '#eee' }}>
+    <div style={{
+      display: 'grid', gridTemplateRows: 'auto 1fr', height: '100vh',
+      background: 'var(--bg-deepest)',
+    }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+      <header style={{
+        display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
+        padding: '8px 16px',
+        background: 'var(--bg-header)',
+        borderBottom: '1px solid var(--border-default)',
+      }}>
+        <Brand />
         <MissionPicker onStarted={handleStarted} onStopped={handleStopped} />
         {origin && <OriginBadge origin={origin} />}
         {lastReport && (
-          <button
-            onClick={() => setReportOpen(true)}
-            title="Re-open the most recent mission report"
-            style={{
-              padding: '4px 10px', fontSize: 12, color: '#ddd',
-              background: 'transparent', border: '1px solid #555', borderRadius: 4,
-              cursor: 'pointer',
-            }}
-          >📊 Last report</button>
+          <button onClick={() => setReportOpen(true)} title="Re-open the most recent mission report">
+            ▤ Last report
+          </button>
         )}
-        <span style={{ color: connected ? '#7f7' : '#f77', marginRight: 16 }}>
-          ● Stream {connected ? 'connected' : 'disconnected'}
-        </span>
-      </div>
+        <span style={{ flex: 1 }} />
+        <StreamBadge connected={connected} />
+      </header>
 
       {/* Three-column body: sidebar | viewer | right rail */}
       <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr 280px', minHeight: 0 }}>
-        <aside style={{ background: '#1a1a1a', overflowY: 'auto', borderRight: '1px solid #333' }}>
-          <div style={{ padding: 8, color: '#888', fontSize: 11, textTransform: 'uppercase' }}>Entities</div>
+        <aside style={{
+          background: 'var(--bg-panel)', overflowY: 'auto',
+          borderRight: '1px solid var(--border-default)',
+        }}>
+          <PanelHeader>Entities</PanelHeader>
           <EntityList
             frame={latestFrame}
             selectedId={selectedEntityId}
@@ -90,7 +89,7 @@ export function AppShell() {
           />
         </aside>
 
-        <main style={{ position: 'relative' }}>
+        <main style={{ position: 'relative', background: 'var(--bg-base)' }}>
           <CesiumViewer
             onReady={h => { viewerRef.current = h; }}
             onSelectionChanged={handleSelectionFromViewport}
@@ -99,7 +98,10 @@ export function AppShell() {
           <HelpOverlay />
         </main>
 
-        <aside style={{ background: '#1a1a1a', overflowY: 'auto', borderLeft: '1px solid #333' }}>
+        <aside style={{
+          background: 'var(--bg-panel)', overflowY: 'auto',
+          borderLeft: '1px solid var(--border-default)',
+        }}>
           <Placeholder title="Commands" description="Operator commands (target_assignment, swap_team) — coming in v2." />
           <Placeholder title="Topic Stream" description="Subscribe to a drone's pub/sub topics — needs a SCRIMMAGE TopicTap plugin (v2)." />
           <Placeholder title="Tags" description="Annotate entities with operator-defined labels — v2." />
@@ -110,6 +112,37 @@ export function AppShell() {
         <ReportModal lines={lastReport} onClose={() => setReportOpen(false)} />
       )}
     </div>
+  );
+}
+
+function Brand() {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'baseline', gap: 6,
+      paddingRight: 12, marginRight: 4,
+      borderRight: '1px solid var(--border-default)',
+    }}>
+      <span style={{
+        fontWeight: 700, fontSize: 18, letterSpacing: '0.18em',
+        color: 'var(--accent)', textTransform: 'uppercase',
+      }}>SCRIMMAGE</span>
+      <span style={{
+        fontSize: 11, letterSpacing: '0.25em', color: 'var(--text-muted)',
+        textTransform: 'uppercase',
+      }}>C2</span>
+    </div>
+  );
+}
+
+function PanelHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      padding: '8px 12px',
+      fontSize: 10, fontWeight: 700, letterSpacing: '0.2em',
+      textTransform: 'uppercase', color: 'var(--text-secondary)',
+      borderBottom: '1px solid var(--border-default)',
+      background: 'linear-gradient(180deg, rgba(255,255,255,0.02), transparent)',
+    }}>{children}</div>
   );
 }
 
@@ -129,12 +162,35 @@ function OriginBadge({ origin }: { origin: Origin }) {
     <span
       title="Mission geographic origin (latitude, longitude, altitude)"
       style={{
-        fontFamily: 'ui-monospace, Menlo, Consolas, monospace', fontSize: 12,
-        color: '#bbb', padding: '2px 8px', border: '1px solid #444', borderRadius: 4,
+        display: 'inline-flex', alignItems: 'center', gap: 8,
+        fontFamily: 'var(--font-mono)', fontSize: 11,
+        color: 'var(--text-secondary)',
+        padding: '4px 10px',
+        border: '1px solid var(--border-default)',
+        borderRadius: 2,
+        background: 'var(--bg-base)',
       }}
     >
-      📍 {locationName && <span style={{ color: '#eee' }}>{locationName} · </span>}
-      {origin.lat.toFixed(4)}, {origin.lon.toFixed(4)} · {origin.alt}m
+      <span style={{ color: 'var(--accent)' }}>◉</span>
+      {locationName && <span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-ui)', fontWeight: 600, letterSpacing: '0.05em' }}>{locationName}</span>}
+      <span>{origin.lat.toFixed(4)}, {origin.lon.toFixed(4)} · {origin.alt}m</span>
+    </span>
+  );
+}
+
+function StreamBadge({ connected }: { connected: boolean }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.15em',
+      color: connected ? 'var(--accent-ok)' : 'var(--accent-danger)',
+    }}>
+      <span style={{
+        width: 8, height: 8, borderRadius: '50%',
+        background: connected ? 'var(--accent-ok)' : 'var(--accent-danger)',
+        boxShadow: connected ? '0 0 8px var(--accent-ok)' : '0 0 8px var(--accent-danger)',
+      }} />
+      Stream {connected ? 'online' : 'offline'}
     </span>
   );
 }
@@ -145,13 +201,7 @@ function RecenterButton({ onClick, disabled }: { onClick: () => void; disabled: 
       onClick={onClick}
       disabled={disabled}
       title="Recenter camera on current entities"
-      style={{
-        position: 'absolute', top: 8, left: 8, zIndex: 10,
-        padding: '4px 10px',
-        background: 'rgba(20,20,20,0.85)', color: disabled ? '#666' : '#ddd',
-        border: '1px solid #555', borderRadius: 4,
-        fontSize: 12, cursor: disabled ? 'not-allowed' : 'pointer',
-      }}
+      style={{ position: 'absolute', top: 8, left: 8, zIndex: 10 }}
     >
       ⊕ Recenter
     </button>

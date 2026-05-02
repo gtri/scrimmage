@@ -93,37 +93,49 @@ export function MissionPicker({ onStarted, onStopped }: MissionPickerProps) {
   }
 
   return (
-    <div style={{ display: 'flex', gap: 8, alignItems: 'center', padding: 8, background: '#1a1a1a', color: '#eee' }}>
-      <label>Mission:</label>
+    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+      <label>Mission</label>
       <select
         value={selected}
         onChange={e => setSelected(e.target.value)}
         disabled={busy || running !== null}
-        style={{ padding: 4 }}
+        style={{ minWidth: 180 }}
       >
         {missions.map(m => <option key={m} value={m}>{m}</option>)}
       </select>
-      <label style={{ marginLeft: 8 }}>Speed:</label>
+
+      <label style={{ marginLeft: 8 }}>Speed</label>
       <select
         value={timeWarp}
         onChange={e => setTimeWarp(Number(e.target.value))}
         disabled={busy}
         title="Simulation speed (time warp). Takes effect on next Start."
-        style={{ padding: 4 }}
       >
         {SPEED_PRESETS.map(s => (
-          <option key={s} value={s}>{s}x{s === 1 ? ' (real time)' : ''}</option>
+          <option key={s} value={s}>{s}x{s === 1 ? ' (real)' : ''}</option>
         ))}
       </select>
-      <button onClick={handleStart} disabled={busy || running !== null || !selected}>Start</button>
+
+      <button onClick={handleStart} disabled={busy || running !== null || !selected}>▶ Start</button>
       <button onClick={handlePauseResume} disabled={busy || running === null}>
-        {paused ? 'Resume' : 'Pause'}
+        {paused ? '▶ Resume' : '❚❚ Pause'}
       </button>
-      <button onClick={handleStop} disabled={busy || running === null}>Stop</button>
-      <span style={{ marginLeft: 16, color: paused ? '#fc7' : running ? '#7f7' : '#999' }}>
-        {running ? `${paused ? 'Paused' : 'Running'}: ${running} @ ${timeWarp}x` : 'Idle'}
+      <button onClick={handleStop} disabled={busy || running === null}>■ Stop</button>
+
+      <span style={{
+        marginLeft: 8,
+        fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.15em',
+        color: paused ? 'var(--accent-warn)' : running ? 'var(--accent-ok)' : 'var(--text-muted)',
+      }}>
+        {running
+          ? `${paused ? '◐ Paused' : '● Live'} · ${running} @ ${timeWarp}x`
+          : '○ Idle'}
       </span>
-      {error && <span style={{ marginLeft: 16, color: '#f77' }}>{error}</span>}
+      {error && (
+        <span style={{ marginLeft: 8, color: 'var(--accent-danger)', fontSize: 11 }}>
+          {error}
+        </span>
+      )}
     </div>
   );
 }

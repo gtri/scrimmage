@@ -4,11 +4,126 @@
     <meta charset="UTF-8" />
     <title>SCRIMMAGE C2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tactical/HUD typography. Rajdhani is a clean geometric sans used in many mil-style
+         interfaces; IBM Plex Mono carries the data/coordinate values. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
+      :root {
+        /* Surfaces (deep teal-blue palette typical of tactical consoles) */
+        --bg-deepest:    #07101a;
+        --bg-base:       #0c1820;
+        --bg-elevated:   #14222e;
+        --bg-panel:      linear-gradient(180deg, #14222e 0%, #0a141c 100%);
+        --bg-header:     linear-gradient(180deg, #1a2c3a 0%, #0c1820 100%);
+        --bg-button:     linear-gradient(180deg, #1c2e3c 0%, #122030 100%);
+        --bg-button-hov: linear-gradient(180deg, #243a4c 0%, #182a3c 100%);
+
+        /* Borders */
+        --border-default: #233848;
+        --border-strong:  #314a5e;
+        --border-accent:  #5fd3e8;
+
+        /* Accents */
+        --accent:        #5fd3e8;                  /* cyan — interactive */
+        --accent-glow:   rgba(95, 211, 232, 0.35);
+        --accent-warn:   #f4b942;                  /* amber — paused */
+        --accent-danger: #ff6e6e;                  /* red — error / disconnected */
+        --accent-ok:     #6ee69e;                  /* mint — connected / running */
+
+        /* Team colors */
+        --team-blue: #4ea9ff;
+        --team-red:  #ff7373;
+
+        /* Text */
+        --text-primary:   #dde8f0;
+        --text-secondary: #88a0b0;
+        --text-muted:     #5d7384;
+
+        /* Type */
+        --font-ui:   'Rajdhani', system-ui, -apple-system, sans-serif;
+        --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+      }
+
       /* Lock the operator console to the browser viewport — no page scrollbars ever.
-         The AppShell is a height:100vh grid; sidebars overflow:auto internally if needed. */
+         AppShell is a height:100vh grid; sidebars overflow:auto internally if needed. */
       html, body, #root { height: 100%; width: 100%; margin: 0; overflow: hidden; }
-      body { font-family: system-ui, sans-serif; }
+
+      body {
+        font-family: var(--font-ui);
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        background: var(--bg-deepest);
+        letter-spacing: 0.02em;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- Buttons --- */
+      button {
+        font-family: var(--font-ui);
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 6px 14px;
+        background: var(--bg-button);
+        color: var(--text-primary);
+        border: 1px solid var(--border-strong);
+        border-radius: 2px;
+        cursor: pointer;
+        transition: border-color 0.12s ease, color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      }
+      button:hover:not(:disabled) {
+        background: var(--bg-button-hov);
+        border-color: var(--border-accent);
+        color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent-glow);
+      }
+      button:active:not(:disabled) {
+        background: linear-gradient(180deg, #122030 0%, #1c2e3c 100%);
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* --- Selects (mission/speed dropdowns) --- */
+      select {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 5px 8px;
+        background: var(--bg-base);
+        color: var(--text-primary);
+        border: 1px solid var(--border-strong);
+        border-radius: 2px;
+        cursor: pointer;
+        outline: none;
+      }
+      select:focus, select:hover {
+        border-color: var(--border-accent);
+        box-shadow: 0 0 0 1px var(--accent-glow);
+      }
+      select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      /* --- Labels (UPPERCASE TACTICAL) --- */
+      label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--text-secondary);
+      }
+
+      /* Subtle scrollbar styling on the sidebars */
+      *::-webkit-scrollbar { width: 8px; height: 8px; }
+      *::-webkit-scrollbar-track { background: var(--bg-deepest); }
+      *::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 0; }
+      *::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
     </style>
   </head>
   <body>
