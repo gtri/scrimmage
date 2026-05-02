@@ -94,11 +94,12 @@ def start_mission():
     if not all(origin.values()):
         return jsonify({"error": "mission has no geographic origin (lat/lon/alt) — incompatible with Cesium viewer"}), 400
 
-    # Launch scrimmage
+    # Launch scrimmage. Inherit stdout/stderr so its logs land in `docker compose logs`.
+    # PIPE without a reader silently swallows output and can deadlock on full buffers.
     proc = subprocess.Popen(
         ["scrimmage", str(ACTIVE_MISSION_PATH)],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
+        stdout=None,
+        stderr=None,
     )
     _state.update({
         "proc": proc,
