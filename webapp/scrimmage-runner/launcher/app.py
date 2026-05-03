@@ -90,6 +90,9 @@ def _template_mission(src: Path, time_warp=None) -> dict:
     # The API listens on :8080 (HTTP/1 for REST + SignalR) and :50051 (HTTP/2 cleartext for gRPC).
     text = re.sub(r'<stream_ip>[^<]*</stream_ip>', '<stream_ip>api</stream_ip>', text)
     text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>50051</stream_port>', text)
+    # Force output_type=all so per-frame contacts stream over gRPC (some missions like
+    # predator_prey_boids default to "summary" which suppresses the frame stream entirely).
+    text = re.sub(r'<output_type>[^<]*</output_type>', '<output_type>all</output_type>', text)
     # Override time_warp if requested (operator-controlled simulation speed)
     if time_warp is not None:
         text = re.sub(r'time_warp\s*=\s*"[^"]*"', f'time_warp="{time_warp}"', text)
