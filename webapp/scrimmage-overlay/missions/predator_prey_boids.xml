@@ -70,7 +70,7 @@
     <team_id>2</team_id>
     <count>1</count>
     <color>255 0 0</color>
-    <autonomy allow_prey_switching="true" capture_range="5" max_speed="35">Predator</autonomy>
+    <autonomy allow_prey_switching="true" capture_range="5" max_speed="35">RemotePredator</autonomy>
   </entity>
 
 </runscript>
