@@ -18,6 +18,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/msgs)
 add_subdirectory(msgs)
 add_subdirectory(src/plugins/interaction/TopicTap)
 
+enable_testing()
+add_subdirectory(test)
+
 include(GenerateSetEnv)
 GenerateSetEnv(
   SETUP_LOCAL_CONFIG_DIR OFF
