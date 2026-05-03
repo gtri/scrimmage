@@ -46,11 +46,11 @@ RUN mkdir -p /opt/c2overlay/build && cd /opt/c2overlay/build \
 RUN mkdir -p "$MISSIONS_DIR" \
     && cp -f ${C2OVERLAY_ROOT}/share/c2overlay/missions/*.xml "$MISSIONS_DIR/"
 
-COPY launcher/requirements.txt /opt/launcher/requirements.txt
+COPY scrimmage-runner/launcher/requirements.txt /opt/launcher/requirements.txt
 RUN pip install --no-cache-dir -r /opt/launcher/requirements.txt
 
-COPY launcher/ /opt/launcher/
-COPY entrypoint.sh /opt/entrypoint.sh
+COPY scrimmage-runner/launcher/ /opt/launcher/
+COPY scrimmage-runner/entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
 WORKDIR /opt
