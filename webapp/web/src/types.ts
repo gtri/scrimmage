@@ -26,3 +26,17 @@ export interface MissionStartResponse {
   origin: Origin;
   timeWarp?: number | null;
 }
+
+export interface TopicSpec {
+  network: string;
+  topic: string;
+  typeName: string;
+}
+
+export interface TopicMessage {
+  network: string;
+  topic: string;
+  typeName: string;
+  tSim: number;
+  payloadJson: string;
+}
