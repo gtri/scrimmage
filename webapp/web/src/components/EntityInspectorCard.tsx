@@ -47,12 +47,36 @@ export function EntityInspectorCard({
   const captured = mode === 'captured';
 
   return (
+    <>
+    <svg
+      style={{
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        zIndex: 19,
+        overflow: 'visible',
+      }}
+    >
+      <line
+        x1={screenPosition.x}
+        y1={screenPosition.y}
+        x2={screenPosition.x + CARD_OFFSET_X}
+        y2={screenPosition.y + CARD_OFFSET_Y}
+        stroke={captured ? 'var(--accent-danger)' : teamColor}
+        strokeWidth={1}
+        strokeOpacity={0.7}
+      />
+    </svg>
     <div
       style={{
         position: 'absolute', left, top, width: CARD_WIDTH,
         background: 'var(--bg-panel)',
         border: `1px solid ${captured ? 'var(--accent-danger)' : 'var(--border-default)'}`,
         borderLeft: `3px solid ${teamColor}`,
+        borderRadius: 2,
         boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
         color: 'var(--text-primary)',
         fontFamily: 'var(--font-mono)', fontSize: 11,
@@ -105,6 +129,7 @@ export function EntityInspectorCard({
         ['Yaw', `${rad2deg(euler.yaw).toFixed(0)}°`],
       ]} />
     </div>
+    </>
   );
 }
 
