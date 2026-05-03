@@ -12,6 +12,7 @@
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/RegisterPlugin.h"
 #include "scrimmage/pubsub/Message.h"
+#include "scrimmage/pubsub/Publisher.h"
 
 #include "c2overlay/plugins/interaction/TopicTap/TopicTapServiceImpl.h"
 #include "Commands.pb.h"
