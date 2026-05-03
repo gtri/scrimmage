@@ -146,7 +146,7 @@ export function AppShell() {
           background: 'var(--bg-panel)', overflowY: 'auto',
           borderLeft: '1px solid var(--border-default)',
         }}>
-          <Placeholder title="Commands" description="Operator commands (target_assignment, swap_team) — coming in v2." />
+          <Placeholder title="Commands" description="Additional operator commands (swap_team, etc.) — v2. Target assignment now lives on the entity inspector card." />
           <TopicFeedPanel />
           <Placeholder title="Tags" description="Annotate entities with operator-defined labels — v2." />
         </aside>
