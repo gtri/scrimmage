@@ -11,6 +11,8 @@ builder.Logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Information);
 
 builder.Services.AddGrpc();
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<TopicState>();
+builder.Services.AddHostedService<TopicTapClient>();
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
     p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 builder.Services.AddHttpClient();
@@ -32,6 +34,7 @@ var app = builder.Build();
 app.UseCors();
 app.MapGrpcService<FrameStreamService>();
 app.MapHub<FrameHub>("/hubs/frames");
+app.MapHub<TopicHub>("/hubs/topics");
 app.MapGet("/health", () => "ok");
 app.MapMissionEndpoints();
 

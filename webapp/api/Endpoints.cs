@@ -8,6 +8,8 @@ public static class Endpoints
     {
         var launcher = app.Configuration["SCRIMMAGE_LAUNCHER_URL"] ?? "http://scrimmage:5050";
 
+        app.MapGet("/api/topics", (TopicState state) => Results.Ok(state.Topics));
+
         app.MapGet("/api/missions", async (IHttpClientFactory http) =>
         {
             var client = http.CreateClient();
