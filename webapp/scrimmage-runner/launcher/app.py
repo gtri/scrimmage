@@ -232,6 +232,14 @@ def start_mission():
     if not all(origin.values()):
         return jsonify({"error": "mission has no geographic origin (lat/lon/alt) — incompatible with Cesium viewer"}), 400
 
+    # Parse static geometry (boundaries, flags, capture zones) from the *templated* file.
+    # Templated XML lives at ACTIVE_MISSION_PATH; safe to re-read since we just wrote it.
+    try:
+        geometry = _parse_geometry(ACTIVE_MISSION_PATH.read_text())
+    except Exception as e:
+        print(f"[geometry] parse failed (non-fatal): {e}", flush=True)
+        geometry = {"shapes": [], "captureZones": []}
+
     # Launch scrimmage. Capture stdout/stderr through a filter thread so we can
     # suppress known plugin-noise lines while still surfacing real errors.
     proc = subprocess.Popen(
@@ -256,6 +264,7 @@ def start_mission():
         "mission": name,
         "origin": origin,
         "timeWarp": time_warp,
+        "geometry": geometry,
     })
 
 
