@@ -25,6 +25,30 @@ export interface MissionStartResponse {
   mission: string;
   origin: Origin;
   timeWarp?: number | null;
+  geometry?: MissionGeometry;
+}
+
+export interface GeometryShape {
+  id: number;
+  name: string;
+  teamId: number;
+  kind: 'cuboid' | 'sphere';
+  center: [number, number, number];
+  lengths?: [number, number, number];
+  radius?: number;
+  color: [number, number, number];
+  opacity: number;
+}
+
+export interface CaptureZone {
+  name: string;
+  boundaryId: number;
+  captureRange: number;
+}
+
+export interface MissionGeometry {
+  shapes: GeometryShape[];
+  captureZones: CaptureZone[];
 }
 
 export interface TopicSpec {
