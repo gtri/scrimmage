@@ -52,8 +52,15 @@ export function AppShell() {
     if (!stillAlive) setAssignedTargetId(null);
   }, [latestFrame, assignedTargetId]);
 
+  // Push the override into the viewer so the predator→target polyline +
+  // chain-track logic in applyFrame use it. Fires on every change including
+  // clears (so the line falls back to nearest-prey when assignment goes away).
+  useEffect(() => {
+    viewerRef.current?.setAssignedTargetId(assignedTargetId);
+  }, [assignedTargetId]);
+
   // Setting a new target should behave the same as clicking PredatorTargetBadge:
-  // draw the predator→target red line and fly the camera onto the target.
+  // fly the camera onto the target and start tracking.
   // (Only fires on a positive assignment; clearing leaves the camera alone.)
   useEffect(() => {
     if (assignedTargetId == null) return;
@@ -95,7 +102,11 @@ export function AppShell() {
   function handleRecenter() { viewerRef.current?.recenter(); }
   function handleSelectFromList(id: number | null) {
     setSelectedEntityId(id);
-    viewerRef.current?.selectEntity(id);
+    if (id == null) {
+      viewerRef.current?.selectEntity(null);
+    } else {
+      void viewerRef.current?.flyToAndTrack(id);
+    }
   }
   function handleSelectionFromViewport(id: number | null) {
     setSelectedEntityId(id);

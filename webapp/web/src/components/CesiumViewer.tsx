@@ -15,6 +15,12 @@ export interface ProjectedPoint {
 export interface ViewerHandle {
   applyFrame: (frame: FrameDto) => void;
   setOrigin: (origin: Origin | null) => void;
+  /**
+   * Inform the viewer of the operator-issued target assignment so the
+   * predator→target polyline and chain-track logic honor it (instead of
+   * always picking nearest prey by heuristic). Pass null to clear.
+   */
+  setAssignedTargetId: (id: number | null) => void;
   /** Operator-triggered: fit all current entities in view. No-op if no entities. */
   recenter: () => void;
   /** Programmatically select an entity (or clear with null). Mirrors Cesium's selectionIndicator + infoBox. */
@@ -56,6 +62,9 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
   const projectionTeardownRef = useRef<(() => void) | null>(null);
   const targetLineRef = useRef<{ positions: Cesium.Cartesian3[] } | null>(null);
   const targetLineEntityRef = useRef<Cesium.Entity | null>(null);
+  // Operator override fed in via handle.setAssignedTargetId; consumed inside
+  // applyFrame so the polyline + chain-track logic honor the assignment.
+  const assignedTargetIdRef = useRef<number | null>(null);
   selectionHandlerRef.current = onSelectionChanged;
 
   useEffect(() => {
@@ -126,8 +135,15 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
 
     const handle: ViewerHandle = {
       applyFrame: (frame) => {
-        applyFrame(frame, viewer, entitiesRef.current, originRef.current, targetLineRef);
+        applyFrame(
+          frame, viewer, entitiesRef.current, originRef.current,
+          targetLineRef, assignedTargetIdRef.current,
+        );
         viewer.scene.requestRender(); // requestRenderMode requires explicit re-render after entity updates
+      },
+      setAssignedTargetId: (id) => {
+        assignedTargetIdRef.current = id;
+        // No requestRender — the next frame tick will pick up the new value.
       },
       setOrigin: (origin) => {
         originRef.current = origin;
@@ -251,6 +267,7 @@ function applyFrame(
   entities: Map<number, Cesium.Entity>,
   origin: Origin | null,
   targetLineRef: MutableRefObject<{ positions: Cesium.Cartesian3[] } | null>,
+  assignedTargetId: number | null,
 ) {
   if (!origin) return; // can't render without origin
 
@@ -293,8 +310,10 @@ function applyFrame(
     if (!seen.has(id)) { viewer.entities.remove(ent); entities.delete(id); }
   }
 
-  // Update predator-target polyline. Same selector the badge uses.
-  const pair = predatorTarget(frame);
+  // Update predator-target polyline. Same selector the badge uses — including
+  // the operator override so the line follows the assigned target, not just
+  // whatever's nearest.
+  const pair = predatorTarget(frame, assignedTargetId);
   if (pair) {
     const predEnt = entities.get(pair.predatorId);
     const preyEnt = entities.get(pair.targetId);
@@ -321,7 +340,7 @@ function applyFrame(
   if (tracked && tracked.id) {
     const trackedId = Number(tracked.id);
     if (Number.isFinite(trackedId) && !seen.has(trackedId)) {
-      const next = predatorTarget(frame);
+      const next = predatorTarget(frame, assignedTargetId);
       const nextEnt = next ? entities.get(next.targetId) : undefined;
       if (nextEnt) {
         viewer.trackedEntity = nextEnt;
