@@ -1,4 +1,4 @@
-set(PROTO_SRCS TopicTap.proto)
+set(PROTO_SRCS TopicTap.proto Commands.proto)
 set(GENERATED_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set(_protoc $<TARGET_FILE:protobuf::protoc>)

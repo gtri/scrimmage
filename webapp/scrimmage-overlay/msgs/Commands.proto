@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package c2overlay_msgs;
+
+message TargetAssignment {
+  int32 predator_id = 1;       // entity id of the predator to command; > 0
+  int32 target_id = 2;          // entity id of the target; 0 = clear assignment
+}

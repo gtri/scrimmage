@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package c2overlay_msgs;
+
+option csharp_namespace = "ScrimmageC2.Generated.Commands";
+
+message TargetAssignment {
+  int32 predator_id = 1;       // > 0
+  int32 target_id = 2;          // 0 = clear, > 0 = assign
+}
