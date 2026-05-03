@@ -83,6 +83,7 @@ export function AppShell() {
 
   function handleStarted(resp: MissionStartResponse) {
     viewerRef.current?.setOrigin(resp.origin);
+    viewerRef.current?.setGeometry(resp.geometry ?? null);
     setOrigin(resp.origin);
     setSelectedEntityId(null);
     setLastReport(null);
@@ -91,6 +92,7 @@ export function AppShell() {
   async function handleStopped() {
     if (stopHandledRef.current) return;
     stopHandledRef.current = true;
+    viewerRef.current?.setGeometry(null);
     try {
       const lines = await fetchReport();
       if (lines.length > 0) {
