@@ -108,6 +108,24 @@ public sealed class TopicTapClient : BackgroundService
         }
     }
 
+    public async Task<(bool ok, string error)> PublishToTopicAsync(
+        string network,
+        string topic,
+        string payloadJson,
+        CancellationToken ct = default)
+    {
+        using var channel = GrpcChannel.ForAddress(_addr);
+        var client = new TopicTapService.TopicTapServiceClient(channel);
+        var req = new PublishToTopicRequest
+        {
+            Network = network,
+            Topic = topic,
+            PayloadJson = payloadJson,
+        };
+        var resp = await client.PublishToTopicAsync(req, cancellationToken: ct);
+        return (resp.Ok, resp.Error);
+    }
+
     private async Task SafeBroadcastTopicList()
     {
         try { await _hub.Clients.All.SendAsync("OnTopicList", _state.Topics); }

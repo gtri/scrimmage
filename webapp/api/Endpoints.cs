@@ -10,6 +10,53 @@ public static class Endpoints
 
         app.MapGet("/api/topics", (TopicState state) => Results.Ok(state.Topics));
 
+        app.MapPost("/api/topics/{network}/{topic}/publish",
+            async (string network, string topic, GenericPublishRequest body, TopicTapClient client) =>
+            {
+                topic = Uri.UnescapeDataString(topic);
+                try
+                {
+                    var (ok, error) = await client.PublishToTopicAsync(network, topic, body.PayloadJson);
+                    if (!ok) return Results.BadRequest(new { ok = false, error });
+                    return Results.Ok(new { ok = true });
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    return Results.Json(
+                        new { ok = false, error = $"TopicTap unavailable: {ex.Status.Detail}" },
+                        statusCode: 502);
+                }
+            });
+
+        app.MapPost("/api/commands/target-assignment",
+            async (TargetAssignmentRequest body, TopicTapClient client) =>
+            {
+                if (body.PredatorId <= 0)
+                    return Results.BadRequest(new { ok = false, error = "predatorId must be > 0" });
+                if (body.TargetId < 0)
+                    return Results.BadRequest(new { ok = false, error = "targetId must be >= 0" });
+
+                var payloadJson = System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    predatorId = body.PredatorId,
+                    targetId = body.TargetId,
+                });
+
+                try
+                {
+                    var (ok, error) = await client.PublishToTopicAsync(
+                        "GlobalNetwork", "Commands/TargetAssignment", payloadJson);
+                    if (!ok) return Results.BadRequest(new { ok = false, error });
+                    return Results.Ok(new { ok = true });
+                }
+                catch (Grpc.Core.RpcException ex)
+                {
+                    return Results.Json(
+                        new { ok = false, error = $"TopicTap unavailable: {ex.Status.Detail}" },
+                        statusCode: 502);
+                }
+            });
+
         app.MapGet("/api/missions", async (IHttpClientFactory http) =>
         {
             var client = http.CreateClient();
@@ -69,3 +116,7 @@ public static class Endpoints
         });
     }
 }
+
+public sealed record GenericPublishRequest(string PayloadJson);
+
+public sealed record TargetAssignmentRequest(int PredatorId, int TargetId);
