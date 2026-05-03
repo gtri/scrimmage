@@ -189,9 +189,11 @@ void TopicTap::run_server() {
   grpc::ServerBuilder builder;
   builder.AddListeningPort(addr, grpc::InsecureServerCredentials());
   builder.RegisterService(&service);
-  std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
+  // server_ is a class member so the destructor can call Shutdown() from
+  // another thread to break out of Wait().
+  server_ = builder.BuildAndStart();
   std::cout << "[TopicTap] gRPC listening on " << addr << "\n";
-  server->Wait();
+  server_->Wait();
 }
 
 void TopicTap::stop() {
@@ -199,6 +201,14 @@ void TopicTap::stop() {
   // Wake all consumers
   std::lock_guard<std::mutex> g(queues_mutex_);
   for (auto& kv : queues_) kv.second->cv.notify_all();
+}
+
+TopicTap::~TopicTap() {
+  // Tell wait_for_message consumers to exit.
+  stop();
+  // Break out of server_->Wait() in run_server.
+  if (server_) server_->Shutdown();
+  if (server_thread_.joinable()) server_thread_.join();
 }
 
 }  // namespace interaction

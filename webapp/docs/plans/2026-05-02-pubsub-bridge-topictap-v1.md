@@ -813,7 +813,7 @@ RUN mkdir -p /opt/c2overlay/build && cd /opt/c2overlay/build \
     && cmake /opt/c2overlay/src \
          -DSETUP_LOCAL_CONFIG_DIR=OFF \
          -DCMAKE_INSTALL_PREFIX=${C2OVERLAY_ROOT} \
-         -Dscrimmage_DIR=${SCRIMMAGE_ROOT}/share/cmake/scrimmage \
+         -Dscrimmage_DIR=${SCRIMMAGE_ROOT}/lib/scrimmage/cmake \
     && make -j$(nproc) install
 
 # Mission dir the launcher reads from. Keep MISSIONS_DIR as the MVP set it up,

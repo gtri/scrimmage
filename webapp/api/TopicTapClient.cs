@@ -42,6 +42,14 @@ public sealed class TopicTapClient : BackgroundService
             {
                 return;
             }
+            catch (RpcException rpc) when (rpc.StatusCode == StatusCode.Unavailable)
+            {
+                // Sim is idle (no mission running) — TopicTap port not bound. Expected
+                // background condition; log without stack trace at debug level only.
+                _log.LogDebug("TopicTap unavailable (sim idle); retrying in 500ms");
+                _state.SetTopics(Array.Empty<TopicSpecDto>());
+                await SafeBroadcastTopicList();
+            }
             catch (Exception ex)
             {
                 _log.LogWarning(ex, "TopicTap connection failed; retrying in 500ms");

@@ -25,9 +25,17 @@ struct TapSpec {
   std::string type_name;
 };
 
+// Forward-declare grpc::Server so the header doesn't pull in <grpcpp/grpcpp.h>.
+}  // namespace interaction
+}  // namespace c2overlay
+namespace grpc { class Server; }
+namespace c2overlay {
+namespace interaction {
+
 class TopicTap : public scrimmage::EntityInteraction {
  public:
   TopicTap();
+  ~TopicTap() override;
   bool init(
       std::map<std::string, std::string>& mission_params,
       std::map<std::string, std::string>& plugin_params) override;
@@ -64,6 +72,7 @@ class TopicTap : public scrimmage::EntityInteraction {
   std::vector<TapSpec> taps_;
   std::thread server_thread_;
   std::atomic<bool> stopping_{false};
+  std::unique_ptr<grpc::Server> server_;
 
   // Per-(network,topic) ring buffers, capped at 1000 messages.
   struct Queue {
