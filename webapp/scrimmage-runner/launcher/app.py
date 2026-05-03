@@ -88,8 +88,17 @@ def _template_mission(src: Path, time_warp=None) -> dict:
     text = re.sub(r'enable_gui\s*=\s*"true"', 'enable_gui="false"', text)
     # Route the scrimmage gRPC stream to the API container's HTTP/2 cleartext port.
     # The API listens on :8080 (HTTP/1 for REST + SignalR) and :50051 (HTTP/2 cleartext for gRPC).
-    text = re.sub(r'<stream_ip>[^<]*</stream_ip>', '<stream_ip>api</stream_ip>', text)
-    text = re.sub(r'<stream_port>[^<]*</stream_port>', '<stream_port>50051</stream_port>', text)
+    # Some mission XMLs don't declare these tags at all (e.g. predator_prey_boids), so we
+    # strip any existing values and inject ours right after the opening <runscript> tag —
+    # guaranteed correct regardless of source mission.
+    text = re.sub(r'\s*<stream_ip>[^<]*</stream_ip>', '', text)
+    text = re.sub(r'\s*<stream_port>[^<]*</stream_port>', '', text)
+    text = re.sub(
+        r'(<runscript[^>]*>)',
+        r'\1\n  <stream_ip>api</stream_ip>\n  <stream_port>50051</stream_port>',
+        text,
+        count=1,
+    )
     # Force output_type=all so per-frame contacts stream over gRPC (some missions like
     # predator_prey_boids default to "summary" which suppresses the frame stream entirely).
     text = re.sub(r'<output_type>[^<]*</output_type>', '<output_type>all</output_type>', text)
