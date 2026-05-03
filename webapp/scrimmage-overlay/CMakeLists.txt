@@ -17,6 +17,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/msgs)
 
 add_subdirectory(msgs)
 add_subdirectory(src/plugins/interaction/TopicTap)
+add_subdirectory(src/plugins/autonomy/RemotePredator)
 
 enable_testing()
 add_subdirectory(test)
