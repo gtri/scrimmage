@@ -12,7 +12,12 @@ builder.Logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Information);
 builder.Services.AddGrpc();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<TopicState>();
-builder.Services.AddHostedService<TopicTapClient>();
+// Register TopicTapClient as a singleton AND surface that same instance as the
+// hosted service. AddHostedService<T> alone only registers the type as IHostedService,
+// which means endpoints that try to inject TopicTapClient (e.g., the publish endpoints)
+// would fail at request time. The two-line pattern keeps a single instance across both.
+builder.Services.AddSingleton<TopicTapClient>();
+builder.Services.AddHostedService(sp => sp.GetRequiredService<TopicTapClient>());
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
     p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 builder.Services.AddHttpClient();
