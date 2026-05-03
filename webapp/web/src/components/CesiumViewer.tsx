@@ -314,13 +314,21 @@ function applyFrame(
     targetLineRef.current = null;
   }
 
-  // If the operator was tracking an entity that just disappeared, clear it
-  // so the camera doesn't follow a ghost.
+  // Chain-track: when the operator was tracking an entity that just
+  // disappeared (captured), follow the predator's new current target so
+  // the camera follows the hunt. Clears tracking only if no new target.
   const tracked = viewer.trackedEntity;
   if (tracked && tracked.id) {
     const trackedId = Number(tracked.id);
     if (Number.isFinite(trackedId) && !seen.has(trackedId)) {
-      viewer.trackedEntity = undefined;
+      const next = predatorTarget(frame);
+      const nextEnt = next ? entities.get(next.targetId) : undefined;
+      if (nextEnt) {
+        viewer.trackedEntity = nextEnt;
+        viewer.selectedEntity = nextEnt;
+      } else {
+        viewer.trackedEntity = undefined;
+      }
     }
   }
 }
