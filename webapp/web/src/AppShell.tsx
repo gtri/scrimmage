@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CesiumViewer, type ViewerHandle } from './components/CesiumViewer';
 import { MissionPicker } from './components/MissionPicker';
 import { EntityList } from './components/EntityList';
@@ -13,6 +13,8 @@ import type { ProjectedPoint } from './components/CesiumViewer';
 import { reverseGeocode } from './lib/geocode';
 import { fetchReport } from './lib/api';
 import type { MissionStartResponse, Origin } from './types';
+import { PredatorTargetBadge } from './components/PredatorTargetBadge';
+import { predatorTarget } from './lib/predatorTarget';
 
 export function AppShell() {
   const viewerRef = useRef<ViewerHandle | null>(null);
@@ -36,6 +38,11 @@ export function AppShell() {
       setSelectedEntityId(null);
       viewerRef.current?.selectEntity(null);
     },
+  );
+
+  const target = useMemo(
+    () => latestFrame ? predatorTarget(latestFrame) : null,
+    [latestFrame],
   );
 
   useEffect(() => {
@@ -118,6 +125,10 @@ export function AppShell() {
             onSelectionChanged={handleSelectionFromViewport}
           />
           <RecenterButton onClick={handleRecenter} disabled={!latestFrame || latestFrame.entities.length === 0} />
+          <PredatorTargetBadge
+            target={target}
+            onClick={(id) => { void viewerRef.current?.flyToAndTrack(id); }}
+          />
           <HelpOverlay />
           {origin && inspector.entity && inspector.mode !== 'idle' && (
             <EntityInspectorCard
