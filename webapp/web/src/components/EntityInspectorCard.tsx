@@ -195,7 +195,7 @@ export function EntityInspectorCard({
           {commandError && (
             <div style={{
               marginTop: '6px',
-              color: 'var(--danger, #c44)',
+              color: 'var(--accent-danger)',
               fontFamily: 'var(--font-mono)',
               fontSize: '11px',
             }}>{commandError}</div>
