@@ -23,3 +23,12 @@ public record StartMissionRequest(string Name, double? TimeWarp);
 public record MissionStartResponse(string Status, int Pid, string Mission, OriginDto Origin, double? TimeWarp);
 
 public record StatusResponse(string Status, string? Mission, double? UptimeS, OriginDto? Origin);
+
+public record TopicSpecDto(string Network, string Topic, string TypeName);
+
+public record TopicMessageDto(
+    string Network,
+    string Topic,
+    string TypeName,
+    double TSim,
+    string PayloadJson);
