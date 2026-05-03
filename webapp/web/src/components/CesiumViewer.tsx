@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type MutableRefObject } from 'react';
 import * as Cesium from 'cesium';
 import type { FrameDto, Origin } from '../types';
 import { enuToCartesian } from '../lib/enuToCartesian';
+import { predatorTarget } from '../lib/predatorTarget';
 
 const ION_TOKEN = (import.meta as any).env.VITE_CESIUM_ION_TOKEN as string | undefined;
 
@@ -18,6 +19,12 @@ export interface ViewerHandle {
   recenter: () => void;
   /** Programmatically select an entity (or clear with null). Mirrors Cesium's selectionIndicator + infoBox. */
   selectEntity: (id: number | null) => void;
+  /**
+   * Select the entity, fly the camera to it, and start tracking it.
+   * No-op if the id isn't currently in the scene. The flyTo promise
+   * rejects when the operator pans manually — that's expected and ignored.
+   */
+  flyToAndTrack: (id: number) => Promise<void>;
   /**
    * Subscribe to the screen-space projection of an entity. The callback fires
    * on each scene.postRender — i.e., whenever the camera or the entity moves.
@@ -47,6 +54,8 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
   const originRef = useRef<Origin | null>(null);
   const selectionHandlerRef = useRef(onSelectionChanged);
   const projectionTeardownRef = useRef<(() => void) | null>(null);
+  const targetLineRef = useRef<{ positions: Cesium.Cartesian3[] } | null>(null);
+  const targetLineEntityRef = useRef<Cesium.Entity | null>(null);
   selectionHandlerRef.current = onSelectionChanged;
 
   useEffect(() => {
@@ -67,6 +76,27 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
       requestRenderMode: true,
     });
     viewerRef.current = viewer;
+
+    // Persistent target line — drawn each render via CallbackProperty so we
+    // don't churn entities. Hidden when targetLineRef is null.
+    targetLineEntityRef.current = viewer.entities.add({
+      polyline: {
+        positions: new Cesium.CallbackProperty(
+          () => targetLineRef.current?.positions ?? [],
+          false,
+        ),
+        show: new Cesium.CallbackProperty(
+          () => targetLineRef.current != null,
+          false,
+        ) as unknown as Cesium.Property,
+        width: 1.5,
+        material: new Cesium.PolylineDashMaterialProperty({
+          color: Cesium.Color.RED,
+          dashLength: 16,
+        }),
+        arcType: Cesium.ArcType.NONE,
+      },
+    });
 
     if (ION_TOKEN) {
       Cesium.createWorldTerrainAsync()
@@ -96,7 +126,7 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
 
     const handle: ViewerHandle = {
       applyFrame: (frame) => {
-        applyFrame(frame, viewer, entitiesRef.current, originRef.current);
+        applyFrame(frame, viewer, entitiesRef.current, originRef.current, targetLineRef);
         viewer.scene.requestRender(); // requestRenderMode requires explicit re-render after entity updates
       },
       setOrigin: (origin) => {
@@ -121,6 +151,17 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
         if (viewer.selectedEntity !== target) {
           viewer.selectedEntity = target;
           viewer.scene.requestRender();
+        }
+      },
+      flyToAndTrack: async (id) => {
+        const target = entitiesRef.current.get(id);
+        if (!target) return;
+        viewer.selectedEntity = target;
+        try {
+          await viewer.flyTo(target, { duration: 0.8 });
+          viewer.trackedEntity = target;
+        } catch {
+          // Operator cancelled the flight by panning. Not an error.
         }
       },
       subscribeProjection: (id, cb) => {
@@ -168,6 +209,8 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
       projectionTeardownRef.current?.();
       viewer.selectedEntityChanged.removeEventListener(onCesiumSelection);
       ro.disconnect();
+      targetLineEntityRef.current = null;
+      targetLineRef.current = null;
       viewer.destroy();
       viewerRef.current = null;
       entitiesRef.current.clear();
@@ -206,7 +249,8 @@ function applyFrame(
   frame: FrameDto,
   viewer: Cesium.Viewer,
   entities: Map<number, Cesium.Entity>,
-  origin: Origin | null
+  origin: Origin | null,
+  targetLineRef: MutableRefObject<{ positions: Cesium.Cartesian3[] } | null>,
 ) {
   if (!origin) return; // can't render without origin
 
@@ -223,8 +267,6 @@ function applyFrame(
     let ent = entities.get(e.id);
     if (!ent) {
       ent = viewer.entities.add({
-        // Stringified SCRIMMAGE entity id — lets the selection event handler
-        // recover the numeric id, and lets us look up by id from a sidebar click.
         id: String(e.id),
         name: `Entity #${e.id} · team ${e.teamId}`,
         position: pos,
@@ -247,5 +289,36 @@ function applyFrame(
   // Remove entities that disappeared from the frame entirely
   for (const [id, ent] of entities) {
     if (!seen.has(id)) { viewer.entities.remove(ent); entities.delete(id); }
+  }
+
+  // Update predator-target polyline. Same selector the badge uses.
+  const pair = predatorTarget(frame);
+  if (pair) {
+    const predEnt = entities.get(pair.predatorId);
+    const preyEnt = entities.get(pair.targetId);
+    if (predEnt && preyEnt && predEnt.position && preyEnt.position) {
+      const t = viewer.clock.currentTime;
+      const a = predEnt.position.getValue(t);
+      const b = preyEnt.position.getValue(t);
+      if (a && b) {
+        targetLineRef.current = { positions: [a, b] };
+      } else {
+        targetLineRef.current = null;
+      }
+    } else {
+      targetLineRef.current = null;
+    }
+  } else {
+    targetLineRef.current = null;
+  }
+
+  // If the operator was tracking an entity that just disappeared, clear it
+  // so the camera doesn't follow a ghost.
+  const tracked = viewer.trackedEntity;
+  if (tracked && tracked.id) {
+    const trackedId = Number(tracked.id);
+    if (Number.isFinite(trackedId) && !seen.has(trackedId)) {
+      viewer.trackedEntity = undefined;
+    }
   }
 }
