@@ -137,6 +137,7 @@ export function AppShell() {
               screenPosition={screenPosition}
               mode={inspector.mode}
               killerId={inspector.killerId}
+              latestFrame={latestFrame}
             />
           )}
         </main>

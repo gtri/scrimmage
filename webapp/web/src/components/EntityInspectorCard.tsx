@@ -1,4 +1,5 @@
-import type { EntityDto } from '../types';
+import { useEffect, useState } from 'react';
+import type { EntityDto, FrameDto } from '../types';
 import type { Origin } from '../lib/enuToCartesian';
 import {
   speed,
@@ -8,6 +9,7 @@ import {
   enuToGeo,
 } from '../lib/deriveEntityStats';
 import type { ProjectedPoint } from './CesiumViewer';
+import { assignTarget, clearTarget } from '../lib/commandsApi';
 
 export interface EntityInspectorCardProps {
   entity: EntityDto;
@@ -15,6 +17,7 @@ export interface EntityInspectorCardProps {
   screenPosition: ProjectedPoint | null;
   mode: 'live' | 'captured';
   killerId?: number | null;
+  latestFrame?: FrameDto | null;
 }
 
 const CARD_WIDTH = 240;
@@ -27,8 +30,32 @@ export function EntityInspectorCard({
   screenPosition,
   mode,
   killerId,
+  latestFrame,
 }: EntityInspectorCardProps) {
+  // Pick the first team-2 entity as "the predator." v1: multi-predator deferred.
+  const predatorEntityId = latestFrame?.entities.find(e => e.teamId === 2)?.id ?? null;
+
+  const [assignedTargetId, setAssignedTargetId] = useState<number | null>(null);
+  const [commandError, setCommandError] = useState<string | null>(null);
+
+  // Auto-clear error after 3s.
+  useEffect(() => {
+    if (commandError == null) return;
+    const t = window.setTimeout(() => setCommandError(null), 3000);
+    return () => window.clearTimeout(t);
+  }, [commandError]);
+
+  // If the assigned target leaves the frame (e.g., captured), drop the local lock.
+  useEffect(() => {
+    if (assignedTargetId == null || latestFrame == null) return;
+    const stillAlive = latestFrame.entities.some(e => e.id === assignedTargetId);
+    if (!stillAlive) setAssignedTargetId(null);
+  }, [latestFrame, assignedTargetId]);
+
   if (!screenPosition || !screenPosition.visible) return null;
+
+  const showTargetButton =
+    mode === 'live' && entity.teamId === 1 && predatorEntityId != null;
 
   const v = entity.velocity;
   const sp = speed(v);
@@ -81,7 +108,7 @@ export function EntityInspectorCard({
         color: 'var(--text-primary)',
         fontFamily: 'var(--font-mono)', fontSize: 11,
         zIndex: 20,
-        pointerEvents: 'none',
+        pointerEvents: showTargetButton ? 'auto' : 'none',
         opacity: captured ? 0.85 : 1,
       }}
     >
@@ -128,6 +155,53 @@ export function EntityInspectorCard({
         ['Pitch', `${rad2deg(euler.pitch).toFixed(0)}°`],
         ['Yaw', `${rad2deg(euler.yaw).toFixed(0)}°`],
       ]} />
+      {showTargetButton && (
+        <div style={{ padding: '12px 14px', borderTop: '1px solid var(--border-default)' }}>
+          {assignedTargetId === entity.id ? (
+            <button
+              type="button"
+              onClick={async () => {
+                const r = await clearTarget(predatorEntityId!);
+                if (r.ok) setAssignedTargetId(null);
+                else setCommandError(r.error ?? 'unknown error');
+              }}
+              style={{
+                width: '100%', padding: '8px 12px', cursor: 'pointer',
+                background: 'var(--accent)', color: 'var(--bg-base)',
+                border: 'none', fontFamily: 'var(--font-mono)', fontSize: '12px',
+                fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em',
+              }}>
+              Clear predator target
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={async () => {
+                const id = entity.id;
+                const r = await assignTarget(predatorEntityId!, id);
+                if (r.ok) setAssignedTargetId(id);
+                else setCommandError(r.error ?? 'unknown error');
+              }}
+              style={{
+                width: '100%', padding: '8px 12px', cursor: 'pointer',
+                background: 'transparent', color: 'var(--accent)',
+                border: '1px solid var(--accent)', fontFamily: 'var(--font-mono)',
+                fontSize: '12px', fontWeight: 600,
+                textTransform: 'uppercase', letterSpacing: '0.05em',
+              }}>
+              Set as predator target
+            </button>
+          )}
+          {commandError && (
+            <div style={{
+              marginTop: '6px',
+              color: 'var(--danger, #c44)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+            }}>{commandError}</div>
+          )}
+        </div>
+      )}
     </div>
     </>
   );
