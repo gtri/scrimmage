@@ -119,6 +119,84 @@ def _template_mission(src: Path, time_warp=None) -> dict:
     }
 
 
+def _parse_geometry(text: str) -> dict:
+    """Parse <entity_interaction> shape tags from a templated mission XML string.
+
+    Returns a dict shaped {shapes: [...], captureZones: [...]} suitable for JSON
+    serialization. Only tags with type="cuboid" or type="sphere" and an explicit
+    center are emitted as shapes. CaptureInBoundaryInteraction tags become
+    captureZones referencing a shape by its boundary_id.
+
+    Tolerant of malformed input: returns empty lists if XML is unparseable.
+    Skips unrecognized shape types and shapes missing required attributes
+    (cuboid needs lengths, sphere needs radius), logging to stdout.
+    """
+    shapes = []
+    capture_zones = []
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as e:
+        print(f"[geometry] XML parse failed: {e}", flush=True)
+        return {"shapes": shapes, "captureZones": capture_zones}
+
+    for tag in root.findall("entity_interaction"):
+        body = (tag.text or "").strip()
+        # Renderable shape tag (body is "Boundary" in capture-the-flag)
+        shape_type = tag.get("type")
+        center_attr = tag.get("center")
+        if shape_type in ("cuboid", "sphere") and center_attr:
+            try:
+                center = [float(x.strip()) for x in center_attr.split(",")]
+                if len(center) != 3:
+                    raise ValueError(f"center must have 3 components, got {len(center)}")
+
+                color_attr = tag.get("color", "255 255 255").split()
+                color = [int(c) for c in color_attr[:3]] if len(color_attr) >= 3 else [255, 255, 255]
+
+                shape = {
+                    "id": int(tag.get("id", 0)),
+                    "name": tag.get("name", ""),
+                    "teamId": int(tag.get("team_id", 0)),
+                    "kind": shape_type,
+                    "center": center,
+                    "color": color,
+                    "opacity": float(tag.get("opacity", 1.0)),
+                }
+                if shape_type == "cuboid":
+                    lengths_attr = tag.get("lengths")
+                    if not lengths_attr:
+                        print(f"[geometry] skipping cuboid '{shape['name']}': no lengths", flush=True)
+                        continue
+                    lengths = [float(x.strip()) for x in lengths_attr.split(",")]
+                    if len(lengths) != 3:
+                        print(f"[geometry] skipping cuboid '{shape['name']}': lengths must have 3 components", flush=True)
+                        continue
+                    shape["lengths"] = lengths
+                else:  # sphere
+                    radius_attr = tag.get("radius")
+                    if not radius_attr:
+                        print(f"[geometry] skipping sphere '{shape['name']}': no radius", flush=True)
+                        continue
+                    shape["radius"] = float(radius_attr)
+                shapes.append(shape)
+            except (ValueError, TypeError) as e:
+                print(f"[geometry] skipping shape '{tag.get('name', '?')}': {e}", flush=True)
+            continue
+
+        # Capture zone (body is "CaptureInBoundaryInteraction")
+        if body == "CaptureInBoundaryInteraction":
+            try:
+                capture_zones.append({
+                    "name": tag.get("name", ""),
+                    "boundaryId": int(tag.get("boundary_id", 0)),
+                    "captureRange": float(tag.get("capture_range", 0)),
+                })
+            except (ValueError, TypeError) as e:
+                print(f"[geometry] skipping capture zone '{tag.get('name', '?')}': {e}", flush=True)
+
+    return {"shapes": shapes, "captureZones": capture_zones}
+
+
 @app.get("/missions")
 def list_missions():
     if not MISSIONS_DIR.exists():
