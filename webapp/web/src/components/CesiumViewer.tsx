@@ -142,21 +142,23 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
           if (!win) { cb({ x: 0, y: 0, visible: false }); return; }
           const canvas = viewer.scene.canvas;
           const visible =
-            win.x >= 0 && win.x <= canvas.clientWidth &&
-            win.y >= 0 && win.y <= canvas.clientHeight;
+            win.x >= 0 && win.x < canvas.clientWidth &&
+            win.y >= 0 && win.y < canvas.clientHeight;
           cb({ x: win.x, y: win.y, visible });
         };
 
         viewer.scene.postRender.addEventListener(listener);
-        listener(); // fire once so the card appears immediately on selection
-        // Force a render so postRender fires at least once if the camera is idle.
-        viewer.scene.requestRender();
 
         const teardown = () => {
           viewer.scene.postRender.removeEventListener(listener);
           projectionTeardownRef.current = null;
         };
         projectionTeardownRef.current = teardown;
+
+        listener(); // fire once so the card appears immediately on selection
+        // Force a render so postRender fires at least once if the camera is idle.
+        viewer.scene.requestRender();
+
         return teardown;
       },
     };
