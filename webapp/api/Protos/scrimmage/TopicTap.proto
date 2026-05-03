@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package c2overlay_msgs;
+
+option csharp_namespace = "ScrimmageC2.Generated.TopicTap";
+
+service TopicTapService {
+  rpc ListTopics(ListTopicsRequest) returns (TopicList);
+  rpc StreamTopic(StreamTopicRequest) returns (stream TopicMessage);
+}
+
+message ListTopicsRequest {}
+
+message TopicSpec {
+  string network = 1;
+  string topic = 2;
+  string type_name = 3;
+}
+
+message TopicList {
+  repeated TopicSpec topics = 1;
+}
+
+message StreamTopicRequest {
+  string network = 1;
+  string topic = 2;
+}
+
+message TopicMessage {
+  string network = 1;
+  string topic = 2;
+  string type_name = 3;
+  double t_sim = 4;
+  string payload_json = 5;
+}
