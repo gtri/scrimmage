@@ -1,3 +1,4 @@
+using Grpc.Core;  // ReadAllAsync extension method
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.SignalR;
 using ScrimmageC2.Generated.TopicTap;
