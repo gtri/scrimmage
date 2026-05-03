@@ -1,6 +1,6 @@
 import { useEffect, useRef, type MutableRefObject } from 'react';
 import * as Cesium from 'cesium';
-import type { FrameDto, Origin } from '../types';
+import type { FrameDto, Origin, MissionGeometry, GeometryShape } from '../types';
 import { enuToCartesian } from '../lib/enuToCartesian';
 import { predatorTarget } from '../lib/predatorTarget';
 
@@ -15,6 +15,12 @@ export interface ProjectedPoint {
 export interface ViewerHandle {
   applyFrame: (frame: FrameDto) => void;
   setOrigin: (origin: Origin | null) => void;
+  /**
+   * Replace the static mission geometry (boundaries, flags, capture zones).
+   * Pass null to clear. Geometry is rendered relative to the current origin —
+   * call setOrigin first if both change in the same operation.
+   */
+  setGeometry: (geometry: MissionGeometry | null) => void;
   /**
    * Inform the viewer of the operator-issued target assignment so the
    * predator→target polyline and chain-track logic honor it (instead of
@@ -62,6 +68,7 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
   const projectionTeardownRef = useRef<(() => void) | null>(null);
   const targetLineRef = useRef<{ positions: Cesium.Cartesian3[] } | null>(null);
   const targetLineEntityRef = useRef<Cesium.Entity | null>(null);
+  const geometryEntitiesRef = useRef<Cesium.Entity[]>([]);
   // Operator override fed in via handle.setAssignedTargetId; consumed inside
   // applyFrame so the polyline + chain-track logic honor the assignment.
   const assignedTargetIdRef = useRef<number | null>(null);
@@ -155,6 +162,9 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
           viewer.scene.requestRender();
         }
       },
+      setGeometry: (geometry) => {
+        renderGeometry(geometry, viewer, geometryEntitiesRef.current, originRef.current);
+      },
       recenter: () => {
         if (entitiesRef.current.size === 0) return;
         viewer.flyTo(viewer.entities, {
@@ -227,6 +237,8 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
       ro.disconnect();
       targetLineEntityRef.current = null;
       targetLineRef.current = null;
+      for (const ent of geometryEntitiesRef.current) viewer.entities.remove(ent);
+      geometryEntitiesRef.current = [];
       viewer.destroy();
       viewerRef.current = null;
       entitiesRef.current.clear();
@@ -350,4 +362,105 @@ function applyFrame(
       }
     }
   }
+}
+
+function renderGeometry(
+  geometry: MissionGeometry | null,
+  viewer: Cesium.Viewer,
+  geometryEntities: Cesium.Entity[],
+  origin: Origin | null,
+) {
+  // Always clear existing geometry entities first — both for null (explicit clear)
+  // and for replacement (mission swap).
+  for (const ent of geometryEntities) {
+    viewer.entities.remove(ent);
+  }
+  geometryEntities.length = 0;
+
+  if (!geometry || !origin) return;
+
+  // Build a quick lookup so capture zones can find their referenced shape by id.
+  const shapeById = new Map<number, GeometryShape>();
+  for (const s of geometry.shapes) shapeById.set(s.id, s);
+
+  // Render shapes
+  for (const shape of geometry.shapes) {
+    const center = enuToCartesian(origin, shape.center[0], shape.center[1], shape.center[2]);
+    const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      center,
+      new Cesium.HeadingPitchRoll(0, 0, 0),
+    );
+    const fillColor = Cesium.Color.fromBytes(
+      shape.color[0], shape.color[1], shape.color[2],
+      Math.round(shape.opacity * 255),
+    );
+    const outlineColor = Cesium.Color.fromBytes(
+      shape.color[0], shape.color[1], shape.color[2], 255,
+    );
+    if (shape.kind === 'cuboid' && shape.lengths) {
+      const ent = viewer.entities.add({
+        position: center,
+        orientation,
+        box: {
+          dimensions: new Cesium.Cartesian3(
+            shape.lengths[0], shape.lengths[1], shape.lengths[2],
+          ),
+          material: fillColor,
+          outline: true,
+          outlineColor,
+          outlineWidth: 2,
+        },
+      });
+      geometryEntities.push(ent);
+    } else if (shape.kind === 'sphere' && shape.radius != null) {
+      const ent = viewer.entities.add({
+        position: center,
+        ellipsoid: {
+          radii: new Cesium.Cartesian3(shape.radius, shape.radius, shape.radius),
+          material: fillColor,
+          outline: true,
+          outlineColor,
+        },
+      });
+      geometryEntities.push(ent);
+    }
+  }
+
+  // Render capture-zone shells around their referenced cuboid boundaries.
+  // Skip if the referenced shape isn't a cuboid (no clear shell shape for spheres).
+  for (const zone of geometry.captureZones) {
+    const ref = shapeById.get(zone.boundaryId);
+    if (!ref || ref.kind !== 'cuboid' || !ref.lengths) {
+      console.warn(`[geometry] capture zone ${zone.name} references non-cuboid boundary ${zone.boundaryId}; skipping shell`);
+      continue;
+    }
+    const center = enuToCartesian(origin, ref.center[0], ref.center[1], ref.center[2]);
+    const orientation = Cesium.Transforms.headingPitchRollQuaternion(
+      center,
+      new Cesium.HeadingPitchRoll(0, 0, 0),
+    );
+    const expanded = new Cesium.Cartesian3(
+      ref.lengths[0] + 2 * zone.captureRange,
+      ref.lengths[1] + 2 * zone.captureRange,
+      ref.lengths[2] + 2 * zone.captureRange,
+    );
+    const shellColor = Cesium.Color.fromBytes(
+      ref.color[0], ref.color[1], ref.color[2],
+      Math.round(0.15 * 255),
+    );
+    const ent = viewer.entities.add({
+      position: center,
+      orientation,
+      box: {
+        dimensions: expanded,
+        material: shellColor,
+        outline: true,
+        outlineColor: Cesium.Color.fromBytes(ref.color[0], ref.color[1], ref.color[2], 200),
+        outlineWidth: 1,
+      },
+    });
+    geometryEntities.push(ent);
+  }
+
+  viewer.scene.requestRender();
 }
