@@ -7,6 +7,7 @@ option csharp_namespace = "ScrimmageC2.Generated.TopicTap";
 service TopicTapService {
   rpc ListTopics(ListTopicsRequest) returns (TopicList);
   rpc StreamTopic(StreamTopicRequest) returns (stream TopicMessage);
+  rpc PublishToTopic(PublishToTopicRequest) returns (PublishToTopicResponse);
 }
 
 message ListTopicsRequest {}
@@ -32,4 +33,15 @@ message TopicMessage {
   string type_name = 3;
   double t_sim = 4;
   string payload_json = 5;
+}
+
+message PublishToTopicRequest {
+  string network = 1;
+  string topic = 2;
+  string payload_json = 3;
+}
+
+message PublishToTopicResponse {
+  bool ok = 1;
+  string error = 2;
 }
