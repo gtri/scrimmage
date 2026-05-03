@@ -18,6 +18,11 @@ export interface EntityInspectorCardProps {
   mode: 'live' | 'captured';
   killerId?: number | null;
   latestFrame?: FrameDto | null;
+  // Lifted to AppShell so PredatorTargetBadge + camera tracking can also see the
+  // operator's override. Card is the source of intent (button click), AppShell
+  // is the source of truth (also runs the auto-clear when target leaves frame).
+  assignedTargetId?: number | null;
+  onAssignedTargetIdChange?: (id: number | null) => void;
 }
 
 const CARD_WIDTH = 240;
@@ -31,11 +36,12 @@ export function EntityInspectorCard({
   mode,
   killerId,
   latestFrame,
+  assignedTargetId = null,
+  onAssignedTargetIdChange,
 }: EntityInspectorCardProps) {
   // Pick the first team-2 entity as "the predator." v1: multi-predator deferred.
   const predatorEntityId = latestFrame?.entities.find(e => e.teamId === 2)?.id ?? null;
 
-  const [assignedTargetId, setAssignedTargetId] = useState<number | null>(null);
   const [commandError, setCommandError] = useState<string | null>(null);
 
   // Auto-clear error after 3s.
@@ -44,13 +50,6 @@ export function EntityInspectorCard({
     const t = window.setTimeout(() => setCommandError(null), 3000);
     return () => window.clearTimeout(t);
   }, [commandError]);
-
-  // If the assigned target leaves the frame (e.g., captured), drop the local lock.
-  useEffect(() => {
-    if (assignedTargetId == null || latestFrame == null) return;
-    const stillAlive = latestFrame.entities.some(e => e.id === assignedTargetId);
-    if (!stillAlive) setAssignedTargetId(null);
-  }, [latestFrame, assignedTargetId]);
 
   if (!screenPosition || !screenPosition.visible) return null;
 
@@ -162,7 +161,7 @@ export function EntityInspectorCard({
               type="button"
               onClick={async () => {
                 const r = await clearTarget(predatorEntityId!);
-                if (r.ok) setAssignedTargetId(null);
+                if (r.ok) onAssignedTargetIdChange?.(null);
                 else setCommandError(r.error ?? 'unknown error');
               }}
               style={{
@@ -179,7 +178,7 @@ export function EntityInspectorCard({
               onClick={async () => {
                 const id = entity.id;
                 const r = await assignTarget(predatorEntityId!, id);
-                if (r.ok) setAssignedTargetId(id);
+                if (r.ok) onAssignedTargetIdChange?.(id);
                 else setCommandError(r.error ?? 'unknown error');
               }}
               style={{

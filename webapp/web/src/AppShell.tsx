@@ -40,9 +40,21 @@ export function AppShell() {
     },
   );
 
+  // Operator-issued target assignment, lifted from EntityInspectorCard so
+  // PredatorTargetBadge + flyToAndTrack camera can also reflect the override.
+  // Null when no assignment is active (predator follows nearest-prey heuristic).
+  const [assignedTargetId, setAssignedTargetId] = useState<number | null>(null);
+
+  // If the assigned target leaves the frame (e.g., captured), drop the lock.
+  useEffect(() => {
+    if (assignedTargetId == null || latestFrame == null) return;
+    const stillAlive = latestFrame.entities.some(e => e.id === assignedTargetId);
+    if (!stillAlive) setAssignedTargetId(null);
+  }, [latestFrame, assignedTargetId]);
+
   const target = useMemo(
-    () => latestFrame ? predatorTarget(latestFrame) : null,
-    [latestFrame],
+    () => latestFrame ? predatorTarget(latestFrame, assignedTargetId) : null,
+    [latestFrame, assignedTargetId],
   );
 
   useEffect(() => {
@@ -138,6 +150,8 @@ export function AppShell() {
               mode={inspector.mode}
               killerId={inspector.killerId}
               latestFrame={latestFrame}
+              assignedTargetId={assignedTargetId}
+              onAssignedTargetIdChange={setAssignedTargetId}
             />
           )}
         </main>

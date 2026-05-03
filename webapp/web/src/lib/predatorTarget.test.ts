@@ -68,4 +68,31 @@ describe('predatorTarget', () => {
     expect(result!.predatorId).toBe(99);
     expect(result!.targetId).toBe(1);
   });
+
+  it('assignedTargetId override → uses that entity, not the nearest', () => {
+    const result = predatorTarget(frame(
+      entity(99, 2, 0, 0, 0),
+      entity(1, 1, 50, 0, 0),     // nearest by heuristic
+      entity(2, 1, 200, 0, 0),    // operator-picked, farther
+    ), 2);
+    expect(result!.targetId).toBe(2);
+    expect(result!.distanceM).toBeCloseTo(200);
+  });
+
+  it('assignedTargetId override that is no longer in frame → falls back to heuristic', () => {
+    const result = predatorTarget(frame(
+      entity(99, 2, 0, 0, 0),
+      entity(1, 1, 50, 0, 0),
+    ), 999);  // assigned id 999 is not in frame
+    expect(result!.targetId).toBe(1);  // nearest-prey heuristic wins
+  });
+
+  it('assignedTargetId === null → behaves like no override', () => {
+    const result = predatorTarget(frame(
+      entity(99, 2, 0, 0, 0),
+      entity(1, 1, 50, 0, 0),
+      entity(2, 1, 100, 0, 0),
+    ), null);
+    expect(result!.targetId).toBe(1);
+  });
 });
