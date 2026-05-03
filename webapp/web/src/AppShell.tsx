@@ -52,6 +52,14 @@ export function AppShell() {
     if (!stillAlive) setAssignedTargetId(null);
   }, [latestFrame, assignedTargetId]);
 
+  // Setting a new target should behave the same as clicking PredatorTargetBadge:
+  // draw the predator→target red line and fly the camera onto the target.
+  // (Only fires on a positive assignment; clearing leaves the camera alone.)
+  useEffect(() => {
+    if (assignedTargetId == null) return;
+    void viewerRef.current?.flyToAndTrack(assignedTargetId);
+  }, [assignedTargetId]);
+
   const target = useMemo(
     () => latestFrame ? predatorTarget(latestFrame, assignedTargetId) : null,
     [latestFrame, assignedTargetId],
