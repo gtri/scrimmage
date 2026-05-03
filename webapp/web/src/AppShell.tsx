@@ -7,6 +7,9 @@ import { TopicFeedPanel } from './components/panels/TopicFeedPanel';
 import { HelpOverlay } from './components/HelpOverlay';
 import { ReportModal } from './components/ReportModal';
 import { useFrameStream } from './hooks/useFrameStream';
+import { EntityInspectorCard } from './components/EntityInspectorCard';
+import { useCapturedState } from './hooks/useCapturedState';
+import type { ProjectedPoint } from './components/CesiumViewer';
 import { reverseGeocode } from './lib/geocode';
 import { fetchReport } from './lib/api';
 import type { MissionStartResponse, Origin } from './types';
@@ -24,6 +27,25 @@ export function AppShell() {
   const { connected, latestFrame } = useFrameStream(frame => {
     viewerRef.current?.applyFrame(frame);
   });
+
+  const [screenPosition, setScreenPosition] = useState<ProjectedPoint | null>(null);
+  const inspector = useCapturedState(
+    selectedEntityId,
+    latestFrame,
+    () => {
+      setSelectedEntityId(null);
+      viewerRef.current?.selectEntity(null);
+    },
+  );
+
+  useEffect(() => {
+    const teardown = viewerRef.current?.subscribeProjection(
+      selectedEntityId,
+      setScreenPosition,
+    );
+    if (selectedEntityId == null) setScreenPosition(null);
+    return () => { teardown?.(); };
+  }, [selectedEntityId]);
 
   function handleStarted(resp: MissionStartResponse) {
     viewerRef.current?.setOrigin(resp.origin);
@@ -97,6 +119,15 @@ export function AppShell() {
           />
           <RecenterButton onClick={handleRecenter} disabled={!latestFrame || latestFrame.entities.length === 0} />
           <HelpOverlay />
+          {origin && inspector.entity && inspector.mode !== 'idle' && (
+            <EntityInspectorCard
+              entity={inspector.entity}
+              origin={origin}
+              screenPosition={screenPosition}
+              mode={inspector.mode}
+              killerId={inspector.killerId}
+            />
+          )}
         </main>
 
         <aside style={{
