@@ -256,17 +256,19 @@ function applyFrame(
 
   const seen = new Set<number>();
   for (const e of frame.entities) {
-    seen.add(e.id);
     if (!e.active) {
       const existing = entities.get(e.id);
       if (existing) { viewer.entities.remove(existing); entities.delete(e.id); }
       continue;
     }
+    seen.add(e.id);
     const pos = enuToCartesian(origin, e.position.x, e.position.y, e.position.z);
     const color = TEAM_COLORS[e.teamId] ?? Cesium.Color.GRAY;
     let ent = entities.get(e.id);
     if (!ent) {
       ent = viewer.entities.add({
+        // Stringified SCRIMMAGE entity id — lets the selection event handler
+        // recover the numeric id, and lets us look up by id from a sidebar click.
         id: String(e.id),
         name: `Entity #${e.id} · team ${e.teamId}`,
         position: pos,
