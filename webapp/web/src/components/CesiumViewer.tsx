@@ -5,6 +5,12 @@ import { enuToCartesian } from '../lib/enuToCartesian';
 
 const ION_TOKEN = (import.meta as any).env.VITE_CESIUM_ION_TOKEN as string | undefined;
 
+export interface ProjectedPoint {
+  x: number;
+  y: number;
+  visible: boolean;
+}
+
 export interface ViewerHandle {
   applyFrame: (frame: FrameDto) => void;
   setOrigin: (origin: Origin | null) => void;
@@ -12,6 +18,15 @@ export interface ViewerHandle {
   recenter: () => void;
   /** Programmatically select an entity (or clear with null). Mirrors Cesium's selectionIndicator + infoBox. */
   selectEntity: (id: number | null) => void;
+  /**
+   * Subscribe to the screen-space projection of an entity. The callback fires
+   * on each scene.postRender — i.e., whenever the camera or the entity moves.
+   * Pass null to clear any active subscription. Returns a teardown fn.
+   */
+  subscribeProjection: (
+    id: number | null,
+    cb: (p: ProjectedPoint) => void,
+  ) => () => void;
 }
 
 export interface ViewerProps {
@@ -31,6 +46,7 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
   const entitiesRef = useRef<Map<number, Cesium.Entity>>(new Map());
   const originRef = useRef<Origin | null>(null);
   const selectionHandlerRef = useRef(onSelectionChanged);
+  const projectionTeardownRef = useRef<(() => void) | null>(null);
   selectionHandlerRef.current = onSelectionChanged;
 
   useEffect(() => {
@@ -107,10 +123,47 @@ export function CesiumViewer({ onReady, onSelectionChanged }: ViewerProps) {
           viewer.scene.requestRender();
         }
       },
+      subscribeProjection: (id, cb) => {
+        // Tear down any existing subscription first — only one at a time.
+        projectionTeardownRef.current?.();
+        projectionTeardownRef.current = null;
+
+        if (id == null) {
+          cb({ x: 0, y: 0, visible: false });
+          return () => {};
+        }
+
+        const listener = () => {
+          const ent = entitiesRef.current.get(id);
+          if (!ent || !ent.position) { cb({ x: 0, y: 0, visible: false }); return; }
+          const cartesian = ent.position.getValue(viewer.clock.currentTime);
+          if (!cartesian) { cb({ x: 0, y: 0, visible: false }); return; }
+          const win = Cesium.SceneTransforms.worldToWindowCoordinates(viewer.scene, cartesian);
+          if (!win) { cb({ x: 0, y: 0, visible: false }); return; }
+          const canvas = viewer.scene.canvas;
+          const visible =
+            win.x >= 0 && win.x <= canvas.clientWidth &&
+            win.y >= 0 && win.y <= canvas.clientHeight;
+          cb({ x: win.x, y: win.y, visible });
+        };
+
+        viewer.scene.postRender.addEventListener(listener);
+        listener(); // fire once so the card appears immediately on selection
+        // Force a render so postRender fires at least once if the camera is idle.
+        viewer.scene.requestRender();
+
+        const teardown = () => {
+          viewer.scene.postRender.removeEventListener(listener);
+          projectionTeardownRef.current = null;
+        };
+        projectionTeardownRef.current = teardown;
+        return teardown;
+      },
     };
     onReady?.(handle);
 
     return () => {
+      projectionTeardownRef.current?.();
       viewer.selectedEntityChanged.removeEventListener(onCesiumSelection);
       ro.disconnect();
       viewer.destroy();
