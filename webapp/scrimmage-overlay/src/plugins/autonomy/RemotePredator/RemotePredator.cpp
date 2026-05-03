@@ -1,5 +1,6 @@
 #include "c2overlay/plugins/autonomy/RemotePredator/RemotePredator.h"
 
+#include <iostream>
 #include <limits>
 
 #include "scrimmage/entity/Entity.h"
@@ -41,14 +42,25 @@ void RemotePredator::init(std::map<std::string, std::string>& params) {
 
   // --- NEW: subscribe to operator commands. ---
   auto cb = [this](scrimmage::MessagePtr<c2overlay_msgs::TargetAssignment> msg) {
-    if (msg->data.predator_id() != parent_->id().id()) return;  // not for me
+    std::cerr << "[RemotePredator id=" << parent_->id().id()
+              << "] received TargetAssignment{predator_id=" << msg->data.predator_id()
+              << ", target_id=" << msg->data.target_id() << "}\n";
+    if (msg->data.predator_id() != parent_->id().id()) {
+      std::cerr << "[RemotePredator id=" << parent_->id().id() << "] ignored (not for me)\n";
+      return;  // not for me
+    }
     if (msg->data.target_id() == 0) {
+      std::cerr << "[RemotePredator id=" << parent_->id().id() << "] cleared assignment\n";
       assigned_target_id_ = -1;  // clear
     } else {
       assigned_target_id_ = msg->data.target_id();
+      std::cerr << "[RemotePredator id=" << parent_->id().id()
+                << "] locked target_id=" << assigned_target_id_ << "\n";
     }
   };
   subscribe<c2overlay_msgs::TargetAssignment>("GlobalNetwork", "Commands/TargetAssignment", cb);
+  std::cerr << "[RemotePredator id=" << parent_->id().id()
+            << "] subscribed to GlobalNetwork/Commands/TargetAssignment\n";
 }
 
 bool RemotePredator::step_autonomy(double t, double dt) {

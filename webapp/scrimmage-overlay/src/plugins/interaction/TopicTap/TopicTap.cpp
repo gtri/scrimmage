@@ -184,8 +184,10 @@ void TopicTap::drain_publish_queue() {
     auto it = pub_cache_.find(key);
     if (it == pub_cache_.end()) {
       pub_cache_[key] = advertise(pp.network, pp.topic);
+      std::cerr << "[TopicTap] advertised publisher on " << key << "\n";
     }
     pub_cache_[key]->publish(pp.msg);
+    std::cerr << "[TopicTap] published 1 msg to " << key << "\n";
   }
 }
 
