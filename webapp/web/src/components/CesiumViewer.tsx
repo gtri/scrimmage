@@ -390,9 +390,16 @@ function renderGeometry(
       center,
       new Cesium.HeadingPitchRoll(0, 0, 0),
     );
+    // Boundary cuboids are big — drones disappear inside them at the XML's default
+    // opacity (1.0 when unspecified). Cap cuboids hard so the playing field reads as
+    // a "zone" rather than a wall. Spheres (flags) keep their declared opacity since
+    // they're small targets that benefit from being visible.
+    const renderedOpacity = shape.kind === 'cuboid'
+      ? Math.min(shape.opacity, 0.08)
+      : shape.opacity;
     const fillColor = Cesium.Color.fromBytes(
       shape.color[0], shape.color[1], shape.color[2],
-      Math.round(shape.opacity * 255),
+      Math.round(renderedOpacity * 255),
     );
     const outlineColor = Cesium.Color.fromBytes(
       shape.color[0], shape.color[1], shape.color[2], 255,
