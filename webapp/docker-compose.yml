@@ -2,11 +2,13 @@ services:
 
   scrimmage:
     build:
-      context: ./scrimmage-runner
+      context: .
+      dockerfile: scrimmage-runner/Dockerfile
     container_name: c2-scrimmage
     ports:
       - "50051:50051"   # gRPC frame stream (debug)
       - "5050:5050"     # launcher HTTP (debug)
+      - "60001:60001"   # gRPC TopicTap
     networks: [c2net]
 
   api:
@@ -18,6 +20,7 @@ services:
       # ASPNETCORE_URLS is intentionally NOT set — Program.cs configures Kestrel directly
       # to bind :8080 (HTTP/1) and :50051 (HTTP/2 cleartext for gRPC).
       - SCRIMMAGE_LAUNCHER_URL=http://scrimmage:5050
+      - TOPICTAP_GRPC_ADDR=http://scrimmage:60001
       - ConnectionStrings__Default=Host=postgres;Database=c2;Username=c2;Password=c2pass
     ports:
       - "8080:8080"
