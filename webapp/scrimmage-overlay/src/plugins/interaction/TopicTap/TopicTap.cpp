@@ -14,6 +14,7 @@
 #include "scrimmage/pubsub/Message.h"
 
 #include "c2overlay/plugins/interaction/TopicTap/TopicTapServiceImpl.h"
+#include "Commands.pb.h"
 
 REGISTER_PLUGIN(
     scrimmage::EntityInteraction,
@@ -38,6 +39,19 @@ static std::string proto_to_json(const T& msg) {
   return out;
 }
 
+// Helper used by publish handlers: parse JSON into a typed protobuf.
+template <class T>
+static bool json_to_proto(const std::string& json, T* msg, std::string* err) {
+  google::protobuf::util::JsonParseOptions opts;
+  opts.ignore_unknown_fields = true;
+  auto status = google::protobuf::util::JsonStringToMessage(json, msg, opts);
+  if (!status.ok()) {
+    *err = std::string("json parse: ") + std::string(status.message());
+    return false;
+  }
+  return true;
+}
+
 const std::map<std::string, TopicTap::AddTapFn>& TopicTap::type_registry() {
   static const std::map<std::string, AddTapFn> reg = {
       {"scrimmage_msgs.CaptureEntity",
@@ -45,6 +59,22 @@ const std::map<std::string, TopicTap::AddTapFn>& TopicTap::type_registry() {
          self->add_tap<scrimmage_msgs::CaptureEntity>(s);
        }},
       // Add new tappable types here. Each addition requires a rebuild.
+  };
+  return reg;
+}
+
+const std::map<std::string, TopicTap::PublishHandlerFn>& TopicTap::publish_registry() {
+  static const std::map<std::string, PublishHandlerFn> reg = {
+      {"GlobalNetwork:Commands/TargetAssignment",
+       [](const std::string& json,
+          std::shared_ptr<scrimmage::MessageBase>* msg_out,
+          std::string* err) -> bool {
+         auto m = std::make_shared<scrimmage::Message<c2overlay_msgs::TargetAssignment>>();
+         if (!json_to_proto(json, &m->data, err)) return false;
+         *msg_out = m;
+         return true;
+       }},
+      // Add new publishable topics here. Each addition requires a rebuild.
   };
   return reg;
 }
@@ -120,6 +150,44 @@ bool TopicTap::wait_for_message(
   return true;
 }
 
+std::pair<bool, std::string> TopicTap::enqueue_publish(
+    const std::string& network,
+    const std::string& topic,
+    const std::string& payload_json) {
+  const auto& reg = publish_registry();
+  std::string key = network + ":" + topic;
+  auto it = reg.find(key);
+  if (it == reg.end()) {
+    return {false, "unknown publish topic '" + key + "'"};
+  }
+  std::shared_ptr<scrimmage::MessageBase> msg;
+  std::string err;
+  if (!it->second(payload_json, &msg, &err)) {
+    return {false, err};
+  }
+  {
+    std::lock_guard<std::mutex> g(pending_publishes_mutex_);
+    pending_publishes_.push_back({network, topic, msg});
+  }
+  return {true, ""};
+}
+
+void TopicTap::drain_publish_queue() {
+  std::deque<PendingPublish> local;
+  {
+    std::lock_guard<std::mutex> g(pending_publishes_mutex_);
+    local.swap(pending_publishes_);
+  }
+  for (auto& pp : local) {
+    std::string key = pp.network + ":" + pp.topic;
+    auto it = pub_cache_.find(key);
+    if (it == pub_cache_.end()) {
+      pub_cache_[key] = advertise(pp.network, pp.topic);
+    }
+    pub_cache_[key]->publish(pp.msg);
+  }
+}
+
 bool TopicTap::init(
     std::map<std::string, std::string>& /*mission_params*/,
     std::map<std::string, std::string>& plugin_params) {
@@ -176,6 +244,7 @@ bool TopicTap::step_entity_interaction(
     std::list<scrimmage::EntityPtr>& /*ents*/,
     double /*t*/,
     double /*dt*/) {
+  drain_publish_queue();
   return true;
 }
 

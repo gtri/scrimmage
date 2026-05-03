@@ -33,5 +33,16 @@ grpc::Status TopicTapServiceImpl::StreamTopic(
   return grpc::Status::OK;
 }
 
+grpc::Status TopicTapServiceImpl::PublishToTopic(
+    grpc::ServerContext* /*ctx*/,
+    const c2overlay_msgs::PublishToTopicRequest* req,
+    c2overlay_msgs::PublishToTopicResponse* resp) {
+  auto [ok, err] = parent_->enqueue_publish(
+      req->network(), req->topic(), req->payload_json());
+  resp->set_ok(ok);
+  if (!ok) resp->set_error(err);
+  return grpc::Status::OK;
+}
+
 }  // namespace interaction
 }  // namespace c2overlay

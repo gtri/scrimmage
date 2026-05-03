@@ -27,6 +27,11 @@ class TopicTapServiceImpl final
       const c2overlay_msgs::StreamTopicRequest* req,
       grpc::ServerWriter<c2overlay_msgs::TopicMessage>* writer) override;
 
+  grpc::Status PublishToTopic(
+      grpc::ServerContext* ctx,
+      const c2overlay_msgs::PublishToTopicRequest* req,
+      c2overlay_msgs::PublishToTopicResponse* resp) override;
+
  private:
   TopicTap* parent_;  // not owned
 };
