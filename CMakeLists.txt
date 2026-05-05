@@ -230,7 +230,7 @@ endif()
 ###############################################################################
 # Unity Bridge (optional)
 ###############################################################################
-option(BUILD_UNITY_BRIDGE "Build the SCRIMMAGE-Unity ZeroMQ bridge" OFF)
+option(BUILD_UNITY_BRIDGE "Build the SCRIMMAGE-Unity ZeroMQ bridge" ON)
 
 if (BUILD_UNITY_BRIDGE)
     message(STATUS "Building SCRIMMAGE Unity Bridge (ICD rev 0.3)")

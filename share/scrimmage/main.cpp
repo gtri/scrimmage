@@ -186,10 +186,13 @@ int main(int argc, char* argv[]) {
             const auto& up = it->second;
             auto unity_bridge = std::make_shared<scrimmage::unity_bridge::UnityBridge>();
 
+            int pub_port = sc::get<int>("pub_port", it->second, 10250);
+            int sub_port = sc::get<int>("sub_port", it->second, 10251);
+
             unity_bridge->set_pub_address(
-                "tcp://*:" + std::to_string(sc::get<int>("pub_port", up, 10250)));
+                "tcp://*:" + std::to_string(sc::get<int>("pub_port", up, pub_port)));
             unity_bridge->set_sub_address(
-                "tcp://*:" + std::to_string(sc::get<int>("sub_port", up, 10251)));
+                "tcp://*:" + std::to_string(sc::get<int>("sub_port", up, sub_port)));
             unity_bridge->set_connection_timeout_s(
                 sc::get<double>("connection_timeout_s", up, 10.0));
             unity_bridge->set_sim_dt(simcontrol.mp()->dt());
@@ -205,49 +208,14 @@ int main(int argc, char* argv[]) {
                 std::cerr << "WARNING: Unity handshake failed; "
                              "continuing without Unity." << std::endl;
             } else {
-                // Helper: convert Contact::Type to ICD contact_type string
-                auto contact_type_str = [](sc::Contact::Type t) -> std::string {
-                    switch (t) {
-                        case sc::Contact::Type::AIRCRAFT:  return "aircraft";
-                        case sc::Contact::Type::QUADROTOR: return "quadrotor";
-                        case sc::Contact::Type::SPHERE:    return "sphere";
-                        case sc::Contact::Type::MESH:      return "mesh";
-                        default:                           return "unknown";
-                    }
-                };
+                // Set unity_bridge before spawning initial entities
+                simcontrol.set_unity_bridge(unity_bridge);
 
                 // Spawn initial entities
+                cout << "Number of Entities: " << simcontrol.ents().size() << endl;
                 for (auto& entity : simcontrol.ents()) {
-                    int entity_id  = entity->id().id();
-                    auto& ent_id_map = simcontrol.mp()->ent_id_to_block_id();
-                    auto desc_it = ent_id_map.find(entity_id);
-                    if (desc_it == ent_id_map.end()) continue;
-                    int desc_id = desc_it->second;
-
-                    std::string prefab_override;
-                    auto& attrs = simcontrol.mp()->entity_attributes();
-                    auto attrs_it = attrs.find(desc_id);
-                    if (attrs_it != attrs.end()) {
-                        auto uv_it = attrs_it->second.find("unity_visual");
-                        if (uv_it != attrs_it->second.end()) {
-                            auto pid_it = uv_it->second.find("prefab_id");
-                            if (pid_it != uv_it->second.end()) {
-                                prefab_override = pid_it->second;
-                            }
-                        }
-                    }
-
-                    auto cfg = scrimmage::unity_bridge::entity_config_from_contact_visual(
-                        *entity->contact_visual(),
-                        entity->id().team_id(),
-                        entity->id().sub_swarm_id(),
-                        contact_type_str(entity->type()),
-                        prefab_override);
-
-                    unity_bridge->send_entity_create(0.0, cfg);
+                    simcontrol.send_unity_entity_create(entity, 0.0);
                 }
-
-                simcontrol.set_unity_bridge(unity_bridge);
             }
         }
     }

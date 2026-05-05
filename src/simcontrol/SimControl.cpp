@@ -484,8 +484,58 @@ bool SimControl::generate_entity(
     msg->data.set_entity_id(ent->id().id());
     pub_ent_gen_->publish(msg);
 
+#if ENABLE_UNITY_BRIDGE == 1
+    if (unity_bridge_) {
+        send_unity_entity_create(ent, time_->t());
+    }
+#endif
+
     return true;
 }
+
+#if ENABLE_UNITY_BRIDGE == 1
+void SimControl::send_unity_entity_create(EntityPtr ent, double time) {
+    if (!unity_bridge_ || !ent) return;
+
+    auto contact_type_str = [](sc::Contact::Type t) -> std::string {
+        switch (t) {
+            case sc::Contact::Type::AIRCRAFT:  return "aircraft";
+            case sc::Contact::Type::QUADROTOR: return "quadrotor";
+            case sc::Contact::Type::SPHERE:    return "sphere";
+            case sc::Contact::Type::MESH:      return "mesh";
+            default:                           return "unknown";
+        }
+    };
+
+    int entity_id = ent->id().id();
+    auto& ent_id_map = mp()->ent_id_to_block_id();
+    auto desc_it = ent_id_map.find(entity_id);
+    if (desc_it == ent_id_map.end()) return;
+
+    int desc_id = desc_it->second;
+    std::string prefab_override;
+    auto& attrs = mp()->entity_attributes();
+    auto attrs_it = attrs.find(desc_id);
+    if (attrs_it != attrs.end()) {
+        auto uv_it = attrs_it->second.find("unity_visual");
+        if (uv_it != attrs_it->second.end()) {
+            auto pid_it = uv_it->second.find("prefab_id");
+            if (pid_it != uv_it->second.end()) {
+                prefab_override = pid_it->second;
+            }
+        }
+    }
+
+    auto cfg = scrimmage::unity_bridge::entity_config_from_contact_visual(
+        *ent->contact_visual(),
+        ent->id().team_id(),
+        ent->id().sub_swarm_id(),
+        contact_type_str(ent->type()),
+        prefab_override);
+
+    unity_bridge_->send_entity_create(time, cfg);
+}
+#endif
 
 MissionParsePtr SimControl::mp() {
     return mp_;

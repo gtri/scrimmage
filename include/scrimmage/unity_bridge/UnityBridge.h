@@ -32,7 +32,7 @@
  *
  * Wire format: two-frame ZMQ multi-part message.
  *   Frame 0: message type string (UTF-8, used as ZMQ subscription filter)
- *   Frame 1: JSON payload (UTF-8, nlohmann/json)
+ *   Frame 1: Binary protobuf payload (scrimmage_unity::* messages)
  *
  * See: docs/unity_bridge/ICD.md
  */
@@ -51,6 +51,7 @@
 
 #include <scrimmage/entity/Contact.h>
 #include <scrimmage/proto/Visual.pb.h>
+#include <scrimmage/proto/UnityBridge.pb.h>
 
 // Forward-declare ZMQ types to avoid including zmq.hpp in user headers.
 namespace zmq {
@@ -211,9 +212,9 @@ class UnityBridge {
     std::string pub_addr_ = "tcp://*:10250";
     std::string sub_addr_ = "tcp://*:10251";
 
-    /// Send a two-frame ZMQ message: [type_string][json_string].
+    /// Send a two-frame ZMQ message: [type_string][protobuf_binary].
     /// Returns false if the send fails (e.g. HWM reached, socket closed).
-    bool zmq_send(const std::string& msg_type, const std::string& json);
+    bool zmq_send(const std::string& msg_type, const std::string& proto_binary);
 
     // -----------------------------------------------------------------------
     // Receive thread — listens for handshake_ack
@@ -223,13 +224,13 @@ class UnityBridge {
     std::atomic<bool> recv_running_{false};
     void recv_loop();
 
-    bool parse_handshake_ack(const std::string& json);
+    bool parse_handshake_ack(const std::string& proto_binary);
 
     // Signalled by recv_loop when a valid handshake_ack arrives.
     std::mutex ack_mutex_;
     std::condition_variable ack_cv_;
     bool ack_received_ = false;
-    std::string ack_status_;  // "ok" | "version_mismatch" | "error"
+    scrimmage_unity::HandshakeStatus ack_status_;
     std::string ack_message_;
 
     // -----------------------------------------------------------------------

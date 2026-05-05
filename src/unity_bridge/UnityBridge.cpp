@@ -15,15 +15,13 @@
  * @brief SCRIMMAGE-Unity ZeroMQ bridge implementation.
  */
 
-#include <scrimmage/unity_bridge/UnityBridge.h>
-#include <scrimmage/log/Logger.h>
+#include "scrimmage/unity_bridge/UnityBridge.h"
+#include "scrimmage/log/Logger.h"
 
 #include <chrono>
 
-#include <nlohmann/json.hpp>
 #include <zmq.hpp>
 
-using json = nlohmann::json;
 using namespace scrimmage::unity_bridge;
 
 static constexpr int ZMQ_HWM = 6;  // High-water mark for both sockets
@@ -71,43 +69,80 @@ bool UnityBridge::bind() {
 }
 
 bool UnityBridge::send_handshake(double sim_time) {
-    json j;
-    j["msg_type"]         = "handshake";
-    j["sim_time"]         = sim_time;
-    j["protocol_version"] = PROTOCOL_VERSION;
-    j["sim_dt"]           = sim_dt_;
-    j["origin_lat"]       = origin_lat_;
-    j["origin_lon"]       = origin_lon_;
-    j["origin_alt"]       = origin_alt_;
+    scrimmage_unity::Handshake msg;
+    msg.set_protocol_version(PROTOCOL_VERSION);
+    msg.set_sim_time(sim_time);
+    msg.set_sim_dt(sim_dt_);
+    msg.set_origin_lat(origin_lat_);
+    msg.set_origin_lon(origin_lon_);
+    msg.set_origin_alt(origin_alt_);
 
-    if (!zmq_send("handshake", j.dump())) {
+    std::string proto_payload;
+    if (!msg.SerializeToString(&proto_payload)) {
+        LOG_ERROR("UnityBridge: failed to serialize handshake");
         return false;
     }
 
-    LOG_INFO("UnityBridge: handshake sent, waiting for ack ("
+    LOG_INFO("UnityBridge: sending handshake with periodic retry ("
              << connection_timeout_s_ << "s timeout)");
 
-    auto deadline = std::chrono::steady_clock::now()
-                    + std::chrono::duration<double>(connection_timeout_s_);
+    using clock = std::chrono::steady_clock;
+    using time_point = clock::time_point;
+
+    time_point deadline = clock::now()
+                        + std::chrono::duration_cast<clock::duration>(
+                            std::chrono::duration<double>(connection_timeout_s_));
 
     std::unique_lock<std::mutex> lock(ack_mutex_);
-    bool got_ack = ack_cv_.wait_until(lock, deadline,
-                                      [this] { return ack_received_; });
 
-    if (!got_ack) {
-        LOG_ERROR("UnityBridge: timed out waiting for handshake_ack");
-        return false;
+    // Send handshake periodically until ack received or timeout
+    // This mitigates ZMQ slow joiner problem
+    int attempt = 0;
+    while (true) {
+        // Send handshake
+        if (zmq_send("handshake", proto_payload)) {
+            attempt++;
+            if (attempt == 1) {
+                LOG_INFO("UnityBridge: handshake sent (will retry every 500ms until ack)");
+            }
+        } else if (attempt == 0) {
+            LOG_ERROR("UnityBridge: Failed to send handshake!");
+            return false;
+        }
+
+        // Calculate next retry time (500ms from now)
+        time_point next_retry = clock::now() + std::chrono::milliseconds(500);
+        time_point wait_until_time = (next_retry < deadline) ? next_retry : deadline;
+
+        // Wait for ack with 500ms timeout per iteration
+        bool got_ack = ack_cv_.wait_until(
+            lock,
+            wait_until_time,
+            [this] { return ack_received_; });
+
+        if (got_ack) {
+            // Ack received, check status
+            if (ack_status_ != scrimmage_unity::HANDSHAKE_OK) {
+                LOG_ERROR("UnityBridge: handshake_ack status=" << ack_status_
+                          << " message=" << ack_message_);
+                return false;
+            }
+
+            connected_ = true;
+            LOG_INFO("UnityBridge: connected to Unity after " << attempt
+                     << " attempt(s) (protocol " << PROTOCOL_VERSION << ")");
+            return true;
+        }
+
+        // Check if overall timeout reached
+        if (clock::now() >= deadline) {
+            LOG_ERROR("UnityBridge: timed out waiting for handshake_ack after "
+                     << attempt << " attempts");
+            return false;
+        }
+
+        // Continue loop to send handshake again
     }
-
-    if (ack_status_ != "ok") {
-        LOG_ERROR("UnityBridge: handshake_ack status=" << ack_status_
-                  << " message=" << ack_message_);
-        return false;
-    }
-
-    connected_ = true;
-    LOG_INFO("UnityBridge: connected to Unity (protocol " << ack_status_ << ")");
-    return true;
 }
 
 void UnityBridge::disconnect() {
@@ -125,30 +160,44 @@ void UnityBridge::disconnect() {
 // ---------------------------------------------------------------------------
 
 bool UnityBridge::send_entity_create(double sim_time, const EntityConfig& cfg) {
-    json j;
-    j["msg_type"]      = "entity_create";
-    j["sim_time"]      = sim_time;
-    j["id"]            = cfg.id;
-    j["sub_swarm_id"]  = cfg.sub_swarm_id;
-    j["team_id"]       = cfg.team_id;
-    j["name"]          = cfg.name;
-    j["prefab_id"]     = cfg.prefab_id;
-    j["contact_type"]  = cfg.contact_type;
-    j["scale"]         = cfg.scale;
-    j["base_roll_deg"]  = cfg.base_roll_deg;
-    j["base_pitch_deg"] = cfg.base_pitch_deg;
-    j["base_yaw_deg"]   = cfg.base_yaw_deg;
-    j["color"]         = {cfg.color_r, cfg.color_g, cfg.color_b};
-    j["opacity"]       = cfg.opacity;
-    return zmq_send("entity_create", j.dump());
+
+    LOG_INFO("Sending Entity Create Msg to Unity!");
+    scrimmage_unity::EntityCreate msg;
+    msg.set_sim_time(sim_time);
+    msg.set_id(cfg.id);
+    msg.set_sub_swarm_id(cfg.sub_swarm_id);
+    msg.set_team_id(cfg.team_id);
+    msg.set_name(cfg.name);
+    msg.set_prefab_id(cfg.prefab_id);
+    msg.set_contact_type(cfg.contact_type);
+    msg.set_scale(cfg.scale);
+    msg.set_base_roll_deg(cfg.base_roll_deg);
+    msg.set_base_pitch_deg(cfg.base_pitch_deg);
+    msg.set_base_yaw_deg(cfg.base_yaw_deg);
+    msg.set_color_r(cfg.color_r);
+    msg.set_color_g(cfg.color_g);
+    msg.set_color_b(cfg.color_b);
+    msg.set_opacity(cfg.opacity);
+
+    std::string proto_payload;
+    if (!msg.SerializeToString(&proto_payload)) {
+        LOG_ERROR("UnityBridge: failed to serialize entity_create");
+        return false;
+    }
+    return zmq_send("entity_create", proto_payload);
 }
 
 bool UnityBridge::send_entity_destroy(double sim_time, int entity_id) {
-    json j;
-    j["msg_type"] = "entity_destroy";
-    j["sim_time"] = sim_time;
-    j["id"]       = entity_id;
-    return zmq_send("entity_destroy", j.dump());
+    scrimmage_unity::EntityDestroy msg;
+    msg.set_sim_time(sim_time);
+    msg.set_id(entity_id);
+
+    std::string proto_payload;
+    if (!msg.SerializeToString(&proto_payload)) {
+        LOG_ERROR("UnityBridge: failed to serialize entity_destroy");
+        return false;
+    }
+    return zmq_send("entity_destroy", proto_payload);
 }
 
 // ---------------------------------------------------------------------------
@@ -158,25 +207,35 @@ bool UnityBridge::send_entity_destroy(double sim_time, int entity_id) {
 bool UnityBridge::send_state_update(double sim_time,
                                     uint64_t frame_id,
                                     const std::vector<EntityState>& states) {
-    json j;
-    j["msg_type"] = "state_update";
-    j["sim_time"] = sim_time;
-    j["frame_id"] = frame_id;
+    scrimmage_unity::StateUpdate msg;
+    msg.set_sim_time(sim_time);
+    msg.set_frame_id(frame_id);
 
-    json ents = json::array();
     for (const auto& s : states) {
-        json e;
-        e["id"]     = s.id;
-        e["active"] = s.active;
-        e["position"]    = {s.pos_x, s.pos_y, s.pos_z};
-        e["orientation"] = {s.qw, s.qx, s.qy, s.qz};
-        e["linear_velocity"]  = {s.vel_x, s.vel_y, s.vel_z};
-        e["angular_velocity"] = {s.ang_vel_x, s.ang_vel_y, s.ang_vel_z};
-        ents.push_back(e);
+        auto* ent = msg.add_entities();
+        ent->set_id(s.id);
+        ent->set_active(s.active);
+        ent->set_pos_x(s.pos_x);
+        ent->set_pos_y(s.pos_y);
+        ent->set_pos_z(s.pos_z);
+        ent->set_qw(s.qw);
+        ent->set_qx(s.qx);
+        ent->set_qy(s.qy);
+        ent->set_qz(s.qz);
+        ent->set_vel_x(s.vel_x);
+        ent->set_vel_y(s.vel_y);
+        ent->set_vel_z(s.vel_z);
+        ent->set_ang_vel_x(s.ang_vel_x);
+        ent->set_ang_vel_y(s.ang_vel_y);
+        ent->set_ang_vel_z(s.ang_vel_z);
     }
-    j["entities"] = ents;
 
-    return zmq_send("state_update", j.dump());
+    std::string proto_payload;
+    if (!msg.SerializeToString(&proto_payload)) {
+        LOG_ERROR("UnityBridge: failed to serialize state_update");
+        return false;
+    }
+    return zmq_send("state_update", proto_payload);
 }
 
 // ---------------------------------------------------------------------------
@@ -184,11 +243,11 @@ bool UnityBridge::send_state_update(double sim_time,
 // ---------------------------------------------------------------------------
 
 bool UnityBridge::zmq_send(const std::string& msg_type,
-                            const std::string& json_str) {
+                            const std::string& proto_binary) {
     if (!pub_sock_) return false;
     try {
         zmq::message_t type_frame(msg_type.data(), msg_type.size());
-        zmq::message_t json_frame(json_str.data(), json_str.size());
+        zmq::message_t proto_frame(proto_binary.data(), proto_binary.size());
         auto r = pub_sock_->send(type_frame,
                                  zmq::send_flags::sndmore |
                                  zmq::send_flags::dontwait);
@@ -196,7 +255,7 @@ bool UnityBridge::zmq_send(const std::string& msg_type,
             ++dropped_publish_count_;
             return false;
         }
-        pub_sock_->send(json_frame, zmq::send_flags::dontwait);
+        pub_sock_->send(proto_frame, zmq::send_flags::dontwait);
         return true;
     } catch (const zmq::error_t& e) {
         if (e.num() == EAGAIN) {
@@ -246,19 +305,19 @@ void UnityBridge::recv_loop() {
     }
 }
 
-bool UnityBridge::parse_handshake_ack(const std::string& json_str) {
-    try {
-        auto j = json::parse(json_str);
-        std::lock_guard<std::mutex> lock(ack_mutex_);
-        ack_status_  = j.value("status", std::string("error"));
-        ack_message_ = j.value("message", std::string{});
-        ack_received_ = true;
-        ack_cv_.notify_all();
-        return true;
-    } catch (const json::exception& e) {
-        LOG_ERROR("UnityBridge: failed to parse handshake_ack: " << e.what());
+bool UnityBridge::parse_handshake_ack(const std::string& proto_binary) {
+    scrimmage_unity::HandshakeAck ack;
+    if (!ack.ParseFromString(proto_binary)) {
+        LOG_ERROR("UnityBridge: failed to parse handshake_ack protobuf");
         return false;
     }
+
+    std::lock_guard<std::mutex> lock(ack_mutex_);
+    ack_status_ = ack.status();
+    ack_message_ = ack.message();
+    ack_received_ = true;
+    ack_cv_.notify_all();
+    return true;
 }
 
 // ---------------------------------------------------------------------------

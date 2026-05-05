@@ -1,10 +1,10 @@
 // SCRIMMAGE–Unity Bridge Protocol Definitions
 //
-// Revision: 0.3 (Simplified / Initial Testing)
+// Revision: 0.4 (Binary Protobuf)
 //
 // This file defines the schema for the five message types exchanged between
-// SCRIMMAGE and the Unity visualization client. The wire format is JSON
-// (not binary protobuf) to ease Unity-side integration with Newtonsoft.Json.
+// SCRIMMAGE and the Unity visualization client. The wire format is binary
+// protobuf for performance and memory efficiency.
 // This file is the authoritative schema reference.
 //
 // See: docs/unity_bridge/ICD.md for the full protocol specification.

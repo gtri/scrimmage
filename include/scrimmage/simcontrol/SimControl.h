@@ -367,6 +367,7 @@ class SimControl {
     void set_unity_bridge(scrimmage::unity_bridge::UnityBridgePtr ptr) {
         unity_bridge_ = ptr;
     }
+    void send_unity_entity_create(EntityPtr ent, double time);
 #endif
 
  protected:
