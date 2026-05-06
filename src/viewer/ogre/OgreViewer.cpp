@@ -52,6 +52,15 @@
 namespace scrimmage {
 namespace viewer {
 
+namespace {
+constexpr float kCloudMinHeight = 750.0f;
+constexpr float kCloudMaxHeight = 1700.0f;
+constexpr float kCloudHideAltitude = kCloudMaxHeight + 600.0f;
+constexpr float kCloudShowAltitude = kCloudMaxHeight + 250.0f;
+constexpr float kCloudHideLookDownY = -0.35f;
+constexpr float kCloudShowLookDownY = -0.15f;
+}  // namespace
+
 // UpdateListener implementation
 bool OgreViewer::UpdateListener::frameStarted(const Ogre::FrameEvent& evt) {
     viewer_->processInterfaceUpdates();
@@ -639,7 +648,7 @@ void OgreViewer::createSky() {
     // (lower opacity, flatter aspect) to read as semi-transparent layers.
     std::mt19937 rng(20260506u);
     std::uniform_real_distribution<float> u01(0.0f, 1.0f);
-    std::uniform_real_distribution<float> uy(750.0f, 1700.0f);
+    std::uniform_real_distribution<float> uy(kCloudMinHeight, kCloudMaxHeight);
     std::uniform_real_distribution<float> uvar(0.80f, 1.35f);
     std::uniform_real_distribution<float> uarMain(0.55f, 0.70f);
     std::uniform_real_distribution<float> uarWisp(0.32f, 0.45f);
@@ -810,6 +819,20 @@ void OgreViewer::update(double dt) {
             sky_node_->setPosition(camPos);
         }
         if (cloud_node_) {
+            const Ogre::Vector3 camDir = camera_->getDerivedDirection();
+            const bool should_hide_clouds =
+                camPos.y >= kCloudHideAltitude && camDir.y <= kCloudHideLookDownY;
+            const bool should_show_clouds =
+                camPos.y <= kCloudShowAltitude || camDir.y >= kCloudShowLookDownY;
+
+            if (!clouds_hidden_for_overview_ && should_hide_clouds) {
+                cloud_node_->setVisible(false);
+                clouds_hidden_for_overview_ = true;
+            } else if (clouds_hidden_for_overview_ && should_show_clouds) {
+                cloud_node_->setVisible(true);
+                clouds_hidden_for_overview_ = false;
+            }
+
             cloud_node_->setPosition(camPos.x, 0.0f, camPos.z);
         }
     }

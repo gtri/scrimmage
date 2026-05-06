@@ -176,6 +176,7 @@ class OgreViewer : public scrimmage::Viewer,
     bool show_origin_ = true;
     bool full_screen_ = false;
     bool initialized_ = false;
+   bool clouds_hidden_for_overview_ = false;
 
     // Initial camera position (parsed during init, applied in run)
     double init_pos_x_ = 0.0, init_pos_y_ = 0.0, init_pos_z_ = 200.0;
