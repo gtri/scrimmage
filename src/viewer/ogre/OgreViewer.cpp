@@ -140,6 +140,16 @@ bool OgreViewer::init(const std::shared_ptr<MissionParse>& mp,
     camera_params_ = camera_params;
     log_dir_ = mp->log_dir();
     dt_ = mp->dt();
+
+    auto &utm_terrain = mp->utm_terrain();
+    if (utm_terrain) {
+        if (utm_terrain->grid_spacing() > 0.0) {
+            grid_spacing_ = utm_terrain->grid_spacing();
+        }
+        if (utm_terrain->grid_size() > 0.0) {
+            grid_size_ = utm_terrain->grid_size();
+        }
+    }
     
     // Parse camera parameters (store for later use in run())
     auto it = camera_params.find("pos_x");
@@ -254,9 +264,9 @@ void OgreViewer::createScene() {
 }
 
 void OgreViewer::createGrid() {
-    const float size = 1000.0f;
-    const float step = 50.0f;
-    const int lines = static_cast<int>(size / step) * 2 + 1;
+    const float half_size = static_cast<float>(grid_size_ / 2.0);
+    const float step = static_cast<float>(grid_spacing_);
+    const int lines = static_cast<int>(grid_size_ / grid_spacing_) + 1;
     
     Ogre::ManualObject* grid = scene_mgr_->createManualObject("Grid");
     std::string matName = material_pool_->getMaterial(128, 128, 128, 0.5f);
@@ -265,19 +275,19 @@ void OgreViewer::createGrid() {
     
     // Lines along X axis
     for (int i = 0; i < lines; ++i) {
-        float z = -size + i * step;
-        grid->position(-size, 0, z);
+        float z = -half_size + i * step;
+        grid->position(-half_size, 0, z);
         grid->colour(0.5f, 0.5f, 0.5f);
-        grid->position(size, 0, z);
+        grid->position(half_size, 0, z);
         grid->colour(0.5f, 0.5f, 0.5f);
     }
     
     // Lines along Z axis
     for (int i = 0; i < lines; ++i) {
-        float x = -size + i * step;
-        grid->position(x, 0, -size);
+        float x = -half_size + i * step;
+        grid->position(x, 0, -half_size);
         grid->colour(0.5f, 0.5f, 0.5f);
-        grid->position(x, 0, size);
+        grid->position(x, 0, half_size);
         grid->colour(0.5f, 0.5f, 0.5f);
     }
     

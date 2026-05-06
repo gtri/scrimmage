@@ -165,6 +165,8 @@ class OgreViewer : public scrimmage::Viewer,
     std::map<std::string, std::string> camera_params_;
     std::string log_dir_;
     double dt_ = 0.1;
+   double grid_spacing_ = 100.0;
+   double grid_size_ = 10000.0;
     double frame_time_ = 0.0;
     double scale_ = 1.0;
     int warp_ = 1;
