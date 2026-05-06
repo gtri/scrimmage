@@ -265,32 +265,128 @@ void OgreViewer::createScene() {
 
 void OgreViewer::createGrid() {
     const float half_size = static_cast<float>(grid_size_ / 2.0);
-    const float step = static_cast<float>(grid_spacing_);
-    const int lines = static_cast<int>(grid_size_ / grid_spacing_) + 1;
-    
+    const float grid_plane_y = 0.0f;
+    const int major_group_cells = 10;
+    const float uv_repeat = std::max(
+        1.0f, static_cast<float>(grid_size_ / (grid_spacing_ * major_group_cells)));
+    const std::string group = Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
+    const std::string grid_tex_name = "SCRIMMAGE/GridTile";
+    const std::string grid_mat_name = "SCRIMMAGE/GridPlane";
+    const Ogre::ColourValue fill_color(199.0f / 255.0f,
+                                       193.0f / 255.0f,
+                                       186.0f / 255.0f);
+    const Ogre::ColourValue line_color(66.0f / 255.0f,
+                                       56.0f / 255.0f,
+                                       53.0f / 255.0f);
+    const float minor_line_strength = 0.35f;
+    const Ogre::ColourValue minor_line_color(
+        fill_color.r * 0.55f + line_color.r * 0.45f,
+        fill_color.g * 0.55f + line_color.g * 0.45f,
+        fill_color.b * 0.55f + line_color.b * 0.45f);
+    const int tex_size = 640;
+    const int cell_px = tex_size / major_group_cells;
+    const int major_line_px = 2;
+    const int minor_line_px = 0;
+    const int feather_px = 1;
+
+    Ogre::TexturePtr grid_tex = Ogre::TextureManager::getSingleton().getByName(grid_tex_name, group);
+    if (!grid_tex) {
+        grid_tex = Ogre::TextureManager::getSingleton().createManual(
+            grid_tex_name,
+            group,
+            Ogre::TEX_TYPE_2D,
+            tex_size,
+            tex_size,
+            Ogre::MIP_UNLIMITED,
+            Ogre::PF_BYTE_BGRA,
+            Ogre::TU_DEFAULT);
+
+        Ogre::HardwarePixelBufferSharedPtr buf = grid_tex->getBuffer();
+        buf->lock(Ogre::HardwareBuffer::HBL_DISCARD);
+        const Ogre::PixelBox& pb = buf->getCurrentLock();
+        auto* dst = static_cast<std::uint8_t*>(pb.data);
+        const std::size_t row_bytes = pb.rowPitch * 4;
+
+        for (int y = 0; y < tex_size; ++y) {
+            for (int x = 0; x < tex_size; ++x) {
+                int major_dist = std::min(std::min(x, y),
+                                          std::min(tex_size - 1 - x, tex_size - 1 - y));
+                int cell_x = x % cell_px;
+                int cell_y = y % cell_px;
+                int minor_dist = std::min(std::min(cell_x, cell_y),
+                                          std::min(cell_px - 1 - cell_x, cell_px - 1 - cell_y));
+
+                float major_mix = 0.0f;
+                if (major_dist < major_line_px) {
+                    major_mix = 1.0f;
+                } else if (major_dist < major_line_px + feather_px) {
+                    float t = static_cast<float>(major_dist - major_line_px) /
+                              static_cast<float>(feather_px);
+                    major_mix = 1.0f - t;
+                }
+
+                float minor_mix = 0.0f;
+                if (minor_dist <= minor_line_px) {
+                    minor_mix = minor_line_strength;
+                } else if (minor_dist < minor_line_px + feather_px + 1) {
+                    float t = static_cast<float>(minor_dist - minor_line_px) /
+                              static_cast<float>(feather_px + 1);
+                    t = std::clamp(t, 0.0f, 1.0f);
+                    minor_mix = minor_line_strength * (1.0f - t);
+                }
+
+                Ogre::ColourValue color = fill_color;
+                if (minor_mix > 0.0f) {
+                    color.r = color.r * (1.0f - minor_mix) + minor_line_color.r * minor_mix;
+                    color.g = color.g * (1.0f - minor_mix) + minor_line_color.g * minor_mix;
+                    color.b = color.b * (1.0f - minor_mix) + minor_line_color.b * minor_mix;
+                }
+                if (major_mix > 0.0f) {
+                    color.r = color.r * (1.0f - major_mix) + line_color.r * major_mix;
+                    color.g = color.g * (1.0f - major_mix) + line_color.g * major_mix;
+                    color.b = color.b * (1.0f - major_mix) + line_color.b * major_mix;
+                }
+
+                std::uint8_t* p = dst + y * row_bytes + x * 4;
+                p[0] = static_cast<std::uint8_t>(std::round(color.b * 255.0f));
+                p[1] = static_cast<std::uint8_t>(std::round(color.g * 255.0f));
+                p[2] = static_cast<std::uint8_t>(std::round(color.r * 255.0f));
+                p[3] = 255;
+            }
+        }
+        buf->unlock();
+    }
+
+    Ogre::MaterialPtr grid_mat = Ogre::MaterialManager::getSingleton().getByName(grid_mat_name, group);
+    if (!grid_mat) {
+        grid_mat = Ogre::MaterialManager::getSingleton().create(grid_mat_name, group);
+        Ogre::Pass* grid_pass = grid_mat->getTechnique(0)->getPass(0);
+        grid_pass->setLightingEnabled(false);
+        grid_pass->setDiffuse(Ogre::ColourValue::White);
+        grid_pass->setAmbient(Ogre::ColourValue::White);
+        grid_pass->setSelfIllumination(Ogre::ColourValue::White);
+        grid_pass->setCullingMode(Ogre::CULL_NONE);
+
+        Ogre::TextureUnitState* tu = grid_pass->createTextureUnitState(grid_tex_name);
+        tu->setTextureFiltering(Ogre::TFO_ANISOTROPIC);
+        tu->setTextureAnisotropy(8);
+        tu->setTextureAddressingMode(Ogre::TextureUnitState::TAM_WRAP);
+        tu->setTextureMipmapBias(0.35f);
+        grid_mat->load();
+    }
+
     Ogre::ManualObject* grid = scene_mgr_->createManualObject("Grid");
-    std::string matName = material_pool_->getMaterial(128, 128, 128, 0.5f);
-    
-    grid->begin(matName, Ogre::RenderOperation::OT_LINE_LIST);
-    
-    // Lines along X axis
-    for (int i = 0; i < lines; ++i) {
-        float z = -half_size + i * step;
-        grid->position(-half_size, 0, z);
-        grid->colour(0.5f, 0.5f, 0.5f);
-        grid->position(half_size, 0, z);
-        grid->colour(0.5f, 0.5f, 0.5f);
-    }
-    
-    // Lines along Z axis
-    for (int i = 0; i < lines; ++i) {
-        float x = -half_size + i * step;
-        grid->position(x, 0, -half_size);
-        grid->colour(0.5f, 0.5f, 0.5f);
-        grid->position(x, 0, half_size);
-        grid->colour(0.5f, 0.5f, 0.5f);
-    }
-    
+    grid->begin(grid_mat_name, Ogre::RenderOperation::OT_TRIANGLE_LIST);
+    grid->position(-half_size, grid_plane_y, -half_size);
+    grid->textureCoord(0.0f, 0.0f);
+    grid->position(half_size, grid_plane_y, -half_size);
+    grid->textureCoord(uv_repeat, 0.0f);
+    grid->position(half_size, grid_plane_y, half_size);
+    grid->textureCoord(uv_repeat, uv_repeat);
+    grid->position(-half_size, grid_plane_y, half_size);
+    grid->textureCoord(0.0f, uv_repeat);
+    grid->triangle(0, 1, 2);
+    grid->triangle(0, 2, 3);
     grid->end();
     
     Ogre::SceneNode* gridNode = scene_mgr_->getRootSceneNode()->createChildSceneNode("GridNode");
