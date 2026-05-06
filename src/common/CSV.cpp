@@ -180,6 +180,9 @@ void CSV::set_column_headers(const Headers& headers, bool write) {
 
 void CSV::set_column_headers(std::string_view headers, bool write) {
     std::vector<std::string> headers_vec = split_csv_string(headers, ',');
+    for (std::string& header : headers_vec) {
+        header = trim(header);
+    }
     set_column_headers(headers_vec, write);
 }
 

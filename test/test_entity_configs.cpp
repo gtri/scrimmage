@@ -34,11 +34,10 @@
 #include <gtest/gtest.h>
 
 #include <filesystem>
-#include <fstream>
-#include <sstream>
 #include <vector>
 #include <algorithm>
 
+#include "scrimmage/common/CSV.h"
 #include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/msgs/Event.pb.h"
 #include "scrimmage/parse/MissionParse.h"
@@ -48,13 +47,6 @@
 namespace sc = scrimmage;
 
 namespace {
-
-std::string read_file_contents(const std::filesystem::path& file_path) {
-    std::ifstream file(file_path);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    return buffer.str();
-}
 
 std::vector<std::filesystem::path> find_prefixed_csvs(
     const std::filesystem::path& dir,
@@ -77,6 +69,19 @@ std::vector<std::filesystem::path> find_prefixed_csvs(
 
     std::sort(matches.begin(), matches.end());
     return matches;
+}
+
+void expect_api_tester_csv_row(
+    const std::filesystem::path& file_path,
+    int expected_int_value) {
+    sc::CSV csv;
+    ASSERT_TRUE(csv.read_csv(file_path.string()));
+    ASSERT_EQ(csv.rows(), 1u);
+
+    EXPECT_EQ(csv.at<std::string>(0, "my_test_bool"), "false");
+    EXPECT_EQ(csv.at<int>(0, "my_test_int"), expected_int_value);
+    EXPECT_DOUBLE_EQ(csv.at<double>(0, "my_test_float"), 1.0);
+    EXPECT_DOUBLE_EQ(csv.at<double>(0, "my_test_double"), 100.0);
 }
 
 }  // namespace
@@ -121,9 +126,7 @@ TEST(test_entity_configs, generate_entity_runtime_plugin_overrides) {
         std::filesystem::path(simcontrol.mp()->log_dir()) / "runtime_override.csv";
     ASSERT_TRUE(std::filesystem::exists(csv_path));
 
-    const std::string csv_contents = read_file_contents(csv_path);
-    EXPECT_NE(csv_contents.find("my_test_bool,my_test_int,my_test_float,my_test_double"), std::string::npos);
-    EXPECT_NE(csv_contents.find("0,42,1,100"), std::string::npos);
+    expect_api_tester_csv_row(csv_path, 42);
 
     EXPECT_TRUE(simcontrol.shutdown(false));
 }
@@ -167,8 +170,7 @@ TEST(test_entity_configs, parse_runtime_plugin_overrides_merges_duplicate_blocks
         std::filesystem::path(simcontrol.mp()->log_dir()) / "runtime_override_merged.csv";
     ASSERT_TRUE(std::filesystem::exists(csv_path));
 
-    const std::string csv_contents = read_file_contents(csv_path);
-    EXPECT_NE(csv_contents.find("0,42,1,100"), std::string::npos);
+    expect_api_tester_csv_row(csv_path, 42);
 
     EXPECT_TRUE(simcontrol.shutdown(false));
 }
@@ -234,11 +236,8 @@ TEST(test_entity_configs, generate_entity_runtime_plugin_overrides_stress_missio
     ASSERT_TRUE(std::filesystem::exists(first_csv));
     ASSERT_TRUE(std::filesystem::exists(last_csv));
 
-    const std::string first_csv_contents = read_file_contents(first_csv);
-    const std::string last_csv_contents = read_file_contents(last_csv);
-
-    EXPECT_NE(first_csv_contents.find("0,1000,1,100"), std::string::npos);
-    EXPECT_NE(last_csv_contents.find("0,1119,1,100"), std::string::npos);
+    expect_api_tester_csv_row(first_csv, 1000);
+    expect_api_tester_csv_row(last_csv, 1119);
 }
 
 int main(int argc, char** argv) {
