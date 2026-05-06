@@ -136,12 +136,19 @@ class OgreViewer : public scrimmage::Viewer,
     /*
      *
      */
+    void createSky();
+
+    /*
+     *
+     */
     void sendGuiMsg(const std::string& type, int value = 0);
 
  private:
     Ogre::SceneManager* scene_mgr_ = nullptr;
     Ogre::Camera* camera_ = nullptr;
     Ogre::SceneNode* cam_node_ = nullptr;
+    Ogre::SceneNode* sky_node_ = nullptr;
+    Ogre::SceneNode* cloud_node_ = nullptr;
     Ogre::RenderWindow* render_window_ = nullptr;
 
     std::unique_ptr<MaterialPool> material_pool_;
