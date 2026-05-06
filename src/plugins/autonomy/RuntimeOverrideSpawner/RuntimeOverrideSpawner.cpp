@@ -116,13 +116,6 @@ void RuntimeOverrideSpawner::publish_spawn(
     // Set the spawn position/orientation
     sc::set(msg->data.mutable_state(), spawned_state);
 
-    // Optional: override entity-level params (name, color, etc.)
-    if (!name_prefix_.empty()) {
-        auto* name_param = msg->data.add_entity_param();
-        name_param->set_key("name");
-        name_param->set_value(name_prefix_ + "_" + formatted_index);
-    }
-
     // --- Plugin parameter overrides ---
     // Target a plugin by type and name (preferred) or type and index
     auto* plugin_override = msg->data.add_plugin_override();

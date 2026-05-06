@@ -77,27 +77,45 @@ entity's XML ``tag`` and create a state for this entity when constructing the
    // Publish the GenerateEntity message
    pub_gen_ents_->publish(msg);
 
-Modify Entity Block Properties
-------------------------------
+Color and Template Selection
+----------------------------
 
-Before publishing the message, you can modify other properties of the entity
-block, such as the ``autonomy``, ``color``, ``health``, ``visual_model``, etc.,
-by adding an entity block key-value pair to the ``GenerateEntity`` message:
+``GenerateEntity`` no longer supports entity-level key/value overrides such as
+``color`` or ``visual_model``. The remaining runtime override mechanism,
+``plugin_override``, only applies to plugin parameters.
+
+If you need spawned entities with different colors, define separate entity
+templates in the mission file and choose the desired one by ``entity_tag``.
+
+.. code-block:: xml
+
+    <entity tag="drone_red">
+       <count>0</count>
+       <visual_model>sphere</visual_model>
+       <color>255 0 0</color>
+       <autonomy speed="20">Straight</autonomy>
+       ...
+    </entity>
+
+    <entity tag="drone_blue">
+       <count>0</count>
+       <visual_model>sphere</visual_model>
+       <color>0 0 255</color>
+       <autonomy speed="20">Straight</autonomy>
+       ...
+    </entity>
+
+Then publish the matching tag at runtime:
 
 .. code-block:: c++
 
-   // Modify the entity's color
-   auto kv_color = msg->data.add_entity_param();
-   kv_color->set_key("color");
-   kv_color->set_value("255, 255, 0");
+    auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
+    sc::set(msg->data.mutable_state(), s);
+    msg->data.set_entity_tag(use_red ? "drone_red" : "drone_blue");
+    pub_gen_ents_->publish(msg);
 
-   // Modify the entity's visual model
-   auto kv_visual = msg->data.add_entity_param();
-   kv_visual->set_key("visual_model");
-   kv_visual->set_value("sphere");
-
-   // Publish the GenerateEntity message
-   pub_gen_ents_->publish(msg);
+This works because the entity visual color is still read from the selected
+mission template when the spawned entity is initialized.
 
 Plugin Parameter Overrides
 --------------------------
@@ -109,7 +127,8 @@ parameter variations would require duplicating entity blocks in the mission XML
 
 A spawner entity (e.g., a carrier, hive, or RL controller) publishes
 ``GenerateEntity`` messages referencing a template. Each message can include
-parameter overrides, so one template supports thousands of parameter variations.
+plugin parameter overrides, so one template supports thousands of parameter
+variations.
 
 For example, a carrier entity might spawn drones with varying speeds:
 
@@ -238,9 +257,10 @@ For loose runtime overrides (e.g., prototyping), add to the mission:
 
 .. warning::
 
-   Attempting to override plugin names (``autonomy``, ``controller``,
-   ``motion_model``, ``sensor``) via ``entity_param`` will be ignored.
-   Plugins are determined by the entity template, not at runtime.
+   ``plugin_override`` does not replace the entity template itself. It only
+   changes parameters on plugins already declared in that template. Properties
+   such as ``color`` and ``visual_model`` must come from the selected
+   ``entity_tag``.
 
 .. note::
 

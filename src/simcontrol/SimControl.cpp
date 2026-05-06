@@ -1009,21 +1009,6 @@ bool SimControl::start() {
             return;
         }
 
-        // Override any manually specified entity_params
-        // NOTE: Plugin names (autonomy, controller, motion_model, sensor) cannot be
-        // overridden at runtime. These are set in the mission XML and cannot be changed at spawn time.
-        for (int i = 0; i < msg->data.entity_param().size(); i++) {
-            const std::string& key = msg->data.entity_param(i).key();
-            if (is_plugin_name_override_key(key)) {
-                LOG_WARN("GenerateEntity: Ignoring plugin override '" << key << "=" 
-                         << msg->data.entity_param(i).value() << "'. "
-                         << "Plugin names cannot be changed at runtime. "
-                         << "Use separate entity templates with different tags instead.");
-                continue;
-            }
-            params[key] = msg->data.entity_param(i).value();
-        }
-
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 

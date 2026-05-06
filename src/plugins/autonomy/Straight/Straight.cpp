@@ -238,16 +238,6 @@ bool Straight::step_autonomy(double t, double dt) {
             // to be generated in the mission file.
             msg->data.set_entity_tag("gen_straight");
 
-            // Modify the entity's color
-            auto kv_color = msg->data.add_entity_param();
-            kv_color->set_key("color");
-            kv_color->set_value("255, 255, 0");
-
-            // Modify the entity's visual model
-            auto kv_visual = msg->data.add_entity_param();
-            kv_visual->set_key("visual_model");
-            kv_visual->set_value("sphere");
-
             pub_gen_ents_->publish(msg);  // Publish the GenerateEntity message
         }
     }
