@@ -297,6 +297,11 @@ void OgreViewer::createGrid() {
     const int major_line_px = 2;
     const int minor_line_px = 0;
     const int feather_px = 1;
+    const float edge_uv_inset =
+        static_cast<float>(major_line_px + feather_px + 2) /
+        static_cast<float>(tex_size);
+    const float uv_min = edge_uv_inset;
+    const float uv_max = uv_repeat - edge_uv_inset;
 
     Ogre::TexturePtr grid_tex = Ogre::TextureManager::getSingleton().getByName(grid_tex_name, group);
     if (!grid_tex) {
@@ -387,13 +392,13 @@ void OgreViewer::createGrid() {
     Ogre::ManualObject* grid = scene_mgr_->createManualObject("Grid");
     grid->begin(grid_mat_name, Ogre::RenderOperation::OT_TRIANGLE_LIST);
     grid->position(-half_size, grid_plane_y, -half_size);
-    grid->textureCoord(0.0f, 0.0f);
+    grid->textureCoord(uv_min, uv_min);
     grid->position(half_size, grid_plane_y, -half_size);
-    grid->textureCoord(uv_repeat, 0.0f);
+    grid->textureCoord(uv_max, uv_min);
     grid->position(half_size, grid_plane_y, half_size);
-    grid->textureCoord(uv_repeat, uv_repeat);
+    grid->textureCoord(uv_max, uv_max);
     grid->position(-half_size, grid_plane_y, half_size);
-    grid->textureCoord(0.0f, uv_repeat);
+    grid->textureCoord(uv_min, uv_max);
     grid->triangle(0, 1, 2);
     grid->triangle(0, 2, 3);
     grid->end();
