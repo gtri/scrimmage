@@ -73,6 +73,9 @@ const std::set<std::string> kSensorRuntimeOverrideParams = {
     "xyz"
 };
 
+constexpr int kNoPluginNameFound = -1;
+constexpr int kDuplicatePluginNameFound = -2;
+
 }  // namespace
 
 bool is_plugin_name_override_key(const std::string& key) {
@@ -89,18 +92,19 @@ bool is_plugin_name_override_key(const std::string& key) {
 }
 
 // Resolve plugin_name to plugin_index within the given plugin type for an entity.
-// Returns -1 if name not found, -2 if name matches multiple plugins.
+// Returns kNoPluginNameFound if name not found,
+// kDuplicatePluginNameFound if name matches multiple plugins.
 static int resolve_plugin_name_to_index(
     MissionParsePtr mp,
     int ent_desc_id,
     const std::string& plugin_type,
     const std::string& plugin_name) {
     const auto plugins = mp->get_plugins_by_type(ent_desc_id, plugin_type);
-    int found_index = -1;
+    int found_index = kNoPluginNameFound;
     for (size_t i = 0; i < plugins.size(); ++i) {
         if (plugins[i].name == plugin_name) {
             if (found_index >= 0) {
-                return -2;  // Duplicate name found
+                return kDuplicatePluginNameFound;
             }
             found_index = static_cast<int>(i);
         }
@@ -126,13 +130,13 @@ bool parse_runtime_plugin_overrides(
         if (proto_override.has_plugin_name()) {
             resolved_index = resolve_plugin_name_to_index(
                 mp, ent_desc_id, proto_override.plugin_type(), proto_override.plugin_name());
-            if (resolved_index == -1) {
+            if (resolved_index == kNoPluginNameFound) {
                 LOG_ERROR("GenerateEntity: Plugin name '" << proto_override.plugin_name()
                          << "' not found in " << proto_override.plugin_type()
                          << " plugins for entity block " << ent_desc_id << ".");
                 return false;
             }
-            if (resolved_index == -2) {
+            if (resolved_index == kDuplicatePluginNameFound) {
                 LOG_ERROR("GenerateEntity: Plugin name '" << proto_override.plugin_name()
                          << "' matches multiple " << proto_override.plugin_type()
                          << " plugins. Use plugin_index to disambiguate.");
