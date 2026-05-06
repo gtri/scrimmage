@@ -30,8 +30,8 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VTK_UPDATER_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VTK_UPDATER_H_
 
 #include <Eigen/Eigen>
 #include <limits>
@@ -398,4 +398,4 @@ class Updater : public vtkCommand {
 };
 
 }  // namespace scrimmage
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_UPDATER_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VTK_UPDATER_H_

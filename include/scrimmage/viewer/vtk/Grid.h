@@ -30,56 +30,32 @@
  *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VTK_GRID_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VTK_GRID_H_
 
-#include <string>
+#include <list>
 
 #include <vtkActor.h>
-#include <vtkCellArray.h>
-#include <vtkCommand.h>
-#include <vtkInteractorStyleTrackballCamera.h>
-#include <vtkObjectFactory.h>
-#include <vtkPoints.h>
-#include <vtkPolyData.h>
+#include <vtkLineSource.h>
+#include <vtkPlaneSource.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
-#include <vtkVersion.h>
-
-#include "scrimmage/viewer/Updater.h"
 
 namespace scrimmage {
 
-// Define interaction style
-class CameraInterface : public vtkInteractorStyleTrackballCamera {
+class Grid {
  public:
-    CameraInterface();
+    void create(int size, double spacing, vtkSmartPointer<vtkRenderer>& renderer);
 
-    static CameraInterface* New();
-    // vtkTypeMacro(CameraInterface, vtkInteractorStyleTrackballCamera);
-
-    virtual void OnKeyPress();
-    virtual void OnLeftButtonDown();
-    virtual void OnLeftButtonUp();
-    virtual void Rotate();
-
-    virtual void OnMiddleButtonUp();
-    virtual void Pan();
-    virtual void Dolly();
-
-    void set_updater(vtkSmartPointer<Updater>& updater) { updater_ = updater; }
+    void remove();
 
  protected:
-    vtkSmartPointer<Updater> updater_;
-    bool enable_object_draw_ = false;
-    std::string last_key_;
+    vtkSmartPointer<vtkRenderer> renderer_;
+    std::list<vtkSmartPointer<vtkActor> > actors_;
 };
-// vtkStandardNewMacro(CameraInterface);
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_CAMERAINTERFACE_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VTK_GRID_H_

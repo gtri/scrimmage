@@ -34,10 +34,8 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#if ENABLE_VTK == 1
-#include "scrimmage/viewer/Viewer.h"
-#elif ENABLE_OGRE == 1
-#include "scrimmage/viewer/ogre/OgreViewer.h"
+#if ENABLE_VTK == 1 || ENABLE_OGRE == 1
+#include "scrimmage/viewer/ViewerFactory.h"
 #endif
 
 #include <chrono>  // NOLINT
@@ -247,12 +245,6 @@ int main(int argc, char* argv[]) {
     }
     mp->set_log_dir(output_dir);
 
-#if ENABLE_VTK == 1
-    sc::Viewer viewer;
-    viewer.set_enable_network(false);
-    viewer.set_incoming_interface(to_gui_interface);
-    viewer.set_outgoing_interface(from_gui_interface);
-
     double dt;
     if (log->frames().size() >= 2) {
         auto frame2 = *(std::next(log->frames().begin(), 1));
@@ -263,18 +255,23 @@ int main(int argc, char* argv[]) {
     }
     mp->set_dt(dt);
 
-    viewer.init(mp, {});
-    viewer.run();
-#elif ENABLE_OGRE == 1
-    sc::viewer::OgreViewer viewer;
-    viewer.set_enable_network(false);
-    viewer.set_incoming_interface(to_gui_interface);
-    viewer.set_outgoing_interface(from_gui_interface);
-    viewer.init(mp, {});
-    viewer.run();
+#if ENABLE_VTK == 1 || ENABLE_OGRE == 1
+    auto viewer = sc::create_viewer();
+    if (!viewer) {
+        cout << "No viewer available. Playback running without visualization." << endl;
+        while (!quit) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        return 0;
+    }
+
+    viewer->set_enable_network(false);
+    viewer->set_incoming_interface(to_gui_interface);
+    viewer->set_outgoing_interface(from_gui_interface);
+    viewer->init(mp, {});
+    viewer->run();
 #else
     cout << "No viewer available. Playback running without visualization." << endl;
-    // Sleep to let playback thread complete
     while (!quit) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

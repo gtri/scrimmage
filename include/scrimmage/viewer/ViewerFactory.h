@@ -19,43 +19,23 @@
  *
  *   You should have received a copy of the GNU Lesser General Public License
  *   along with SCRIMMAGE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @author Kevin DeMarco <kevin.demarco@gtri.gatech.edu>
- * @author Eric Squires <eric.squires@gtri.gatech.edu>
- * @date 31 July 2017
- * @version 0.1.0
- * @brief Brief file description.
- * @section DESCRIPTION
- * A Long description goes here.
- *
  */
 
-#ifndef INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
-#define INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#ifndef INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_
+#define INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_
 
-#include <list>
+#include <memory>
 
-#include <vtkActor.h>
-#include <vtkLineSource.h>
-#include <vtkPlaneSource.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkProperty.h>
-#include <vtkRenderer.h>
-#include <vtkSmartPointer.h>
+#include "scrimmage/viewer/Viewer.h"
 
 namespace scrimmage {
 
-class Grid {
- public:
-    void create(int size, double spacing, vtkSmartPointer<vtkRenderer>& renderer);
+enum class ViewerBackend { Default, Vtk, Ogre, None };
 
-    void remove();
-
- protected:
-    vtkSmartPointer<vtkRenderer> renderer_;
-    std::list<vtkSmartPointer<vtkActor> > actors_;
-};
+ViewerBackend default_viewer_backend();
+bool is_viewer_backend_available(ViewerBackend backend);
+std::shared_ptr<Viewer> create_viewer(ViewerBackend backend = ViewerBackend::Default);
 
 }  // namespace scrimmage
 
-#endif  // INCLUDE_SCRIMMAGE_VIEWER_GRID_H_
+#endif  // INCLUDE_SCRIMMAGE_VIEWER_VIEWERFACTORY_H_

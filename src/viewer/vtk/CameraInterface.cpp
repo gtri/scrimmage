@@ -29,7 +29,7 @@
  * A Long description goes here.
  *
  */
-#include "scrimmage/viewer/CameraInterface.h"
+#include "scrimmage/viewer/vtk/CameraInterface.h"
 
 #include <vtkRendererCollection.h>
 #include <vtkWorldPointPicker.h>

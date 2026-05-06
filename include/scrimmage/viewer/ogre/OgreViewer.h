@@ -37,10 +37,10 @@
 #include <string>
 #include <thread>
 
+#include "scrimmage/viewer/Viewer.h"
 #include "scrimmage/viewer/ogre/CameraController.h"
 #include "scrimmage/viewer/ogre/ContactRenderer.h"
 #include "scrimmage/viewer/ogre/MaterialPool.h"
-#include "scrimmage/viewer/ogre/RenderCommand.h"
 #include "scrimmage/viewer/ogre/ShapeRenderer.h"
 
 namespace scrimmage {
@@ -57,42 +57,43 @@ namespace viewer {
  * This class replaces the VTK-based Viewer. It uses OgreBites::ApplicationContext
  * for window management and input handling.
  */
-class OgreViewer : public OgreBites::ApplicationContext,
-                   public OgreBites::InputListener {
+class OgreViewer : public scrimmage::Viewer,
+               public OgreBites::ApplicationContext,
+               public OgreBites::InputListener {
  public:
     OgreViewer();
-    ~OgreViewer();
+   ~OgreViewer() override;
 
     /*
      *
      */
-    void set_incoming_interface(InterfacePtr& incoming_interface);
+      void set_incoming_interface(InterfacePtr& incoming_interface) override;
 
     /*
      *
      */
-    void set_outgoing_interface(InterfacePtr& outgoing_interface);
+      void set_outgoing_interface(InterfacePtr& outgoing_interface) override;
 
     /*
      *
      */
-    void set_enable_network(bool enable);
+      void set_enable_network(bool enable) override;
 
     /*
      *
      */
-    bool init(const std::shared_ptr<MissionParse>& mp,
-              const std::map<std::string, std::string>& camera_params);
+      bool init(const std::shared_ptr<MissionParse>& mp,
+              const std::map<std::string, std::string>& camera_params) override;
 
     /*
      *
      */
-    bool run();
+      bool run() override;
 
     /*
      *
      */
-    void shutdown();
+   void shutdown() override;
 
     // OgreBites::ApplicationContext overrides
     void setup() override;

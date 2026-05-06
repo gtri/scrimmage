@@ -36,7 +36,7 @@
 
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
-#include "scrimmage/viewer/Viewer.h"
+#include "scrimmage/viewer/vtk/VtkViewer.h"
 
 namespace sc = scrimmage;
 namespace po = boost::program_options;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     mp->set_dt(1.0e-6);
     mp->set_log_dir("");
 
-    sc::Viewer viewer;
+    sc::viewer::VtkViewer viewer;
     viewer.set_enable_network(true);
     viewer.set_incoming_interface(incoming_interface);
     viewer.set_outgoing_interface(outgoing_interface);

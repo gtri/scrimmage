@@ -52,11 +52,8 @@
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/simcontrol/SimControl.h"
 #include "scrimmage/simcontrol/SimUtils.h"
-#if ENABLE_VTK == 1
-#include "scrimmage/viewer/Viewer.h"
-#endif
-#if ENABLE_OGRE == 1
-#include "scrimmage/viewer/ogre/OgreViewer.h"
+#if ENABLE_VTK == 1 || ENABLE_OGRE == 1
+#include "scrimmage/viewer/ViewerFactory.h"
 #endif
 
 #include <boost/optional.hpp>
@@ -310,17 +307,26 @@ int main(int argc, char* argv[]) {
     (void)use_ogre;  // Unused when no viewer available
     simcontrol.pause(false);
 #else
-    // Runtime viewer selection
-#if ENABLE_VTK == 1
-    std::shared_ptr<scrimmage::Viewer> vtk_viewer = nullptr;
-#endif
-#if ENABLE_OGRE == 1
-    std::shared_ptr<scrimmage::viewer::OgreViewer> ogre_viewer = nullptr;
-#endif
+    std::shared_ptr<scrimmage::Viewer> viewer = nullptr;
 
     if (simcontrol.enable_gui()) {
-        // Start VNC if no display is available
-        if (!display_available()) {
+        const sc::ViewerBackend preferred_backend =
+            use_ogre && sc::is_viewer_backend_available(sc::ViewerBackend::Ogre)
+                ? sc::ViewerBackend::Ogre
+                : sc::ViewerBackend::Default;
+
+        const sc::ViewerBackend resolved_backend =
+            preferred_backend == sc::ViewerBackend::Default
+                ? sc::default_viewer_backend()
+                : preferred_backend;
+
+        if (resolved_backend == sc::ViewerBackend::Vtk && !display_available()) {
+            cerr << "failed to start vtk viewer." << endl;
+            return -1;
+        }
+
+        // Only Ogre uses the virtual display bootstrap.
+        if (resolved_backend == sc::ViewerBackend::Ogre && !display_available()) {
             if (!start_vnc_display()) {
                 cout << "Warning: Could not start VNC display, running without GUI" << endl;
                 simcontrol.pause(false);
@@ -338,49 +344,24 @@ int main(int argc, char* argv[]) {
             camera_params = it_camera->second;
         }
 
-#if ENABLE_OGRE == 1 && ENABLE_VTK == 1
-        // Both viewers available - select based on flag
-        if (use_ogre) {
-            ogre_viewer = std::make_shared<scrimmage::viewer::OgreViewer>();
-            ogre_viewer->set_incoming_interface(outgoing);
-            ogre_viewer->set_outgoing_interface(incoming);
-            ogre_viewer->set_enable_network(false);
-            if (!ogre_viewer->init(simcontrol.mp(), camera_params)) {
-                return -1;
-            }
-            viewer_thread = std::make_shared<std::thread>([&]() { ogre_viewer->run(); });
-        } else {
-            vtk_viewer = std::make_shared<scrimmage::Viewer>();
-            vtk_viewer->set_incoming_interface(outgoing);
-            vtk_viewer->set_outgoing_interface(incoming);
-            vtk_viewer->set_enable_network(false);
-            if (!vtk_viewer->init(simcontrol.mp(), camera_params)) {
-                return -1;
-            }
-            viewer_thread = std::make_shared<std::thread>([&]() { vtk_viewer->run(); });
+#if ENABLE_OGRE == 1 || ENABLE_VTK == 1
+        viewer = sc::create_viewer(preferred_backend);
+        if (!viewer) {
+            cout << "Warning: Could not create a viewer backend, running without GUI" << endl;
+            simcontrol.pause(false);
+            goto skip_viewer;
         }
-#elif ENABLE_OGRE == 1
-        // Only Ogre available
-        (void)use_ogre;
-        ogre_viewer = std::make_shared<scrimmage::viewer::OgreViewer>();
-        ogre_viewer->set_incoming_interface(outgoing);
-        ogre_viewer->set_outgoing_interface(incoming);
-        ogre_viewer->set_enable_network(false);
-        if (!ogre_viewer->init(simcontrol.mp(), camera_params)) {
+
+        viewer->set_incoming_interface(outgoing);
+        viewer->set_outgoing_interface(incoming);
+        viewer->set_enable_network(false);
+        if (!viewer->init(simcontrol.mp(), camera_params)) {
+            if (resolved_backend == sc::ViewerBackend::Vtk) {
+                cerr << "Failed to start vtk viewer." << endl;
+            }
             return -1;
         }
-        viewer_thread = std::make_shared<std::thread>([&]() { ogre_viewer->run(); });
-#elif ENABLE_VTK == 1
-        // Only VTK available
-        (void)use_ogre;
-        vtk_viewer = std::make_shared<scrimmage::Viewer>();
-        vtk_viewer->set_incoming_interface(outgoing);
-        vtk_viewer->set_outgoing_interface(incoming);
-        vtk_viewer->set_enable_network(false);
-        if (!vtk_viewer->init(simcontrol.mp(), camera_params)) {
-            return -1;
-        }
-        viewer_thread = std::make_shared<std::thread>([&]() { vtk_viewer->run(); });
+        viewer_thread = std::make_shared<std::thread>([viewer]() { viewer->run(); });
 #endif
     } else {
         // If the GUI isn't enabled, un-pause by default.

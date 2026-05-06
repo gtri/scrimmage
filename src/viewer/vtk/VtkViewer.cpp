@@ -30,8 +30,9 @@
  *
  */
 
-#include "scrimmage/viewer/Viewer.h"
+#include "scrimmage/viewer/vtk/VtkViewer.h"
 
+#include <cstdlib>
 #include <sstream>
 
 #include <boost/algorithm/string.hpp>
@@ -41,26 +42,27 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/MissionParse.h"
 #include "scrimmage/parse/ParseUtils.h"
-#include "scrimmage/viewer/CameraInterface.h"
-#include "scrimmage/viewer/Updater.h"
+#include "scrimmage/viewer/vtk/CameraInterface.h"
+#include "scrimmage/viewer/vtk/Updater.h"
 
 namespace scrimmage {
+namespace viewer {
 
-Viewer::Viewer() : enable_network_(false) {}
+VtkViewer::VtkViewer() : enable_network_(false) {}
 
-void Viewer::set_incoming_interface(InterfacePtr& incoming_interface) {
+void VtkViewer::set_incoming_interface(InterfacePtr& incoming_interface) {
     incoming_interface_ = incoming_interface;
 }
 
-void Viewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
+void VtkViewer::set_outgoing_interface(InterfacePtr& outgoing_interface) {
     outgoing_interface_ = outgoing_interface;
 }
 
-void Viewer::set_enable_network(bool enable) {
+void VtkViewer::set_enable_network(bool enable) {
     enable_network_ = enable;
 }
 
-bool Viewer::init(
+bool VtkViewer::init(
     const std::shared_ptr<MissionParse>& mp,
     const std::map<std::string, std::string>& camera_params) {
 
@@ -117,7 +119,7 @@ bool Viewer::init(
     return true;
 }
 
-bool Viewer::run() {
+bool VtkViewer::run() {
     double update_rate = 50;  // Hz
 
     if (enable_network_) {
@@ -217,4 +219,5 @@ bool Viewer::run() {
     return true;
 }
 
+}  // namespace viewer
 }  // namespace scrimmage

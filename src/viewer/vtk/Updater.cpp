@@ -30,7 +30,7 @@
  *
  */
 
-#include "scrimmage/viewer/Updater.h"
+#include "scrimmage/viewer/vtk/Updater.h"
 
 #include <iostream>
 #include <sstream>
@@ -85,8 +85,8 @@
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/proto/ProtoConversions.h"
-#include "scrimmage/viewer/Grid.h"
-#include "scrimmage/viewer/OriginAxes.h"
+#include "scrimmage/viewer/vtk/Grid.h"
+#include "scrimmage/viewer/vtk/OriginAxes.h"
 
 #if VTK_MAJOR_VERSION > 6
 #include <vtkCellLocator.h>
