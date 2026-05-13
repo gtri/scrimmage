@@ -169,6 +169,8 @@ bool External::create_entity(
     sim_info.id_to_ent_map = id_to_ent_map_;
     sim_info.proj = mp_->projection();
     sim_info.global_services = global_services_;
+    sim_info.param_server = param_server_;
+    sim_info.contacts = contacts;
 
     auto plugin_tags = str2container<std::set<std::string>>(plugin_tags_str, ", ");
 
