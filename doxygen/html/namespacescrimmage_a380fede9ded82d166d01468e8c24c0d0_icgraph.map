@@ -1,0 +1,9 @@
+<map id="scrimmage::escape_csv_field" name="scrimmage::escape_csv_field">
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,55,420,95"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="7,5,191,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,55,151,33,152,28,237,49"/>
+<area shape="rect" id="Node000016" href="$classscrimmage_1_1CSV.html#ac0cc34b2ab5b60821403b8b0b140fdf4" title=" " alt="" coords="5,55,193,95"/>
+<area shape="poly" id="edge2_Node000001_Node000016" title=" " alt="" coords="227,78,193,78,193,73,227,73"/>
+<area shape="rect" id="Node000036" href="$classscrimmage_1_1CSV.html#ad8675ee772fcba677c575b313e4a6cb7" title=" " alt="" coords="19,119,179,159"/>
+<area shape="poly" id="edge3_Node000001_Node000036" title=" " alt="" coords="245,102,173,122,171,117,244,96"/>
+</map>

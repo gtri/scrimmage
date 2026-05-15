@@ -121,7 +121,7 @@ parameter in your plugin’s <code class="docutils literal notranslate"><span cl
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">set_param</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;desired_z&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">100.0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>while will have the affect of directly modifying the value of <code class="docutils literal notranslate"><span class="pre">desired_z_</span></code> in
+<p>which will have the affect of directly modifying the value of <code class="docutils literal notranslate"><span class="pre">desired_z_</span></code> in
 the plugin that registered that parameter. If you require a callback function
 when the parameter value is updated, you can use the optional callback form of
 the <code class="docutils literal notranslate"><span class="pre">register_param()</span></code> function:</p>

@@ -1,7 +1,7 @@
 <map id="scrimmage::autonomy::APITester" name="scrimmage::autonomy::APITester">
-<area shape="rect" id="Node000001" title=" " alt="" coords="128,653,309,893"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="125,653,307,893"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1Autonomy.html" title=" " alt="" coords="5,35,211,561"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,573,193,653,188,654,170,575"/>
-<area shape="rect" id="Node000091" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="235,5,423,591"/>
-<area shape="poly" id="edge2_Node000001_Node000091" title=" " alt="" coords="264,592,253,638,248,637,258,590"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,573,191,653,186,654,168,575"/>
+<area shape="rect" id="Node000091" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="235,5,413,591"/>
+<area shape="poly" id="edge2_Node000001_Node000091" title=" " alt="" coords="260,592,249,638,244,637,255,590"/>
 </map>

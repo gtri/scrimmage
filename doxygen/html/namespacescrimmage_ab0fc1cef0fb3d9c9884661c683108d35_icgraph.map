@@ -1,7 +1,5 @@
 <map id="scrimmage::remove_whitespace" name="scrimmage::remove_whitespace">
-<area shape="rect" id="Node000001" title=" " alt="" coords="241,45,476,70"/>
-<area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#ac0f9f82700aece4784033283a479d1c6" title=" " alt="" coords="17,5,182,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="242,46,182,38,183,33,243,40"/>
-<area shape="rect" id="Node000005" href="$classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title=" " alt="" coords="5,69,193,109"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="242,74,194,80,193,75,242,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,13,476,38"/>
+<area shape="rect" id="Node000002" href="$classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title=" " alt="" coords="5,5,193,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="228,28,194,28,194,23,228,23"/>
 </map>

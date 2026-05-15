@@ -477,15 +477,15 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   96</span> </div>
 <div class="line"><span class="lineno">   97</span>    csv.set_column_headers(<span class="stringliteral">&quot;id, reward&quot;</span>);</div>
 <div class="line"><span class="lineno">   98</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html#a818ee7418481d536fb25cc20d2782adf">rewards_</a>) {</div>
-<div class="line"><span class="lineno">   99</span>        csv.append(<a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">CSV::Pairs</a>{{<span class="stringliteral">&quot;id&quot;</span>, kv.first}, {<span class="stringliteral">&quot;reward&quot;</span>, kv.second}});</div>
+<div class="line"><span class="lineno">   99</span>        csv.append(<a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ac5bde453f12fb56214ae040f9df34bf3">CSV::Pairs</a>{{<span class="stringliteral">&quot;id&quot;</span>, kv.first}, {<span class="stringliteral">&quot;reward&quot;</span>, kv.second}});</div>
 <div class="line"><span class="lineno">  100</span>    }</div>
 <div class="line"><span class="lineno">  101</span>    csv.close_output();</div>
 <div class="line"><span class="lineno">  102</span>}</div>
 <div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_ad547dee804921ef5ac99ecb505a27162"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">scrimmage::CSV::Pairs</a></div><div class="ttdeci">std::list&lt; std::pair&lt; std::string, double &gt; &gt; Pairs</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00048">CSV.h:48</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_ac5bde453f12fb56214ae040f9df34bf3"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ac5bde453f12fb56214ae040f9df34bf3">scrimmage::CSV::Pairs</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, PossibleVariantTypes &gt; &gt; Pairs</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00086">CSV.h:86</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_aa3248e48b5464b154d3ef368b5ad914d"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#aa3248e48b5464b154d3ef368b5ad914d">scrimmage::EntityPlugin::parent_</a></div><div class="ttdeci">EntityPtr parent_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00188">EntityPlugin.h:188</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00074">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00107">scrimmage::CSV::close_output()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="CSV_8cpp_source.html#l00098">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>, and <a class="el" href="CSV_8cpp_source.html#l00051">scrimmage::CSV::set_column_headers()</a>.</p>
+<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00195">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00228">scrimmage::CSV::close_output()</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="CSV_8cpp_source.html#l00219">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="OpenAIRewards_8h_source.html#l00054">rewards_</a>, and <a class="el" href="CSV_8cpp_source.html#l00163">scrimmage::CSV::set_column_headers()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -566,7 +566,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1metrics.html">metrics</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1metrics_1_1OpenAIRewards.html">OpenAIRewards</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -28,7 +28,7 @@ var searchData=
   ['get_5fcontact_5fvisuals_25',['get_contact_visuals',['../classscrimmage_1_1SimControl.html#ab2e3113e0cd526e9d16fb1fb437bc4d6',1,'scrimmage::SimControl']]],
   ['get_5fcontacts_26',['get_contacts',['../classscrimmage_1_1Autonomy.html#a733cbb1badf4c16e923b5f5bdd169899',1,'scrimmage::Autonomy::get_contacts()'],['../classscrimmage_1_1SimControl.html#a2c1c25e20b03a6464c068c3ff691f82b',1,'scrimmage::SimControl::get_contacts()']]],
   ['get_5fcontacts_5fraw_27',['get_contacts_raw',['../classscrimmage_1_1Autonomy.html#a8136a1c2e538f377363c5c7790b5806d',1,'scrimmage::Autonomy']]],
-  ['get_5fcsv_5fline_5felements_28',['get_csv_line_elements',['../classscrimmage_1_1CSV.html#a530aa1889d93e5c0dd4529be25314a8c',1,'scrimmage::CSV']]],
+  ['get_5fcsv_5fstring_28',['get_csv_string',['../classscrimmage_1_1CSV.html#a0b8309cdc0c59fab5c28a7ec4907a55e',1,'scrimmage::CSV']]],
   ['get_5fdelta_5ftheta_29',['get_delta_theta',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#ade87f4f2b25d40cf707a21a6aa00d891',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['get_5fdeltav_30',['get_deltaV',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#aacdf28a891ddc080f4bcb83ab49b7af7',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['get_5fentity_31',['get_entity',['../classscrimmage_1_1interaction_1_1BulletCollision.html#a3af89281aa8b86970aed13189a75fdff',1,'scrimmage::interaction::BulletCollision']]],

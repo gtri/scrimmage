@@ -2,20 +2,20 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,247,163,287"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="224,5,408,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,246,102,203,126,148,162,90,184,64,209,41,220,34,223,39,212,45,188,68,166,93,131,150,107,205,93,248"/>
-<area shape="rect" id="Node000005" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="231,55,401,95"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="94,245,138,177,171,138,209,105,219,99,222,104,212,109,174,142,142,180,98,248"/>
-<area shape="rect" id="Node000006" href="$classscrimmage_1_1MotionModel.html#ac517470af8e0f4c6d9a0442f064faa43" title=" " alt="" coords="222,119,410,159"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="105,245,151,207,209,169,224,162,226,167,212,174,154,211,108,249"/>
-<area shape="rect" id="Node000008" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="229,183,403,223"/>
-<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="157,245,229,224,231,230,158,250"/>
-<area shape="rect" id="Node000009" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="229,247,403,287"/>
-<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="163,265,215,265,215,270,163,270"/>
-<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="229,311,403,351"/>
-<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="158,285,231,305,229,310,157,290"/>
-<area shape="rect" id="Node000011" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="229,375,403,415"/>
-<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="108,286,154,324,212,361,226,368,224,373,209,366,151,328,105,290"/>
-<area shape="rect" id="Node000012" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title=" " alt="" coords="215,440,417,465"/>
-<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="98,286,115,317,141,355,174,393,212,425,225,432,223,437,209,430,170,397,137,358,111,320,93,289"/>
-<area shape="rect" id="Node000013" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="211,489,421,515"/>
-<area shape="poly" id="edge9_Node000001_Node000013" title=" " alt="" coords="94,287,109,327,133,378,168,431,189,454,212,475,223,481,220,486,209,479,185,458,164,434,129,381,104,329,89,289"/>
+<area shape="rect" id="Node000007" href="$classscrimmage_1_1VariableIO.html#a33f3e84630b1ba1839f8c9e0f4ecf46c" title=" " alt="" coords="231,55,401,95"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="94,245,138,177,171,138,209,105,219,99,222,104,212,109,174,142,142,180,98,248"/>
+<area shape="rect" id="Node000008" href="$classscrimmage_1_1MotionModel.html#ac517470af8e0f4c6d9a0442f064faa43" title=" " alt="" coords="222,119,410,159"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="105,245,151,207,209,169,224,162,226,167,212,174,154,211,108,249"/>
+<area shape="rect" id="Node000010" href="$classscrimmage_1_1Quaternion.html#ac74c525d8f2a918e3eb33dce58d8a7dd" title="return euler angle pitch" alt="" coords="229,183,403,223"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="157,245,229,224,231,230,158,250"/>
+<area shape="rect" id="Node000011" href="$classscrimmage_1_1Quaternion.html#a7f47680c4b89f79743997f4e56ba0f44" title="return euler angle roll" alt="" coords="229,247,403,287"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="163,265,215,265,215,270,163,270"/>
+<area shape="rect" id="Node000012" href="$classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="229,311,403,351"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="158,285,231,305,229,310,157,290"/>
+<area shape="rect" id="Node000013" href="$classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09" title="rotate the input vector around the vec axis by an angle given by RotationAngle(). This can also be us..." alt="" coords="229,375,403,415"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="108,286,154,324,212,361,226,368,224,373,209,366,151,328,105,290"/>
+<area shape="rect" id="Node000014" href="$classscrimmage_1_1Quaternion.html#a3e320175db85299e28ff6752f510f80d" title=" " alt="" coords="215,440,417,465"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="98,286,115,317,141,355,174,393,212,425,225,432,223,437,209,430,170,397,137,358,111,320,93,289"/>
+<area shape="rect" id="Node000015" href="$classscrimmage_1_1Quaternion.html#a569825e4f30d93db2599c4ae0c3d7ec7" title="return euler angle yaw" alt="" coords="211,489,421,515"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="94,287,109,327,133,378,168,431,189,454,212,475,223,481,220,486,209,479,185,458,164,434,129,381,104,329,89,289"/>
 </map>

@@ -99,29 +99,48 @@ $(document).ready(function(){initNavTree('CSV_8h.html',''); initResizable(); });
 <p>Brief file description.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;list&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
+<code>#include &quot;<a class="el" href="ParseUtils_8h_source.html">scrimmage/parse/ParseUtils.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for CSV.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="CSV_8h__incl.png" border="0" usemap="#a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2common_2CSV_8h" alt=""/></div>
 <map name="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2common_2CSV_8h" id="a_2root_2scrimmage_2scrimmage_2include_2scrimmage_2common_2CSV_8h">
-<area shape="rect" title="Brief file description." alt="" coords="114,5,365,45"/>
+<area shape="rect" title="Brief file description." alt="" coords="390,5,641,45"/>
 <area shape="rect" title=" " alt="" coords="5,93,79,119"/>
-<area shape="poly" title=" " alt="" coords="193,48,85,91,83,86,191,43"/>
-<area shape="rect" title=" " alt="" coords="103,93,146,119"/>
-<area shape="poly" title=" " alt="" coords="213,48,154,88,151,83,210,43"/>
-<area shape="rect" title=" " alt="" coords="170,93,221,119"/>
-<area shape="poly" title=" " alt="" coords="231,47,211,83,206,80,226,44"/>
-<area shape="rect" title=" " alt="" coords="245,93,322,119"/>
-<area shape="poly" title=" " alt="" coords="252,44,272,80,268,83,248,47"/>
-<area shape="rect" title=" " alt="" coords="346,93,405,119"/>
-<area shape="poly" title=" " alt="" coords="273,43,345,84,342,89,271,48"/>
-<area shape="rect" title=" " alt="" coords="429,93,489,119"/>
-<area shape="poly" title=" " alt="" coords="293,43,417,87,415,92,291,48"/>
+<area shape="poly" title=" " alt="" coords="390,47,251,68,93,96,92,91,250,63,389,41"/>
+<area shape="rect" title=" " alt="" coords="103,93,178,119"/>
+<area shape="poly" title=" " alt="" coords="422,48,192,96,191,90,421,43"/>
+<area shape="rect" title=" " alt="" coords="202,93,282,119"/>
+<area shape="poly" title=" " alt="" coords="451,48,296,92,294,87,449,43"/>
+<area shape="rect" title=" " alt="" coords="333,167,375,192"/>
+<area shape="poly" title=" " alt="" coords="459,48,421,68,388,95,371,124,361,154,356,152,366,122,384,92,418,63,457,43"/>
+<area shape="rect" title=" " alt="" coords="418,167,469,192"/>
+<area shape="poly" title=" " alt="" coords="456,48,423,67,409,80,398,94,394,110,398,126,421,156,416,159,393,128,388,110,393,92,405,76,420,63,453,43"/>
+<area shape="rect" title=" " alt="" coords="502,167,579,192"/>
+<area shape="poly" title=" " alt="" coords="578,43,611,63,626,76,638,92,642,103,642,114,630,134,610,150,586,163,584,159,607,146,626,130,636,113,637,104,633,95,622,80,608,67,575,48"/>
+<area shape="rect" title=" " alt="" coords="749,93,823,119"/>
+<area shape="poly" title=" " alt="" coords="581,43,736,88,735,93,579,48"/>
+<area shape="rect" title=" " alt="" coords="655,167,714,192"/>
+<area shape="poly" title=" " alt="" coords="582,43,622,63,657,92,675,121,684,152,679,154,670,124,653,95,619,67,580,48"/>
+<area shape="rect" title=" " alt="" coords="848,93,908,119"/>
+<area shape="poly" title=" " alt="" coords="612,43,835,91,834,96,611,48"/>
+<area shape="rect" title=" " alt="" coords="932,93,1000,119"/>
+<area shape="poly" title=" " alt="" coords="641,42,771,63,919,90,918,96,771,68,640,47"/>
+<area shape="rect" href="ParseUtils_8h.html" title="Brief file description." alt="" coords="407,93,623,119"/>
+<area shape="poly" title=" " alt="" coords="518,46,518,79,513,79,513,46"/>
+<area shape="poly" title=" " alt="" coords="490,121,389,165,387,161,488,116"/>
+<area shape="poly" title=" " alt="" coords="505,121,467,159,463,155,502,117"/>
+<area shape="poly" title=" " alt="" coords="522,118,535,153,530,155,517,120"/>
+<area shape="poly" title=" " alt="" coords="544,116,645,159,643,164,542,121"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -168,11 +187,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structanonymous__namespace_02CSV_8h_03_1_1StringifyVisitor.html">anonymous_namespace{CSV.h}::StringifyVisitor</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classscrimmage_1_1CSV.html">scrimmage::CSV</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
+<tr class="memitem:namespaceanonymous__namespace_02CSV_8h_03" id="r_namespaceanonymous__namespace_02CSV_8h_03"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceanonymous__namespace_02CSV_8h_03.html">anonymous_namespace{CSV.h}</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacescrimmage" id="r_namespacescrimmage"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html">scrimmage</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -201,7 +224,7 @@ DESCRIPTION</h1>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_ecf48bde53b2430882a9b9ec48e1b42d.html">scrimmage</a></li><li class="navelem"><a class="el" href="dir_edb592701dc45cc21f3d1cc2e72efe9a.html">common</a></li><li class="navelem"><a class="el" href="CSV_8h.html">CSV.h</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:45 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

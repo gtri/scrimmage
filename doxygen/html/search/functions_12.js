@@ -62,7 +62,7 @@ var searchData=
   ['roscontrol_59',['ROSControl',['../classscrimmage_1_1autonomy_1_1ROSControl.html#ad4135086ff5d02e12e865320cb9b491e',1,'scrimmage::autonomy::ROSControl']]],
   ['rosimusensor_60',['ROSIMUSensor',['../classscrimmage_1_1sensor_1_1ROSIMUSensor.html#a0a26e2a508a981e2d0fdf162edd762c7',1,'scrimmage::sensor::ROSIMUSensor']]],
   ['rosshapeviz_61',['ROSShapeViz',['../classscrimmage_1_1interaction_1_1ROSShapeViz.html#a1734211f55862ab7a2474745eaa7bd3c',1,'scrimmage::interaction::ROSShapeViz']]],
-  ['rotate_62',['rotate',['../classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9',1,'scrimmage::Quaternion::rotate()'],['../classscrimmage_1_1CameraInterface.html#abd71e7e457deeeddb87f8f85ebd661fe',1,'scrimmage::CameraInterface::Rotate()']]],
+  ['rotate_62',['rotate',['../classscrimmage_1_1CameraInterface.html#abd71e7e457deeeddb87f8f85ebd661fe',1,'scrimmage::CameraInterface::Rotate()'],['../classscrimmage_1_1Quaternion.html#a5bafb37e82046f3b2a8bba87350550b9',1,'scrimmage::Quaternion::rotate(const Eigen::Vector3d &amp;vec) const']]],
   ['rotate_5freverse_63',['rotate_reverse',['../classscrimmage_1_1Quaternion.html#a64b11e90cc434f801da4ff70f4fdbf09',1,'scrimmage::Quaternion']]],
   ['rotation_5fangle_64',['rotation_angle',['../classscrimmage_1_1Quaternion.html#a251949e95ab2ad689fb7788b65164426',1,'scrimmage::Quaternion']]],
   ['rotor_65',['Rotor',['../classscrimmage_1_1motion_1_1Rotor.html#a4616d6622f3a68f9344e9329b3352aea',1,'scrimmage::motion::Rotor']]],

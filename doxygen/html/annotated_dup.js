@@ -1,5 +1,8 @@
 var annotated_dup =
 [
+    [ "anonymous_namespace{CSV.h}", "namespaceanonymous__namespace_02CSV_8h_03.html", [
+      [ "StringifyVisitor", "structanonymous__namespace_02CSV_8h_03_1_1StringifyVisitor.html", "structanonymous__namespace_02CSV_8h_03_1_1StringifyVisitor" ]
+    ] ],
     [ "anonymous_namespace{Topic.cpp}", "namespaceanonymous__namespace_02Topic_8cpp_03.html", [
       [ "Topic", "classanonymous__namespace_02Topic_8cpp_03_1_1Topic.html", "classanonymous__namespace_02Topic_8cpp_03_1_1Topic" ]
     ] ],

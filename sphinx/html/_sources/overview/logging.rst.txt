@@ -145,10 +145,10 @@ Print out the data from the CSV file:
    :linenos:
 
    for (int r = 0; r < csv.rows(); r++) {
-      cout << "t: " << csv.at(r, "t") << endl;
-      cout << "x: " << csv.at(r, "x") << endl;
-      cout << "y: " << csv.at(r, "y") << endl;
-      cout << "z: " << csv.at(r, "z") << endl;
+      cout << "t: " << csv.at<double>(r, "t") << endl;
+      cout << "x: " << csv.at<double>(r, "x") << endl;
+      cout << "y: " << csv.at<double>(r, "y") << endl;
+      cout << "z: " << csv.at<double>(r, "z") << endl;
    }
 
 Real-time Plotting from CSV

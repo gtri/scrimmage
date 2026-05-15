@@ -632,6 +632,12 @@ Functions</h2></td></tr>
 <tr class="separator:ab358b3718f38b28542d2020a92a52ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a140b8e00faecb98017d438ad4b1a64a1" id="r_a140b8e00faecb98017d438ad4b1a64a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classboost_1_1optional.html">boost::optional</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a140b8e00faecb98017d438ad4b1a64a1">run_test</a> (const std::string &amp;mission, const bool &amp;init_python=true, const bool &amp;shutdown_python=true)</td></tr>
 <tr class="separator:a140b8e00faecb98017d438ad4b1a64a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a380fede9ded82d166d01468e8c24c0d0" id="r_a380fede9ded82d166d01468e8c24c0d0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a380fede9ded82d166d01468e8c24c0d0">escape_csv_field</a> (std::string_view field)</td></tr>
+<tr class="separator:a380fede9ded82d166d01468e8c24c0d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0706c1dc3e1641f7fed9089d33b01bae" id="r_a0706c1dc3e1641f7fed9089d33b01bae"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a0706c1dc3e1641f7fed9089d33b01bae">unescape_csv_field</a> (std::string_view field)</td></tr>
+<tr class="separator:a0706c1dc3e1641f7fed9089d33b01bae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9fae50c84c4ad2459a8454d9ff32318" id="r_ab9fae50c84c4ad2459a8454d9ff32318"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#ab9fae50c84c4ad2459a8454d9ff32318">split_csv_string</a> (std::string_view row, const char token)</td></tr>
+<tr class="separator:ab9fae50c84c4ad2459a8454d9ff32318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1702bfe679fa966a84511adc542de86a" id="r_a1702bfe679fa966a84511adc542de86a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a1702bfe679fa966a84511adc542de86a">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classscrimmage_1_1CSV.html">CSV</a> &amp;csv)</td></tr>
 <tr class="separator:a1702bfe679fa966a84511adc542de86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a967fbce00cd8db5d267310b995ce329e" id="r_a967fbce00cd8db5d267310b995ce329e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacescrimmage.html#a967fbce00cd8db5d267310b995ce329e">operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classscrimmage_1_1ID.html">ID</a> &amp;id)</td></tr>
@@ -3292,7 +3298,7 @@ template&lt;class T1 , class T2  = T1&gt; </div>
 <div class="line"><span class="lineno">   90</span>    <span class="keywordflow">return</span> it == map.end() ? default_val : convert&lt;T2&gt;(it-&gt;second);</div>
 <div class="line"><span class="lineno">   91</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01705">scrimmage::SimControl::add_tasks()</a>, <a class="el" href="SimControl_8cpp_source.html#l00342">scrimmage::SimControl::generate_entity()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00223">get_vec()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00061">scrimmage::motion::RigidBody6DOF::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00059">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="Boundary_8cpp_source.html#l00063">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00059">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00054">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00082">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00918">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00081">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="RandomAttrit_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCapture_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="Viewer_8cpp_source.html#l00120">scrimmage::Viewer::run()</a>, <a class="el" href="External_8cpp_source.html#l00272">scrimmage::External::setup_logging()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00793">scrimmage::SimControl::start()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01705">scrimmage::SimControl::add_tasks()</a>, <a class="el" href="SimControl_8cpp_source.html#l00342">scrimmage::SimControl::generate_entity()</a>, <a class="el" href="ParseUtils_8cpp_source.html#l00223">get_vec()</a>, <a class="el" href="Entity_8cpp_source.html#l00070">scrimmage::Entity::init()</a>, <a class="el" href="RigidBody6DOF_8cpp_source.html#l00061">scrimmage::motion::RigidBody6DOF::init()</a>, <a class="el" href="SimpleAircraft_8cpp_source.html#l00059">scrimmage::motion::SimpleAircraft::init()</a>, <a class="el" href="Boundary_8cpp_source.html#l00063">scrimmage::interaction::Boundary::init()</a>, <a class="el" href="AutonomyExecutor_8cpp_source.html#l00059">scrimmage::autonomy::AutonomyExecutor::init()</a>, <a class="el" href="Boids_8cpp_source.html#l00054">scrimmage::autonomy::Boids::init()</a>, <a class="el" href="GraphvizFSM_8cpp_source.html#l00056">scrimmage::autonomy::GraphvizFSM::init()</a>, <a class="el" href="MotorSchemas_8cpp_source.html#l00070">scrimmage::autonomy::MotorSchemas::init()</a>, <a class="el" href="Straight_8cpp_source.html#l00082">scrimmage::autonomy::Straight::init()</a>, <a class="el" href="MissionParse_8cpp_source.html#l00918">scrimmage::MissionParse::parse_terrain()</a>, <a class="el" href="MoveToGoalMS_8cpp_source.html#l00054">REGISTER_PLUGIN()</a>, <a class="el" href="JSBSimModelControllerHeadingPID_8cpp_source.html#l00041">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleQuadrotorControllerLQR_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="BulletCollision_8cpp_source.html#l00081">REGISTER_PLUGIN()</a>, <a class="el" href="ExternalForceField_8cpp_source.html#l00055">REGISTER_PLUGIN()</a>, <a class="el" href="GroundCollision_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="RandomAttrit_8cpp_source.html#l00049">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCapture_8cpp_source.html#l00051">REGISTER_PLUGIN()</a>, <a class="el" href="SimpleCollision_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="TerrainGenerator_8cpp_source.html#l00052">REGISTER_PLUGIN()</a>, <a class="el" href="SingleIntegrator_8cpp_source.html#l00042">REGISTER_PLUGIN()</a>, <a class="el" href="Viewer_8cpp_source.html#l00120">scrimmage::Viewer::run()</a>, <a class="el" href="External_8cpp_source.html#l00274">scrimmage::External::setup_logging()</a>, and <a class="el" href="SimControl_8cpp_source.html#l00793">scrimmage::SimControl::start()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -3443,17 +3449,15 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  266</span>    <span class="keywordflow">return</span> result;</div>
 <div class="line"><span class="lineno">  267</span>}</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="CSV_8cpp_source.html#l00214">scrimmage::CSV::read_csv_from_string()</a>, and <a class="el" href="MissionParse_8cpp_source.html#l00065">scrimmage::MissionParse::set_overrides()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="MissionParse_8cpp_source.html#l00065">scrimmage::MissionParse::set_overrides()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacescrimmage_ab0fc1cef0fb3d9c9884661c683108d35_icgraph.png" border="0" usemap="#anamespacescrimmage_ab0fc1cef0fb3d9c9884661c683108d35_icgraph" alt=""/></div>
 <map name="anamespacescrimmage_ab0fc1cef0fb3d9c9884661c683108d35_icgraph" id="anamespacescrimmage_ab0fc1cef0fb3d9c9884661c683108d35_icgraph">
-<area shape="rect" title=" " alt="" coords="241,45,476,70"/>
-<area shape="rect" href="classscrimmage_1_1CSV.html#ac0f9f82700aece4784033283a479d1c6" title=" " alt="" coords="17,5,182,45"/>
-<area shape="poly" title=" " alt="" coords="242,46,182,38,183,33,243,40"/>
-<area shape="rect" href="classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title=" " alt="" coords="5,69,193,109"/>
-<area shape="poly" title=" " alt="" coords="242,74,194,80,193,75,242,69"/>
+<area shape="rect" title=" " alt="" coords="241,13,476,38"/>
+<area shape="rect" href="classscrimmage_1_1MissionParse.html#a35d75b694ef9d4f68073965ff5f38614" title=" " alt="" coords="5,5,193,45"/>
+<area shape="poly" title=" " alt="" coords="228,28,194,28,194,23,228,23"/>
 </map>
 </div>
 
@@ -6849,7 +6853,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda99b4a8bfcb7ebe3195f12cce2b9594bf">scrimmage::Contact::AIRCRAFT</a>, <a class="el" href="ID_8cpp_source.html#l00056">scrimmage::ID::id()</a>, <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda5b65fe46c5dd90ebcec69c472c3be1d9">scrimmage::Contact::MESH</a>, <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abdabb054dc5eabd9c9e008eb7804df0fcd1">scrimmage::Contact::QUADROTOR</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00048">set()</a>, and <a class="el" href="classscrimmage_1_1Contact.html#ade240ada65425807a5d32a779c8a6abda6f7cea7381e843e2ee0338b4a92b0d43">scrimmage::Contact::SPHERE</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00622">scrimmage::SimControl::run_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00286">scrimmage::External::step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l00622">scrimmage::SimControl::run_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00288">scrimmage::External::step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -7319,7 +7323,7 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  183</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1MessageBase_html"><div class="ttname"><a href="classscrimmage_1_1MessageBase.html">scrimmage::MessageBase</a></div><div class="ttdef"><b>Definition</b> <a href="MessageBase_8h_source.html#l00041">MessageBase.h:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01735">scrimmage::SimControl::run_entities()</a>, <a class="el" href="SimControl_8cpp_source.html#l00557">scrimmage::SimControl::run_interaction_detection()</a>, <a class="el" href="SimControl_8cpp_source.html#l00606">scrimmage::SimControl::run_metrics()</a>, <a class="el" href="SimControl_8cpp_source.html#l01673">scrimmage::SimControl::run_sensors()</a>, <a class="el" href="SimControl_8cpp_source.html#l00661">scrimmage::SimControl::run_single_step()</a>, <a class="el" href="External_8cpp_source.html#l00385">scrimmage::External::send_messages()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01587">scrimmage::SimControl::worker()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SimControl_8cpp_source.html#l01735">scrimmage::SimControl::run_entities()</a>, <a class="el" href="SimControl_8cpp_source.html#l00557">scrimmage::SimControl::run_interaction_detection()</a>, <a class="el" href="SimControl_8cpp_source.html#l00606">scrimmage::SimControl::run_metrics()</a>, <a class="el" href="SimControl_8cpp_source.html#l01673">scrimmage::SimControl::run_sensors()</a>, <a class="el" href="SimControl_8cpp_source.html#l00661">scrimmage::SimControl::run_single_step()</a>, <a class="el" href="External_8cpp_source.html#l00387">scrimmage::External::send_messages()</a>, and <a class="el" href="SimControl_8cpp_source.html#l01587">scrimmage::SimControl::worker()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -7453,6 +7457,225 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a380fede9ded82d166d01468e8c24c0d0" name="a380fede9ded82d166d01468e8c24c0d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a380fede9ded82d166d01468e8c24c0d0">&#9670;&#160;</a></span>escape_csv_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string scrimmage::escape_csv_field </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="CSV_8cpp_source.html#l00046">46</a> of file <a class="el" href="CSV_8cpp_source.html">CSV.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span>                                                 {</div>
+<div class="line"><span class="lineno">   47</span>    <span class="comment">// If the field contains a comma, a quote, or a newline, wrap it in quotes</span></div>
+<div class="line"><span class="lineno">   48</span>    <span class="keywordtype">bool</span> need_to_escape = field.find_first_of(<span class="stringliteral">&quot;,\&quot;\n&quot;</span>) != std::string::npos;</div>
+<div class="line"><span class="lineno">   49</span>    <span class="keywordflow">if</span> (!need_to_escape) {</div>
+<div class="line"><span class="lineno">   50</span>        <span class="keywordflow">return</span> std::string(field);</div>
+<div class="line"><span class="lineno">   51</span>    }</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>    std::ostringstream escaped;</div>
+<div class="line"><span class="lineno">   54</span>    escaped &lt;&lt; <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> c : field) {</div>
+<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><span class="lineno">   57</span>            escaped &lt;&lt; <span class="stringliteral">&quot;\&quot;\&quot;&quot;</span>;  <span class="comment">// Escape double quotes as &quot;&quot;</span></div>
+<div class="line"><span class="lineno">   58</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   59</span>            escaped &lt;&lt; c;</div>
+<div class="line"><span class="lineno">   60</span>        }</div>
+<div class="line"><span class="lineno">   61</span>    }</div>
+<div class="line"><span class="lineno">   62</span>    escaped &lt;&lt; <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> escaped.str();</div>
+<div class="line"><span class="lineno">   64</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="CSV_8cpp_source.html#l00195">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00244">scrimmage::CSV::headers_to_string()</a>, and <a class="el" href="CSV_8cpp_source.html#l00277">scrimmage::CSV::row_to_string()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacescrimmage_a380fede9ded82d166d01468e8c24c0d0_icgraph.png" border="0" usemap="#anamespacescrimmage_a380fede9ded82d166d01468e8c24c0d0_icgraph" alt=""/></div>
+<map name="anamespacescrimmage_a380fede9ded82d166d01468e8c24c0d0_icgraph" id="anamespacescrimmage_a380fede9ded82d166d01468e8c24c0d0_icgraph">
+<area shape="rect" title=" " alt="" coords="241,55,420,95"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="7,5,191,31"/>
+<area shape="poly" title=" " alt="" coords="236,55,151,33,152,28,237,49"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ac0cc34b2ab5b60821403b8b0b140fdf4" title=" " alt="" coords="5,55,193,95"/>
+<area shape="poly" title=" " alt="" coords="227,78,193,78,193,73,227,73"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ad8675ee772fcba677c575b313e4a6cb7" title=" " alt="" coords="19,119,179,159"/>
+<area shape="poly" title=" " alt="" coords="245,102,173,122,171,117,244,96"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0706c1dc3e1641f7fed9089d33b01bae" name="a0706c1dc3e1641f7fed9089d33b01bae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0706c1dc3e1641f7fed9089d33b01bae">&#9670;&#160;</a></span>unescape_csv_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string scrimmage::unescape_csv_field </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="CSV_8cpp_source.html#l00067">67</a> of file <a class="el" href="CSV_8cpp_source.html">CSV.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   67</span>                                                   {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="comment">// If the field starts and ends with a quote, it is escaped</span></div>
+<div class="line"><span class="lineno">   69</span>    <span class="keywordtype">bool</span> is_quoted_string = field.size() &gt;= 2 &amp;&amp; field.front() == <span class="charliteral">&#39;&quot;&#39;</span> &amp;&amp; field.back() == <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">if</span> (!is_quoted_string) {</div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span> std::string(field);</div>
+<div class="line"><span class="lineno">   72</span>    }</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>    std::ostringstream unescaped;</div>
+<div class="line"><span class="lineno">   75</span>    <span class="keywordtype">bool</span> isQuotePair = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>    <span class="comment">// Process the part within the quotes</span></div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; field.size() - 1; ++i) {</div>
+<div class="line"><span class="lineno">   79</span>        <span class="keywordtype">char</span> c = field[i];</div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">if</span> (isQuotePair) {</div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;&quot;&#39;</span>) {  <span class="comment">// This is the double quote -&gt; unescape it</span></div>
+<div class="line"><span class="lineno">   82</span>                unescaped &lt;&lt; <span class="charliteral">&#39;&quot;&#39;</span>;</div>
+<div class="line"><span class="lineno">   83</span>                isQuotePair = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   84</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   85</span>                <span class="comment">// CSV is invalid if we find a singe quote within a single quoted field</span></div>
+<div class="line"><span class="lineno">   86</span>                <span class="keywordflow">throw</span> std::runtime_error(</div>
+<div class="line"><span class="lineno">   87</span>                    <span class="stringliteral">&quot;Invalid CSV: field wrapped by quotes but quote inside is not escaped properly &quot;</span></div>
+<div class="line"><span class="lineno">   88</span>                    <span class="stringliteral">&quot;(ex. \&quot;field \&quot;\&quot;with\&quot;\&quot; quote\&quot;): &quot;</span></div>
+<div class="line"><span class="lineno">   89</span>                    + std::string(field));</div>
+<div class="line"><span class="lineno">   90</span>            }</div>
+<div class="line"><span class="lineno">   91</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><span class="lineno">   93</span>                <span class="comment">// First quote of a pair</span></div>
+<div class="line"><span class="lineno">   94</span>                isQuotePair = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   95</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   96</span>                unescaped &lt;&lt; c;  <span class="comment">// Regular character</span></div>
+<div class="line"><span class="lineno">   97</span>            }</div>
+<div class="line"><span class="lineno">   98</span>        }</div>
+<div class="line"><span class="lineno">   99</span>    }</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>    <span class="comment">// If `isQuotePair` is still true here, it means the quotes were improperly escaped</span></div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">if</span> (isQuotePair) {</div>
+<div class="line"><span class="lineno">  103</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Invalid CSV: unbalanced quotes in field&quot;</span>);</div>
+<div class="line"><span class="lineno">  104</span>    }</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> unescaped.str();</div>
+<div class="line"><span class="lineno">  107</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="CSV_8cpp_source.html#l00317">scrimmage::CSV::read_csv_from_string()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacescrimmage_a0706c1dc3e1641f7fed9089d33b01bae_icgraph.png" border="0" usemap="#anamespacescrimmage_a0706c1dc3e1641f7fed9089d33b01bae_icgraph" alt=""/></div>
+<map name="anamespacescrimmage_a0706c1dc3e1641f7fed9089d33b01bae_icgraph" id="anamespacescrimmage_a0706c1dc3e1641f7fed9089d33b01bae_icgraph">
+<area shape="rect" title=" " alt="" coords="219,5,384,45"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ac0f9f82700aece4784033283a479d1c6" title=" " alt="" coords="5,5,171,45"/>
+<area shape="poly" title=" " alt="" coords="205,28,171,28,171,23,205,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab9fae50c84c4ad2459a8454d9ff32318" name="ab9fae50c84c4ad2459a8454d9ff32318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9fae50c84c4ad2459a8454d9ff32318">&#9670;&#160;</a></span>split_csv_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; scrimmage::split_csv_string </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="CSV_8cpp_source.html#l00111">111</a> of file <a class="el" href="CSV_8cpp_source.html">CSV.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                                            {</div>
+<div class="line"><span class="lineno">  112</span>    std::vector&lt;std::string&gt; fields;  <span class="comment">// Stores the extracted fields</span></div>
+<div class="line"><span class="lineno">  113</span>    std::ostringstream currentField;  <span class="comment">// Accumulates characters for the current field</span></div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordtype">bool</span> insideQuotes = <span class="keyword">false</span>;        <span class="comment">// Tracks if we&#39;re inside a quoted field</span></div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; row.size(); ++i) {</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordtype">char</span> c = row[i];</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">if</span> (insideQuotes) {</div>
+<div class="line"><span class="lineno">  120</span>            <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><span class="lineno">  121</span>                <span class="comment">// If we see a double-quote while inside quotes, check for escape (i.e., `&quot;&quot;`)</span></div>
+<div class="line"><span class="lineno">  122</span>                <span class="keywordflow">if</span> (i + 1 &lt; row.size() &amp;&amp; row[i + 1] == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><span class="lineno">  123</span>                    currentField &lt;&lt; <span class="stringliteral">&quot;\&quot;\&quot;&quot;</span>;</div>
+<div class="line"><span class="lineno">  124</span>                    ++i;  <span class="comment">// Skip the next quote (because this is an escape sequence)</span></div>
+<div class="line"><span class="lineno">  125</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  126</span>                    <span class="comment">// Exiting the quoted field</span></div>
+<div class="line"><span class="lineno">  127</span>                    insideQuotes = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  128</span>                    currentField &lt;&lt; c;</div>
+<div class="line"><span class="lineno">  129</span>                }</div>
+<div class="line"><span class="lineno">  130</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  131</span>                <span class="comment">// Append any other character inside quotes</span></div>
+<div class="line"><span class="lineno">  132</span>                <span class="comment">// This is where newlines and commas can appear</span></div>
+<div class="line"><span class="lineno">  133</span>                <span class="comment">// as valid text inside a cell</span></div>
+<div class="line"><span class="lineno">  134</span>                currentField &lt;&lt; c;</div>
+<div class="line"><span class="lineno">  135</span>            }</div>
+<div class="line"><span class="lineno">  136</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">if</span> (c == token) {</div>
+<div class="line"><span class="lineno">  138</span>                <span class="comment">// token outside quotes: field delimiter</span></div>
+<div class="line"><span class="lineno">  139</span>                fields.push_back(currentField.str());  <span class="comment">// Add the current field to the list</span></div>
+<div class="line"><span class="lineno">  140</span>                currentField.str(<span class="stringliteral">&quot;&quot;</span>);                  <span class="comment">// Reset for the next field</span></div>
+<div class="line"><span class="lineno">  141</span>                currentField.clear();                  <span class="comment">// Clear any error flags on the object</span></div>
+<div class="line"><span class="lineno">  142</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><span class="lineno">  143</span>                <span class="comment">// Start of a quoted field</span></div>
+<div class="line"><span class="lineno">  144</span>                currentField &lt;&lt; c;</div>
+<div class="line"><span class="lineno">  145</span>                insideQuotes = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  146</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  147</span>                <span class="comment">// Regular character outside quotes</span></div>
+<div class="line"><span class="lineno">  148</span>                currentField &lt;&lt; c;</div>
+<div class="line"><span class="lineno">  149</span>            }</div>
+<div class="line"><span class="lineno">  150</span>        }</div>
+<div class="line"><span class="lineno">  151</span>    }</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>    <span class="comment">// Add the last field (if any)</span></div>
+<div class="line"><span class="lineno">  154</span>    fields.push_back(currentField.str());</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>    <span class="keywordflow">return</span> fields;</div>
+<div class="line"><span class="lineno">  157</span>}</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="CSV_8cpp_source.html#l00317">scrimmage::CSV::read_csv_from_string()</a>, and <a class="el" href="CSV_8cpp_source.html#l00181">scrimmage::CSV::set_column_headers()</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacescrimmage_ab9fae50c84c4ad2459a8454d9ff32318_icgraph.png" border="0" usemap="#anamespacescrimmage_ab9fae50c84c4ad2459a8454d9ff32318_icgraph" alt=""/></div>
+<map name="anamespacescrimmage_ab9fae50c84c4ad2459a8454d9ff32318_icgraph" id="anamespacescrimmage_ab9fae50c84c4ad2459a8454d9ff32318_icgraph">
+<area shape="rect" title=" " alt="" coords="219,37,379,77"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ac0f9f82700aece4784033283a479d1c6" title=" " alt="" coords="5,5,171,45"/>
+<area shape="poly" title=" " alt="" coords="204,46,170,40,171,35,205,40"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ae564276f45f60198cf400c840689ff76" title=" " alt="" coords="10,69,166,109"/>
+<area shape="poly" title=" " alt="" coords="205,74,167,80,166,75,204,69"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a1702bfe679fa966a84511adc542de86a" name="a1702bfe679fa966a84511adc542de86a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1702bfe679fa966a84511adc542de86a">&#9670;&#160;</a></span>operator&lt;&lt;() <span class="overload">[4/9]</span></h2>
 
@@ -7479,12 +7702,12 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="CSV_8cpp_source.html#l00118">118</a> of file <a class="el" href="CSV_8cpp_source.html">CSV.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>                                                       {</div>
-<div class="line"><span class="lineno">  119</span>    os &lt;&lt; csv.<a class="code hl_function" href="classscrimmage_1_1CSV.html#ab3f58cb7794b1aa90fdbff43f8d86dc9">to_string</a>();</div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">return</span> os;</div>
-<div class="line"><span class="lineno">  121</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_ab3f58cb7794b1aa90fdbff43f8d86dc9"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ab3f58cb7794b1aa90fdbff43f8d86dc9">scrimmage::CSV::to_string</a></div><div class="ttdeci">std::string to_string() const</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00114">CSV.cpp:114</a></div></div>
+<p class="definition">Definition at line <a class="el" href="CSV_8cpp_source.html#l00239">239</a> of file <a class="el" href="CSV_8cpp_source.html">CSV.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  239</span>                                                       {</div>
+<div class="line"><span class="lineno">  240</span>    os &lt;&lt; csv.<a class="code hl_function" href="classscrimmage_1_1CSV.html#ab3f58cb7794b1aa90fdbff43f8d86dc9">to_string</a>();</div>
+<div class="line"><span class="lineno">  241</span>    <span class="keywordflow">return</span> os;</div>
+<div class="line"><span class="lineno">  242</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_ab3f58cb7794b1aa90fdbff43f8d86dc9"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ab3f58cb7794b1aa90fdbff43f8d86dc9">scrimmage::CSV::to_string</a></div><div class="ttdeci">std::string to_string() const</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00235">CSV.cpp:235</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -8150,7 +8373,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

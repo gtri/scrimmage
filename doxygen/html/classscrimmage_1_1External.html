@@ -331,10 +331,10 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00381">381</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  381</span>                            {</div>
-<div class="line"><span class="lineno">  382</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>;</div>
-<div class="line"><span class="lineno">  383</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00383">383</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  383</span>                            {</div>
+<div class="line"><span class="lineno">  384</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>;</div>
+<div class="line"><span class="lineno">  385</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00127">entity_</a>.</p>
 
@@ -478,112 +478,114 @@ Protected Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  169</span>    sim_info.id_to_ent_map = <a class="code hl_variable" href="classscrimmage_1_1External.html#afb226b57318a74990023a0d3f996c888">id_to_ent_map_</a>;</div>
 <div class="line"><span class="lineno">  170</span>    sim_info.proj = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;projection();</div>
 <div class="line"><span class="lineno">  171</span>    sim_info.global_services = <a class="code hl_variable" href="classscrimmage_1_1External.html#a933a6df36f2dcfe2be1cc364d15d4443">global_services_</a>;</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>    <span class="keyword">auto</span> plugin_tags = str2container&lt;std::set&lt;std::string&gt;&gt;(plugin_tags_str, <span class="stringliteral">&quot;, &quot;</span>);</div>
+<div class="line"><span class="lineno">  172</span>    sim_info.param_server = <a class="code hl_variable" href="classscrimmage_1_1External.html#abef5ee16a206f57b9b56fb0eb6729895">param_server_</a>;</div>
+<div class="line"><span class="lineno">  173</span>    sim_info.contacts = contacts;</div>
 <div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a> = std::make_shared&lt;NetworkMap&gt;();</div>
-<div class="line"><span class="lineno">  176</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#af68f063479d40a9401a8e48e3f702d1b">create_networks</a>(sim_info, *<a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a>, plugin_tags, param_override_func)) {</div>
-<div class="line"><span class="lineno">  177</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_networks()&quot;</span>);</div>
-<div class="line"><span class="lineno">  178</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  179</span>    }</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>.clear();</div>
-<div class="line"><span class="lineno">  182</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a783262d74c3a9106368b68f3f5b58e2a">create_metrics</a>(sim_info, contacts, <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, plugin_tags, param_override_func)) {</div>
-<div class="line"><span class="lineno">  183</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_metrics()&quot;</span>);</div>
-<div class="line"><span class="lineno">  184</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  185</span>    }</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.clear();</div>
-<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a775ab9a9f8a2f9a1e52cf1fc9b061b2a">create_ent_inters</a>(</div>
-<div class="line"><span class="lineno">  189</span>            sim_info,</div>
-<div class="line"><span class="lineno">  190</span>            contacts,</div>
-<div class="line"><span class="lineno">  191</span>            shapes,</div>
-<div class="line"><span class="lineno">  192</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>,</div>
-<div class="line"><span class="lineno">  193</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a933a6df36f2dcfe2be1cc364d15d4443">global_services_</a>,</div>
-<div class="line"><span class="lineno">  194</span>            plugin_tags,</div>
-<div class="line"><span class="lineno">  195</span>            param_override_func)) {</div>
-<div class="line"><span class="lineno">  196</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_ent_inters()&quot;</span>);</div>
-<div class="line"><span class="lineno">  197</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  198</span>    }</div>
-<div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> = std::make_shared&lt;Entity&gt;();</div>
-<div class="line"><span class="lineno">  201</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;set_random(random);</div>
-<div class="line"><span class="lineno">  202</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts() = contacts;</div>
-<div class="line"><span class="lineno">  203</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;rtree() = rtree;</div>
-<div class="line"><span class="lineno">  204</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;state_truth() = std::make_shared&lt;State&gt;();</div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>    <a class="code hl_function" href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">call_update_contacts</a>(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t());</div>
-<div class="line"><span class="lineno">  207</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;find(entity_id);</div>
-<div class="line"><span class="lineno">  208</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;end()) {</div>
-<div class="line"><span class="lineno">  209</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_descriptions()[it_name_id-&gt;second][<span class="stringliteral">&quot;team_id&quot;</span>] =</div>
-<div class="line"><span class="lineno">  210</span>            std::to_string(it-&gt;second.id().team_id());</div>
-<div class="line"><span class="lineno">  211</span>    }</div>
-<div class="line"><span class="lineno">  212</span> </div>
-<div class="line"><span class="lineno">  213</span>    std::map&lt;std::string, std::string&gt; info = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_descriptions()[it_name_id-&gt;second];</div>
+<div class="line"><span class="lineno">  175</span>    <span class="keyword">auto</span> plugin_tags = str2container&lt;std::set&lt;std::string&gt;&gt;(plugin_tags_str, <span class="stringliteral">&quot;, &quot;</span>);</div>
+<div class="line"><span class="lineno">  176</span> </div>
+<div class="line"><span class="lineno">  177</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a> = std::make_shared&lt;NetworkMap&gt;();</div>
+<div class="line"><span class="lineno">  178</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#af68f063479d40a9401a8e48e3f702d1b">create_networks</a>(sim_info, *<a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a>, plugin_tags, param_override_func)) {</div>
+<div class="line"><span class="lineno">  179</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_networks()&quot;</span>);</div>
+<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  181</span>    }</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>.clear();</div>
+<div class="line"><span class="lineno">  184</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a783262d74c3a9106368b68f3f5b58e2a">create_metrics</a>(sim_info, contacts, <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, plugin_tags, param_override_func)) {</div>
+<div class="line"><span class="lineno">  185</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_metrics()&quot;</span>);</div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  187</span>    }</div>
+<div class="line"><span class="lineno">  188</span> </div>
+<div class="line"><span class="lineno">  189</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.clear();</div>
+<div class="line"><span class="lineno">  190</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#a775ab9a9f8a2f9a1e52cf1fc9b061b2a">create_ent_inters</a>(</div>
+<div class="line"><span class="lineno">  191</span>            sim_info,</div>
+<div class="line"><span class="lineno">  192</span>            contacts,</div>
+<div class="line"><span class="lineno">  193</span>            shapes,</div>
+<div class="line"><span class="lineno">  194</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>,</div>
+<div class="line"><span class="lineno">  195</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a933a6df36f2dcfe2be1cc364d15d4443">global_services_</a>,</div>
+<div class="line"><span class="lineno">  196</span>            plugin_tags,</div>
+<div class="line"><span class="lineno">  197</span>            param_override_func)) {</div>
+<div class="line"><span class="lineno">  198</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on create_ent_inters()&quot;</span>);</div>
+<div class="line"><span class="lineno">  199</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  200</span>    }</div>
+<div class="line"><span class="lineno">  201</span> </div>
+<div class="line"><span class="lineno">  202</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> = std::make_shared&lt;Entity&gt;();</div>
+<div class="line"><span class="lineno">  203</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;set_random(random);</div>
+<div class="line"><span class="lineno">  204</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts() = contacts;</div>
+<div class="line"><span class="lineno">  205</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;rtree() = rtree;</div>
+<div class="line"><span class="lineno">  206</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;state_truth() = std::make_shared&lt;State&gt;();</div>
+<div class="line"><span class="lineno">  207</span> </div>
+<div class="line"><span class="lineno">  208</span>    <a class="code hl_function" href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">call_update_contacts</a>(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t());</div>
+<div class="line"><span class="lineno">  209</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;find(entity_id);</div>
+<div class="line"><span class="lineno">  210</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;end()) {</div>
+<div class="line"><span class="lineno">  211</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_descriptions()[it_name_id-&gt;second][<span class="stringliteral">&quot;team_id&quot;</span>] =</div>
+<div class="line"><span class="lineno">  212</span>            std::to_string(it-&gt;second.id().team_id());</div>
+<div class="line"><span class="lineno">  213</span>    }</div>
 <div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>    <a class="code hl_typedef" href="namespacescrimmage.html#ac60a75c7947b3d87cbaa1060cb430af4">AttributeMap</a>&amp; attr_map = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_attributes()[it_name_id-&gt;second];</div>
-<div class="line"><span class="lineno">  216</span>    <span class="comment">// bool ent_success =</span></div>
-<div class="line"><span class="lineno">  217</span>    <span class="comment">//     entity_-&gt;init(</span></div>
-<div class="line"><span class="lineno">  218</span>    <span class="comment">//         attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,</span></div>
-<div class="line"><span class="lineno">  219</span>    <span class="comment">//         mp_-&gt;projection(), entity_id,</span></div>
-<div class="line"><span class="lineno">  220</span>    <span class="comment">//         it_name_id-&gt;second, plugin_manager_, file_search, rtree, pubsub_,</span></div>
-<div class="line"><span class="lineno">  221</span>    <span class="comment">//         printer_, time_, param_server_, global_services_, plugin_tags,</span></div>
-<div class="line"><span class="lineno">  222</span>    <span class="comment">//         param_override_func, debug_level);</span></div>
-<div class="line"><span class="lineno">  223</span>    <span class="comment">//</span></div>
-<div class="line"><span class="lineno">  224</span>    EntityInitParams init_params;</div>
-<div class="line"><span class="lineno">  225</span>    init_params.overrides = attr_map;</div>
-<div class="line"><span class="lineno">  226</span>    init_params.id = entity_id;</div>
-<div class="line"><span class="lineno">  227</span>    init_params.info = info;</div>
-<div class="line"><span class="lineno">  228</span>    init_params.ent_desc_id = it_name_id-&gt;second;</div>
-<div class="line"><span class="lineno">  229</span>    init_params.param_override_func = param_override_func;</div>
-<div class="line"><span class="lineno">  230</span>    init_params.debug_level = debug_level;</div>
-<div class="line"><span class="lineno">  231</span> </div>
-<div class="line"><span class="lineno">  232</span>    <span class="keywordtype">bool</span> ent_success = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;init(sim_info, init_params);</div>
-<div class="line"><span class="lineno">  233</span>    <span class="keywordflow">if</span> (!ent_success) {</div>
-<div class="line"><span class="lineno">  234</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on entity_-&gt;init()&quot;</span>);</div>
-<div class="line"><span class="lineno">  235</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  236</span>    }</div>
-<div class="line"><span class="lineno">  237</span> </div>
-<div class="line"><span class="lineno">  238</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a> = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;dt() * 1.0 / <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;motion_multiplier();</div>
+<div class="line"><span class="lineno">  215</span>    std::map&lt;std::string, std::string&gt; info = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_descriptions()[it_name_id-&gt;second];</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>    <a class="code hl_typedef" href="namespacescrimmage.html#ac60a75c7947b3d87cbaa1060cb430af4">AttributeMap</a>&amp; attr_map = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;entity_attributes()[it_name_id-&gt;second];</div>
+<div class="line"><span class="lineno">  218</span>    <span class="comment">// bool ent_success =</span></div>
+<div class="line"><span class="lineno">  219</span>    <span class="comment">//     entity_-&gt;init(</span></div>
+<div class="line"><span class="lineno">  220</span>    <span class="comment">//         attr_map, info, id_to_team_map_, id_to_ent_map_, contacts, mp_,</span></div>
+<div class="line"><span class="lineno">  221</span>    <span class="comment">//         mp_-&gt;projection(), entity_id,</span></div>
+<div class="line"><span class="lineno">  222</span>    <span class="comment">//         it_name_id-&gt;second, plugin_manager_, file_search, rtree, pubsub_,</span></div>
+<div class="line"><span class="lineno">  223</span>    <span class="comment">//         printer_, time_, param_server_, global_services_, plugin_tags,</span></div>
+<div class="line"><span class="lineno">  224</span>    <span class="comment">//         param_override_func, debug_level);</span></div>
+<div class="line"><span class="lineno">  225</span>    <span class="comment">//</span></div>
+<div class="line"><span class="lineno">  226</span>    EntityInitParams init_params;</div>
+<div class="line"><span class="lineno">  227</span>    init_params.overrides = attr_map;</div>
+<div class="line"><span class="lineno">  228</span>    init_params.id = entity_id;</div>
+<div class="line"><span class="lineno">  229</span>    init_params.info = info;</div>
+<div class="line"><span class="lineno">  230</span>    init_params.ent_desc_id = it_name_id-&gt;second;</div>
+<div class="line"><span class="lineno">  231</span>    init_params.param_override_func = param_override_func;</div>
+<div class="line"><span class="lineno">  232</span>    init_params.debug_level = debug_level;</div>
+<div class="line"><span class="lineno">  233</span> </div>
+<div class="line"><span class="lineno">  234</span>    <span class="keywordtype">bool</span> ent_success = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;init(sim_info, init_params);</div>
+<div class="line"><span class="lineno">  235</span>    <span class="keywordflow">if</span> (!ent_success) {</div>
+<div class="line"><span class="lineno">  236</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::create_entity() failed on entity_-&gt;init()&quot;</span>);</div>
+<div class="line"><span class="lineno">  237</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  238</span>    }</div>
 <div class="line"><span class="lineno">  239</span> </div>
-<div class="line"><span class="lineno">  240</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().size() &gt; 0) {</div>
-<div class="line"><span class="lineno">  241</span>        <span class="comment">// if vars is not set then we assume it should match the last controller.</span></div>
-<div class="line"><span class="lineno">  242</span>        <span class="comment">// we need to make sure we do not mess up the order of the indexes</span></div>
-<div class="line"><span class="lineno">  243</span>        <span class="comment">// because the controller outputs have already been declared</span></div>
-<div class="line"><span class="lineno">  244</span>        <span class="keyword">auto</span>&amp; ctrl = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().back();</div>
-<div class="line"><span class="lineno">  245</span>        <span class="keyword">auto</span>&amp; var_idx = ctrl-&gt;vars().output_variable_index();</div>
-<div class="line"><span class="lineno">  246</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#aa6b12035fb51a9aa81ffe3615eea6217">input_variable_index</a>().empty()) {</div>
-<div class="line"><span class="lineno">  247</span>            <span class="keywordtype">int</span> idx = 0;</div>
-<div class="line"><span class="lineno">  248</span>            <span class="keyword">auto</span> matches_idx = [&amp;](<span class="keyword">auto</span>&amp; kv) { <span class="keywordflow">return</span> kv.second == idx; };</div>
-<div class="line"><span class="lineno">  249</span>            <span class="keyword">auto</span> it = br::find_if(var_idx, matches_idx);</div>
-<div class="line"><span class="lineno">  250</span>            <span class="keywordflow">while</span> (it != var_idx.end()) {</div>
-<div class="line"><span class="lineno">  251</span>                <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a3bdaba914cd30bde518e6e5705e01b43">add_input_variable</a>(it-&gt;first);</div>
-<div class="line"><span class="lineno">  252</span>                <span class="comment">// cppcheck-suppress unreadVariable</span></div>
-<div class="line"><span class="lineno">  253</span>                idx++;</div>
-<div class="line"><span class="lineno">  254</span>                it = br::find_if(var_idx, matches_idx);</div>
-<div class="line"><span class="lineno">  255</span>            }</div>
-<div class="line"><span class="lineno">  256</span>        }</div>
-<div class="line"><span class="lineno">  257</span>        <a class="code hl_function" href="namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647">connect</a>(ctrl-&gt;vars(), <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>);</div>
-<div class="line"><span class="lineno">  258</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee">verify_io_connection</a>(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().back()-&gt;vars(), <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>)) {</div>
-<div class="line"><span class="lineno">  259</span>            std::ostringstream var_ss;</div>
-<div class="line"><span class="lineno">  260</span>            br::copy(var_idx | ba::map_keys, std::ostream_iterator&lt;std::string&gt;(var_ss, <span class="stringliteral">&quot;, &quot;</span>));</div>
-<div class="line"><span class="lineno">  261</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;VariableIO Error: &quot;</span> &lt;&lt; ctrl-&gt;name()</div>
-<div class="line"><span class="lineno">  262</span>                      &lt;&lt; <span class="stringliteral">&quot; does not provide inputs required by the External class. &quot;</span></div>
-<div class="line"><span class="lineno">  263</span>                      &lt;&lt; ctrl-&gt;name() &lt;&lt; <span class="stringliteral">&quot; currently provides: &quot;</span> &lt;&lt; var_ss.str());</div>
-<div class="line"><span class="lineno">  264</span>            <a class="code hl_function" href="namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8">print_io_error</a>(<span class="stringliteral">&quot;External&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>);</div>
-<div class="line"><span class="lineno">  265</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  266</span>        }</div>
-<div class="line"><span class="lineno">  267</span>    }</div>
-<div class="line"><span class="lineno">  268</span> </div>
-<div class="line"><span class="lineno">  269</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  270</span>}</div>
+<div class="line"><span class="lineno">  240</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a> = <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;dt() * 1.0 / <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;motion_multiplier();</div>
+<div class="line"><span class="lineno">  241</span> </div>
+<div class="line"><span class="lineno">  242</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().size() &gt; 0) {</div>
+<div class="line"><span class="lineno">  243</span>        <span class="comment">// if vars is not set then we assume it should match the last controller.</span></div>
+<div class="line"><span class="lineno">  244</span>        <span class="comment">// we need to make sure we do not mess up the order of the indexes</span></div>
+<div class="line"><span class="lineno">  245</span>        <span class="comment">// because the controller outputs have already been declared</span></div>
+<div class="line"><span class="lineno">  246</span>        <span class="keyword">auto</span>&amp; ctrl = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().back();</div>
+<div class="line"><span class="lineno">  247</span>        <span class="keyword">auto</span>&amp; var_idx = ctrl-&gt;vars().output_variable_index();</div>
+<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#aa6b12035fb51a9aa81ffe3615eea6217">input_variable_index</a>().empty()) {</div>
+<div class="line"><span class="lineno">  249</span>            <span class="keywordtype">int</span> idx = 0;</div>
+<div class="line"><span class="lineno">  250</span>            <span class="keyword">auto</span> matches_idx = [&amp;](<span class="keyword">auto</span>&amp; kv) { <span class="keywordflow">return</span> kv.second == idx; };</div>
+<div class="line"><span class="lineno">  251</span>            <span class="keyword">auto</span> it = br::find_if(var_idx, matches_idx);</div>
+<div class="line"><span class="lineno">  252</span>            <span class="keywordflow">while</span> (it != var_idx.end()) {</div>
+<div class="line"><span class="lineno">  253</span>                <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>.<a class="code hl_function" href="classscrimmage_1_1VariableIO.html#a3bdaba914cd30bde518e6e5705e01b43">add_input_variable</a>(it-&gt;first);</div>
+<div class="line"><span class="lineno">  254</span>                <span class="comment">// cppcheck-suppress unreadVariable</span></div>
+<div class="line"><span class="lineno">  255</span>                idx++;</div>
+<div class="line"><span class="lineno">  256</span>                it = br::find_if(var_idx, matches_idx);</div>
+<div class="line"><span class="lineno">  257</span>            }</div>
+<div class="line"><span class="lineno">  258</span>        }</div>
+<div class="line"><span class="lineno">  259</span>        <a class="code hl_function" href="namespacescrimmage.html#a5e908f79257a2582a17398519b9c9647">connect</a>(ctrl-&gt;vars(), <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>);</div>
+<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee">verify_io_connection</a>(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers().back()-&gt;vars(), <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>)) {</div>
+<div class="line"><span class="lineno">  261</span>            std::ostringstream var_ss;</div>
+<div class="line"><span class="lineno">  262</span>            br::copy(var_idx | ba::map_keys, std::ostream_iterator&lt;std::string&gt;(var_ss, <span class="stringliteral">&quot;, &quot;</span>));</div>
+<div class="line"><span class="lineno">  263</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;VariableIO Error: &quot;</span> &lt;&lt; ctrl-&gt;name()</div>
+<div class="line"><span class="lineno">  264</span>                      &lt;&lt; <span class="stringliteral">&quot; does not provide inputs required by the External class. &quot;</span></div>
+<div class="line"><span class="lineno">  265</span>                      &lt;&lt; ctrl-&gt;name() &lt;&lt; <span class="stringliteral">&quot; currently provides: &quot;</span> &lt;&lt; var_ss.str());</div>
+<div class="line"><span class="lineno">  266</span>            <a class="code hl_function" href="namespacescrimmage.html#a1a42f0f8246cd1ce51bc7613aeda2bd8">print_io_error</a>(<span class="stringliteral">&quot;External&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">vars</a>);</div>
+<div class="line"><span class="lineno">  267</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  268</span>        }</div>
+<div class="line"><span class="lineno">  269</span>    }</div>
+<div class="line"><span class="lineno">  270</span> </div>
+<div class="line"><span class="lineno">  271</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  272</span>}</div>
 <div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a0be79b227d04b4558bb6145a84af4ebd"><div class="ttname"><a href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">scrimmage::External::motion_dt_</a></div><div class="ttdeci">double motion_dt_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00103">External.h:103</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_a14f5a54a9c3757a3071590c03d096989"><div class="ttname"><a href="classscrimmage_1_1External.html#a14f5a54a9c3757a3071590c03d096989">scrimmage::External::set_time</a></div><div class="ttdeci">void set_time(const double &amp;t, const double &amp;dt)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00497">External.cpp:497</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_a27d7c600b2343bdea6cfe21dc2d367b7"><div class="ttname"><a href="classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7">scrimmage::External::setup_logging</a></div><div class="ttdeci">void setup_logging(const std::string &amp;log_dir)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00272">External.cpp:272</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_a14f5a54a9c3757a3071590c03d096989"><div class="ttname"><a href="classscrimmage_1_1External.html#a14f5a54a9c3757a3071590c03d096989">scrimmage::External::set_time</a></div><div class="ttdeci">void set_time(const double &amp;t, const double &amp;dt)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00499">External.cpp:499</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_a27d7c600b2343bdea6cfe21dc2d367b7"><div class="ttname"><a href="classscrimmage_1_1External.html#a27d7c600b2343bdea6cfe21dc2d367b7">scrimmage::External::setup_logging</a></div><div class="ttdeci">void setup_logging(const std::string &amp;log_dir)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00274">External.cpp:274</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a7bdc81c4f4aa5d36c8164b80acf9e027"><div class="ttname"><a href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">scrimmage::External::networks_</a></div><div class="ttdeci">NetworkMapPtr networks_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00131">External.h:131</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a7f8bea79329e6e30dd2909744ca6937b"><div class="ttname"><a href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">scrimmage::External::ent_inters_</a></div><div class="ttdeci">std::list&lt; EntityInteractionPtr &gt; ent_inters_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00129">External.h:129</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_acab091bf1e7c47025c8598edcdb4464c"><div class="ttname"><a href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">scrimmage::External::call_update_contacts</a></div><div class="ttdeci">bool call_update_contacts(double t)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00423">External.cpp:423</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_acab091bf1e7c47025c8598edcdb4464c"><div class="ttname"><a href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">scrimmage::External::call_update_contacts</a></div><div class="ttdeci">bool call_update_contacts(double t)</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00425">External.cpp:425</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_ad96e7c9f5f17252202f141d9c9cd59f3"><div class="ttname"><a href="classscrimmage_1_1External.html#ad96e7c9f5f17252202f141d9c9cd59f3">scrimmage::External::vars</a></div><div class="ttdeci">VariableIO vars</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00109">External.h:109</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_ae962c5970fd5e9132159423a52b54ef3"><div class="ttname"><a href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">scrimmage::External::metrics_</a></div><div class="ttdeci">std::list&lt; MetricsPtr &gt; metrics_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00130">External.h:130</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1VariableIO_html_a3bdaba914cd30bde518e6e5705e01b43"><div class="ttname"><a href="classscrimmage_1_1VariableIO.html#a3bdaba914cd30bde518e6e5705e01b43">scrimmage::VariableIO::add_input_variable</a></div><div class="ttdeci">int add_input_variable(const std::string &amp;var)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00094">VariableIO.cpp:94</a></div></div>
@@ -599,7 +601,7 @@ Protected Attributes</h2></td></tr>
 <div class="ttc" id="anamespacescrimmage_html_ae124c7a839ccebe20480e25a1c4988ee"><div class="ttname"><a href="namespacescrimmage.html#ae124c7a839ccebe20480e25a1c4988ee">scrimmage::verify_io_connection</a></div><div class="ttdeci">bool verify_io_connection(VariableIO &amp;output_plugin, VariableIO &amp;input_plugin)</div><div class="ttdef"><b>Definition</b> <a href="VariableIO_8cpp_source.html#l00204">VariableIO.cpp:204</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_af68f063479d40a9401a8e48e3f702d1b"><div class="ttname"><a href="namespacescrimmage.html#af68f063479d40a9401a8e48e3f702d1b">scrimmage::create_networks</a></div><div class="ttdeci">bool create_networks(const SimUtilsInfo &amp;info, NetworkMap &amp;networks, const std::set&lt; std::string &gt; &amp;plugin_tags={}, std::function&lt; void(std::map&lt; std::string, std::string &gt; &amp;)&gt; param_override_func=[](std::map&lt; std::string, std::string &gt; &amp;) {}, const int &amp;debug_level=0)</div><div class="ttdef"><b>Definition</b> <a href="SimUtils_8cpp_source.html#l00235">SimUtils.cpp:235</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00094">scrimmage::VariableIO::add_input_variable()</a>, <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00168">scrimmage::connect()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00057">scrimmage::create_ent_inters()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00122">scrimmage::create_metrics()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00235">scrimmage::create_networks()</a>, <a class="el" href="Entity_8h_source.html#l00076">scrimmage::EntityInitParams::debug_level</a>, <a class="el" href="Entity_8h_source.html#l00073">scrimmage::EntityInitParams::ent_desc_id</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="FileSearch_8cpp_source.html#l00059">scrimmage::FileSearch::find_mission()</a>, <a class="el" href="SimUtils_8h_source.html#l00065">scrimmage::SimUtilsInfo::global_services</a>, <a class="el" href="External_8h_source.html#l00139">global_services_</a>, <a class="el" href="Entity_8h_source.html#l00072">scrimmage::EntityInitParams::id</a>, <a class="el" href="SimUtils_8h_source.html#l00072">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="External_8h_source.html#l00142">id_to_ent_map_</a>, <a class="el" href="SimUtils_8h_source.html#l00071">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="External_8h_source.html#l00141">id_to_team_map_</a>, <a class="el" href="Entity_8h_source.html#l00071">scrimmage::EntityInitParams::info</a>, <a class="el" href="VariableIO_8cpp_source.html#l00086">scrimmage::VariableIO::input_variable_index()</a>, <a class="el" href="External_8h_source.html#l00134">log_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00103">motion_dt_</a>, <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="External_8h_source.html#l00140">mp_</a>, <a class="el" href="External_8h_source.html#l00131">networks_</a>, <a class="el" href="Entity_8h_source.html#l00068">scrimmage::EntityInitParams::overrides</a>, <a class="el" href="Entity_8h_source.html#l00075">scrimmage::EntityInitParams::param_override_func</a>, <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="External_8h_source.html#l00133">plugin_manager_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00214">scrimmage::print_io_error()</a>, <a class="el" href="SimUtils_8h_source.html#l00064">scrimmage::SimUtilsInfo::proj</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="External_8h_source.html#l00136">pubsub_</a>, <a class="el" href="SimUtils_8h_source.html#l00069">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="External_8cpp_source.html#l00497">set_time()</a>, <a class="el" href="External_8cpp_source.html#l00272">setup_logging()</a>, <a class="el" href="SimUtils_8h_source.html#l00067">scrimmage::SimUtilsInfo::time</a>, <a class="el" href="External_8h_source.html#l00137">time_</a>, <a class="el" href="External_8h_source.html#l00109">vars</a>, and <a class="el" href="VariableIO_8cpp_source.html#l00204">scrimmage::verify_io_connection()</a>.</p>
+<p class="reference">References <a class="el" href="VariableIO_8cpp_source.html#l00094">scrimmage::VariableIO::add_input_variable()</a>, <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>, <a class="el" href="VariableIO_8cpp_source.html#l00168">scrimmage::connect()</a>, <a class="el" href="SimUtils_8h_source.html#l00066">scrimmage::SimUtilsInfo::contacts</a>, <a class="el" href="SimUtils_8cpp_source.html#l00057">scrimmage::create_ent_inters()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00122">scrimmage::create_metrics()</a>, <a class="el" href="SimUtils_8cpp_source.html#l00235">scrimmage::create_networks()</a>, <a class="el" href="Entity_8h_source.html#l00076">scrimmage::EntityInitParams::debug_level</a>, <a class="el" href="Entity_8h_source.html#l00073">scrimmage::EntityInitParams::ent_desc_id</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="SimUtils_8h_source.html#l00061">scrimmage::SimUtilsInfo::file_search</a>, <a class="el" href="FileSearch_8cpp_source.html#l00059">scrimmage::FileSearch::find_mission()</a>, <a class="el" href="SimUtils_8h_source.html#l00065">scrimmage::SimUtilsInfo::global_services</a>, <a class="el" href="External_8h_source.html#l00139">global_services_</a>, <a class="el" href="Entity_8h_source.html#l00072">scrimmage::EntityInitParams::id</a>, <a class="el" href="SimUtils_8h_source.html#l00072">scrimmage::SimUtilsInfo::id_to_ent_map</a>, <a class="el" href="External_8h_source.html#l00142">id_to_ent_map_</a>, <a class="el" href="SimUtils_8h_source.html#l00071">scrimmage::SimUtilsInfo::id_to_team_map</a>, <a class="el" href="External_8h_source.html#l00141">id_to_team_map_</a>, <a class="el" href="Entity_8h_source.html#l00071">scrimmage::EntityInitParams::info</a>, <a class="el" href="VariableIO_8cpp_source.html#l00086">scrimmage::VariableIO::input_variable_index()</a>, <a class="el" href="External_8h_source.html#l00134">log_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00103">motion_dt_</a>, <a class="el" href="SimUtils_8h_source.html#l00059">scrimmage::SimUtilsInfo::mp</a>, <a class="el" href="External_8h_source.html#l00140">mp_</a>, <a class="el" href="External_8h_source.html#l00131">networks_</a>, <a class="el" href="Entity_8h_source.html#l00068">scrimmage::EntityInitParams::overrides</a>, <a class="el" href="Entity_8h_source.html#l00075">scrimmage::EntityInitParams::param_override_func</a>, <a class="el" href="SimUtils_8h_source.html#l00068">scrimmage::SimUtilsInfo::param_server</a>, <a class="el" href="External_8h_source.html#l00138">param_server_</a>, <a class="el" href="SimUtils_8h_source.html#l00060">scrimmage::SimUtilsInfo::plugin_manager</a>, <a class="el" href="External_8h_source.html#l00133">plugin_manager_</a>, <a class="el" href="VariableIO_8cpp_source.html#l00214">scrimmage::print_io_error()</a>, <a class="el" href="SimUtils_8h_source.html#l00064">scrimmage::SimUtilsInfo::proj</a>, <a class="el" href="SimUtils_8h_source.html#l00063">scrimmage::SimUtilsInfo::pubsub</a>, <a class="el" href="External_8h_source.html#l00136">pubsub_</a>, <a class="el" href="SimUtils_8h_source.html#l00069">scrimmage::SimUtilsInfo::random</a>, <a class="el" href="SimUtils_8h_source.html#l00062">scrimmage::SimUtilsInfo::rtree</a>, <a class="el" href="External_8cpp_source.html#l00499">set_time()</a>, <a class="el" href="External_8cpp_source.html#l00274">setup_logging()</a>, <a class="el" href="SimUtils_8h_source.html#l00067">scrimmage::SimUtilsInfo::time</a>, <a class="el" href="External_8h_source.html#l00137">time_</a>, <a class="el" href="External_8h_source.html#l00109">vars</a>, and <a class="el" href="VariableIO_8cpp_source.html#l00204">scrimmage::verify_io_connection()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -651,23 +653,23 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00472">472</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  472</span>                     {</div>
-<div class="line"><span class="lineno">  473</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  474</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;close(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t());</div>
-<div class="line"><span class="lineno">  475</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> = std::make_shared&lt;Entity&gt;();</div>
-<div class="line"><span class="lineno">  476</span> </div>
-<div class="line"><span class="lineno">  477</span>    <span class="keyword">auto</span> <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a> = [&amp;](<span class="keyword">auto</span> p) { p-&gt;close(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t()); };</div>
-<div class="line"><span class="lineno">  478</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a>);</div>
-<div class="line"><span class="lineno">  479</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a>);</div>
-<div class="line"><span class="lineno">  480</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  481</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00474">474</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  474</span>                     {</div>
+<div class="line"><span class="lineno">  475</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  476</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;close(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t());</div>
+<div class="line"><span class="lineno">  477</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> = std::make_shared&lt;Entity&gt;();</div>
+<div class="line"><span class="lineno">  478</span> </div>
+<div class="line"><span class="lineno">  479</span>    <span class="keyword">auto</span> <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a> = [&amp;](<span class="keyword">auto</span> p) { p-&gt;close(<a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;t()); };</div>
+<div class="line"><span class="lineno">  480</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a>);</div>
+<div class="line"><span class="lineno">  481</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, <a class="code hl_function" href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">close</a>);</div>
+<div class="line"><span class="lineno">  482</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  483</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_ae377aad46d79f38642d34055a3b08d67"><div class="ttname"><a href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">scrimmage::External::mutex</a></div><div class="ttdeci">std::mutex mutex</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00110">External.h:110</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_ae84a6915da51d9b2f5946b5b48971a21"><div class="ttname"><a href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">scrimmage::External::close</a></div><div class="ttdeci">void close()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00472">External.cpp:472</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_ae84a6915da51d9b2f5946b5b48971a21"><div class="ttname"><a href="classscrimmage_1_1External.html#ae84a6915da51d9b2f5946b5b48971a21">scrimmage::External::close</a></div><div class="ttdeci">void close()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00474">External.cpp:474</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="External_8cpp_source.html#l00472">close()</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, and <a class="el" href="External_8h_source.html#l00137">time_</a>.</p>
+<p class="reference">References <a class="el" href="External_8cpp_source.html#l00474">close()</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, and <a class="el" href="External_8h_source.html#l00137">time_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00472">close()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00474">close()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -734,7 +736,7 @@ Here is the caller graph for this function:</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00145">shape_queue_max_size_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -794,10 +796,10 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00442">442</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  442</span>                             {</div>
-<div class="line"><span class="lineno">  443</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>;</div>
-<div class="line"><span class="lineno">  444</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00444">444</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  444</span>                             {</div>
+<div class="line"><span class="lineno">  445</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>;</div>
+<div class="line"><span class="lineno">  446</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00140">mp_</a>.</p>
 
@@ -818,49 +820,49 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00385">385</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  385</span>                             {</div>
-<div class="line"><span class="lineno">  386</span>    <span class="comment">// Send messages that are published by a SCRIMMAGE plugin to the external</span></div>
-<div class="line"><span class="lineno">  387</span>    <span class="comment">// network (e.g., ROS, MOOS)</span></div>
-<div class="line"><span class="lineno">  388</span>    <span class="keyword">auto</span> to_publisher = [&amp;](<span class="keyword">auto</span>&amp; network_device) {</div>
-<div class="line"><span class="lineno">  389</span>        <span class="keywordflow">return</span> std::dynamic_pointer_cast&lt;Publisher&gt;(network_device);</div>
-<div class="line"><span class="lineno">  390</span>    };</div>
-<div class="line"><span class="lineno">  391</span>    <span class="keyword">auto</span> has_callback = [&amp;](<span class="keyword">auto</span>&amp; pub) { <span class="keywordflow">return</span> pub &amp;&amp; pub-&gt;callback; };</div>
-<div class="line"><span class="lineno">  392</span> </div>
-<div class="line"><span class="lineno">  393</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; topic_device_kv : <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;pubs() | ba::map_values) {</div>
-<div class="line"><span class="lineno">  394</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; dev_list : topic_device_kv | ba::map_values) {</div>
-<div class="line"><span class="lineno">  395</span>            <span class="keywordflow">for</span> (<span class="keyword">auto</span> pub : dev_list | ba::transformed(to_publisher) | ba::filtered(has_callback)) {</div>
-<div class="line"><span class="lineno">  396</span>                <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : pub-&gt;pop_msgs()) {</div>
-<div class="line"><span class="lineno">  397</span>                    pub-&gt;callback(msg);</div>
-<div class="line"><span class="lineno">  398</span>                }</div>
-<div class="line"><span class="lineno">  399</span>            }</div>
-<div class="line"><span class="lineno">  400</span>        }</div>
-<div class="line"><span class="lineno">  401</span>    }</div>
-<div class="line"><span class="lineno">  402</span> </div>
-<div class="line"><span class="lineno">  403</span>    <span class="comment">// any messages that are not linked to the external network can now</span></div>
-<div class="line"><span class="lineno">  404</span>    <span class="comment">// be sent via the internal scrimmage messaging system</span></div>
-<div class="line"><span class="lineno">  405</span>    <span class="keyword">auto</span>&amp; pubs = <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;pubs();</div>
-<div class="line"><span class="lineno">  406</span>    <span class="keyword">auto</span>&amp; subs = <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;subs();</div>
-<div class="line"><span class="lineno">  407</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; network : *<a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a> | ba::map_values) {</div>
-<div class="line"><span class="lineno">  408</span>        <span class="keyword">auto</span> name = network-&gt;name();</div>
-<div class="line"><span class="lineno">  409</span>        <span class="keywordflow">if</span> (!network-&gt;step(pubs[name], subs[name])) {</div>
-<div class="line"><span class="lineno">  410</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Network failed: &quot;</span> &lt;&lt; name);</div>
-<div class="line"><span class="lineno">  411</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  412</span>        }</div>
-<div class="line"><span class="lineno">  413</span>    }</div>
-<div class="line"><span class="lineno">  414</span> </div>
-<div class="line"><span class="lineno">  415</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies(), <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
-<div class="line"><span class="lineno">  416</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers(), <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
-<div class="line"><span class="lineno">  417</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
-<div class="line"><span class="lineno">  418</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
-<div class="line"><span class="lineno">  419</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors() | ba::map_values, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
-<div class="line"><span class="lineno">  420</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  421</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00387">387</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  387</span>                             {</div>
+<div class="line"><span class="lineno">  388</span>    <span class="comment">// Send messages that are published by a SCRIMMAGE plugin to the external</span></div>
+<div class="line"><span class="lineno">  389</span>    <span class="comment">// network (e.g., ROS, MOOS)</span></div>
+<div class="line"><span class="lineno">  390</span>    <span class="keyword">auto</span> to_publisher = [&amp;](<span class="keyword">auto</span>&amp; network_device) {</div>
+<div class="line"><span class="lineno">  391</span>        <span class="keywordflow">return</span> std::dynamic_pointer_cast&lt;Publisher&gt;(network_device);</div>
+<div class="line"><span class="lineno">  392</span>    };</div>
+<div class="line"><span class="lineno">  393</span>    <span class="keyword">auto</span> has_callback = [&amp;](<span class="keyword">auto</span>&amp; pub) { <span class="keywordflow">return</span> pub &amp;&amp; pub-&gt;callback; };</div>
+<div class="line"><span class="lineno">  394</span> </div>
+<div class="line"><span class="lineno">  395</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; topic_device_kv : <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;pubs() | ba::map_values) {</div>
+<div class="line"><span class="lineno">  396</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; dev_list : topic_device_kv | ba::map_values) {</div>
+<div class="line"><span class="lineno">  397</span>            <span class="keywordflow">for</span> (<span class="keyword">auto</span> pub : dev_list | ba::transformed(to_publisher) | ba::filtered(has_callback)) {</div>
+<div class="line"><span class="lineno">  398</span>                <span class="keywordflow">for</span> (<span class="keyword">auto</span> msg : pub-&gt;pop_msgs()) {</div>
+<div class="line"><span class="lineno">  399</span>                    pub-&gt;callback(msg);</div>
+<div class="line"><span class="lineno">  400</span>                }</div>
+<div class="line"><span class="lineno">  401</span>            }</div>
+<div class="line"><span class="lineno">  402</span>        }</div>
+<div class="line"><span class="lineno">  403</span>    }</div>
+<div class="line"><span class="lineno">  404</span> </div>
+<div class="line"><span class="lineno">  405</span>    <span class="comment">// any messages that are not linked to the external network can now</span></div>
+<div class="line"><span class="lineno">  406</span>    <span class="comment">// be sent via the internal scrimmage messaging system</span></div>
+<div class="line"><span class="lineno">  407</span>    <span class="keyword">auto</span>&amp; pubs = <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;pubs();</div>
+<div class="line"><span class="lineno">  408</span>    <span class="keyword">auto</span>&amp; subs = <a class="code hl_variable" href="classscrimmage_1_1External.html#a0b87e4c91367deca3bbf190ebbadb436">pubsub_</a>-&gt;subs();</div>
+<div class="line"><span class="lineno">  409</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; network : *<a class="code hl_variable" href="classscrimmage_1_1External.html#a7bdc81c4f4aa5d36c8164b80acf9e027">networks_</a> | ba::map_values) {</div>
+<div class="line"><span class="lineno">  410</span>        <span class="keyword">auto</span> name = network-&gt;name();</div>
+<div class="line"><span class="lineno">  411</span>        <span class="keywordflow">if</span> (!network-&gt;step(pubs[name], subs[name])) {</div>
+<div class="line"><span class="lineno">  412</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;Network failed: &quot;</span> &lt;&lt; name);</div>
+<div class="line"><span class="lineno">  413</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  414</span>        }</div>
+<div class="line"><span class="lineno">  415</span>    }</div>
+<div class="line"><span class="lineno">  416</span> </div>
+<div class="line"><span class="lineno">  417</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies(), <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
+<div class="line"><span class="lineno">  418</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers(), <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
+<div class="line"><span class="lineno">  419</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
+<div class="line"><span class="lineno">  420</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
+<div class="line"><span class="lineno">  421</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors() | ba::map_values, <a class="code hl_function" href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">run_callbacks</a>);</div>
+<div class="line"><span class="lineno">  422</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  423</span>}</div>
 <div class="ttc" id="anamespacescrimmage_html_ab358b3718f38b28542d2020a92a52ac4"><div class="ttname"><a href="namespacescrimmage.html#ab358b3718f38b28542d2020a92a52ac4">scrimmage::run_callbacks</a></div><div class="ttdeci">void run_callbacks(EntityPluginPtr plugin)</div><div class="ttdef"><b>Definition</b> <a href="SimUtils_8cpp_source.html#l00177">SimUtils.cpp:177</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00131">networks_</a>, <a class="el" href="External_8h_source.html#l00136">pubsub_</a>, and <a class="el" href="SimUtils_8cpp_source.html#l00177">scrimmage::run_callbacks()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -980,15 +982,15 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00483">483</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  483</span>                                                                             {</div>
-<div class="line"><span class="lineno">  484</span>    <a class="code hl_typedef" href="BulletCollision_8h.html#a02527d23fb7254ee7a17e39a44c45fe6">InterfacePtr</a> <span class="keyword">interface </span>= std::make_shared&lt;Interface&gt;();</div>
-<div class="line"><span class="lineno">  485</span>    interface-&gt;init_network(<a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">Interface::client</a>, ip, port);</div>
-<div class="line"><span class="lineno">  486</span> </div>
-<div class="line"><span class="lineno">  487</span>    interface-&gt;send_contact_visual(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contact_visual());</div>
-<div class="line"><span class="lineno">  488</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>.push_back(interface);</div>
-<div class="line"><span class="lineno">  489</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  490</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00485">485</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  485</span>                                                                             {</div>
+<div class="line"><span class="lineno">  486</span>    <a class="code hl_typedef" href="BulletCollision_8h.html#a02527d23fb7254ee7a17e39a44c45fe6">InterfacePtr</a> <span class="keyword">interface </span>= std::make_shared&lt;Interface&gt;();</div>
+<div class="line"><span class="lineno">  487</span>    interface-&gt;init_network(<a class="code hl_enumvalue" href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">Interface::client</a>, ip, port);</div>
+<div class="line"><span class="lineno">  488</span> </div>
+<div class="line"><span class="lineno">  489</span>    interface-&gt;send_contact_visual(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contact_visual());</div>
+<div class="line"><span class="lineno">  490</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>.push_back(interface);</div>
+<div class="line"><span class="lineno">  491</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  492</span>}</div>
 <div class="ttc" id="aBulletCollision_8h_html_a02527d23fb7254ee7a17e39a44c45fe6"><div class="ttname"><a href="BulletCollision_8h.html#a02527d23fb7254ee7a17e39a44c45fe6">InterfacePtr</a></div><div class="ttdeci">std::shared_ptr&lt; Interface &gt; InterfacePtr</div><div class="ttdef"><b>Definition</b> <a href="BulletCollision_8h_source.html#l00053">BulletCollision.h:53</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_af6680ba40442eb5f344fdeb2cb6de709"><div class="ttname"><a href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">scrimmage::External::outgoing_interfaces_</a></div><div class="ttdeci">std::list&lt; InterfacePtr &gt; outgoing_interfaces_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00374">External.h:374</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Interface_html_a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be"><div class="ttname"><a href="classscrimmage_1_1Interface.html#a8bc221b36708df4c6399f7660534704ba873b9ab549b94e777f5d2044b3d433be">scrimmage::Interface::client</a></div><div class="ttdeci">@ client</div><div class="ttdef"><b>Definition</b> <a href="Interface_8h_source.html#l00058">Interface.h:58</a></div></div>
@@ -1022,11 +1024,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00492">492</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  492</span>                                           {</div>
-<div class="line"><span class="lineno">  493</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>.clear();</div>
-<div class="line"><span class="lineno">  494</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  495</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00494">494</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  494</span>                                           {</div>
+<div class="line"><span class="lineno">  495</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>.clear();</div>
+<div class="line"><span class="lineno">  496</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  497</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00374">outgoing_interfaces_</a>.</p>
 
@@ -1058,11 +1060,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00497">497</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  497</span>                                                         {</div>
-<div class="line"><span class="lineno">  498</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_t(t);</div>
-<div class="line"><span class="lineno">  499</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_dt(dt);</div>
-<div class="line"><span class="lineno">  500</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00499">499</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  499</span>                                                         {</div>
+<div class="line"><span class="lineno">  500</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_t(t);</div>
+<div class="line"><span class="lineno">  501</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_dt(dt);</div>
+<div class="line"><span class="lineno">  502</span>}</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00137">time_</a>.</p>
 
@@ -1104,20 +1106,20 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00272">272</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  272</span>                                                     {</div>
-<div class="line"><span class="lineno">  273</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;set_log_dir(log_dir);</div>
-<div class="line"><span class="lineno">  274</span> </div>
-<div class="line"><span class="lineno">  275</span>    std::string output_type = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;output_type&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;params(), std::string(<span class="stringliteral">&quot;all&quot;</span>));</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00274">274</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  274</span>                                                     {</div>
+<div class="line"><span class="lineno">  275</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;set_log_dir(log_dir);</div>
 <div class="line"><span class="lineno">  276</span> </div>
-<div class="line"><span class="lineno">  277</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;create_log_dir();</div>
-<div class="line"><span class="lineno">  278</span>    <span class="keywordtype">bool</span> enable_log = output_type.find(<span class="stringliteral">&quot;all&quot;</span>) != std::string::npos</div>
-<div class="line"><span class="lineno">  279</span>                      || output_type.find(<span class="stringliteral">&quot;frames&quot;</span>) != std::string::npos;</div>
-<div class="line"><span class="lineno">  280</span> </div>
-<div class="line"><span class="lineno">  281</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;set_enable_log(enable_log);</div>
-<div class="line"><span class="lineno">  282</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;set_drop_bin_logging(<a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;get_no_bin_logging());</div>
-<div class="line"><span class="lineno">  283</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;init(<a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;log_dir(), <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#afe196984c16a53bc7690affee005c16faec5882ada9525edb5866c32b8ac73064">Log::WRITE</a>);</div>
-<div class="line"><span class="lineno">  284</span>}</div>
+<div class="line"><span class="lineno">  277</span>    std::string output_type = <a class="code hl_function" href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">get</a>(<span class="stringliteral">&quot;output_type&quot;</span>, <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;params(), std::string(<span class="stringliteral">&quot;all&quot;</span>));</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;create_log_dir();</div>
+<div class="line"><span class="lineno">  280</span>    <span class="keywordtype">bool</span> enable_log = output_type.find(<span class="stringliteral">&quot;all&quot;</span>) != std::string::npos</div>
+<div class="line"><span class="lineno">  281</span>                      || output_type.find(<span class="stringliteral">&quot;frames&quot;</span>) != std::string::npos;</div>
+<div class="line"><span class="lineno">  282</span> </div>
+<div class="line"><span class="lineno">  283</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;set_enable_log(enable_log);</div>
+<div class="line"><span class="lineno">  284</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;set_drop_bin_logging(<a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;get_no_bin_logging());</div>
+<div class="line"><span class="lineno">  285</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;init(<a class="code hl_variable" href="classscrimmage_1_1External.html#a00364a7bd776fcc9540c5f937dd8ede0">mp_</a>-&gt;log_dir(), <a class="code hl_enumvalue" href="classscrimmage_1_1Log.html#afe196984c16a53bc7690affee005c16faec5882ada9525edb5866c32b8ac73064">Log::WRITE</a>);</div>
+<div class="line"><span class="lineno">  286</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1Log_html_afe196984c16a53bc7690affee005c16faec5882ada9525edb5866c32b8ac73064"><div class="ttname"><a href="classscrimmage_1_1Log.html#afe196984c16a53bc7690affee005c16faec5882ada9525edb5866c32b8ac73064">scrimmage::Log::WRITE</a></div><div class="ttdeci">@ WRITE</div><div class="ttdef"><b>Definition</b> <a href="Log_8h_source.html#l00090">Log.h:90</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a3cd399bc8f69e9cd9f22ae8426abb456"><div class="ttname"><a href="namespacescrimmage.html#a3cd399bc8f69e9cd9f22ae8426abb456">scrimmage::get</a></div><div class="ttdeci">T2 get(const std::string &amp;key, const std::map&lt; std::string, std::string &gt; &amp;map, T1 default_val)</div><div class="ttdef"><b>Definition</b> <a href="ParseUtils_8h_source.html#l00088">ParseUtils.h:88</a></div></div>
 </div><!-- fragment -->
@@ -1170,37 +1172,37 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00446">446</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  446</span>                           {</div>
-<div class="line"><span class="lineno">  447</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.empty() &amp;&amp; !<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>.empty())</div>
-<div class="line"><span class="lineno">  448</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  449</span> </div>
-<div class="line"><span class="lineno">  450</span>    <span class="keyword">auto</span>&amp; contacts = *<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts();</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00448">448</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  448</span>                           {</div>
+<div class="line"><span class="lineno">  449</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.empty() &amp;&amp; !<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>.empty())</div>
+<div class="line"><span class="lineno">  450</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  451</span> </div>
-<div class="line"><span class="lineno">  452</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ab675b68837b5fa8c217a8f1515654382">id_to_team_map_</a>-&gt;clear();</div>
-<div class="line"><span class="lineno">  453</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#afb226b57318a74990023a0d3f996c888">id_to_ent_map_</a>-&gt;clear();</div>
-<div class="line"><span class="lineno">  454</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>.clear();</div>
-<div class="line"><span class="lineno">  455</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : contacts) {</div>
-<div class="line"><span class="lineno">  456</span>        ID&amp; <span class="keywordtype">id</span> = kv.second.id();</div>
-<div class="line"><span class="lineno">  457</span>        (*id_to_team_map_)[<span class="keywordtype">id</span>.id()] = <span class="keywordtype">id</span>.team_id();</div>
-<div class="line"><span class="lineno">  458</span> </div>
-<div class="line"><span class="lineno">  459</span>        <span class="keyword">auto</span> ent = <span class="keywordtype">id</span>.id() == <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;id().id() ? <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> : std::make_shared&lt;Entity&gt;();</div>
-<div class="line"><span class="lineno">  460</span>        ent-&gt;id() = id;</div>
-<div class="line"><span class="lineno">  461</span>        <span class="keywordflow">if</span> (ent-&gt;state_truth()) {</div>
-<div class="line"><span class="lineno">  462</span>            *ent-&gt;state_truth() = *kv.second.state();</div>
-<div class="line"><span class="lineno">  463</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  464</span>            ent-&gt;state_truth() = kv.second.state();</div>
-<div class="line"><span class="lineno">  465</span>        }</div>
-<div class="line"><span class="lineno">  466</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>.push_back(ent);</div>
-<div class="line"><span class="lineno">  467</span> </div>
-<div class="line"><span class="lineno">  468</span>        (*id_to_ent_map_)[<span class="keywordtype">id</span>.id()] = ent;</div>
-<div class="line"><span class="lineno">  469</span>    }</div>
-<div class="line"><span class="lineno">  470</span>}</div>
+<div class="line"><span class="lineno">  452</span>    <span class="keyword">auto</span>&amp; contacts = *<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts();</div>
+<div class="line"><span class="lineno">  453</span> </div>
+<div class="line"><span class="lineno">  454</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ab675b68837b5fa8c217a8f1515654382">id_to_team_map_</a>-&gt;clear();</div>
+<div class="line"><span class="lineno">  455</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#afb226b57318a74990023a0d3f996c888">id_to_ent_map_</a>-&gt;clear();</div>
+<div class="line"><span class="lineno">  456</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>.clear();</div>
+<div class="line"><span class="lineno">  457</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : contacts) {</div>
+<div class="line"><span class="lineno">  458</span>        ID&amp; <span class="keywordtype">id</span> = kv.second.id();</div>
+<div class="line"><span class="lineno">  459</span>        (*id_to_team_map_)[<span class="keywordtype">id</span>.id()] = <span class="keywordtype">id</span>.team_id();</div>
+<div class="line"><span class="lineno">  460</span> </div>
+<div class="line"><span class="lineno">  461</span>        <span class="keyword">auto</span> ent = <span class="keywordtype">id</span>.id() == <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;id().id() ? <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a> : std::make_shared&lt;Entity&gt;();</div>
+<div class="line"><span class="lineno">  462</span>        ent-&gt;id() = id;</div>
+<div class="line"><span class="lineno">  463</span>        <span class="keywordflow">if</span> (ent-&gt;state_truth()) {</div>
+<div class="line"><span class="lineno">  464</span>            *ent-&gt;state_truth() = *kv.second.state();</div>
+<div class="line"><span class="lineno">  465</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  466</span>            ent-&gt;state_truth() = kv.second.state();</div>
+<div class="line"><span class="lineno">  467</span>        }</div>
+<div class="line"><span class="lineno">  468</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>.push_back(ent);</div>
+<div class="line"><span class="lineno">  469</span> </div>
+<div class="line"><span class="lineno">  470</span>        (*id_to_ent_map_)[<span class="keywordtype">id</span>.id()] = ent;</div>
+<div class="line"><span class="lineno">  471</span>    }</div>
+<div class="line"><span class="lineno">  472</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a21836b35209277f4995f94fcff3b6065"><div class="ttname"><a href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">scrimmage::External::ents_</a></div><div class="ttdeci">std::list&lt; EntityPtr &gt; ents_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00143">External.h:143</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="External_8h_source.html#l00143">ents_</a>, <a class="el" href="ID_8cpp_source.html#l00056">scrimmage::ID::id()</a>, <a class="el" href="External_8h_source.html#l00142">id_to_ent_map_</a>, <a class="el" href="External_8h_source.html#l00141">id_to_team_map_</a>, and <a class="el" href="External_8h_source.html#l00130">metrics_</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1243,109 +1245,109 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00286">286</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  286</span>                            {</div>
-<div class="line"><span class="lineno">  287</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  288</span>    <span class="keywordtype">double</span> dt = std::isnan(<a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a>) ? 0 : t - <a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a>;</div>
-<div class="line"><span class="lineno">  289</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_t(t);</div>
-<div class="line"><span class="lineno">  290</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_dt(dt);</div>
-<div class="line"><span class="lineno">  291</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a> = t;</div>
-<div class="line"><span class="lineno">  292</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  293</span> </div>
-<div class="line"><span class="lineno">  294</span>    <span class="keywordflow">if</span> (!this-&gt;<a class="code hl_function" href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">call_update_contacts</a>(t)) {</div>
-<div class="line"><span class="lineno">  295</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::step failed during call_update_contacts&quot;</span>);</div>
-<div class="line"><span class="lineno">  296</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  297</span>    }</div>
-<div class="line"><span class="lineno">  298</span> </div>
-<div class="line"><span class="lineno">  299</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00288">288</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  288</span>                            {</div>
+<div class="line"><span class="lineno">  289</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  290</span>    <span class="keywordtype">double</span> dt = std::isnan(<a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a>) ? 0 : t - <a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a>;</div>
+<div class="line"><span class="lineno">  291</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_t(t);</div>
+<div class="line"><span class="lineno">  292</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a57dbd970c100eb9e1918b563658310f7">time_</a>-&gt;set_dt(dt);</div>
+<div class="line"><span class="lineno">  293</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a4335d4fde3f95af985c5592c1315b273">last_t_</a> = t;</div>
+<div class="line"><span class="lineno">  294</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  295</span> </div>
+<div class="line"><span class="lineno">  296</span>    <span class="keywordflow">if</span> (!this-&gt;<a class="code hl_function" href="classscrimmage_1_1External.html#acab091bf1e7c47025c8598edcdb4464c">call_update_contacts</a>(t)) {</div>
+<div class="line"><span class="lineno">  297</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::step failed during call_update_contacts&quot;</span>);</div>
+<div class="line"><span class="lineno">  298</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  299</span>    }</div>
 <div class="line"><span class="lineno">  300</span> </div>
-<div class="line"><span class="lineno">  302</span>    <span class="comment">// run main loops of plugins</span></div>
-<div class="line"><span class="lineno">  304</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a85eb0a47fbe1798b416e6c8a0755b6c5">AutonomyPtr</a> autonomy : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies()) {</div>
-<div class="line"><span class="lineno">  305</span>        autonomy-&gt;step_autonomy(t, dt);</div>
-<div class="line"><span class="lineno">  306</span>    }</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors()) {</div>
-<div class="line"><span class="lineno">  309</span>        <a class="code hl_typedef" href="namespacescrimmage.html#ad426ea9051719a33d49b474755f536f0">SensorPtr</a> sensor = kv.second;</div>
-<div class="line"><span class="lineno">  310</span>        sensor-&gt;step();</div>
-<div class="line"><span class="lineno">  311</span>    }</div>
-<div class="line"><span class="lineno">  312</span> </div>
-<div class="line"><span class="lineno">  313</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;setup_desired_state();</div>
+<div class="line"><span class="lineno">  301</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  304</span>    <span class="comment">// run main loops of plugins</span></div>
+<div class="line"><span class="lineno">  306</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a85eb0a47fbe1798b416e6c8a0755b6c5">AutonomyPtr</a> autonomy : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies()) {</div>
+<div class="line"><span class="lineno">  307</span>        autonomy-&gt;step_autonomy(t, dt);</div>
+<div class="line"><span class="lineno">  308</span>    }</div>
+<div class="line"><span class="lineno">  309</span> </div>
+<div class="line"><span class="lineno">  310</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors()) {</div>
+<div class="line"><span class="lineno">  311</span>        <a class="code hl_typedef" href="namespacescrimmage.html#ad426ea9051719a33d49b474755f536f0">SensorPtr</a> sensor = kv.second;</div>
+<div class="line"><span class="lineno">  312</span>        sensor-&gt;step();</div>
+<div class="line"><span class="lineno">  313</span>    }</div>
 <div class="line"><span class="lineno">  314</span> </div>
-<div class="line"><span class="lineno">  315</span>    <span class="keywordtype">int</span> num_steps = std::max(1.0, std::round(dt / <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>));</div>
-<div class="line"><span class="lineno">  316</span>    <span class="keywordtype">double</span> temp_t = t - dt;</div>
-<div class="line"><span class="lineno">  317</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num_steps; i++) {</div>
-<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#ae9883a6b46de4b9826fe5d7768744050">ControllerPtr</a> controller : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers()) {</div>
-<div class="line"><span class="lineno">  319</span>            controller-&gt;step(temp_t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>);</div>
-<div class="line"><span class="lineno">  320</span>        }</div>
-<div class="line"><span class="lineno">  321</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a2e0fc49e0df79e277c45774e7f59e217">enable_motion_</a>) {</div>
-<div class="line"><span class="lineno">  322</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;motion()-&gt;step(temp_t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>);</div>
-<div class="line"><span class="lineno">  323</span>        }</div>
-<div class="line"><span class="lineno">  324</span>        temp_t += <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>;</div>
-<div class="line"><span class="lineno">  325</span>    }</div>
-<div class="line"><span class="lineno">  326</span> </div>
-<div class="line"><span class="lineno">  327</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.empty()) {</div>
-<div class="line"><span class="lineno">  328</span>        <a class="code hl_function" href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">update_ents</a>();</div>
-<div class="line"><span class="lineno">  329</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a1907aa8ca5f47fe16b9639b110b4ec91">EntityInteractionPtr</a> ent_inter : <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>) {</div>
-<div class="line"><span class="lineno">  330</span>            ent_inter-&gt;step_entity_interaction(<a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>, t, dt);</div>
-<div class="line"><span class="lineno">  331</span>        }</div>
-<div class="line"><span class="lineno">  332</span>    }</div>
-<div class="line"><span class="lineno">  333</span> </div>
-<div class="line"><span class="lineno">  334</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">MetricsPtr</a> metrics : <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>) {</div>
-<div class="line"><span class="lineno">  335</span>        metrics-&gt;step_metrics(t, dt);</div>
-<div class="line"><span class="lineno">  336</span>    }</div>
-<div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3">send_messages</a>()) {</div>
-<div class="line"><span class="lineno">  339</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::step failed during send_messages&quot;</span>);</div>
-<div class="line"><span class="lineno">  340</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  341</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  342</span>    }</div>
-<div class="line"><span class="lineno">  343</span> </div>
-<div class="line"><span class="lineno">  344</span>    <span class="comment">// shapes</span></div>
-<div class="line"><span class="lineno">  345</span>    scrimmage_proto::Shapes shapes;</div>
-<div class="line"><span class="lineno">  346</span>    shapes.set_time(t);</div>
-<div class="line"><span class="lineno">  347</span>    <span class="keyword">auto</span> add_clear_shapes = [&amp;](<span class="keyword">auto</span> p) {</div>
-<div class="line"><span class="lineno">  348</span>        <span class="keyword">auto</span> add_shape = [&amp;](<span class="keyword">auto</span>&amp; shape) {</div>
-<div class="line"><span class="lineno">  349</span>            *shapes.add_shape() = *shape;</div>
-<div class="line"><span class="lineno">  350</span> </div>
-<div class="line"><span class="lineno">  351</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.push(shape);</div>
+<div class="line"><span class="lineno">  315</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;setup_desired_state();</div>
+<div class="line"><span class="lineno">  316</span> </div>
+<div class="line"><span class="lineno">  317</span>    <span class="keywordtype">int</span> num_steps = std::max(1.0, std::round(dt / <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>));</div>
+<div class="line"><span class="lineno">  318</span>    <span class="keywordtype">double</span> temp_t = t - dt;</div>
+<div class="line"><span class="lineno">  319</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; num_steps; i++) {</div>
+<div class="line"><span class="lineno">  320</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#ae9883a6b46de4b9826fe5d7768744050">ControllerPtr</a> controller : <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers()) {</div>
+<div class="line"><span class="lineno">  321</span>            controller-&gt;step(temp_t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>);</div>
+<div class="line"><span class="lineno">  322</span>        }</div>
+<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a2e0fc49e0df79e277c45774e7f59e217">enable_motion_</a>) {</div>
+<div class="line"><span class="lineno">  324</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;motion()-&gt;step(temp_t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>);</div>
+<div class="line"><span class="lineno">  325</span>        }</div>
+<div class="line"><span class="lineno">  326</span>        temp_t += <a class="code hl_variable" href="classscrimmage_1_1External.html#a0be79b227d04b4558bb6145a84af4ebd">motion_dt_</a>;</div>
+<div class="line"><span class="lineno">  327</span>    }</div>
+<div class="line"><span class="lineno">  328</span> </div>
+<div class="line"><span class="lineno">  329</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>.empty()) {</div>
+<div class="line"><span class="lineno">  330</span>        <a class="code hl_function" href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">update_ents</a>();</div>
+<div class="line"><span class="lineno">  331</span>        <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#a1907aa8ca5f47fe16b9639b110b4ec91">EntityInteractionPtr</a> ent_inter : <a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>) {</div>
+<div class="line"><span class="lineno">  332</span>            ent_inter-&gt;step_entity_interaction(<a class="code hl_variable" href="classscrimmage_1_1External.html#a21836b35209277f4995f94fcff3b6065">ents_</a>, t, dt);</div>
+<div class="line"><span class="lineno">  333</span>        }</div>
+<div class="line"><span class="lineno">  334</span>    }</div>
+<div class="line"><span class="lineno">  335</span> </div>
+<div class="line"><span class="lineno">  336</span>    <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespacescrimmage.html#ab7d3fe5e4e0cddb46b9763146f410a90">MetricsPtr</a> metrics : <a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>) {</div>
+<div class="line"><span class="lineno">  337</span>        metrics-&gt;step_metrics(t, dt);</div>
+<div class="line"><span class="lineno">  338</span>    }</div>
+<div class="line"><span class="lineno">  339</span> </div>
+<div class="line"><span class="lineno">  340</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3">send_messages</a>()) {</div>
+<div class="line"><span class="lineno">  341</span>        <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;External::step failed during send_messages&quot;</span>);</div>
+<div class="line"><span class="lineno">  342</span>        <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  343</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  344</span>    }</div>
+<div class="line"><span class="lineno">  345</span> </div>
+<div class="line"><span class="lineno">  346</span>    <span class="comment">// shapes</span></div>
+<div class="line"><span class="lineno">  347</span>    scrimmage_proto::Shapes shapes;</div>
+<div class="line"><span class="lineno">  348</span>    shapes.set_time(t);</div>
+<div class="line"><span class="lineno">  349</span>    <span class="keyword">auto</span> add_clear_shapes = [&amp;](<span class="keyword">auto</span> p) {</div>
+<div class="line"><span class="lineno">  350</span>        <span class="keyword">auto</span> add_shape = [&amp;](<span class="keyword">auto</span>&amp; shape) {</div>
+<div class="line"><span class="lineno">  351</span>            *shapes.add_shape() = *shape;</div>
 <div class="line"><span class="lineno">  352</span> </div>
-<div class="line"><span class="lineno">  353</span>            <span class="keyword">auto</span> max_size = this-&gt;<a class="code hl_function" href="classscrimmage_1_1External.html#ad9f28a3b4997fb5c4b51281ce7edd3a4">shape_queue_max_size</a>();</div>
-<div class="line"><span class="lineno">  354</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.size() &gt; max_size) {</div>
-<div class="line"><span class="lineno">  355</span>                <a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.pop();</div>
-<div class="line"><span class="lineno">  356</span>            }</div>
-<div class="line"><span class="lineno">  357</span>        };</div>
-<div class="line"><span class="lineno">  358</span>        br::for_each(p-&gt;shapes(), add_shape);</div>
-<div class="line"><span class="lineno">  359</span>        p-&gt;shapes().clear();  <span class="comment">// don&#39;t let shapes build up</span></div>
-<div class="line"><span class="lineno">  360</span>    };</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies(), add_clear_shapes);</div>
-<div class="line"><span class="lineno">  363</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers(), add_clear_shapes);</div>
-<div class="line"><span class="lineno">  364</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors() | ba::map_values, add_clear_shapes);</div>
-<div class="line"><span class="lineno">  365</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, add_clear_shapes);</div>
-<div class="line"><span class="lineno">  366</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, add_clear_shapes);</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;save_frame(<a class="code hl_function" href="namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6">create_frame</a>(t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()));</div>
-<div class="line"><span class="lineno">  369</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;save_shapes(shapes);</div>
-<div class="line"><span class="lineno">  370</span> </div>
-<div class="line"><span class="lineno">  371</span>    <span class="comment">// Send shapes over configured grpc network interfaces</span></div>
-<div class="line"><span class="lineno">  372</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> interface : <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>) {</div>
-<div class="line"><span class="lineno">  373</span>        interface-&gt;send_shapes(shapes);</div>
-<div class="line"><span class="lineno">  374</span>        interface-&gt;send_frame(t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts());</div>
-<div class="line"><span class="lineno">  375</span>    }</div>
-<div class="line"><span class="lineno">  376</span> </div>
-<div class="line"><span class="lineno">  377</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  378</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  379</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_a161f576841fbc0f10fce07f37729e2d3"><div class="ttname"><a href="classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3">scrimmage::External::send_messages</a></div><div class="ttdeci">bool send_messages()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00385">External.cpp:385</a></div></div>
+<div class="line"><span class="lineno">  353</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.push(shape);</div>
+<div class="line"><span class="lineno">  354</span> </div>
+<div class="line"><span class="lineno">  355</span>            <span class="keyword">auto</span> max_size = this-&gt;<a class="code hl_function" href="classscrimmage_1_1External.html#ad9f28a3b4997fb5c4b51281ce7edd3a4">shape_queue_max_size</a>();</div>
+<div class="line"><span class="lineno">  356</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.size() &gt; max_size) {</div>
+<div class="line"><span class="lineno">  357</span>                <a class="code hl_variable" href="classscrimmage_1_1External.html#ac86a209fefda36544c971a2fbf87dd01">shape_queue_</a>.pop();</div>
+<div class="line"><span class="lineno">  358</span>            }</div>
+<div class="line"><span class="lineno">  359</span>        };</div>
+<div class="line"><span class="lineno">  360</span>        br::for_each(p-&gt;shapes(), add_shape);</div>
+<div class="line"><span class="lineno">  361</span>        p-&gt;shapes().clear();  <span class="comment">// don&#39;t let shapes build up</span></div>
+<div class="line"><span class="lineno">  362</span>    };</div>
+<div class="line"><span class="lineno">  363</span> </div>
+<div class="line"><span class="lineno">  364</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;autonomies(), add_clear_shapes);</div>
+<div class="line"><span class="lineno">  365</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;controllers(), add_clear_shapes);</div>
+<div class="line"><span class="lineno">  366</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;sensors() | ba::map_values, add_clear_shapes);</div>
+<div class="line"><span class="lineno">  367</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#a7f8bea79329e6e30dd2909744ca6937b">ent_inters_</a>, add_clear_shapes);</div>
+<div class="line"><span class="lineno">  368</span>    br::for_each(<a class="code hl_variable" href="classscrimmage_1_1External.html#ae962c5970fd5e9132159423a52b54ef3">metrics_</a>, add_clear_shapes);</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;save_frame(<a class="code hl_function" href="namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6">create_frame</a>(t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()));</div>
+<div class="line"><span class="lineno">  371</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ac3279307c0d738fcc860bdf5808c43c4">log_</a>-&gt;save_shapes(shapes);</div>
+<div class="line"><span class="lineno">  372</span> </div>
+<div class="line"><span class="lineno">  373</span>    <span class="comment">// Send shapes over configured grpc network interfaces</span></div>
+<div class="line"><span class="lineno">  374</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> interface : <a class="code hl_variable" href="classscrimmage_1_1External.html#af6680ba40442eb5f344fdeb2cb6de709">outgoing_interfaces_</a>) {</div>
+<div class="line"><span class="lineno">  375</span>        interface-&gt;send_shapes(shapes);</div>
+<div class="line"><span class="lineno">  376</span>        interface-&gt;send_frame(t, <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts());</div>
+<div class="line"><span class="lineno">  377</span>    }</div>
+<div class="line"><span class="lineno">  378</span> </div>
+<div class="line"><span class="lineno">  379</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  380</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  381</span>}</div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_a161f576841fbc0f10fce07f37729e2d3"><div class="ttname"><a href="classscrimmage_1_1External.html#a161f576841fbc0f10fce07f37729e2d3">scrimmage::External::send_messages</a></div><div class="ttdeci">bool send_messages()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00387">External.cpp:387</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a2e0fc49e0df79e277c45774e7f59e217"><div class="ttname"><a href="classscrimmage_1_1External.html#a2e0fc49e0df79e277c45774e7f59e217">scrimmage::External::enable_motion_</a></div><div class="ttdeci">bool enable_motion_</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00128">External.h:128</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1External_html_a79b64afe54b1228eccce20b677c0c3bd"><div class="ttname"><a href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">scrimmage::External::update_ents</a></div><div class="ttdeci">void update_ents()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00446">External.cpp:446</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1External_html_a79b64afe54b1228eccce20b677c0c3bd"><div class="ttname"><a href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">scrimmage::External::update_ents</a></div><div class="ttdeci">void update_ents()</div><div class="ttdef"><b>Definition</b> <a href="External_8cpp_source.html#l00448">External.cpp:448</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_ad9f28a3b4997fb5c4b51281ce7edd3a4"><div class="ttname"><a href="classscrimmage_1_1External.html#ad9f28a3b4997fb5c4b51281ce7edd3a4">scrimmage::External::shape_queue_max_size</a></div><div class="ttdeci">std::size_t &amp; shape_queue_max_size()</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00105">External.h:105</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_a85eb0a47fbe1798b416e6c8a0755b6c5"><div class="ttname"><a href="namespacescrimmage.html#a85eb0a47fbe1798b416e6c8a0755b6c5">scrimmage::AutonomyPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Autonomy &gt; AutonomyPtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00060">fwd_decl.h:60</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_aaedf89789a49f693abcf15eecdafd9e6"><div class="ttname"><a href="namespacescrimmage.html#aaedf89789a49f693abcf15eecdafd9e6">scrimmage::create_frame</a></div><div class="ttdeci">std::shared_ptr&lt; scrimmage_proto::Frame &gt; create_frame(double time, std::shared_ptr&lt; ContactMap &gt; &amp;contacts)</div><div class="ttdef"><b>Definition</b> <a href="ProtoConversions_8cpp_source.html#l00281">ProtoConversions.cpp:281</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ad426ea9051719a33d49b474755f536f0"><div class="ttname"><a href="namespacescrimmage.html#ad426ea9051719a33d49b474755f536f0">scrimmage::SensorPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Sensor &gt; SensorPtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00145">fwd_decl.h:145</a></div></div>
 <div class="ttc" id="anamespacescrimmage_html_ae9883a6b46de4b9826fe5d7768744050"><div class="ttname"><a href="namespacescrimmage.html#ae9883a6b46de4b9826fe5d7768744050">scrimmage::ControllerPtr</a></div><div class="ttdeci">std::shared_ptr&lt; Controller &gt; ControllerPtr</div><div class="ttdef"><b>Definition</b> <a href="fwd__decl_8h_source.html#l00142">fwd_decl.h:142</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00281">scrimmage::create_frame()</a>, <a class="el" href="External_8h_source.html#l00128">enable_motion_</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="External_8h_source.html#l00143">ents_</a>, <a class="el" href="External_8h_source.html#l00135">last_t_</a>, <a class="el" href="External_8h_source.html#l00134">log_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00103">motion_dt_</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, <a class="el" href="External_8h_source.html#l00374">outgoing_interfaces_</a>, <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>, <a class="el" href="External_8h_source.html#l00146">shape_queue_</a>, <a class="el" href="External_8h_source.html#l00105">shape_queue_max_size()</a>, <a class="el" href="External_8h_source.html#l00137">time_</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">References <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>, <a class="el" href="ProtoConversions_8cpp_source.html#l00281">scrimmage::create_frame()</a>, <a class="el" href="External_8h_source.html#l00128">enable_motion_</a>, <a class="el" href="External_8h_source.html#l00129">ent_inters_</a>, <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="External_8h_source.html#l00143">ents_</a>, <a class="el" href="External_8h_source.html#l00135">last_t_</a>, <a class="el" href="External_8h_source.html#l00134">log_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00130">metrics_</a>, <a class="el" href="External_8h_source.html#l00103">motion_dt_</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, <a class="el" href="External_8h_source.html#l00374">outgoing_interfaces_</a>, <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>, <a class="el" href="External_8h_source.html#l00146">shape_queue_</a>, <a class="el" href="External_8h_source.html#l00105">shape_queue_max_size()</a>, <a class="el" href="External_8h_source.html#l00137">time_</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1422,31 +1424,31 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00423">423</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  423</span>                                            {</div>
-<div class="line"><span class="lineno">  424</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
-<div class="line"><span class="lineno">  425</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a7ca5de51f350bd9f5d56cba567cf5b1c">update_contacts_task</a>.<a class="code hl_function" href="classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17">update</a>(t).first) {</div>
-<div class="line"><span class="lineno">  426</span>        <span class="keyword">auto</span> rtree = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;rtree();  <span class="comment">// rtree is a shared_ptr</span></div>
-<div class="line"><span class="lineno">  427</span>        <span class="keywordflow">if</span> (!rtree) {</div>
-<div class="line"><span class="lineno">  428</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;call_update_contacts failed: rtree is null - entity not properly initialized&quot;</span>);</div>
-<div class="line"><span class="lineno">  429</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  430</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  431</span>        }</div>
-<div class="line"><span class="lineno">  432</span>        rtree-&gt;init(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;size());</div>
-<div class="line"><span class="lineno">  433</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : *<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()) {</div>
-<div class="line"><span class="lineno">  434</span>            rtree-&gt;add(kv.second.state()-&gt;pos(), kv.second.id());</div>
-<div class="line"><span class="lineno">  435</span>        }</div>
-<div class="line"><span class="lineno">  436</span>        <a class="code hl_function" href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">update_ents</a>();</div>
-<div class="line"><span class="lineno">  437</span>    }</div>
-<div class="line"><span class="lineno">  438</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
-<div class="line"><span class="lineno">  439</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  440</span>}</div>
+<p class="definition">Definition at line <a class="el" href="External_8cpp_source.html#l00425">425</a> of file <a class="el" href="External_8cpp_source.html">External.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  425</span>                                            {</div>
+<div class="line"><span class="lineno">  426</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.lock();</div>
+<div class="line"><span class="lineno">  427</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classscrimmage_1_1External.html#a7ca5de51f350bd9f5d56cba567cf5b1c">update_contacts_task</a>.<a class="code hl_function" href="classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17">update</a>(t).first) {</div>
+<div class="line"><span class="lineno">  428</span>        <span class="keyword">auto</span> rtree = <a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;rtree();  <span class="comment">// rtree is a shared_ptr</span></div>
+<div class="line"><span class="lineno">  429</span>        <span class="keywordflow">if</span> (!rtree) {</div>
+<div class="line"><span class="lineno">  430</span>            <a class="code hl_define" href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(<span class="stringliteral">&quot;call_update_contacts failed: rtree is null - entity not properly initialized&quot;</span>);</div>
+<div class="line"><span class="lineno">  431</span>            <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  432</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  433</span>        }</div>
+<div class="line"><span class="lineno">  434</span>        rtree-&gt;init(<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()-&gt;size());</div>
+<div class="line"><span class="lineno">  435</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : *<a class="code hl_variable" href="classscrimmage_1_1External.html#a50ed2f5bd4cb90f9d9425bec2f9a0ace">entity_</a>-&gt;contacts()) {</div>
+<div class="line"><span class="lineno">  436</span>            rtree-&gt;add(kv.second.state()-&gt;pos(), kv.second.id());</div>
+<div class="line"><span class="lineno">  437</span>        }</div>
+<div class="line"><span class="lineno">  438</span>        <a class="code hl_function" href="classscrimmage_1_1External.html#a79b64afe54b1228eccce20b677c0c3bd">update_ents</a>();</div>
+<div class="line"><span class="lineno">  439</span>    }</div>
+<div class="line"><span class="lineno">  440</span>    <a class="code hl_variable" href="classscrimmage_1_1External.html#ae377aad46d79f38642d34055a3b08d67">mutex</a>.unlock();</div>
+<div class="line"><span class="lineno">  441</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  442</span>}</div>
 <div class="ttc" id="aclassscrimmage_1_1DelayedTask_html_acb1881072952a202dd63b3b6f9498a17"><div class="ttname"><a href="classscrimmage_1_1DelayedTask.html#acb1881072952a202dd63b3b6f9498a17">scrimmage::DelayedTask::update</a></div><div class="ttdeci">std::pair&lt; bool, bool &gt; update(double t)</div><div class="ttdef"><b>Definition</b> <a href="DelayedTask_8cpp_source.html#l00058">DelayedTask.cpp:58</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1External_html_a7ca5de51f350bd9f5d56cba567cf5b1c"><div class="ttname"><a href="classscrimmage_1_1External.html#a7ca5de51f350bd9f5d56cba567cf5b1c">scrimmage::External::update_contacts_task</a></div><div class="ttdeci">DelayedTask update_contacts_task</div><div class="ttdef"><b>Definition</b> <a href="External_8h_source.html#l00111">External.h:111</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, <a class="el" href="DelayedTask_8cpp_source.html#l00058">scrimmage::DelayedTask::update()</a>, <a class="el" href="External_8h_source.html#l00111">update_contacts_task</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">References <a class="el" href="External_8h_source.html#l00127">entity_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="External_8h_source.html#l00110">mutex</a>, <a class="el" href="DelayedTask_8cpp_source.html#l00058">scrimmage::DelayedTask::update()</a>, <a class="el" href="External_8h_source.html#l00111">update_contacts_task</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1515,7 +1517,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00103">103</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1551,7 +1553,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00110">110</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>, <a class="el" href="External_8cpp_source.html#l00472">close()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>, <a class="el" href="External_8cpp_source.html#l00474">close()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1569,7 +1571,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00111">111</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>.</p>
 
 </div>
 </div>
@@ -1595,7 +1597,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00127">127</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00423">call_update_contacts()</a>, <a class="el" href="External_8cpp_source.html#l00472">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00483">enable_outgoing_interface()</a>, <a class="el" href="External_8cpp_source.html#l00381">entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00286">step()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00425">call_update_contacts()</a>, <a class="el" href="External_8cpp_source.html#l00474">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00485">enable_outgoing_interface()</a>, <a class="el" href="External_8cpp_source.html#l00383">entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00288">step()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -1621,7 +1623,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00128">128</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1647,7 +1649,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00129">129</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00472">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00286">step()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00474">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00288">step()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -1673,7 +1675,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00130">130</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00472">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00286">step()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00474">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>, <a class="el" href="External_8cpp_source.html#l00288">step()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -1699,7 +1701,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00131">131</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, and <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00087">print_plugins()</a>, and <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>.</p>
 
 </div>
 </div>
@@ -1751,7 +1753,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00134">134</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00272">setup_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00274">setup_logging()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1777,7 +1779,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00135">135</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1803,7 +1805,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00136">136</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8h_source.html#l00150">pubsub()</a>, and <a class="el" href="External_8cpp_source.html#l00385">send_messages()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8h_source.html#l00150">pubsub()</a>, and <a class="el" href="External_8cpp_source.html#l00387">send_messages()</a>.</p>
 
 </div>
 </div>
@@ -1829,7 +1831,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00137">137</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00472">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00497">set_time()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00474">close()</a>, <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00499">set_time()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -1855,7 +1857,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00138">138</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8h_source.html#l00117">param_server()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8h_source.html#l00117">param_server()</a>.</p>
 
 </div>
 </div>
@@ -1907,7 +1909,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00140">140</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00442">mp()</a>, and <a class="el" href="External_8cpp_source.html#l00272">setup_logging()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, <a class="el" href="External_8cpp_source.html#l00444">mp()</a>, and <a class="el" href="External_8cpp_source.html#l00274">setup_logging()</a>.</p>
 
 </div>
 </div>
@@ -1933,7 +1935,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00141">141</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -1959,7 +1961,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00142">142</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00104">create_entity()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -1985,7 +1987,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00143">143</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00286">step()</a>, and <a class="el" href="External_8cpp_source.html#l00446">update_ents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00288">step()</a>, and <a class="el" href="External_8cpp_source.html#l00448">update_ents()</a>.</p>
 
 </div>
 </div>
@@ -2037,7 +2039,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00146">146</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8h_source.html#l00107">shape_queue()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8h_source.html#l00107">shape_queue()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -2063,7 +2065,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="External_8h_source.html#l00374">374</a> of file <a class="el" href="External_8h_source.html">External.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00492">disable_outgoing_interfaces()</a>, <a class="el" href="External_8cpp_source.html#l00483">enable_outgoing_interface()</a>, and <a class="el" href="External_8cpp_source.html#l00286">step()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="External_8cpp_source.html#l00494">disable_outgoing_interfaces()</a>, <a class="el" href="External_8cpp_source.html#l00485">enable_outgoing_interface()</a>, and <a class="el" href="External_8cpp_source.html#l00288">step()</a>.</p>
 
 </div>
 </div>
@@ -2077,7 +2079,7 @@ Here is the caller graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1External.html">External</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

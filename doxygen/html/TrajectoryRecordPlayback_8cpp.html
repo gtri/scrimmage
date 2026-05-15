@@ -236,81 +236,83 @@ DESCRIPTION</h1>
 <div class="line"><span class="lineno">   88</span> </div>
 <div class="line"><span class="lineno">   89</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> r = 0; r &lt; csv_.rows(); r++) {</div>
 <div class="line"><span class="lineno">   90</span>            <a class="code hl_class" href="classscrimmage_1_1State.html">scrimmage::State</a> desired_state;</div>
-<div class="line"><span class="lineno">   91</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>() &lt;&lt; csv_.at(r, <span class="stringliteral">&quot;x_d&quot;</span>), csv_.at(r, <span class="stringliteral">&quot;y_d&quot;</span>), csv_.at(r, <span class="stringliteral">&quot;z_d&quot;</span>);</div>
-<div class="line"><span class="lineno">   92</span> </div>
-<div class="line"><span class="lineno">   93</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12">vel</a>() &lt;&lt; csv_.at(r, <span class="stringliteral">&quot;vx_d&quot;</span>), csv_.at(r, <span class="stringliteral">&quot;vy_d&quot;</span>), csv_.at(r, <span class="stringliteral">&quot;vz_d&quot;</span>);</div>
-<div class="line"><span class="lineno">   94</span> </div>
-<div class="line"><span class="lineno">   95</span>            <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(</div>
-<div class="line"><span class="lineno">   96</span>                csv_.at(r, <span class="stringliteral">&quot;roll_d&quot;</span>),</div>
-<div class="line"><span class="lineno">   97</span>                csv_.at(r, <span class="stringliteral">&quot;pitch_d&quot;</span>),</div>
-<div class="line"><span class="lineno">   98</span>                csv_.at(r, <span class="stringliteral">&quot;yaw_d&quot;</span>));</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523">quat</a>() = quat;</div>
+<div class="line"><span class="lineno">   91</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a011763289b5af110083872e3766c5044">pos</a>() &lt;&lt; csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;x_d&quot;</span>), csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;y_d&quot;</span>),</div>
+<div class="line"><span class="lineno">   92</span>                csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;z_d&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12">vel</a>() &lt;&lt; csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;vx_d&quot;</span>), csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;vy_d&quot;</span>),</div>
+<div class="line"><span class="lineno">   95</span>                csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;vz_d&quot;</span>);</div>
+<div class="line"><span class="lineno">   96</span> </div>
+<div class="line"><span class="lineno">   97</span>            <a class="code hl_class" href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a> quat(</div>
+<div class="line"><span class="lineno">   98</span>                csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;roll_d&quot;</span>),</div>
+<div class="line"><span class="lineno">   99</span>                csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;pitch_d&quot;</span>),</div>
+<div class="line"><span class="lineno">  100</span>                csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;yaw_d&quot;</span>));</div>
 <div class="line"><span class="lineno">  101</span> </div>
-<div class="line"><span class="lineno">  102</span>            TrajectoryPoint traj;</div>
-<div class="line"><span class="lineno">  103</span>            traj.set_t(csv_.at(r, <span class="stringliteral">&quot;t&quot;</span>));</div>
-<div class="line"><span class="lineno">  104</span>            traj.set_desired_state(desired_state);</div>
-<div class="line"><span class="lineno">  105</span>            trajs_.push_back(traj);</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
-<div class="line"><span class="lineno">  107</span>        it_traj_ = trajs_.begin();</div>
-<div class="line"><span class="lineno">  108</span>    }</div>
-<div class="line"><span class="lineno">  109</span>}</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span><span class="keywordtype">bool</span> TrajectoryRecordPlayback::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
-<div class="line"><span class="lineno">  112</span>    <span class="keywordflow">if</span> (!enable_playback_) {</div>
-<div class="line"><span class="lineno">  113</span>        <span class="comment">// Get previous autonomy&#39;s desired_state</span></div>
-<div class="line"><span class="lineno">  114</span>        <span class="keyword">auto</span> it = std::find_if(</div>
-<div class="line"><span class="lineno">  115</span>            parent_-&gt;autonomies().rbegin(),</div>
-<div class="line"><span class="lineno">  116</span>            parent_-&gt;autonomies().rend(),</div>
-<div class="line"><span class="lineno">  117</span>            [&amp;](<span class="keyword">auto</span> autonomy) { return autonomy-&gt;get_is_controlling(); });</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>        csv_.append(</div>
-<div class="line"><span class="lineno">  120</span>            sc::CSV::Pairs{</div>
-<div class="line"><span class="lineno">  121</span>                {<span class="stringliteral">&quot;t&quot;</span>, t},</div>
-<div class="line"><span class="lineno">  122</span>                {<span class="stringliteral">&quot;x&quot;</span>, state_-&gt;pos()(0)},</div>
-<div class="line"><span class="lineno">  123</span>                {<span class="stringliteral">&quot;y&quot;</span>, state_-&gt;pos()(1)},</div>
-<div class="line"><span class="lineno">  124</span>                {<span class="stringliteral">&quot;z&quot;</span>, state_-&gt;pos()(2)},</div>
-<div class="line"><span class="lineno">  125</span>                {<span class="stringliteral">&quot;vx&quot;</span>, state_-&gt;vel()(0)},</div>
-<div class="line"><span class="lineno">  126</span>                {<span class="stringliteral">&quot;vy&quot;</span>, state_-&gt;vel()(1)},</div>
-<div class="line"><span class="lineno">  127</span>                {<span class="stringliteral">&quot;vz&quot;</span>, state_-&gt;vel()(2)},</div>
-<div class="line"><span class="lineno">  128</span>                {<span class="stringliteral">&quot;roll&quot;</span>, state_-&gt;quat().roll()},</div>
-<div class="line"><span class="lineno">  129</span>                {<span class="stringliteral">&quot;pitch&quot;</span>, state_-&gt;quat().pitch()},</div>
-<div class="line"><span class="lineno">  130</span>                {<span class="stringliteral">&quot;yaw&quot;</span>, state_-&gt;quat().yaw()},</div>
-<div class="line"><span class="lineno">  131</span>                {<span class="stringliteral">&quot;x_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(0)},</div>
-<div class="line"><span class="lineno">  132</span>                {<span class="stringliteral">&quot;y_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(1)},</div>
-<div class="line"><span class="lineno">  133</span>                {<span class="stringliteral">&quot;z_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(2)},</div>
-<div class="line"><span class="lineno">  134</span>                {<span class="stringliteral">&quot;vx_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(0)},</div>
-<div class="line"><span class="lineno">  135</span>                {<span class="stringliteral">&quot;vy_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(1)},</div>
-<div class="line"><span class="lineno">  136</span>                {<span class="stringliteral">&quot;vz_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(2)},</div>
-<div class="line"><span class="lineno">  137</span>                {<span class="stringliteral">&quot;roll_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().roll()},</div>
-<div class="line"><span class="lineno">  138</span>                {<span class="stringliteral">&quot;pitch_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().pitch()},</div>
-<div class="line"><span class="lineno">  139</span>                {<span class="stringliteral">&quot;yaw_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().yaw()},</div>
-<div class="line"><span class="lineno">  140</span>            });</div>
-<div class="line"><span class="lineno">  141</span> </div>
-<div class="line"><span class="lineno">  142</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  143</span>    }</div>
-<div class="line"><span class="lineno">  144</span> </div>
-<div class="line"><span class="lineno">  145</span>    <span class="comment">// Playback the trajectory</span></div>
-<div class="line"><span class="lineno">  146</span>    (*desired_state_) = it_traj_-&gt;desired_state();</div>
-<div class="line"><span class="lineno">  147</span> </div>
-<div class="line"><span class="lineno">  148</span>    <span class="comment">// Increment trajectory reference</span></div>
-<div class="line"><span class="lineno">  149</span>    ++it_traj_;</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">if</span> (it_traj_ == trajs_.end()) {</div>
-<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">if</span> (remove_at_end_) {</div>
-<div class="line"><span class="lineno">  153</span>            <span class="comment">// Remove entity from simulation</span></div>
-<div class="line"><span class="lineno">  154</span>            parent_-&gt;set_health_points(0);</div>
-<div class="line"><span class="lineno">  155</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  156</span>            <span class="comment">// Remain at last trajectory command if end is reached</span></div>
-<div class="line"><span class="lineno">  157</span>            --it_traj_;</div>
-<div class="line"><span class="lineno">  158</span>        }</div>
-<div class="line"><span class="lineno">  159</span>    }</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  162</span>}</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>}  <span class="comment">// namespace autonomy</span></div>
-<div class="line"><span class="lineno">  165</span>}  <span class="comment">// namespace scrimmage</span></div>
+<div class="line"><span class="lineno">  102</span>            desired_state.<a class="code hl_function" href="classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523">quat</a>() = quat;</div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>            TrajectoryPoint traj;</div>
+<div class="line"><span class="lineno">  105</span>            traj.set_t(csv_.at&lt;<span class="keywordtype">double</span>&gt;(r, <span class="stringliteral">&quot;t&quot;</span>));</div>
+<div class="line"><span class="lineno">  106</span>            traj.set_desired_state(desired_state);</div>
+<div class="line"><span class="lineno">  107</span>            trajs_.push_back(traj);</div>
+<div class="line"><span class="lineno">  108</span>        }</div>
+<div class="line"><span class="lineno">  109</span>        it_traj_ = trajs_.begin();</div>
+<div class="line"><span class="lineno">  110</span>    }</div>
+<div class="line"><span class="lineno">  111</span>}</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span><span class="keywordtype">bool</span> TrajectoryRecordPlayback::step_autonomy(<span class="keywordtype">double</span> t, <span class="keywordtype">double</span> dt) {</div>
+<div class="line"><span class="lineno">  114</span>    <span class="keywordflow">if</span> (!enable_playback_) {</div>
+<div class="line"><span class="lineno">  115</span>        <span class="comment">// Get previous autonomy&#39;s desired_state</span></div>
+<div class="line"><span class="lineno">  116</span>        <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><span class="lineno">  117</span>            parent_-&gt;autonomies().rbegin(),</div>
+<div class="line"><span class="lineno">  118</span>            parent_-&gt;autonomies().rend(),</div>
+<div class="line"><span class="lineno">  119</span>            [&amp;](<span class="keyword">auto</span> autonomy) { return autonomy-&gt;get_is_controlling(); });</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>        csv_.append(</div>
+<div class="line"><span class="lineno">  122</span>            sc::CSV::Pairs{</div>
+<div class="line"><span class="lineno">  123</span>                {<span class="stringliteral">&quot;t&quot;</span>, t},</div>
+<div class="line"><span class="lineno">  124</span>                {<span class="stringliteral">&quot;x&quot;</span>, state_-&gt;pos()(0)},</div>
+<div class="line"><span class="lineno">  125</span>                {<span class="stringliteral">&quot;y&quot;</span>, state_-&gt;pos()(1)},</div>
+<div class="line"><span class="lineno">  126</span>                {<span class="stringliteral">&quot;z&quot;</span>, state_-&gt;pos()(2)},</div>
+<div class="line"><span class="lineno">  127</span>                {<span class="stringliteral">&quot;vx&quot;</span>, state_-&gt;vel()(0)},</div>
+<div class="line"><span class="lineno">  128</span>                {<span class="stringliteral">&quot;vy&quot;</span>, state_-&gt;vel()(1)},</div>
+<div class="line"><span class="lineno">  129</span>                {<span class="stringliteral">&quot;vz&quot;</span>, state_-&gt;vel()(2)},</div>
+<div class="line"><span class="lineno">  130</span>                {<span class="stringliteral">&quot;roll&quot;</span>, state_-&gt;quat().roll()},</div>
+<div class="line"><span class="lineno">  131</span>                {<span class="stringliteral">&quot;pitch&quot;</span>, state_-&gt;quat().pitch()},</div>
+<div class="line"><span class="lineno">  132</span>                {<span class="stringliteral">&quot;yaw&quot;</span>, state_-&gt;quat().yaw()},</div>
+<div class="line"><span class="lineno">  133</span>                {<span class="stringliteral">&quot;x_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(0)},</div>
+<div class="line"><span class="lineno">  134</span>                {<span class="stringliteral">&quot;y_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(1)},</div>
+<div class="line"><span class="lineno">  135</span>                {<span class="stringliteral">&quot;z_d&quot;</span>, (*(*it)-&gt;desired_state()).pos()(2)},</div>
+<div class="line"><span class="lineno">  136</span>                {<span class="stringliteral">&quot;vx_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(0)},</div>
+<div class="line"><span class="lineno">  137</span>                {<span class="stringliteral">&quot;vy_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(1)},</div>
+<div class="line"><span class="lineno">  138</span>                {<span class="stringliteral">&quot;vz_d&quot;</span>, (*(*it)-&gt;desired_state()).vel()(2)},</div>
+<div class="line"><span class="lineno">  139</span>                {<span class="stringliteral">&quot;roll_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().roll()},</div>
+<div class="line"><span class="lineno">  140</span>                {<span class="stringliteral">&quot;pitch_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().pitch()},</div>
+<div class="line"><span class="lineno">  141</span>                {<span class="stringliteral">&quot;yaw_d&quot;</span>, (*(*it)-&gt;desired_state()).quat().yaw()},</div>
+<div class="line"><span class="lineno">  142</span>            });</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  145</span>    }</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>    <span class="comment">// Playback the trajectory</span></div>
+<div class="line"><span class="lineno">  148</span>    (*desired_state_) = it_traj_-&gt;desired_state();</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>    <span class="comment">// Increment trajectory reference</span></div>
+<div class="line"><span class="lineno">  151</span>    ++it_traj_;</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>    <span class="keywordflow">if</span> (it_traj_ == trajs_.end()) {</div>
+<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> (remove_at_end_) {</div>
+<div class="line"><span class="lineno">  155</span>            <span class="comment">// Remove entity from simulation</span></div>
+<div class="line"><span class="lineno">  156</span>            parent_-&gt;set_health_points(0);</div>
+<div class="line"><span class="lineno">  157</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  158</span>            <span class="comment">// Remain at last trajectory command if end is reached</span></div>
+<div class="line"><span class="lineno">  159</span>            --it_traj_;</div>
+<div class="line"><span class="lineno">  160</span>        }</div>
+<div class="line"><span class="lineno">  161</span>    }</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  164</span>}</div>
+<div class="line"><span class="lineno">  165</span> </div>
+<div class="line"><span class="lineno">  166</span>}  <span class="comment">// namespace autonomy</span></div>
+<div class="line"><span class="lineno">  167</span>}  <span class="comment">// namespace scrimmage</span></div>
 <div class="ttc" id="aLogger_8h_html_ad4a9117ce894e3319e903142347a0f63"><div class="ttname"><a href="Logger_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(...)</div><div class="ttdef"><b>Definition</b> <a href="Logger_8h_source.html#l00157">Logger.h:157</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1Quaternion_html"><div class="ttname"><a href="classscrimmage_1_1Quaternion.html">scrimmage::Quaternion</a></div><div class="ttdef"><b>Definition</b> <a href="Quaternion_8h_source.html#l00041">Quaternion.h:41</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html"><div class="ttname"><a href="classscrimmage_1_1State.html">scrimmage::State</a></div><div class="ttdef"><b>Definition</b> <a href="State_8h_source.html#l00045">State.h:45</a></div></div>
@@ -318,7 +320,7 @@ DESCRIPTION</h1>
 <div class="ttc" id="aclassscrimmage_1_1State_html_a10368163ffd50c98e3b55b3341886523"><div class="ttname"><a href="classscrimmage_1_1State.html#a10368163ffd50c98e3b55b3341886523">scrimmage::State::quat</a></div><div class="ttdeci">Quaternion &amp; quat()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00059">State.cpp:59</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1State_html_a60a35b2ceea0d290c7f44909e42e4d12"><div class="ttname"><a href="classscrimmage_1_1State.html#a60a35b2ceea0d290c7f44909e42e4d12">scrimmage::State::vel</a></div><div class="ttdeci">Eigen::Vector3d &amp; vel()</div><div class="ttdef"><b>Definition</b> <a href="State_8cpp_source.html#l00053">State.cpp:53</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00074">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8cpp_source.html#l00284">scrimmage::CSV::at()</a>, <a class="el" href="CSV_8cpp_source.html#l00107">scrimmage::CSV::close_output()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00062">scrimmage::autonomy::TrajectoryRecordPlayback::csv_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00107">scrimmage::Autonomy::desired_state()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00058">scrimmage::autonomy::TrajectoryRecordPlayback::enable_playback_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00057">scrimmage::autonomy::TrajectoryRecordPlayback::it_traj_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="CSV_8cpp_source.html#l00098">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="CSV_8cpp_source.html#l00264">scrimmage::CSV::read_csv()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00059">scrimmage::autonomy::TrajectoryRecordPlayback::remove_at_end_</a>, <a class="el" href="CSV_8cpp_source.html#l00280">scrimmage::CSV::rows()</a>, <a class="el" href="CSV_8cpp_source.html#l00051">scrimmage::CSV::set_column_headers()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00087">scrimmage::Autonomy::set_is_controlling()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a0a0361a280806e6e215cdb0ab8e95584">scrimmage::autonomy::TrajectoryRecordPlayback::step_autonomy()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00060">scrimmage::autonomy::TrajectoryRecordPlayback::trajectory_filename_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aca35b76b7d6ad125bf24d10f5ca5e0e2">scrimmage::autonomy::TrajectoryRecordPlayback::TrajectoryRecordPlayback()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00056">scrimmage::autonomy::TrajectoryRecordPlayback::trajs_</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aa3024973e2e554b72a82190dd8467fbd">scrimmage::autonomy::TrajectoryRecordPlayback::~TrajectoryRecordPlayback()</a>.</p>
+<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00195">scrimmage::CSV::append()</a>, <a class="el" href="CSV_8h_source.html#l00117">scrimmage::CSV::at()</a>, <a class="el" href="CSV_8cpp_source.html#l00228">scrimmage::CSV::close_output()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00062">scrimmage::autonomy::TrajectoryRecordPlayback::csv_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00107">scrimmage::Autonomy::desired_state()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00058">scrimmage::autonomy::TrajectoryRecordPlayback::enable_playback_</a>, <a class="el" href="Autonomy_8cpp_source.html#l00101">scrimmage::Autonomy::init()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00057">scrimmage::autonomy::TrajectoryRecordPlayback::it_traj_</a>, <a class="el" href="Logger_8h_source.html#l00157">LOG_ERROR</a>, <a class="el" href="CSV_8cpp_source.html#l00219">scrimmage::CSV::open_output()</a>, <a class="el" href="EntityPlugin_8h_source.html#l00188">scrimmage::EntityPlugin::parent_</a>, <a class="el" href="State_8cpp_source.html#l00050">scrimmage::State::pos()</a>, <a class="el" href="CSV_8cpp_source.html#l00365">scrimmage::CSV::read_csv()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00059">scrimmage::autonomy::TrajectoryRecordPlayback::remove_at_end_</a>, <a class="el" href="CSV_8cpp_source.html#l00381">scrimmage::CSV::rows()</a>, <a class="el" href="CSV_8cpp_source.html#l00163">scrimmage::CSV::set_column_headers()</a>, <a class="el" href="Autonomy_8cpp_source.html#l00087">scrimmage::Autonomy::set_is_controlling()</a>, <a class="el" href="Autonomy_8h_source.html#l00083">scrimmage::Autonomy::state_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#a0a0361a280806e6e215cdb0ab8e95584">scrimmage::autonomy::TrajectoryRecordPlayback::step_autonomy()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00060">scrimmage::autonomy::TrajectoryRecordPlayback::trajectory_filename_</a>, <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aca35b76b7d6ad125bf24d10f5ca5e0e2">scrimmage::autonomy::TrajectoryRecordPlayback::TrajectoryRecordPlayback()</a>, <a class="el" href="TrajectoryRecordPlayback_8h_source.html#l00056">scrimmage::autonomy::TrajectoryRecordPlayback::trajs_</a>, and <a class="el" href="classscrimmage_1_1autonomy_1_1TrajectoryRecordPlayback.html#aa3024973e2e554b72a82190dd8467fbd">scrimmage::autonomy::TrajectoryRecordPlayback::~TrajectoryRecordPlayback()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -327,7 +329,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" title=" " alt="" coords="5,387,148,412"/>
 <area shape="rect" href="classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d" title=" " alt="" coords="209,5,393,31"/>
 <area shape="poly" title=" " alt="" coords="75,386,79,324,95,231,110,179,130,128,158,81,194,40,199,36,202,40,198,44,163,84,135,131,115,181,100,232,84,325,81,387"/>
-<area shape="rect" href="classscrimmage_1_1CSV.html#aa6f592cbf079d8d13a40ad4f0c3cece6" title=" " alt="" coords="226,55,375,80"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html#ad105c0990412215b8e2168235b0bb240" title=" " alt="" coords="226,55,375,80"/>
 <area shape="poly" title=" " alt="" coords="76,386,83,332,101,252,116,208,137,165,162,125,194,91,212,79,215,83,198,95,166,129,141,168,121,210,106,253,88,333,82,387"/>
 <area shape="rect" href="classscrimmage_1_1CSV.html#a904ae6ea430adfa9a9a334b7f1cdb8ea" title=" " alt="" coords="215,105,386,145"/>
 <area shape="poly" title=" " alt="" coords="78,386,89,342,111,280,145,213,168,182,194,155,202,149,205,153,198,159,172,185,149,216,115,282,94,344,83,387"/>
@@ -364,7 +366,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7020b8b7abcceffa3f9f7a2d24718f16.html">plugins</a></li><li class="navelem"><a class="el" href="dir_9a5cd39d655c6343ef9bc0ff48b9632e.html">autonomy</a></li><li class="navelem"><a class="el" href="dir_a591102d76efa414fd53a9596b181f83.html">TrajectoryRecordPlayback</a></li><li class="navelem"><a class="el" href="TrajectoryRecordPlayback_8cpp.html">TrajectoryRecordPlayback.cpp</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:47 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

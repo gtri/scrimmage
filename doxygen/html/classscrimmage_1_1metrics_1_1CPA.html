@@ -120,8 +120,8 @@ Collaboration diagram for scrimmage::metrics::CPA:</div>
 <area shape="poly" title=" " alt="" coords="325,338,386,637,381,638,319,339"/>
 <area shape="rect" title=" " alt="" coords="415,258,599,338"/>
 <area shape="poly" title=" " alt="" coords="507,339,492,469,479,550,462,630,460,638,455,637,457,629,474,549,487,468,502,338"/>
-<area shape="rect" href="classscrimmage_1_1CSV.html" title=" " alt="" coords="624,5,812,591"/>
-<area shape="poly" title=" " alt="" coords="626,573,613,592,570,645,520,691,516,687,566,641,609,589,622,570"/>
+<area shape="rect" href="classscrimmage_1_1CSV.html" title=" " alt="" coords="623,5,802,591"/>
+<area shape="poly" title=" " alt="" coords="626,573,613,592,570,645,520,691,516,687,566,642,609,589,621,570"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -414,7 +414,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">   82</span>            std::string log_dir = ((*id_to_ent_map_)[1])-&gt;mp()-&gt;log_dir();</div>
 <div class="line"><span class="lineno">   83</span>            <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1CPA.html#aa5b7c099849ac64084b54c1e461e7f87">csv_</a>.<a class="code hl_function" href="classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed">open_output</a>(log_dir + <span class="stringliteral">&quot;/&quot;</span> + <span class="stringliteral">&quot;cpa.csv&quot;</span>);</div>
 <div class="line"><span class="lineno">   84</span>            <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1CPA.html#aa5b7c099849ac64084b54c1e461e7f87">csv_</a>.<a class="code hl_function" href="classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8">set_column_headers</a>(</div>
-<div class="line"><span class="lineno">   85</span>                <a class="code hl_typedef" href="classscrimmage_1_1CSV.html#aca47b96a1c7ff2f2da09ea08f9b6dc96">scrimmage::CSV::Headers</a>{<span class="stringliteral">&quot;entity&quot;</span>, <span class="stringliteral">&quot;cpa&quot;</span>, <span class="stringliteral">&quot;closest_entity&quot;</span>, <span class="stringliteral">&quot;time&quot;</span>});</div>
+<div class="line"><span class="lineno">   85</span>                <a class="code hl_typedef" href="classscrimmage_1_1CSV.html#a3d32d7f7f8ae0948c39f62e5b3587dee">scrimmage::CSV::Headers</a>{<span class="stringliteral">&quot;entity&quot;</span>, <span class="stringliteral">&quot;cpa&quot;</span>, <span class="stringliteral">&quot;closest_entity&quot;</span>, <span class="stringliteral">&quot;time&quot;</span>});</div>
 <div class="line"><span class="lineno">   86</span>            <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1CPA.html#a963520109098a4f812411e2b39bc0f81">initialized_</a> = <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   87</span>        }</div>
 <div class="line"><span class="lineno">   88</span> </div>
@@ -445,15 +445,15 @@ Additional Inherited Members</h2></td></tr>
 <div class="line"><span class="lineno">  113</span>    }</div>
 <div class="line"><span class="lineno">  114</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">  115</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_a1cfbe562649ebe259a4d1abadc6ab9e8"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8">scrimmage::CSV::set_column_headers</a></div><div class="ttdeci">void set_column_headers(const Headers &amp;headers, bool write=true)</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00051">CSV.cpp:51</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_a446d4ed26ee7e05565db8e81ef900aed"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed">scrimmage::CSV::open_output</a></div><div class="ttdeci">bool open_output(const std::string &amp;filename, std::ios_base::openmode mode=(std::ios_base::out|std::ios_base::trunc))</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00098">CSV.cpp:98</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_aca47b96a1c7ff2f2da09ea08f9b6dc96"><div class="ttname"><a href="classscrimmage_1_1CSV.html#aca47b96a1c7ff2f2da09ea08f9b6dc96">scrimmage::CSV::Headers</a></div><div class="ttdeci">std::list&lt; std::string &gt; Headers</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00047">CSV.h:47</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_a1cfbe562649ebe259a4d1abadc6ab9e8"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a1cfbe562649ebe259a4d1abadc6ab9e8">scrimmage::CSV::set_column_headers</a></div><div class="ttdeci">void set_column_headers(const Headers &amp;headers, bool write=true)</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00163">CSV.cpp:163</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_a3d32d7f7f8ae0948c39f62e5b3587dee"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a3d32d7f7f8ae0948c39f62e5b3587dee">scrimmage::CSV::Headers</a></div><div class="ttdeci">std::vector&lt; std::string &gt; Headers</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00083">CSV.h:83</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_a446d4ed26ee7e05565db8e81ef900aed"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a446d4ed26ee7e05565db8e81ef900aed">scrimmage::CSV::open_output</a></div><div class="ttdeci">bool open_output(const std::string &amp;filename, std::ios_base::openmode mode=(std::ios_base::out|std::ios_base::trunc))</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00219">CSV.cpp:219</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1EntityPlugin_html_a5d29d7f4de4ad7d697c0292fc9e1ab30"><div class="ttname"><a href="classscrimmage_1_1EntityPlugin.html#a5d29d7f4de4ad7d697c0292fc9e1ab30">scrimmage::EntityPlugin::id_to_ent_map_</a></div><div class="ttdeci">std::shared_ptr&lt; std::unordered_map&lt; int, EntityPtr &gt; &gt; id_to_ent_map_</div><div class="ttdef"><b>Definition</b> <a href="EntityPlugin_8h_source.html#l00193">EntityPlugin.h:193</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1metrics_1_1CPA_html_a963520109098a4f812411e2b39bc0f81"><div class="ttname"><a href="classscrimmage_1_1metrics_1_1CPA.html#a963520109098a4f812411e2b39bc0f81">scrimmage::metrics::CPA::initialized_</a></div><div class="ttdeci">bool initialized_</div><div class="ttdef"><b>Definition</b> <a href="CPA_8h_source.html#l00079">CPA.h:79</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1metrics_1_1CPA_html_aa5b7c099849ac64084b54c1e461e7f87"><div class="ttname"><a href="classscrimmage_1_1metrics_1_1CPA.html#aa5b7c099849ac64084b54c1e461e7f87">scrimmage::metrics::CPA::csv_</a></div><div class="ttdeci">CSV csv_</div><div class="ttdef"><b>Definition</b> <a href="CPA_8h_source.html#l00078">CPA.h:78</a></div></div>
 <div class="ttc" id="aclassscrimmage_1_1metrics_1_1CPA_html_afa9cfe5d05fdb1b12ca2ee2d7272573d"><div class="ttname"><a href="classscrimmage_1_1metrics_1_1CPA.html#afa9cfe5d05fdb1b12ca2ee2d7272573d">scrimmage::metrics::CPA::cpa_map_</a></div><div class="ttdeci">std::map&lt; int, CPAData &gt; cpa_map_</div><div class="ttdef"><b>Definition</b> <a href="CPA_8h_source.html#l00077">CPA.h:77</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="CPA_8h_source.html#l00077">cpa_map_</a>, <a class="el" href="CPA_8h_source.html#l00078">csv_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::id_to_ent_map_</a>, <a class="el" href="CPA_8h_source.html#l00079">initialized_</a>, <a class="el" href="CPA_8h_source.html#l00083">max_time_s_</a>, <a class="el" href="CPA_8h_source.html#l00082">min_time_s_</a>, <a class="el" href="CSV_8cpp_source.html#l00098">scrimmage::CSV::open_output()</a>, <a class="el" href="CSV_8cpp_source.html#l00051">scrimmage::CSV::set_column_headers()</a>, <a class="el" href="CPA_8h_source.html#l00080">team_cpa_</a>, and <a class="el" href="CPA_8h_source.html#l00081">team_id_</a>.</p>
+<p class="reference">References <a class="el" href="CPA_8h_source.html#l00077">cpa_map_</a>, <a class="el" href="CPA_8h_source.html#l00078">csv_</a>, <a class="el" href="EntityPlugin_8h_source.html#l00193">scrimmage::EntityPlugin::id_to_ent_map_</a>, <a class="el" href="CPA_8h_source.html#l00079">initialized_</a>, <a class="el" href="CPA_8h_source.html#l00083">max_time_s_</a>, <a class="el" href="CPA_8h_source.html#l00082">min_time_s_</a>, <a class="el" href="CSV_8cpp_source.html#l00219">scrimmage::CSV::open_output()</a>, <a class="el" href="CSV_8cpp_source.html#l00163">scrimmage::CSV::set_column_headers()</a>, <a class="el" href="CPA_8h_source.html#l00080">team_cpa_</a>, and <a class="el" href="CPA_8h_source.html#l00081">team_id_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -498,17 +498,17 @@ Here is the call graph for this function:</div>
 <div class="fragment"><div class="line"><span class="lineno">  117</span>                           {</div>
 <div class="line"><span class="lineno">  118</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; kv : <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1CPA.html#afa9cfe5d05fdb1b12ca2ee2d7272573d">cpa_map_</a>) {</div>
 <div class="line"><span class="lineno">  119</span>        <a class="code hl_variable" href="classscrimmage_1_1metrics_1_1CPA.html#aa5b7c099849ac64084b54c1e461e7f87">csv_</a>.<a class="code hl_function" href="classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d">append</a>(</div>
-<div class="line"><span class="lineno">  120</span>            <a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">scrimmage::CSV::Pairs</a>{</div>
+<div class="line"><span class="lineno">  120</span>            <a class="code hl_typedef" href="classscrimmage_1_1CSV.html#ac5bde453f12fb56214ae040f9df34bf3">scrimmage::CSV::Pairs</a>{</div>
 <div class="line"><span class="lineno">  121</span>                {<span class="stringliteral">&quot;entity&quot;</span>, kv.first},</div>
 <div class="line"><span class="lineno">  122</span>                {<span class="stringliteral">&quot;cpa&quot;</span>, kv.second.distance()},</div>
 <div class="line"><span class="lineno">  123</span>                {<span class="stringliteral">&quot;closest_entity&quot;</span>, kv.second.closest_entity()},</div>
 <div class="line"><span class="lineno">  124</span>                {<span class="stringliteral">&quot;time&quot;</span>, kv.second.time()}});</div>
 <div class="line"><span class="lineno">  125</span>    }</div>
 <div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_a7eae90f44a37b48a68e684aa057c355d"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d">scrimmage::CSV::append</a></div><div class="ttdeci">bool append(const Pairs &amp;pairs, bool write=true, bool keep_in_memory=false)</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00074">CSV.cpp:74</a></div></div>
-<div class="ttc" id="aclassscrimmage_1_1CSV_html_ad547dee804921ef5ac99ecb505a27162"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ad547dee804921ef5ac99ecb505a27162">scrimmage::CSV::Pairs</a></div><div class="ttdeci">std::list&lt; std::pair&lt; std::string, double &gt; &gt; Pairs</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00048">CSV.h:48</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_a7eae90f44a37b48a68e684aa057c355d"><div class="ttname"><a href="classscrimmage_1_1CSV.html#a7eae90f44a37b48a68e684aa057c355d">scrimmage::CSV::append</a></div><div class="ttdeci">bool append(const Pairs &amp;pairs, bool write=true, bool keep_in_memory=false)</div><div class="ttdef"><b>Definition</b> <a href="CSV_8cpp_source.html#l00195">CSV.cpp:195</a></div></div>
+<div class="ttc" id="aclassscrimmage_1_1CSV_html_ac5bde453f12fb56214ae040f9df34bf3"><div class="ttname"><a href="classscrimmage_1_1CSV.html#ac5bde453f12fb56214ae040f9df34bf3">scrimmage::CSV::Pairs</a></div><div class="ttdeci">std::vector&lt; std::pair&lt; std::string, PossibleVariantTypes &gt; &gt; Pairs</div><div class="ttdef"><b>Definition</b> <a href="CSV_8h_source.html#l00086">CSV.h:86</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00074">scrimmage::CSV::append()</a>, <a class="el" href="CPA_8h_source.html#l00077">cpa_map_</a>, and <a class="el" href="CPA_8h_source.html#l00078">csv_</a>.</p>
+<p class="reference">References <a class="el" href="CSV_8cpp_source.html#l00195">scrimmage::CSV::append()</a>, <a class="el" href="CPA_8h_source.html#l00077">cpa_map_</a>, and <a class="el" href="CPA_8h_source.html#l00078">csv_</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -796,7 +796,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacescrimmage.html">scrimmage</a></li><li class="navelem"><a class="el" href="namespacescrimmage_1_1metrics.html">metrics</a></li><li class="navelem"><a class="el" href="classscrimmage_1_1metrics_1_1CPA.html">CPA</a></li>
-    <li class="footer">Generated on Wed Apr 8 2026 14:55:48 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Fri May 15 2026 13:59:46 for SCRIMMAGE by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

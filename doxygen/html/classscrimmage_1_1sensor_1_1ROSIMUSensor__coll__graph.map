@@ -1,16 +1,16 @@
 <map id="scrimmage::sensor::ROSIMUSensor" name="scrimmage::sensor::ROSIMUSensor">
-<area shape="rect" id="Node000001" title=" " alt="" coords="489,1016,671,1876"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="480,1016,661,1876"/>
 <area shape="rect" id="Node000002" href="$classscrimmage_1_1Sensor.html" title=" " alt="" coords="5,461,144,626"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,639,93,719,110,809,137,902,155,948,176,991,209,1046,246,1101,329,1203,414,1292,491,1365,487,1369,410,1296,325,1206,242,1104,204,1049,171,993,150,950,132,904,105,810,87,719,78,640"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,639,93,718,110,809,137,902,155,948,176,991,208,1046,244,1099,325,1201,407,1290,482,1363,478,1367,403,1294,321,1204,240,1102,203,1048,171,993,150,950,132,904,105,810,88,719,78,640"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="174,5,253,71"/>
-<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="212,71,207,134,195,314,181,547,179,666,181,778,189,876,207,953,230,1011,259,1068,292,1123,329,1176,406,1271,479,1349,476,1353,402,1275,324,1179,288,1126,254,1071,225,1013,201,954,184,876,175,778,173,666,176,547,189,314,201,133,207,71"/>
-<area shape="rect" id="Node000092" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="342,251,530,836"/>
-<area shape="poly" id="edge5_Node000092_Node000006" title=" " alt="" coords="255,62,292,93,325,132,352,181,375,234,370,236,348,184,320,135,288,97,251,67"/>
-<area shape="rect" id="Node000091" title=" " alt="" coords="555,503,701,583"/>
-<area shape="poly" id="edge3_Node000001_Node000091" title=" " alt="" coords="629,583,606,999,601,999,623,583"/>
-<area shape="poly" id="edge4_Node000001_Node000092" title=" " alt="" coords="485,836,511,999,506,1000,480,837"/>
-<area shape="rect" id="Node000099" href="$classHG4930IMUBudget.html" title=" " alt="" coords="725,326,992,761"/>
-<area shape="poly" id="edge6_Node000001_Node000099" title=" " alt="" coords="794,762,678,1137,673,1135,789,760"/>
-<area shape="rect" id="Node000101" href="$classIMUErrorSimulator.html" title=" " alt="" coords="1017,133,1266,953"/>
-<area shape="poly" id="edge7_Node000001_Node000101" title=" " alt="" coords="1019,932,1006,955,932,1068,848,1176,763,1271,685,1351,681,1347,759,1268,844,1172,928,1065,1002,952,1014,929"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="212,71,207,134,195,314,182,547,179,666,181,778,190,876,207,953,229,1010,257,1067,289,1122,324,1174,399,1268,471,1347,467,1350,395,1272,320,1177,285,1124,252,1069,224,1013,201,954,185,876,176,778,174,666,176,547,189,314,201,133,207,71"/>
+<area shape="rect" id="Node000092" href="$classscrimmage_1_1CSV.html" title=" " alt="" coords="341,251,520,836"/>
+<area shape="poly" id="edge5_Node000092_Node000006" title=" " alt="" coords="255,62,292,93,325,132,352,181,374,234,369,236,347,184,320,135,288,97,251,66"/>
+<area shape="rect" id="Node000091" title=" " alt="" coords="544,503,691,583"/>
+<area shape="poly" id="edge3_Node000001_Node000091" title=" " alt="" coords="618,583,596,999,591,999,613,583"/>
+<area shape="poly" id="edge4_Node000001_Node000092" title=" " alt="" coords="479,836,504,999,499,1000,473,837"/>
+<area shape="rect" id="Node000099" href="$classHG4930IMUBudget.html" title=" " alt="" coords="715,326,981,761"/>
+<area shape="poly" id="edge6_Node000001_Node000099" title=" " alt="" coords="784,762,669,1136,664,1134,779,760"/>
+<area shape="rect" id="Node000101" href="$classIMUErrorSimulator.html" title=" " alt="" coords="1006,133,1255,953"/>
+<area shape="poly" id="edge7_Node000001_Node000101" title=" " alt="" coords="1008,932,996,955,922,1068,838,1175,753,1271,675,1351,672,1347,749,1267,834,1172,918,1065,991,952,1003,929"/>
 </map>
