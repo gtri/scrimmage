@@ -1,0 +1,23 @@
+name: scrimmage
+channels:
+  - conda-forge
+dependencies:
+  - cxx-compiler
+  - cmake
+  - make
+  - git
+  - pkg-config
+  # Boost is pinned to 1.83 — newer Boost drops the compiled boost_system
+  # library that SCRIMMAGE still links against.
+  - libboost-devel=1.83
+  - eigen
+  - libprotobuf
+  - protobuf
+  - libxml2
+  - geographiclib-cpp
+  - opencl-headers
+  - clhpp
+  - vtk
+  - qt-main
+  - python
+  - numpy

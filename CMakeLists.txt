@@ -43,6 +43,18 @@ set(PROTO_INCLUDE_DIR ${PROJECT_BINARY_DIR}/src/proto)
 
 include_directories(${PROTO_INCLUDE_DIR})
 
+# rapidxml is header-only. On Debian/Ubuntu it comes from librapidxml-dev; on
+# platforms without a rapidxml package (e.g. RHEL8 + conda-forge) fall back to
+# the copy vendored under 3rd-party/include. The system/package header is
+# preferred when present, so this does not change the Ubuntu build.
+find_path(RAPIDXML_INCLUDE_DIR NAMES rapidxml/rapidxml.hpp)
+if(NOT RAPIDXML_INCLUDE_DIR)
+  set(RAPIDXML_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/3rd-party/include)
+  message(STATUS "rapidxml not found on system; using vendored copy in 3rd-party/include")
+endif()
+include_directories(${RAPIDXML_INCLUDE_DIR})
+
+
 include(MacroAddExternalTarget)
 include(MacroSubDirList)
 include(FetchContent)
@@ -247,12 +259,26 @@ if (NOT Eigen3_FOUND)
   endif()
   set(EIGEN3_INCLUDE_DIR ${EIGEN_PKGCONFIG_INCLUDE_DIRS})
   message("Found Eigen with pkg-config, EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
+elseif (NOT EIGEN3_INCLUDE_DIR)
+  # Newer Eigen3 CMake configs (e.g. conda-forge's eigen 5.x) export the
+  # imported target Eigen3::Eigen but do NOT set the legacy EIGEN3_INCLUDE_DIR
+  # variable that src/CMakeLists.txt relies on. Recover it from the target's
+  # interface include dirs so <Eigen/Dense> resolves.
+  if (TARGET Eigen3::Eigen)
+    get_target_property(EIGEN3_INCLUDE_DIR Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
+  endif()
+  message("Found Eigen with find_package, EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
 endif()
 
 ########################################################
 # Find Boost
 ########################################################
 #set(Boost_DEBUG ON)
+# VTK's CMake config (found above) sets Boost_USE_DEBUG_RUNTIME=TRUE, but some
+# Boost distributions (e.g. conda-forge) ship only the release-runtime variant,
+# so leaving it TRUE makes find_package(Boost) fail with "No suitable build
+# variant". Force it OFF for the release build we always produce.
+set(Boost_USE_DEBUG_RUNTIME OFF)
 find_package(Boost 1.55 COMPONENTS thread date_time iostreams program_options regex
   filesystem system graph chrono REQUIRED)
 add_library(scrimmage-boost INTERFACE)

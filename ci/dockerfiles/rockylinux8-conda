@@ -1,0 +1,32 @@
+FROM rockylinux:8
+
+# Proof that scrimmage builds on RHEL8 in userspace via conda — no dev RPMs.
+# Build from the repo root:
+#   docker build --network=host -f ci/dockerfiles/rockylinux8-conda -t scrimmage-rhel8-conda .
+
+RUN echo -e "timeout=120\nretries=5" >> /etc/dnf/dnf.conf \
+    && dnf -y install wget bzip2 which \
+    && dnf clean all && rm -rf /var/cache/dnf
+
+ENV CONDA_DIR=/opt/conda
+ENV PATH=$CONDA_DIR/bin:$PATH
+RUN wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -O /tmp/miniforge.sh \
+    && bash /tmp/miniforge.sh -b -p $CONDA_DIR \
+    && rm /tmp/miniforge.sh \
+    && conda config --system --set channel_priority strict
+
+COPY rhel-environment-build.yml /tmp/rhel-environment-build.yml
+RUN conda env create -f /tmp/rhel-environment-build.yml \
+    && conda clean -afy
+
+ENV SCRIMMAGE_DIR=/root/scrimmage
+WORKDIR $SCRIMMAGE_DIR
+COPY . .
+
+RUN /bin/bash -c "source $CONDA_DIR/etc/profile.d/conda.sh \
+    && conda activate scrimmage \
+    && rm -rf build && mkdir build && cd build \
+    && cmake .. \
+    && make -j\$(nproc)"
+
+CMD ["/bin/bash"]
