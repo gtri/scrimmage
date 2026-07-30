@@ -1,16 +1,17 @@
 # Building SCRIMMAGE on RHEL 8 (no sudo)
 
 You can build and run SCRIMMAGE on RHEL 8 / Rocky 8 entirely in your home
-directory using conda — no root, no `dnf`, no RPMs. If you have
+directory using conda — no root, no `dnf`, no RPMs. Use
 [Miniforge](https://github.com/conda-forge/miniforge) (it installs into your
-home dir), you're set.
+home dir and ships `mamba`, which resolves this env far faster than classic
+conda).
 
 ## Quickstart
 
 ```bash
 # 1. Create the env with everything SCRIMMAGE needs
 git clone <this-repo> scrimmage && cd scrimmage
-conda env create -f rhel-environment-build.yml
+mamba env create -f rhel-environment-build.yml
 conda activate scrimmage
 
 # 2. Build — a plain cmake && make, no flags needed
