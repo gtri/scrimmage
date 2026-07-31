@@ -41,5 +41,5 @@ command will look like the following if it was successful: ::
   -- Generating done
   -- Build files have been written to: /path/to/scrimmage/my-scrimmage-plugins/build
 
-The ``make`` command should be succesful, but since we haven't created any
+The ``make`` command should be successful, but since we haven't created any
 plugins yet, nothing will be built.
