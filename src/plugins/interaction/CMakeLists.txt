@@ -13,6 +13,7 @@ add_subdirectory(ROSClockServer)
 add_subdirectory(ROSShapeViz)
 add_subdirectory(SimpleCapture)
 add_subdirectory(SimpleCollision)
+add_subdirectory(SpatialCollision)
 add_subdirectory(TerrainGenerator)
 
 set(PROJECT_PLUGINS ${PROJECT_PLUGINS} PARENT_SCOPE)
