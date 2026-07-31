@@ -7,7 +7,7 @@ ENV SCRIMMAGE_DIR=/root/scrimmage
 RUN apt-get update && apt-get install -y \
     sudo git wget lsb-release cmake build-essential python3 python3-pip libssl-dev libffi-dev gnupg software-properties-common \
     protobuf-compiler libprotobuf-dev libprotoc-dev libgeographiclib-dev \
-    libboost-all-dev librapidxml-dev libeigen3-dev \
+    libboost-all-dev librapidxml-dev libxml2-dev libeigen3-dev \
     libvtk9-dev vtk9 \
     qtbase5-dev qttools5-dev qttools5-dev-tools libqt5opengl5-dev \
     vim \

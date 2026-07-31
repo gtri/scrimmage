@@ -10,6 +10,13 @@
 //   4. source ~/.scrimmage/setup.bash
 //   5. scrimmage missions/straight-no-gui.xml
 //
+//   To persist keys across reboots:
+//     macOS: ssh-add --apple-use-keychain ~/.ssh/id_rsa
+//     Linux: Add `AddKeysToAgent yes` to ~/.ssh/config
+//     Windows (PowerShell as Admin):
+//       Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
+//       ssh-add $HOME\.ssh\id_rsa
+//
 {
   "name": "SCRIMMAGE Dev Container",
   "build": {
@@ -19,9 +26,15 @@
   "workspaceFolder": "/root/scrimmage",
   "workspaceMount": "source=${localWorkspaceFolder},target=/root/scrimmage,type=bind,consistency=cached",
   "runArgs": ["-v", "/tmp/.X11-unix:/tmp/.X11-unix"],
+  "postStartCommand": "bash -lc 'git config --global --get-all safe.directory | grep -Fxq /root/scrimmage || git config --global --add safe.directory /root/scrimmage'",
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}"
   },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  },
+  "initializeCommand": "ssh-add -l || true",
   "customizations": {
     "vscode": {
       "extensions": [

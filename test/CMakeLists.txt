@@ -9,6 +9,7 @@ set(test_files
     test_find_mission.cpp
     test_id.cpp
     test_mission_parse.cpp
+    test_mission_validation.cpp
     test_params.cpp
     test_parse_utils.cpp
     test_quaternion.cpp

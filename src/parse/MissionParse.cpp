@@ -33,22 +33,20 @@
 #include "scrimmage/parse/MissionParse.h"
 
 #include "scrimmage/common/FileSearch.h"
-#include "scrimmage/common/Utilities.h"
 #include "scrimmage/log/Logger.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/parse/XMLParser/RapidXMLParser.h"
-#include "scrimmage/parse/XMLParser/XMLParser.h"
 #include "scrimmage/proto/ProtoConversions.h"
 
 #if ENABLE_LIBXML2_PARSER
 #include "scrimmage/parse/XMLParser/LibXML2Parser.h"
 #endif
 
+#include <algorithm>
 #include <fstream>
 #include <regex>  //NOLINT
 #include <string>
-#include <typeinfo>
 
 #include <GeographicLib/Geocentric.hpp>
 #include <GeographicLib/LocalCartesian.hpp>
@@ -283,7 +281,8 @@ bool MissionParse::parse_mission() {
     auto parse_tags = [&](const std::string& tagname, std::list<std::string>& tag_list) {
         for (auto node = runscript_node.first_node(tagname); node.is_valid();
              node = node.next_sibling(tagname)) {
-            // If a "name" is specified, use this name
+            // For global plugins, the optional name= attribute is an instance alias.
+            // The actual plugin implementation name still comes from the tag value.
             auto attr = node.first_attribute("name");
             std::string name = (!attr.is_valid()) ? node.value() : attr.value();
             tag_list.push_back(name);
@@ -327,6 +326,8 @@ bool MissionParse::parse_mission() {
             std::string nm4 = (nm == "network") ? name : nm;
             std::string nm5 = (nm == "gpu_kernel") ? name : nm;
 
+            // Preserve the implementation name separately so validation and plugin loading
+            // can resolve aliases like <network name="CommsNetwork">SphereNetwork</network>.
             attributes_[nm2]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm3]["ORIGINAL_PLUGIN_NAME"] = node.value();
             attributes_[nm4]["ORIGINAL_PLUGIN_NAME"] = node.value();
@@ -433,10 +434,33 @@ bool MissionParse::parse_mission() {
     int ent_desc_id = 0;
     int team_id_err = 0;  // only used when team_id is not set "warn condition"
 
-    // common block name -> <node_name, value>
-    std::map<std::string, AttributeMap> entity_common_attributes;
+    // common block name -> inherited plugin metadata parsed from <entity_common>
+    std::map<std::string, std::vector<EntityPluginInfo>> entity_common_plugins;
     std::map<std::string, std::map<std::string, std::string>> entity_common;
     std::map<std::string, std::map<std::string, int>> orders;
+    auto insert_entity_plugin = [&](int entity_block_id, EntityPluginInfo plugin_info) {
+        plugin_info.entity_block_id = entity_block_id;
+
+        auto& plugins_map = entity_plugins_[entity_block_id];
+        if (plugin_info.type == "motion_model") {
+            // Each entity can only have one motion model. If entity_common defines one
+            // and the entity block also defines one, the entity's takes precedence.
+            for (auto it = plugins_map.begin(); it != plugins_map.end();) {
+                if (it->second.type == "motion_model") {
+                    it = plugins_map.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+
+        std::string plugin_key = plugin_info.type + ":" + plugin_info.name;
+        if (plugins_map.count(plugin_key) > 0) {
+            plugin_key += ":" + std::to_string(plugin_info.order);
+        }
+        plugins_map[plugin_key] = std::move(plugin_info);
+    };
+
     for (auto script_node = runscript_node.first_node("entity_common"); script_node.is_valid();
          script_node = script_node.next_sibling("entity_common")) {
         std::map<std::string, std::string> script_info;
@@ -452,35 +476,58 @@ bool MissionParse::parse_mission() {
 
         for (auto node = script_node.first_node(); node.is_valid(); node = node.next_sibling()) {
             std::string node_name = node.name();
+            std::string original_type = node_name;
+            bool is_plugin = false;
+            int plugin_order = 0;
 
             if (node_name == "name") {
                 continue;
             }
 
             if (node_name == "autonomy") {
-                node_name += std::to_string(orders[nm]["autonomy"]++);
+                is_plugin = true;
+                plugin_order = orders[nm]["autonomy"]++;
+                node_name += std::to_string(plugin_order);
             } else if (node_name == "controller") {
-                node_name += std::to_string(orders[nm]["controller"]++);
+                is_plugin = true;
+                plugin_order = orders[nm]["controller"]++;
+                node_name += std::to_string(plugin_order);
             } else if (node_name == "sensor") {
-                node_name += std::to_string(orders[nm]["sensor"]++);
+                is_plugin = true;
+                plugin_order = orders[nm]["sensor"]++;
+                node_name += std::to_string(plugin_order);
+            } else if (node_name == "motion_model") {
+                is_plugin = true;
             }
+
+            std::string node_value = trim(node.value());
+            std::map<std::string, std::string> node_params;
 
             // Loop through each node's attributes:
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
                     for (auto& kv : param_common[attr.value()]) {
-                        entity_common_attributes[nm][node_name][kv.first] = kv.second;
+                        node_params[kv.first] = kv.second;
                     }
                 } else {
-                    entity_common_attributes[nm][node_name][attr_name] = attr.value();
+                    node_params[attr_name] = attr.value();
                 }
+            }
+
+            if (is_plugin && !node_value.empty()) {
+                EntityPluginInfo plugin_info;
+                plugin_info.name = node_value;
+                plugin_info.type = original_type;
+                plugin_info.order = plugin_order;
+                plugin_info.params = node_params;
+                entity_common_plugins[nm].push_back(plugin_info);
             }
 
             if (script_info.count(node_name) > 0 && node_name.compare("team_id")) {
                 LOG_WARN("Warning: entity contains multiple tags for \"" << node_name << "\"");
             }
-            script_info[node_name] = node.value();
+            script_info[node_name] = node_value;
         }
 
         entity_common[nm] = script_info;
@@ -501,10 +548,18 @@ bool MissionParse::parse_mission() {
                 LOG_WARN("entity_common block referenced without definition");
             } else {
                 script_info = it->second;
-                entity_attributes_[ent_desc_id] = entity_common_attributes[nm];
                 autonomy_order = orders[nm]["autonomy"];
                 controller_order = orders[nm]["controller"];
                 sensor_order = orders[nm]["sensor"];
+
+                // Copy plugins from the referenced entity_common block before reading this
+                // entity's own plugin tags. autonomy/controller/sensor entries keep both the
+                // copied and local instances, with the local ones getting later order values.
+                // A local motion_model replaces the copied one so the entity still ends up with
+                // exactly one motion model.
+                for (const auto& common_plugin : entity_common_plugins[nm]) {
+                    insert_entity_plugin(ent_desc_id, common_plugin);
+                }
             }
         }
 
@@ -609,30 +664,59 @@ bool MissionParse::parse_mission() {
         // Loop through every other element under the "entity" node
         for (auto node = script_node.first_node(); node.is_valid(); node = node.next_sibling()) {
             std::string nm = node.name();
+            std::string original_type = nm;  // Save original type before modification
+            bool is_plugin = false;
+            int plugin_order = 0;
+
             if (nm == "autonomy") {
-                nm += std::to_string(autonomy_order++);
+                is_plugin = true;
+                plugin_order = autonomy_order++;
+                nm += std::to_string(plugin_order);
             } else if (nm == "controller") {
-                nm += std::to_string(controller_order++);
+                is_plugin = true;
+                plugin_order = controller_order++;
+                nm += std::to_string(plugin_order);
             } else if (nm == "sensor") {
-                nm += std::to_string(sensor_order++);
+                is_plugin = true;
+                plugin_order = sensor_order++;
+                nm += std::to_string(plugin_order);
+            } else if (nm == "motion_model") {
+                is_plugin = true;
+                plugin_order = 0;  // Only one motion model per entity
             }
 
-            if (script_info.count(nm) > 0 && nm.compare("team_id")) {
-                LOG_WARN("Warning: entity contains multiple tags for \"" << nm << "\"");
-            }
+            std::string node_value = trim(node.value());
 
-            script_info[nm] = trim(node.value());
-
-            // Loop through each node's attributes:
+            // Collect inline XML attributes for this node.
+            // Plugin attrs go to entity_plugins_ for structured access.
+            std::map<std::string, std::string> node_params;
             for (auto attr = node.first_attribute(); attr.is_valid(); attr = attr.next()) {
                 const std::string attr_name = attr.name();
                 if (attr_name == "param_common") {
                     for (auto& kv : param_common[attr.value()]) {
-                        entity_attributes_[ent_desc_id][nm][kv.first] = kv.second;
+                        node_params[kv.first] = kv.second;
                     }
                 } else {
-                    entity_attributes_[ent_desc_id][nm][attr_name] = attr.value();
+                    node_params[attr_name] = attr.value();
                 }
+            }
+
+            if (is_plugin && !node_value.empty()) {
+                // Create EntityPluginInfo and store in entity_plugins_
+                EntityPluginInfo plugin_info;
+                plugin_info.name = node_value;
+                plugin_info.type = original_type;
+                plugin_info.order = plugin_order;
+                plugin_info.params = node_params;
+                insert_entity_plugin(ent_desc_id, std::move(plugin_info));
+            }
+
+            if (!is_plugin) {
+                // Non-plugin nodes go into script_info as before
+                if (script_info.count(nm) > 0 && nm.compare("team_id")) {
+                    LOG_WARN("Warning: entity contains multiple tags for \"" << nm << "\"");
+                }
+                script_info[nm] = node_value;
             }
         }
 
@@ -757,8 +841,20 @@ bool MissionParse::parse_mission() {
         // If the entity block has a "tag" attribute, save the mapping from the
         // tag to the entity block ID
         auto tag_attr = script_node.first_attribute("tag");
+        std::string entity_tag_str;
         if (tag_attr.is_valid()) {
             entity_tag_to_id_[tag_attr.value()] = ent_desc_id;
+            entity_tag_str = tag_attr.value();
+        }
+
+        // Populate entity_name and entity_tag for all plugins in this entity
+        std::string entity_name_str;
+        if (script_info.count("name") > 0) {
+            entity_name_str = script_info["name"];
+        }
+        for (auto& kv : entity_plugins_[ent_desc_id]) {
+            kv.second.entity_name = entity_name_str;
+            kv.second.entity_tag = entity_tag_str;
         }
 
         entity_descs_[ent_desc_id++] = script_info;
@@ -1028,10 +1124,6 @@ void MissionParse::set_log_dir(const std::string& log_dir) {
     log_dir_ = log_dir;
 }
 
-std::map<int, AttributeMap>& MissionParse::entity_attributes() {
-    return entity_attributes_;
-}
-
 std::map<int, std::map<std::string, std::string>>& MissionParse::entity_params() {
     return entity_params_;
 }
@@ -1042,6 +1134,29 @@ std::map<int, int>& MissionParse::ent_id_to_block_id() {
 
 EntityDesc_t& MissionParse::entity_descriptions() {
     return entity_descs_;
+}
+
+const std::map<int, std::map<std::string, EntityPluginInfo>>& MissionParse::all_entity_plugins() const {
+    return entity_plugins_;
+}
+
+std::vector<EntityPluginInfo> MissionParse::get_plugins_by_type(
+    int entity_block_id, const std::string& type) const {
+    std::vector<EntityPluginInfo> result;
+    auto it = entity_plugins_.find(entity_block_id);
+    if (it != entity_plugins_.end()) {
+        for (const auto& kv : it->second) {
+            if (kv.second.type == type) {
+                result.push_back(kv.second);
+            }
+        }
+        // Sort by execution order
+        std::sort(result.begin(), result.end(),
+                  [](const EntityPluginInfo& a, const EntityPluginInfo& b) {
+                      return a.order < b.order;
+                  });
+    }
+    return result;
 }
 
 std::map<std::string, int>& MissionParse::entity_tag_to_id() {

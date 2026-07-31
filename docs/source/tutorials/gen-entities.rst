@@ -77,74 +77,207 @@ entity's XML ``tag`` and create a state for this entity when constructing the
    // Publish the GenerateEntity message
    pub_gen_ents_->publish(msg);
 
-Modify Entity Block Properties
-------------------------------
+Color and Template Selection
+----------------------------
 
-Before publishing the message, you can modify other properties of the entity
-block, such as the ``autonomy``, ``color``, ``health``, ``visual_model``, etc.,
-by adding an entity block key-value pair to the ``GenerateEntity`` message:
+``GenerateEntity`` no longer supports entity-level key/value overrides such as
+``color`` or ``visual_model``. The remaining runtime override mechanism,
+``plugin_override``, only applies to plugin parameters.
 
-.. code-block:: c++
-
-   // Modify the entity's color
-   auto kv_color = msg->data.add_entity_param();
-   kv_color->set_key("color");
-   kv_color->set_value("255, 255, 0");
-
-   // Modify the entity's visual model
-   auto kv_visual = msg->data.add_entity_param();
-   kv_visual->set_key("visual_model");
-   kv_visual->set_value("sphere");
-
-   // Publish the GenerateEntity message
-   pub_gen_ents_->publish(msg);
-
-Modify Plugin Parameters
-------------------------
-
-Before publishing the message, you can modify the XML attributes of specific plugins
-by adding an entity plugin key-value-attr block to the ``GenerateEntity`` message:
-
-.. code-block:: c++
-
-   // Modify the entity's plugin speed
-   auto autonomy_speed = msg->data.add_plugin_param();
-   autonomy_speed->set_plugin_type("autonomy0");
-   autonomy_speed->set_tag_name("speed");
-   autonomy_speed->set_tag_value("100")
-
-Here the ``plugin_type`` represents the type of plugin, like ``motion_model``, ``autonomy`` (Note the 
-autonomy plugin is referenced as ``autonomy#`` by the GUI, where ``autonomy0`` is the first instance
-and increments if there are multiple autonomy plugins in one entity), or ``controller``. The ``tag_name`` 
-represents the plugin specific tag that should be updated, like ``speed`` for the Straight ``autonomy`` 
-plugin. The ``tag_value`` represents the value of the corresponding plugin specific tag.
-
-The above change in the plugin parameter for the ``GenerateEntity`` message does not affect
-the stored parsed Mission XML plugin attribute value used by ``SimControl.cpp``. For example,
-if the above block was only executed for a given conditional, entities without a block changing
-their speed would default to the Mission XML defined speed.
-
-Another way to generate entities with different plugin parameters involves either using multiple entity 
-blocks with different entity ``tags`` or creating new plugin XML files that have differently
-configured default parameters. For example, you could copy and rename the ``Straight.xml`` file to 
-``MyStraight.xml`` and then modify the plugin parameters in ``MyStraight.xml``. 
-In your entity, you can load the ``MyStraight`` autonomy plugin by referencing it directly as long 
-as it is in your ``SCRIMMAGE_PLUGIN_PATH``:
+If you need spawned entities with different colors, define separate entity
+templates in the mission file and choose the desired one by ``entity_tag``.
 
 .. code-block:: xml
 
-   <entity tag="gen_my_straight">
-     <count>0</count>
-     ...
-     <autonomy>MyStraight</autonomy>
-     ...
-   </entity>
+    <entity tag="drone_red">
+       <count>0</count>
+       <visual_model>sphere</visual_model>
+       <color>255 0 0</color>
+       <autonomy speed="20">Straight</autonomy>
+       ...
+    </entity>
 
-In your entity generation plugin, you can modify the ``autonomy`` tag before
-publishing the ``GenerateEntity`` message:
+    <entity tag="drone_blue">
+       <count>0</count>
+       <visual_model>sphere</visual_model>
+       <color>0 0 255</color>
+       <autonomy speed="20">Straight</autonomy>
+       ...
+    </entity>
+
+Then publish the matching tag at runtime:
 
 .. code-block:: c++
 
-   auto kv_autonomy = msg->data.add_entity_param();
-   kv_autonomy->set_key("autonomy");
-   kv_autonomy->set_value("MyStraight2"); // Load parameters from MyStraight2.xml
+    auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
+    sc::set(msg->data.mutable_state(), s);
+    msg->data.set_entity_tag(use_red ? "drone_red" : "drone_blue");
+    pub_gen_ents_->publish(msg);
+
+This works because the entity visual color is still read from the selected
+mission template when the spawned entity is initialized.
+
+Plugin Parameter Overrides
+--------------------------
+
+When one entity spawns others at runtime, each spawned entity can receive
+different plugin parameters. Without this, spawning many entities with slight
+parameter variations would require duplicating entity blocks in the mission XML
+(resulting in huge files) or writing complex nested XML by hand.
+
+A spawner entity (e.g., a carrier, hive, or RL controller) publishes
+``GenerateEntity`` messages referencing a template. Each message can include
+plugin parameter overrides, so one template supports thousands of parameter
+variations.
+
+For example, a carrier entity might spawn drones with varying speeds:
+
+.. code-block:: xml
+
+   <!-- The spawner entity (runs your spawning logic) -->
+   <entity>
+     <count>1</count>
+     <autonomy>MySpawnerPlugin</autonomy>
+     ...
+   </entity>
+
+   <!-- Template for spawned entities (not created at start) -->
+   <entity tag="drone">
+     <count>0</count>
+     <autonomy speed="20">Straight</autonomy>
+     ...
+   </entity>
+
+The spawner plugin publishes messages that override parameters per-spawn:
+
+.. code-block:: c++
+
+   auto msg = std::make_shared<Message<scrimmage_msgs::GenerateEntity>>();
+   msg->data.set_entity_tag("drone");  // Reference the template
+
+   // Override speed for the Straight autonomy plugin
+   auto auto_override = msg->data.add_plugin_override();
+   auto_override->set_plugin_type("autonomy");
+   auto_override->set_plugin_name("Straight");
+
+   auto speed = auto_override->add_params();
+   speed->set_key("speed");
+   speed->set_value("30");  // Each spawn can use a different value
+
+   pub_gen_ents_->publish(msg);
+
+Migrating from Ubuntu-24.04
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your external project used the older ``plugin_param`` API from
+``Ubuntu-24.04``:
+
+.. code-block:: c++
+
+   auto old_param = msg->data.add_plugin_param();
+   old_param->set_plugin_type("autonomy0");
+   old_param->set_tag_name("start");
+   old_param->set_tag_value("zone_a");
+
+the equivalent runtime override now looks like this:
+
+.. code-block:: c++
+
+   auto auto_override = msg->data.add_plugin_override();
+   auto_override->set_plugin_type("autonomy");
+   auto_override->set_plugin_index(0);  // "autonomy0" in the old API
+
+   auto start = auto_override->add_params();
+   start->set_key("start");
+   start->set_value("zone_a");
+
+Key differences:
+
+1. ``plugin_type`` is now only the plugin category: ``autonomy``,
+   ``controller``, ``motion_model``, or ``sensor``.
+2. The old numeric suffix (for example ``autonomy0``) moved to
+   ``plugin_index``.
+3. The old ``tag_name`` / ``tag_value`` pair became ``params`` entries with
+   ``key`` / ``value``.
+
+If you previously sent multiple overrides such as ``start`` and ``end`` for
+the same autonomy plugin, you can either put them in one
+``plugin_override`` block or append multiple blocks that target the same
+plugin. SCRIMMAGE merges them in message order, and later values win if the
+same key appears more than once.
+
+.. code-block:: c++
+
+   auto auto_override = msg->data.add_plugin_override();
+   auto_override->set_plugin_type("autonomy");
+   auto_override->set_plugin_index(0);
+
+   auto start = auto_override->add_params();
+   start->set_key("start");
+   start->set_value("zone_a");
+
+   auto end = auto_override->add_params();
+   end->set_key("end");
+   end->set_value("zone_b");
+
+Both styles below are valid. One block is shorter; multiple blocks can be more
+convenient when building messages across nested conditionals.
+
+Alternatively, use ``plugin_index`` to target by position (0 = first, 1 = second, etc.):
+
+.. code-block:: c++
+
+   auto_override->set_plugin_type("autonomy");
+   auto_override->set_plugin_index(0);
+
+This works from any plugin type — autonomy, sensor, controller, etc. External
+projects just publish the message; all validation happens in base SCRIMMAGE.
+
+The ``entity_tag`` still selects which entity template from the mission file is
+spawned. That part did not change. In the example above, ``start`` and ``end``
+are plugin parameter keys for the selected template's autonomy plugin; they are
+not alternative entity template tags.
+
+Validation
+~~~~~~~~~~
+
+By default, override keys must already exist in the plugin XML configuration or
+as inline mission attributes for that plugin instance. Unknown keys are rejected
+to catch typos early.
+
+For example, if your autonomy expects runtime keys such as ``start`` and
+``end``, either declare them in the plugin's XML config, add placeholder values
+inline in the mission template, or disable strict checking as shown below.
+
+For loose runtime overrides (e.g., prototyping), add to the mission:
+
+.. code-block:: xml
+
+   <strict_runtime_plugin_params>false</strict_runtime_plugin_params>
+
+.. warning::
+
+   ``plugin_override`` does not replace the entity template itself. It only
+   changes parameters on plugins already declared in that template. Properties
+   such as ``color`` and ``visual_model`` must come from the selected
+   ``entity_tag``.
+
+.. note::
+
+   Use ``plugin_name`` to target plugins by name — clearer and refactor-safe.
+   Use ``plugin_index`` when multiple plugins share the same name, or when
+   you specifically need positional addressing. Index uses declaration order:
+   the first ``sensor`` is index ``0``, the second is index ``1``, etc.
+
+.. note::
+
+   SCRIMMAGE runs **all** plugins of each type every timestep — all autonomies,
+   all controllers, and all sensors execute in declaration order. Only
+   ``motion_model`` is singular (one per entity, always index ``0``).
+
+.. note::
+
+   For a higher-volume example, see
+   ``missions/test/test_generate_entity_runtime_override_stress.xml``.
+   That mission spawns 120 entities from one template, each with distinct
+   runtime parameter overrides.

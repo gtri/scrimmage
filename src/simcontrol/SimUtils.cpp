@@ -66,7 +66,6 @@ bool create_ent_inters(
     for (std::string ent_inter_name : info.mp->entity_interactions()) {
         ConfigParse config_parse;
         std::map<std::string, std::string>& overrides = info.mp->attributes()[ent_inter_name];
-
         PluginStatus<EntityInteraction> status =
             info.plugin_manager->make_plugin<EntityInteraction>(
                 "scrimmage::EntityInteraction",
@@ -130,7 +129,6 @@ bool create_metrics(
     for (std::string metrics_name : info.mp->metrics()) {
         ConfigParse config_parse;
         std::map<std::string, std::string>& overrides = info.mp->attributes()[metrics_name];
-
         PluginStatus<Metrics> status = info.plugin_manager->make_plugin<Metrics>(
             "scrimmage::Metrics",
             metrics_name,
@@ -242,7 +240,6 @@ bool create_networks(
     for (std::string network_name : info.mp->network_names()) {
         ConfigParse config_parse;
         std::map<std::string, std::string>& overrides = info.mp->attributes()[network_name];
-
         PluginStatus<Network> status = info.plugin_manager->make_plugin<Network>(
             "scrimmage::Network",
             network_name,

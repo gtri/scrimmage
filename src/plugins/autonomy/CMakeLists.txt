@@ -1,4 +1,5 @@
 add_subdirectory(APITester)
+add_subdirectory(RuntimeOverrideSpawner)
 add_subdirectory(ArduPilot)
 add_subdirectory(AuctionAssign)
 add_subdirectory(AutonomyExecutor)

@@ -46,6 +46,7 @@
 
 #include "scrimmage/common/ID.h"
 #include "scrimmage/entity/Contact.h"
+#include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/fwd_decl.h"
 #include "scrimmage/proto/Visual.pb.h"
 #include "scrimmage/pubsub/Message.h"
@@ -61,14 +62,12 @@ namespace scrimmage {
 
 using Service = std::function<bool(scrimmage::MessageBasePtr, scrimmage::MessageBasePtr&)>;
 
-typedef std::map<std::string, std::map<std::string, std::string>> AttributeMap;
-
 struct EntityInitParams {
     EntityInitParams() {};
-    AttributeMap overrides;
     GPUControllerPtr gpu_controller;
     GPUMotionModelPtr gpu_motion_model;
     std::map<std::string, std::string> info;
+    RuntimePluginOverrides runtime_plugin_overrides;
     int id;
     int ent_desc_id;
     std::set<std::string> plugin_tags;
@@ -87,8 +86,7 @@ class Entity : public std::enable_shared_from_this<Entity> {
 
     bool parse_visual(
         std::map<std::string, std::string>& info,
-        MissionParsePtr mp,
-        std::map<std::string, std::string>& overrides);
+        MissionParsePtr mp);
 
     void close(double t);
     void collision();

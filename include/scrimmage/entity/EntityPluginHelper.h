@@ -56,7 +56,7 @@ template <class T>
 boost::optional<std::shared_ptr<T>> make_autonomy(
     const std::string& autonomy_name,
     PluginManagerPtr plugin_manager,
-    std::map<std::string, std::string>& overrides,
+    const std::map<std::string, std::string>& overrides,
     EntityPtr parent,
     StatePtr state,
     std::shared_ptr<std::unordered_map<int, int>>& id_to_team_map,

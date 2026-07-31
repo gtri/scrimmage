@@ -43,6 +43,7 @@
 #include "scrimmage/common/Utilities.h"
 #include "scrimmage/entity/Contact.h"
 #include "scrimmage/entity/Entity.h"
+#include "scrimmage/entity/RuntimePluginOverrides.h"
 #include "scrimmage/log/Log.h"
 #include "scrimmage/log/Logger.h"
 #include "scrimmage/metrics/Metrics.h"
@@ -51,6 +52,7 @@
 #include "scrimmage/network/Interface.h"
 #include "scrimmage/parse/ConfigParse.h"
 #include "scrimmage/parse/MissionParse.h"
+#include "scrimmage/parse/MissionValidation.h"
 #include "scrimmage/parse/ParseUtils.h"
 #include "scrimmage/plugin_manager/PluginManager.h"
 #include "scrimmage/sensor/Sensor.h"
@@ -201,6 +203,17 @@ bool SimControl::init(const std::string& mission_file, const bool& init_python) 
     }
     setup_logging();
 
+    // Validate all plugins referenced in the mission file
+    // This catches invalid plugin names before simulation starts
+    {
+        MissionValidation validator;
+        ValidationResult validation_result = validator.validate(mp_, *file_search_);
+        if (!validation_result.valid()) {
+            validator.print_errors(validation_result, mission_file);
+            return false;
+        }
+    }
+
 #if ENABLE_GPU_ACCELERATION == 1
     // Needs to be done after parsing mission file
     init_gpu();
@@ -333,19 +346,28 @@ bool SimControl::generate_entity(const int& ent_desc_id) {
         return false;
     }
 
-    // Get the entity attributes for the given id
-    AttributeMap plugin_attr_map = mp_->entity_attributes()[ent_desc_id];
+    return generate_entity(ent_desc_id, it_params->second);
+}
 
-    return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
+bool SimControl::generate_entity(
+    const int& ent_desc_id,
+    std::map<std::string, std::string>& params) {
+    const RuntimePluginOverrides runtime_plugin_overrides;
+    return generate_entity(ent_desc_id, params, runtime_plugin_overrides);
 }
 
 bool SimControl::generate_entity(
     const int& ent_desc_id,
     std::map<std::string, std::string>& params,
-    AttributeMap& plugin_attr_map) {
+    const RuntimePluginOverrides& runtime_plugin_overrides) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
+
+    if (!validate_runtime_plugin_overrides(mp_, file_search_, ent_desc_id, runtime_plugin_overrides)) {
+        return false;
+    }
+
     params["dt"] = std::to_string(dt_);
     params["motion_multiplier"] = std::to_string(mp_->motion_multiplier());
 
@@ -428,8 +450,8 @@ bool SimControl::generate_entity(
     info.gpu = gpu_;
 
     EntityInitParams init_params;
-    init_params.overrides = plugin_attr_map;
     init_params.info = params;
+    init_params.runtime_plugin_overrides = runtime_plugin_overrides;
     init_params.id = id;
     init_params.ent_desc_id = ent_desc_id;
     init_params.param_override_func = [](std::map<std::string, std::string>&) {};
@@ -949,6 +971,7 @@ bool SimControl::start() {
 
     // Set subscriber / callback that allows plugins to generate entities
     auto gen_ent_cb = [&](auto& msg) {
+        RuntimePluginOverrides runtime_plugin_overrides;
         auto it_ent_desc_id = mp_->entity_tag_to_id().find(msg->data.entity_tag());
         if (it_ent_desc_id == mp_->entity_tag_to_id().end()) {
             LOG_ERROR("Failed to find entity_tag, " << msg->data.entity_tag()
@@ -981,22 +1004,15 @@ bool SimControl::start() {
         // Assign the ID based on the protobuf message
         params["id"] = std::to_string(msg->data.entity_id());
 
-        // Override any manually specified entity_params
-        for (int i = 0; i < msg->data.entity_param().size(); i++) {
-            params[msg->data.entity_param(i).key()] = msg->data.entity_param(i).value();
-        }
-
-        AttributeMap plugin_attr_map = mp_->entity_attributes()[it_ent_desc_id->second];
-        for (int i = 0; i < msg->data.plugin_param().size(); i++) {
-            plugin_attr_map[msg->data.plugin_param(i).plugin_type()]
-                           [msg->data.plugin_param(i).tag_name()] =
-                               msg->data.plugin_param(i).tag_value();
+        const int ent_desc_id = it_ent_desc_id->second;
+        if (!parse_runtime_plugin_overrides(msg->data, mp_, ent_desc_id, runtime_plugin_overrides)) {
+            return;
         }
 
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
+        if (not this->generate_entity(it_ent_desc_id->second, params, runtime_plugin_overrides)) {
             LOG_ERROR("Failed to generate entity with tag: " << msg->data.entity_tag());
             return;
         }

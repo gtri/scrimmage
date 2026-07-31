@@ -322,7 +322,7 @@ bool JSBSimControl::step(double time, double dt) {
 
     // draw velocity
     if (draw_vel_) {
-        sc::ShapePtr line(new sp::Shape());
+        sc::ShapePtr line(new scrimmage_proto::Shape());
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 255, 0, 0);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
@@ -332,7 +332,7 @@ bool JSBSimControl::step(double time, double dt) {
 
     // draw angular velocity
     if (draw_ang_vel_) {
-        sc::ShapePtr line(new sp::Shape());
+        sc::ShapePtr line(new scrimmage_proto::Shape());
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 0, 255, 0);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
@@ -342,7 +342,7 @@ bool JSBSimControl::step(double time, double dt) {
 
     // draw acceleration
     if (draw_acc_) {
-        sc::ShapePtr line(new sp::Shape());
+        sc::ShapePtr line(new scrimmage_proto::Shape());
         line->set_opacity(1.0);
         sc::set(line->mutable_color(), 0, 0, 255);
         sc::set(line->mutable_line()->mutable_start(), state_->pos());
