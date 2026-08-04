@@ -92,7 +92,10 @@ GenerateSetEnv(
   DATA_PATH        ${PROJECT_SOURCE_DIR}/data
   LD_LIBRARY_PATH  ${PROJECT_BINARY_DIR}/lib ${PROJECT_BINARY_DIR}/plugin_libs)
 
-option(EXTERNAL "EXTERNAL" 0)
+# OFF when building scrimmage itself. Downstream projects that consume an
+# installed scrimmage should set this ON to skip scrimmage-core-only tools
+# and data packaging.
+option(EXTERNAL "Build against an existing scrimmage install instead of the scrimmage core tree; skip core-only tools/data packaging" 0)
 
 ########################################################
 # Find Protobuf
