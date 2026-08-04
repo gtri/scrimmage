@@ -133,10 +133,14 @@ bool find_model_properties(
         if (fs::exists(model_file) && fs::is_regular_file(model_file)) {
             cv->set_model_file(model_file);
             mesh_found = true;
+        } else {
+            cv->set_model_file(cv_parse.params()["model"]);
         }
         if (fs::exists(texture_file) && fs::is_regular_file(texture_file)) {
             cv->set_texture_file(texture_file);
             texture_found = true;
+        } else {
+            cv->set_texture_file(cv_parse.params()["texture"]);
         }
     }
 

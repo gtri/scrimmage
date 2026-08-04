@@ -791,6 +791,30 @@ void SimControl::set_running_in_thread(bool running_in_thread) {
 }
 
 bool SimControl::start() {
+    if (mp_->params().count("stream_port") > 0 && mp_->params().count("stream_ip") > 0) {
+        if (mp_->network_gui()) {
+            outgoing_interface_->init_network(
+                Interface::client,
+                mp_->params()["stream_ip"],
+                std::stoi(mp_->params()["stream_port"]));
+
+            network_thread_ = std::thread(
+                &Interface::init_network,
+                &(*incoming_interface_),
+                Interface::server,
+                "localhost",
+                std::stoi(mp_->params()["stream_port"]) + 1);
+            network_thread_.detach();
+        } else {
+            outgoing_interface_->set_mode(Interface::shared);
+            incoming_interface_->set_mode(Interface::shared);
+        }
+
+    } else {
+        outgoing_interface_->set_mode(Interface::shared);
+        incoming_interface_->set_mode(Interface::shared);
+    }
+
     send_terrain();
 
     // Set the time parameters based on the mission file input
@@ -860,30 +884,6 @@ bool SimControl::start() {
 
     } else {
         end_conditions_.insert(EndConditionFlags::TIME);
-    }
-
-    if (mp_->params().count("stream_port") > 0 && mp_->params().count("stream_ip") > 0) {
-        if (mp_->network_gui()) {
-            outgoing_interface_->init_network(
-                Interface::client,
-                mp_->params()["stream_ip"],
-                std::stoi(mp_->params()["stream_port"]));
-
-            network_thread_ = std::thread(
-                &Interface::init_network,
-                &(*incoming_interface_),
-                Interface::server,
-                "localhost",
-                std::stoi(mp_->params()["stream_port"]) + 1);
-            network_thread_.detach();
-        } else {
-            outgoing_interface_->set_mode(Interface::shared);
-            incoming_interface_->set_mode(Interface::shared);
-        }
-
-    } else {
-        outgoing_interface_->set_mode(Interface::shared);
-        incoming_interface_->set_mode(Interface::shared);
     }
 
     // If the GlobalNetwork doesn't exist, add it.

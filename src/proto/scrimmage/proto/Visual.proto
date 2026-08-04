@@ -28,6 +28,9 @@ message UTMTerrain {
         string extrusion_file = 18;
         string extrusion_property = 19;
         bool enable_extrusion = 20;
+        double latitude = 21;
+        double longitude = 22;
+        double altitude = 23;
 }
 
 message SimInfo {

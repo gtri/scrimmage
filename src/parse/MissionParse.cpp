@@ -951,6 +951,10 @@ bool MissionParse::parse_terrain() {
     utm_terrain_->set_enable_terrain(false);
     utm_terrain_->set_enable_extrusion(false);
 
+    utm_terrain_->set_latitude(latitude_origin());
+    utm_terrain_->set_longitude(longitude_origin());
+    utm_terrain_->set_altitude(altitude_origin());
+
     if (params_.count("terrain") > 0
         && find_terrain_files(params_["terrain"], terrain_parse, utm_terrain_)) {
         double x_easting;
