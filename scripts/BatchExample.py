@@ -1,5 +1,9 @@
 import glob
 import pandas as pd
+
+from packaging.version import Version
+
+PANDAS_VERSION = Version(pd.__version__)
 import os
 import statsmodels.api as sm
 
@@ -11,7 +15,10 @@ for file in files:
     run_num = int((os.path.basename(os.path.dirname(file))).split('_')[-1])
     frame = pd.read_csv(file)
     frame['run'] = run_num
-    agg = pd.concat([agg, frame], copy=False)
+    if PANDAS_VERSION < Version("3.0"):
+        agg = pd.concat([agg, frame], copy=False)
+    else:
+        agg = pd.concat([agg, frame])
 agg = agg.reset_index(drop=True)
 
 params_agg = pd.read_csv(os.path.join(log_dir, 'batch_params.csv'), index_col='run')
