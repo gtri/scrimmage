@@ -28,6 +28,7 @@
  *   {"kind":"scheduled_delivery", ...same fields..., "deliver_at":..}
  *   {"kind":"belief","t":..,"id":..,"p":[x,y,z],"v":[..],"q":[w,x,y,z],"w":[..]}
  *   {"kind":"output","t":..,"id":..,"plugin":..,"port":..,"value":..}
+ *     (only outputs the next plugin in the chain reads)
  *   {"kind":"publication","t":..,"topic":..,"from":[..],
  *    "states":[{"id":contact_id|null,"p":..,"v":..,"q":..,"w":..,"cov":[row-major]}]}
  * "ids" is present only for lifecycle and collision topics.
@@ -186,6 +187,9 @@ void write_outputs(double t, int id, const EntityPluginPtr& plugin) {
     std::ofstream* out = stream();
     VariableIO& vars = plugin->vars();
     for (auto& kv : vars.output_variable_index()) {
+        // After connect(), indices below the size are the next plugin's inputs;
+        // outputs it does not read are dropped by VariableIO and not recorded.
+        if (kv.second >= vars.output()->size()) continue;
         *out << "{\"kind\":\"output\",\"t\":" << number(t) << ",\"id\":" << id
              << ",\"plugin\":" << text(plugin->name()) << ",\"port\":" << text(kv.first)
              << ",\"value\":" << number(vars.output(kv.second)) << "}\n";
