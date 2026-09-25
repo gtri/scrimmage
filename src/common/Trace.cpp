@@ -48,6 +48,7 @@
 #include "scrimmage/msgs/Event.pb.h"
 #include "scrimmage/pubsub/Message.h"
 
+#include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <iomanip>
@@ -83,7 +84,10 @@ std::string text(const std::string& value) {
     return out + "\"";
 }
 
+// JSON has no NaN or infinity; both traces write them as strings.
 std::string number(double value) {
+    if (std::isnan(value)) return "\"NaN\"";
+    if (std::isinf(value)) return value > 0 ? "\"Infinity\"" : "\"-Infinity\"";
     std::ostringstream out;
     out << std::setprecision(std::numeric_limits<double>::max_digits10) << value;
     return out.str();
