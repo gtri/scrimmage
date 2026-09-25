@@ -28,6 +28,8 @@
  *   {"kind":"scheduled_delivery", ...same fields..., "deliver_at":..}
  *   {"kind":"belief","t":..,"id":..,"p":[x,y,z],"v":[..],"q":[w,x,y,z],"w":[..]}
  *   {"kind":"output","t":..,"id":..,"plugin":..,"port":..,"value":..}
+ *   {"kind":"publication","t":..,"topic":..,"from":[..],
+ *    "states":[{"id":contact_id|null,"p":..,"v":..,"q":..,"w":..,"cov":[row-major]}]}
  * "ids" is present only for lifecycle and collision topics.
  */
 
@@ -39,6 +41,8 @@
 #include "scrimmage/entity/EntityPlugin.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
+#include "scrimmage/math/StateWithCovariance.h"
+#include "scrimmage/entity/Contact.h"
 #include "scrimmage/motion/Controller.h"
 #include "scrimmage/msgs/Collision.pb.h"
 #include "scrimmage/msgs/Event.pb.h"
@@ -48,6 +52,7 @@
 #include <fstream>
 #include <iomanip>
 #include <limits>
+#include <map>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -158,6 +163,23 @@ std::string vector3(const Eigen::Vector3d& v) {
     return "[" + number(v(0)) + "," + number(v(1)) + "," + number(v(2)) + "]";
 }
 
+double current_time = 0;
+
+std::string state_json(const std::string& id, StateWithCovariance& state) {
+    const Quaternion& q = state.quat();
+    std::string out = "{\"id\":" + id + ",\"p\":" + vector3(state.pos())
+                      + ",\"v\":" + vector3(state.vel()) + ",\"q\":[" + number(q.w()) + ","
+                      + number(q.x()) + "," + number(q.y()) + "," + number(q.z())
+                      + "],\"w\":" + vector3(state.ang_vel()) + ",\"cov\":[";
+    const Eigen::MatrixXd& cov = state.covariance();
+    for (int row = 0; row < cov.rows(); ++row) {
+        for (int col = 0; col < cov.cols(); ++col) {
+            out += (row || col ? "," : "") + number(cov(row, col));
+        }
+    }
+    return out + "]}";
+}
+
 void write_outputs(double t, int id, const EntityPluginPtr& plugin) {
     std::ofstream* out = stream();
     VariableIO& vars = plugin->vars();
@@ -172,6 +194,33 @@ void write_outputs(double t, int id, const EntityPluginPtr& plugin) {
 
 bool enabled() {
     return stream() != nullptr;
+}
+
+void set_time(double t) {
+    current_time = t;
+}
+
+void publication(const std::string& topic, const EntityPluginPtr& from, const MessageBasePtr& msg) {
+    std::ofstream* out = stream();
+    if (out == nullptr) return;
+    std::vector<std::string> states;
+    if (auto m = std::dynamic_pointer_cast<Message<StateWithCovariance>>(msg)) {
+        states.push_back(state_json("null", m->data));
+    } else if (auto m = std::dynamic_pointer_cast<Message<ContactMap>>(msg)) {
+        std::map<int, std::string> sorted;  // unordered_map order is not meaningful
+        for (auto& kv : m->data) {
+            auto state = std::dynamic_pointer_cast<StateWithCovariance>(kv.second.state());
+            if (state == nullptr) return;
+            sorted[kv.first] = state_json(std::to_string(kv.first), *state);
+        }
+        for (auto& kv : sorted) states.push_back(kv.second);
+    } else {
+        return;
+    }
+    *out << "{\"kind\":\"publication\",\"t\":" << number(current_time)
+         << ",\"topic\":" << text(topic) << ",\"from\":" << endpoint(from) << ",\"states\":[";
+    for (size_t i = 0; i < states.size(); ++i) *out << (i ? "," : "") << states[i];
+    *out << "]}\n";
 }
 
 void delivery(

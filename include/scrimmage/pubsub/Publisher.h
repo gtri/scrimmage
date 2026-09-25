@@ -39,6 +39,7 @@
 
 #include <boost/type_index.hpp>
 
+#include "scrimmage/common/Trace.h"
 #include "scrimmage/pubsub/NetworkDevice.h"
 
 namespace scrimmage {
@@ -61,6 +62,7 @@ class Publisher : public NetworkDevice {
             set_debug_info(msg, boost::typeindex::type_id<T>().pretty_name());
         }
         add_msg(msg);
+        trace::publication(topic_, plugin_, msg);
     }
     std::function<void(MessageBasePtr)> callback;
 

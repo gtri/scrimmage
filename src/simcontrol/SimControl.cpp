@@ -660,6 +660,7 @@ void SimControl::run_remove_inactive() {
 
 bool SimControl::run_single_step(const int& loop_number) {
     double t = this->t();
+    trace::set_time(t);
     reseed_task_.update(t);
     start_loop_timer();
 

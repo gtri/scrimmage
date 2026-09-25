@@ -42,6 +42,13 @@ namespace trace {
 
 bool enabled();
 
+/// Current simulation time for records made inside plugins (publications).
+void set_time(double t);
+
+/// A plugin published a sensor payload (StateWithCovariance or a contact map
+/// of StateWithCovariance); other message types are ignored.
+void publication(const std::string& topic, const EntityPluginPtr& from, const MessageBasePtr& msg);
+
 /// A message became available to a subscriber (immediate network delivery).
 void delivery(
     double t,
