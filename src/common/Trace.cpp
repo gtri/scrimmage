@@ -65,17 +65,13 @@ namespace trace {
 namespace {
 
 std::ofstream* stream() {
-    // Opened once, on first use; nullptr when tracing is disabled.
-    static std::ofstream* file = [] {
-        const char* path = std::getenv("SCRIMMAGE_TRACE");
-        if (path == nullptr || *path == '\0') {
-            return static_cast<std::ofstream*>(nullptr);
-        }
-        auto* out = new std::ofstream(path, std::ios::out | std::ios::trunc);
-        *out << std::setprecision(std::numeric_limits<double>::max_digits10);
-        return out;
-    }();
-    return file;
+    // Opened once, on first use; nullptr when tracing is disabled. A static
+    // object (not a leaked pointer) so the final records flush at exit.
+    static const char* path = std::getenv("SCRIMMAGE_TRACE");
+    static const bool enabled = path != nullptr && *path != '\0';
+    static std::ofstream file = enabled ? std::ofstream(path, std::ios::out | std::ios::trunc)
+                                        : std::ofstream();
+    return enabled ? &file : nullptr;
 }
 
 std::string text(const std::string& value) {
@@ -95,7 +91,8 @@ std::string number(double value) {
 
 // The comparator maps parent IDs of non-entity plugins to the Rust model.
 std::string endpoint(const EntityPluginPtr& plugin) {
-    std::string name = plugin->name().empty() ? "SimControl" : plugin->name();
+    // SimControl publishes through an unnamed EntityPlugin, whose default name is "Plugin".
+    std::string name = plugin->name() == "Plugin" ? "SimControl" : plugin->name();
     auto parent = plugin->parent();
     std::string id = parent == nullptr ? "null" : std::to_string(parent->id().id());
     return "[" + id + "," + text(name) + "]";
@@ -157,6 +154,7 @@ void write_delivery(
         *out << "]";
     }
     *out << "}\n";
+    out->flush();
 }
 
 std::string vector3(const Eigen::Vector3d& v) {
@@ -221,6 +219,7 @@ void publication(const std::string& topic, const EntityPluginPtr& from, const Me
          << ",\"topic\":" << text(topic) << ",\"from\":" << endpoint(from) << ",\"states\":[";
     for (size_t i = 0; i < states.size(); ++i) *out << (i ? "," : "") << states[i];
     *out << "]}\n";
+    out->flush();
 }
 
 void delivery(
@@ -254,6 +253,7 @@ void beliefs(double t, const std::list<EntityPtr>& ents) {
              << ",\"q\":[" << number(q.w()) << "," << number(q.x()) << "," << number(q.y())
              << "," << number(q.z()) << "],\"w\":" << vector3(state->ang_vel()) << "}\n";
     }
+    out->flush();
 }
 
 void outputs(double t, const std::list<EntityPtr>& ents) {
