@@ -60,14 +60,43 @@ class Random {
 
     std::shared_ptr<std::default_random_engine> gener() { return gener_; }
 
+    /// scrimmage-rs comparison option (branch scrimmage-rs-instrumentation):
+    /// when SCRIMMAGE_LIBCXX_SPAWN_RANDOM=1, spawn draws use this dedicated
+    /// std::minstd_rand stream, which the C++ standard fully specifies.
+    std::minstd_rand& spawn_gener() { return spawn_gener_; }
+
  protected:
     uint32_t seed_;
     std::shared_ptr<std::default_random_engine> gener_;
+    std::minstd_rand spawn_gener_;
     std::normal_distribution<double> rng_normal_;
     std::uniform_real_distribution<double> rng_uniform_;
 };
 
 typedef std::shared_ptr<Random> RandomPtr;
+
+/// True when SCRIMMAGE_LIBCXX_SPAWN_RANDOM=1 (read once).
+bool libcxx_spawn_random();
+
+/// Normal draws for entity generation. By default this is exactly
+/// std::normal_distribution on Random::gener(), unchanged. With
+/// SCRIMMAGE_LIBCXX_SPAWN_RANDOM=1 it instead reproduces libc++ (Apple)
+/// normal_distribution on Random::spawn_gener(): the Marsaglia polar method
+/// returning the first variate and caching the second, which libstdc++ reverses.
+/// Only spawn draws move to the dedicated stream, so this matches unmodified
+/// macOS C++ only when spawning is the sole consumer of the shared generator.
+class SpawnNormal {
+ public:
+    SpawnNormal(double mean, double sigma);
+    double operator()(Random& random);
+
+ private:
+    std::normal_distribution<double> standard_;
+    double mean_;
+    double sigma_;
+    bool has_cached_ = false;
+    double cached_ = 0;
+};
 
 }  // namespace scrimmage
 

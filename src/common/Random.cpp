@@ -33,6 +33,9 @@
 #include "scrimmage/common/Random.h"
 
 #include <chrono>  // NOLINT
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 
 namespace scrimmage {
 
@@ -53,6 +56,7 @@ void Random::seed() {
 void Random::seed(uint32_t _seed) {
     seed_ = _seed;
     gener_->seed(seed_);
+    spawn_gener_.seed(seed_);
 }
 
 double Random::rng_uniform() {
@@ -85,6 +89,47 @@ std::shared_ptr<std::normal_distribution<double>> Random::make_rng_normal(
     double mean,
     double sigma) {
     return std::make_shared<std::normal_distribution<double>>(mean, sigma);
+}
+
+bool libcxx_spawn_random() {
+    static const bool enabled = [] {
+        const char* value = std::getenv("SCRIMMAGE_LIBCXX_SPAWN_RANDOM");
+        return value != nullptr && std::strcmp(value, "1") == 0;
+    }();
+    return enabled;
+}
+
+SpawnNormal::SpawnNormal(double mean, double sigma)
+    : standard_(mean, sigma), mean_(mean), sigma_(sigma) {}
+
+double SpawnNormal::operator()(Random& random) {
+    if (!libcxx_spawn_random()) {
+        return standard_(*random.gener());
+    }
+    // libc++ generate_canonical<double, 53> for minstd_rand: two draws.
+    auto canonical = [&random]() {
+        const double r = 2147483646.0;
+        double lo = static_cast<double>(random.spawn_gener()() - 1);
+        double hi = static_cast<double>(random.spawn_gener()() - 1);
+        return (lo + hi * r) / (r * r);
+    };
+    double value;
+    if (has_cached_) {
+        has_cached_ = false;
+        value = cached_;
+    } else {
+        double u, v, s;
+        do {
+            u = 2.0 * canonical() - 1.0;
+            v = 2.0 * canonical() - 1.0;
+            s = u * u + v * v;
+        } while (s > 1.0 || s == 0.0);
+        double f = std::sqrt(-2.0 * std::log(s) / s);
+        cached_ = v * f;
+        has_cached_ = true;
+        value = u * f;
+    }
+    return value * sigma_ + mean_;
 }
 
 }  // namespace scrimmage

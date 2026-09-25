@@ -32,6 +32,7 @@
 
 #include "scrimmage/pubsub/Network.h"
 
+#include "scrimmage/common/Trace.h"
 #include <iostream>
 #include <memory>
 
@@ -185,6 +186,7 @@ bool Network::step(
 
                                 msg->time = time_->t();
                                 sub->add_msg(msg);
+                                trace::delivery(time_->t(), name(), topic, pub->plugin(), sub->plugin(), msg);
 
                                 if (monitor_all_subs_) {
                                     // Accumulate received message counts on all topics
@@ -199,6 +201,7 @@ bool Network::step(
                                 // put msg in subs undelivered msg queue
                                 msg->time = time_->t() + msg_delay;
                                 sub->add_undelivered_msg(msg, is_stochastic_delay_);
+                                trace::scheduled_delivery(time_->t(), name(), topic, pub->plugin(), sub->plugin(), msg);
                             }
                         }
                     }

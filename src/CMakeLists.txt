@@ -12,6 +12,7 @@ set(SRCS
     common/Random.cpp common/RTree.cpp common/Timer.cpp common/Utilities.cpp
     common/CSV.cpp
     common/VariableIO.cpp
+    common/Trace.cpp
     common/Battery.cpp
     common/Shape.cpp
     entity/Contact.cpp entity/Entity.cpp entity/External.cpp

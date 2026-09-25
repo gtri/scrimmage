@@ -32,6 +32,7 @@
 
 #include "scrimmage/simcontrol/SimControl.h"
 
+#include "scrimmage/common/Trace.h"
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/Algorithm.h"
 #include "scrimmage/common/CSV.h"
@@ -105,7 +106,6 @@ namespace sm = scrimmage_msgs;
 namespace br = boost::range;
 namespace ba = boost::adaptors;
 
-using NormDistribution = std::normal_distribution<double>;
 
 namespace scrimmage {
 
@@ -295,10 +295,10 @@ bool SimControl::generate_entities(const double& t) {
 
             // Is rate generation enabled?
             if (gen_info.rate > 0) {
-                NormDistribution norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
+                SpawnNormal norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
 
                 // save next gen time to pointer to next gen time
-                gen_time = norm_dist(*random_->gener());
+                gen_time = norm_dist(*random_);
                 if (gen_time <= t) {
                     LOG_WARN("Next generation time less than current time. "
                          << "generate_time_variance is too large.");
@@ -356,12 +356,11 @@ bool SimControl::generate_entity(
 
     Eigen::Vector3d pos(x0, y0, z0);
 
-    auto gener = random_->gener();
-    NormDistribution x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
-    NormDistribution y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
-    NormDistribution z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
-    NormDistribution heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
-    params["heading"] = std::to_string(heading_normal_dist(*gener));
+    SpawnNormal x_normal_dist(x0, pow(get("variance_x", params, 100.0), 0.5));
+    SpawnNormal y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
+    SpawnNormal z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
+    SpawnNormal heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
+    params["heading"] = std::to_string(heading_normal_dist(*random_));
 
     bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
 
@@ -375,9 +374,9 @@ bool SimControl::generate_entity(
         const int max_ct = 1e6;
         bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
         while (ct++ < max_ct && !exit_ && reselect_pos) {
-            pos(0) = x_normal_dist(*gener);
-            pos(1) = y_normal_dist(*gener);
-            pos(2) = z_normal_dist(*gener);
+            pos(0) = x_normal_dist(*random_);
+            pos(1) = y_normal_dist(*random_);
+            pos(2) = z_normal_dist(*random_);
             reselect_pos = collision_exists(pos);
         }
 
@@ -623,6 +622,7 @@ bool SimControl::run_logging() {
     contacts_mutex_.lock();
 
     std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(t_ + dt_, contacts_);
+    trace::beliefs(t_, ents_);
 
     outgoing_interface_->send_frame(frame);
     log_->save_frame(frame);
@@ -1813,6 +1813,7 @@ bool SimControl::run_entities() {
         }
         ctrl_t += motion_dt;
     }
+    trace::outputs(t_, ents_);
     double temp_t = t_;
 #if ENABLE_GPU_ACCELERATION == 1
     for (auto gpu_motion_model_pair : gpu_motion_models_) {
