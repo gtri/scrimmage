@@ -302,23 +302,12 @@ else()
 endif()
 
 ########################################################
-# Find OpenCL
+# GPU acceleration
 ########################################################
-find_package(OpenCL)
-## Enable GPU Acceleration only if OpenCL is installed and it is not explicitly turned off
-if(OpenCL_FOUND AND (NOT DEFINED ENABLE_GPU_ACCELERATION OR ENABLE_GPU_ACCELERATION))
-  set(ENABLE_GPU_ACCELERATION true)
-  add_compile_options(-DENABLE_GPU_ACCELERATION=1)
-  message("-- OpenCL found at ${OpenCL_LIBRARY}. Enabling GPU Support")
-else()
-  if (NOT OpenCL_FOUND)
-    message("-- No OpenCL installation found. Disabling GPU Acceleration")
-  else()
-    message("-- Disabling GPU Acceleration")
-    add_compile_options(-DENABLE_GPU_ACCELERATION=0)
-endif()
-  add_compile_options(-DENABLE_GPU_ACCELERATION=0)
-endif()
+## Disabled on this branch: GPU motion models required running every
+## controller sub-step before every motion sub-step (see run_entities).
+set(ENABLE_GPU_ACCELERATION false)
+add_compile_options(-DENABLE_GPU_ACCELERATION=0)
 
 ########################################################
 # Recurse into src, share, and plugins

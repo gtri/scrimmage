@@ -1797,6 +1797,12 @@ bool SimControl::run_entities() {
     // The loop_t capture is necessary because lambdas capture by reference,
     // and ctrl_t changes each iteration. We need the value at capture time.
     //
+    // Each sub-step runs the controllers and then the motion model, so a
+    // controller sees the state the previous motion sub-step wrote. SCRIMMAGE
+    // did this from its initial commit until GPU support (c0a9f42b2) ran all
+    // controller sub-steps before all motion sub-steps; this branch restores
+    // the interleaved order and drops the GPU motion path.
+    //
     double motion_dt = dt_ / mp_->motion_multiplier();
     double ctrl_t = t_;
     for (int i = 0; i < mp_->motion_multiplier(); i++) {
@@ -1812,35 +1818,24 @@ bool SimControl::run_entities() {
                 });
             }
         }
+
+        // run motion model
+        if (entity_thread_types_.count(Task::Type::MOTION)) {
+            success &= add_tasks(Task::Type::MOTION, ctrl_t, motion_dt);
+        } else {
+            for (EntityPtr& ent : ents_) {
+                double loop_t = ctrl_t;
+                success &= exec_step(ent->motion(), [loop_t, motion_dt](auto p) {
+                    return p->step(loop_t, motion_dt);
+                });
+            }
+        }
+
         ctrl_t += motion_dt;
     }
+    // Controller outputs are unchanged by motion, so this records the last
+    // sub-step's commands.
     trace::outputs(t_, ents_);
-    double temp_t = t_;
-#if ENABLE_GPU_ACCELERATION == 1
-    for (auto gpu_motion_model_pair : gpu_motion_models_) {
-        GPUMotionModelPtr gpu_motion_model = gpu_motion_model_pair.second;
-        gpu_motion_model->step(t_, dt_, mp_->motion_multiplier());
-    }
-#endif
-
-    for (int i = 0; i < mp_->motion_multiplier(); i++) {
-        // run motion model
-        auto step_all = [&](Task::Type type, auto getter) {
-            if (entity_thread_types_.count(type)) {
-                success &= add_tasks(type, temp_t, motion_dt);
-            } else {
-                for (EntityPtr& ent : ents_) {
-                    if (!ent->using_gpu_motion_model()) {
-                        auto step = [&](auto p) { return p->step(temp_t, motion_dt); };
-                        success &= exec_step(getter(ent), step);
-                    }
-                }
-            }
-        };
-        step_all(Task::Type::MOTION, [&](auto ent) { return ent->motion(); });
-
-        temp_t += motion_dt;
-    }
 
     // Check if any entity has NaN in its state
     for (EntityPtr& ent : ents_) {
