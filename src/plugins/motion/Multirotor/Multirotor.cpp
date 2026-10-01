@@ -281,6 +281,13 @@ bool Multirotor::step(double time, double dt) {
 }
 
 void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
+    // scrimmage-rs comparison fix: weight, drag, and the gyroscopic term use
+    // this RK4 stage's state x. They used the start-of-step state (x_ and
+    // state_->quat()), which held them fixed across the stages and made the
+    // step first order.
+    sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
+    quat.normalize();
+
     // Omega values for each rotor
     Eigen::VectorXd omega = ctrl_u_;
     Eigen::VectorXd omega_sq = omega.cwiseProduct(omega);
@@ -302,10 +309,10 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
 
     // Calculate force from weight in body frame:
     Eigen::Vector3d gravity_vector(0, 0, -mass_ * g_);
-    Eigen::Vector3d F_weight = state_->quat().rotate_reverse(gravity_vector);
+    Eigen::Vector3d F_weight = quat.rotate_reverse(gravity_vector);
 
     // Calculate force from drag (TODO: Check source)
-    Eigen::Vector3d vel_body(x_[U], x_[V], x_[W]);
+    Eigen::Vector3d vel_body(x[U], x[V], x[W]);
     double vel_mag = vel_body.norm();
     Eigen::Vector3d F_drag = vel_body * (-0.5 * c_D_ * vel_mag);
 
@@ -341,7 +348,7 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
 
     Eigen::Vector3d Moments_total = Moments_thrust;
 
-    Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d pqr(x[P], x[Q], x[R]);
     Eigen::Vector3d pqr_dot = I_inv_ * (Moments_total - pqr.cross(I_ * pqr));
     dxdt[P] = pqr_dot(0);
     dxdt[Q] = pqr_dot(1);
@@ -355,14 +362,6 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
 
     // Local position / velocity to global
-    // Normalize quaternion
-    sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
-    quat.w() = x[q0];
-    quat.x() = x[q1];
-    quat.y() = x[q2];
-    quat.z() = x[q3];
-    quat.normalize();
-
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
     Eigen::Vector3d vel_world = quat.rotate(vel_local);
     dxdt[Xw] = vel_world(0);

@@ -451,10 +451,17 @@ bool FixedWing6DOF::step(double time, double dt) {
 }
 
 void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
+    // scrimmage-rs comparison fix: forces and moments use this RK4 stage's
+    // state x. They used the start-of-step state (x_, quat_body_, alpha_),
+    // which held them fixed across the stages and made the step first order.
+    sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
+    quat.normalize();
+
     // Calculate velocity magnitude (handle zero velocity)
     Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
-    wind_B = quat_body_.rotate_reverse(wind_B);
-    Eigen::Vector3d vel_rel_wind(x_[U] + wind_B(0), x_[V] + wind_B(1), x_[W] + wind_B(2));
+    wind_B = quat.rotate_reverse(wind_B);
+    Eigen::Vector3d vel_rel_wind(x[U] + wind_B(0), x[V] + wind_B(1), x[W] + wind_B(2));
+    double alpha = atan2(vel_rel_wind(2), vel_rel_wind(0));  // angle of attack
     double V_tau = vel_rel_wind.norm();
     if (std::abs(V_tau) < std::numeric_limits<double>::epsilon()) {
         V_tau = 0.00001;
@@ -468,11 +475,11 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
 
     // Calculate lift, drag, and side_force magnitudes
     double CL =
-        (C_L0_ + C_L_alpha_ * alpha_ + C_LQ_ * x_[Q] * c_ / (2 * V_tau)
+        (C_L0_ + C_L_alpha_ * alpha + C_LQ_ * x[Q] * c_ / (2 * V_tau)
          + C_L_alpha_dot_ * alpha_dot_ * c_ / (2 * V_tau) + C_L_delta_elevator_ * delta_elevator_);
     double lift = CL * pVtS;
 
-    double drag = (C_D0_ + C_D_alpha_ * std::abs(alpha_) + CL * CL / (M_PI * AR_ * e_)
+    double drag = (C_D0_ + C_D_alpha_ * std::abs(alpha) + CL * CL / (M_PI * AR_ * e_)
                    + C_D_delta_elevator_ * std::abs(delta_elevator_))
                   * pVtS;
 
@@ -480,13 +487,13 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
 
     // Bring lift, drag, side_force magnitudes into body frame
     Eigen::Vector3d F_aero(
-        lift * sin(alpha_) - drag * cos(alpha_) - side_force * sin(beta),
+        lift * sin(alpha) - drag * cos(alpha) - side_force * sin(beta),
         side_force * cos(beta),
-        -lift * cos(alpha_) - drag * sin(alpha_));
+        -lift * cos(alpha) - drag * sin(alpha));
 
     // Calculate force from weight in body frame:
     Eigen::Vector3d gravity_vector(0, 0, +mass_ * g_);
-    Eigen::Vector3d F_weight = quat_body_.rotate_reverse(gravity_vector);
+    Eigen::Vector3d F_weight = quat.rotate_reverse(gravity_vector);
 
     Eigen::Vector3d F_thrust(thrust_, 0, 0);
     Eigen::Vector3d F_total = F_weight + F_thrust + F_aero;
@@ -494,17 +501,17 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     // simple ground contact model
     Eigen::Vector3d F_ground_W(0, 0, 0);
     Eigen::Vector3d F_ground(0, 0, 0);
-    if (x_[Zw] < 0 && use_ground_model_) {
+    if (x[Zw] < 0 && use_ground_model_) {
         double wn = 20;
         double Kp = wn * wn * mass_;
         double Kd = 2 * wn;
 
-        F_ground_W[2] = std::max(0.0, -Kp * (x_[Zw] - 0.0) - Kd * (x_[Ww] - 0.0));
+        F_ground_W[2] = std::max(0.0, -Kp * (x[Zw] - 0.0) - Kd * (x[Ww] - 0.0));
 
         F_ground(0) = F_ground_W(0);
         F_ground(1) = -F_ground_W(1);
         F_ground(2) = -F_ground_W(2);
-        F_ground = quat_body_.rotate_reverse(F_ground);
+        F_ground = quat.rotate_reverse(F_ground);
 
         F_total += F_ground;
     }
@@ -526,13 +533,13 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
 
     // Calculate moments from aerodynamic forces
     Eigen::Vector3d Moments_aero(
-        (C_L_beta_ * beta + C_LP_ * x_[P] * b_ / (2 * V_tau) + C_LR_ * x_[R] * b_ / (2 * V_tau)
+        (C_L_beta_ * beta + C_LP_ * x[P] * b_ / (2 * V_tau) + C_LR_ * x[R] * b_ / (2 * V_tau)
          + C_L_delta_aileron_ * delta_aileron_ + C_L_delta_rudder_ * delta_rudder_)
             * pVtS * b_,
-        (C_M0_ + C_M_alpha_ * alpha_ + C_MQ_ * x_[Q] * c_ / (2 * V_tau)
+        (C_M0_ + C_M_alpha_ * alpha + C_MQ_ * x[Q] * c_ / (2 * V_tau)
          + C_M_alpha_dot_ * alpha_dot_ * c_ / (2 * V_tau) + C_M_delta_elevator_ * delta_elevator_)
             * pVtS * c_,
-        (C_N_beta_ * beta + C_NP_ * x_[P] * b_ / (2 * V_tau) + C_NR_ * x_[R] * b_ / (2 * V_tau)
+        (C_N_beta_ * beta + C_NP_ * x[P] * b_ / (2 * V_tau) + C_NR_ * x[R] * b_ / (2 * V_tau)
          + C_N_delta_aileron_ * delta_aileron_ + C_N_delta_rudder_ * delta_rudder_)
             * pVtS * b_);
 
@@ -544,7 +551,7 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     }
 
     // Calculate rotational velocites
-    Eigen::Vector3d pqr(x_[P], x_[Q], x_[R]);
+    Eigen::Vector3d pqr(x[P], x[Q], x[R]);
     Eigen::Vector3d pqr_dot = I_inv_ * (Moments_total - pqr.cross(I_ * pqr));
     dxdt[P] = pqr_dot(0);
     dxdt[Q] = pqr_dot(1);
@@ -556,10 +563,6 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[q1] = +0.5 * (x[q0] * x[P] + x[q2] * x[R] - x[q3] * x[Q]) + lambda * x[q1];
     dxdt[q2] = +0.5 * (x[q0] * x[Q] + x[q3] * x[P] - x[q1] * x[R]) + lambda * x[q2];
     dxdt[q3] = +0.5 * (x[q0] * x[R] + x[q1] * x[Q] - x[q2] * x[P]) + lambda * x[q3];
-
-    // Normalize quaternion
-    sc::Quaternion quat(x[q0], x[q1], x[q2], x[q3]);
-    quat.normalize();
 
     // Integrate local velocities to compute local positions
     Eigen::Vector3d vel_local(x[U], x[V], x[W]);
