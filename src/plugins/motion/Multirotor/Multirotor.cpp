@@ -185,13 +185,24 @@ bool Multirotor::step(double time, double dt) {
         ctrl_u_(i) = boost::algorithm::clamp(vars_.input(motor_idx_vec_(i)), wmin_, wmax_);
     }
 
-    // TODO: convert global linear velocity and angular velocity into local
-    // velocities
-
     x_[q0] = state_->quat().w();
     x_[q1] = state_->quat().x();
     x_[q2] = state_->quat().y();
     x_[q3] = state_->quat().z();
+
+    // scrimmage-rs comparison fix: body velocity and rates come from the
+    // entity state every step. They were private, so position integrated body
+    // velocity while the reported world velocity (Uw, Vw, Ww) integrated
+    // separately, and an initial or externally set velocity was reported
+    // without moving the vehicle. The integrated Uw, Vw, Ww are no longer read.
+    Eigen::Vector3d vel_body_start = state_->quat().rotate_reverse(state_->vel());
+    Eigen::Vector3d pqr_start = state_->quat().rotate_reverse(state_->ang_vel());
+    x_[U] = vel_body_start(0);
+    x_[V] = vel_body_start(1);
+    x_[W] = vel_body_start(2);
+    x_[P] = pqr_start(0);
+    x_[Q] = pqr_start(1);
+    x_[R] = pqr_start(2);
 
     x_[Uw] = state_->vel()(0);
     x_[Vw] = state_->vel()(1);
@@ -215,7 +226,7 @@ bool Multirotor::step(double time, double dt) {
     state_->quat().normalize();
 
     // Calculate change in velocity to populate acceleration elements
-    Eigen::Vector3d linear_vel_w(x_[Uw], x_[Vw], x_[Ww]);
+    Eigen::Vector3d linear_vel_w = state_->quat().rotate(Eigen::Vector3d(x_[U], x_[V], x_[W]));
     Eigen::Vector3d linear_acc_w = (linear_vel_w - prev_linear_vel_w) / dt;
     Eigen::Vector3d linear_acc = state_->quat().rotate_reverse(linear_acc_w);
     Eigen::Vector3d angular_vel(x_[P], x_[Q], x_[R]);
@@ -223,7 +234,7 @@ bool Multirotor::step(double time, double dt) {
 
     // Convert local coordinates to world coordinates
     state_->pos() << x_[Xw], x_[Yw], x_[Zw];
-    state_->vel() << x_[Uw], x_[Vw], x_[Ww];
+    state_->vel() = linear_vel_w;
     state_->ang_vel() = state_->quat().rotate(angular_vel);
     linear_accel_body_ = linear_acc;
     ang_accel_body_ = angular_acc;
@@ -292,19 +303,23 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
     Eigen::VectorXd omega = ctrl_u_;
     Eigen::VectorXd omega_sq = omega.cwiseProduct(omega);
 
-    // Calculate force from combined rotor thrust
+    // Calculate force and moments from rotor thrust and reaction torque.
+    // scrimmage-rs comparison fixes: each rotor pushes along its tilted axis
+    // and its moment is r x F (the tilt was parsed but unused, and the moment
+    // arm was the full 3D offset length in the x-y plane); and a rotor at
+    // omega_min keeps its idle thrust (thrust alone dropped to zero at exactly
+    // omega_min while its yaw torque stayed).
     Eigen::Vector3d F_thrust(0, 0, 0);
-    Eigen::VectorXd rotor_thrust(rotors_.size());
-    Eigen::VectorXd rotor_torque(rotors_.size());
+    Eigen::Vector3d Moments_thrust(0, 0, 0);  // L, M, N
 
     for (unsigned int i = 0; i < rotors_.size(); i++) {
-        rotor_thrust(i) = c_T_ * omega_sq(i);
-        if (std::abs(omega[i] - wmin_)
-            < std::numeric_limits<double>::epsilon()) {  // if minimum throttle, servo is off
-            rotor_thrust[i] = 0.0;
-        }
-        rotor_torque(i) = rotors_[i].direction() * c_Q_ * omega_sq(i);
-        F_thrust(2) += rotor_thrust(i);
+        double rotor_thrust = c_T_ * omega_sq(i);
+        Eigen::Vector3d thrust_axis = rotors_[i].quat().rotate(Eigen::Vector3d::UnitZ());
+        Eigen::Vector3d rotor_force = thrust_axis * rotor_thrust;
+        Eigen::Vector3d reaction_torque =
+            thrust_axis * (rotors_[i].direction() * c_Q_ * omega_sq(i));
+        F_thrust += rotor_force;
+        Moments_thrust += rotors_[i].offset().cross(rotor_force) + reaction_torque;
     }
 
     // Calculate force from weight in body frame:
@@ -333,18 +348,6 @@ void Multirotor::model(const vector_t& x, vector_t& dxdt, double t) {
     dxdt[U] = x[V] * x[R] - x[W] * x[Q] + F_total(0) / mass_;
     dxdt[V] = x[W] * x[P] - x[U] * x[R] + F_total(1) / mass_;
     dxdt[W] = x[U] * x[Q] - x[V] * x[P] + F_total(2) / mass_;
-
-    // Calculate moments from thrust
-    Eigen::Vector3d Moments_thrust(0, 0, 0);  // L, M, N
-
-    for (unsigned int i = 0; i < rotors_.size(); i++) {
-        double length = rotors_[i].offset_length();
-        double xy_angle = rotors_[i].xy_angle();
-
-        Moments_thrust(0) += rotor_thrust(i) * length * sin(xy_angle);
-        Moments_thrust(1) -= rotor_thrust(i) * length * cos(xy_angle);
-        Moments_thrust(2) += rotor_torque(i);
-    }
 
     Eigen::Vector3d Moments_total = Moments_thrust;
 
