@@ -109,7 +109,7 @@ void SimpleAircraft::read_truth() {
     x_[X] = state_->pos()(0);
     x_[Y] = state_->pos()(1);
     x_[Z] = state_->pos()(2);
-    x_[ROLL] = -state_->quat().roll();
+    x_[ROLL] = state_->quat().roll();
     x_[PITCH] = state_->quat().pitch_safe();
     x_[YAW] = state_->quat().yaw();
     x_[SPEED] = state_->vel().norm();
@@ -137,7 +137,7 @@ void SimpleAircraft::write_truth(double throttle, double roll_rate, double pitch
     vector_t dxdt(MODEL_NUM_ITEMS);
     derivative(x_, dxdt, throttle, roll_rate, pitch_rate);
     state_->pos() << x_[X], x_[Y], x_[Z];
-    state_->quat().set(-x_[ROLL], x_[PITCH], x_[YAW]);
+    state_->quat().set(x_[ROLL], x_[PITCH], x_[YAW]);
     state_->vel() << dxdt[X], dxdt[Y], dxdt[Z];
     // Euler rates in world axes, for attitude = yaw * pitch * roll: yaw turns
     // about up, pitch about the yawed y axis, roll about the nose.
@@ -145,11 +145,10 @@ void SimpleAircraft::write_truth(double throttle, double roll_rate, double pitch
     double cos_yaw = cos(x_[YAW]);
     double sin_pitch = sin(x_[PITCH]);
     double cos_pitch = cos(x_[PITCH]);
-    double truth_roll_rate = -dxdt[ROLL];
     state_->ang_vel() = Eigen::Vector3d(0, 0, dxdt[YAW])
                         + Eigen::Vector3d(-sin_yaw, cos_yaw, 0) * dxdt[PITCH]
                         + Eigen::Vector3d(cos_yaw * cos_pitch, sin_yaw * cos_pitch, -sin_pitch)
-                              * truth_roll_rate;
+                              * dxdt[ROLL];
 }
 
 void SimpleAircraft::model(const vector_t& x, vector_t& dxdt, double t) {
@@ -171,7 +170,8 @@ void SimpleAircraft::derivative(
     dxdt[Z] = -sin(x[PITCH]) * x[SPEED];
     // Adjust the length based on the speed
     double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
-    dxdt[YAW] = x[SPEED] / currentLength * tan(x[ROLL]);
+    // Banked right (positive roll), it turns right: heading decreases.
+    dxdt[YAW] = -x[SPEED] / currentLength * tan(x[ROLL]);
 
     // A value at a limit stays there while the command pushes it outward.
     // "At" allows for rounding: truth stores attitude as a quaternion, and

@@ -65,7 +65,7 @@ class SimpleAircraft : public scrimmage::MotionModel {
     void teleport(scrimmage::StatePtr& state) override;
 
  protected:
-    // The model's state as truth holds it: roll negated, speed along the velocity.
+    // The model's state as truth holds it, with speed along the velocity.
     void read_truth();
     // Roll, pitch, and speed within their limits.
     void limit_state();

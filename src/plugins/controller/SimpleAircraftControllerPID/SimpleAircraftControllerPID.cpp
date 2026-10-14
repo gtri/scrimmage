@@ -84,8 +84,10 @@ void SimpleAircraftControllerPID::init(std::map<std::string, std::string>& param
 
 bool SimpleAircraftControllerPID::step(double t, double dt) {
     heading_pid_.set_setpoint(vars_.input(input_roll_or_heading_idx_));
-    double u_roll_rate = use_roll_ ? -heading_pid_.step(dt, parent()->state_belief()->quat().roll())
-                                   : heading_pid_.step(dt, parent()->state_belief()->quat().yaw());
+    // Heading increases counterclockwise, and a right bank (positive roll)
+    // turns clockwise, so a heading short of the goal calls for rolling left.
+    double u_roll_rate = use_roll_ ? heading_pid_.step(dt, parent()->state_belief()->quat().roll())
+                                   : -heading_pid_.step(dt, parent()->state_belief()->quat().yaw());
 
     alt_pid_.set_setpoint(vars_.input(input_altitude_or_glide_slope_idx_));
     double u_pitch_rate =
