@@ -34,7 +34,9 @@
 
 #include <vector>
 
+#include "scrimmage/common/KeyedRandom.h"
 #include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
@@ -71,13 +73,13 @@ void NoisyState::init(std::map<std::string, std::string>& params) {
     pub_ = advertise("LocalNetwork", "StateWithCovariance");
 
     // The first belief is a reading too, sampled like every later one.
-    parent_->set_state_belief(static_cast<sc::State>(sample()->data));
+    parent_->set_state_belief(static_cast<sc::State>(sample(1)->data));
 
     return;
 }
 
 bool NoisyState::step() {
-    auto msg = sample();
+    auto msg = sample(0);
 
     pub_->publish(msg);
 
@@ -87,8 +89,23 @@ bool NoisyState::step() {
     return true;
 }
 
-std::shared_ptr<Message<StateWithCovariance>> NoisyState::sample() {
+std::shared_ptr<Message<StateWithCovariance>> NoisyState::sample(uint64_t reading) {
     auto gener = parent_->random()->gener();
+    // scrimmage-rs comparison: with SCRIMMAGE_KEYED_RANDOM=1, each error is
+    // the keyed normal number for [reading, quantity, axis], as in Ripple.
+    const bool keyed = keyed_random::enabled();
+    const uint64_t at_step = keyed ? keyed_random::plugin_label(
+                                         parent_->random()->get_seed(), parent_->id().id(),
+                                         random_identity(), time_->step())
+                                   : 0;
+    auto error = [&](uint64_t quantity, int axis, std::normal_distribution<double>& noise) {
+        if (!keyed) {
+            return noise(*gener);
+        }
+        const uint64_t label =
+            keyed_random::key(at_step, {reading, quantity, static_cast<uint64_t>(axis)});
+        return keyed_random::normal(label, noise.mean(), noise.stddev());
+    };
 
     // Make a copy of the current ground truth state
     StateWithCovariance ns(*(parent_->state_truth()));
@@ -98,15 +115,21 @@ std::shared_ptr<Message<StateWithCovariance>> NoisyState::sample() {
     msg->data.ang_vel() = ns.ang_vel();
 
     for (int i = 0; i < 3; i++) {
-        msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
-        msg->data.vel()(i) = ns.vel()(i) + (*vel_noise_[i])(*gener);
+        msg->data.pos()(i) = ns.pos()(i) + error(0, i, *pos_noise_[i]);
+        msg->data.vel()(i) = ns.vel()(i) + error(1, i, *vel_noise_[i]);
     }
 
     // TODO: Test this math.
     // add noise in roll, pitch, yaw order
-    msg->data.quat() = ns.quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
-                       * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
-                       * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
+    if (!keyed) {
+        msg->data.quat() = ns.quat() * Quaternion(Eigen::Vector3d::UnitX(), (*orient_noise_[0])(*gener))
+                           * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
+                           * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
+    } else {
+        msg->data.quat() = ns.quat() * Quaternion(Eigen::Vector3d::UnitX(), error(2, 0, *orient_noise_[0]))
+                           * Quaternion(Eigen::Vector3d::UnitY(), error(2, 1, *orient_noise_[1]))
+                           * Quaternion(Eigen::Vector3d::UnitZ(), error(2, 2, *orient_noise_[2]));
+    }
 
     return msg;
 }

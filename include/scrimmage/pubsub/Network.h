@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 #define INCLUDE_SCRIMMAGE_PUBSUB_NETWORK_H_
 
+#include <cstdint>
 #include <list>
 #include <map>
 #include <memory>
@@ -91,6 +92,16 @@ class Network : public EntityPlugin {
     virtual bool is_successful_transmission(
         const scrimmage::EntityPluginPtr& pub_plugin,
         const scrimmage::EntityPluginPtr& sub_plugin);
+
+    // scrimmage-rs comparison: the same decision for one message, named by
+    // its topic and its sequence (which of the sender entity's messages on
+    // this network and topic this step it is, from 0), for keyed random
+    // draws. By default, the two-argument decision.
+    virtual bool is_successful_transmission(
+        const scrimmage::EntityPluginPtr& pub_plugin,
+        const scrimmage::EntityPluginPtr& sub_plugin,
+        const std::string& topic,
+        uint64_t sequence);
 
     virtual double get_transmission_delay();
 

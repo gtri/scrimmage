@@ -35,7 +35,9 @@
 #include <iostream>
 #include <limits>
 
+#include "scrimmage/common/KeyedRandom.h"
 #include "scrimmage/common/Random.h"
+#include "scrimmage/common/Time.h"
 #include "scrimmage/entity/Entity.h"
 #include "scrimmage/math/Quaternion.h"
 #include "scrimmage/math/State.h"
@@ -80,6 +82,13 @@ void NoisyContacts::init(std::map<std::string, std::string>& params) {
 bool NoisyContacts::step() {
     auto gener = parent_->random()->gener();
     auto msg = std::make_shared<Message<ContactMap>>();
+    // scrimmage-rs comparison: with SCRIMMAGE_KEYED_RANDOM=1, each error is
+    // the keyed normal number for [contact ID, quantity, axis], as in Ripple.
+    const bool keyed = keyed_random::enabled();
+    const uint64_t at_step = keyed ? keyed_random::plugin_label(
+                                         parent_->random()->get_seed(), parent_->id().id(),
+                                         random_identity(), time_->step())
+                                   : 0;
 
     // Create noisy versions of all contacts that aren't own vehicle
     for (auto& kv : (*parent_->contacts())) {
@@ -92,6 +101,27 @@ bool NoisyContacts::step() {
         // Covar Matrix is 3x3 (x, y, z) with 5.0 along diagonal
         std::shared_ptr<StateWithCovariance> state =
             std::make_shared<StateWithCovariance>(*(kv.second.state()), 3, 3, 5.0);
+
+        if (keyed) {
+            const uint64_t contact = keyed_random::part(kv.second.id().id());
+            auto error = [&](uint64_t quantity, int axis, std::normal_distribution<double>& noise) {
+                const uint64_t label =
+                    keyed_random::key(at_step, {contact, quantity, static_cast<uint64_t>(axis)});
+                return keyed_random::normal(label, noise.mean(), noise.stddev());
+            };
+            for (int i = 0; i < 3; i++) {
+                state->pos()(i) += error(0, i, *pos_noise_[i]);
+                state->vel()(i) += error(1, i, *vel_noise_[i]);
+            }
+            state->quat() = state->quat()
+                            * Quaternion(Eigen::Vector3d::UnitX(), error(2, 0, *orient_noise_[0]))
+                            * Quaternion(Eigen::Vector3d::UnitY(), error(2, 1, *orient_noise_[1]))
+                            * Quaternion(Eigen::Vector3d::UnitZ(), error(2, 2, *orient_noise_[2]));
+            msg->data.emplace(
+                kv.second.id().id(),
+                Contact(kv.second.id(), std::static_pointer_cast<State>(state)));
+            continue;
+        }
 
         // Add noise to position and velocity
         for (int i = 0; i < 3; i++) {

@@ -55,6 +55,14 @@ class SphereNetwork : public scrimmage::Network {
     bool is_successful_transmission(
         const scrimmage::EntityPluginPtr& pub_plugin,
         const scrimmage::EntityPluginPtr& sub_plugin) override;
+    // With SCRIMMAGE_KEYED_RANDOM=1, the keyed uniform number for [sender
+    // entity, receiver entity, topic, sequence], as in Ripple; otherwise the
+    // two-argument decision.
+    bool is_successful_transmission(
+        const scrimmage::EntityPluginPtr& pub_plugin,
+        const scrimmage::EntityPluginPtr& sub_plugin,
+        const std::string& topic,
+        uint64_t sequence) override;
     double range_;
     double prob_transmit_;
 

@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_COMMON_TIME_H_
 #define INCLUDE_SCRIMMAGE_COMMON_TIME_H_
 
+#include <cstdint>
 #include <memory>
 
 namespace scrimmage {
@@ -42,6 +43,10 @@ class Time {
     Time() : t_(-1), dt_(-1), time_warp_(-1) {}
 
     double t() const { return t_; }
+    /// scrimmage-rs comparison: the step being run, counted from 0 at t0
+    /// (-1 while the initial entities are generated). Labels keyed random draws.
+    int64_t step() const { return step_; }
+    void set_step(int64_t step) { step_ = step; }
     double dt() const { return dt_; }
     double time_warp() const { return time_warp_; }
 
@@ -53,6 +58,7 @@ class Time {
     double t_;
     double dt_;
     double time_warp_;
+    int64_t step_ = 0;
 };
 using TimePtr = std::shared_ptr<Time>;
 

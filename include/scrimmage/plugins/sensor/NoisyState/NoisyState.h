@@ -33,6 +33,7 @@
 #ifndef INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
 #define INCLUDE_SCRIMMAGE_PLUGINS_SENSOR_NOISYSTATE_NOISYSTATE_H_
 
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <random>
@@ -53,7 +54,9 @@ class NoisyState : public scrimmage::Sensor {
 
  protected:
     // Truth with noisy position, velocity, and attitude; angular velocity is exact.
-    std::shared_ptr<Message<StateWithCovariance>> sample();
+    // `reading` is the first part of each keyed random label (scrimmage-rs
+    // comparison): 1 for the first reading, taken at init, 0 for each step's.
+    std::shared_ptr<Message<StateWithCovariance>> sample(uint64_t reading);
 
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;

@@ -34,7 +34,10 @@
 
 #include "scrimmage/common/Trace.h"
 #include <iostream>
+#include <map>
 #include <memory>
+#include <string>
+#include <utility>
 
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Time.h"
@@ -127,6 +130,10 @@ bool Network::step(
     // number of messages delivered (may be >1 if delivered with delay)
     int n_delivered = 0;
 
+    // scrimmage-rs comparison: messages so far this step per (sender entity
+    // ID, or 0 for none; topic), naming each message for keyed random draws.
+    std::map<std::pair<int, std::string>, uint64_t> sequences;
+
     // For all publisher topic names
     for (auto& pub_kv : pubs) {
         std::string topic = pub_kv.first;
@@ -160,6 +167,12 @@ bool Network::step(
                 it_pub_topic->second += msgs.size();
             }
 
+            const int pub_entity =
+                pub->plugin()->parent() == nullptr ? 0 : pub->plugin()->parent()->id().id();
+            uint64_t& next_sequence = sequences[std::make_pair(pub_entity, topic)];
+            const uint64_t first_sequence = next_sequence;
+            next_sequence += msgs.size();
+
             // For all subscribers on this topic
             for (NetworkDevicePtr& sub : subs[topic]) {
 
@@ -177,8 +190,9 @@ bool Network::step(
                 }
 
                 if (is_reachable(pub->plugin(), sub->plugin())) {
+                    uint64_t sequence = first_sequence;
                     for (auto& msg : msgs) {
-                        if (is_successful_transmission(pub->plugin(), sub->plugin())) {
+                        if (is_successful_transmission(pub->plugin(), sub->plugin(), topic, sequence++)) {
 
                             double msg_delay = get_transmission_delay();
 
@@ -247,6 +261,14 @@ bool Network::is_successful_transmission(
     const scrimmage::EntityPluginPtr& pub_plugin,
     const scrimmage::EntityPluginPtr& sub_plugin) {
     return false;
+}
+
+bool Network::is_successful_transmission(
+    const scrimmage::EntityPluginPtr& pub_plugin,
+    const scrimmage::EntityPluginPtr& sub_plugin,
+    const std::string& /*topic*/,
+    uint64_t /*sequence*/) {
+    return is_successful_transmission(pub_plugin, sub_plugin);
 }
 
 double Network::get_transmission_delay() {

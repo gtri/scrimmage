@@ -39,6 +39,7 @@
 #include <boost/range/adaptor/map.hpp>
 
 #include "scrimmage/common/ID.h"
+#include "scrimmage/common/KeyedRandom.h"
 #include "scrimmage/common/RTree.h"
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
@@ -134,6 +135,24 @@ bool SphereNetwork::is_successful_transmission(
     const scrimmage::EntityPluginPtr& pub_plugin,
     const scrimmage::EntityPluginPtr& sub_plugin) {
     return (random_->rng_uniform(0, 1) <= prob_transmit_);
+}
+
+bool SphereNetwork::is_successful_transmission(
+    const scrimmage::EntityPluginPtr& pub_plugin,
+    const scrimmage::EntityPluginPtr& sub_plugin,
+    const std::string& topic,
+    uint64_t sequence) {
+    if (!keyed_random::enabled()) {
+        return is_successful_transmission(pub_plugin, sub_plugin);
+    }
+    auto entity = [](const scrimmage::EntityPluginPtr& plugin) {
+        return keyed_random::part(plugin->parent() == nullptr ? 0 : plugin->parent()->id().id());
+    };
+    const uint64_t at_step =
+        keyed_random::plugin_label(random_->get_seed(), 0, name(), time_->step());
+    const uint64_t label = keyed_random::key(
+        at_step, {entity(pub_plugin), entity(sub_plugin), keyed_random::name(topic), sequence});
+    return keyed_random::uniform(label) <= prob_transmit_;
 }
 
 // Return true if the plane does not block communications

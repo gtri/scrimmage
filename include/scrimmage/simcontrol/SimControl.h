@@ -202,8 +202,9 @@ class SimControl {
      */
     bool generate_entities(const double& t);
 
-    /// @brief Generate an entity given the entity description ID.
-    bool generate_entity(const int& ent_desc_id);
+    /// @brief Generate an entity given the entity description ID and the
+    /// spawn's number in its description (which labels keyed random draws).
+    bool generate_entity(const int& ent_desc_id, uint64_t spawn_number);
 
     /**
      * @brief Generate an entity given the entity description ID,
@@ -213,7 +214,8 @@ class SimControl {
     bool generate_entity(
         const int& ent_desc_id,
         std::map<std::string, std::string>& params,
-        AttributeMap& plugin_attr_map);
+        AttributeMap& plugin_attr_map,
+        uint64_t spawn_number);
 
     /// @brief Get the pointer to the MissionParser instance.
     MissionParsePtr mp();
@@ -389,6 +391,9 @@ class SimControl {
     double t_ = 0;
     // Steps taken since t0_; time is counted, not accumulated.
     int64_t steps_ = 0;
+    // scrimmage-rs comparison: spawns so far per entity description, the next
+    // spawn's number (a keyed random label part).
+    std::map<int, uint64_t> spawned_;
     bool paused_;
     bool single_step_;
 

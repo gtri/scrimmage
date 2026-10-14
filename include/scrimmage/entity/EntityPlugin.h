@@ -187,6 +187,12 @@ class EntityPlugin : public Plugin {
     bool step_loop_timer(double dt);
     double loop_dt() const { return loop_dt_; }
 
+    /// scrimmage-rs comparison: the identity keyed random numbers use, as in
+    /// Ripple ("NoisyState:0", the plugin name and its count among the
+    /// entity's sensors of that name).
+    void set_random_identity(const std::string& identity) { random_identity_ = identity; }
+    const std::string& random_identity() const { return random_identity_; }
+
  protected:
     EntityPtr parent_;
 
@@ -210,6 +216,7 @@ class EntityPlugin : public Plugin {
     double loop_timer_;
     double loop_elapsed_ = 0.0;
     double loop_dt_ = 0.0;
+    std::string random_identity_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

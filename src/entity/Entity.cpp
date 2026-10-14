@@ -230,6 +230,9 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     // The MissionParser appends the order number to the sensor (e.g., sensor0,
     // sensor1, etc.)
     int sensor_ct = 0;
+    // scrimmage-rs comparison: each sensor's count among the entity's sensors
+    // of its name, for its keyed random identity.
+    std::map<std::string, int> sensor_name_counts;
     std::string sensor_order_name = std::string("sensor") + std::to_string(sensor_ct);
 
     while (info.count(sensor_order_name) > 0) {
@@ -287,6 +290,8 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
 
             std::string given_name = sensor_name + std::to_string(sensor_ct);
             sensor->set_name(given_name);
+            sensor->set_random_identity(
+                sensor_name + ":" + std::to_string(sensor_name_counts[sensor_name]++));
 
             if (debug_level > 1) {
                 LOG_INFO("--------------------------------");

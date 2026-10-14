@@ -43,6 +43,7 @@
 #include "scrimmage/common/GlobalService.h"
 #include "scrimmage/common/ParameterServer.h"
 #include "scrimmage/common/RTree.h"
+#include "scrimmage/common/KeyedRandom.h"
 #include "scrimmage/common/Random.h"
 #include "scrimmage/common/Time.h"
 #include "scrimmage/common/Utilities.h"
@@ -270,11 +271,28 @@ void SimControl::request_screenshot() {
     outgoing_interface_->push_gui_msg(gui_msg);
 }
 
+namespace {
+// What a spawn's keyed random number is for, the fifth part of its label.
+constexpr uint64_t kNextTime = 0;
+constexpr uint64_t kHeading = 1;
+constexpr uint64_t kX = 2;
+constexpr uint64_t kY = 3;
+constexpr uint64_t kZ = 4;
+
+// The label of a spawn's keyed random number: the seed, "spawn", the entity
+// description, the spawn's number in it, the field, and the try (0 except for
+// a position retried after a collision). As in Ripple's generation.rs.
+uint64_t spawn_label(uint32_t seed, int ent_desc_id, uint64_t number, uint64_t field, uint64_t attempt) {
+    return keyed_random::label(
+        {seed, keyed_random::name("spawn"), static_cast<uint64_t>(ent_desc_id), number, field, attempt});
+}
+}  // namespace
+
 bool SimControl::generate_entities(const double& t) {
     // Construct a list of entities to generate based on the time and generate
     // rate properties. pair consists of entity description ID and
     // first_in_group.
-    std::list<int> ents_to_gen;
+    std::list<std::pair<int, uint64_t>> ents_to_gen;
     for (auto& kv : mp_->entity_descriptions()) {
         int ent_desc_id = kv.first;
 
@@ -296,7 +314,8 @@ bool SimControl::generate_entities(const double& t) {
             }
 
             // Add this entity ID to the list of entities to generate
-            ents_to_gen.push_back(ent_desc_id);
+            const uint64_t spawn_number = spawned_[ent_desc_id]++;
+            ents_to_gen.emplace_back(ent_desc_id, spawn_number);
             gen_info.total_count--;
 
             // Is rate generation enabled?
@@ -304,7 +323,9 @@ bool SimControl::generate_entities(const double& t) {
                 SpawnNormal norm_dist(t + 1.0 / gen_info.rate, gen_info.time_variance);
 
                 // save next gen time to pointer to next gen time
-                gen_time = norm_dist(*random_);
+                gen_time = norm_dist(
+                    *random_,
+                    spawn_label(random_->get_seed(), ent_desc_id, spawn_number, kNextTime, 0));
                 if (gen_time <= t) {
                     LOG_WARN("Next generation time less than current time. "
                          << "generate_time_variance is too large.");
@@ -325,7 +346,9 @@ bool SimControl::generate_entities(const double& t) {
     create_rtree(ents_to_gen.size());
 
     // Call generate_entity on each entity description id.
-    auto gen_ent = [&](const int& ent_desc_id) -> bool { return generate_entity(ent_desc_id); };
+    auto gen_ent = [&](const std::pair<int, uint64_t>& spawn) -> bool {
+        return generate_entity(spawn.first, spawn.second);
+    };
     bool status = std::all_of(ents_to_gen.begin(), ents_to_gen.end(), gen_ent);
 
     return status;
@@ -341,7 +364,7 @@ std::string exact_string(double value) {
 }
 }  // namespace
 
-bool SimControl::generate_entity(const int& ent_desc_id) {
+bool SimControl::generate_entity(const int& ent_desc_id, uint64_t spawn_number) {
     // Get the entity's params
     auto it_params = mp_->entity_descriptions().find(ent_desc_id);
     if (it_params == mp_->entity_descriptions().end()) {
@@ -355,13 +378,14 @@ bool SimControl::generate_entity(const int& ent_desc_id) {
     // Each entity gets its own copy of the description, so the heading it
     // samples is not the next entity's mean.
     std::map<std::string, std::string> params = it_params->second;
-    return generate_entity(ent_desc_id, params, plugin_attr_map);
+    return generate_entity(ent_desc_id, params, plugin_attr_map, spawn_number);
 }
 
 bool SimControl::generate_entity(
     const int& ent_desc_id,
     std::map<std::string, std::string>& params,
-    AttributeMap& plugin_attr_map) {
+    AttributeMap& plugin_attr_map,
+    uint64_t spawn_number) {
 #if ENABLE_JSBSIM == 1
     params["JSBSIM_ROOT"] = jsbsim_root_;
 #endif
@@ -379,7 +403,9 @@ bool SimControl::generate_entity(
     SpawnNormal y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
     SpawnNormal z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
     SpawnNormal heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
-    params["heading"] = exact_string(heading_normal_dist(*random_));
+    const uint32_t seed = random_->get_seed();
+    params["heading"] = exact_string(heading_normal_dist(
+        *random_, spawn_label(seed, ent_desc_id, spawn_number, kHeading, 0)));
 
     bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
 
@@ -393,9 +419,10 @@ bool SimControl::generate_entity(
         const int max_ct = 1e6;
         bool reselect_pos = collision_exists(pos) || use_variance_all_ents;
         while (ct++ < max_ct && !exit_ && reselect_pos) {
-            pos(0) = x_normal_dist(*random_);
-            pos(1) = y_normal_dist(*random_);
-            pos(2) = z_normal_dist(*random_);
+            const uint64_t attempt = static_cast<uint64_t>(ct - 1);
+            pos(0) = x_normal_dist(*random_, spawn_label(seed, ent_desc_id, spawn_number, kX, attempt));
+            pos(1) = y_normal_dist(*random_, spawn_label(seed, ent_desc_id, spawn_number, kY, attempt));
+            pos(2) = z_normal_dist(*random_, spawn_label(seed, ent_desc_id, spawn_number, kZ, attempt));
             reselect_pos = collision_exists(pos);
         }
 
@@ -798,6 +825,7 @@ bool SimControl::run_single_step(const int& loop_number) {
     // repeated addition of dt drifts in the last digits.
     loop_wait();
     set_time(t0_ + static_cast<double>(++steps_) * dt_);
+    time_->set_step(steps_);
     prev_paused_ = paused_;
 
     return not(end_condition_reached() || exit_loop);
@@ -1018,7 +1046,9 @@ bool SimControl::start() {
         // Recreate the rtree with one additional size for this entity.
         this->create_rtree(1);
 
-        if (not this->generate_entity(it_ent_desc_id->second, params, plugin_attr_map)) {
+        if (not this->generate_entity(
+                it_ent_desc_id->second, params, plugin_attr_map,
+                spawned_[it_ent_desc_id->second]++)) {
             LOG_ERROR("Failed to generate entity with tag: " << msg->data.entity_tag());
             return;
         }
@@ -1124,6 +1154,7 @@ bool SimControl::start() {
 
     // Simulate over the time range
     set_time(t0_ - dt_);
+    time_->set_step(-1);
 
     // Initialize entities before simulation begings
     if (!generate_entities(t0_ - dt_)) {
@@ -1139,6 +1170,7 @@ bool SimControl::start() {
     }
     set_time(t0_);
     steps_ = 0;
+    time_->set_step(0);
     return true;
 }
 
