@@ -80,11 +80,10 @@ bool SingleIntegrator::step(double /*t*/, double dt) {
 
     Eigen::Vector3d& vel = state_->vel();
 
-    // If the max_speed is less than 0, directly apply the desired velocity,
-    // otherwise, normalize the velocity and multiply by the max_speed.
-    if (max_speed_ < 0) {
-        vel = desired_vel;
-    } else {
+    // max_speed caps the speed: a faster command keeps its direction at
+    // max_speed. A negative max_speed means no limit.
+    vel = desired_vel;
+    if (max_speed_ >= 0 && desired_vel.norm() > max_speed_) {
         vel = desired_vel.normalized() * max_speed_;
     }
 

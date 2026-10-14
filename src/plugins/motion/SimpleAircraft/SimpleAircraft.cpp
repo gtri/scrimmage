@@ -48,6 +48,11 @@ REGISTER_PLUGIN(scrimmage::MotionModel, scrimmage::motion::SimpleAircraft, Simpl
 namespace scrimmage {
 namespace motion {
 
+namespace {
+// Gravity, as FixedWing6DOF's default.
+constexpr double kGravity = 9.81;
+}  // namespace
+
 enum ModelParams { X = 0, Y, Z, ROLL, PITCH, YAW, SPEED, MODEL_NUM_ITEMS };
 
 enum ControlParams { THRUST = 0, TURN_RATE, PITCH_RATE, CONTROL_NUM_ITEMS };
@@ -67,14 +72,6 @@ bool SimpleAircraft::init(
     max_pitch_ = Angles::deg2rad(get("max_pitch", params, 30.0));
     max_pitch_rate_ = Angles::deg2rad(get("max_pitch_rate", params, 57.3));
     max_roll_rate_ = Angles::deg2rad(get("max_roll_rate", params, 57.3));
-
-    length_ = get("turning_radius", params, 50.0);
-    speedTarget_ =
-        get("speed_target", params, 50.0);  // The "0" speed for adjusting the turning radius
-    lengthSlopePerSpeed_ =
-        get("radius_slope_per_speed",
-            params,
-            0.0);  // Enables adjusting the turning radius based on speed
 
     // Start within the limits, with velocity along the heading and climb
     // angle, at rest (no commanded rates yet).
@@ -168,10 +165,10 @@ void SimpleAircraft::derivative(
     dxdt[X] = xy_speed * cos(x[YAW]);
     dxdt[Y] = xy_speed * sin(x[YAW]);
     dxdt[Z] = -sin(x[PITCH]) * x[SPEED];
-    // Adjust the length based on the speed
-    double currentLength = length_ + lengthSlopePerSpeed_ * (x[SPEED] - speedTarget_);
-    // Banked right (positive roll), it turns right: heading decreases.
-    dxdt[YAW] = -x[SPEED] / currentLength * tan(x[ROLL]);
+    // A coordinated turn: the lift's horizontal part, g tan(roll) per unit
+    // mass, turns the velocity at g tan(roll) / speed. Banked right (positive
+    // roll), it turns right: heading decreases.
+    dxdt[YAW] = -kGravity * tan(x[ROLL]) / x[SPEED];
 
     // A value at a limit stays there while the command pushes it outward.
     // "At" allows for rounding: truth stores attitude as a quaternion, and
