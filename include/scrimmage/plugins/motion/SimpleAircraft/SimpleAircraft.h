@@ -65,6 +65,21 @@ class SimpleAircraft : public scrimmage::MotionModel {
     void teleport(scrimmage::StatePtr& state) override;
 
  protected:
+    // The model's state as truth holds it: roll negated, speed along the velocity.
+    void read_truth();
+    // Roll, pitch, and speed within their limits.
+    void limit_state();
+    // The derivative under saturated controls; a value at a limit stays there
+    // while the command pushes it outward.
+    void derivative(const vector_t& x, vector_t& dxdt, double throttle, double roll_rate,
+                    double pitch_rate);
+    // Writes x_ to truth with the velocity and angular velocity it has under
+    // the given controls.
+    void write_truth(double throttle, double roll_rate, double pitch_rate);
+    double throttle_input();
+    double roll_rate_input();
+    double pitch_rate_input();
+
     scrimmage::PID heading_pid_;
     scrimmage::PID alt_pid_;
     scrimmage::PID vel_pid_;

@@ -182,7 +182,10 @@ class EntityPlugin : public Plugin {
     const double& loop_timer() const { return loop_timer_; }
     void set_loop_rate(const double& loop_rate) { loop_rate_ = loop_rate; }
     void set_loop_timer(const double& loop_timer) { loop_timer_ = loop_timer; }
+    // Called once per tick (or sub-step) of length dt; true when the plugin is
+    // due. The plugin then runs with loop_dt(), the time since it last ran.
     bool step_loop_timer(double dt);
+    double loop_dt() const { return loop_dt_; }
 
  protected:
     EntityPtr parent_;
@@ -205,6 +208,8 @@ class EntityPlugin : public Plugin {
     ParameterServerPtr param_server_;
     double loop_rate_;
     double loop_timer_;
+    double loop_elapsed_ = 0.0;
+    double loop_dt_ = 0.0;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

@@ -32,6 +32,10 @@
 
 #include "scrimmage/simcontrol/SimControl.h"
 
+#include <iomanip>
+#include <limits>
+#include <sstream>
+
 #include "scrimmage/common/Trace.h"
 #include "scrimmage/autonomy/Autonomy.h"
 #include "scrimmage/common/Algorithm.h"
@@ -285,7 +289,9 @@ bool SimControl::generate_entities(const double& t) {
         int gen_count = 0;
         for (double& gen_time : mp_->next_gen_times()[ent_desc_id]) {
             GenerateInfo& gen_info = mp_->gen_info()[ent_desc_id];
-            if (t < gen_time || gen_info.total_count <= 0) {
+            // A batch spawns on the step nearest its time, so rounding (t +
+            // 1 / rate landing just after a step) cannot delay it a step.
+            if (t < gen_time - dt_ / 2.0 || gen_info.total_count <= 0) {
                 continue;
             }
 
@@ -325,6 +331,16 @@ bool SimControl::generate_entities(const double& t) {
     return status;
 }
 
+namespace {
+// Full precision, so a start survives the string map unchanged (std::to_string
+// keeps six decimals).
+std::string exact_string(double value) {
+    std::ostringstream out;
+    out << std::setprecision(std::numeric_limits<double>::max_digits10) << value;
+    return out.str();
+}
+}  // namespace
+
 bool SimControl::generate_entity(const int& ent_desc_id) {
     // Get the entity's params
     auto it_params = mp_->entity_descriptions().find(ent_desc_id);
@@ -336,7 +352,10 @@ bool SimControl::generate_entity(const int& ent_desc_id) {
     // Get the entity attributes for the given id
     AttributeMap plugin_attr_map = mp_->entity_attributes()[ent_desc_id];
 
-    return generate_entity(ent_desc_id, it_params->second, plugin_attr_map);
+    // Each entity gets its own copy of the description, so the heading it
+    // samples is not the next entity's mean.
+    std::map<std::string, std::string> params = it_params->second;
+    return generate_entity(ent_desc_id, params, plugin_attr_map);
 }
 
 bool SimControl::generate_entity(
@@ -360,7 +379,7 @@ bool SimControl::generate_entity(
     SpawnNormal y_normal_dist(y0, pow(get("variance_y", params, 100.0), 0.5));
     SpawnNormal z_normal_dist(z0, pow(get("variance_z", params, 0.0), 0.5));
     SpawnNormal heading_normal_dist(heading, pow(get("variance_heading", params, 0.0), 0.5));
-    params["heading"] = std::to_string(heading_normal_dist(*random_));
+    params["heading"] = exact_string(heading_normal_dist(*random_));
 
     bool use_variance_all_ents = scrimmage::get("use_variance_all_ents", params, false);
 
@@ -392,9 +411,9 @@ bool SimControl::generate_entity(
         }
     }
 
-    params["x"] = std::to_string(pos(0));
-    params["y"] = std::to_string(pos(1));
-    params["z"] = std::to_string(pos(2));
+    params["x"] = exact_string(pos(0));
+    params["y"] = exact_string(pos(1));
+    params["z"] = exact_string(pos(2));
 
     // Fill in the ent's lat/lon/alt value
     double lat, lon, alt;
@@ -621,7 +640,8 @@ bool SimControl::run_metrics() {
 bool SimControl::run_logging() {
     contacts_mutex_.lock();
 
-    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(t_ + dt_, contacts_);
+    // A frame holds the state at the current time, before this step.
+    std::shared_ptr<scrimmage_proto::Frame> frame = create_frame(t_, contacts_);
     trace::beliefs(t_, ents_);
 
     outgoing_interface_->send_frame(frame);
@@ -774,9 +794,10 @@ bool SimControl::run_single_step(const int& loop_number) {
         }
     }
 
-    // Increment time and loop counter
+    // Increment time and loop counter. Time is the step count times dt:
+    // repeated addition of dt drifts in the last digits.
     loop_wait();
-    set_time(t + dt_);
+    set_time(t0_ + static_cast<double>(++steps_) * dt_);
     prev_paused_ = paused_;
 
     return not(end_condition_reached() || exit_loop);
@@ -1117,6 +1138,7 @@ bool SimControl::start() {
         return false;
     }
     set_time(t0_);
+    steps_ = 0;
     return true;
 }
 
@@ -1146,8 +1168,7 @@ bool SimControl::finalize() {
         }
     }
 
-    // account for last step
-    set_time(t() - dt_);
+    // The terminal frame holds the state after the last step, at the end time.
 
     // Save EntityPresentAtEnd messages
     for (EntityPtr& ent : ents_) {
@@ -1638,14 +1659,14 @@ void SimControl::worker() {
                     auto& autonomies = ent->autonomies();
                     br::for_each(autonomies, run_callbacks);
                     auto run = [&](auto& a) {
-                        return a->step_loop_timer(temp_dt) ? a->step_autonomy(temp_t, temp_dt) : true;
+                        return a->step_loop_timer(temp_dt) ? a->step_autonomy(temp_t, a->loop_dt()) : true;
                     };
                     success = std::all_of(autonomies.begin(), autonomies.end(), run);
                 } else if (task_type == Task::Type::CONTROLLER) {
                     auto& controllers = ent->controllers();
                     br::for_each(controllers, run_callbacks);
                     auto run = [&](auto& c) {
-                        return c->step_loop_timer(temp_dt) ? c->step(temp_t, temp_dt) : true;
+                        return c->step_loop_timer(temp_dt) ? c->step(temp_t, c->loop_dt()) : true;
                     };
                     success = std::all_of(controllers.begin(), controllers.end(), run);
                 } else if (task_type == Task::Type::MOTION) {
@@ -1765,7 +1786,8 @@ bool SimControl::run_entities() {
         for (EntityPtr& ent : ents_) {
             for (auto a : ent->autonomies()) {
                 success &= exec_step(a, [&](auto a) {
-                    return a->step_loop_timer(dt_) ? a->step_autonomy(t_, dt_) : true;
+                    // A rate-limited plugin's dt is the time since it last ran.
+                    return a->step_loop_timer(dt_) ? a->step_autonomy(t_, a->loop_dt()) : true;
                 });
             }
         }
@@ -1812,7 +1834,7 @@ bool SimControl::run_entities() {
                 double loop_t = ctrl_t;  // Capture current time for this iteration
                 success &= exec_step(c, [loop_t, motion_dt](auto c) {
                     if (c->step_loop_timer(motion_dt)) {
-                        return c->step(loop_t, motion_dt);
+                        return c->step(loop_t, c->loop_dt());
                     }
                     return true;
                 });

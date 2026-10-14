@@ -322,7 +322,8 @@ bool FixedWing6DOF::step(double time, double dt) {
     // wind frame velocity
     Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
     wind_B = quat_body_.rotate_reverse(wind_B);
-    Eigen::Vector3d vel_rel_wind(x_[U] + wind_B(0), x_[V] + wind_B(1), x_[W] + wind_B(2));
+    // Velocity through the air: ground velocity minus the wind's.
+    Eigen::Vector3d vel_rel_wind(x_[U] - wind_B(0), x_[V] - wind_B(1), x_[W] - wind_B(2));
 
     alpha_ = atan2(vel_rel_wind(2), vel_rel_wind(0));  // angle of attack
     // TODO: Need to compute alpha_dot without using alpha_prev_
@@ -460,7 +461,8 @@ void FixedWing6DOF::model(const vector_t& x, vector_t& dxdt, double t) {
     // Calculate velocity magnitude (handle zero velocity)
     Eigen::Vector3d wind_B(wind_(0), -wind_(1), -wind_(2));
     wind_B = quat.rotate_reverse(wind_B);
-    Eigen::Vector3d vel_rel_wind(x[U] + wind_B(0), x[V] + wind_B(1), x[W] + wind_B(2));
+    // Velocity through the air: ground velocity minus the wind's.
+    Eigen::Vector3d vel_rel_wind(x[U] - wind_B(0), x[V] - wind_B(1), x[W] - wind_B(2));
     double alpha = atan2(vel_rel_wind(2), vel_rel_wind(0));  // angle of attack
     double V_tau = vel_rel_wind.norm();
     if (std::abs(V_tau) < std::numeric_limits<double>::epsilon()) {

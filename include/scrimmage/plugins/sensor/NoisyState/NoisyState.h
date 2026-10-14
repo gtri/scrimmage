@@ -39,6 +39,8 @@
 #include <string>
 #include <vector>
 
+#include "scrimmage/math/StateWithCovariance.h"
+#include "scrimmage/pubsub/Message.h"
 #include "scrimmage/sensor/Sensor.h"
 
 namespace scrimmage {
@@ -50,6 +52,9 @@ class NoisyState : public scrimmage::Sensor {
     bool step() override;
 
  protected:
+    // Truth with noisy position, velocity, and attitude; angular velocity is exact.
+    std::shared_ptr<Message<StateWithCovariance>> sample();
+
     std::vector<std::shared_ptr<std::normal_distribution<double>>> pos_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> vel_noise_;
     std::vector<std::shared_ptr<std::normal_distribution<double>>> orient_noise_;

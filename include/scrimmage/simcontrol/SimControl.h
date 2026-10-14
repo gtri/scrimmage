@@ -387,6 +387,8 @@ class SimControl {
     double tend_ = 0;
     double dt_ = 0;
     double t_ = 0;
+    // Steps taken since t0_; time is counted, not accumulated.
+    int64_t steps_ = 0;
     bool paused_;
     bool single_step_;
 

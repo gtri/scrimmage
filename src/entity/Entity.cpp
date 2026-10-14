@@ -157,8 +157,76 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
     mp_->ent_id_to_block_id()[id] = ent_desc_id;
 
     ////////////////////////////////////////////////////////////
+    // motion model
+    ////////////////////////////////////////////////////////////
+    bool use_gpu_motion_model = gpu_motion_model != nullptr;
+    bool init_empty_motion_model = true;  // Still init a dummy motion model when using a gpu one.
+                                          // Otherwise program may segfault during execution.
+    if (info.count("motion_model") > 0 && !use_gpu_motion_model) {
+        ConfigParse config_parse;
+        PluginStatus<MotionModel> status = plugin_manager_->make_plugin<MotionModel>(
+            "scrimmage::MotionModel",
+            info["motion_model"],
+            *file_search_,
+            config_parse,
+            overrides["motion_model"],
+            plugin_tags);
+        if (status.status == PluginStatus<MotionModel>::cast_failed) {
+            LOG_ERROR("Failed to open motion model plugin: " << info["motion_model"]);
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
+            LOG_ERROR("Failed to parse motion model plugin config: " << info["motion_model"]);
+            return false;
+        } else if (status.status == PluginStatus<MotionModel>::loaded) {
+            // We have created a valid motion model
+            init_empty_motion_model = false;
+
+            motion_model_ = status.plugin;
+            motion_model_->set_state(state_truth_);
+            motion_model_->set_parent(parent);
+            motion_model_->set_pubsub(pubsub_);
+            motion_model_->set_time(time_);
+            motion_model_->set_id_to_team_map(id_to_team_map);
+            motion_model_->set_id_to_ent_map(id_to_ent_map);
+            motion_model_->set_param_server(param_server_);
+            motion_model_->set_name(info["motion_model"]);
+            param_override_func(config_parse.params());
+
+            if (debug_level > 1) {
+                LOG_INFO("--------------------------------");
+                LOG_INFO("Motion plugin params: " << info["motion_model"]);
+                LOG_INFO(config_parse);
+            }
+            try {
+                motion_model_->init(info, config_parse.params());
+            } catch (const std::exception& e) {
+                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw exception during init: " << e.what());
+                return false;
+            } catch (...) {
+                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw unknown exception during init");
+                return false;
+            }
+        }
+    } else if (use_gpu_motion_model) {
+        gpu_motion_model->add_entity(shared_from_this());
+    }
+    if (init_empty_motion_model) {
+        motion_model_ = std::make_shared<MotionModel>();
+        motion_model_->set_state(state_truth_);
+        motion_model_->set_parent(parent);
+        motion_model_->set_pubsub(pubsub_);
+        motion_model_->set_param_server(param_server_);
+        motion_model_->set_time(time_);
+        motion_model_->set_id_to_team_map(id_to_team_map);
+        motion_model_->set_id_to_ent_map(id_to_ent_map);
+        motion_model_->set_name("BLANK");
+    }
+
+    ////////////////////////////////////////////////////////////
     // sensor
     ////////////////////////////////////////////////////////////
+    // After the motion model, so a sensor's first reading sees the initial
+    // state as the motion model set it up.
     // The MissionParser appends the order number to the sensor (e.g., sensor0,
     // sensor1, etc.)
     int sensor_ct = 0;
@@ -237,72 +305,6 @@ bool Entity::init(const SimUtilsInfo& sim_info, EntityInitParams init_params) {
             sensors_[given_name] = sensor;
         }
         sensor_order_name = std::string("sensor") + std::to_string(++sensor_ct);
-    }
-
-    ////////////////////////////////////////////////////////////
-    // motion model
-    ////////////////////////////////////////////////////////////
-    bool use_gpu_motion_model = gpu_motion_model != nullptr;
-    bool init_empty_motion_model = true;  // Still init a dummy motion model when using a gpu one.
-                                          // Otherwise program may segfault during execution.
-    if (info.count("motion_model") > 0 && !use_gpu_motion_model) {
-        ConfigParse config_parse;
-        PluginStatus<MotionModel> status = plugin_manager_->make_plugin<MotionModel>(
-            "scrimmage::MotionModel",
-            info["motion_model"],
-            *file_search_,
-            config_parse,
-            overrides["motion_model"],
-            plugin_tags);
-        if (status.status == PluginStatus<MotionModel>::cast_failed) {
-            LOG_ERROR("Failed to open motion model plugin: " << info["motion_model"]);
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::parse_failed) {
-            LOG_ERROR("Failed to parse motion model plugin config: " << info["motion_model"]);
-            return false;
-        } else if (status.status == PluginStatus<MotionModel>::loaded) {
-            // We have created a valid motion model
-            init_empty_motion_model = false;
-
-            motion_model_ = status.plugin;
-            motion_model_->set_state(state_truth_);
-            motion_model_->set_parent(parent);
-            motion_model_->set_pubsub(pubsub_);
-            motion_model_->set_time(time_);
-            motion_model_->set_id_to_team_map(id_to_team_map);
-            motion_model_->set_id_to_ent_map(id_to_ent_map);
-            motion_model_->set_param_server(param_server_);
-            motion_model_->set_name(info["motion_model"]);
-            param_override_func(config_parse.params());
-
-            if (debug_level > 1) {
-                LOG_INFO("--------------------------------");
-                LOG_INFO("Motion plugin params: " << info["motion_model"]);
-                LOG_INFO(config_parse);
-            }
-            try {
-                motion_model_->init(info, config_parse.params());
-            } catch (const std::exception& e) {
-                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw exception during init: " << e.what());
-                return false;
-            } catch (...) {
-                LOG_ERROR("MotionModel plugin '" << info["motion_model"] << "' threw unknown exception during init");
-                return false;
-            }
-        }
-    } else if (use_gpu_motion_model) {
-        gpu_motion_model->add_entity(shared_from_this());
-    }
-    if (init_empty_motion_model) {
-        motion_model_ = std::make_shared<MotionModel>();
-        motion_model_->set_state(state_truth_);
-        motion_model_->set_parent(parent);
-        motion_model_->set_pubsub(pubsub_);
-        motion_model_->set_param_server(param_server_);
-        motion_model_->set_time(time_);
-        motion_model_->set_id_to_team_map(id_to_team_map);
-        motion_model_->set_id_to_ent_map(id_to_ent_map);
-        motion_model_->set_name("BLANK");
     }
 
     ////////////////////////////////////////////////////////////

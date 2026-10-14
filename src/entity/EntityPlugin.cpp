@@ -124,13 +124,23 @@ void EntityPlugin::set_param_server(const ParameterServerPtr& param_server) {
 }
 
 bool EntityPlugin::step_loop_timer(double dt) {
-    loop_timer_ -= dt;
-    if (loop_timer_ <= 0.0) {
-        loop_timer_ = loop_rate_ == 0 ? -1.0 : loop_timer_ + (1.0 / loop_rate_);
-        return true;
-    } else {
-        return false;
+    // The plugin runs on its first call and then on the call nearest each due
+    // time (checking before counting down, so not on its first two calls, and
+    // within half a call, so rounding in the countdown cannot make it late).
+    loop_elapsed_ += dt;
+    bool due = loop_timer_ < dt / 2.0;
+    if (due) {
+        loop_timer_ += loop_rate_ == 0 ? 0.0 : 1.0 / loop_rate_;
     }
+    loop_timer_ -= dt;
+    if (loop_rate_ == 0) {
+        loop_timer_ = 0.0;
+    }
+    if (due) {
+        loop_dt_ = loop_elapsed_;
+        loop_elapsed_ = 0.0;
+    }
+    return due;
 }
 
 void EntityPlugin::close_plugin(const double& t) {

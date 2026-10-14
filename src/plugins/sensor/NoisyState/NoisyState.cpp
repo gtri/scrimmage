@@ -70,20 +70,32 @@ void NoisyState::init(std::map<std::string, std::string>& params) {
 
     pub_ = advertise("LocalNetwork", "StateWithCovariance");
 
-    // Move the enity's state pointer to use the state instance provided by
-    // this plugin.
-    parent_->set_state_belief(parent_->state_truth());
+    // The first belief is a reading too, sampled like every later one.
+    parent_->set_state_belief(static_cast<sc::State>(sample()->data));
 
     return;
 }
 
 bool NoisyState::step() {
+    auto msg = sample();
+
+    pub_->publish(msg);
+
+    // Update the entity's state.
+    parent_->set_state_belief(static_cast<sc::State>(msg->data));
+
+    return true;
+}
+
+std::shared_ptr<Message<StateWithCovariance>> NoisyState::sample() {
     auto gener = parent_->random()->gener();
 
     // Make a copy of the current ground truth state
     StateWithCovariance ns(*(parent_->state_truth()));
 
     auto msg = std::make_shared<Message<StateWithCovariance>>();
+    // There is no rate noise: angular velocity is reported exactly.
+    msg->data.ang_vel() = ns.ang_vel();
 
     for (int i = 0; i < 3; i++) {
         msg->data.pos()(i) = ns.pos()(i) + (*pos_noise_[i])(*gener);
@@ -96,12 +108,7 @@ bool NoisyState::step() {
                        * Quaternion(Eigen::Vector3d::UnitY(), (*orient_noise_[1])(*gener))
                        * Quaternion(Eigen::Vector3d::UnitZ(), (*orient_noise_[2])(*gener));
 
-    pub_->publish(msg);
-
-    // Update the entity's state.
-    parent_->set_state_belief(static_cast<sc::State>(msg->data));
-
-    return true;
+    return msg;
 }
 
 }  // namespace sensor
