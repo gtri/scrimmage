@@ -38,6 +38,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <cstdint>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -205,6 +206,7 @@ class EntityPlugin : public Plugin {
     ParameterServerPtr param_server_;
     double loop_rate_;
     double loop_timer_;
+    uint64_t shape_hash_counter_;
 
  public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

@@ -5,6 +5,7 @@ set(test_files
     test_csv.cpp
     test_delayed_task.cpp
     test_entity_configs.cpp
+    test_entity_plugin_draw_shape.cpp
     test_exponential_filter.cpp
     test_find_mission.cpp
     test_id.cpp

@@ -56,7 +56,8 @@ EntityPlugin::EntityPlugin()
       time_(std::make_shared<const Time>()),
       param_server_(std::make_shared<ParameterServer>()),
       loop_rate_(0.0),
-      loop_timer_(0.0) {}
+      loop_timer_(0.0),
+      shape_hash_counter_(0) {}
 
 EntityPlugin::~EntityPlugin() {}
 
@@ -107,10 +108,9 @@ PublisherPtr EntityPlugin::advertise(std::string network_name, std::string topic
 void EntityPlugin::draw_shape(scrimmage_proto::ShapePtr s) {
     if (!s->hash_set()) {
         // Hash function uses entity ID, current simulation time, plugin name,
-        // and a random number.
+        // and a plugin-local counter (must not use the shared simulation RNG).
         std::string str = name() + std::to_string(parent_->id().id()) + std::to_string(time_->t())
-                          + std::to_string(parent_->random()->rng_uniform())
-                          + std::to_string(parent_->random()->rng_uniform());
+                          + std::to_string(shape_hash_counter_++);
 
         std::size_t hash_id = std::hash<std::string>{}(str);
         s->set_hash(hash_id);
